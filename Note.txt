@@ -1,0 +1,126 @@
+proton-autogen
+==============
+
+Smart Proton launcher for Windows .exe files on Linux.
+
+----------------------------------------
+DESCRIPTION
+----------------------------------------
+
+proton-autogen is a lightweight Linux tool that allows you to run Windows
+executables (.exe) using Proton in a simple way.
+
+It integrates directly into the file manager (Nemo) so you can right-click
+any .exe file and launch it through Proton automatically.
+
+----------------------------------------
+FEATURES
+----------------------------------------
+
+- Run .exe files directly via Proton
+- File manager integration (right-click support in Nemo)
+- Automatic environment setup for Proton execution
+- Support for custom Proton builds (e.g. GE-Proton)
+- Clean and simple CLI usage
+
+----------------------------------------
+USAGE
+----------------------------------------
+
+From terminal:
+
+    proton-autogen /path/to/file.exe
+
+Or via file manager:
+
+    Right click on a .exe file → "Open with Proton-Autogen"
+
+----------------------------------------
+REQUIREMENTS
+----------------------------------------
+
+Core requirement:
+- Python 3
+
+System dependencies (required for full functionality):
+
+- Proton (Steam Proton or custom builds like GE-Proton)
+- Bash shell environment
+- Working Linux file system permissions
+
+Optional but recommended:
+
+- gamemode (for performance optimization)
+- MangoHud (for performance overlay)
+
+Note:
+Python alone is NOT sufficient. This tool acts as a launcher
+orchestrator for Proton and requires a working Proton installation.
+
+----------------------------------------
+INSTALLATION
+----------------------------------------
+
+If installed via .deb package:
+
+    sudo dpkg -i proton-autogen.deb
+    sudo apt -f install
+
+This will also install the Nemo integration automatically.
+
+----------------------------------------
+UNINSTALLATION
+----------------------------------------
+
+To remove the package:
+
+    sudo apt remove proton-autogen
+
+To completely remove configuration and leftovers:
+
+    sudo apt purge proton-autogen
+
+After purge, you may also want to remove user config manually:
+
+    rm -rf ~/.config/proton-autogen
+
+If the Nemo action still exists (rare case):
+
+    rm -f ~/.local/share/nemo/actions/proton-autogen.nemo_action
+    nemo -q
+
+----------------------------------------
+FILES INSTALLED
+----------------------------------------
+
+- /usr/bin/proton-autogen
+- ~/.local/share/nemo/actions/proton-autogen.nemo_action
+
+----------------------------------------
+KNOWN LIMITATIONS
+----------------------------------------
+
+- Not all .exe files are guaranteed to work under Proton
+- Some applications may require manual Wine/Proton configuration
+- ProtonFixes may be disabled outside Steam environment
+- Debug logs may appear depending on Proton configuration
+
+----------------------------------------
+COMPATIBILITY
+----------------------------------------
+
+- Linux Mint (tested with Nemo file manager)
+- Ubuntu-based distributions
+- Other distributions with compatible file managers may work
+
+----------------------------------------
+AUTHOR
+----------------------------------------
+
+neoray
+
+----------------------------------------
+LICENSE
+----------------------------------------
+
+(To be defined)

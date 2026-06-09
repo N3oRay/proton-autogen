@@ -1,149 +1,230 @@
-proton-autogen.
-
-# 🧩 proton-autogen
+# 🧩 Proton-Autogen
 
 ![Linux](https://img.shields.io/badge/platform-Linux-blue)
 ![Python](https://img.shields.io/badge/python-3.x-yellow)
-![Status](https://img.shields.io/badge/status-active-brightgreen)
-![License](https://img.shields.io/badge/license-TBD-lightgrey)
+![Status](https://img.shields.io/badge/status-v1.0-brightgreen)
+![License](https://img.shields.io/badge/license-MIT-green)
 
 **Smart Proton launcher for Windows `.exe` files on Linux**
+
+Run Windows executables directly from your file manager or terminal using Proton, with automatic Wine fallback and zero manual configuration.
 
 ---
 
 ## 🚀 Overview
 
-`proton-autogen` is a lightweight Linux utility that allows you to run Windows `.exe` files using Proton in a simple and seamless way.
+Proton-Autogen is a lightweight Linux utility that automatically launches Windows `.exe` files using Proton.
 
-It integrates directly into your file manager (tested with :contentReference[oaicite:0]{index=0}), enabling you to right-click any `.exe` file and launch it instantly via Proton.
+Instead of manually creating Steam shortcuts, configuring compatibility options, or managing Wine prefixes, simply:
 
-The goal is to remove all manual Proton/Wine configuration and make Windows executables feel like native Linux applications.
+* Right-click a `.exe`
+* Select **Open with Proton-Autogen**
+* Launch the application
+
+The tool automatically detects available Proton installations (GE-Proton preferred), configures the runtime environment, and falls back to Wine when necessary.
 
 ---
 
 ## ✨ Features
 
-- ▶ Run `.exe` files directly via Proton
-- 🖱️ Native file manager integration (right-click in Nemo)
-- ⚙️ Automatic Proton environment setup
-- 🧠 Support for custom Proton builds (e.g. GE-Proton)
-- 📦 Easy CLI usage + `.deb` packaging
-- 🔧 Lightweight and dependency-minimal
+* ▶ Run Windows `.exe` files directly via Proton
+* 🧠 Automatic Proton detection
+* 🚀 GE-Proton priority support
+* 🍷 Automatic Wine fallback
+* 🖱️ File manager integration
+
+  * Nemo
+  * Nautilus
+* ⚙️ Optional GameMode support
+* 📦 Debian package (.deb)
+* 💻 Command-line interface
+* 🔧 Lightweight and dependency-minimal
 
 ---
 
 ## 📸 Screenshots
 
-### 📁 Right-click integration in Nemo
+### Nemo Integration
 
-![Right click integration](docs/screenshots/nemo-right-click.png)
+![Nemo Integration](docs/screenshots/nemo-right-click.png)
 
-> Right-click any `.exe` file → “Open with Proton-Autogen”
+Right-click any Windows executable and select:
+
+```text
+Open with Proton-Autogen
+```
 
 ---
 
-### 🖥️ Terminal usage
+## 🧪 Usage
+
+### Terminal
 
 ```bash
-proton-autogen /path/to/game.exe
+proton-autogen game.exe
+```
 
-Example output:
+or
 
-Running Proton Custom for /path/to/game.exe
-gamemodeauto:
-Proton launch initialized
-⚙️ Installation
-📦 Option 1 — Debian package (.deb)
+```bash
+proton-autogen /path/to/application.exe
+```
+
+### Example Output
+
+```text
+Running Proton for:
+~/Games/MyGame/game.exe
+
+Using:
+GE-Proton10-34
+
+Launch initialized
+```
+
+---
+
+## 📦 Installation
+
+### Debian Package
+
+```bash
 sudo dpkg -i proton-autogen.deb
 sudo apt -f install
+```
 
-This will:
+This installs:
 
-install the CLI tool
-register file manager integration
-add system-wide command proton-autogen
-🧪 Option 2 — Install from source
-git clone https://github.com/yourname/proton-autogen
+* `/usr/bin/proton-autogen`
+* Nemo integration
+* Nautilus integration
+
+---
+
+### From Source
+
+```bash
+git clone https://github.com/N3oRay/proton-autogen.git
 cd proton-autogen
-pip install -e .
-🧠 Usage
-▶ Terminal
-proton-autogen /path/to/file.exe
-🖱️ File manager (Nemo)
+chmod +x proton-autogen
+```
 
-Right click any .exe file:
+---
 
-Open with Proton-Autogen
-⚠️ Requirements
-Core dependency
-Python 3.x
-System requirements
-Steam Proton or custom Proton (GE-Proton recommended)
-Bash shell environment
-Optional (recommended)
-GameMode for performance optimization
-MangoHud for performance overlay
-🧠 Important note
+## ⚠️ Requirements
 
-Python alone is NOT sufficient.
+### Required
 
-proton-autogen acts as a runtime orchestrator for Proton and requires a working Proton installation to function.
+* Python 3.x
+* A working Proton installation
 
-📦 Files installed
-/usr/bin/proton-autogen
-Nemo integration:
-~/.local/share/nemo/actions/proton-autogen.nemo_action
-🗑️ Uninstallation
-Remove package
+Supported locations:
+
+```text
+~/.steam/root/compatibilitytools.d
+~/.steam/debian-installation/compatibilitytools.d
+~/.local/share/Steam/compatibilitytools.d
+```
+
+### Optional
+
+* GameMode
+* MangoHud
+* GE-Proton
+
+---
+
+## 🧠 How It Works
+
+1. Detect available Proton installations
+2. Prefer GE-Proton when available
+3. Launch executable through Proton
+4. Fall back to Wine if Proton runtime tools are unavailable
+5. Optionally enable GameMode
+
+No Steam shortcut creation is required.
+
+---
+
+## 🗑️ Uninstallation
+
+### Remove Package
+
+```bash
 sudo apt remove proton-autogen
-Full cleanup (recommended)
+```
+
+### Full Cleanup
+
+```bash
 sudo apt purge proton-autogen
-Manual cleanup (if needed)
+```
+
+### Manual Cleanup
+
+```bash
 rm -rf ~/.config/proton-autogen
 rm -f ~/.local/share/nemo/actions/proton-autogen.nemo_action
+```
+
+Restart Nemo:
+
+```bash
 nemo -q
-🚧 Known limitations
-Not all .exe files are guaranteed to work under Proton
-Some applications require manual Wine/Proton tuning
-ProtonFixes may not fully activate outside Steam environment
-Debug logs may appear depending on Proton configuration
-🧩 Roadmap
- Auto-detection (game / installer / launcher)
- Proton profile system per executable
- GUI configuration tool
- Integration with Lutris and Bottles
- Automatic prefix management
- Silent mode (no logs)
-💡 Philosophy
+```
 
-Linux gaming is powerful but fragmented.
+Restart Nautilus:
 
-proton-autogen aims to reduce friction by turning Proton into a transparent execution layer, instead of a manually configured tool.
+```bash
+nautilus -q
+```
+
+---
+
+## 🚧 Known Limitations
+
+* Not every Windows application works under Proton
+* Some launchers require additional configuration
+* Proton compatibility depends on the selected Proton version
+* Certain applications may still require Wine tweaks
+
+---
+
+## 🛣️ Roadmap
+
+* [ ] Game / Installer auto-detection
+* [ ] Per-application profiles
+* [ ] Configuration file support
+* [ ] GUI frontend
+* [ ] Lutris integration
+* [ ] Bottles integration
+* [ ] Automatic prefix management
+* [ ] Silent mode
+
+---
+
+## 💡 Philosophy
+
+Linux gaming is powerful but often fragmented.
+
+Proton-Autogen aims to reduce friction by turning Proton into a transparent execution layer rather than a manually configured tool.
 
 The goal is simple:
 
-Right-click → Run Windows app → It just works.
+> Right-click → Run Windows application → It just works.
 
-👤 Author
+---
 
-neoray
+## 👤 Author
 
-📜 License
+**neoray**
 
-TBD
+GitHub: https://github.com/N3oRay
 
-⭐ Why this exists
+---
 
-Existing tools like Proton, Wine, Lutris, or Bottles are powerful but often require manual setup or separate environments.
-
-proton-autogen focuses on:
-
-simplicity
-file manager integration
-automatic runtime selection
-minimal user friction
-
-
-## License
+## 📜 License
 
 This project is licensed under the MIT License.
+
+See the `LICENSE` file for details.

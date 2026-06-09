@@ -1,0 +1,9 @@
+[Nemo Action]
+
+Name=Open with Proton-Autogen
+Comment=Run Windows exe using Proton or Wine fallback
+Exec=proton-autogen "%F"
+Icon-Name=applications-games
+Extensions=exe;
+Selection=any
+EscapeSpaces=true

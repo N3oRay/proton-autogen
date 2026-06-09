@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Open with Proton-Autogen
+Exec=proton-autogen %f
+Icon=wine
+MimeType=application/x-ms-dos-executable;
+Name[fr_FR]=proton-autogen.desktop

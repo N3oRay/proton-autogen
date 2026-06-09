@@ -1,0 +1,12 @@
+#!/bin/bash
+set -e
+
+USER_HOME=$(getent passwd "$SUDO_USER" | cut -d: -f6)
+
+if [ -z "$USER_HOME" ]; then
+    USER_HOME="/root"
+fi
+
+rm -f "$USER_HOME/.local/share/nemo/actions/proton-autogen.nemo_action" || true
+
+exit 0

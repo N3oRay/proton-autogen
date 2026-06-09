@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+
+USER_HOME=$(getent passwd "$SUDO_USER" | cut -d: -f6)
+
+mkdir -p "$USER_HOME/.local/share/nemo/actions"
+
+# refresh nemo si dispo
+su - "$SUDO_USER" -c "nemo -q" || true
+
+exit 0
