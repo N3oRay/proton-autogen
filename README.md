@@ -127,10 +127,13 @@ Supported locations:
 ```
 
 ### Optional
-
+```
+sudo apt install gamemode mangohud 
+```
 * GameMode
 * MangoHud
 * GE-Proton
+* ProntonUp-qt
 
 ---
 
