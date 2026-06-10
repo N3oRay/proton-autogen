@@ -1,7 +1,20 @@
 [Desktop Entry]
+Version=1.0
 Type=Application
-Name=Open with Proton-Autogen
+
+Name=Proton-Autogen
+Name[fr]=Proton-Autogen
+
+Comment=Run Windows executables with Proton or Wine
+Comment[fr]=Exécuter des programmes Windows avec Proton ou Wine
+
 Exec=proton-autogen %f
+
 Icon=wine
-MimeType=application/x-ms-dos-executable;
-Name[fr_FR]=proton-autogen.desktop
+Terminal=false
+StartupNotify=false
+
+MimeType=application/x-ms-dos-executable;application/x-msdownload;application/vnd.microsoft.portable-executable;
+
+Categories=Game;Utility;
+Keywords=Proton;Wine;Windows;EXE;

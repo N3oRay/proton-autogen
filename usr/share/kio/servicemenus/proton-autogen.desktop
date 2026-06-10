@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Service
+MimeType=application/x-ms-dos-executable;application/x-msdownload;application/vnd.microsoft.portable-executable;
+Actions=RunWithProtonAutogen;
+X-KDE-Priority=TopLevel
+
+[Desktop Action RunWithProtonAutogen]
+Name=Open with Proton-Autogen
+Name[fr]=Ouvrir avec Proton-Autogen
+
+Icon=wine
+Exec=proton-autogen "%f"
