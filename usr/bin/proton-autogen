@@ -8,7 +8,7 @@ from shutil import which
 
 DEBUG = "--debug" in sys.argv
 
-VERSION = "2.0.6"
+VERSION = "2.0.8"
 
 
 PROTON_PATHS = [
@@ -17,6 +17,25 @@ PROTON_PATHS = [
     "~/.local/share/Steam/compatibilitytools.d",
 ]
 
+
+def print_about():
+    print("proton-autogen")
+    print("")
+    print("Description:")
+    print("  Automatic Proton/Wine launcher for Windows executables")
+    print("")
+    print(f"Version: {VERSION}")
+    print("")
+    print("Features:")
+    print("  - Automatic Proton detection")
+    print("  - GE-Proton priority support")
+    print("  - Wine fallback")
+    print("  - GameMode support (optional)")
+    print("  - Integration with file managers")
+    print("")
+    print("Author: N3oray")
+    print("License: MIT (or your license)")
+    print("Repository: https://github.com/N3oRay/proton-autogen")
 
 def print_runtime_info(proton, exe_path):
     proton_name = os.path.basename(proton)
@@ -106,9 +125,6 @@ def run(exe_path: str):
         print(f"Error: file not found: {exe_path}")
         sys.exit(1)
 
-    # ⚠️ simple detection (MVP)
-    #name = os.path.basename(exe_path).lower()
-
     # Proton path (à adapter)
     #proton = os.path.expanduser(
     #    "~/.steam/debian-installation/compatibilitytools.d/GE-Proton10-34/"
@@ -161,6 +177,10 @@ def run(exe_path: str):
         run_standard(exe_path)
 
 if __name__ == "__main__":
+
+    if "--about" in sys.argv:
+        print_about()
+        sys.exit(0)
 
     if "--version" in sys.argv:
         print(f"proton-autogen {VERSION}")
