@@ -89,8 +89,9 @@ Launch initialized
 ### Debian Package
 
 ```bash
-sudo dpkg -i proton-autogen.deb
-sudo apt -f install
+
+dpkg-buildpackage -b -us -uc
+sudo dpkg -i ../proton-autogen_*.deb
 ```
 
 This installs:
