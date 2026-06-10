@@ -22,12 +22,13 @@ jobs:
         run: |
           dpkg-buildpackage -b -us -uc
 
-      - name: List build artifacts
+      - name: Move artifacts into workspace
         run: |
-          ls -la ..
+          mkdir -p dist
+          mv ../proton-autogen_*.deb dist/
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: proton-autogen
-          path: ../proton-autogen_*.deb
+          path: dist/*.deb
