@@ -8,12 +8,35 @@ from shutil import which
 
 DEBUG = "--debug" in sys.argv
 
+VERSION = "2.0.1"
+
 
 PROTON_PATHS = [
     "~/.steam/root/compatibilitytools.d",
     "~/.steam/debian-installation/compatibilitytools.d",
     "~/.local/share/Steam/compatibilitytools.d",
 ]
+
+
+def print_runtime_info(proton, exe_path):
+    proton_name = os.path.basename(proton)
+
+    print("[proton-autogen] Runtime information")
+    print(f"  Executable : {exe_path}")
+    print(f"  Proton     : {proton_name}")
+    print(f"  Path       : {proton}")
+
+    if has_proton_call():
+        print("  proton-call: detected")
+    else:
+        print("  proton-call: missing")
+
+    if has_gamemode():
+        print("  GameMode   : enabled")
+    else:
+        print("  GameMode   : disabled")
+
+    print("")
 
 def has_proton_call():
     return which("proton-call") is not None
@@ -28,7 +51,14 @@ def run_standard(exe_path: str):
     if has_wine():
         subprocess.run(["wine", exe_path])
     else:
-        print("[proton-autogen] No runtime found (Proton or Wine missing)")
+        print("[proton-autogen] ERROR: No runtime found")
+        print("")
+        print("Missing:")
+        print("  - Proton")
+        print("  - Wine")
+        print("")
+        print("Install Wine:")
+        print("  sudo apt install wine")
         sys.exit(1)
 
 
@@ -86,9 +116,20 @@ def run(exe_path: str):
 
     proton = find_proton()
 
-    if not proton:
-        print("No Proton installation found")
-        print("Install Steam Proton or GE-Proton")
+
+
+    if proton:
+        print_runtime_info(proton, exe_path)
+    else:
+        print("[proton-autogen] ERROR: No Proton installation found")
+        print("")
+        print("Install GE-Proton with:")
+        print("  protonup-qt")
+        print("")
+        print("Or install Proton-GE from command line:")
+        print("  protonup -d ~/.steam/root/compatibilitytools.d")
+        print("")
+        print("Then restart Steam and try again.")
         sys.exit(1)
 
     if has_proton_call():
@@ -109,12 +150,36 @@ def run(exe_path: str):
             "-r", exe_path
         ]
 
+        print(
+            f"[proton-autogen] Launching with "
+            f"{os.path.basename(proton)}"
+        )
+
         subprocess.run(cmd, env=env)
 
     else:
         run_standard(exe_path)
 
 if __name__ == "__main__":
+
+    if "--version" in sys.argv:
+        print(f"proton-autogen {VERSION}")
+        sys.exit(0)
+
+    if "--help" in sys.argv or "-h" in sys.argv:
+        print("""proton-autogen
+
+Usage:
+  proton-autogen <file.exe>
+  proton-autogen run <file.exe>
+
+Options:
+  --version   Show version
+  --help      Show this help
+  --debug     Verbose output
+""")
+        sys.exit(0)
+
     if len(sys.argv) < 2:
         print("Usage: proton-autogen <file.exe>")
         sys.exit(1)
