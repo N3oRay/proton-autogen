@@ -94,6 +94,14 @@ dpkg-buildpackage -b -us -uc
 sudo dpkg -i ../proton-autogen_*.deb
 ```
 
+or
+
+```bash
+sudo add-apt-repository ppa:n3oray/proton-autogen
+sudo apt update
+sudo apt install proton-autogen
+```
+
 This installs:
 
 * `/usr/bin/proton-autogen`
