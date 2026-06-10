@@ -13,22 +13,24 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Build Debian package
+      - name: Build package
         run: |
           dpkg-deb --build . proton-autogen.deb
 
-      - name: Rename with version
+      - name: Install package
         run: |
-          mv proton-autogen.deb proton-autogen-${GITHUB_REF_NAME}.deb
+          sudo dpkg -i proton-autogen.deb
 
-      - name: Test package install
+      - name: Test CLI --version
         run: |
-          sudo dpkg -i proton-autogen-${GITHUB_REF_NAME}.deb
           proton-autogen --version
+
+      - name: Test CLI --help
+        run: |
           proton-autogen --help
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: proton-autogen
-          path: proton-autogen-*.deb
+          path: proton-autogen.deb
