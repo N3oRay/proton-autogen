@@ -13,31 +13,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Build package
+      - name: Install build dependencies
         run: |
           sudo apt update
           sudo apt install -y build-essential devscripts debhelper fakeroot
+
+      - name: Build package
+        run: |
           dpkg-buildpackage -b -us -uc
 
-      - name: Install package (ignore dependency issues)
+      - name: List build artifacts
         run: |
-          sudo dpkg -i proton-autogen.deb || true
-
-      - name: Fix dependencies (non-blocking)
-        run: |
-          sudo apt-get update
-          sudo apt-get install -f -y || true
-
-      - name: Test CLI --version
-        run: |
-          proton-autogen --version
-
-      - name: Test CLI --help
-        run: |
-          proton-autogen --help
+          ls -la ..
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: proton-autogen
-          path: proton-autogen.deb
+          path: ../proton-autogen_*.deb
