@@ -8,7 +8,7 @@ from shutil import which
 
 DEBUG = "--debug" in sys.argv
 
-VERSION = "2.0.1"
+VERSION = "2.0.4"
 
 
 PROTON_PATHS = [
