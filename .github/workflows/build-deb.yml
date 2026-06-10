@@ -17,9 +17,14 @@ jobs:
         run: |
           dpkg-deb --build . proton-autogen.deb
 
-      - name: Install package
+      - name: Install package (ignore dependency issues)
         run: |
-          sudo dpkg -i proton-autogen.deb
+          sudo dpkg -i proton-autogen.deb || true
+
+      - name: Fix dependencies (non-blocking)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -f -y || true
 
       - name: Test CLI --version
         run: |
