@@ -15,7 +15,9 @@ jobs:
 
       - name: Build package
         run: |
-          dpkg-deb --build . proton-autogen.deb
+          sudo apt update
+          sudo apt install -y build-essential devscripts debhelper fakeroot
+          dpkg-buildpackage -b -us -uc
 
       - name: Install package (ignore dependency issues)
         run: |
