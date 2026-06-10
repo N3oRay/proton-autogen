@@ -1,0 +1,14 @@
+Source: proton-autogen
+Section: utils
+Priority: optional
+Maintainer: N3oray <n3oray77@gmail.com>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.7.0
+
+Package: proton-autogen
+Architecture: all
+Depends: python3, coreutils, desktop-file-utils
+Recommends: wine, gamemode
+Description: Automatic Proton launcher for Windows executables
+ Proton-Autogen automatically launches Windows executables using Proton
+ when available, and falls back to Wine if needed.

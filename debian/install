@@ -1,0 +1,5 @@
+usr/bin/proton-autogen usr/bin/
+usr/share/applications/proton-autogen.desktop usr/share/applications/
+usr/share/kio/servicemenus/proton-autogen.desktop usr/share/kio/servicemenus/
+usr/share/nemo/actions/proton-autogen.nemo_action usr/share/nemo/actions/
+usr/share/nautilus-python/extensions/proton_autogen_nautilus.py usr/share/nautilus-python/extensions/

@@ -1,0 +1,7 @@
+proton-autogen (2.0.6-1) jammy; urgency=medium
+
+  * Initial Launchpad release
+  * Improve Proton detection
+  * Add KDE/Nemo integration
+
+ -- N3oray <n3oray77@gmail.com>  Wed, 10 Jun 2026 12:00:00 +0200

@@ -1,8 +1,0 @@
-Package: proton-autogen
-Version: 2.0.6
-Section: utils
-Priority: optional
-Architecture: all
-Maintainer: neoray
-Depends: python3, wine | steam, gamemode
-Description: Smart Proton launcher for Windows executables on Linux
