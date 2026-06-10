@@ -15,7 +15,7 @@ jobs:
 
       - name: Build Debian package
         run: |
-          dpkg-deb --build proton-autogen proton-autogen.deb
+          dpkg-deb --build . proton-autogen.deb
 
       - name: Rename with version
         run: |
