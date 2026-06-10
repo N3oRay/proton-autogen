@@ -1,4 +1,4 @@
-proton-autogen (2.0.6-1) jammy; urgency=medium
+proton-autogen (2.0.6) jammy; urgency=medium
 
   * Initial Launchpad release
   * Improve Proton detection

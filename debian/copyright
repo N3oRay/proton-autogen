@@ -1,0 +1,7 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: proton-autogen
+Source: https://github.com/N3oRay/proton-autogen
+
+Files: *
+Copyright: 2026 N3oray
+License: MIT
