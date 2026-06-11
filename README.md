@@ -124,9 +124,6 @@ This installs:
 
 
 
-
-
-
 ## ⚠️ Requirements
 
 ### Required
@@ -149,7 +146,7 @@ sudo apt install gamemode mangohud
 * GameMode
 * MangoHud
 * GE-Proton
-* ProntonUp-qt
+* ProtonUp-Qt
 
 ---
 
