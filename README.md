@@ -121,6 +121,17 @@ chmod +x proton-autogen
 
 ---
 
+### AFTER Source FOR CACHYOS:
+
+```bash
+cd proton-autogen
+sudo install -Dm755 usr/bin/proton-autogen /usr/bin/proton-autogen
+sudo cp -r usr/share/* /usr/share/
+```
+
+
+
+
 ## ⚠️ Requirements
 
 ### Required
