@@ -87,7 +87,17 @@ Launch initialized
 
 ## 📦 Installation
 
-### Compile Package
+
+### Arch Linux (manual)
+
+```bash
+git clone https://github.com/N3oRay/proton-autogen.git
+cd proton-autogen
+sudo install -Dm755 usr/bin/proton-autogen /usr/bin/proton-autogen
+sudo cp -r usr/share/* /usr/share/
+```
+
+### Debian / Ubuntu
 
 ```bash
 
@@ -112,23 +122,7 @@ This installs:
 
 ---
 
-### From Source
 
-```bash
-git clone https://github.com/N3oRay/proton-autogen.git
-cd proton-autogen/usr/bin
-chmod +x proton-autogen
-```
-
----
-
-### AFTER Source FOR CACHYOS:
-
-```bash
-cd proton-autogen
-sudo install -Dm755 usr/bin/proton-autogen /usr/bin/proton-autogen
-sudo cp -r usr/share/* /usr/share/
-```
 
 
 
