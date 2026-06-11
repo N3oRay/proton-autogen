@@ -45,9 +45,9 @@ The tool automatically detects available Proton installations (GE-Proton preferr
 
 ## 📸 Screenshots
 
-### Nemo Integration
+### Integration
 
-![Nemo Integration](docs/screenshots/nemo-right-click.png)
+![Screenshot](https://github.com/N3oRay/proton-autogen/blob/main/docs/screenshots/pics2.png)
 
 Right-click any Windows executable and select:
 
