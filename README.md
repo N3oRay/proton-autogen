@@ -12,7 +12,8 @@ Run Windows .exe files on Linux using Proton or Wine with zero manual setup.
 
 ## 🚀 Overview
 
-Proton-Autogen is a lightweight Linux utility that automatically launches Windows `.exe` files using Proton.
+Proton-Autogen is a lightweight Linux utility.
+Automatic Windows `.exe`  execution system for Linux using Proton + Wine fallback
 
 Instead of manually creating Steam shortcuts, configuring compatibility options, or managing Wine prefixes, simply:
 
