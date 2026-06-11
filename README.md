@@ -115,7 +115,7 @@ This installs:
 
 ```bash
 git clone https://github.com/N3oRay/proton-autogen.git
-cd proton-autogen
+cd proton-autogen/usr/bin
 chmod +x proton-autogen
 ```
 
