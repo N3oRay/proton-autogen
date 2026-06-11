@@ -116,9 +116,7 @@ sudo apt install proton-autogen
 This installs:
 
 * `/usr/bin/proton-autogen`
-* Nemo (Cinnamon) integration
-* Nautilus (GNOME)  integration
-* Dolphin (KDE Plasma) integration
+* Integrated with Nemo (Cinnamon), Nautilus (GNOME), and Dolphin (KDE Plasma).
 
 ---
 
