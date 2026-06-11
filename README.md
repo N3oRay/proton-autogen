@@ -8,7 +8,7 @@
 **Smart Proton launcher for Windows `.exe` files on Linux**
 
 Run Windows executables directly from your file manager or terminal using Proton, with automatic Wine fallback and zero manual configuration.
-
+⚡ install (Arch / Debian / universal)
 ---
 
 ## 🚀 Overview
