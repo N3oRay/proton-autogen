@@ -231,7 +231,7 @@ The goal is simple:
 
 ## 👤 Author
 
-**neoray**
+**N3oray**
 
 GitHub: https://github.com/N3oRay
 
