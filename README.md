@@ -35,6 +35,7 @@ The tool automatically detects available Proton installations (GE-Proton preferr
 
   * Nemo
   * Nautilus
+  * Dolphin
 * ⚙️ Optional GameMode support
 * 📦 Debian package (.deb)
 * 💻 Command-line interface
