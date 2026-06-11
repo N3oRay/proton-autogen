@@ -86,7 +86,7 @@ Launch initialized
 
 ## 📦 Installation
 
-### Debian Package
+### Compile Package
 
 ```bash
 
@@ -94,7 +94,7 @@ dpkg-buildpackage -b -us -uc
 sudo dpkg -i ../proton-autogen_*.deb
 ```
 
-or
+### Debian Package
 
 ```bash
 sudo add-apt-repository ppa:n3oray/proton-autogen
