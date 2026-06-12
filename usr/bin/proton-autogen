@@ -3,12 +3,13 @@
 import sys
 import os
 import subprocess
+import re
 
 from shutil import which
 
 DEBUG = "--debug" in sys.argv
 
-VERSION = "2.0.8"
+VERSION = "2.1.3"
 
 
 PROTON_PATHS = [
@@ -16,6 +17,42 @@ PROTON_PATHS = [
     "~/.steam/debian-installation/compatibilitytools.d",
     "~/.local/share/Steam/compatibilitytools.d",
 ]
+
+def find_all_protons():
+    protons = []
+
+    for base in PROTON_PATHS:
+        base = os.path.expanduser(base)
+
+        if not os.path.exists(base):
+            continue
+
+        for d in os.listdir(base):
+            full = os.path.join(base, d)
+
+            if os.path.isdir(full) and "Proton" in d:
+                protons.append(full)
+
+    return protons
+
+
+def list_protons():
+    protons = find_all_protons()
+
+    if not protons:
+        print("No Proton installation found")
+        return
+
+    selected = find_proton()
+
+    print("Detected Proton installations:")
+    print("")
+
+    for proton in sorted(protons):
+        suffix = " (selected)" if proton == selected else ""
+        print(f"  {os.path.basename(proton)}{suffix}")
+        print(f"    {proton}")
+        print("")
 
 
 def print_about():
@@ -68,7 +105,8 @@ def run_standard(exe_path: str):
     print("[proton-autogen] Proton unavailable → using Wine fallback")
 
     if has_wine():
-        subprocess.run(["wine", exe_path])
+        result = subprocess.run(["wine", exe_path])
+        sys.exit(result.returncode)
     else:
         print("[proton-autogen] ERROR: No runtime found")
         print("")
@@ -85,13 +123,28 @@ def run_standard(exe_path: str):
 def has_gamemode():
     return which("gamemoderun") is not None
 
+
 def proton_score(name):
-    score = 0
-    if "GE-Proton" in name:
-        score += 100
-    if "Proton" in name:
-        score += 50
-    return score
+    is_ge = "GE-Proton" in name
+    is_experimental = "Experimental" in name
+
+    major = 0
+    minor = 0
+
+    match = re.search(r'(\d+)[-.](\d+)', name)
+    if not match:
+        match = re.search(r'(\d+)\.(\d+)', name)
+
+    if match:
+        major = int(match.group(1))
+        minor = int(match.group(2))
+
+    return (
+        is_ge,
+        is_experimental,
+        major,
+        minor
+    )
 
 def find_proton():
     for base in PROTON_PATHS:
@@ -104,7 +157,7 @@ def find_proton():
         for d in os.listdir(base):
             full = os.path.join(base, d)
 
-            if os.path.isdir(full) and ("Proton" in d or "GE-Proton" in d):
+            if os.path.isdir(full) and "Proton" in d:
                 candidates.append(full)
 
         if candidates:
@@ -171,7 +224,9 @@ def run(exe_path: str):
             f"{os.path.basename(proton)}"
         )
 
-        subprocess.run(cmd, env=env)
+        #subprocess.run(cmd, env=env)
+        result = subprocess.run(cmd, env=env)
+        sys.exit(result.returncode)
 
     else:
         run_standard(exe_path)
@@ -186,6 +241,10 @@ if __name__ == "__main__":
         print(f"proton-autogen {VERSION}")
         sys.exit(0)
 
+    if "--list-protons" in sys.argv:
+        list_protons()
+        sys.exit(0)
+
     if "--help" in sys.argv or "-h" in sys.argv:
         print("""proton-autogen
 
@@ -194,9 +253,10 @@ Usage:
   proton-autogen run <file.exe>
 
 Options:
-  --version   Show version
-  --help      Show this help
-  --debug     Verbose output
+  --version      Show version
+  --help         Show this help
+  --list-protons Show list protons detected
+  --debug        Verbose output
 """)
         sys.exit(0)
 
