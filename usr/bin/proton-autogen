@@ -1,17 +1,22 @@
 #!/usr/bin/env python3
 
-import sys
 import os
+import sys
 import subprocess
 import re
-
 from shutil import which
+from proton_autogen.backend import find_windows_programs, list_programs
+
+
+
+
+
 
 DEBUG = "--debug" in sys.argv
 
 ENABLE_MANGOHUD = "--mangohud" in sys.argv
 
-VERSION = "2.2.0"
+VERSION = "2.2.5"
 
 
 PROTON_PATHS = [
@@ -24,6 +29,44 @@ PROTON_PATHS = [
     "~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools.d",
     "~/.var/app/com.valvesoftware.Steam/.steam/root/compatibilitytools.d",
 ]
+
+
+def print_help():
+    print("""proton-autogen
+
+Usage:
+  proton-autogen <file.exe>
+  proton-autogen run <file.exe>
+
+Information:
+  proton-autogen --version
+  proton-autogen --about
+  proton-autogen --help
+
+Discovery:
+  proton-autogen --list-protons
+  proton-autogen --list-programs
+  proton-autogen --diagnostic
+
+Options:
+  --debug        Verbose output
+  --mangohud     Enable MangoHud overlay
+
+Examples:
+  proton-autogen game.exe
+  proton-autogen game.exe --mangohud
+  proton-autogen run game.exe
+  proton-autogen --list-protons
+  proton-autogen --list-programs
+  proton-autogen --diagnostic
+
+Notes:
+  - Automatically selects the newest available Proton version
+  - Falls back to Wine if Proton runtime is unavailable
+  - Supports Steam, Flatpak, and compatibilitytools installs
+""")
+
+
 
 def print_diagnostic():
     print("proton-autogen diagnostic")
@@ -109,7 +152,7 @@ def print_about():
     print("")
     print("Features:")
     print("  - Automatic Proton detection")
-    print("  - GE-Proton priority support")
+    print("  - Automatic selection of newest Proton version")
     print("  - Wine fallback")
     print("  - GameMode support (optional)")
     print("  - Integration with file managers")
@@ -178,49 +221,41 @@ def has_gamemode():
 
 
 def proton_score(name):
-    is_ge = "GE-Proton" in name
-    is_experimental = "Experimental" in name
+    numbers = [int(n) for n in re.findall(r'\d+', name)]
 
-    major = 0
-    minor = 0
-
-    match = re.search(r'(\d+)[-.](\d+)', name)
-    if not match:
-        match = re.search(r'(\d+)\.(\d+)', name)
-
-    if match:
-        major = int(match.group(1))
-        minor = int(match.group(2))
+    major = numbers[0] if len(numbers) > 0 else 0
+    minor = numbers[1] if len(numbers) > 1 else 0
 
     return (
-        is_ge,
-        is_experimental,
         major,
-        minor
+        minor,
+        name.lower()
     )
 
 def find_proton():
+    candidates = []
+
     for base in PROTON_PATHS:
         base = os.path.expanduser(base)
 
         if not os.path.exists(base):
             continue
 
-        candidates = []
         for d in os.listdir(base):
             full = os.path.join(base, d)
 
             if os.path.isdir(full) and "Proton" in d:
                 candidates.append(full)
 
-        if candidates:
-            candidates.sort(
-                key=lambda x: proton_score(os.path.basename(x)),
-                reverse=True
-            )
-            return candidates[0]
+    if not candidates:
+        return None
 
-    return None
+    candidates.sort(
+        key=lambda x: proton_score(os.path.basename(x)),
+        reverse=True
+    )
+
+    return candidates[0]
 
 
 
@@ -260,10 +295,19 @@ def run(exe_path: str):
         env = os.environ.copy()
         env["GE_PROTON"] = proton
         env["GAME_EXE"] = exe_path
+        # env gaming options OK
+        env["DXVK_HUD"] = "compiler"
+        env["RADV_PERFTEST"] = "gpl"
+        env["WINEESYNC"] = "1"
+        env["WINEFSYNC"] = "1"
+        env["WINE_SIMULATE_WRITECOPY"] = "1"
+        env["WINEDLLOVERRIDES"] = "winegstreamer=d"
 
         if ENABLE_MANGOHUD:
             if mangohud_available:
                 env["MANGOHUD"] = "1"
+                env["DXVK_HUD"] = "0"
+                env.pop("LD_PRELOAD", None)
             else:
                 print("[proton-autogen] WARNING: MangoHud requested but not installed")
 
@@ -295,51 +339,43 @@ def run(exe_path: str):
     else:
         run_standard(exe_path)
 
-if __name__ == "__main__":
-
+def main():
     if "--about" in sys.argv:
         print_about()
-        sys.exit(0)
+        return
 
     if "--version" in sys.argv:
         print(f"proton-autogen {VERSION}")
-        sys.exit(0)
+        return
 
     if "--list-protons" in sys.argv:
         list_protons()
-        sys.exit(0)
+        return
 
     if "--diagnostic" in sys.argv:
         print_diagnostic()
-        sys.exit(0)
+        return
+
+    if "--list-programs" in sys.argv:
+        list_programs()
+        return
 
     if "--help" in sys.argv or "-h" in sys.argv:
-        print("""proton-autogen
-
-Usage:
-  proton-autogen <file.exe>
-  proton-autogen run <file.exe>
-
-Options:
-  --version      Show version
-  --help         Show this help
-  --list-protons Show list protons detected
-  --debug        Verbose output
-  --diagnostic   Show system diagnostic
-  --mangohud     Enable MangoHud overlay
-
-  Sample : proton-autogen game.exe --mangohud
-""")
-        sys.exit(0)
+        print_help()
+        return
 
     if len(sys.argv) < 2:
         print("Usage: proton-autogen <file.exe>")
-        sys.exit(1)
+        return
 
     if sys.argv[1] == "run":
         if len(sys.argv) < 3:
             print("Error: missing file.exe")
-            sys.exit(1)
+            return
         run(sys.argv[2])
     else:
         run(sys.argv[1])
+
+
+if __name__ == "__main__":
+    main()
