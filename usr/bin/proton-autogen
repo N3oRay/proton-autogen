@@ -14,7 +14,7 @@ DEBUG = "--debug" in sys.argv
 
 ENABLE_MANGOHUD = "--mangohud" in sys.argv
 
-VERSION = "2.2.5"
+VERSION = "2.2.6"
 
 
 
