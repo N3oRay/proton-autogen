@@ -5,9 +5,7 @@ import sys
 import subprocess
 import re
 from shutil import which
-from proton_autogen.backend import find_windows_programs, list_programs
-
-
+from proton_autogen.backend import find_windows_programs, list_programs, add_game, load_game_config, find_proton_by_name, find_proton, proton_score, has_gamemode, PROTON_PATHS
 
 
 
@@ -19,16 +17,7 @@ ENABLE_MANGOHUD = "--mangohud" in sys.argv
 VERSION = "2.2.5"
 
 
-PROTON_PATHS = [
-    "~/.steam/root/compatibilitytools.d",
-    "~/.steam/debian-installation/compatibilitytools.d",
-    "~/.local/share/Steam/compatibilitytools.d",
-    # Proton officiels Steam
-    "~/.steam/steam/steamapps/common",
-    # Flatpak
-    "~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools.d",
-    "~/.var/app/com.valvesoftware.Steam/.steam/root/compatibilitytools.d",
-]
+
 
 
 def print_help():
@@ -37,6 +26,7 @@ def print_help():
 Usage:
   proton-autogen <file.exe>
   proton-autogen run <file.exe>
+  proton-autogen add <file.exe>
 
 Information:
   proton-autogen --version
@@ -48,21 +38,31 @@ Discovery:
   proton-autogen --list-programs
   proton-autogen --diagnostic
 
+Game management:
+  proton-autogen add <file.exe>
+      Create a game profile in ~/.config/proton-autogen/
+
+Execution:
+  proton-autogen <file.exe>
+      Run game using automatic Proton selection or saved config
+
+  proton-autogen run <file.exe>
+      Force execution without profile override
+
 Options:
   --debug        Verbose output
   --mangohud     Enable MangoHud overlay
 
 Examples:
+  proton-autogen add game.exe
   proton-autogen game.exe
-  proton-autogen game.exe --mangohud
   proton-autogen run game.exe
-  proton-autogen --list-protons
-  proton-autogen --list-programs
-  proton-autogen --diagnostic
+  proton-autogen game.exe --mangohud
 
 Notes:
-  - Automatically selects the newest available Proton version
-  - Falls back to Wine if Proton runtime is unavailable
+  - Uses saved JSON config when available
+  - Automatically selects best Proton version
+  - Falls back to Wine if Proton is unavailable
   - Supports Steam, Flatpak, and compatibilitytools installs
 """)
 
@@ -216,49 +216,6 @@ def run_standard(exe_path: str):
 
 
 
-def has_gamemode():
-    return which("gamemoderun") is not None
-
-
-def proton_score(name):
-    numbers = [int(n) for n in re.findall(r'\d+', name)]
-
-    major = numbers[0] if len(numbers) > 0 else 0
-    minor = numbers[1] if len(numbers) > 1 else 0
-
-    return (
-        major,
-        minor,
-        name.lower()
-    )
-
-def find_proton():
-    candidates = []
-
-    for base in PROTON_PATHS:
-        base = os.path.expanduser(base)
-
-        if not os.path.exists(base):
-            continue
-
-        for d in os.listdir(base):
-            full = os.path.join(base, d)
-
-            if os.path.isdir(full) and "Proton" in d:
-                candidates.append(full)
-
-    if not candidates:
-        return None
-
-    candidates.sort(
-        key=lambda x: proton_score(os.path.basename(x)),
-        reverse=True
-    )
-
-    return candidates[0]
-
-
-
 def run(exe_path: str):
     exe_path = os.path.abspath(exe_path)
 
@@ -271,7 +228,17 @@ def run(exe_path: str):
     #    "~/.steam/debian-installation/compatibilitytools.d/GE-Proton10-34/"
     #)
 
-    proton = find_proton()
+    config = load_game_config(exe_path)
+
+    if config:
+        proton_name = config.get("proton")
+        proton = find_proton_by_name(proton_name)
+
+        if not proton:
+            print("[proton-autogen] stored Proton missing → fallback")
+            proton = find_proton()
+    else:
+        proton = find_proton()
 
     mangohud_available = has_mangohud()
 
@@ -366,6 +333,13 @@ def main():
 
     if len(sys.argv) < 2:
         print("Usage: proton-autogen <file.exe>")
+        return
+
+    if sys.argv[1] == "add":
+        if len(sys.argv) < 3:
+            print("Usage: proton-autogen add <file.exe>")
+            return
+        add_game(sys.argv[2])
         return
 
     if sys.argv[1] == "run":

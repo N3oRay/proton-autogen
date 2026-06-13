@@ -1,5 +1,113 @@
 #backend.py proton-autogen core
 import os
+import json
+import hashlib
+import re
+from pathlib import Path
+from shutil import which
+
+CONFIG_DIR = os.path.expanduser("~/.config/proton-autogen/games")
+
+PROTON_PATHS = [
+    "~/.steam/root/compatibilitytools.d",
+    "~/.steam/debian-installation/compatibilitytools.d",
+    "~/.local/share/Steam/compatibilitytools.d",
+    # Proton officiels Steam
+    "~/.steam/steam/steamapps/common",
+    # Flatpak
+    "~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools.d",
+    "~/.var/app/com.valvesoftware.Steam/.steam/root/compatibilitytools.d",
+]
+
+def has_gamemode():
+    return which("gamemoderun") is not None
+
+def proton_score(name):
+    numbers = [int(n) for n in re.findall(r'\d+', name)]
+
+    major = numbers[0] if len(numbers) > 0 else 0
+    minor = numbers[1] if len(numbers) > 1 else 0
+
+    return (
+        major,
+        minor,
+        name.lower()
+    )
+
+def find_proton():
+    candidates = []
+
+    for base in PROTON_PATHS:
+        base = os.path.expanduser(base)
+
+        if not os.path.exists(base):
+            continue
+
+        for d in os.listdir(base):
+            full = os.path.join(base, d)
+
+            if os.path.isdir(full) and "Proton" in d:
+                candidates.append(full)
+
+    if not candidates:
+        return None
+
+    candidates.sort(
+        key=lambda x: proton_score(os.path.basename(x)),
+        reverse=True
+    )
+
+    return candidates[0]
+
+
+def _game_id(exe_path: str):
+    return hashlib.md5(os.path.abspath(exe_path).encode()).hexdigest()
+
+
+def load_game_config(exe_path):
+    game_id = _game_id(exe_path)
+    path = os.path.expanduser(f"~/.config/proton-autogen/games/{game_id}.json")
+
+    if os.path.exists(path):
+        with open(path, "r") as f:
+            return json.load(f)
+
+    return None
+
+
+def add_game(exe_path: str):
+    exe_path = os.path.abspath(exe_path)
+
+    if not os.path.exists(exe_path):
+        print(f"Error: file not found: {exe_path}")
+        return
+
+    os.makedirs(CONFIG_DIR, exist_ok=True)
+
+    gid = _game_id(exe_path)
+    config_path = os.path.join(CONFIG_DIR, gid + ".json")
+
+    proton = find_proton()
+
+    config = {
+        "id": gid,
+        "name": os.path.basename(exe_path),
+        "path": exe_path,
+        "proton": os.path.basename(proton) if proton else None,
+        "mangohud": False,
+        "gamemode": has_gamemode(),
+        "env": {
+            "DXVK_ASYNC": "1"
+        }
+    }
+
+    with open(config_path, "w") as f:
+        json.dump(config, f, indent=2)
+
+    print("[proton-autogen] Game added:")
+    print(f"  name   : {config['name']}")
+    print(f"  id     : {gid}")
+    print(f"  config : {config_path}")
 
 def find_windows_programs(root=None):
     if root is None:
@@ -65,3 +173,43 @@ def list_programs():
 
     for exe in sorted(programs):
         print(exe)
+
+def _normalize(name: str):
+    return re.sub(r"[^a-z0-9]", "", name.lower())
+
+
+def find_proton_by_name(name: str):
+    if not name:
+        return None
+
+    target = _normalize(name)
+
+    best_match = None
+
+    for base in PROTON_PATHS:
+        base = os.path.expanduser(base)
+
+        if not os.path.exists(base):
+            continue
+
+        try:
+            for d in os.listdir(base):
+                full = os.path.join(base, d)
+
+                if not os.path.isdir(full):
+                    continue
+
+                norm = _normalize(d)
+
+                # match exact
+                if norm == target:
+                    return full
+
+                # match partiel (fallback intelligent)
+                if target in norm or norm in target:
+                    best_match = full
+
+        except PermissionError:
+            continue
+
+    return best_match
