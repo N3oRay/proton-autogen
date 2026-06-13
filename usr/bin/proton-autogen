@@ -9,7 +9,9 @@ from shutil import which
 
 DEBUG = "--debug" in sys.argv
 
-VERSION = "2.1.5"
+ENABLE_MANGOHUD = "--mangohud" in sys.argv
+
+VERSION = "2.2.0"
 
 
 PROTON_PATHS = [
@@ -18,7 +20,47 @@ PROTON_PATHS = [
     "~/.local/share/Steam/compatibilitytools.d",
     # Proton officiels Steam
     "~/.steam/steam/steamapps/common",
+    # Flatpak
+    "~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools.d",
+    "~/.var/app/com.valvesoftware.Steam/.steam/root/compatibilitytools.d",
 ]
+
+def print_diagnostic():
+    print("proton-autogen diagnostic")
+    print("")
+    print(f"Version      : {VERSION}")
+    print(f"Python       : {sys.version.split()[0]}")
+    print("")
+
+    print("Runtime:")
+    print(f"  proton-call : {'yes' if has_proton_call() else 'no'}")
+    print(f"  wine        : {'yes' if has_wine() else 'no'}")
+    print(f"  gamemode    : {'yes' if has_gamemode() else 'no'}")
+    print(f"  mangohud    : {'yes' if has_mangohud() else 'no'}")
+    print("")
+
+    print(f"Platform     : {sys.platform}")
+    print("")
+
+    protons = find_all_protons()
+
+    print(f"Detected Proton installations: {len(protons)}")
+    print("")
+
+    if protons:
+        selected = find_proton()
+
+        for proton in sorted(protons):
+            marker = " [selected]" if proton == selected else ""
+
+            print(
+                f"  {os.path.basename(proton)}{marker}"
+            )
+            print(f"    {proton}")
+    else:
+        print("  none")
+
+    print("")
 
 def find_all_protons():
     protons = []
@@ -76,7 +118,7 @@ def print_about():
     print("License: MIT (or your license)")
     print("Repository: https://github.com/N3oRay/proton-autogen")
 
-def print_runtime_info(proton, exe_path):
+def print_runtime_info(proton, exe_path, mangohud_available):
     proton_name = os.path.basename(proton)
 
     print("[proton-autogen] Runtime information")
@@ -94,7 +136,13 @@ def print_runtime_info(proton, exe_path):
     else:
         print("  GameMode   : disabled")
 
+    if mangohud_available:
+        print("  MangoHud   : available")
+    else:
+        print("  MangoHud   : unavailable")
+
     print("")
+
 
 def has_proton_call():
     return which("proton-call") is not None
@@ -102,6 +150,9 @@ def has_proton_call():
 
 def has_wine():
     return which("wine") is not None
+
+def has_mangohud():
+    return which("mangohud") is not None
 
 def run_standard(exe_path: str):
     print("[proton-autogen] Proton unavailable → using Wine fallback")
@@ -187,10 +238,12 @@ def run(exe_path: str):
 
     proton = find_proton()
 
+    mangohud_available = has_mangohud()
+
 
 
     if proton:
-        print_runtime_info(proton, exe_path)
+        print_runtime_info(proton, exe_path, mangohud_available)
     else:
         print("[proton-autogen] ERROR: No Proton installation found")
         print("")
@@ -208,6 +261,12 @@ def run(exe_path: str):
         env["GE_PROTON"] = proton
         env["GAME_EXE"] = exe_path
 
+        if ENABLE_MANGOHUD:
+            if mangohud_available:
+                env["MANGOHUD"] = "1"
+            else:
+                print("[proton-autogen] WARNING: MangoHud requested but not installed")
+
         cmd = []
 
         if has_gamemode():
@@ -220,6 +279,9 @@ def run(exe_path: str):
             "-c", proton,
             "-r", exe_path
         ]
+
+        if ENABLE_MANGOHUD and mangohud_available:
+            print("[proton-autogen] MangoHud enabled")
 
         print(
             f"[proton-autogen] Launching with "
@@ -247,6 +309,10 @@ if __name__ == "__main__":
         list_protons()
         sys.exit(0)
 
+    if "--diagnostic" in sys.argv:
+        print_diagnostic()
+        sys.exit(0)
+
     if "--help" in sys.argv or "-h" in sys.argv:
         print("""proton-autogen
 
@@ -259,6 +325,10 @@ Options:
   --help         Show this help
   --list-protons Show list protons detected
   --debug        Verbose output
+  --diagnostic   Show system diagnostic
+  --mangohud     Enable MangoHud overlay
+
+  Sample : proton-autogen game.exe --mangohud
 """)
         sys.exit(0)
 
