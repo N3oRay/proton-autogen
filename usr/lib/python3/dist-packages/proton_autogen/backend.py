@@ -28,6 +28,8 @@ PROTON_PATHS = [
     # system-wide Proton (CachyOS / Arch)
     "/usr/share",
     "/usr/lib"
+    # system Steam tools (IMPORTANT FIX)
+    "/usr/share/steam/compatibilitytools.d"
 ]
 
 
