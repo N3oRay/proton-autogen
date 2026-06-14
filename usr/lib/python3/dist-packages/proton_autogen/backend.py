@@ -8,15 +8,24 @@ from shutil import which
 
 CONFIG_DIR = os.path.expanduser("~/.config/proton-autogen/games")
 
+
 PROTON_PATHS = [
+    # Steam native tools
     "~/.steam/root/compatibilitytools.d",
-    "~/.steam/debian-installation/compatibilitytools.d",
+    "~/.steam/steam/compatibilitytools.d",
     "~/.local/share/Steam/compatibilitytools.d",
-    # Proton officiels Steam
-    "~/.steam/steam/steamapps/common",
-    # Flatpak
+
+    # Flatpak Steam
     "~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools.d",
     "~/.var/app/com.valvesoftware.Steam/.steam/root/compatibilitytools.d",
+
+    # Steam libraries (IMPORTANT)
+    "~/.steam/steam/steamapps/common",
+    "~/.local/share/Steam/steamapps/common",
+
+    # system-wide Proton (CachyOS / Arch)
+    "/usr/share",
+    "/usr/lib"
 ]
 
 def normalize_flag(value, default=True):
