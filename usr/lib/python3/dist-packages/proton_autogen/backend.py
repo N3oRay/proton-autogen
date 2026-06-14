@@ -3,6 +3,8 @@ import os
 import json
 import hashlib
 import re
+import shutil
+import subprocess
 from pathlib import Path
 from shutil import which
 
@@ -27,6 +29,45 @@ PROTON_PATHS = [
     "/usr/share",
     "/usr/lib"
 ]
+
+
+
+def find_system_proton():
+
+    # Arch / CachyOS
+    if shutil.which("pacman"):
+        try:
+            subprocess.check_output(
+                ["pacman", "-Q", "proton-cachyos"],
+                stderr=subprocess.DEVNULL
+            )
+            return "proton-cachyos"
+        except subprocess.CalledProcessError:
+            pass
+
+    # Debian / Ubuntu
+    if shutil.which("dpkg"):
+        try:
+            subprocess.check_output(
+                ["dpkg", "-s", "proton-cachyos"],
+                stderr=subprocess.DEVNULL
+            )
+            return "proton-cachyos"
+        except subprocess.CalledProcessError:
+            pass
+
+    # Fedora
+    if shutil.which("rpm"):
+        try:
+            subprocess.check_output(
+                ["rpm", "-q", "proton-cachyos"],
+                stderr=subprocess.DEVNULL
+            )
+            return "proton-cachyos"
+        except subprocess.CalledProcessError:
+            pass
+
+    return None
 
 def normalize_flag(value, default=True):
     if value is None:
@@ -53,9 +94,11 @@ def proton_score(name):
         name.lower()
     )
 
+
 def find_proton():
     candidates = []
 
+    # Steam-based Proton
     for base in PROTON_PATHS:
         base = os.path.expanduser(base)
 
@@ -68,6 +111,11 @@ def find_proton():
             if os.path.isdir(full) and "Proton" in d:
                 candidates.append(full)
 
+    # System Proton fallback
+    system = find_system_proton()
+    if system:
+        candidates.append(system)
+
     if not candidates:
         return None
 
@@ -77,7 +125,6 @@ def find_proton():
     )
 
     return candidates[0]
-
 
 def _game_id(exe_path: str):
     return hashlib.md5(os.path.abspath(exe_path).encode()).hexdigest()
