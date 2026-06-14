@@ -3,6 +3,7 @@ import os
 import json
 import hashlib
 import re
+import sys
 import shutil
 import subprocess
 from pathlib import Path
@@ -10,9 +11,12 @@ from shutil import which
 
 CONFIG_DIR = os.path.expanduser("~/.config/proton-autogen/games")
 
-
+VERSION = "2.2.9"
+# ----------------------------
+# PROTON PATHS FIXED (robuste multi-distro)
+# ----------------------------
 PROTON_PATHS = [
-    # Steam native tools
+    # Steam natif
     "~/.steam/root/compatibilitytools.d",
     "~/.steam/steam/compatibilitytools.d",
     "~/.local/share/Steam/compatibilitytools.d",
@@ -21,55 +25,184 @@ PROTON_PATHS = [
     "~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools.d",
     "~/.var/app/com.valvesoftware.Steam/.steam/root/compatibilitytools.d",
 
-    # Steam libraries (IMPORTANT)
+    # Steam runtimes
     "~/.steam/steam/steamapps/common",
     "~/.local/share/Steam/steamapps/common",
 
-    # system-wide Proton (CachyOS / Arch)
-    "/usr/share",
-    "/usr/lib"
-    # system Steam tools (IMPORTANT FIX)
-    "/usr/share/steam/compatibilitytools.d"
+    # system-wide (CachyOS / Arch / custom builds)
+    "/usr/share/steam/compatibilitytools.d",
 ]
 
+def proton_path(p):
+    if isinstance(p, dict):
+        return p.get("path")
+    return p
 
+def proton_name(p):
+    if isinstance(p, dict):
+        return p.get("name", "Unknown Proton")
+    return os.path.basename(p) if p else "Unknown Proton"
 
+def has_wine():
+    return which("wine") is not None
+
+def has_proton_call():
+    return which("proton-call") is not None
+
+def list_protons():
+    protons = find_all_protons()
+
+    if not protons:
+        print("No Proton installation found")
+        return
+
+    selected = find_proton()
+
+    # normalisation du selected → toujours un path string
+    selected_path = None
+    if isinstance(selected, dict):
+        selected_path = selected.get("path")
+    else:
+        selected_path = selected
+
+    # sécurité (évite None)
+    selected_path = os.path.realpath(selected_path) if selected_path else None
+
+    def sort_key(p):
+        return os.path.basename(p).lower()
+
+    print("Detected Proton installations:\n")
+
+    for proton in sorted(protons, key=sort_key):
+        proton_real = os.path.realpath(proton)
+
+        is_selected = (selected_path == proton_real)
+        suffix = " (selected)" if is_selected else ""
+
+        print(f"  {os.path.basename(proton)}{suffix}")
+        print(f"    {proton}\n")
+
+def print_diagnostic():
+    print("proton-autogen diagnostic")
+    print("")
+    print(f"Version      : {VERSION}")
+    print(f"Python       : {sys.version.split()[0]}")
+    print("")
+
+    print("Runtime:")
+    print(f"  proton-call : {'yes' if has_proton_call() else 'no'}")
+    print(f"  wine        : {'yes' if has_wine() else 'no'}")
+    print(f"  gamemode    : {'yes' if has_gamemode() else 'no'}")
+    print(f"  mangohud    : {'yes' if has_mangohud() else 'no'}")
+    print("")
+
+    print(f"Platform     : {sys.platform}")
+    print("")
+
+    protons = find_all_protons()
+
+    print(f"Detected Proton installations: {len(protons)}")
+    print("")
+
+    if protons:
+        selected = find_proton()
+        selected_path = selected["path"] if isinstance(selected, dict) else selected
+
+        for proton in sorted(protons, key=lambda x: os.path.basename(x).lower()):
+            marker = " [selected]" if proton == selected else ""
+
+            print(
+                f"  {os.path.basename(proton)}{marker}"
+            )
+            print(f"    {proton}")
+    else:
+        print("  none")
+
+    print("")
+
+def find_all_protons():
+    protons = []
+    seen = set()
+
+    def is_proton(name: str) -> bool:
+        n = name.lower()
+
+        # vrais candidats Proton
+        return (
+            "proton" in n
+            or "ge-proton" in n
+            or n.startswith("ge-proton")
+            or "proton-ge" in n
+            or "cachy" in n
+            or "experimental" in n
+            or "hotfix" in n
+        )
+
+    def normalize(name: str) -> str:
+        return re.sub(r"[^a-z0-9]", "", name.lower())
+
+    for base in PROTON_PATHS:
+        base = os.path.expanduser(base)
+
+        if not os.path.isdir(base):
+            continue
+
+        try:
+            for d in os.listdir(base):
+                full = os.path.join(base, d)
+
+                if not os.path.isdir(full):
+                    continue
+
+                if not is_proton(d):
+                    continue
+
+                key = normalize(d)
+
+                if key in seen:
+                    continue
+
+                seen.add(key)
+                protons.append(full)
+
+        except (PermissionError, FileNotFoundError):
+            continue
+
+    return protons
+# ----------------------------
+# SYSTEM PROTON DETECTION (FIXED)
+# ----------------------------
 def find_system_proton():
+    candidates = []
+
+    def check(pkg, cmd):
+        try:
+            subprocess.check_output(cmd, stderr=subprocess.DEVNULL)
+            return True
+        except Exception:
+            return False
 
     # Arch / CachyOS
-    if shutil.which("pacman"):
-        try:
-            subprocess.check_output(
-                ["pacman", "-Q", "proton-cachyos"],
-                stderr=subprocess.DEVNULL
-            )
-            return "proton-cachyos"
-        except subprocess.CalledProcessError:
-            pass
+    if shutil.which("pacman") and check("pacman", ["pacman", "-Q", "proton-cachyos"]):
+        # chemin réel connu sur CachyOS
+        for p in [
+            "/usr/share/steam/compatibilitytools.d/proton-cachyos",
+            "/usr/share/steam/compatibilitytools.d/proton-cachyos-slr",
+        ]:
+            if os.path.exists(p):
+                candidates.append(p)
 
-    # Debian / Ubuntu
-    if shutil.which("dpkg"):
-        try:
-            subprocess.check_output(
-                ["dpkg", "-s", "proton-cachyos"],
-                stderr=subprocess.DEVNULL
-            )
-            return "proton-cachyos"
-        except subprocess.CalledProcessError:
-            pass
+    # fallback générique system-wide scan
+    for base in ["/usr/share", "/usr/lib"]:
+        if os.path.exists(base):
+            for root, dirs, _ in os.walk(base):
+                for d in dirs:
+                    if re.search(r"proton", d, re.IGNORECASE):
+                        full = os.path.join(root, d)
+                        candidates.append(full)
 
-    # Fedora
-    if shutil.which("rpm"):
-        try:
-            subprocess.check_output(
-                ["rpm", "-q", "proton-cachyos"],
-                stderr=subprocess.DEVNULL
-            )
-            return "proton-cachyos"
-        except subprocess.CalledProcessError:
-            pass
+    return candidates[0] if candidates else None
 
-    return None
 
 def normalize_flag(value, default=True):
     if value is None:
@@ -84,26 +217,59 @@ def has_mangohud():
 def has_gamemode():
     return which("gamemoderun") is not None
 
-def proton_score(name):
-    numbers = [int(n) for n in re.findall(r'\d+', name)]
+# ----------------------------
+# PROTON SCORE (robuste)
+# ----------------------------
+def proton_score(name: str):
+    name = name.lower()
 
+    priority = 0
+    if "cachy" in name:
+        priority = 4
+    elif "ge" in name:
+        priority = 3
+    elif "experimental" in name:
+        priority = 2
+    elif "proton" in name:
+        priority = 1
+
+    numbers = list(map(int, re.findall(r"\d+", name)))
     major = numbers[0] if len(numbers) > 0 else 0
     minor = numbers[1] if len(numbers) > 1 else 0
 
-    return (
-        major,
-        minor,
-        name.lower()
-    )
+    return (priority, major, minor, name)
 
 
+# ----------------------------
+# MAIN FIXED FIND PROTON
+# ----------------------------
 def find_proton():
     candidates = []
+    seen = set()
 
     def is_proton_dir(name: str) -> bool:
-        return "proton" in name.lower()
+        return re.search(r"proton", name, re.IGNORECASE) is not None
 
-    # Steam-based Proton
+    def add(path):
+        if not path:
+            return
+        path = os.path.expanduser(path)
+        path = os.path.realpath(path)
+
+        if not os.path.exists(path):
+            return
+
+        if path in seen:
+            return
+
+        seen.add(path)
+
+        candidates.append({
+            "name": os.path.basename(path),
+            "path": path
+        })
+
+    # scan steam + system
     for base in PROTON_PATHS:
         base = os.path.expanduser(base)
 
@@ -115,33 +281,18 @@ def find_proton():
                 full = os.path.join(base, d)
 
                 if os.path.isdir(full) and is_proton_dir(d):
-                    candidates.append(full)
+                    add(full)
 
-        except PermissionError:
+        except (PermissionError, FileNotFoundError):
             continue
 
-    # System Proton fallback
-    system = find_system_proton()
-    if system:
-        # normalisation du format pour éviter crash du sort
-        if isinstance(system, dict):
-            candidates.append(system)
-        else:
-            candidates.append(system)
+    # system proton explicit
+    add(find_system_proton())
 
     if not candidates:
         return None
 
-    def sort_key(x):
-        # support string + dict (system proton)
-        if isinstance(x, dict):
-            name = x.get("name", "")
-        else:
-            name = os.path.basename(x)
-
-        return proton_score(name)
-
-    candidates.sort(key=sort_key, reverse=True)
+    candidates.sort(key=lambda c: proton_score(c["name"]), reverse=True)
 
     return candidates[0]
 
@@ -178,7 +329,7 @@ def add_game(exe_path: str):
         "id": gid,
         "name": os.path.basename(exe_path),
         "path": exe_path,
-        "proton": os.path.basename(proton) if proton else None,
+        "proton": proton.get("path") if isinstance(proton, dict) else proton,
         "mangohud": has_mangohud(),
         "gamemode": has_gamemode(),
         "env": {
@@ -269,7 +420,28 @@ def find_proton_by_name(name: str):
 
     target = _normalize(name)
 
-    best_match = None
+    candidates = []
+
+    def score(name: str):
+        n = name.lower()
+
+        # priorité distributions Proton
+        priority = 0
+        if "ge" in n:
+            priority += 30
+        if "cachy" in n:
+            priority += 25
+        if "experimental" in n:
+            priority += 10
+        if "proton" in n:
+            priority += 5
+
+        # versioning (plus c’est grand, mieux c’est)
+        numbers = [int(x) for x in re.findall(r"\d+", n)]
+        major = numbers[0] if len(numbers) > 0 else 0
+        minor = numbers[1] if len(numbers) > 1 else 0
+
+        return (priority, major, minor)
 
     for base in PROTON_PATHS:
         base = os.path.expanduser(base)
@@ -286,15 +458,24 @@ def find_proton_by_name(name: str):
 
                 norm = _normalize(d)
 
+                # filtre strict : doit contenir proton OU être proton-like
+                if "proton" not in norm:
+                    continue
+
                 # match exact
                 if norm == target:
                     return full
 
-                # match partiel (fallback intelligent)
+                # match partiel
                 if target in norm or norm in target:
-                    best_match = full
+                    candidates.append((score(d), full))
 
-        except PermissionError:
+        except (PermissionError, FileNotFoundError):
             continue
 
-    return best_match
+    if not candidates:
+        return None
+
+    # meilleur match
+    candidates.sort(key=lambda x: x[0], reverse=True)
+    return candidates[0][1]

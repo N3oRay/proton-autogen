@@ -5,15 +5,15 @@ import sys
 import subprocess
 import re
 from shutil import which
-from proton_autogen.backend import find_windows_programs, list_programs, add_game, load_game_config, find_proton_by_name, find_proton, has_gamemode, has_mangohud, normalize_flag, PROTON_PATHS
-
-
+from proton_autogen.backend import find_windows_programs, list_programs, add_game, load_game_config, find_proton_by_name, find_proton, has_gamemode, has_mangohud, normalize_flag, find_all_protons, print_diagnostic, list_protons, has_proton_call, has_wine, proton_name, proton_path, PROTON_PATHS, VERSION
 
 
 DEBUG = "--debug" in sys.argv
 
-VERSION = "2.2.7"
-
+def normalize_proton(p):
+    if isinstance(p, dict):
+        return p.get("path")
+    return p
 
 def print_help():
     print("""proton-autogen
@@ -64,79 +64,6 @@ Notes:
 
 
 
-def print_diagnostic():
-    print("proton-autogen diagnostic")
-    print("")
-    print(f"Version      : {VERSION}")
-    print(f"Python       : {sys.version.split()[0]}")
-    print("")
-
-    print("Runtime:")
-    print(f"  proton-call : {'yes' if has_proton_call() else 'no'}")
-    print(f"  wine        : {'yes' if has_wine() else 'no'}")
-    print(f"  gamemode    : {'yes' if has_gamemode() else 'no'}")
-    print(f"  mangohud    : {'yes' if has_mangohud() else 'no'}")
-    print("")
-
-    print(f"Platform     : {sys.platform}")
-    print("")
-
-    protons = find_all_protons()
-
-    print(f"Detected Proton installations: {len(protons)}")
-    print("")
-
-    if protons:
-        selected = find_proton()
-
-        for proton in sorted(protons):
-            marker = " [selected]" if proton == selected else ""
-
-            print(
-                f"  {os.path.basename(proton)}{marker}"
-            )
-            print(f"    {proton}")
-    else:
-        print("  none")
-
-    print("")
-
-def find_all_protons():
-    protons = []
-
-    for base in PROTON_PATHS:
-        base = os.path.expanduser(base)
-
-        if not os.path.exists(base):
-            continue
-
-        for d in os.listdir(base):
-            full = os.path.join(base, d)
-
-            if os.path.isdir(full) and "Proton" in d:
-                protons.append(full)
-
-    return protons
-
-
-def list_protons():
-    protons = find_all_protons()
-
-    if not protons:
-        print("No Proton installation found")
-        return
-
-    selected = find_proton()
-
-    print("Detected Proton installations:")
-    print("")
-
-    for proton in sorted(protons):
-        suffix = " (selected)" if proton == selected else ""
-        print(f"  {os.path.basename(proton)}{suffix}")
-        print(f"    {proton}")
-        print("")
-
 
 def print_about():
     print("proton-autogen")
@@ -158,37 +85,17 @@ def print_about():
     print("Repository: https://github.com/N3oRay/proton-autogen")
 
 def print_runtime_info(proton, exe_path, mangohud_available):
-    proton_name = os.path.basename(proton)
-
     print("[proton-autogen] Runtime information")
     print(f"  Executable : {exe_path}")
-    print(f"  Proton     : {proton_name}")
-    print(f"  Path       : {proton}")
+    print(f"  Proton     : {proton_name(proton)}")
+    print(f"  Path       : {proton_path(proton)}")
 
-    if has_proton_call():
-        print("  proton-call: detected")
-    else:
-        print("  proton-call: missing")
-
-    if has_gamemode():
-        print("  GameMode   : enabled")
-    else:
-        print("  GameMode   : disabled")
-
-    if mangohud_available:
-        print("  MangoHud   : available")
-    else:
-        print("  MangoHud   : unavailable")
-
+    print("  proton-call:", "detected" if has_proton_call() else "missing")
+    print("  GameMode  :", "enabled" if has_gamemode() else "disabled")
+    print("  MangoHud  :", "available" if mangohud_available else "unavailable")
     print("")
 
 
-def has_proton_call():
-    return which("proton-call") is not None
-
-
-def has_wine():
-    return which("wine") is not None
 
 def run_standard(exe_path: str):
     print("[proton-autogen] Proton unavailable → using Wine fallback")
@@ -207,7 +114,10 @@ def run_standard(exe_path: str):
         print("  sudo apt install wine")
         sys.exit(1)
 
-
+def proton_path(p):
+    if isinstance(p, dict):
+        return p.get("path")
+    return p
 
 def run(exe_path: str):
     exe_path = os.path.abspath(exe_path)
@@ -266,7 +176,7 @@ def run(exe_path: str):
 
     if has_proton_call():
         env = os.environ.copy()
-        env["GE_PROTON"] = proton
+        env["GE_PROTON"] = proton_path(proton)
         env["GAME_EXE"] = exe_path
         # env gaming options OK
         env["DXVK_HUD"] = "compiler"
@@ -296,14 +206,11 @@ def run(exe_path: str):
 
         cmd += [
             "proton-call",
-            "-c", proton,
+            "-c", proton_path(proton),
             "-r", exe_path
         ]
 
-        print(
-            f"[proton-autogen] Launching with "
-            f"{os.path.basename(proton)}"
-        )
+        print(f"[proton-autogen] Launching with {proton_name(proton) if callable(proton_name) else proton_name}")
 
         #subprocess.run(cmd, env=env)
         result = subprocess.run(cmd, env=env)
