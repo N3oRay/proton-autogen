@@ -19,6 +19,16 @@ PROTON_PATHS = [
     "~/.var/app/com.valvesoftware.Steam/.steam/root/compatibilitytools.d",
 ]
 
+def normalize_flag(value, default=True):
+    if value is None:
+        return default
+    if isinstance(value, str):
+        return value.lower() in ("1", "true", "yes", "on")
+    return bool(value)
+
+def has_mangohud():
+    return which("mangohud") is not None
+
 def has_gamemode():
     return which("gamemoderun") is not None
 
@@ -94,7 +104,7 @@ def add_game(exe_path: str):
         "name": os.path.basename(exe_path),
         "path": exe_path,
         "proton": os.path.basename(proton) if proton else None,
-        "mangohud": False,
+        "mangohud": has_mangohud(),
         "gamemode": has_gamemode(),
         "env": {
             "DXVK_ASYNC": "1"

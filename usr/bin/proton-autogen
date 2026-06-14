@@ -5,19 +5,14 @@ import sys
 import subprocess
 import re
 from shutil import which
-from proton_autogen.backend import find_windows_programs, list_programs, add_game, load_game_config, find_proton_by_name, find_proton, proton_score, has_gamemode, PROTON_PATHS
+from proton_autogen.backend import find_windows_programs, list_programs, add_game, load_game_config, find_proton_by_name, find_proton, has_gamemode, has_mangohud, normalize_flag, PROTON_PATHS
 
 
 
 
 DEBUG = "--debug" in sys.argv
 
-ENABLE_MANGOHUD = "--mangohud" in sys.argv
-
-VERSION = "2.2.6"
-
-
-
+VERSION = "2.2.7"
 
 
 def print_help():
@@ -52,6 +47,7 @@ Execution:
 Options:
   --debug        Verbose output
   --mangohud     Enable MangoHud overlay
+  --gamemode     Enable GameMode
 
 Examples:
   proton-autogen add game.exe
@@ -194,9 +190,6 @@ def has_proton_call():
 def has_wine():
     return which("wine") is not None
 
-def has_mangohud():
-    return which("mangohud") is not None
-
 def run_standard(exe_path: str):
     print("[proton-autogen] Proton unavailable → using Wine fallback")
 
@@ -227,21 +220,34 @@ def run(exe_path: str):
     #proton = os.path.expanduser(
     #    "~/.steam/debian-installation/compatibilitytools.d/GE-Proton10-34/"
     #)
+    mangohud_available = has_mangohud()
 
     config = load_game_config(exe_path)
 
     if config:
         proton_name = config.get("proton")
+        cfg_mangohud = normalize_flag(config.get("mangohud"), True)
+        cfg_gamemode = normalize_flag(config.get("gamemode"), True)
         proton = find_proton_by_name(proton_name)
 
         if not proton:
             print("[proton-autogen] stored Proton missing → fallback")
             proton = find_proton()
     else:
+        cfg_mangohud = True
+        cfg_gamemode = True
         proton = find_proton()
 
-    mangohud_available = has_mangohud()
 
+    enable_mangohud = cfg_mangohud
+    enable_gamemode = cfg_gamemode
+
+    # CLI overrides (priorité utilisateur)
+    if "--mangohud" in sys.argv:
+        enable_mangohud = True
+
+    if "--gamemode" in sys.argv:
+        enable_gamemode = True
 
 
     if proton:
@@ -270,8 +276,9 @@ def run(exe_path: str):
         env["WINE_SIMULATE_WRITECOPY"] = "1"
         env["WINEDLLOVERRIDES"] = "winegstreamer=d"
 
-        if ENABLE_MANGOHUD:
+        if enable_mangohud:
             if mangohud_available:
+                print("[proton-autogen] MangoHud enabled")
                 env["MANGOHUD"] = "1"
                 env["DXVK_HUD"] = "0"
                 env.pop("LD_PRELOAD", None)
@@ -280,8 +287,10 @@ def run(exe_path: str):
 
         cmd = []
 
-        if has_gamemode():
-            cmd.append("gamemoderun")
+        if enable_gamemode:
+            if has_gamemode():
+                print("[proton-autogen] GameMode enabled")
+                cmd.append("gamemoderun")
         elif DEBUG:
             print("[proton-autogen] GameMode not found")
 
@@ -290,9 +299,6 @@ def run(exe_path: str):
             "-c", proton,
             "-r", exe_path
         ]
-
-        if ENABLE_MANGOHUD and mangohud_available:
-            print("[proton-autogen] MangoHud enabled")
 
         print(
             f"[proton-autogen] Launching with "
@@ -307,6 +313,7 @@ def run(exe_path: str):
         run_standard(exe_path)
 
 def main():
+
     if "--about" in sys.argv:
         print_about()
         return
@@ -330,6 +337,7 @@ def main():
     if "--help" in sys.argv or "-h" in sys.argv:
         print_help()
         return
+
 
     if len(sys.argv) < 2:
         print("Usage: proton-autogen <file.exe>")
