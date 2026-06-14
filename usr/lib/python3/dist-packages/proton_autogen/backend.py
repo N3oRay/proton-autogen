@@ -100,6 +100,9 @@ def proton_score(name):
 def find_proton():
     candidates = []
 
+    def is_proton_dir(name: str) -> bool:
+        return "proton" in name.lower()
+
     # Steam-based Proton
     for base in PROTON_PATHS:
         base = os.path.expanduser(base)
@@ -107,24 +110,38 @@ def find_proton():
         if not os.path.exists(base):
             continue
 
-        for d in os.listdir(base):
-            full = os.path.join(base, d)
+        try:
+            for d in os.listdir(base):
+                full = os.path.join(base, d)
 
-            if os.path.isdir(full) and "Proton" in d:
-                candidates.append(full)
+                if os.path.isdir(full) and is_proton_dir(d):
+                    candidates.append(full)
+
+        except PermissionError:
+            continue
 
     # System Proton fallback
     system = find_system_proton()
     if system:
-        candidates.append(system)
+        # normalisation du format pour éviter crash du sort
+        if isinstance(system, dict):
+            candidates.append(system)
+        else:
+            candidates.append(system)
 
     if not candidates:
         return None
 
-    candidates.sort(
-        key=lambda x: proton_score(os.path.basename(x)),
-        reverse=True
-    )
+    def sort_key(x):
+        # support string + dict (system proton)
+        if isinstance(x, dict):
+            name = x.get("name", "")
+        else:
+            name = os.path.basename(x)
+
+        return proton_score(name)
+
+    candidates.sort(key=sort_key, reverse=True)
 
     return candidates[0]
 
