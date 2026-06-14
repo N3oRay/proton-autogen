@@ -215,7 +215,7 @@ nautilus -q
 * [ ] ProtonDB integration
 * [ ] Lutris integration
 * [ ] Bottles integration
-* [ ] Automatic prefix management
+* [ ] Advanced prefix control (Steam compatdata integration)
 * [ ] Silent mode
 
 ---
