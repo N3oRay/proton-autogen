@@ -95,6 +95,8 @@ git clone https://github.com/N3oRay/proton-autogen.git
 cd proton-autogen
 sudo install -Dm755 usr/bin/proton-autogen /usr/bin/proton-autogen
 sudo cp -r usr/share/* /usr/share/
+sudo cp -r usr/lib/python3/dist-packages/proton_autogen \
+                      /usr/lib/python3.*/site-packages/
 ```
 
 ### Debian / Ubuntu
