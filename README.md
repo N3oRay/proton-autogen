@@ -208,10 +208,11 @@ nautilus -q
 
 ## 🛣️ Roadmap
 
+* [x] Per-application profiles
 * [ ] Game / Installer auto-detection
-* [ ] Per-application profiles
 * [ ] Configuration file support
 * [ ] GUI frontend
+* [ ] ProtonDB integration
 * [ ] Lutris integration
 * [ ] Bottles integration
 * [ ] Automatic prefix management
