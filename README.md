@@ -114,6 +114,13 @@ sudo add-apt-repository ppa:n3oray/proton-autogen
 sudo apt update
 sudo apt install proton-autogen
 ```
+### Config
+The configuration is fully automatic.
+```bash
+cat ~/.config/proton-autogen.conf
+ls ~/.config/proton-autogen/games
+```
+
 
 This installs:
 
