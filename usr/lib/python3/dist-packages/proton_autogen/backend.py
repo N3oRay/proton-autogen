@@ -173,35 +173,55 @@ def find_all_protons():
 # SYSTEM PROTON DETECTION (FIXED)
 # ----------------------------
 def find_system_proton():
+    locations = [
+        "/usr/share/steam/compatibilitytools.d",
+        "/usr/local/share/steam/compatibilitytools.d",
+        "/usr/lib/steam/compatibilitytools.d",
+    ]
+
     candidates = []
 
-    def check(pkg, cmd):
+    def is_proton_name(name: str) -> bool:
+        n = name.lower()
+
+        return (
+            "proton" in n
+            or "ge-proton" in n
+            or "proton-ge" in n
+            or "experimental" in n
+            or "hotfix" in n
+            or "cachy" in n
+        )
+
+    for base in locations:
+
+        if not os.path.isdir(base):
+            continue
+
         try:
-            subprocess.check_output(cmd, stderr=subprocess.DEVNULL)
-            return True
-        except Exception:
-            return False
+            for d in os.listdir(base):
+                full = os.path.join(base, d)
 
-    # Arch / CachyOS
-    if shutil.which("pacman") and check("pacman", ["pacman", "-Q", "proton-cachyos"]):
-        # chemin réel connu sur CachyOS
-        for p in [
-            "/usr/share/steam/compatibilitytools.d/proton-cachyos",
-            "/usr/share/steam/compatibilitytools.d/proton-cachyos-slr",
-        ]:
-            if os.path.exists(p):
-                candidates.append(p)
+                if (
+                    os.path.isdir(full)
+                    and is_proton_name(d)
+                ):
+                    candidates.append(full)
 
-    # fallback générique system-wide scan
-    for base in ["/usr/share", "/usr/lib"]:
-        if os.path.exists(base):
-            for root, dirs, _ in os.walk(base):
-                for d in dirs:
-                    if re.search(r"proton", d, re.IGNORECASE):
-                        full = os.path.join(root, d)
-                        candidates.append(full)
+        except (PermissionError, FileNotFoundError):
+            continue
 
-    return candidates[0] if candidates else None
+    if not candidates:
+        return None
+
+    candidates.sort(
+        key=lambda p: proton_score(
+            os.path.basename(p)
+        ),
+        reverse=True
+    )
+
+    return os.path.realpath(candidates[0])
 
 
 def normalize_flag(value, default=True):
