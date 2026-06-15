@@ -75,13 +75,28 @@ proton-autogen /path/to/application.exe
 ### Example Output
 
 ```text
-Running Proton for:
-~/Games/MyGame/game.exe
+$ proton-autogen GAME.EXE
 
-Using:
-GE-Proton10-34
+[proton-autogen] Runtime information
+  Executable : /home/<user>/Games/GAME.EXE
+  Proton     : GE-Proton10-34
+  Path       : /home/<user>/.steam/root/compatibilitytools.d/GE-Proton10-34
+  proton-call: detected
+  GameMode   : enabled
+  MangoHud   : available
 
-Launch initialized
+[proton-autogen] Launch mode: proton - prefix : /home/<user>/Documents/Proton/prefixes/main
+
+[DEBUG] LD_PRELOAD final = None
+[DEBUG] PATH = /usr/local/bin:/home/<user>/.local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+ProtonFixes[10233] WARN: Skipping fix execution. We are probably running a unit test.
+ProtonFixes[10233] WARN: Skipping fix execution. We are probably running a unit test.
+
+fsync: up and running.
+
+[2026-06-15 23:21:34.185] [MANGOHUD] [info] [blacklist.cpp:86] process 'explorer.exe' is blacklisted in MangoHud
+[2026-06-15 23:21:34.963] [MANGOHUD] [info] [cpu.cpp:636] hwmon: using input: /sys/class/hwmon/hwmon0/temp2_input
 ```
 
 ---
