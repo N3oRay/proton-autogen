@@ -46,7 +46,7 @@ The tool automatically detects available Proton installations (GE-Proton preferr
 ## 📸 Screenshots
 
 ### Integration
-![Screenshot](https://github.com/N3oRay/proton-autogen/blob/main/docs/screenshots/pics0.png)
+![Screenshot](https://github.com/N3oRay/proton-autogen/blob/main/docs/screenshots/pics0.jpg)
 
 ![Screenshot](https://github.com/N3oRay/proton-autogen/blob/main/docs/screenshots/pics2.png)
 
