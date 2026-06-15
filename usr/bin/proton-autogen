@@ -83,6 +83,11 @@ Information:
   proton-autogen --about
   proton-autogen --help
 
+Prefix:
+  proton-autogen --prefixauto
+  proton-autogen --prefixshared
+  (Prefix by default : ~/Documents/Proton/prefixes/main)
+
 Discovery:
   proton-autogen --list-protons
   proton-autogen --list-programs
@@ -104,6 +109,9 @@ Options:
   --debug        Verbose output
   --mangohud     Enable MangoHud overlay
   --gamemode     Enable GameMode
+  --call         use Proton-Call
+  --wine         use Wine
+  --proton       use Proton only (run by default)
 
 Examples:
   proton-autogen add game.exe
@@ -403,6 +411,8 @@ def main():
         launch_mode = "proton-call"
     elif "--wine" in sys.argv:
         launch_mode = "wine"
+    elif "--proton" in sys.argv:
+        launch_mode = "proton"
 
     # Mode prefix
     prefix_mode = "main"
