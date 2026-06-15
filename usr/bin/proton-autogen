@@ -3,17 +3,71 @@
 import os
 import sys
 import subprocess
-import re
-from shutil import which
-from proton_autogen.backend import find_windows_programs, list_programs, add_game, load_game_config, find_proton_by_name, find_proton, has_gamemode, has_mangohud, normalize_flag, find_all_protons, print_diagnostic, list_protons, has_proton_call, has_wine, proton_name, proton_path, PROTON_PATHS, VERSION
+from proton_autogen.backend import list_programs, add_game, load_game_config, find_proton_by_name, find_proton, has_gamemode, has_mangohud, normalize_flag, print_diagnostic, list_protons, has_proton_call, has_wine, proton_name, proton_path, PROTON_PATHS, VERSION
 
 
 DEBUG = "--debug" in sys.argv
 
-def normalize_proton(p):
-    if isinstance(p, dict):
-        return p.get("path")
-    return p
+def print_proton_paths():
+    print("Proton search paths")
+    print("───────────────────")
+
+    seen = set()
+    proton_count = 0
+    steam_runtime_count = 0
+
+    for path in PROTON_PATHS:
+        expanded = os.path.expanduser(path)
+        real = os.path.realpath(expanded)
+
+        # Dedup Steam symlinks
+        if real in seen:
+            continue
+        seen.add(real)
+
+        if not os.path.isdir(expanded):
+            print(f"✗ {expanded}")
+            continue
+
+        try:
+            entries = [
+                e for e in os.listdir(expanded)
+                if os.path.isdir(os.path.join(expanded, e))
+            ]
+        except (PermissionError, FileNotFoundError):
+            print(f"✗ {expanded} (unreadable)")
+            continue
+
+        count = len(entries)
+
+        # Classification
+        if "compatibilitytools.d" in expanded:
+            label = "Compatibility Tools"
+            proton_count += count
+        elif "steamapps/common" in expanded:
+            label = "Steam Runtimes"
+            steam_runtime_count += count
+        else:
+            label = "System"
+            proton_count += count
+
+        if count == 0:
+            print(f"⚠ {expanded} (empty)")
+        else:
+            print(f"✓ {expanded} ({count} entries)")
+
+        print(f"   [{label}]")
+
+        for e in sorted(entries):
+            print(f"   • {e}")
+
+    print("")
+    print(f"Total compatibility tools: {proton_count}")
+    print(f"Steam runtimes: {steam_runtime_count}")
+    print("")
+    print("Note:")
+    print("  Compatibility tools = real Proton builds")
+    print("  Steam runtimes = execution dependencies (not Proton)")
 
 def print_help():
     print("""proton-autogen
@@ -31,6 +85,7 @@ Information:
 Discovery:
   proton-autogen --list-protons
   proton-autogen --list-programs
+  proton-autogen --proton-paths
   proton-autogen --diagnostic
 
 Game management:
@@ -66,23 +121,32 @@ Notes:
 
 
 def print_about():
-    print("proton-autogen")
-    print("")
-    print("Description:")
-    print("  Automatic Proton/Wine launcher for Windows executables")
-    print("")
-    print(f"Version: {VERSION}")
-    print("")
-    print("Features:")
-    print("  - Automatic Proton detection")
-    print("  - Automatic selection of newest Proton version")
-    print("  - Wine fallback")
-    print("  - GameMode support (optional)")
-    print("  - Integration with file managers")
-    print("")
-    print("Author: N3oray")
-    print("License: MIT (or your license)")
-    print("Repository: https://github.com/N3oRay/proton-autogen")
+    print(f"""proton-autogen
+══════════════
+
+Lightweight Proton launcher for Linux.
+
+Automatically discovers Proton installations,
+selects the best available version, and launches
+Windows executables with minimal configuration.
+
+Features
+────────
+• Automatic Proton discovery
+• Smart version selection
+• Wine fallback
+• Per-game profiles
+• GameMode support
+• MangoHud integration
+• Steam & Flatpak compatibility
+
+Version : {VERSION}
+Author  : N3oray
+License : MIT
+
+Repository
+https://github.com/N3oRay/proton-autogen
+""")
 
 def print_runtime_info(proton, exe_path, mangohud_available):
     print("[proton-autogen] Runtime information")
@@ -114,10 +178,7 @@ def run_standard(exe_path: str):
         print("  sudo apt install wine")
         sys.exit(1)
 
-def proton_path(p):
-    if isinstance(p, dict):
-        return p.get("path")
-    return p
+
 
 def run(exe_path: str):
     exe_path = os.path.abspath(exe_path)
@@ -135,10 +196,10 @@ def run(exe_path: str):
     config = load_game_config(exe_path)
 
     if config:
-        proton_name = config.get("proton")
+        saved_proton_name = config.get("proton")
         cfg_mangohud = normalize_flag(config.get("mangohud"), True)
         cfg_gamemode = normalize_flag(config.get("gamemode"), True)
-        proton = find_proton_by_name(proton_name)
+        proton = find_proton_by_name(saved_proton_name)
 
         if not proton:
             print("[proton-autogen] stored Proton missing → fallback")
@@ -210,7 +271,7 @@ def run(exe_path: str):
             "-r", exe_path
         ]
 
-        print(f"[proton-autogen] Launching with {proton_name(proton) if callable(proton_name) else proton_name}")
+        print(f"[proton-autogen] Launching with {proton_name(proton)}")
 
         #subprocess.run(cmd, env=env)
         result = subprocess.run(cmd, env=env)
@@ -231,6 +292,10 @@ def main():
 
     if "--list-protons" in sys.argv:
         list_protons()
+        return
+
+    if "--proton-paths" in sys.argv:
+        print_proton_paths()
         return
 
     if "--diagnostic" in sys.argv:
