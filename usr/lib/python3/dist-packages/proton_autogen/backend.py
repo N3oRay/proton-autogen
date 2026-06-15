@@ -172,6 +172,9 @@ def find_all_protons():
 # ----------------------------
 # SYSTEM PROTON DETECTION (FIXED)
 # ----------------------------
+# Known system-wide Proton locations.
+# We intentionally avoid recursive scans of /usr/share
+# and /usr/lib for performance and predictability.
 def find_system_proton():
     locations = [
         "/usr/share/steam/compatibilitytools.d",
