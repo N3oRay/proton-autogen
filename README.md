@@ -209,13 +209,13 @@ nautilus -q
 ## 🛣️ Roadmap
 
 * [x] Per-application profiles
+* [x] Advanced prefix control (Steam compatdata integration)
+* [x] Configuration file support
 * [ ] Game / Installer auto-detection
-* [ ] Configuration file support
 * [ ] GUI frontend
 * [ ] ProtonDB integration
 * [ ] Lutris integration
 * [ ] Bottles integration
-* [ ] Advanced prefix control (Steam compatdata integration)
 * [ ] Silent mode
 
 ---
