@@ -8,22 +8,25 @@ import shutil
 import subprocess
 from pathlib import Path
 from shutil import which
+import configparser
 
+
+CONFIG_FILE = os.path.expanduser("~/.config/proton-autogen.conf")
 CONFIG_DIR = os.path.expanduser("~/.config/proton-autogen/games")
 
-VERSION = "2.3.1"
+VERSION = "2.3.2"
 # ----------------------------
 # PROTON PATHS FIXED (robuste multi-distro)
 # ----------------------------
-PROTON_PATHS = [
+DEFAULT_PROTON_PATHS = [
     # Steam natif
     "~/.steam/root/compatibilitytools.d",
     "~/.steam/steam/compatibilitytools.d",
     "~/.local/share/Steam/compatibilitytools.d",
 
-    # Flatpak Steam
-    "~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools.d",
-    "~/.var/app/com.valvesoftware.Steam/.steam/root/compatibilitytools.d",
+    # Flatpak Steam in ~/.config/proton-autogen.conf by default
+    #"~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools.d",
+    #"~/.var/app/com.valvesoftware.Steam/.steam/root/compatibilitytools.d",
 
     # Steam runtimes
     "~/.steam/steam/steamapps/common",
@@ -32,6 +35,77 @@ PROTON_PATHS = [
     # system-wide (CachyOS / Arch / custom builds)
     "/usr/share/steam/compatibilitytools.d",
 ]
+
+def load_proton_paths():
+    def create_default_config():
+        os.makedirs(os.path.dirname(CONFIG_FILE), exist_ok=True)
+
+        sample = """[proton]
+# Add custom Proton locations here
+# You can separate paths with newlines, ":" or ";"
+
+paths = ~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools.d;~/.var/app/com.valvesoftware.Steam/.steam/root/compatibilitytools.d
+"""
+
+        try:
+            with open(CONFIG_FILE, "w") as f:
+                f.write(sample)
+        except Exception:
+            pass
+
+    # ----------------------------
+    # base paths (always safe)
+    # ----------------------------
+    base_paths = [os.path.expanduser(p) for p in DEFAULT_PROTON_PATHS]
+
+    # ----------------------------
+    # auto-create config if missing
+    # ----------------------------
+    if not os.path.isfile(CONFIG_FILE):
+        create_default_config()
+        return base_paths
+
+    config = configparser.ConfigParser()
+
+    try:
+        config.read(CONFIG_FILE)
+
+        if config.has_section("proton") and config.has_option("proton", "paths"):
+            raw = config["proton"]["paths"]
+
+            for p in re.split(r"[;:\n]", raw):
+                p = os.path.expanduser(p.strip())
+                if p:
+                    base_paths.append(p)
+
+    except Exception:
+        # fail-safe: never break proton detection
+        return base_paths
+
+    # ----------------------------
+    # normalization + deduplication (SAFE VERSION)
+    # ----------------------------
+    cleaned = []
+    seen = set()
+
+    for p in base_paths:
+        if not p:
+            continue
+
+        # keep symlinks safe (Steam/Flatpak compatibility)
+        p = os.path.expanduser(p)
+        p = os.path.normpath(p)
+
+        # stable dedup key
+        key = p.lower()
+
+        if key in seen:
+            continue
+
+        seen.add(key)
+        cleaned.append(p)
+
+    return cleaned
 
 def proton_path(p):
     if isinstance(p, dict):
@@ -83,40 +157,50 @@ def list_protons():
         print(f"    {proton}\n")
 
 def print_diagnostic():
-    print("proton-autogen diagnostic")
-    print("")
+    print("proton-autogen diagnostic\n")
+
     print(f"Version      : {VERSION}")
-    print(f"Python       : {sys.version.split()[0]}")
-    print("")
+    print(f"Python       : {sys.version.split()[0]}\n")
 
     print("Runtime:")
     print(f"  proton-call : {'yes' if has_proton_call() else 'no'}")
     print(f"  wine        : {'yes' if has_wine() else 'no'}")
     print(f"  gamemode    : {'yes' if has_gamemode() else 'no'}")
-    print(f"  mangohud    : {'yes' if has_mangohud() else 'no'}")
-    print("")
+    print(f"  mangohud    : {'yes' if has_mangohud() else 'no'}\n")
 
-    print(f"Platform     : {sys.platform}")
-    print("")
+    print(f"Platform     : {sys.platform}\n")
 
     protons = find_all_protons()
+    print(f"Detected Proton installations: {len(protons)}\n")
 
-    print(f"Detected Proton installations: {len(protons)}")
-    print("")
+    if not protons:
+        print("  none\n")
+        return
 
-    if protons:
-        selected = find_proton()
-        selected_path = selected["path"] if isinstance(selected, dict) else selected
+    selected = find_proton()
 
-        for proton in sorted(protons, key=lambda x: os.path.basename(x).lower()):
-            marker = " [selected]" if proton == selected else ""
-
-            print(
-                f"  {os.path.basename(proton)}{marker}"
-            )
-            print(f"    {proton}")
+    # ----------------------------
+    # normalize selected → string path
+    # ----------------------------
+    if isinstance(selected, dict):
+        selected_path = selected.get("path")
     else:
-        print("  none")
+        selected_path = selected
+
+    selected_path = os.path.realpath(selected_path) if selected_path else None
+
+    # ----------------------------
+    # sort once
+    # ----------------------------
+    protons_sorted = sorted(protons, key=lambda x: os.path.basename(x).lower())
+
+    for proton in protons_sorted:
+        proton_real = os.path.realpath(proton)
+
+        marker = " [selected]" if selected_path and proton_real == selected_path else ""
+
+        print(f"  {os.path.basename(proton)}{marker}")
+        print(f"    {proton}")
 
     print("")
 
@@ -141,7 +225,7 @@ def find_all_protons():
     def normalize(name: str) -> str:
         return re.sub(r"[^a-z0-9]", "", name.lower())
 
-    for base in PROTON_PATHS:
+    for base in load_proton_paths():
         base = os.path.expanduser(base)
 
         if not os.path.isdir(base):
@@ -293,7 +377,7 @@ def find_proton():
         })
 
     # scan steam + system
-    for base in PROTON_PATHS:
+    for base in load_proton_paths():
         base = os.path.expanduser(base)
 
         if not os.path.exists(base):
@@ -310,7 +394,9 @@ def find_proton():
             continue
 
     # system proton explicit
-    add(find_system_proton())
+    p_system_proton = find_system_proton()
+    if p_system_proton:
+        add(p_system_proton)
 
     if not candidates:
         return None
@@ -466,7 +552,7 @@ def find_proton_by_name(name: str):
 
         return (priority, major, minor)
 
-    for base in PROTON_PATHS:
+    for base in load_proton_paths():
         base = os.path.expanduser(base)
 
         if not os.path.exists(base):

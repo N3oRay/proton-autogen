@@ -3,7 +3,7 @@
 import os
 import sys
 import subprocess
-from proton_autogen.backend import list_programs, add_game, load_game_config, find_proton_by_name, find_proton, has_gamemode, has_mangohud, normalize_flag, print_diagnostic, list_protons, has_proton_call, has_wine, proton_name, proton_path, PROTON_PATHS, VERSION
+from proton_autogen.backend import list_programs, add_game, load_game_config, find_proton_by_name, find_proton, has_gamemode, has_mangohud, normalize_flag, print_diagnostic, list_protons, has_proton_call, has_wine, proton_name, proton_path, load_proton_paths, VERSION
 
 
 DEBUG = "--debug" in sys.argv
@@ -16,7 +16,7 @@ def print_proton_paths():
     proton_count = 0
     steam_runtime_count = 0
 
-    for path in PROTON_PATHS:
+    for path in load_proton_paths():
         expanded = os.path.expanduser(path)
         real = os.path.realpath(expanded)
 
