@@ -100,7 +100,7 @@ sudo cp -r usr/lib/python3/dist-packages/proton_autogen \
                       /usr/lib/python3.*/site-packages/
 ```
 
-### Debian / Ubuntu
+### Debian / Ubuntu (manual install)
 
 ```bash
 
@@ -108,7 +108,7 @@ dpkg-buildpackage -b -us -uc
 sudo dpkg -i ../proton-autogen_*.deb
 ```
 
-### Debian Package
+### Debian Package (install only)
 
 ```bash
 sudo add-apt-repository ppa:n3oray/proton-autogen
