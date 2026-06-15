@@ -6,6 +6,7 @@
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 **Smart Proton launcher for Windows `.exe` files on Linux**
+
 Run Windows executables through Proton with zero Steam configuration.
 ---
 
