@@ -230,7 +230,8 @@ def run_game_proton(exe_path, proton, launch_mode="proton", enable_mangohud=Fals
     cmd = []
 
     if enable_gamemode and has_gamemode():
-        cmd.append("gamemoderun")
+        #cmd.append("gamemoderun")
+        env["GAMEMODE"] = "1"
 
 
     if launch_mode == "proton":
@@ -253,7 +254,8 @@ def run_game_proton(exe_path, proton, launch_mode="proton", enable_mangohud=Fals
         raise ValueError(f"Unknown launch mode: {launch_mode}")
 
     print(f"[proton-autogen] Launch mode: {launch_mode} - prefix : {prefix}")
-
+    print("[DEBUG] LD_PRELOAD final =", env.get("LD_PRELOAD"))
+    print("[DEBUG] PATH =", env.get("PATH"))
     result = subprocess.run(cmd, env=env)
     sys.exit(result.returncode)
 
@@ -332,7 +334,8 @@ def run(exe_path: str, launch_mode="proton"):
         if enable_gamemode:
             if has_gamemode():
                 print("[proton-autogen] GameMode enabled")
-                cmd.append("gamemoderun")
+                #cmd.append("gamemoderun")
+                env["GAMEMODE"] = "1"
         elif DEBUG:
             print("[proton-autogen] GameMode not found")
 
