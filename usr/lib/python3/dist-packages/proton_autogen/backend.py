@@ -14,7 +14,7 @@ import configparser
 CONFIG_FILE = os.path.expanduser("~/.config/proton-autogen.conf")
 CONFIG_DIR = os.path.expanduser("~/.config/proton-autogen/games")
 
-VERSION = "2.3.2"
+VERSION = "2.3.4"
 # ----------------------------
 # PROTON PATHS FIXED (robuste multi-distro)
 # ----------------------------

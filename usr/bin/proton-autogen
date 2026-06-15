@@ -3,6 +3,7 @@
 import os
 import sys
 import subprocess
+import hashlib
 from proton_autogen.backend import list_programs, add_game, load_game_config, find_proton_by_name, find_proton, has_gamemode, has_mangohud, normalize_flag, print_diagnostic, list_protons, has_proton_call, has_wine, proton_name, proton_path, load_proton_paths, VERSION
 
 
@@ -115,6 +116,7 @@ Notes:
   - Automatically selects best Proton version
   - Falls back to Wine if Proton is unavailable
   - Supports Steam, Flatpak, and compatibilitytools installs
+  - Config custom Proton locations with ~/.config/proton-autogen.conf
 """)
 
 
@@ -146,6 +148,8 @@ License : MIT
 
 Repository
 https://github.com/N3oRay/proton-autogen
+PPA
+sudo add-apt-repository ppa:n3oray/proton-autogen
 """)
 
 def print_runtime_info(proton, exe_path, mangohud_available):
@@ -179,8 +183,82 @@ def run_standard(exe_path: str):
         sys.exit(1)
 
 
+def base_env():
+    env = os.environ.copy()
 
-def run(exe_path: str):
+    # HARD CLEAN (important)
+    for k in [
+        "LD_PRELOAD",
+        "LD_LIBRARY_PATH",
+        "VK_ICD_FILENAMES",
+        "VK_DRIVER_FILES"
+    ]:
+        env.pop(k, None)
+
+    env["DXVK_HUD"] = "compiler"
+    env["RADV_PERFTEST"] = "gpl"
+    env["WINEESYNC"] = "1"
+    env["WINEFSYNC"] = "1"
+    env["WINE_SIMULATE_WRITECOPY"] = "1"
+    env["WINEDLLOVERRIDES"] = "winegstreamer=d"
+
+    return env
+
+
+def run_game_proton(exe_path, proton, launch_mode="proton", enable_mangohud=False, enable_gamemode=False):
+    env = base_env()
+
+    game_id = hashlib.md5(exe_path.encode()).hexdigest()
+
+    env["STEAM_COMPAT_DATA_PATH"] = os.path.expanduser(
+        f"~/Documents/Proton/prefixes/{game_id}"
+    )
+
+    prefix = env["STEAM_COMPAT_DATA_PATH"]
+    os.makedirs(prefix, exist_ok=True)
+
+    env["STEAM_COMPAT_CLIENT_INSTALL_PATH"] = os.path.expanduser(
+        "~/.steam/steam"
+    )
+
+    env["STEAM_COMPAT_TOOL_PATHS"] = proton_path(proton)
+
+    if enable_mangohud and has_mangohud():
+        env["MANGOHUD"] = "1"
+        env["DXVK_HUD"] = "0"
+
+    cmd = []
+
+    if enable_gamemode and has_gamemode():
+        cmd.append("gamemoderun")
+
+
+    if launch_mode == "proton":
+        proton_bin = os.path.join(proton_path(proton), "proton")
+
+        if not os.path.isfile(proton_bin):
+            raise FileNotFoundError(
+                f"Proton executable not found: {proton_bin}"
+            )
+
+        cmd += [
+            proton_bin,
+            "run",
+            exe_path
+        ]
+
+
+
+    else:
+        raise ValueError(f"Unknown launch mode: {launch_mode}")
+
+    print(f"[proton-autogen] Launch mode: {launch_mode} - prefix : {prefix}")
+
+    result = subprocess.run(cmd, env=env)
+    sys.exit(result.returncode)
+
+
+def run(exe_path: str, launch_mode="proton"):
     exe_path = os.path.abspath(exe_path)
 
     if not os.path.exists(exe_path):
@@ -235,17 +313,10 @@ def run(exe_path: str):
         print("Then restart Steam and try again.")
         sys.exit(1)
 
-    if has_proton_call():
-        env = os.environ.copy()
+    if launch_mode == "proton-call" and has_proton_call():
+        env = base_env()
         env["GE_PROTON"] = proton_path(proton)
         env["GAME_EXE"] = exe_path
-        # env gaming options OK
-        env["DXVK_HUD"] = "compiler"
-        env["RADV_PERFTEST"] = "gpl"
-        env["WINEESYNC"] = "1"
-        env["WINEFSYNC"] = "1"
-        env["WINE_SIMULATE_WRITECOPY"] = "1"
-        env["WINEDLLOVERRIDES"] = "winegstreamer=d"
 
         if enable_mangohud:
             if mangohud_available:
@@ -277,8 +348,12 @@ def run(exe_path: str):
         result = subprocess.run(cmd, env=env)
         sys.exit(result.returncode)
 
-    else:
+    elif launch_mode == "proton" and proton:
+        run_game_proton(exe_path, proton, "proton", enable_mangohud, enable_gamemode)
+
+    elif launch_mode == "wine":
         run_standard(exe_path)
+
 
 def main():
 
@@ -309,6 +384,13 @@ def main():
     if "--help" in sys.argv or "-h" in sys.argv:
         print_help()
         return
+    # Mode execution
+    launch_mode = "proton"
+
+    if "--call" in sys.argv:
+        launch_mode = "proton-call"
+    elif "--wine" in sys.argv:
+        launch_mode = "wine"
 
 
     if len(sys.argv) < 2:
@@ -326,9 +408,9 @@ def main():
         if len(sys.argv) < 3:
             print("Error: missing file.exe")
             return
-        run(sys.argv[2])
+        run(sys.argv[2],launch_mode)
     else:
-        run(sys.argv[1])
+        run(sys.argv[1],launch_mode)
 
 
 if __name__ == "__main__":
