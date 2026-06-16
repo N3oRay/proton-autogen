@@ -84,6 +84,8 @@ Information:
   proton-autogen --help
 
 Prefix:
+  proton_autogen --p
+  (Prefix : STEAM_COMPAT_DATA_PATH=~/Documents/Proton/env/Proton Custom/)
   proton-autogen --prefixauto
   proton-autogen --prefixshared
   (Prefix by default : ~/Documents/Proton/prefixes/main)
@@ -112,6 +114,7 @@ Options:
   --call         use Proton-Call
   --wine         use Wine
   --proton       use Proton only (run by default)
+  --o            For old Game (UT99 / DX8 / D3D8 !)
 
 Examples:
   proton-autogen add game.exe
@@ -191,7 +194,7 @@ def run_standard(exe_path: str):
         sys.exit(1)
 
 
-def base_env(enable_mangohud=False, enable_gamemode=False):
+def base_env(enable_mangohud=False, enable_gamemode=False, oldgame=False):
     env = os.environ.copy()
 
     # HARD CLEAN (important)
@@ -206,6 +209,15 @@ def base_env(enable_mangohud=False, enable_gamemode=False):
     env["PROTONFIXES_DISABLE"] = "1"
     env["PROTON_LOG"] = "1"
     env["WINEDEBUG"] = "err+all"
+
+    if oldgame:
+       print(f"[proton-autogen] Launch mode: OLD GAME support - UT99 / DX8 / D3D8 !")
+       env["PROTON_USE_WINED3D"] = "1"
+       env["WINEDLLOVERRIDES"] = "d3d8=n,b"
+       env["PROTON_NO_ESYNC"] = "1"
+       env["PROTON_NO_FSYNC"] = "1"
+
+
     if enable_mangohud == False:
         env["DXVK_HUD"] = "compiler"
         env["RADV_PERFTEST"] = "gpl"
@@ -225,71 +237,99 @@ def base_env(enable_mangohud=False, enable_gamemode=False):
     return env
 
 
-def run_game_proton(exe_path, proton, launch_mode="proton", enable_mangohud=False, enable_gamemode=False, prefix_mode="main"):
-    env = base_env(enable_mangohud, enable_gamemode)
+def run_game_proton(exe_path, proton, launch_mode="proton",
+                    enable_mangohud=False, enable_gamemode=False,
+                    prefix_mode="main", oldgame=False):
+
     game_id = hashlib.md5(exe_path.encode()).hexdigest()
 
-    if prefix_mode == "shared":
-        prefix_path = os.path.expanduser("~/Documents/Proton/prefixes/shared")
-    elif prefix_mode == "main":
-        prefix_path = os.path.expanduser("~/Documents/Proton/prefixes/main")
-    elif prefix_mode == "auto":
-        prefix_path = os.path.expanduser(
-            f"~/Documents/Proton/prefixes/{game_id}"
-        )
-    else:
-        prefix_path = os.path.expanduser("~/Documents/Proton/prefixes/main")
 
 
-    env["STEAM_COMPAT_DATA_PATH"] = prefix_path
-
-    prefix = env["STEAM_COMPAT_DATA_PATH"]
-    os.makedirs(prefix, exist_ok=True)
-
-    env["STEAM_COMPAT_CLIENT_INSTALL_PATH"] = os.path.expanduser(
-        "~/.steam/steam"
-    )
-
-    env["STEAM_COMPAT_TOOL_PATHS"] = proton_path(proton)
-
-    if enable_mangohud and has_mangohud():
-        env["MANGOHUD"] = "1"
-        env["DXVK_HUD"] = "0"
-
-    cmd = []
-
-    if enable_gamemode and has_gamemode():
-        #cmd.append("gamemoderun")
-        env["GAMEMODE"] = "1"
-
-
+    # =========================
+    # PROTON MODE
+    # =========================
     if launch_mode == "proton":
-        proton_bin = os.path.join(proton_path(proton), "proton")
 
-        if not os.path.isfile(proton_bin):
-            raise FileNotFoundError(
-                f"Proton executable not found: {proton_bin}"
-            )
+        env = base_env(
+            enable_mangohud=enable_mangohud,
+            enable_gamemode=enable_gamemode,
+            oldgame=oldgame
+        )
 
-        cmd += [
-            proton_bin,
+        if prefix_mode == "shared":
+            prefix_path = os.path.expanduser("~/Documents/Proton/prefixes/shared")
+        elif prefix_mode == "main":
+            prefix_path = os.path.expanduser("~/Documents/Proton/prefixes/main")
+        elif prefix_mode == "custom":
+            prefix_path = os.path.expanduser("~/Documents/Proton/env/Proton Custom")
+        elif prefix_mode == "auto":
+            prefix_path = os.path.expanduser(f"~/Documents/Proton/prefixes/{game_id}")
+        else:
+            prefix_path = os.path.expanduser("~/Documents/Proton/prefixes/main")
+
+        env["STEAM_COMPAT_DATA_PATH"] = prefix_path
+        os.makedirs(prefix_path, exist_ok=True)
+
+        env["STEAM_COMPAT_CLIENT_INSTALL_PATH"] = os.path.expanduser("~/.steam/steam")
+        env["STEAM_COMPAT_TOOL_PATHS"] = proton_path(proton)
+
+        cmd = [
+            os.path.join(proton_path(proton), "proton"),
             "run",
             exe_path
         ]
 
+    # =========================
+    # PROTON-CALL MODE
+    # =========================
+    elif launch_mode == "proton-call":
 
+        env = base_env(
+            enable_mangohud=enable_mangohud,
+            enable_gamemode=enable_gamemode,
+            oldgame=oldgame
+        )
+
+        # keep prefix if defined externally
+        if "STEAM_COMPAT_DATA_PATH" not in os.environ:
+            env.pop("STEAM_COMPAT_DATA_PATH", None)
+
+        for k in [
+            "STEAM_COMPAT_CLIENT_INSTALL_PATH",
+            "STEAM_COMPAT_TOOL_PATHS",
+            "STEAM_COMPAT_APP_ID"
+        ]:
+            env.pop(k, None)
+
+        cmd = [
+            "proton-call",
+            "-c", proton_path(proton),
+            "-r", exe_path
+        ]
 
     else:
         raise ValueError(f"Unknown launch mode: {launch_mode}")
 
-    print(f"[proton-autogen] Launch mode: {launch_mode} - prefix : {prefix}")
-    print("[DEBUG] LD_PRELOAD final =", env.get("LD_PRELOAD"))
-    print("[DEBUG] PATH =", env.get("PATH"))
+    # =========================
+    # COMMON OPTIONS
+    # =========================
+
+    if enable_mangohud and has_mangohud():
+        env["MANGOHUD"] = "1"
+        env["DXVK_HUD"] = "0"
+    else:
+        env.pop("MANGOHUD", None)
+
+    if enable_gamemode and has_gamemode():
+        env["GAMEMODE"] = "1"
+
+    print(f"[proton-autogen] Launch mode: {launch_mode}")
+
     result = subprocess.run(cmd, env=env)
     sys.exit(result.returncode)
 
 
-def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
+def run(exe_path: str, launch_mode="proton", prefix_mode="main", oldgame=False):
     exe_path = os.path.abspath(exe_path)
 
     if not os.path.exists(exe_path):
@@ -346,7 +386,11 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
         sys.exit(1)
 
     if launch_mode == "proton-call" and has_proton_call():
-        env = base_env(enable_mangohud, enable_gamemode)
+        env = base_env(
+            enable_mangohud=enable_mangohud,
+            enable_gamemode=enable_gamemode,
+            oldgame=oldgame
+        )
         env["GE_PROTON"] = proton_path(proton)
         env["GAME_EXE"] = exe_path
 
@@ -382,7 +426,7 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
         sys.exit(result.returncode)
 
     elif launch_mode == "proton" and proton:
-        run_game_proton(exe_path, proton, "proton", enable_mangohud, enable_gamemode, prefix_mode)
+        run_game_proton(exe_path, proton, "proton", enable_mangohud, enable_gamemode, prefix_mode, oldgame)
 
     elif launch_mode == "wine":
         run_standard(exe_path)
@@ -434,6 +478,13 @@ def main():
         prefix_mode = "shared"
     elif "--prefixauto" in sys.argv:
         prefix_mode = "auto"
+    elif "--p" in sys.argv:
+        prefix_mode = "custom"
+
+    # Mode old game support (sample: UT99)
+    oldgame = False
+    if "--o" in sys.argv:
+        oldgame = True
 
 
     if len(sys.argv) < 2:
@@ -451,9 +502,9 @@ def main():
         if len(sys.argv) < 3:
             print("Error: missing file.exe")
             return
-        run(sys.argv[2],launch_mode, prefix_mode)
+        run(sys.argv[2],launch_mode, prefix_mode, oldgame)
     else:
-        run(sys.argv[1],launch_mode, prefix_mode)
+        run(sys.argv[1],launch_mode, prefix_mode, oldgame)
 
 
 if __name__ == "__main__":

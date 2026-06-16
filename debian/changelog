@@ -1,4 +1,4 @@
-proton-autogen (2.3.6) noble; urgency=medium
+proton-autogen (2.3.7) noble; urgency=medium
 
   * Initial Launchpad release
   * Improve Proton detection
