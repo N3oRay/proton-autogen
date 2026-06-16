@@ -118,7 +118,6 @@ Options:
   --call         use Proton-Call
   --wine         use Wine
   --proton       use Proton only (run by default)
-  --o            For old Game (UT99 / DX8 / D3D8 !)
 
 Examples:
   proton-autogen add game.exe
@@ -218,52 +217,299 @@ def run_standard(exe_path: str):
         sys.exit(1)
 
 
-def base_env(enable_mangohud=False, enable_gamemode=False, oldgame=False):
+def detect_exe_type(exe_path: str) -> str:
+    """
+    Simple heuristic to classify executable type for proton-autogen.
+    Returns: launcher | dx11 | dx12 | oldgame
+    """
 
-    # Build a clean Wine/Proton environment for game execution.
+    name = os.path.basename(exe_path).lower()
 
-    # Removes potentially conflicting host variables, applies common
-    # Proton/Wine optimizations, and enables compatibility tweaks for
-    # older DirectX 8 era games when requested.
+    # -----------------------------
+    # 1. LAUNCHERS (highest priority)
+    # -----------------------------
+    launcher_keywords = [
+        "battle.net",
+        "battlenet",
+        "agent",
+        "launcher",
+        "ubisoft connect",
+        "ubisoft",
+        "uplay",
+        "epicgameslauncher",
+        "steamwebhelper",
+        "ea app",
+        "eadesktop",
+        "origin",
+    ]
+
+    if any(k in name for k in launcher_keywords):
+        return "launcher"
+
+    # -----------------------------
+    # 2. OLD GAMES (DX8 / DX9 era)
+    # -----------------------------
+    oldgame_keywords = [
+        "dx8",
+        "dx9",
+        "directx 8",
+        "directx 9",
+
+        "rcr",
+        "swep1rcr",
+        "ut99",
+        "quake",
+        "hl1",
+        "half-life",
+        "doom95",
+    ]
+
+    if any(k in name for k in oldgame_keywords):
+        return "oldgame"
+
+    # -----------------------------
+    # 3. DX12 GAMES (modern AAA)
+    # -----------------------------
+    dx12_keywords = [
+        "dx12",
+        "d3d12",
+        "cyberpunk",
+        "starfield",
+        "hogwarts",
+        "elden",
+        "diablo",
+        "warzone",
+    ]
+
+    if any(k in name for k in dx12_keywords):
+        return "dx12"
+    # -----------------------------
+    # 5. LAUNCHERS (highest priority)
+    # -----------------------------
+    ut99_keywords = [
+        "ut99",
+        "unrealtournament",
+    ]
+    if any(k in name for k in ut99_keywords):
+        return "ut99"
+
+
+    # -----------------------------
+    # 4. DEFAULT = DX11 (safe fallback)
+    # -----------------------------
+    return "dx11"
+# ---------------------------------------------------
+# BASE CLEANER (shared)
+# ---------------------------------------------------
+def init_env():
     env = os.environ.copy()
 
-    # HARD CLEAN (important)
     for k in [
         "LD_PRELOAD",
         "LD_LIBRARY_PATH",
         "VK_ICD_FILENAMES",
-        "VK_DRIVER_FILES"
+        "VK_DRIVER_FILES",
+        "DXVK_HUD",
+        "VKD3D_CONFIG",
+        "WINEDEBUG",
+        "RADV_PERFTEST",
     ]:
         env.pop(k, None)
 
-    env["PROTONFIXES_DISABLE"] = "1"
+
     env["PROTON_LOG"] = "1"
-    env["WINEDEBUG"] = "err+all"
-
-    if oldgame:
-       print(f"[proton-autogen] Launch mode: OLD GAME support - UT99 / DX8 / D3D8 !")
-       env["PROTON_USE_WINED3D"] = "1"
-       env["WINEDLLOVERRIDES"] = "d3d8=n,b"
-       env["PROTON_NO_ESYNC"] = "1"
-       env["PROTON_NO_FSYNC"] = "1"
-
-
-    if enable_mangohud == False:
-        env["DXVK_HUD"] = "compiler"
-        env["RADV_PERFTEST"] = "gpl"
-        env["WINEESYNC"] = "1"
-        env["WINEFSYNC"] = "1"
+    env["WINEDEBUG"] = "-all"
+    env["STEAM_COMPAT_APP_ID"] = "0"
 
     env["vblank_mode"] = "0"
     env["mesa_glthread"] = "true"
 
+    return env
+
+
+# ---------------------------------------------------
+# 1. LAUNCHER PROFILE (Battle.net, EA App, Ubisoft)
+# ---------------------------------------------------
+def env_launcher():
+    env = init_env()
+
+    print("[proton-autogen] PROFILE: LAUNCHER")
+
+    env["PROTON_NO_ESYNC"] = "1"
+    env["PROTON_NO_FSYNC"] = "1"
+
+    env["WINEDLLOVERRIDES"] = ""
+    env["PROTONFIXES_DISABLE"] = "1"
+
+    # IMPORTANT: stability > performance
     env["WINE_SIMULATE_WRITECOPY"] = "1"
-    env["WINEDLLOVERRIDES"] = "winegstreamer=d"
+
+    return env
 
 
-    env["STEAM_COMPAT_APP_ID"] = "0"
-    env["PROTON_DISABLE_XALIA"] = "1"
+# ---------------------------------------------------
+# 2. DX11 PROFILE (most games)
+# ---------------------------------------------------
+def env_dx11():
+    env = init_env()
 
+    print("[proton-autogen] PROFILE: DX11")
+
+    env["PROTON_NO_ESYNC"] = "0"
+    env["PROTON_NO_FSYNC"] = "0"
+
+    env["WINEDLLOVERRIDES"] = ""
+
+    # Optional perf
+    env["DXVK_HUD"] = "compiler"
+
+    # Safe modern Vulkan behavior
+    env["WINE_SIMULATE_WRITECOPY"] = "1"
+
+    return env
+
+
+# ---------------------------------------------------
+# 3. DX12 PROFILE (VKD3D)
+# ---------------------------------------------------
+def env_dx12():
+    env = init_env()
+
+    print("[proton-autogen] PROFILE: DX12")
+
+    env["PROTON_NO_ESYNC"] = "0"
+    env["PROTON_NO_FSYNC"] = "0"
+
+    # VKD3D tuning (safe default)
+    env["VKD3D_CONFIG"] = "dxr"
+
+    env["WINEDLLOVERRIDES"] = ""
+
+    # DO NOT enable RADV_PERFTEST by default (breaks some setups)
+    # env["RADV_PERFTEST"] = "gpl"  # optional advanced users only
+
+    return env
+
+
+# ---------------------------------------------------
+# 4. OLD GAME PROFILE (DX8 / DX9 / WineD3D)
+# ---------------------------------------------------
+def env_oldgame():
+    env = init_env()
+
+    print("[proton-autogen] PROFILE: OLD GAME (DX8/DX9)")
+
+    env["PROTON_USE_WINED3D"] = "1"
+
+    env["WINEDLLOVERRIDES"] = "d3d8=n,b"
+
+    env["PROTON_NO_ESYNC"] = "1"
+    env["PROTON_NO_FSYNC"] = "1"
+
+    # disable DXVK completely behaviorally (WineD3D takes over)
+    env.pop("DXVK_HUD", None)
+
+    return env
+
+# ---------------------------------------------------
+# 5.  PROFILE (UnrealTournament)
+# ---------------------------------------------------
+
+def env_ut99():
+    env = init_env()
+
+    print("[proton-autogen] PROFILE: UNREAL TOURNAMENT (UT99)")
+
+    env["PROTON_NO_ESYNC"] = "1"
+    env["PROTON_NO_FSYNC"] = "1"
+    env["PROTON_USE_WINED3D"] = "1"
+    env["WINEDLLOVERRIDES"] = "d3d8=n,b"
+
+    # sécurité : éviter toute interférence DXVK / async layers
+    env.pop("DXVK_HUD", None)
+    env["WINEESYNC"] = "0"
+    env["WINEFSYNC"] = "0"
+
+    return env
+
+def base_env(enable_mangohud=False, enable_gamemode=False, exe_path=""):
+    exe_type = detect_exe_type(exe_path)
+    print(f"[proton-autogen] Detected exe_type: {exe_type}")
+
+    """
+    Build a clean Wine/Proton environment for game execution.
+
+    Profiles:
+        launcher -> Battle.net, EA App, Ubisoft Connect
+        dx11     -> standard games (DX11/DX9 via DXVK)
+        dx12     -> VKD3D-Proton games
+        oldgame  -> DX8/DX9 WineD3D fallback
+    """
+    if exe_type == "launcher":
+        env = env_launcher()
+
+    elif exe_type == "dx11":
+        env = env_dx11()
+
+    elif exe_type == "dx12":
+        env = env_dx12()
+
+    elif exe_type == "ut99":
+        env = env_ut99()
+
+    elif exe_type == "oldgame":
+        env = env_oldgame()
+
+    else:
+        env = env_dx11()
+
+    # -----------------------------
+    # MangoHud
+    # -----------------------------
+    if enable_mangohud:
+        env["MANGOHUD"] = "1"
+    else:
+        env.pop("MANGOHUD", None)
+
+    # -----------------------------
+    # GameMode
+    # -----------------------------
+    if enable_gamemode:
+        env["GAMEMODE"] = "1"
+
+    # -----------------------------
+    # DEBUG HUD (safe only)
+    # -----------------------------
+    if exe_type in ("dx11", "dx12") and not enable_mangohud:
+        env["DXVK_HUD"] = "compiler"
+
+    # ❌ IMPORTANT: DO NOT force RADV_PERFTEST globally
+    # env["RADV_PERFTEST"] = "gpl"  ← SUPPRIMÉ
+
+    # -----------------------------
+    # ESYNC/FSYNC SAFE
+    # -----------------------------
+    if exe_type == "launcher":
+        env["WINEESYNC"] = "0"
+        env["WINEFSYNC"] = "0"
+
+    elif exe_type == "oldgame":
+        # respect strict legacy profile
+        env["WINEESYNC"] = "0"
+        env["WINEFSYNC"] = "0"
+
+    elif exe_type == "ut99":
+        # respect strict legacy profile
+        env["WINEESYNC"] = "0"
+        env["WINEFSYNC"] = "0"
+
+    else:
+        env["WINEESYNC"] = "1"
+        env["WINEFSYNC"] = "1"
+
+    print(f"[proton-autogen] SYNC: WINEESYNC={env.get('WINEESYNC')} WINEFSYNC={env.get('WINEFSYNC')}")
+    print(f"[proton-autogen] SYNC: PROTON_NO_FSYNC={env.get('PROTON_NO_FSYNC')} PROTON_NO_ESYNC={env.get('PROTON_NO_ESYNC')}")
+    print(f"[proton-autogen] SYNC: WINEDLLOVERRIDES={env.get('WINEDLLOVERRIDES')} DXVK_HUD={env.get('DXVK_HUD')}")
     return env
 
 
@@ -309,7 +555,7 @@ def get_prefix_path(prefix_mode: str, exe_path: str) -> str:
 
 def run_game_proton(exe_path, proton, launch_mode="proton",
                     enable_mangohud=False, enable_gamemode=False,
-                    prefix_mode="main", oldgame=False):
+                    prefix_mode="main"):
 
     game_id = hashlib.md5(exe_path.encode()).hexdigest()
 
@@ -321,7 +567,7 @@ def run_game_proton(exe_path, proton, launch_mode="proton",
         env = base_env(
             enable_mangohud=enable_mangohud,
             enable_gamemode=enable_gamemode,
-            oldgame=oldgame
+            exe_path=exe_path
         )
 
         prefix_path = get_prefix_path(prefix_mode, exe_path)
@@ -348,7 +594,7 @@ def run_game_proton(exe_path, proton, launch_mode="proton",
         env = base_env(
             enable_mangohud=enable_mangohud,
             enable_gamemode=enable_gamemode,
-            oldgame=oldgame
+            exe_path=exe_path
         )
 
         # keep prefix if defined externally
@@ -390,7 +636,7 @@ def run_game_proton(exe_path, proton, launch_mode="proton",
     sys.exit(result.returncode)
 
 
-def run(exe_path: str, launch_mode="proton", prefix_mode="main", oldgame=False):
+def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
     exe_path = os.path.abspath(exe_path)
 
     if not os.path.exists(exe_path):
@@ -450,7 +696,7 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", oldgame=False):
         env = base_env(
             enable_mangohud=enable_mangohud,
             enable_gamemode=enable_gamemode,
-            oldgame=oldgame
+            exe_path=exe_path
         )
         env["GE_PROTON"] = proton_path(proton)
         env["GAME_EXE"] = exe_path
@@ -487,7 +733,7 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", oldgame=False):
         sys.exit(result.returncode)
 
     elif launch_mode == "proton" and proton:
-        run_game_proton(exe_path, proton, "proton", enable_mangohud, enable_gamemode, prefix_mode, oldgame)
+        run_game_proton(exe_path, proton, "proton", enable_mangohud, enable_gamemode, prefix_mode)
 
     elif launch_mode == "wine":
         run_standard(exe_path)
@@ -542,12 +788,6 @@ def main():
     elif "--pc" in sys.argv:
         prefix_mode = "custom"
 
-    # Mode old game support (sample: UT99)
-    oldgame = False
-    if "--o" in sys.argv:
-        oldgame = True
-
-
     if len(sys.argv) < 2:
         print("Usage: proton-autogen <file.exe>")
         return
@@ -563,9 +803,9 @@ def main():
         if len(sys.argv) < 3:
             print("Error: missing file.exe")
             return
-        run(sys.argv[2],launch_mode, prefix_mode, oldgame)
+        run(sys.argv[2],launch_mode, prefix_mode)
     else:
-        run(sys.argv[1],launch_mode, prefix_mode, oldgame)
+        run(sys.argv[1],launch_mode, prefix_mode)
 
 
 if __name__ == "__main__":
