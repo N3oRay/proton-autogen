@@ -234,7 +234,7 @@ nautilus -q
 * [x] Per-application profiles
 * [x] Advanced prefix control (Steam compatdata integration)
 * [x] Configuration file support
-* [ ] Game / Installer auto-detection
+* [x] Game / Installer auto-detection
 * [ ] GUI frontend
 * [ ] ProtonDB integration
 * [ ] Lutris integration
