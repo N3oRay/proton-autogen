@@ -1,0 +1,1501 @@
+neoray@neoray-H55N-USB3:~/Documents/Proton/env/main/pfx/drive_c/Program Files (x86)/Battle.net$ proton-autogen Battle.net\ Launcher.exe
+[proton-autogen] Runtime information
+  Executable : /home/neoray/Documents/Proton/env/main/pfx/drive_c/Program Files (x86)/Battle.net/Battle.net Launcher.exe
+  Proton     : GE-Proton10-34
+  Path       : /home/neoray/.steam/debian-installation/compatibilitytools.d/GE-Proton10-34
+  proton-call: detected
+  GameMode  : available
+  MangoHud  : available
+
+[proton-autogen] Prefix mode : main
+[proton-autogen] Prefix path : /home/neoray/Documents/Proton/env/main
+[proton-autogen] Launch mode: proton
+ProtonFixes[2556] WARN: Skipping fix execution. We are probably running a unit test.
+ProtonFixes[2556] WARN: Skipping fix execution. We are probably running a unit test.
+fsync: up and running.
+info:  Game: xalia.exe
+info:  DXVK: v2.7.1-509-g1676dcaf342a9b1
+info:  Build: x86_64 gcc 14.2.0
+info:  Vulkan: Found vkGetInstanceProcAddr in winevulkan.dll @ 0x6ffffcd0fbf0
+info:  Extension providers:
+info:    Platform WSI
+info:    OpenVR
+info:  OpenVR: could not open registry key, status 2
+warn:  OpenVR: Failed to initialize OpenVR
+info:    OpenXR
+warn:  OpenXR: Unable to get required Vulkan instance extensions size
+info:  Enabled instance extensions:
+info:    VK_EXT_surface_maintenance1
+info:    VK_KHR_get_surface_capabilities2
+info:    VK_KHR_surface
+info:    VK_KHR_win32_surface
+neoray@neoray-H55N-USB3:~/Documents/Proton/env/main/pfx/drive_c/Program Files (x86)/Battle.net$ info:  Found device: AMD Radeon RX 570 Series (RADV POLARIS10) (radv 25.2.8)
+info:  Found device: llvmpipe (LLVM 20.1.2, 128 bits) (llvmpipe 25.2.8)
+info:    Skipping: Software driver
+warn:  OpenXR: Unable to get required Vulkan Device extensions size
+info:  Game: Agent.exe
+info:  DXVK: v2.7.1-509-g1676dcaf342a9b1
+info:  Build: x86 gcc 14.2.0
+info:  Vulkan: Found vkGetInstanceProcAddr in winevulkan.dll @ 0x6a1a4030
+info:  Extension providers:
+info:    Platform WSI
+info:    OpenVR
+info:  OpenVR: could not open registry key, status 2
+warn:  OpenVR: Failed to initialize OpenVR
+info:    OpenXR
+info:  Enabled instance extensions:
+info:    VK_EXT_surface_maintenance1
+info:    VK_KHR_get_surface_capabilities2
+info:    VK_KHR_surface
+info:    VK_KHR_win32_surface
+info:  Found device: AMD Radeon RX 570 Series (RADV POLARIS10) (radv 25.2.8)
+info:  Found device: llvmpipe (LLVM 20.1.2, 128 bits) (llvmpipe 25.2.8)
+info:    Skipping: Software driver
+info:  Game: Battle.net.exe
+info:  DXVK: v2.7.1-509-g1676dcaf342a9b1
+info:  Build: x86 gcc 14.2.0
+info:  Vulkan: Found vkGetInstanceProcAddr in winevulkan.dll @ 0x69144030
+info:  Extension providers:
+info:    Platform WSI
+info:    OpenVR
+info:  OpenVR: could not open registry key, status 2
+warn:  OpenVR: Failed to initialize OpenVR
+info:    OpenXR
+info:  Enabled instance extensions:
+info:    VK_EXT_surface_maintenance1
+info:    VK_KHR_get_surface_capabilities2
+info:    VK_KHR_surface
+info:    VK_KHR_win32_surface
+info:  Found device: AMD Radeon RX 570 Series (RADV POLARIS10) (radv 25.2.8)
+info:  Found device: llvmpipe (LLVM 20.1.2, 128 bits) (llvmpipe 25.2.8)
+info:    Skipping: Software driver
+info:  Game: Battle.net.exe
+info:  DXVK: v2.7.1-509-g1676dcaf342a9b1
+info:  Build: x86 gcc 14.2.0
+info:  Vulkan: Found vkGetInstanceProcAddr in winevulkan.dll @ 0x68474030
+info:  Extension providers:
+info:    Platform WSI
+info:    OpenVR
+info:  OpenVR: could not open registry key, status 2
+warn:  OpenVR: Failed to initialize OpenVR
+info:    OpenXR
+info:  Game: Battle.net.exe
+info:  DXVK: v2.7.1-509-g1676dcaf342a9b1
+info:  Build: x86 gcc 14.2.0
+info:  Enabled instance extensions:
+info:    VK_EXT_surface_maintenance1
+info:    VK_KHR_get_surface_capabilities2
+info:    VK_KHR_surface
+info:    VK_KHR_win32_surface
+info:  Vulkan: Found vkGetInstanceProcAddr in winevulkan.dll @ 0x68474030
+info:  Extension providers:
+info:    Platform WSI
+info:    OpenVR
+info:  OpenVR: could not open registry key, status 2
+warn:  OpenVR: Failed to initialize OpenVR
+info:    OpenXR
+info:  Found device: AMD Radeon RX 570 Series (RADV POLARIS10) (radv 25.2.8)
+info:  Found device: llvmpipe (LLVM 20.1.2, 128 bits) (llvmpipe 25.2.8)
+info:    Skipping: Software driver
+info:  D3D11InternalCreateDevice: Maximum supported feature level: D3D_FEATURE_LEVEL_12_0
+info:  D3D11InternalCreateDevice: Using feature level D3D_FEATURE_LEVEL_11_1
+info:  Creating device:
+info:  AMD Radeon RX 570 Series (RADV POLARIS10):
+info:    Driver   : radv 25.2.8
+info:  Queues:
+info:    Graphics : (0, 0)
+info:    Transfer : (1, 0)
+info:    Sparse   : (0, 0)
+info:  Memory:
+info:    Heap 0: 3.75 GiB (DEVICE_LOCAL)
+info:    Budget: 3.50 GiB
+info:      Type  0: DEVICE_LOCAL
+info:      Type  1: DEVICE_LOCAL
+info:    Heap 1: 3.84 GiB
+info:    Budget: 3.81 GiB
+info:      Type  2: HOST_VISIBLE | HOST_COHERENT
+info:      Type  5: HOST_VISIBLE | HOST_COHERENT | HOST_CACHED
+info:      Type  6: HOST_VISIBLE | HOST_COHERENT | HOST_CACHED
+info:    Heap 2: 256 MiB (DEVICE_LOCAL)
+info:    Budget: 223 MiB
+info:      Type  3: DEVICE_LOCAL | HOST_VISIBLE | HOST_COHERENT
+info:      Type  4: DEVICE_LOCAL | HOST_VISIBLE | HOST_COHERENT
+info:  Enabled extensions:
+info:    VK_EXT_attachment_feedback_loop_layout
+info:    VK_EXT_custom_border_color
+info:    VK_EXT_depth_clip_enable
+info:    VK_EXT_depth_bias_control
+info:    VK_EXT_descriptor_buffer
+info:    VK_EXT_extended_dynamic_state3
+info:    VK_EXT_graphics_pipeline_library
+info:    VK_EXT_hdr_metadata
+info:    VK_EXT_line_rasterization
+info:    VK_EXT_memory_priority
+info:    VK_EXT_multi_draw
+info:    VK_EXT_non_seamless_cube_map
+info:    VK_EXT_robustness2
+info:    VK_EXT_sample_locations
+info:    VK_EXT_shader_module_identifier
+info:    VK_EXT_shader_stencil_export
+info:    VK_EXT_swapchain_maintenance1
+info:    VK_EXT_transform_feedback
+info:    VK_EXT_vertex_attribute_divisor
+info:    VK_KHR_external_memory_win32
+info:    VK_KHR_external_semaphore_win32
+info:    VK_KHR_load_store_op_none
+info:    VK_KHR_maintenance5
+info:    VK_KHR_maintenance6
+info:    VK_KHR_maintenance8
+info:    VK_KHR_maintenance9
+info:    VK_KHR_pipeline_library
+info:    VK_KHR_present_id
+info:    VK_KHR_present_wait
+info:    VK_KHR_shader_float_controls2
+info:    VK_KHR_shader_subgroup_uniform_control_flow
+info:    VK_KHR_swapchain
+info:    VK_KHR_swapchain_mutable_format
+info:    VK_KHR_win32_keyed_mutex
+info:  Enabled features:
+info:    depthBiasClamp                 : 1
+info:    depthBounds                    : 1
+info:    depthClamp                     : 1
+info:    drawIndirectFirstInstance      : 1
+info:    dualSrcBlend                   : 1
+info:    fillModeNonSolid               : 1
+info:    fragmentStoresAndAtomics       : 1
+info:    fullDrawIndexUint32            : 1
+info:    geometryShader                 : 1
+info:    imageCubeArray                 : 1
+info:    independentBlend               : 1
+info:    logicOp                        : 1
+info:    multiDrawIndirect              : 1
+info:    multiViewport                  : 1
+info:    occlusionQueryPrecise          : 1
+info:    pipelineStatisticsQuery        : 1
+info:    robustBufferAccess             : 1
+info:    sampleRateShading              : 1
+info:    samplerAnisotropy              : 1
+info:    shaderClipDistance             : 1
+info:    shaderCullDistance             : 1
+info:    shaderFloat64                  : 1
+info:    shaderImageGatherExtended      : 1
+info:    shaderInt16                    : 1
+info:    shaderInt64                    : 1
+info:    shaderUniformBufferArrayDynamicIndexing : 1
+info:    shaderSampledImageArrayDynamicIndexing : 1
+info:    shaderStorageBufferArrayDynamicIndexing : 1
+info:    shaderStorageImageArrayDynamicIndexing : 1
+info:    sparseBinding                  : 1
+info:    sparseResidencyBuffer          : 1
+info:    sparseResidencyImage2D         : 1
+info:    sparseResidencyImage3D         : 1
+info:    sparseResidency2Samples        : 0
+info:    sparseResidency4Samples        : 0
+info:    sparseResidency8Samples        : 0
+info:    sparseResidency16Samples       : 0
+info:    sparseResidencyAliased         : 1
+info:    shaderResourceResidency        : 1
+info:    shaderResourceMinLod           : 1
+info:    tessellationShader             : 1
+info:    textureCompressionBC           : 1
+info:    variableMultisampleRate        : 1
+info:    vertexPipelineStoresAndAtomics : 1
+info:    wideLines                      : 1
+info:    shaderDrawParameters           : 1
+info:    storagePushConstant16          : 1
+info:    bufferDeviceAddress            : 1
+info:    descriptorIndexing             : 1
+info:    shaderUniformTexelBufferArrayDynamicIndexing : 1
+info:    shaderStorageTexelBufferArrayDynamicIndexing : 1
+info:    shaderUniformBufferArrayNonUniformIndexing : 1
+info:    shaderSampledImageArrayNonUniformIndexing : 1
+info:    shaderStorageBufferArrayNonUniformIndexing : 1
+info:    shaderStorageImageArrayNonUniformIndexing : 1
+info:    shaderUniformTexelBufferArrayNonUniformIndexing : 1
+info:    shaderStorageTexelBufferArrayNonUniformIndexing : 1
+info:    descriptorBindingSampledImageUpdateAfterBind : 1
+info:    descriptorBindingUpdateUnusedWhilePending : 1
+info:    descriptorBindingPartiallyBound : 1
+info:    drawIndirectCount              : 1
+info:    hostQueryReset                 : 1
+info:    runtimeDescriptorArray         : 1
+info:    samplerFilterMinmax            : 1
+info:    samplerMirrorClampToEdge       : 1
+info:    scalarBlockLayout              : 1
+info:    shaderFloat16                  : 0
+info:    shaderInt8                     : 1
+info:    shaderOutputViewportIndex      : 1
+info:    shaderOutputLayer              : 1
+info:    timelineSemaphore              : 1
+info:    uniformBufferStandardLayout    : 1
+info:    vulkanMemoryModel              : 1
+info:    computeFullSubgroups           : 1
+info:    dynamicRendering               : 1
+info:    maintenance4                   : 1
+info:    robustImageAccess              : 0
+info:    pipelineCreationCacheControl   : 1
+info:    shaderDemoteToHelperInvocation : 1
+info:    shaderZeroInitializeWorkgroupMemory : 1
+info:    subgroupSizeControl            : 1
+info:    synchronization2               : 1
+info:  VK_EXT_attachment_feedback_loop_layout:
+info:    attachmentFeedbackLoopLayout   : 1
+info:  VK_EXT_border_color_swizzle:
+info:    borderColorSwizzle             : 0
+info:    borderColorSwizzleFromImage    : 0
+info:  VK_EXT_conservative_rasterization:
+info:    extConservativeRasterization   : 0
+info:  VK_EXT_custom_border_color:
+info:    customBorderColors             : 1
+info:    customBorderColorWithoutFormat : 1
+info:  VK_EXT_depth_clip_enable:
+info:    depthClipEnable                : 1
+info:  VK_EXT_depth_bias_control:
+info:    depthBiasControl               : 1
+info:    leastRepresentableValueForceUnormRepresentation : 1
+info:    floatRepresentation            : 1
+info:    depthBiasExact                 : 1
+info:  VK_EXT_descriptor_buffer:
+info:    descriptorBuffer               : 1
+info:  VK_EXT_descriptor_heap:
+info:    descriptorHeap                 : 0
+info:  VK_EXT_extended_dynamic_state3:
+info:    extendedDynamicState3AlphaToCoverageEnable : 1
+info:    extendedDynamicState3DepthClipEnable : 1
+info:    extendedDynamicState3RasterizationSamples : 1
+info:    extendedDynamicState3SampleMask : 1
+info:    extendedDynamicState3LineRasterizationMode : 1
+info:    extendedDynamicState3SampleLocationsEnable : 1
+info:  VK_EXT_fragment_shader_interlock:
+info:    fragmentShaderSampleInterlock  : 0
+info:    fragmentShaderPixelInterlock   : 0
+info:  VK_EXT_full_screen_exclusive:
+info:    extFullScreenExclusive         : 0
+info:  VK_EXT_graphics_pipeline_library:
+info:    graphicsPipelineLibrary        : 1
+info:  VK_EXT_hdr_metadata:
+info:    extHdrMetadata                 : 1
+info:  VK_EXT_line_rasterization:
+info:    rectangularLines               : 1
+info:    smoothLines                    : 1
+info:  VK_EXT_memory_budget:
+info:    extMemoryBudget                : 1
+info:  VK_EXT_memory_priority:
+info:    memoryPriority                 : 1
+info:  VK_EXT_multi_draw:
+info:    multiDraw                      : 1
+info:  VK_EXT_non_seamless_cube_map:
+info:    nonSeamlessCubeMap             : 1
+info:  VK_EXT_pageable_device_local_memory:
+info:    pageableDeviceLocalMemory      : 0
+info:  VK_EXT_robustness2:
+info:    robustBufferAccess2            : 1
+info:    robustImageAccess2             : 1
+info:    nullDescriptor                 : 1
+info:  VK_EXT_sample_locations:
+info:    extSampleLocations             : 1
+info:  VK_EXT_shader_module_identifier:
+info:    shaderModuleIdentifier         : 1
+info:  VK_EXT_shader_stencil_export:
+info:    extShaderStencilExport         : 1
+info:  VK_EXT_swapchain_colorspace:
+info:    extSwapchainColorSpace         : 0
+info:  VK_EXT_swapchain_maintenance1:
+info:    swapchainMaintenance1          : 1
+info:  VK_EXT_transform_feedback:
+info:    transformFeedback              : 1
+info:    geometryStreams                : 1
+info:  VK_EXT_vertex_attribute_divisor:
+info:    vertexAttributeInstanceRateDivisor : 1
+info:    vertexAttributeInstanceRateZeroDivisor : 1
+info:  VK_KHR_external_memory_win32:
+info:    khrExternalMemoryWin32         : 1
+info:  VK_KHR_external_semaphore_win32:
+info:    khrExternalSemaphoreWin32      : 1
+info:  VK_KHR_load_store_op_none:
+info:    khrLoadStoreOpNone             : 1
+info:  VK_KHR_maintenance5:
+info:    maintenance5                   : 1
+info:  VK_KHR_maintenance6:
+info:    maintenance6                   : 1
+info:  VK_KHR_maintenance7:
+info:    maintenance7                   : 0
+info:  VK_KHR_maintenance8:
+info:    maintenance8                   : 1
+info:  VK_KHR_maintenance9:
+info:    maintenance9                   : 1
+info:  VK_KHR_maintenance10:
+info:    maintenance10                  : 0
+info:  VK_KHR_pipeline_library:
+info:    khrPipelineLibrary             : 1
+info:  VK_KHR_present_id:
+info:    presentId                      : 1
+info:  VK_KHR_present_id2:
+info:    presentId2                     : 0
+info:  VK_KHR_present_wait:
+info:    presentWait                    : 1
+info:  VK_KHR_present_wait2:
+info:    presentWait2                   : 0
+info:  VK_KHR_shader_float_controls2:
+info:    shaderFloatControls2           : 1
+info:  VK_KHR_shader_subgroup_uniform_control_flow:
+info:    shaderSubgroupUniformControlFlow : 1
+info:  VK_KHR_shader_untyped_pointers:
+info:    shaderUntypedPointers          : 0
+info:  VK_KHR_swapchain:
+info:    khrSwapchain                   : 1
+info:  VK_KHR_swapchain_maintenance1:
+info:    swapchainMaintenance1          : 0
+info:  VK_KHR_swapchain_mutable_format:
+info:    khrSwapchainMutableFormat      : 1
+info:  VK_KHR_unified_image_layouts:
+info:    unifiedImageLayouts            : 0
+info:  VK_KHR_win32_keyed_mutex:
+info:    khrWin32KeyedMutex             : 1
+info:  VK_NV_low_latency2:
+info:    nvLowLatency2                  : 0
+info:  VK_NV_raw_access_chains:
+info:    shaderRawAccessChains          : 0
+info:  VK_NVX_binary_import:
+info:    nvxBinaryImport                : 0
+info:  VK_NVX_image_view_handle:
+info:    nvxImageViewHandle             : 0
+info:  Enabled instance extensions:
+info:    VK_EXT_surface_maintenance1
+info:    VK_KHR_get_surface_capabilities2
+info:    VK_KHR_surface
+info:    VK_KHR_win32_surface
+info:  Descriptor sizes (set alignment: 64)
+info:    Sampler              : 16
+info:    Uniform buffer       : 16
+info:    Storage buffer       : 16
+info:    Uniform texel buffer : 16
+info:    Storage texel buffer : 16
+info:    Sampled image        : 64
+info:    Storage image        : 32
+info:  Memory type mask for sparse resources: 0x2d
+info:  Memory type mask for buffer resources: 0x2d, usage: 0x219ff
+info:  Creating sampler descriptor heap (32 kB)
+info:  Graphics pipeline libraries supported
+info:  Binding model: Descriptor buffer
+info:  DXGI: VK_FORMAT_D24_UNORM_S8_UINT -> VK_FORMAT_D32_SFLOAT_S8_UINT
+info:  Creating resource descriptor heap (4096 kB)
+info:  Found device: AMD Radeon RX 570 Series (RADV POLARIS10) (radv 25.2.8)
+info:  Found device: llvmpipe (LLVM 20.1.2, 128 bits) (llvmpipe 25.2.8)
+info:    Skipping: Software driver
+info:  D3D9: VK_FORMAT_D24_UNORM_S8_UINT -> VK_FORMAT_D32_SFLOAT_S8_UINT
+info:  D3D9: VK_FORMAT_D24_UNORM_S8_UINT -> VK_FORMAT_D32_SFLOAT_S8_UINT
+info:  Process set as DPI aware
+warn:  D3D11VideoDevice::GetVideoDecoderProfileCount: Stub
+warn:  D3D11DXGIDevice::QueryInterface: Unknown interface query
+warn:  0ec870a6-5d7e-4c22-8cfc-5baae07616ed
+warn:  DXGI: MakeWindowAssociation: Ignoring flags
+[000000000000048c:] EXCEPTION handling: System.Runtime.InteropServices.COMException:
+[000000000000048c:] EXCEPTION handling: System.Runtime.InteropServices.COMException:
+info:  Found cache file: C:\users\steamuser\AppData\Local\dxvk\b64ee7bbbb6fc996.dxvk.bin
+info:  DXVK: Using 4 compiler threads
+info:  Presenter: Actual swapchain properties:
+info:    Format:       VK_FORMAT_B8G8R8A8_UNORM
+info:    Color space:  VK_COLOR_SPACE_SRGB_NONLINEAR_KHR
+info:    Present mode: VK_PRESENT_MODE_FIFO_KHR (dynamic: yes)
+info:    Buffer size:  348x646
+info:    Image count:  4
+warn:  DXGI: MakeWindowAssociation: Ignoring flags
+info:  Presenter: Actual swapchain properties:
+info:    Format:       VK_FORMAT_B8G8R8A8_UNORM
+info:    Color space:  VK_COLOR_SPACE_SRGB_NONLINEAR_KHR
+info:    Present mode: VK_PRESENT_MODE_FIFO_KHR (dynamic: yes)
+info:    Buffer size:  160x160
+info:    Image count:  4
+warn:  D3D11Texture2D::QueryInterface: Unknown interface query
+warn:  f8fb5c27-c6b3-4f75-a4c8-439af2ef564c
+warn:  DXGI: MakeWindowAssociation: Ignoring flags
+info:  Presenter: Actual swapchain properties:
+info:    Format:       VK_FORMAT_B8G8R8A8_UNORM
+info:    Color space:  VK_COLOR_SPACE_SRGB_NONLINEAR_KHR
+info:    Present mode: VK_PRESENT_MODE_FIFO_KHR (dynamic: yes)
+info:    Buffer size:  376x344
+info:    Image count:  4
+warn:  DXGI: MakeWindowAssociation: Ignoring flags
+info:  Presenter: Actual swapchain properties:
+info:    Format:       VK_FORMAT_B8G8R8A8_UNORM
+info:    Color space:  VK_COLOR_SPACE_SRGB_NONLINEAR_KHR
+info:    Present mode: VK_PRESENT_MODE_FIFO_KHR (dynamic: yes)
+info:    Buffer size:  1476x847
+info:    Image count:  4
+info:  Game: Agent.exe
+info:  DXVK: v2.7.1-509-g1676dcaf342a9b1
+info:  Build: x86 gcc 14.2.0
+info:  Vulkan: Found vkGetInstanceProcAddr in winevulkan.dll @ 0x68474030
+info:  Extension providers:
+info:    Platform WSI
+info:    OpenVR
+info:  OpenVR: could not open registry key, status 2
+warn:  OpenVR: Failed to initialize OpenVR
+info:    OpenXR
+info:  Enabled instance extensions:
+info:    VK_EXT_surface_maintenance1
+info:    VK_KHR_get_surface_capabilities2
+info:    VK_KHR_surface
+info:    VK_KHR_win32_surface
+info:  Found device: AMD Radeon RX 570 Series (RADV POLARIS10) (radv 25.2.8)
+info:  Found device: llvmpipe (LLVM 20.1.2, 128 bits) (llvmpipe 25.2.8)
+info:    Skipping: Software driver
+218.380:0904:0908:info:nvapi64:nvapi_QueryInterface (0xad298d3f): Unknown function ID
+218.380:0904:0908:info:nvapi64:DXVK-NVAPI v0.9.1 NVAPI gcc 14.2.0 x86_64 plain (HeroesOfTheStorm_x64.exe)
+info:  Game: HeroesOfTheStorm_x64.exe
+info:  DXVK: v2.7.1-509-g1676dcaf342a9b1
+info:  Build: x86_64 gcc 14.2.0
+info:  Vulkan: Found vkGetInstanceProcAddr in winevulkan.dll @ 0x6ffffcd0fbf0
+info:  Extension providers:
+info:    Platform WSI
+info:    OpenVR
+info:  OpenVR: could not open registry key, status 2
+warn:  OpenVR: Failed to initialize OpenVR
+info:    OpenXR
+warn:  OpenXR: Unable to get required Vulkan instance extensions size
+info:  Enabled instance extensions:
+info:    VK_EXT_surface_maintenance1
+info:    VK_KHR_get_surface_capabilities2
+info:    VK_KHR_surface
+info:    VK_KHR_win32_surface
+info:  Found device: AMD Radeon RX 570 Series (RADV POLARIS10) (radv 25.2.8)
+info:  Found device: llvmpipe (LLVM 20.1.2, 128 bits) (llvmpipe 25.2.8)
+info:    Skipping: Software driver
+warn:  OpenXR: Unable to get required Vulkan Device extensions size
+218.483:0904:0908:info:nvapi64:Successfully acquired Vulkan vkGetInstanceProcAddr @ 0x6ffffcd0fbf0
+218.488:0904:0908:info:nvapi64:<-NvAPI_Initialize: NVIDIA or other suitable device not found or initialization failed
+info:  D3D11InternalCreateDevice: Maximum supported feature level: D3D_FEATURE_LEVEL_12_0
+info:  D3D11InternalCreateDevice: Using feature level D3D_FEATURE_LEVEL_11_0
+info:  Creating device:
+info:  AMD Radeon RX 570 Series (RADV POLARIS10):
+info:    Driver   : radv 25.2.8
+info:  Queues:
+info:    Graphics : (0, 0)
+info:    Transfer : (1, 0)
+info:    Sparse   : (0, 0)
+info:  Memory:
+info:    Heap 0: 3.75 GiB (DEVICE_LOCAL)
+info:    Budget: 3.18 GiB
+info:      Type  0: DEVICE_LOCAL
+info:      Type  1: DEVICE_LOCAL
+info:    Heap 1: 3.84 GiB
+info:    Budget: 3.79 GiB
+info:      Type  2: HOST_VISIBLE | HOST_COHERENT
+info:      Type  5: HOST_VISIBLE | HOST_COHERENT | HOST_CACHED
+info:      Type  6: HOST_VISIBLE | HOST_COHERENT | HOST_CACHED
+info:    Heap 2: 256 MiB (DEVICE_LOCAL)
+info:    Budget: 196 MiB
+info:      Type  3: DEVICE_LOCAL | HOST_VISIBLE | HOST_COHERENT
+info:      Type  4: DEVICE_LOCAL | HOST_VISIBLE | HOST_COHERENT
+info:  Enabled extensions:
+info:    VK_EXT_attachment_feedback_loop_layout
+info:    VK_EXT_custom_border_color
+info:    VK_EXT_depth_clip_enable
+info:    VK_EXT_depth_bias_control
+info:    VK_EXT_descriptor_buffer
+info:    VK_EXT_extended_dynamic_state3
+info:    VK_EXT_graphics_pipeline_library
+info:    VK_EXT_hdr_metadata
+info:    VK_EXT_line_rasterization
+info:    VK_EXT_memory_priority
+info:    VK_EXT_multi_draw
+info:    VK_EXT_non_seamless_cube_map
+info:    VK_EXT_robustness2
+info:    VK_EXT_sample_locations
+info:    VK_EXT_shader_module_identifier
+info:    VK_EXT_shader_stencil_export
+info:    VK_EXT_swapchain_maintenance1
+info:    VK_EXT_transform_feedback
+info:    VK_EXT_vertex_attribute_divisor
+info:    VK_KHR_external_memory_win32
+info:    VK_KHR_external_semaphore_win32
+info:    VK_KHR_load_store_op_none
+info:    VK_KHR_maintenance5
+info:    VK_KHR_maintenance6
+info:    VK_KHR_maintenance8
+info:    VK_KHR_maintenance9
+info:    VK_KHR_pipeline_library
+info:    VK_KHR_present_id
+info:    VK_KHR_present_wait
+info:    VK_KHR_shader_float_controls2
+info:    VK_KHR_shader_subgroup_uniform_control_flow
+info:    VK_KHR_swapchain
+info:    VK_KHR_swapchain_mutable_format
+info:    VK_KHR_win32_keyed_mutex
+info:  Enabled features:
+info:    depthBiasClamp                 : 1
+info:    depthBounds                    : 1
+info:    depthClamp                     : 1
+info:    drawIndirectFirstInstance      : 1
+info:    dualSrcBlend                   : 1
+info:    fillModeNonSolid               : 1
+info:    fragmentStoresAndAtomics       : 1
+info:    fullDrawIndexUint32            : 1
+info:    geometryShader                 : 1
+info:    imageCubeArray                 : 1
+info:    independentBlend               : 1
+info:    logicOp                        : 1
+info:    multiDrawIndirect              : 1
+info:    multiViewport                  : 1
+info:    occlusionQueryPrecise          : 1
+info:    pipelineStatisticsQuery        : 1
+info:    robustBufferAccess             : 1
+info:    sampleRateShading              : 1
+info:    samplerAnisotropy              : 1
+info:    shaderClipDistance             : 1
+info:    shaderCullDistance             : 1
+info:    shaderFloat64                  : 1
+info:    shaderImageGatherExtended      : 1
+info:    shaderInt16                    : 1
+info:    shaderInt64                    : 1
+info:    shaderUniformBufferArrayDynamicIndexing : 1
+info:    shaderSampledImageArrayDynamicIndexing : 1
+info:    shaderStorageBufferArrayDynamicIndexing : 1
+info:    shaderStorageImageArrayDynamicIndexing : 1
+info:    sparseBinding                  : 1
+info:    sparseResidencyBuffer          : 1
+info:    sparseResidencyImage2D         : 1
+info:    sparseResidencyImage3D         : 1
+info:    sparseResidency2Samples        : 0
+info:    sparseResidency4Samples        : 0
+info:    sparseResidency8Samples        : 0
+info:    sparseResidency16Samples       : 0
+info:    sparseResidencyAliased         : 1
+info:    shaderResourceResidency        : 1
+info:    shaderResourceMinLod           : 1
+info:    tessellationShader             : 1
+info:    textureCompressionBC           : 1
+info:    variableMultisampleRate        : 1
+info:    vertexPipelineStoresAndAtomics : 1
+info:    wideLines                      : 1
+info:    shaderDrawParameters           : 1
+info:    storagePushConstant16          : 1
+info:    bufferDeviceAddress            : 1
+info:    descriptorIndexing             : 1
+info:    shaderUniformTexelBufferArrayDynamicIndexing : 1
+info:    shaderStorageTexelBufferArrayDynamicIndexing : 1
+info:    shaderUniformBufferArrayNonUniformIndexing : 1
+info:    shaderSampledImageArrayNonUniformIndexing : 1
+info:    shaderStorageBufferArrayNonUniformIndexing : 1
+info:    shaderStorageImageArrayNonUniformIndexing : 1
+info:    shaderUniformTexelBufferArrayNonUniformIndexing : 1
+info:    shaderStorageTexelBufferArrayNonUniformIndexing : 1
+info:    descriptorBindingSampledImageUpdateAfterBind : 1
+info:    descriptorBindingUpdateUnusedWhilePending : 1
+info:    descriptorBindingPartiallyBound : 1
+info:    drawIndirectCount              : 1
+info:    hostQueryReset                 : 1
+info:    runtimeDescriptorArray         : 1
+info:    samplerFilterMinmax            : 1
+info:    samplerMirrorClampToEdge       : 1
+info:    scalarBlockLayout              : 1
+info:    shaderFloat16                  : 0
+info:    shaderInt8                     : 1
+info:    shaderOutputViewportIndex      : 1
+info:    shaderOutputLayer              : 1
+info:    timelineSemaphore              : 1
+info:    uniformBufferStandardLayout    : 1
+info:    vulkanMemoryModel              : 1
+info:    computeFullSubgroups           : 1
+info:    dynamicRendering               : 1
+info:    maintenance4                   : 1
+info:    robustImageAccess              : 0
+info:    pipelineCreationCacheControl   : 1
+info:    shaderDemoteToHelperInvocation : 1
+info:    shaderZeroInitializeWorkgroupMemory : 1
+info:    subgroupSizeControl            : 1
+info:    synchronization2               : 1
+info:  VK_EXT_attachment_feedback_loop_layout:
+info:    attachmentFeedbackLoopLayout   : 1
+info:  VK_EXT_border_color_swizzle:
+info:    borderColorSwizzle             : 0
+info:    borderColorSwizzleFromImage    : 0
+info:  VK_EXT_conservative_rasterization:
+info:    extConservativeRasterization   : 0
+info:  VK_EXT_custom_border_color:
+info:    customBorderColors             : 1
+info:    customBorderColorWithoutFormat : 1
+info:  VK_EXT_depth_clip_enable:
+info:    depthClipEnable                : 1
+info:  VK_EXT_depth_bias_control:
+info:    depthBiasControl               : 1
+info:    leastRepresentableValueForceUnormRepresentation : 1
+info:    floatRepresentation            : 1
+info:    depthBiasExact                 : 1
+info:  VK_EXT_descriptor_buffer:
+info:    descriptorBuffer               : 1
+info:  VK_EXT_descriptor_heap:
+info:    descriptorHeap                 : 0
+info:  VK_EXT_extended_dynamic_state3:
+info:    extendedDynamicState3AlphaToCoverageEnable : 1
+info:    extendedDynamicState3DepthClipEnable : 1
+info:    extendedDynamicState3RasterizationSamples : 1
+info:    extendedDynamicState3SampleMask : 1
+info:    extendedDynamicState3LineRasterizationMode : 1
+info:    extendedDynamicState3SampleLocationsEnable : 1
+info:  VK_EXT_fragment_shader_interlock:
+info:    fragmentShaderSampleInterlock  : 0
+info:    fragmentShaderPixelInterlock   : 0
+info:  VK_EXT_full_screen_exclusive:
+info:    extFullScreenExclusive         : 0
+info:  VK_EXT_graphics_pipeline_library:
+info:    graphicsPipelineLibrary        : 1
+info:  VK_EXT_hdr_metadata:
+info:    extHdrMetadata                 : 1
+info:  VK_EXT_line_rasterization:
+info:    rectangularLines               : 1
+info:    smoothLines                    : 1
+info:  VK_EXT_memory_budget:
+info:    extMemoryBudget                : 1
+info:  VK_EXT_memory_priority:
+info:    memoryPriority                 : 1
+info:  VK_EXT_multi_draw:
+info:    multiDraw                      : 1
+info:  VK_EXT_non_seamless_cube_map:
+info:    nonSeamlessCubeMap             : 1
+info:  VK_EXT_pageable_device_local_memory:
+info:    pageableDeviceLocalMemory      : 0
+info:  VK_EXT_robustness2:
+info:    robustBufferAccess2            : 1
+info:    robustImageAccess2             : 1
+info:    nullDescriptor                 : 1
+info:  VK_EXT_sample_locations:
+info:    extSampleLocations             : 1
+info:  VK_EXT_shader_module_identifier:
+info:    shaderModuleIdentifier         : 1
+info:  VK_EXT_shader_stencil_export:
+info:    extShaderStencilExport         : 1
+info:  VK_EXT_swapchain_colorspace:
+info:    extSwapchainColorSpace         : 0
+info:  VK_EXT_swapchain_maintenance1:
+info:    swapchainMaintenance1          : 1
+info:  VK_EXT_transform_feedback:
+info:    transformFeedback              : 1
+info:    geometryStreams                : 1
+info:  VK_EXT_vertex_attribute_divisor:
+info:    vertexAttributeInstanceRateDivisor : 1
+info:    vertexAttributeInstanceRateZeroDivisor : 1
+info:  VK_KHR_external_memory_win32:
+info:    khrExternalMemoryWin32         : 1
+info:  VK_KHR_external_semaphore_win32:
+info:    khrExternalSemaphoreWin32      : 1
+info:  VK_KHR_load_store_op_none:
+info:    khrLoadStoreOpNone             : 1
+info:  VK_KHR_maintenance5:
+info:    maintenance5                   : 1
+info:  VK_KHR_maintenance6:
+info:    maintenance6                   : 1
+info:  VK_KHR_maintenance7:
+info:    maintenance7                   : 0
+info:  VK_KHR_maintenance8:
+info:    maintenance8                   : 1
+info:  VK_KHR_maintenance9:
+info:    maintenance9                   : 1
+info:  VK_KHR_maintenance10:
+info:    maintenance10                  : 0
+info:  VK_KHR_pipeline_library:
+info:    khrPipelineLibrary             : 1
+info:  VK_KHR_present_id:
+info:    presentId                      : 1
+info:  VK_KHR_present_id2:
+info:    presentId2                     : 0
+info:  VK_KHR_present_wait:
+info:    presentWait                    : 1
+info:  VK_KHR_present_wait2:
+info:    presentWait2                   : 0
+info:  VK_KHR_shader_float_controls2:
+info:    shaderFloatControls2           : 1
+info:  VK_KHR_shader_subgroup_uniform_control_flow:
+info:    shaderSubgroupUniformControlFlow : 1
+info:  VK_KHR_shader_untyped_pointers:
+info:    shaderUntypedPointers          : 0
+info:  VK_KHR_swapchain:
+info:    khrSwapchain                   : 1
+info:  VK_KHR_swapchain_maintenance1:
+info:    swapchainMaintenance1          : 0
+info:  VK_KHR_swapchain_mutable_format:
+info:    khrSwapchainMutableFormat      : 1
+info:  VK_KHR_unified_image_layouts:
+info:    unifiedImageLayouts            : 0
+info:  VK_KHR_win32_keyed_mutex:
+info:    khrWin32KeyedMutex             : 1
+info:  VK_NV_low_latency2:
+info:    nvLowLatency2                  : 0
+info:  VK_NV_raw_access_chains:
+info:    shaderRawAccessChains          : 0
+info:  VK_NVX_binary_import:
+info:    nvxBinaryImport                : 0
+info:  VK_NVX_image_view_handle:
+info:    nvxImageViewHandle             : 0
+info:  Descriptor sizes (set alignment: 64)
+info:    Sampler              : 16
+info:    Uniform buffer       : 16
+info:    Storage buffer       : 16
+info:    Uniform texel buffer : 16
+info:    Storage texel buffer : 16
+info:    Sampled image        : 64
+info:    Storage image        : 32
+info:  Memory type mask for sparse resources: 0x2d
+info:  Memory type mask for buffer resources: 0x2d, usage: 0x219ff
+info:  Creating sampler descriptor heap (32 kB)
+info:  Graphics pipeline libraries supported
+info:  Binding model: Descriptor buffer
+info:  DXGI: VK_FORMAT_D24_UNORM_S8_UINT -> VK_FORMAT_D32_SFLOAT_S8_UINT
+info:  Creating resource descriptor heap (8192 kB)
+warn:  D3D11DXGIDevice::QueryInterface: Unknown interface query
+warn:  0ec870a6-5d7e-4c22-8cfc-5baae07616ed
+warn:  DXGI: MakeWindowAssociation: Ignoring flags
+info:  Found cache file: C:\users\steamuser\AppData\Local\dxvk\701f81c1031179f1.dxvk.bin
+info:  DXVK: Using 4 compiler threads
+info:  Presenter: Actual swapchain properties:
+info:    Format:       VK_FORMAT_B8G8R8A8_UNORM
+info:    Color space:  VK_COLOR_SPACE_SRGB_NONLINEAR_KHR
+info:    Present mode: VK_PRESENT_MODE_IMMEDIATE_KHR (dynamic: yes)
+info:    Buffer size:  1680x1050
+info:    Image count:  4
+info:  Game: Battle.net.exe
+info:  DXVK: v2.7.1-509-g1676dcaf342a9b1
+info:  Build: x86 gcc 14.2.0
+info:  Vulkan: Found vkGetInstanceProcAddr in winevulkan.dll @ 0x68474030
+info:  Extension providers:
+info:    Platform WSI
+info:    OpenVR
+info:  OpenVR: could not open registry key, status 2
+warn:  OpenVR: Failed to initialize OpenVR
+info:    OpenXR
+info:  Enabled instance extensions:
+info:    VK_EXT_surface_maintenance1
+info:    VK_KHR_get_surface_capabilities2
+info:    VK_KHR_surface
+info:    VK_KHR_win32_surface
+info:  Found device: AMD Radeon RX 570 Series (RADV POLARIS10) (radv 25.2.8)
+info:  Found device: llvmpipe (LLVM 20.1.2, 128 bits) (llvmpipe 25.2.8)
+info:    Skipping: Software driver
+info:  D3D11InternalCreateDevice: Maximum supported feature level: D3D_FEATURE_LEVEL_12_0
+info:  D3D11InternalCreateDevice: Using feature level D3D_FEATURE_LEVEL_12_0
+info:  Creating device:
+info:  AMD Radeon RX 570 Series (RADV POLARIS10):
+info:    Driver   : radv 25.2.8
+info:  Queues:
+info:    Graphics : (0, 0)
+info:    Transfer : (1, 0)
+info:    Sparse   : (0, 0)
+info:  Memory:
+info:    Heap 0: 3.75 GiB (DEVICE_LOCAL)
+info:    Budget: 2.83 GiB
+info:      Type  0: DEVICE_LOCAL
+info:      Type  1: DEVICE_LOCAL
+info:    Heap 1: 3.84 GiB
+info:    Budget: 3.79 GiB
+info:      Type  2: HOST_VISIBLE | HOST_COHERENT
+info:      Type  5: HOST_VISIBLE | HOST_COHERENT | HOST_CACHED
+info:      Type  6: HOST_VISIBLE | HOST_COHERENT | HOST_CACHED
+info:    Heap 2: 256 MiB (DEVICE_LOCAL)
+info:    Budget: 159 MiB
+info:      Type  3: DEVICE_LOCAL | HOST_VISIBLE | HOST_COHERENT
+info:      Type  4: DEVICE_LOCAL | HOST_VISIBLE | HOST_COHERENT
+info:  Enabled extensions:
+info:    VK_EXT_attachment_feedback_loop_layout
+info:    VK_EXT_custom_border_color
+info:    VK_EXT_depth_clip_enable
+info:    VK_EXT_depth_bias_control
+info:    VK_EXT_descriptor_buffer
+info:    VK_EXT_extended_dynamic_state3
+info:    VK_EXT_graphics_pipeline_library
+info:    VK_EXT_hdr_metadata
+info:    VK_EXT_line_rasterization
+info:    VK_EXT_memory_priority
+info:    VK_EXT_multi_draw
+info:    VK_EXT_non_seamless_cube_map
+info:    VK_EXT_robustness2
+info:    VK_EXT_sample_locations
+info:    VK_EXT_shader_module_identifier
+info:    VK_EXT_shader_stencil_export
+info:    VK_EXT_swapchain_maintenance1
+info:    VK_EXT_transform_feedback
+info:    VK_EXT_vertex_attribute_divisor
+info:    VK_KHR_external_memory_win32
+info:    VK_KHR_external_semaphore_win32
+info:    VK_KHR_load_store_op_none
+info:    VK_KHR_maintenance5
+info:    VK_KHR_maintenance6
+info:    VK_KHR_maintenance8
+info:    VK_KHR_maintenance9
+info:    VK_KHR_pipeline_library
+info:    VK_KHR_present_id
+info:    VK_KHR_present_wait
+info:    VK_KHR_shader_float_controls2
+info:    VK_KHR_shader_subgroup_uniform_control_flow
+info:    VK_KHR_swapchain
+info:    VK_KHR_swapchain_mutable_format
+info:    VK_KHR_win32_keyed_mutex
+info:  Enabled features:
+info:    depthBiasClamp                 : 1
+info:    depthBounds                    : 1
+info:    depthClamp                     : 1
+info:    drawIndirectFirstInstance      : 1
+info:    dualSrcBlend                   : 1
+info:    fillModeNonSolid               : 1
+info:    fragmentStoresAndAtomics       : 1
+info:    fullDrawIndexUint32            : 1
+info:    geometryShader                 : 1
+info:    imageCubeArray                 : 1
+info:    independentBlend               : 1
+info:    logicOp                        : 1
+info:    multiDrawIndirect              : 1
+info:    multiViewport                  : 1
+info:    occlusionQueryPrecise          : 1
+info:    pipelineStatisticsQuery        : 1
+info:    robustBufferAccess             : 1
+info:    sampleRateShading              : 1
+info:    samplerAnisotropy              : 1
+info:    shaderClipDistance             : 1
+info:    shaderCullDistance             : 1
+info:    shaderFloat64                  : 1
+info:    shaderImageGatherExtended      : 1
+info:    shaderInt16                    : 1
+info:    shaderInt64                    : 1
+info:    shaderUniformBufferArrayDynamicIndexing : 1
+info:    shaderSampledImageArrayDynamicIndexing : 1
+info:    shaderStorageBufferArrayDynamicIndexing : 1
+info:    shaderStorageImageArrayDynamicIndexing : 1
+info:    sparseBinding                  : 1
+info:    sparseResidencyBuffer          : 1
+info:    sparseResidencyImage2D         : 1
+info:    sparseResidencyImage3D         : 1
+info:    sparseResidency2Samples        : 0
+info:    sparseResidency4Samples        : 0
+info:    sparseResidency8Samples        : 0
+info:    sparseResidency16Samples       : 0
+info:    sparseResidencyAliased         : 1
+info:    shaderResourceResidency        : 1
+info:    shaderResourceMinLod           : 1
+info:    tessellationShader             : 1
+info:    textureCompressionBC           : 1
+info:    variableMultisampleRate        : 1
+info:    vertexPipelineStoresAndAtomics : 1
+info:    wideLines                      : 1
+info:    shaderDrawParameters           : 1
+info:    storagePushConstant16          : 1
+info:    bufferDeviceAddress            : 1
+info:    descriptorIndexing             : 1
+info:    shaderUniformTexelBufferArrayDynamicIndexing : 1
+info:    shaderStorageTexelBufferArrayDynamicIndexing : 1
+info:    shaderUniformBufferArrayNonUniformIndexing : 1
+info:    shaderSampledImageArrayNonUniformIndexing : 1
+info:    shaderStorageBufferArrayNonUniformIndexing : 1
+info:    shaderStorageImageArrayNonUniformIndexing : 1
+info:    shaderUniformTexelBufferArrayNonUniformIndexing : 1
+info:    shaderStorageTexelBufferArrayNonUniformIndexing : 1
+info:    descriptorBindingSampledImageUpdateAfterBind : 1
+info:    descriptorBindingUpdateUnusedWhilePending : 1
+info:    descriptorBindingPartiallyBound : 1
+info:    drawIndirectCount              : 1
+info:    hostQueryReset                 : 1
+info:    runtimeDescriptorArray         : 1
+info:    samplerFilterMinmax            : 1
+info:    samplerMirrorClampToEdge       : 1
+info:    scalarBlockLayout              : 1
+info:    shaderFloat16                  : 0
+info:    shaderInt8                     : 1
+info:    shaderOutputViewportIndex      : 1
+info:    shaderOutputLayer              : 1
+info:    timelineSemaphore              : 1
+info:    uniformBufferStandardLayout    : 1
+info:    vulkanMemoryModel              : 1
+info:    computeFullSubgroups           : 1
+info:    dynamicRendering               : 1
+info:    maintenance4                   : 1
+info:    robustImageAccess              : 0
+info:    pipelineCreationCacheControl   : 1
+info:    shaderDemoteToHelperInvocation : 1
+info:    shaderZeroInitializeWorkgroupMemory : 1
+info:    subgroupSizeControl            : 1
+info:    synchronization2               : 1
+info:  VK_EXT_attachment_feedback_loop_layout:
+info:    attachmentFeedbackLoopLayout   : 1
+info:  VK_EXT_border_color_swizzle:
+info:    borderColorSwizzle             : 0
+info:    borderColorSwizzleFromImage    : 0
+info:  VK_EXT_conservative_rasterization:
+info:    extConservativeRasterization   : 0
+info:  VK_EXT_custom_border_color:
+info:    customBorderColors             : 1
+info:    customBorderColorWithoutFormat : 1
+info:  VK_EXT_depth_clip_enable:
+info:    depthClipEnable                : 1
+info:  VK_EXT_depth_bias_control:
+info:    depthBiasControl               : 1
+info:    leastRepresentableValueForceUnormRepresentation : 1
+info:    floatRepresentation            : 1
+info:    depthBiasExact                 : 1
+info:  VK_EXT_descriptor_buffer:
+info:    descriptorBuffer               : 1
+info:  VK_EXT_descriptor_heap:
+info:    descriptorHeap                 : 0
+info:  VK_EXT_extended_dynamic_state3:
+info:    extendedDynamicState3AlphaToCoverageEnable : 1
+info:    extendedDynamicState3DepthClipEnable : 1
+info:    extendedDynamicState3RasterizationSamples : 1
+info:    extendedDynamicState3SampleMask : 1
+info:    extendedDynamicState3LineRasterizationMode : 1
+info:    extendedDynamicState3SampleLocationsEnable : 1
+info:  VK_EXT_fragment_shader_interlock:
+info:    fragmentShaderSampleInterlock  : 0
+info:    fragmentShaderPixelInterlock   : 0
+info:  VK_EXT_full_screen_exclusive:
+info:    extFullScreenExclusive         : 0
+info:  VK_EXT_graphics_pipeline_library:
+info:    graphicsPipelineLibrary        : 1
+info:  VK_EXT_hdr_metadata:
+info:    extHdrMetadata                 : 1
+info:  VK_EXT_line_rasterization:
+info:    rectangularLines               : 1
+info:    smoothLines                    : 1
+info:  VK_EXT_memory_budget:
+info:    extMemoryBudget                : 1
+info:  VK_EXT_memory_priority:
+info:    memoryPriority                 : 1
+info:  VK_EXT_multi_draw:
+info:    multiDraw                      : 1
+info:  VK_EXT_non_seamless_cube_map:
+info:    nonSeamlessCubeMap             : 1
+info:  VK_EXT_pageable_device_local_memory:
+info:    pageableDeviceLocalMemory      : 0
+info:  VK_EXT_robustness2:
+info:    robustBufferAccess2            : 1
+info:    robustImageAccess2             : 1
+info:    nullDescriptor                 : 1
+info:  VK_EXT_sample_locations:
+info:    extSampleLocations             : 1
+info:  VK_EXT_shader_module_identifier:
+info:    shaderModuleIdentifier         : 1
+info:  VK_EXT_shader_stencil_export:
+info:    extShaderStencilExport         : 1
+info:  VK_EXT_swapchain_colorspace:
+info:    extSwapchainColorSpace         : 0
+info:  VK_EXT_swapchain_maintenance1:
+info:    swapchainMaintenance1          : 1
+info:  VK_EXT_transform_feedback:
+info:    transformFeedback              : 1
+info:    geometryStreams                : 1
+info:  VK_EXT_vertex_attribute_divisor:
+info:    vertexAttributeInstanceRateDivisor : 1
+info:    vertexAttributeInstanceRateZeroDivisor : 1
+info:  VK_KHR_external_memory_win32:
+info:    khrExternalMemoryWin32         : 1
+info:  VK_KHR_external_semaphore_win32:
+info:    khrExternalSemaphoreWin32      : 1
+info:  VK_KHR_load_store_op_none:
+info:    khrLoadStoreOpNone             : 1
+info:  VK_KHR_maintenance5:
+info:    maintenance5                   : 1
+info:  VK_KHR_maintenance6:
+info:    maintenance6                   : 1
+info:  VK_KHR_maintenance7:
+info:    maintenance7                   : 0
+info:  VK_KHR_maintenance8:
+info:    maintenance8                   : 1
+info:  VK_KHR_maintenance9:
+info:    maintenance9                   : 1
+info:  VK_KHR_maintenance10:
+info:    maintenance10                  : 0
+info:  VK_KHR_pipeline_library:
+info:    khrPipelineLibrary             : 1
+info:  VK_KHR_present_id:
+info:    presentId                      : 1
+info:  VK_KHR_present_id2:
+info:    presentId2                     : 0
+info:  VK_KHR_present_wait:
+info:    presentWait                    : 1
+info:  VK_KHR_present_wait2:
+info:    presentWait2                   : 0
+info:  VK_KHR_shader_float_controls2:
+info:    shaderFloatControls2           : 1
+info:  VK_KHR_shader_subgroup_uniform_control_flow:
+info:    shaderSubgroupUniformControlFlow : 1
+info:  VK_KHR_shader_untyped_pointers:
+info:    shaderUntypedPointers          : 0
+info:  VK_KHR_swapchain:
+info:    khrSwapchain                   : 1
+info:  VK_KHR_swapchain_maintenance1:
+info:    swapchainMaintenance1          : 0
+info:  VK_KHR_swapchain_mutable_format:
+info:    khrSwapchainMutableFormat      : 1
+info:  VK_KHR_unified_image_layouts:
+info:    unifiedImageLayouts            : 0
+info:  VK_KHR_win32_keyed_mutex:
+info:    khrWin32KeyedMutex             : 1
+info:  VK_NV_low_latency2:
+info:    nvLowLatency2                  : 0
+info:  VK_NV_raw_access_chains:
+info:    shaderRawAccessChains          : 0
+info:  VK_NVX_binary_import:
+info:    nvxBinaryImport                : 0
+info:  VK_NVX_image_view_handle:
+info:    nvxImageViewHandle             : 0
+info:  Descriptor sizes (set alignment: 64)
+info:    Sampler              : 16
+info:    Uniform buffer       : 16
+info:    Storage buffer       : 16
+info:    Uniform texel buffer : 16
+info:    Storage texel buffer : 16
+info:    Sampled image        : 64
+info:    Storage image        : 32
+info:  Memory type mask for sparse resources: 0x2d
+info:  Memory type mask for buffer resources: 0x2d, usage: 0x219ff
+info:  Creating sampler descriptor heap (32 kB)
+info:  Graphics pipeline libraries supported
+info:  Binding model: Descriptor buffer
+info:  DXGI: VK_FORMAT_D24_UNORM_S8_UINT -> VK_FORMAT_D32_SFLOAT_S8_UINT
+info:  Creating resource descriptor heap (4096 kB)
+info:  Game: Battle.net.exe
+info:  DXVK: v2.7.1-509-g1676dcaf342a9b1
+info:  Build: x86 gcc 14.2.0
+info:  Vulkan: Found vkGetInstanceProcAddr in winevulkan.dll @ 0x68474030
+info:  Extension providers:
+info:    Platform WSI
+info:    OpenVR
+info:  OpenVR: could not open registry key, status 2
+warn:  OpenVR: Failed to initialize OpenVR
+info:    OpenXR
+info:  Enabled instance extensions:
+info:    VK_EXT_surface_maintenance1
+info:    VK_KHR_get_surface_capabilities2
+info:    VK_KHR_surface
+info:    VK_KHR_win32_surface
+info:  Found device: AMD Radeon RX 570 Series (RADV POLARIS10) (radv 25.2.8)
+info:  Found device: llvmpipe (LLVM 20.1.2, 128 bits) (llvmpipe 25.2.8)
+info:    Skipping: Software driver
+267.438:0b00:0b04:warn:vkd3d-proton:openvr_instance_extensions: Failed to open VR registry key, status 2.
+267.438:0b00:0b04:warn:vkd3d-proton:openxr_vulkan_extensions: wineopenxr.dll is missing required symbols.
+267.438:0b00:0b04:info:vkd3d-proton:vkd3d_instance_apply_application_workarounds: Program name: "Battle.net.exe" (hash: b66b1f1dd74e3782)
+267.438:0b00:0b04:info:vkd3d-proton:vkd3d_instance_deduce_config_flags_from_environment: shader_cache is used, global_pipeline_cache is enforced.
+267.438:0b00:0b04:info:vkd3d-proton:vkd3d_config_flags_init_once: VKD3D_CONFIG=''.
+267.445:0b00:0b04:info:vkd3d-proton:vkd3d_get_vk_version: vkd3d-proton - applicationVersion: 3.0.0.
+267.445:0b00:0b04:info:vkd3d-proton:vkd3d_instance_init: vkd3d-proton - build: bd3f5e3d245c3ad.
+267.467:0b00:0b04:warn:vkd3d-proton:openvr_device_extensions: Failed to open VR registry key, status 2.
+267.467:0b00:0b04:warn:vkd3d-proton:openxr_vulkan_extensions: wineopenxr.dll is missing required symbols.
+267.581:0b00:0b04:info:vkd3d-proton:vkd3d_physical_device_info_init_maint9: Implementation supports eliding QFOT for non-compressed optimal images.
+267.602:0b00:0b04:warn:vkd3d-proton:d3d12_device_create_vkd3d_queues: Could not allocate an out of band queue for queue family 0. All out of band work will happen on the in band queue.
+267.602:0b00:0b04:warn:vkd3d-proton:d3d12_device_create_vkd3d_queues: Could not allocate an out of band queue for queue family 1. All out of band work will happen on the in band queue.
+267.602:0b00:0b04:warn:vkd3d-proton:d3d12_device_create_vkd3d_queues: Could not allocate an out of band queue for queue family 5. All out of band work will happen on the in band queue.
+267.602:0b00:0b04:info:vkd3d-proton:d3d12_device_init_workarounds: Detected Linux kernel version 6.8.0
+267.617:0b00:0b04:warn:vkd3d-proton:vkd3d_init_depth_stencil_formats: Mapping VK_FORMAT_D24_UNORM_S8_UINT to VK_FORMAT_D32_SFLOAT_S8_UINT.
+267.618:0b00:0b04:info:vkd3d-proton:vkd3d_memory_info_decide_hvv_usage: Topology: Device heaps are split. Assuming small BAR situation.
+267.618:0b00:0b04:info:vkd3d-proton:vkd3d_memory_info_upload_hvv_memory_properties: Topology: HVV usage is not allowed, using HOST_COHERENT for UPLOAD.
+267.618:0b00:0b04:info:vkd3d-proton:vkd3d_bindless_state_get_bindless_flags: Enabling fast paths for advanced ExecuteIndirect() graphics and compute (EXT_dgc).
+267.618:0b00:0b04:info:vkd3d-proton:vkd3d_bindless_state_get_bindless_flags: Device supports VK_EXT_mutable_descriptor_type.
+267.618:0b00:0b04:info:vkd3d-proton:vkd3d_bindless_state_get_bindless_flags: Device supports ultra-fast path for descriptor copies.
+267.618:0b00:0b04:info:vkd3d-proton:vkd3d_bindless_state_get_bindless_flags: Device supports packed metadata path for descriptor copies.
+267.618:0b00:0b04:info:vkd3d-proton:vkd3d_bindless_state_add_binding: Device supports VK_EXT_descriptor_buffer!
+267.618:0b00:0b04:info:vkd3d-proton:vkd3d_bindless_state_add_binding: Device supports VK_EXT_descriptor_buffer!
+267.618:0b00:0b04:info:vkd3d-proton:vkd3d_bindless_state_add_binding: Device supports VK_EXT_descriptor_buffer!
+267.630:0b00:0b04:info:vkd3d-proton:d3d12_device_caps_init_shader_model: Enabling support for SM 6.6.
+267.630:0b00:0b04:info:vkd3d-proton:d3d12_device_caps_init_shader_model: Enabling support for SM 6.7.
+267.630:0b00:0b04:info:vkd3d-proton:d3d12_device_caps_init_shader_model: Enabling support for SM 6.8.
+267.630:0b00:0b04:fixme:vkd3d-proton:d3d12_device_caps_init_feature_options1: TotalLaneCount = 2048, may be inaccurate.
+267.630:0b00:0b04:info:vkd3d-proton:vkd3d_pipeline_library_init_disk_cache: Remapping VKD3D_SHADER_CACHE to: vkd3d-proton.cache.
+267.630:0b00:0b04:info:vkd3d-proton:vkd3d_pipeline_library_init_disk_cache: Attempting to load disk cache from: vkd3d-proton.cache.
+267.631:0b00:0b04:warn:vkd3d-proton:d3d12_device_create: Feature level 0xc200 is not supported.
+267.633:0b00:0b44:info:vkd3d-proton:vkd3d_pipeline_library_disk_thread_main: Performing async setup of stream archive ...
+267.633:0b00:0b44:info:vkd3d-proton:vkd3d_pipeline_library_disk_cache_merge: No write cache exists. No need to merge any disk caches.
+267.634:0b00:0b44:info:vkd3d-proton:vkd3d_pipeline_library_disk_cache_initial_setup: Merging pipeline libraries took 1.085 ms.
+267.634:0b00:0b44:info:vkd3d-proton:vkd3d_pipeline_library_disk_cache_initial_setup: Failed to map read-only cache: vkd3d-proton.cache.
+267.634:0b00:0b44:info:vkd3d-proton:vkd3d_pipeline_library_disk_thread_main: Done performing async setup of stream archive.
+267.642:0b00:0b04:warn:vkd3d-proton:openvr_instance_extensions: Failed to open VR registry key, status 2.
+267.642:0b00:0b04:warn:vkd3d-proton:openxr_vulkan_extensions: wineopenxr.dll is missing required symbols.
+267.652:0b00:0b04:info:vkd3d-proton:vkd3d_get_vk_version: vkd3d-proton - applicationVersion: 3.0.0.
+267.652:0b00:0b04:info:vkd3d-proton:vkd3d_instance_init: vkd3d-proton - build: bd3f5e3d245c3ad.
+267.677:0b00:0b04:warn:vkd3d-proton:openvr_device_extensions: Failed to open VR registry key, status 2.
+267.677:0b00:0b04:warn:vkd3d-proton:openxr_vulkan_extensions: wineopenxr.dll is missing required symbols.
+267.790:0b00:0b04:info:vkd3d-proton:vkd3d_physical_device_info_init_maint9: Implementation supports eliding QFOT for non-compressed optimal images.
+267.810:0b00:0b04:warn:vkd3d-proton:d3d12_device_create_vkd3d_queues: Could not allocate an out of band queue for queue family 0. All out of band work will happen on the in band queue.
+267.810:0b00:0b04:warn:vkd3d-proton:d3d12_device_create_vkd3d_queues: Could not allocate an out of band queue for queue family 1. All out of band work will happen on the in band queue.
+267.810:0b00:0b04:warn:vkd3d-proton:d3d12_device_create_vkd3d_queues: Could not allocate an out of band queue for queue family 5. All out of band work will happen on the in band queue.
+267.810:0b00:0b04:info:vkd3d-proton:d3d12_device_init_workarounds: Detected Linux kernel version 6.8.0
+267.825:0b00:0b04:warn:vkd3d-proton:vkd3d_init_depth_stencil_formats: Mapping VK_FORMAT_D24_UNORM_S8_UINT to VK_FORMAT_D32_SFLOAT_S8_UINT.
+267.826:0b00:0b04:info:vkd3d-proton:vkd3d_memory_info_decide_hvv_usage: Topology: Device heaps are split. Assuming small BAR situation.
+267.826:0b00:0b04:info:vkd3d-proton:vkd3d_memory_info_upload_hvv_memory_properties: Topology: HVV usage is not allowed, using HOST_COHERENT for UPLOAD.
+267.826:0b00:0b04:info:vkd3d-proton:vkd3d_bindless_state_get_bindless_flags: Enabling fast paths for advanced ExecuteIndirect() graphics and compute (EXT_dgc).
+267.826:0b00:0b04:info:vkd3d-proton:vkd3d_bindless_state_get_bindless_flags: Device supports VK_EXT_mutable_descriptor_type.
+267.826:0b00:0b04:info:vkd3d-proton:vkd3d_bindless_state_get_bindless_flags: Device supports ultra-fast path for descriptor copies.
+267.826:0b00:0b04:info:vkd3d-proton:vkd3d_bindless_state_get_bindless_flags: Device supports packed metadata path for descriptor copies.
+267.826:0b00:0b04:info:vkd3d-proton:vkd3d_bindless_state_add_binding: Device supports VK_EXT_descriptor_buffer!
+267.826:0b00:0b04:info:vkd3d-proton:vkd3d_bindless_state_add_binding: Device supports VK_EXT_descriptor_buffer!
+267.826:0b00:0b04:info:vkd3d-proton:vkd3d_bindless_state_add_binding: Device supports VK_EXT_descriptor_buffer!
+267.829:0b00:0b04:info:vkd3d-proton:d3d12_device_caps_init_shader_model: Enabling support for SM 6.6.
+267.829:0b00:0b04:info:vkd3d-proton:d3d12_device_caps_init_shader_model: Enabling support for SM 6.7.
+267.829:0b00:0b04:info:vkd3d-proton:d3d12_device_caps_init_shader_model: Enabling support for SM 6.8.
+267.829:0b00:0b04:fixme:vkd3d-proton:d3d12_device_caps_init_feature_options1: TotalLaneCount = 2048, may be inaccurate.
+267.829:0b00:0b04:info:vkd3d-proton:vkd3d_pipeline_library_init_disk_cache: Remapping VKD3D_SHADER_CACHE to: vkd3d-proton.cache.
+267.829:0b00:0b04:info:vkd3d-proton:vkd3d_pipeline_library_init_disk_cache: Attempting to load disk cache from: vkd3d-proton.cache.
+267.830:0b00:0b04:warn:vkd3d-proton:d3d12_device_create: Feature level 0xc100 is not supported.
+267.831:0b00:0b4c:info:vkd3d-proton:vkd3d_pipeline_library_disk_thread_main: Performing async setup of stream archive ...
+267.832:0b00:0b4c:info:vkd3d-proton:vkd3d_pipeline_library_disk_cache_merge: No write cache exists. No need to merge any disk caches.
+267.832:0b00:0b4c:info:vkd3d-proton:vkd3d_pipeline_library_disk_cache_initial_setup: Merging pipeline libraries took 1.070 ms.
+267.832:0b00:0b4c:info:vkd3d-proton:vkd3d_pipeline_library_disk_cache_initial_setup: Failed to map read-only cache: vkd3d-proton.cache.
+267.832:0b00:0b4c:info:vkd3d-proton:vkd3d_pipeline_library_disk_thread_main: Done performing async setup of stream archive.
+267.841:0b00:0b04:warn:vkd3d-proton:openvr_instance_extensions: Failed to open VR registry key, status 2.
+267.841:0b00:0b04:warn:vkd3d-proton:openxr_vulkan_extensions: wineopenxr.dll is missing required symbols.
+267.851:0b00:0b04:info:vkd3d-proton:vkd3d_get_vk_version: vkd3d-proton - applicationVersion: 3.0.0.
+267.851:0b00:0b04:info:vkd3d-proton:vkd3d_instance_init: vkd3d-proton - build: bd3f5e3d245c3ad.
+267.877:0b00:0b04:warn:vkd3d-proton:openvr_device_extensions: Failed to open VR registry key, status 2.
+267.877:0b00:0b04:warn:vkd3d-proton:openxr_vulkan_extensions: wineopenxr.dll is missing required symbols.
+268.027:0b00:0b04:info:vkd3d-proton:vkd3d_physical_device_info_init_maint9: Implementation supports eliding QFOT for non-compressed optimal images.
+268.052:0b00:0b04:warn:vkd3d-proton:d3d12_device_create_vkd3d_queues: Could not allocate an out of band queue for queue family 0. All out of band work will happen on the in band queue.
+268.052:0b00:0b04:warn:vkd3d-proton:d3d12_device_create_vkd3d_queues: Could not allocate an out of band queue for queue family 1. All out of band work will happen on the in band queue.
+268.052:0b00:0b04:warn:vkd3d-proton:d3d12_device_create_vkd3d_queues: Could not allocate an out of band queue for queue family 5. All out of band work will happen on the in band queue.
+268.052:0b00:0b04:info:vkd3d-proton:d3d12_device_init_workarounds: Detected Linux kernel version 6.8.0
+268.067:0b00:0b04:warn:vkd3d-proton:vkd3d_init_depth_stencil_formats: Mapping VK_FORMAT_D24_UNORM_S8_UINT to VK_FORMAT_D32_SFLOAT_S8_UINT.
+268.068:0b00:0b04:info:vkd3d-proton:vkd3d_memory_info_decide_hvv_usage: Topology: Device heaps are split. Assuming small BAR situation.
+268.068:0b00:0b04:info:vkd3d-proton:vkd3d_memory_info_upload_hvv_memory_properties: Topology: HVV usage is not allowed, using HOST_COHERENT for UPLOAD.
+268.068:0b00:0b04:info:vkd3d-proton:vkd3d_bindless_state_get_bindless_flags: Enabling fast paths for advanced ExecuteIndirect() graphics and compute (EXT_dgc).
+268.068:0b00:0b04:info:vkd3d-proton:vkd3d_bindless_state_get_bindless_flags: Device supports VK_EXT_mutable_descriptor_type.
+268.068:0b00:0b04:info:vkd3d-proton:vkd3d_bindless_state_get_bindless_flags: Device supports ultra-fast path for descriptor copies.
+268.068:0b00:0b04:info:vkd3d-proton:vkd3d_bindless_state_get_bindless_flags: Device supports packed metadata path for descriptor copies.
+268.068:0b00:0b04:info:vkd3d-proton:vkd3d_bindless_state_add_binding: Device supports VK_EXT_descriptor_buffer!
+268.068:0b00:0b04:info:vkd3d-proton:vkd3d_bindless_state_add_binding: Device supports VK_EXT_descriptor_buffer!
+268.068:0b00:0b04:info:vkd3d-proton:vkd3d_bindless_state_add_binding: Device supports VK_EXT_descriptor_buffer!
+268.074:0b00:0b04:info:vkd3d-proton:d3d12_device_caps_init_shader_model: Enabling support for SM 6.6.
+268.074:0b00:0b04:info:vkd3d-proton:d3d12_device_caps_init_shader_model: Enabling support for SM 6.7.
+268.074:0b00:0b04:info:vkd3d-proton:d3d12_device_caps_init_shader_model: Enabling support for SM 6.8.
+268.074:0b00:0b04:fixme:vkd3d-proton:d3d12_device_caps_init_feature_options1: TotalLaneCount = 2048, may be inaccurate.
+268.074:0b00:0b04:info:vkd3d-proton:vkd3d_pipeline_library_init_disk_cache: Remapping VKD3D_SHADER_CACHE to: vkd3d-proton.cache.
+268.074:0b00:0b04:info:vkd3d-proton:vkd3d_pipeline_library_init_disk_cache: Attempting to load disk cache from: vkd3d-proton.cache.
+268.075:0b00:0b54:info:vkd3d-proton:vkd3d_pipeline_library_disk_thread_main: Performing async setup of stream archive ...
+268.076:0b00:0b54:info:vkd3d-proton:vkd3d_pipeline_library_disk_cache_merge: No write cache exists. No need to merge any disk caches.
+268.077:0b00:0b54:info:vkd3d-proton:vkd3d_pipeline_library_disk_cache_initial_setup: Merging pipeline libraries took 1.362 ms.
+268.077:0b00:0b54:info:vkd3d-proton:vkd3d_pipeline_library_disk_cache_initial_setup: Failed to map read-only cache: vkd3d-proton.cache.
+268.077:0b00:0b54:info:vkd3d-proton:vkd3d_pipeline_library_disk_thread_main: Done performing async setup of stream archive.
+info:  Game: BlizzardBrowser.exe
+info:  DXVK: v2.7.1-509-g1676dcaf342a9b1
+info:  Build: x86 gcc 14.2.0
+info:  Vulkan: Found vkGetInstanceProcAddr in winevulkan.dll @ 0x68474030
+info:  Extension providers:
+info:    Platform WSI
+info:    OpenVR
+info:  OpenVR: could not open registry key, status 2
+warn:  OpenVR: Failed to initialize OpenVR
+info:    OpenXR
+info:  Enabled instance extensions:
+info:    VK_EXT_surface_maintenance1
+info:    VK_KHR_get_surface_capabilities2
+info:    VK_KHR_surface
+info:    VK_KHR_win32_surface
+info:  Found device: AMD Radeon RX 570 Series (RADV POLARIS10) (radv 25.2.8)
+info:  Found device: llvmpipe (LLVM 20.1.2, 128 bits) (llvmpipe 25.2.8)
+info:    Skipping: Software driver
+info:  D3D11InternalCreateDevice: Maximum supported feature level: D3D_FEATURE_LEVEL_12_0
+info:  D3D11InternalCreateDevice: Using feature level D3D_FEATURE_LEVEL_11_1
+info:  Creating device:
+info:  AMD Radeon RX 570 Series (RADV POLARIS10):
+info:    Driver   : radv 25.2.8
+info:  Queues:
+info:    Graphics : (0, 0)
+info:    Transfer : (1, 0)
+info:    Sparse   : (0, 0)
+info:  Memory:
+info:    Heap 0: 3.75 GiB (DEVICE_LOCAL)
+info:    Budget: 2.32 GiB
+info:      Type  0: DEVICE_LOCAL
+info:      Type  1: DEVICE_LOCAL
+info:    Heap 1: 3.84 GiB
+info:    Budget: 3.71 GiB
+info:      Type  2: HOST_VISIBLE | HOST_COHERENT
+info:      Type  5: HOST_VISIBLE | HOST_COHERENT | HOST_CACHED
+info:      Type  6: HOST_VISIBLE | HOST_COHERENT | HOST_CACHED
+info:    Heap 2: 256 MiB (DEVICE_LOCAL)
+info:    Budget: 147 MiB
+info:      Type  3: DEVICE_LOCAL | HOST_VISIBLE | HOST_COHERENT
+info:      Type  4: DEVICE_LOCAL | HOST_VISIBLE | HOST_COHERENT
+info:  Enabled extensions:
+info:    VK_EXT_attachment_feedback_loop_layout
+info:    VK_EXT_custom_border_color
+info:    VK_EXT_depth_clip_enable
+info:    VK_EXT_depth_bias_control
+info:    VK_EXT_descriptor_buffer
+info:    VK_EXT_extended_dynamic_state3
+info:    VK_EXT_graphics_pipeline_library
+info:    VK_EXT_hdr_metadata
+info:    VK_EXT_line_rasterization
+info:    VK_EXT_memory_priority
+info:    VK_EXT_multi_draw
+info:    VK_EXT_non_seamless_cube_map
+info:    VK_EXT_robustness2
+info:    VK_EXT_sample_locations
+info:    VK_EXT_shader_module_identifier
+info:    VK_EXT_shader_stencil_export
+info:    VK_EXT_swapchain_maintenance1
+info:    VK_EXT_transform_feedback
+info:    VK_EXT_vertex_attribute_divisor
+info:    VK_KHR_external_memory_win32
+info:    VK_KHR_external_semaphore_win32
+info:    VK_KHR_load_store_op_none
+info:    VK_KHR_maintenance5
+info:    VK_KHR_maintenance6
+info:    VK_KHR_maintenance8
+info:    VK_KHR_maintenance9
+info:    VK_KHR_pipeline_library
+info:    VK_KHR_present_id
+info:    VK_KHR_present_wait
+info:    VK_KHR_shader_float_controls2
+info:    VK_KHR_shader_subgroup_uniform_control_flow
+info:    VK_KHR_swapchain
+info:    VK_KHR_swapchain_mutable_format
+info:    VK_KHR_win32_keyed_mutex
+info:  Enabled features:
+info:    depthBiasClamp                 : 1
+info:    depthBounds                    : 1
+info:    depthClamp                     : 1
+info:    drawIndirectFirstInstance      : 1
+info:    dualSrcBlend                   : 1
+info:    fillModeNonSolid               : 1
+info:    fragmentStoresAndAtomics       : 1
+info:    fullDrawIndexUint32            : 1
+info:    geometryShader                 : 1
+info:    imageCubeArray                 : 1
+info:    independentBlend               : 1
+info:    logicOp                        : 1
+info:    multiDrawIndirect              : 1
+info:    multiViewport                  : 1
+info:    occlusionQueryPrecise          : 1
+info:    pipelineStatisticsQuery        : 1
+info:    robustBufferAccess             : 1
+info:    sampleRateShading              : 1
+info:    samplerAnisotropy              : 1
+info:    shaderClipDistance             : 1
+info:    shaderCullDistance             : 1
+info:    shaderFloat64                  : 1
+info:    shaderImageGatherExtended      : 1
+info:    shaderInt16                    : 1
+info:    shaderInt64                    : 1
+info:    shaderUniformBufferArrayDynamicIndexing : 1
+info:    shaderSampledImageArrayDynamicIndexing : 1
+info:    shaderStorageBufferArrayDynamicIndexing : 1
+info:    shaderStorageImageArrayDynamicIndexing : 1
+info:    sparseBinding                  : 1
+info:    sparseResidencyBuffer          : 1
+info:    sparseResidencyImage2D         : 1
+info:    sparseResidencyImage3D         : 1
+info:    sparseResidency2Samples        : 0
+info:    sparseResidency4Samples        : 0
+info:    sparseResidency8Samples        : 0
+info:    sparseResidency16Samples       : 0
+info:    sparseResidencyAliased         : 1
+info:    shaderResourceResidency        : 1
+info:    shaderResourceMinLod           : 1
+info:    tessellationShader             : 1
+info:    textureCompressionBC           : 1
+info:    variableMultisampleRate        : 1
+info:    vertexPipelineStoresAndAtomics : 1
+info:    wideLines                      : 1
+info:    shaderDrawParameters           : 1
+info:    storagePushConstant16          : 1
+info:    bufferDeviceAddress            : 1
+info:    descriptorIndexing             : 1
+info:    shaderUniformTexelBufferArrayDynamicIndexing : 1
+info:    shaderStorageTexelBufferArrayDynamicIndexing : 1
+info:    shaderUniformBufferArrayNonUniformIndexing : 1
+info:    shaderSampledImageArrayNonUniformIndexing : 1
+info:    shaderStorageBufferArrayNonUniformIndexing : 1
+info:    shaderStorageImageArrayNonUniformIndexing : 1
+info:    shaderUniformTexelBufferArrayNonUniformIndexing : 1
+info:    shaderStorageTexelBufferArrayNonUniformIndexing : 1
+info:    descriptorBindingSampledImageUpdateAfterBind : 1
+info:    descriptorBindingUpdateUnusedWhilePending : 1
+info:    descriptorBindingPartiallyBound : 1
+info:    drawIndirectCount              : 1
+info:    hostQueryReset                 : 1
+info:    runtimeDescriptorArray         : 1
+info:    samplerFilterMinmax            : 1
+info:    samplerMirrorClampToEdge       : 1
+info:    scalarBlockLayout              : 1
+info:    shaderFloat16                  : 0
+info:    shaderInt8                     : 1
+info:    shaderOutputViewportIndex      : 1
+info:    shaderOutputLayer              : 1
+info:    timelineSemaphore              : 1
+info:    uniformBufferStandardLayout    : 1
+info:    vulkanMemoryModel              : 1
+info:    computeFullSubgroups           : 1
+info:    dynamicRendering               : 1
+info:    maintenance4                   : 1
+info:    robustImageAccess              : 0
+info:    pipelineCreationCacheControl   : 1
+info:    shaderDemoteToHelperInvocation : 1
+info:    shaderZeroInitializeWorkgroupMemory : 1
+info:    subgroupSizeControl            : 1
+info:    synchronization2               : 1
+info:  VK_EXT_attachment_feedback_loop_layout:
+info:    attachmentFeedbackLoopLayout   : 1
+info:  VK_EXT_border_color_swizzle:
+info:    borderColorSwizzle             : 0
+info:    borderColorSwizzleFromImage    : 0
+info:  VK_EXT_conservative_rasterization:
+info:    extConservativeRasterization   : 0
+info:  VK_EXT_custom_border_color:
+info:    customBorderColors             : 1
+info:    customBorderColorWithoutFormat : 1
+info:  VK_EXT_depth_clip_enable:
+info:    depthClipEnable                : 1
+info:  VK_EXT_depth_bias_control:
+info:    depthBiasControl               : 1
+info:    leastRepresentableValueForceUnormRepresentation : 1
+info:    floatRepresentation            : 1
+info:    depthBiasExact                 : 1
+info:  VK_EXT_descriptor_buffer:
+info:    descriptorBuffer               : 1
+info:  VK_EXT_descriptor_heap:
+info:    descriptorHeap                 : 0
+info:  VK_EXT_extended_dynamic_state3:
+info:    extendedDynamicState3AlphaToCoverageEnable : 1
+info:    extendedDynamicState3DepthClipEnable : 1
+info:    extendedDynamicState3RasterizationSamples : 1
+info:    extendedDynamicState3SampleMask : 1
+info:    extendedDynamicState3LineRasterizationMode : 1
+info:    extendedDynamicState3SampleLocationsEnable : 1
+info:  VK_EXT_fragment_shader_interlock:
+info:    fragmentShaderSampleInterlock  : 0
+info:    fragmentShaderPixelInterlock   : 0
+info:  VK_EXT_full_screen_exclusive:
+info:    extFullScreenExclusive         : 0
+info:  VK_EXT_graphics_pipeline_library:
+info:    graphicsPipelineLibrary        : 1
+info:  VK_EXT_hdr_metadata:
+info:    extHdrMetadata                 : 1
+info:  VK_EXT_line_rasterization:
+info:    rectangularLines               : 1
+info:    smoothLines                    : 1
+info:  VK_EXT_memory_budget:
+info:    extMemoryBudget                : 1
+info:  VK_EXT_memory_priority:
+info:    memoryPriority                 : 1
+info:  VK_EXT_multi_draw:
+info:    multiDraw                      : 1
+info:  VK_EXT_non_seamless_cube_map:
+info:    nonSeamlessCubeMap             : 1
+info:  VK_EXT_pageable_device_local_memory:
+info:    pageableDeviceLocalMemory      : 0
+info:  VK_EXT_robustness2:
+info:    robustBufferAccess2            : 1
+info:    robustImageAccess2             : 1
+info:    nullDescriptor                 : 1
+info:  VK_EXT_sample_locations:
+info:    extSampleLocations             : 1
+info:  VK_EXT_shader_module_identifier:
+info:    shaderModuleIdentifier         : 1
+info:  VK_EXT_shader_stencil_export:
+info:    extShaderStencilExport         : 1
+info:  VK_EXT_swapchain_colorspace:
+info:    extSwapchainColorSpace         : 0
+info:  VK_EXT_swapchain_maintenance1:
+info:    swapchainMaintenance1          : 1
+info:  VK_EXT_transform_feedback:
+info:    transformFeedback              : 1
+info:    geometryStreams                : 1
+info:  VK_EXT_vertex_attribute_divisor:
+info:    vertexAttributeInstanceRateDivisor : 1
+info:    vertexAttributeInstanceRateZeroDivisor : 1
+info:  VK_KHR_external_memory_win32:
+info:    khrExternalMemoryWin32         : 1
+info:  VK_KHR_external_semaphore_win32:
+info:    khrExternalSemaphoreWin32      : 1
+info:  VK_KHR_load_store_op_none:
+info:    khrLoadStoreOpNone             : 1
+info:  VK_KHR_maintenance5:
+info:    maintenance5                   : 1
+info:  VK_KHR_maintenance6:
+info:    maintenance6                   : 1
+info:  VK_KHR_maintenance7:
+info:    maintenance7                   : 0
+info:  VK_KHR_maintenance8:
+info:    maintenance8                   : 1
+info:  VK_KHR_maintenance9:
+info:    maintenance9                   : 1
+info:  VK_KHR_maintenance10:
+info:    maintenance10                  : 0
+info:  VK_KHR_pipeline_library:
+info:    khrPipelineLibrary             : 1
+info:  VK_KHR_present_id:
+info:    presentId                      : 1
+info:  VK_KHR_present_id2:
+info:    presentId2                     : 0
+info:  VK_KHR_present_wait:
+info:    presentWait                    : 1
+info:  VK_KHR_present_wait2:
+info:    presentWait2                   : 0
+info:  VK_KHR_shader_float_controls2:
+info:    shaderFloatControls2           : 1
+info:  VK_KHR_shader_subgroup_uniform_control_flow:
+info:    shaderSubgroupUniformControlFlow : 1
+info:  VK_KHR_shader_untyped_pointers:
+info:    shaderUntypedPointers          : 0
+info:  VK_KHR_swapchain:
+info:    khrSwapchain                   : 1
+info:  VK_KHR_swapchain_maintenance1:
+info:    swapchainMaintenance1          : 0
+info:  VK_KHR_swapchain_mutable_format:
+info:    khrSwapchainMutableFormat      : 1
+info:  VK_KHR_unified_image_layouts:
+info:    unifiedImageLayouts            : 0
+info:  VK_KHR_win32_keyed_mutex:
+info:    khrWin32KeyedMutex             : 1
+info:  VK_NV_low_latency2:
+info:    nvLowLatency2                  : 0
+info:  VK_NV_raw_access_chains:
+info:    shaderRawAccessChains          : 0
+info:  VK_NVX_binary_import:
+info:    nvxBinaryImport                : 0
+info:  VK_NVX_image_view_handle:
+info:    nvxImageViewHandle             : 0
+info:  Descriptor sizes (set alignment: 64)
+info:    Sampler              : 16
+info:    Uniform buffer       : 16
+info:    Storage buffer       : 16
+info:    Uniform texel buffer : 16
+info:    Storage texel buffer : 16
+info:    Sampled image        : 64
+info:    Storage image        : 32
+info:  Memory type mask for sparse resources: 0x2d
+info:  Memory type mask for buffer resources: 0x2d, usage: 0x219ff
+info:  Creating sampler descriptor heap (32 kB)
+info:  Graphics pipeline libraries supported
+info:  Binding model: Descriptor buffer
+info:  DXGI: VK_FORMAT_D24_UNORM_S8_UINT -> VK_FORMAT_D32_SFLOAT_S8_UINT
+info:  Creating resource descriptor heap (4096 kB)
+warn:  D3D11VideoDevice::GetVideoDecoderProfileCount: Stub
+warn:  D3D11Texture2D::QueryInterface: Unknown interface query
+warn:  f8fb5c27-c6b3-4f75-a4c8-439af2ef564c
+warn:  D3D11DXGIDevice::QueryInterface: Unknown interface query
+warn:  0ec870a6-5d7e-4c22-8cfc-5baae07616ed
+warn:  DXGI: MakeWindowAssociation: Ignoring flags
+info:  Presenter: Actual swapchain properties:
+info:    Format:       VK_FORMAT_B8G8R8A8_UNORM
+info:    Color space:  VK_COLOR_SPACE_SRGB_NONLINEAR_KHR
+info:    Present mode: VK_PRESENT_MODE_FIFO_KHR (dynamic: yes)
+info:    Buffer size:  1680x1050
+info:    Image count:  4
+info:  Game: xalia.exe
+info:  DXVK: v2.7.1-509-g1676dcaf342a9b1
+info:  Build: x86_64 gcc 14.2.0
+info:  Vulkan: Found vkGetInstanceProcAddr in winevulkan.dll @ 0x6ffffcd0fbf0
+info:  Extension providers:
+info:    Platform WSI
+info:    OpenVR
+info:  OpenVR: could not open registry key, status 2
+warn:  OpenVR: Failed to initialize OpenVR
+info:    OpenXR
+warn:  OpenXR: Unable to get required Vulkan instance extensions size
+info:  Enabled instance extensions:
+info:    VK_EXT_surface_maintenance1
+info:    VK_KHR_get_surface_capabilities2
+info:    VK_KHR_surface
+info:    VK_KHR_win32_surface
+info:  Found device: AMD Radeon RX 570 Series (RADV POLARIS10) (radv 25.2.8)
+info:  Found device: llvmpipe (LLVM 20.1.2, 128 bits) (llvmpipe 25.2.8)
+info:    Skipping: Software driver
+warn:  OpenXR: Unable to get required Vulkan Device extensions size
+info:  Found cache file: C:\users\steamuser\AppData\Local\dxvk\3e8b89f6991674d1.dxvk.bin
+info:  DXVK: Using 4 compiler threads
