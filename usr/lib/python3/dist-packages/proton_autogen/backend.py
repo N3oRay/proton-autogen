@@ -14,7 +14,7 @@ import configparser
 CONFIG_FILE = os.path.expanduser("~/.config/proton-autogen.conf")
 CONFIG_DIR = os.path.expanduser("~/.config/proton-autogen/games")
 
-VERSION = "2.3.4"
+VERSION = "2.3.6"
 # ----------------------------
 # PROTON PATHS FIXED (robuste multi-distro)
 # ----------------------------
@@ -439,8 +439,8 @@ def add_game(exe_path: str):
         "name": os.path.basename(exe_path),
         "path": exe_path,
         "proton": proton.get("path") if isinstance(proton, dict) else proton,
-        "mangohud": has_mangohud(),
-        "gamemode": has_gamemode(),
+        "mangohud": False, # has_mangohud()
+        "gamemode": False, # has_gamemode()
         "env": {
             "DXVK_ASYNC": "1"
         }

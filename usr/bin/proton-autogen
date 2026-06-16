@@ -167,7 +167,7 @@ def print_runtime_info(proton, exe_path, mangohud_available):
     print(f"  Path       : {proton_path(proton)}")
 
     print("  proton-call:", "detected" if has_proton_call() else "missing")
-    print("  GameMode  :", "enabled" if has_gamemode() else "disabled")
+    print("  GameMode  :", "available" if has_gamemode() else "unavailable")
     print("  MangoHud  :", "available" if mangohud_available else "unavailable")
     print("")
 
@@ -191,7 +191,7 @@ def run_standard(exe_path: str):
         sys.exit(1)
 
 
-def base_env():
+def base_env(enable_mangohud=False, enable_gamemode=False):
     env = os.environ.copy()
 
     # HARD CLEAN (important)
@@ -203,18 +203,30 @@ def base_env():
     ]:
         env.pop(k, None)
 
-    env["DXVK_HUD"] = "compiler"
-    env["RADV_PERFTEST"] = "gpl"
-    env["WINEESYNC"] = "1"
-    env["WINEFSYNC"] = "1"
+    env["PROTONFIXES_DISABLE"] = "1"
+    env["PROTON_LOG"] = "1"
+    env["WINEDEBUG"] = "err+all"
+    if enable_mangohud == False:
+        env["DXVK_HUD"] = "compiler"
+        env["RADV_PERFTEST"] = "gpl"
+        env["WINEESYNC"] = "1"
+        env["WINEFSYNC"] = "1"
+
+    env["vblank_mode"] = "0"
+    env["mesa_glthread"] = "true"
+
     env["WINE_SIMULATE_WRITECOPY"] = "1"
     env["WINEDLLOVERRIDES"] = "winegstreamer=d"
+
+
+    env["STEAM_COMPAT_APP_ID"] = "0"
+    env["PROTON_DISABLE_XALIA"] = "1"
 
     return env
 
 
 def run_game_proton(exe_path, proton, launch_mode="proton", enable_mangohud=False, enable_gamemode=False, prefix_mode="main"):
-    env = base_env()
+    env = base_env(enable_mangohud, enable_gamemode)
     game_id = hashlib.md5(exe_path.encode()).hexdigest()
 
     if prefix_mode == "shared":
@@ -302,8 +314,9 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
             print("[proton-autogen] stored Proton missing → fallback")
             proton = find_proton()
     else:
-        cfg_mangohud = True
-        cfg_gamemode = True
+        # By Default
+        cfg_mangohud = False
+        cfg_gamemode = False
         proton = find_proton()
 
 
@@ -333,7 +346,7 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
         sys.exit(1)
 
     if launch_mode == "proton-call" and has_proton_call():
-        env = base_env()
+        env = base_env(enable_mangohud, enable_gamemode)
         env["GE_PROTON"] = proton_path(proton)
         env["GAME_EXE"] = exe_path
 
