@@ -14,7 +14,7 @@ import configparser
 CONFIG_FILE = os.path.expanduser("~/.config/proton-autogen.conf")
 CONFIG_DIR = os.path.expanduser("~/.config/proton-autogen/games")
 
-VERSION = "2.3.8"
+VERSION = "2.3.9"
 # ----------------------------
 # PROTON PATHS FIXED (robuste multi-distro)
 # ----------------------------
@@ -23,10 +23,6 @@ DEFAULT_PROTON_PATHS = [
     "~/.steam/root/compatibilitytools.d",
     "~/.steam/steam/compatibilitytools.d",
     "~/.local/share/Steam/compatibilitytools.d",
-
-    # Flatpak Steam in ~/.config/proton-autogen.conf by default
-    #"~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools.d",
-    #"~/.var/app/com.valvesoftware.Steam/.steam/root/compatibilitytools.d",
 
     # Steam runtimes
     "~/.steam/steam/steamapps/common",
@@ -41,6 +37,7 @@ def load_proton_paths():
         os.makedirs(os.path.dirname(CONFIG_FILE), exist_ok=True)
 
         sample = """[proton]
+# Flatpak Steam in ~/.config/proton-autogen.conf by default
 # Add custom Proton locations here
 # You can separate paths with newlines, ":" or ";"
 

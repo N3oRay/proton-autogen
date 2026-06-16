@@ -4,6 +4,7 @@ import os
 import sys
 import subprocess
 import hashlib
+from pathlib import Path
 from proton_autogen.backend import list_programs, add_game, load_game_config, find_proton_by_name, find_proton, has_gamemode, has_mangohud, normalize_flag, print_diagnostic, list_protons, has_proton_call, has_wine, proton_name, proton_path, load_proton_paths, VERSION
 
 
@@ -179,21 +180,37 @@ def print_runtime_info(proton, exe_path, mangohud_available):
 
 
 
+
 def run_standard(exe_path: str):
     print("[proton-autogen] Proton unavailable → using Wine fallback")
 
-    if has_wine():
-        result = subprocess.run(["wine", exe_path])
-        sys.exit(result.returncode)
-    else:
+    if not has_wine():
         print("[proton-autogen] ERROR: No runtime found")
-        print("")
+        print()
         print("Missing:")
         print("  - Proton")
         print("  - Wine")
-        print("")
+        print()
         print("Install Wine:")
         print("  sudo apt install wine")
+        sys.exit(1)
+
+    if not Path(exe_path).is_file():
+        print(f"✗ File not found: {exe_path}")
+        sys.exit(1)
+
+    try:
+        exe_path = Path(exe_path).resolve()
+
+        result = subprocess.run(
+            ["wine", str(exe_path)],
+            cwd=str(exe_path.parent)
+        )
+
+        sys.exit(result.returncode)
+
+    except Exception as e:
+        print(f"✗ Error running {exe_path} with Wine: {e}")
         sys.exit(1)
 
 

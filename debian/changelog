@@ -1,7 +1,6 @@
-proton-autogen (2.3.7) noble; urgency=medium
+proton-autogen (2.3.9) noble; urgency=medium
 
-  * Initial Launchpad release
-  * Improve Proton detection
-  * Add KDE/Nemo integration
+  * Major Wine fix. Added exception handling, improved execution, path validation.
+  * Clean code
 
  -- N3oray <n3oray77@gmail.com>  Wed, 10 Jun 2026 12:00:00 +0200
