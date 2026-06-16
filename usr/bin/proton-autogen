@@ -83,18 +83,21 @@ Information:
   proton-autogen --about
   proton-autogen --help
 
-Prefix:
-  proton_autogen --p
-  (Prefix : STEAM_COMPAT_DATA_PATH=~/Documents/Proton/env/Proton Custom/)
-  proton-autogen --prefixauto
-  proton-autogen --prefixshared
-  (Prefix by default : ~/Documents/Proton/prefixes/main)
+Prefix: (STEAM_COMPAT_DATA_PATH)
+  proton_autogen --pc
+    (Prefix Custom       : ~/Documents/Proton/env/Proton Custom/)
+  proton-autogen --pa
+    (Prefix auto         : ~/Documents/Proton/env/UnrealTournament-a12bc34d)
+  proton-autogen --ps
+    (Prefix shared       : ~/Documents/Proton/env/shared)
+  proton-autogen
+    (Prefix by default   : ~/Documents/Proton/env/main)
 
 Discovery:
   proton-autogen --list-protons
   proton-autogen --list-programs
   proton-autogen --proton-paths
-  proton-autogen --diagnostic
+  proton-autogen --diag
 
 Game management:
   proton-autogen add <file.exe>
@@ -237,6 +240,43 @@ def base_env(enable_mangohud=False, enable_gamemode=False, oldgame=False):
     return env
 
 
+def get_prefix_path(prefix_mode: str, exe_path: str) -> str:
+    root = os.path.expanduser("~/Documents/Proton/env")
+
+    if prefix_mode == "auto":
+        name = os.path.splitext(
+            os.path.basename(exe_path)
+        )[0]
+
+        # Nettoyage minimal du nom
+        safe_name = (
+            name.replace(" ", "_")
+                .replace("/", "_")
+                .replace("\\", "_")
+        )
+
+        short_hash = hashlib.md5(
+            exe_path.encode()
+        ).hexdigest()[:8]
+
+        return os.path.join(
+            root,
+            f"{safe_name}-{short_hash}"
+        )
+
+    prefixes = {
+        "main": os.path.join(root, "main"),
+        "shared": os.path.join(root, "shared"),
+        "custom": os.path.expanduser(
+            "~/Documents/Proton/env/Proton Custom"
+        ),
+    }
+
+    return prefixes.get(
+        prefix_mode,
+        prefixes["main"]
+    )
+
 def run_game_proton(exe_path, proton, launch_mode="proton",
                     enable_mangohud=False, enable_gamemode=False,
                     prefix_mode="main", oldgame=False):
@@ -256,16 +296,9 @@ def run_game_proton(exe_path, proton, launch_mode="proton",
             oldgame=oldgame
         )
 
-        if prefix_mode == "shared":
-            prefix_path = os.path.expanduser("~/Documents/Proton/prefixes/shared")
-        elif prefix_mode == "main":
-            prefix_path = os.path.expanduser("~/Documents/Proton/prefixes/main")
-        elif prefix_mode == "custom":
-            prefix_path = os.path.expanduser("~/Documents/Proton/env/Proton Custom")
-        elif prefix_mode == "auto":
-            prefix_path = os.path.expanduser(f"~/Documents/Proton/prefixes/{game_id}")
-        else:
-            prefix_path = os.path.expanduser("~/Documents/Proton/prefixes/main")
+        prefix_path = get_prefix_path(prefix_mode, exe_path)
+        print(f"[proton-autogen] Prefix mode : {prefix_mode}")
+        print(f"[proton-autogen] Prefix path : {prefix_path}")
 
         env["STEAM_COMPAT_DATA_PATH"] = prefix_path
         os.makedirs(prefix_path, exist_ok=True)
@@ -450,7 +483,7 @@ def main():
         print_proton_paths()
         return
 
-    if "--diagnostic" in sys.argv:
+    if "--diag" in sys.argv:
         print_diagnostic()
         return
 
@@ -474,11 +507,11 @@ def main():
     # Mode prefix
     prefix_mode = "main"
 
-    if "--prefixshared" in sys.argv:
+    if "--ps" in sys.argv:
         prefix_mode = "shared"
-    elif "--prefixauto" in sys.argv:
+    elif "--pa" in sys.argv:
         prefix_mode = "auto"
-    elif "--p" in sys.argv:
+    elif "--pc" in sys.argv:
         prefix_mode = "custom"
 
     # Mode old game support (sample: UT99)
