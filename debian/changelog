@@ -1,6 +1,7 @@
-proton-autogen (2.3.9) noble; urgency=medium
+proton-autogen (2.4.0) noble; urgency=medium
 
-  * Major Wine fix. Added exception handling, improved execution, path validation.
-  * Clean code
+  * Clean code and comment
+  * Change --version to --v
+  * Final Stable version
 
  -- N3oray <n3oray77@gmail.com>  Wed, 10 Jun 2026 12:00:00 +0200

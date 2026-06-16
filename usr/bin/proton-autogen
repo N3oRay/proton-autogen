@@ -80,7 +80,7 @@ Usage:
   proton-autogen add <file.exe>
 
 Information:
-  proton-autogen --version
+  proton-autogen --v
   proton-autogen --about
   proton-autogen --help
 
@@ -180,6 +180,10 @@ def print_runtime_info(proton, exe_path, mangohud_available):
 
 
 
+# Wine fallback execution.
+# The executable is started from its parent directory to preserve
+# relative paths required by some applications (DLLs, assets, etc.).
+
 
 def run_standard(exe_path: str):
     print("[proton-autogen] Proton unavailable → using Wine fallback")
@@ -215,6 +219,12 @@ def run_standard(exe_path: str):
 
 
 def base_env(enable_mangohud=False, enable_gamemode=False, oldgame=False):
+
+    # Build a clean Wine/Proton environment for game execution.
+
+    # Removes potentially conflicting host variables, applies common
+    # Proton/Wine optimizations, and enables compatibility tweaks for
+    # older DirectX 8 era games when requested.
     env = os.environ.copy()
 
     # HARD CLEAN (important)
@@ -255,6 +265,9 @@ def base_env(enable_mangohud=False, enable_gamemode=False, oldgame=False):
     env["PROTON_DISABLE_XALIA"] = "1"
 
     return env
+
+
+# Return the Wine/Proton prefix path for the selected prefix mode.
 
 
 def get_prefix_path(prefix_mode: str, exe_path: str) -> str:
@@ -299,8 +312,6 @@ def run_game_proton(exe_path, proton, launch_mode="proton",
                     prefix_mode="main", oldgame=False):
 
     game_id = hashlib.md5(exe_path.encode()).hexdigest()
-
-
 
     # =========================
     # PROTON MODE
@@ -488,7 +499,7 @@ def main():
         print_about()
         return
 
-    if "--version" in sys.argv:
+    if "--v" in sys.argv:
         print(f"proton-autogen {VERSION}")
         return
 
