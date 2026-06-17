@@ -419,6 +419,7 @@ def env_ut99():
     env = init_env()
 
     print("[proton-autogen] PROFILE: UNREAL TOURNAMENT (UT99)")
+    print("[proton-autogen] Note: UT99 is more stable in windowed mode")
 
     env["PROTON_NO_ESYNC"] = "1"
     env["PROTON_NO_FSYNC"] = "1"
