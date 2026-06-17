@@ -225,6 +225,17 @@ def detect_exe_type(exe_path: str) -> str:
 
     name = os.path.basename(exe_path).lower()
 
+    legacy_app_keywords = [
+        "photoshop",
+        "photoshp",
+        "paintshop",
+        "imageready",
+        "acdsee",
+    ]
+
+    if any(k in name for k in legacy_app_keywords):
+        return "legacy"
+
     # -----------------------------
     # 1. LAUNCHERS (highest priority)
     # -----------------------------
@@ -323,6 +334,26 @@ def init_env():
 
     env["vblank_mode"] = "0"
     env["mesa_glthread"] = "true"
+
+    return env
+
+# ---------------------------------------------------
+# 0. LAUNCHER PROFILE (legacy Photoshop 6)
+# ---------------------------------------------------
+def env_legacy_app():
+    env = init_env()
+
+    print("[proton-autogen] PROFILE: LEGACY APPLICATION")
+
+    env["PROTON_USE_XALIA"] = "0"
+
+    env["PROTON_NO_ESYNC"] = "1"
+    env["PROTON_NO_FSYNC"] = "1"
+
+    env["WINEESYNC"] = "0"
+    env["WINEFSYNC"] = "0"
+
+    env.pop("DXVK_HUD", None)
 
     return env
 
@@ -448,6 +479,9 @@ def base_env(enable_mangohud=False, enable_gamemode=False, exe_path=""):
     """
     if exe_type == "launcher":
         env = env_launcher()
+
+    elif exe_type == "legacy":
+        env = env_legacy_app()
 
     elif exe_type == "dx11":
         env = env_dx11()
