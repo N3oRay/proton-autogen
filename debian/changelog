@@ -1,4 +1,4 @@
-proton-autogen (2.4.2) noble; urgency=medium
+proton-autogen (2.4.3) noble; urgency=medium
 
   * Improved executable detection and profile system
     - More robust classification for launchers, DX11/DX12 games, and legacy DX8/DX9 games
@@ -24,5 +24,8 @@ proton-autogen (2.4.2) noble; urgency=medium
   * Technical notes
     - Cleaner ESYNC/FSYNC handling per profile
     - Reduced unnecessary Vulkan/DXVK environment pollution
+
+  * Support Legacy
+    - Support legacy (Photoshop / ImageReady)
 
  -- N3oray <n3oray77@gmail.com>  Wed, 17 Jun 2026 00:00:00 +0200
