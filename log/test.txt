@@ -4,3 +4,47 @@ when running in fullscreen with WineD3D.
 
 Recommended setting:
 StartupFullscreen=False
+
+----------------------------Error 187 - Roblox :( ------------------------------------------
+~/Documents/Proton/env/shared/pfx/drive_c/users/steamuser/AppData/Local/Roblox/Versions/version-8884371d30284041$ proton-autogen RobloxPlayerBeta.exe --ps --profile dx12    
+echo $?
+[proton-autogen] Runtime information
+  Executable : /home/neoray/Documents/Proton/env/shared/pfx/drive_c/users/steamuser/AppData/Local/Roblox/Versions/version-8884371d30284041/RobloxPlayerBeta.exe
+  Proton     : GE-Proton10-34
+  Path       : /home/neoray/.steam/debian-installation/compatibilitytools.d/GE-Proton10-34
+  proton-call: detected
+  GameMode  : available
+  MangoHud  : available
+
+[proton-autogen] INIT PROFILE - type: dx12
+[proton-autogen] PROFILE: DX12
+[proton-autogen] FORCE PROFILE USER: dx12
+[proton-autogen] Apply PROFILE=DX12 | SYNC=ON | WINED3D=OFF | XALIA=ON | DXVK_HUD=OFF
+[proton-autogen] Prefix mode : shared
+[proton-autogen] Prefix path : /home/neoray/Documents/Proton/env/shared
+[proton-autogen] Launch mode: proton
+ProtonFixes[94594] WARN: Skipping fix execution. We are probably running a unit test.
+ProtonFixes[94594] WARN: Skipping fix execution. We are probably running a unit test.
+fsync: up and running.
+info:  Game: xalia.exe
+info:  DXVK: v2.7.1-509-g1676dcaf342a9b1
+info:  Build: x86_64 gcc 14.2.0
+info:  Vulkan: Found vkGetInstanceProcAddr in winevulkan.dll @ 0x6ffff41efbf0
+info:  Extension providers:
+info:    Platform WSI
+info:    OpenVR
+info:  OpenVR: could not open registry key, status 2
+warn:  OpenVR: Failed to initialize OpenVR
+info:    OpenXR
+warn:  OpenXR: Unable to get required Vulkan instance extensions size
+info:  Enabled instance extensions:
+info:    VK_EXT_surface_maintenance1
+info:    VK_KHR_get_surface_capabilities2
+info:    VK_KHR_surface
+info:    VK_KHR_win32_surface
+info:  Found device: AMD Radeon RX 570 Series (RADV POLARIS10) (radv 25.2.8)
+info:  Found device: llvmpipe (LLVM 20.1.2, 128 bits) (llvmpipe 25.2.8)
+info:    Skipping: Software driver
+warn:  OpenXR: Unable to get required Vulkan Device extensions size
+187
+
