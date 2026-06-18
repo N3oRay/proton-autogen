@@ -6,6 +6,29 @@ Recommended setting:
 StartupFullscreen=False
 
 ----------------------------Error 187 - Roblox :( ------------------------------------------
+~/Documents/Proton/env/shared/pfx/drive_c/users/steamuser/AppData/Local/Roblox/Versions/version-8884371d30284041$ proton-autogen RobloxPlayerBeta.exe --ps
+echo $?
+[proton-autogen] Runtime information
+  Executable : /home/neoray/Documents/Proton/env/shared/pfx/drive_c/users/steamuser/AppData/Local/Roblox/Versions/version-8884371d30284041/RobloxPlayerBeta.exe
+  Proton     : GE-Proton10-34
+  Path       : /home/neoray/.steam/debian-installation/compatibilitytools.d/GE-Proton10-34
+  proton-call: detected
+  GameMode  : available
+  MangoHud  : available
+
+[proton-autogen] INIT PROFILE - type: dx11
+[proton-autogen] PROFILE: DX11
+[proton-autogen] Apply PROFILE=DX11 | SYNC=ON | WINED3D=OFF | XALIA=OFF | DXVK_HUD=OFF
+[proton-autogen] Prefix mode : shared
+[proton-autogen] Prefix path : /home/neoray/Documents/Proton/env/shared
+[proton-autogen] Launch mode: proton
+ProtonFixes[94482] WARN: Skipping fix execution. We are probably running a unit test.
+ProtonFixes[94482] WARN: Skipping fix execution. We are probably running a unit test.
+fsync: up and running.
+187
+
+
+
 ~/Documents/Proton/env/shared/pfx/drive_c/users/steamuser/AppData/Local/Roblox/Versions/version-8884371d30284041$ proton-autogen RobloxPlayerBeta.exe --ps --profile dx12    
 echo $?
 [proton-autogen] Runtime information
