@@ -396,6 +396,32 @@ def env_dx11():
 
     return env
 
+def env_dx11BNet():
+    env = init_env()
+
+    print("[proton-autogen] PROFILE: DX11 Battle.net")
+
+    env["PROTON_USE_XALIA"] = "0"
+
+    # DXVK / Vulkan stability
+    env["DXVK_CONFIG"] = "dxgi.syncInterval=1"
+    env["RADV_PERFTEST"] = "gpl,nggc"
+
+    # Shader stability (important HOTS)
+    env["DXVK_ASYNC"] = "1"
+
+    env.pop("DXVK_HUD", None)
+
+    # Clean Proton-managed sync (IMPORTANT)
+    env.pop("PROTON_NO_ESYNC", None)
+    env.pop("PROTON_NO_FSYNC", None)
+    env.pop("WINEESYNC", None)
+    env.pop("WINEFSYNC", None)
+
+    env.pop("WINEDLLOVERRIDES", None)
+
+    return env
+
 
 # ---------------------------------------------------
 # 3. DX12 PROFILE (VKD3D)
@@ -566,6 +592,9 @@ def base_env(enable_mangohud=False, enable_gamemode=False, exe_path="", exe_type
 
     elif exe_type == "dx11":
         env = env_dx11()
+
+    elif exe_type == "dx11Bnet":
+        env = env_dx11BNet()
 
     elif exe_type == "dx12":
         env = env_dx12()

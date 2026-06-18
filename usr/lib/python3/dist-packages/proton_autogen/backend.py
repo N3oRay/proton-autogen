@@ -14,7 +14,7 @@ import configparser
 CONFIG_FILE = os.path.expanduser("~/.config/proton-autogen.conf")
 CONFIG_DIR = os.path.expanduser("~/.config/proton-autogen/games")
 
-VERSION = "2.5.0"
+VERSION = "2.5.1"
 #-----
 # proton-autogen: improved profile system (launcher / DX11 / DX12 / oldgames)
 # fixed environment leaks between profiles
@@ -115,10 +115,45 @@ paths = ~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools
 def detect_exe_type(exe_path: str) -> str:
     """
     Simple heuristic to classify executable type for proton-autogen.
-    Returns: launcher | dx11 | dx12 | oldgame
+    Returns: launcher | dx11 | dx11Bnet | dx12 | oldgame | ut3 | ut99 | legacy | desktop
     """
 
     name = os.path.basename(exe_path).lower()
+
+    # -----------------------------
+    # 0. Dx11 (highest priority)
+    # -----------------------------
+    batte_keywords = [
+        "battle.net",
+        "battlenet",
+        "battle net",
+
+        "blizzard agent",
+
+        "heroesofthestorm",
+        "heroes of the storm",
+        "hots",
+
+        "blizzard",
+        "blizzard update",
+        "blizzard launcher",
+
+        "battle.net launcher",
+        "battlenet launcher",
+
+        "battle.net helper",
+        "battle.net helper.exe",
+
+        "bootstrapper",
+        "updater",
+    ]
+
+    if any(k in name for k in batte_keywords):
+        return "dx11Bnet"
+
+    # -----------------------------
+    # 0. legacy (highest priority)
+    # -----------------------------
 
     legacy_app_keywords = [
         "photoshop",
@@ -135,8 +170,6 @@ def detect_exe_type(exe_path: str) -> str:
     # 1. LAUNCHERS (highest priority)
     # -----------------------------
     launcher_keywords = [
-        "battle.net",
-        "battlenet",
         "agent",
         "launcher",
         "ubisoft connect",
