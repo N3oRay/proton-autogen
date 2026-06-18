@@ -379,6 +379,21 @@ def detect_exe_type(exe_path: str) -> str:
         return "ut3"
 
     # -----------------------------
+    # 7. DESKTOP
+    # -----------------------------
+    desktop_keywords = [
+        "winrar",
+        "7zfm",
+        "7zip",
+        "notepad++",
+        "foobar2000",
+        "vlc",
+        "putty",
+    ]
+    if any(k in name for k in desktop_keywords):
+        return "desktop"
+
+    # -----------------------------
     # 4. DEFAULT = DX11 (safe fallback)
     # -----------------------------
     return "dx11"
@@ -559,51 +574,32 @@ def env_ut3():
 
     return env
 
-def env_ut3_v2():
+
+#-----------------------------------------------------------
+# 7. PROFILE DESKTOP
+#-----------------------------------------------------------
+
+def env_desktop():
     env = init_env()
 
-    print("[proton-autogen] PROFILE: UT3 FIXED v2")
-
-    # DXVK obligatoire
-    env.pop("PROTON_USE_WINED3D", None)
-    env.pop("WINEDLLOVERRIDES", None)
-
-    # ⚠️ CRITIQUE UE3
-    env["PROTON_NO_ESYNC"] = "0"
-    env["PROTON_NO_FSYNC"] = "1"   # <- stable combo UE3
-
-    # DXVK debug léger
-    env["DXVK_HUD"] = "0"
-
-    # FIX IMPORTANT UE3 D3D9
-    env["d3d9.customDeviceLostHandling"] = "1"
-    env["WINEDLLOVERRIDES"] = ""
-
-    return env
-
-def env_ut3_v1():
-    env = init_env()
-
-    print("[proton-autogen] PROFILE: UT3 FIXED v2")
-
-    # IMPORTANT: UT3 = DX9 → DXVK doit être actif
-    env.pop("PROTON_USE_WINED3D", None)
-
-    # laisser DXVK gérer DX9
-    env.pop("WINEDLLOVERRIDES", None)
-    env["DXVK_CONFIG"] = "d3d9.customDeviceLostHandling=True"
-
-    # activer sync (très important UE3)
-    #env["PROTON_NO_ESYNC"] = "0"
-    #env["PROTON_NO_FSYNC"] = "0"
+    print("[proton-autogen] PROFILE: DESKTOP")
 
     env["PROTON_NO_ESYNC"] = "1"
     env["PROTON_NO_FSYNC"] = "1"
+
     env["WINEESYNC"] = "0"
     env["WINEFSYNC"] = "0"
 
+    env["PROTON_USE_XALIA"] = "0"
+
+    env.pop("DXVK_HUD", None)
+    env.pop("VKD3D_CONFIG", None)
+
     return env
 
+#-----------------------------------------------------------
+# PROFILE HUD
+#-----------------------------------------------------------
 
 def apply_dxvk_hud(env, exe_type, enable_mangohud, debug_mode=False):
     """
@@ -646,6 +642,9 @@ def base_env(enable_mangohud=False, enable_gamemode=False, exe_path=""):
 
     elif exe_type == "legacy":
         env = env_legacy_app()
+
+    elif exe_type == "desktop":
+        env = env_desktop()
 
     elif exe_type == "dx11":
         env = env_dx11()
@@ -704,6 +703,11 @@ def base_env(enable_mangohud=False, enable_gamemode=False, exe_path=""):
         env["WINEESYNC"] = "0"
         env["WINEFSYNC"] = "0"
 
+    elif exe_type == "desktop":
+        # respect strict legacy profile
+        env["WINEESYNC"] = "0"
+        env["WINEFSYNC"] = "0"
+
     elif exe_type == "ut99":
         # respect strict legacy profile
         env["WINEESYNC"] = "0"
@@ -722,6 +726,9 @@ def base_env(enable_mangohud=False, enable_gamemode=False, exe_path=""):
     print(f"[proton-autogen] SYNC: PROTON_NO_FSYNC={env.get('PROTON_NO_FSYNC')} PROTON_NO_ESYNC={env.get('PROTON_NO_ESYNC')}")
     print(f"[proton-autogen] SYNC: WINEDLLOVERRIDES={env.get('WINEDLLOVERRIDES')} DXVK_HUD={env.get('DXVK_HUD')}")
     print(f"[proton-autogen] SYNC: PROTON_USE_WINED3D={env.get('PROTON_USE_WINED3D')} VKD3D_CONFIG={env.get('VKD3D_CONFIG')}")
+    print(f"[proton-autogen] Xalia     : {'disabled' if env.get('PROTON_USE_XALIA') == '0' else 'enabled'}")
+
+
     return env
 
 

@@ -1,36 +1,44 @@
-proton-autogen (2.4.4) noble; urgency=medium
+proton-autogen (2.4.5) noble; urgency=medium
 
-  * UT3 support
-    - Unreal Tournament III: added dedicated "UT3 FIXED" profile
-    - Improved UE3 (D3D9) stability under Proton + DXVK
+  * Added desktop application profile
+    - WinRAR
+    - 7-Zip
+    - Notepad++
+    - Foobar2000
+    - VLC
+    - PuTTY
 
-  * Improved executable detection and profile system
-    - More robust classification for launchers, DX11/DX12 games, and legacy DX8/DX9 games
-    - Improved handling of ambiguous executable names and Steam wrappers
+  * Added dedicated UT3 profile
+    - Unreal Tournament 3 stability improvements
+    - Improved DXVK compatibility for UE3/D3D9 games
 
-  * Environment profile isolation
-    - Fixed issue where environment variables could leak between profiles
-    - Strict separation between launcher, modern games, UE3/UT3, and legacy profiles
+  * Improved executable detection
+    - Better classification of launchers, desktop applications,
+      DX11/DX12 games, and legacy titles
+    - Improved handling of ambiguous executable names
 
-  * Legacy game support improvements
-    - Improved WineD3D profile for DX8/DX9 games (e.g. Unreal Tournament 99)
-    - Correct handling of PROTON_USE_WINED3D and WINEDLLOVERRIDES for legacy titles
+  * Improved environment isolation
+    - Prevent environment variable leakage between profiles
+    - Separate launcher, desktop, modern game, UE3, and legacy environments
 
-  * Stability fixes
-    - Fixed conflicts between launcher and oldgame profiles
-    - Improved stability for Battle.net, EA App, and Ubisoft Connect
-    - Fixed incorrect environment overrides affecting specific D3D9 games
+  * Improved legacy game support
+    - Enhanced WineD3D configuration for DX8/DX9 titles
+    - Improved Unreal Tournament 99 compatibility
+
+  * Stability improvements
+    - Improved Battle.net, EA App, and Ubisoft Connect support
+    - Fixed profile conflicts affecting some D3D9 applications
 
   * Compatibility improvements
-    - Better support for GE-Proton environments
-    - Improved compatibility with DXVK and VKD3D-Proton setups
-    - Reduced unintended interference with Vulkan/DXVK configuration
+    - Improved GE-Proton support
+    - Better DXVK and VKD3D-Proton integration
 
   * Technical improvements
-    - Cleaner ESYNC/FSYNC handling per profile
-    - Reduced unnecessary DXVK/Vulkan environment pollution
+    - Refined ESYNC/FSYNC handling
+    - Reduced unnecessary Vulkan and DXVK environment overrides
 
-  * Legacy support
-    - Added support for legacy applications (Photoshop / ImageReady class software)
+  * Added legacy application profile
+    - Improved compatibility with older software such as
+      Photoshop and ImageReady
 
  -- N3oray <n3oray77@gmail.com>  Wed, 17 Jun 2026 00:00:00 +0200
