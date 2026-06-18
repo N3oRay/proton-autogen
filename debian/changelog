@@ -1,7 +1,7 @@
-proton-autogen (2.5.1) noble; urgency=medium
+proton-autogen (2.5.2) noble; urgency=medium
 
   * Patch Battle.net
-    - Stability
+    - Stability - New Profil dx11BNet
 
   * Added user profile system (Pro mode)
     - JSON profiles stored in ~/.config/proton-autogen/profiles/

@@ -50,6 +50,7 @@ def export_default_profiles():
         "legacy": env_legacy_app(),
         "launcher": env_launcher(),
         "dx11": env_dx11(),
+        "dx11Bnet": env_dx11BNet(),
         "dx12": env_dx12(),
         "oldgame": env_oldgame(),
         "ut99": env_ut99(),
