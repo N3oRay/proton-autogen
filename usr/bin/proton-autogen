@@ -4,12 +4,91 @@ import os
 import sys
 import subprocess
 import hashlib
+import json
 from pathlib import Path
-from proton_autogen.backend import list_programs, add_game, load_game_config, find_proton_by_name, find_proton, has_gamemode, has_mangohud, normalize_flag, print_diagnostic, list_protons, has_proton_call, has_wine, proton_name, proton_path, load_proton_paths, VERSION
+from proton_autogen.backend import list_programs, add_game, load_game_config, find_proton_by_name, find_proton, has_gamemode, has_mangohud, normalize_flag, print_diagnostic, list_protons, has_proton_call, has_wine, proton_name, proton_path, load_proton_paths, detect_exe_type, VERSION
 
 
 DEBUG = "--debug" in sys.argv
+#-------------------------- Profile PRO -------------------
+USER_PROFILE = None
+USER_PROFILE_DATA = None
 
+def apply_user_profile(env, profile):
+    if not profile:
+        return env
+
+    print(f"[proton-autogen] FORCE PROFILE USER: {profile.get('name', 'unknown')}")
+
+    # safe override
+    for k, v in profile.get("env", {}).items():
+        env[k] = str(v)
+
+    # safe removals only (whitelist possible plus tard)
+    for k in profile.get("remove", []):
+        env.pop(k, None)
+
+    return env
+
+def load_user_profile(name):
+    path = os.path.expanduser(
+        f"~/.config/proton-autogen/profiles/{name}.json"
+    )
+
+    if not os.path.exists(path):
+        return {}
+
+    with open(path, "r") as f:
+        return json.load(f)
+
+
+def export_default_profiles():
+    base_dir = os.path.expanduser("~/.config/proton-autogen/profiles")
+    os.makedirs(base_dir, exist_ok=True)
+
+    profiles = {
+        "legacy": env_legacy_app(),
+        "launcher": env_launcher(),
+        "dx11": env_dx11(),
+        "dx12": env_dx12(),
+        "oldgame": env_oldgame(),
+        "ut99": env_ut99(),
+        "ut3": env_ut3(),
+        "desktop": env_desktop(),
+    }
+
+    for name, env in profiles.items():
+
+        data = {
+            "name": name,
+            "env": env,
+            "remove": [],
+            "base": name
+        }
+
+        path = os.path.join(base_dir, f"{name}.json")
+
+        with open(path, "w") as f:
+            json.dump(data, f, indent=2)
+
+        print(f"[export] {name}.json generated")
+
+def load_profile_from_cli(sys_argv):
+    idx = sys_argv.index("--profile")
+
+    if idx + 1 >= len(sys_argv):
+        print("[proton-autogen] ERROR: --profile requires a name")
+        sys.exit(1)
+
+    name = sys_argv[idx + 1]
+    profile = load_user_profile(name)
+
+    if not profile:
+        print(f"[proton-autogen] ERROR: profile not found: {name}")
+        sys.exit(1)
+
+    return name, profile
+#-----------------------------------------------------------------------------
 def print_proton_paths():
     print("Proton search paths")
     print("───────────────────")
@@ -93,6 +172,10 @@ Prefix: (STEAM_COMPAT_DATA_PATH)
     (Prefix shared       : ~/Documents/Proton/env/shared)
   proton-autogen
     (Prefix by default   : ~/Documents/Proton/env/main)
+
+Profil:
+  proton_autogen --json-profile  : Make all profile env Type in Json
+                 --profile dx11 : Use profile Type
 
 Discovery:
   proton-autogen --list-protons
@@ -217,186 +300,7 @@ def run_standard(exe_path: str):
         sys.exit(1)
 
 
-def detect_exe_type(exe_path: str) -> str:
-    """
-    Simple heuristic to classify executable type for proton-autogen.
-    Returns: launcher | dx11 | dx12 | oldgame
-    """
 
-    name = os.path.basename(exe_path).lower()
-
-    legacy_app_keywords = [
-        "photoshop",
-        "photoshp",
-        "paintshop",
-        "imageready",
-        "acdsee",
-    ]
-
-    if any(k in name for k in legacy_app_keywords):
-        return "legacy"
-
-    # -----------------------------
-    # 1. LAUNCHERS (highest priority)
-    # -----------------------------
-    launcher_keywords = [
-        "battle.net",
-        "battlenet",
-        "agent",
-        "launcher",
-        "ubisoft connect",
-        "ubisoft",
-        "uplay",
-        "epicgameslauncher",
-        "steamwebhelper",
-        "ea app",
-        "eadesktop",
-        "origin",
-    ]
-
-    if any(k in name for k in launcher_keywords):
-        return "launcher"
-
-    # -----------------------------
-    # 2. OLD GAMES (DX8 / DX9 era)
-    # -----------------------------
-    oldgame_keywords = [
-        "dx8",
-        "dx9",
-        "directx 8",
-        "directx 9",
-        "rcr",
-        "swep1rcr",
-        "ut99",
-        "quake",
-        "hl1",
-        "half-life",
-        "doom95",
-    ]
-
-    if any(k in name for k in oldgame_keywords):
-        return "oldgame"
-
-    # -----------------------------
-    # 3. DX12 GAMES (modern AAA)
-    # -----------------------------
-    dx12_keywords = [
-        "dx12",
-        "d3d12",
-        "cyberpunk",
-        "starfield",
-        "hogwarts",
-        "elden",
-        "diablo",
-        "warzone",
-    ]
-
-    if any(k in name for k in dx12_keywords):
-        return "dx12"
-    # -----------------------------
-    # 5. LAUNCHERS (highest priority)
-    # -----------------------------
-    ut99_keywords = [
-        "ut99",
-        "unrealtournament",
-    ]
-    if any(k in name for k in ut99_keywords):
-        return "ut99"
-
-    # -----------------------------
-    # 6. LAUNCHERS (highest priority env_ut3)
-    # -----------------------------
-    ut3_keywords = [
-        # -----------------------------
-        # Unreal Tournament 3 / UE3 spécifique
-        # -----------------------------
-        "ut3",
-        "unreal3",
-        "unrealtournament3",
-        "unreal tournament 3",
-        "utgame",
-        "ut3.exe",
-        "ut3editor",
-        "unrealfrontend",
-        "13210",  # Steam AppID UT3 Black Edition
-
-        # -----------------------------
-        # UE3 (même base moteur que UT3)
-        # -----------------------------
-        "bioshock",
-        "bioshock2",
-        "borderlands",
-        "borderlands2",
-        "mirror's edge",
-        "mirrors edge",
-        "dead space",
-        "mass effect",
-        "mass effect 2",
-        "mass effect 3",
-
-        # -----------------------------
-        # Gamebryo / DX9 RPG (souvent même era problématique Proton)
-        # -----------------------------
-        "oblivion",
-        "fallout3",
-        "fallout new vegas",
-        "falloutnv",
-        "the witcher",
-        "witcher2",
-
-        # -----------------------------
-        # Source Engine DX9
-        # -----------------------------
-        "hl2",
-        "half-life 2",
-        "portal",
-        "portal2",
-        "left 4 dead",
-        "left4dead",
-        "left 4 dead 2",
-        "tf2",
-        "team fortress 2",
-
-        # -----------------------------
-        # Open-world DX9 era
-        # -----------------------------
-        "gta4",
-        "grand theft auto iv",
-        "saints row 2",
-        "mafia2",
-        "just cause",
-        "just cause 2",
-
-        # -----------------------------
-        # STALKER / X-Ray engine DX9
-        # -----------------------------
-        "stalker",
-        "shadow of chernobyl",
-        "clear sky",
-        "call of pripyat",
-    ]
-    if any(k in name for k in ut3_keywords):
-        return "ut3"
-
-    # -----------------------------
-    # 7. DESKTOP
-    # -----------------------------
-    desktop_keywords = [
-        "winrar",
-        "7zfm",
-        "7zip",
-        "notepad++",
-        "foobar2000",
-        "vlc",
-        "putty",
-    ]
-    if any(k in name for k in desktop_keywords):
-        return "desktop"
-
-    # -----------------------------
-    # 4. DEFAULT = DX11 (safe fallback)
-    # -----------------------------
-    return "dx11"
 # ---------------------------------------------------
 # BASE CLEANER (shared)
 # ---------------------------------------------------
@@ -432,7 +336,6 @@ def env_legacy_app():
     env = init_env()
 
     print("[proton-autogen] PROFILE: LEGACY APPLICATION")
-
     env["PROTON_USE_XALIA"] = "0"
 
     env["PROTON_NO_ESYNC"] = "1"
@@ -457,6 +360,9 @@ def env_launcher():
     env["PROTON_NO_ESYNC"] = "1"
     env["PROTON_NO_FSYNC"] = "1"
 
+    env["WINEESYNC"] = "0"
+    env["WINEFSYNC"] = "0"
+
     env["WINEDLLOVERRIDES"] = ""
     env["PROTONFIXES_DISABLE"] = "1"
 
@@ -473,14 +379,20 @@ def env_dx11():
     env = init_env()
 
     print("[proton-autogen] PROFILE: DX11")
+    env["PROTON_USE_XALIA"] = "0"
 
     env["PROTON_NO_ESYNC"] = "0"
     env["PROTON_NO_FSYNC"] = "0"
 
     env["WINEDLLOVERRIDES"] = ""
 
+    env["WINEESYNC"] = "1"
+    env["WINEFSYNC"] = "1"
+
     # Safe modern Vulkan behavior
     env["WINE_SIMULATE_WRITECOPY"] = "1"
+
+    env.pop("DXVK_HUD", None)
 
     return env
 
@@ -491,7 +403,7 @@ def env_dx11():
 def env_dx12():
     env = init_env()
 
-    print("[proton-autogen] PROFILE: DX12")
+    print("[proton-autogen] PROFILE: DX12 - VKD3D")
 
     env["PROTON_NO_ESYNC"] = "0"
     env["PROTON_NO_FSYNC"] = "0"
@@ -500,6 +412,9 @@ def env_dx12():
     env["VKD3D_CONFIG"] = "dxr"
 
     env["WINEDLLOVERRIDES"] = ""
+
+    env["WINEESYNC"] = "1"
+    env["WINEFSYNC"] = "1"
 
     # DO NOT enable RADV_PERFTEST by default (breaks some setups)
     # env["RADV_PERFTEST"] = "gpl"  # optional advanced users only
@@ -521,6 +436,9 @@ def env_oldgame():
 
     env["PROTON_NO_ESYNC"] = "1"
     env["PROTON_NO_FSYNC"] = "1"
+
+    env["WINEESYNC"] = "0"
+    env["WINEFSYNC"] = "0"
 
     # disable DXVK completely behaviorally (WineD3D takes over)
     env.pop("DXVK_HUD", None)
@@ -558,6 +476,10 @@ def env_ut3():
 
     print("[proton-autogen] PROFILE: UT3 FIXED (BETA)")
 
+
+    env["PROTON_NO_FSYNC"] = "1"
+    env["PROTON_NO_ESYNC"] = "0"
+
     # IMPORTANT UE3 stability AMD Polaris
     env["WINEESYNC"] = "1"
     env["WINEFSYNC"] = "0"
@@ -583,14 +505,13 @@ def env_desktop():
     env = init_env()
 
     print("[proton-autogen] PROFILE: DESKTOP")
+    env["PROTON_USE_XALIA"] = "0"
 
     env["PROTON_NO_ESYNC"] = "1"
     env["PROTON_NO_FSYNC"] = "1"
 
     env["WINEESYNC"] = "0"
     env["WINEFSYNC"] = "0"
-
-    env["PROTON_USE_XALIA"] = "0"
 
     env.pop("DXVK_HUD", None)
     env.pop("VKD3D_CONFIG", None)
@@ -603,30 +524,27 @@ def env_desktop():
 
 def apply_dxvk_hud(env, exe_type, enable_mangohud, debug_mode=False):
     """
-    Centralized DXVK_HUD management
+    FIXED signature compatible with proton-autogen
     """
 
-    # 1. MangoHud a priorité (pas de conflit overlay)
+    # MangoHud override
     if enable_mangohud:
         env.pop("DXVK_HUD", None)
         return env
 
-    # 2. Mode debug explicite
+    # Debug mode
     if debug_mode:
         env["DXVK_HUD"] = "compiler"
         return env
 
-    # 3. Mode AUTO par type de jeu
-    if exe_type in ("dx11", "dx12"):
-        env["DXVK_HUD"] = "compiler"   # utile perf debug léger
-    else:
-        env.pop("DXVK_HUD", None)
-
+    # Default clean state
+    env.pop("DXVK_HUD", None)
     return env
 
-def base_env(enable_mangohud=False, enable_gamemode=False, exe_path=""):
-    exe_type = detect_exe_type(exe_path)
-    print(f"[proton-autogen] Detected exe_type: {exe_type}")
+
+def base_env(enable_mangohud=False, enable_gamemode=False, exe_path="", exe_type=""):
+    #exe_type = detect_exe_type(exe_path)
+    print(f"[proton-autogen] INIT PROFILE - type: {exe_type}")
 
     """
     Build a clean Wine/Proton environment for game execution.
@@ -667,7 +585,7 @@ def base_env(enable_mangohud=False, enable_gamemode=False, exe_path=""):
     # -----------------------------
     # MangoHud
     # -----------------------------
-    if enable_mangohud:
+    if enable_mangohud and has_mangohud():
         env["MANGOHUD"] = "1"
     else:
         env.pop("MANGOHUD", None)
@@ -675,7 +593,7 @@ def base_env(enable_mangohud=False, enable_gamemode=False, exe_path=""):
     # -----------------------------
     # GameMode
     # -----------------------------
-    if enable_gamemode:
+    if enable_gamemode and has_gamemode():
         env["GAMEMODE"] = "1"
 
     # -----------------------------
@@ -688,45 +606,26 @@ def base_env(enable_mangohud=False, enable_gamemode=False, exe_path=""):
         debug_mode=DEBUG
     )
 
-    # ❌ IMPORTANT: DO NOT force RADV_PERFTEST globally
-    # env["RADV_PERFTEST"] = "gpl"  ← SUPPRIMÉ
-
     # -----------------------------
-    # ESYNC/FSYNC SAFE
+    # USER PRO
     # -----------------------------
-    if exe_type == "launcher":
-        env["WINEESYNC"] = "0"
-        env["WINEFSYNC"] = "0"
+    profile = USER_PROFILE_DATA if USER_PROFILE_DATA else None
+    env = apply_user_profile(env, profile)
 
-    elif exe_type == "oldgame":
-        # respect strict legacy profile
-        env["WINEESYNC"] = "0"
-        env["WINEFSYNC"] = "0"
-
-    elif exe_type == "desktop":
-        # respect strict legacy profile
-        env["WINEESYNC"] = "0"
-        env["WINEFSYNC"] = "0"
-
-    elif exe_type == "ut99":
-        # respect strict legacy profile
-        env["WINEESYNC"] = "0"
-        env["WINEFSYNC"] = "0"
-
-    elif exe_type == "ut3":
-        # respect strict legacy profile
-        env["WINEESYNC"] = "0"
-        env["WINEFSYNC"] = "0"
-
+    if DEBUG:
+        print(f"[proton-autogen] SYNC: WINEESYNC={env.get('WINEESYNC')} WINEFSYNC={env.get('WINEFSYNC')}")
+        print(f"[proton-autogen] SYNC: PROTON_NO_FSYNC={env.get('PROTON_NO_FSYNC')} PROTON_NO_ESYNC={env.get('PROTON_NO_ESYNC')}")
+        print(f"[proton-autogen] SYNC: WINEDLLOVERRIDES={env.get('WINEDLLOVERRIDES')} DXVK_HUD={env.get('DXVK_HUD')}")
+        print(f"[proton-autogen] SYNC: PROTON_USE_WINED3D={env.get('PROTON_USE_WINED3D')} VKD3D_CONFIG={env.get('VKD3D_CONFIG')}")
+        print(f"[proton-autogen] Xalia     : {'disabled' if env.get('PROTON_USE_XALIA') == '0' else 'enabled'}")
     else:
-        env["WINEESYNC"] = "1"
-        env["WINEFSYNC"] = "1"
-
-    print(f"[proton-autogen] SYNC: WINEESYNC={env.get('WINEESYNC')} WINEFSYNC={env.get('WINEFSYNC')}")
-    print(f"[proton-autogen] SYNC: PROTON_NO_FSYNC={env.get('PROTON_NO_FSYNC')} PROTON_NO_ESYNC={env.get('PROTON_NO_ESYNC')}")
-    print(f"[proton-autogen] SYNC: WINEDLLOVERRIDES={env.get('WINEDLLOVERRIDES')} DXVK_HUD={env.get('DXVK_HUD')}")
-    print(f"[proton-autogen] SYNC: PROTON_USE_WINED3D={env.get('PROTON_USE_WINED3D')} VKD3D_CONFIG={env.get('VKD3D_CONFIG')}")
-    print(f"[proton-autogen] Xalia     : {'disabled' if env.get('PROTON_USE_XALIA') == '0' else 'enabled'}")
+        print(
+            f"[proton-autogen] Apply PROFILE={exe_type.upper()} | "
+            f"SYNC={'ON' if env.get('WINEESYNC') == '1' else 'OFF'} | "
+            f"WINED3D={'ON' if env.get('PROTON_USE_WINED3D') == '1' else 'OFF'} | "
+            f"XALIA={'OFF' if env.get('PROTON_USE_XALIA') == '0' else 'ON'} | "
+            f"DXVK_HUD={env.get('DXVK_HUD') or 'OFF'}"
+        )
 
 
     return env
@@ -772,7 +671,7 @@ def get_prefix_path(prefix_mode: str, exe_path: str) -> str:
         prefixes["main"]
     )
 
-def run_game_proton(exe_path, proton, launch_mode="proton",
+def run_game_proton(exe_path, exe_type, proton, launch_mode="proton",
                     enable_mangohud=False, enable_gamemode=False,
                     prefix_mode="main"):
 
@@ -786,7 +685,8 @@ def run_game_proton(exe_path, proton, launch_mode="proton",
         env = base_env(
             enable_mangohud=enable_mangohud,
             enable_gamemode=enable_gamemode,
-            exe_path=exe_path
+            exe_path=exe_path,
+            exe_type=exe_type
         )
 
         prefix_path = get_prefix_path(prefix_mode, exe_path)
@@ -813,7 +713,8 @@ def run_game_proton(exe_path, proton, launch_mode="proton",
         env = base_env(
             enable_mangohud=enable_mangohud,
             enable_gamemode=enable_gamemode,
-            exe_path=exe_path
+            exe_path=exe_path,
+            exe_type=exe_type
         )
 
         # keep prefix if defined externally
@@ -869,11 +770,24 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
     mangohud_available = has_mangohud()
 
     config = load_game_config(exe_path)
+    #-------------------------------- Compatibility old profil ------
+    exe_type = None
+
+    if config:
+        exe_type = config.get("exe_type") or config.get("env_profile")
+
+    if not exe_type:
+        exe_type = detect_exe_type(exe_path)
+    #---------------------------------------Mode PRO -------------------------
+    if USER_PROFILE_DATA:
+        exe_type = USER_PROFILE_DATA.get("base") or USER_PROFILE_DATA.get("name") or exe_type
+    #-------------------------------------------------------------------------
 
     if config:
         saved_proton_name = config.get("proton")
-        cfg_mangohud = normalize_flag(config.get("mangohud"), True)
-        cfg_gamemode = normalize_flag(config.get("gamemode"), True)
+        features = config.get("features", {})
+        cfg_mangohud = normalize_flag(features.get("mangohud"), False)
+        cfg_gamemode = normalize_flag(features.get("gamemode"), False)
         proton = find_proton_by_name(saved_proton_name)
 
         if not proton:
@@ -886,8 +800,8 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
         proton = find_proton()
 
 
-    enable_mangohud = cfg_mangohud
-    enable_gamemode = cfg_gamemode
+    enable_mangohud = cfg_mangohud if config else False
+    enable_gamemode = cfg_gamemode if config else False
 
     # CLI overrides (priorité utilisateur)
     if "--mangohud" in sys.argv:
@@ -915,7 +829,8 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
         env = base_env(
             enable_mangohud=enable_mangohud,
             enable_gamemode=enable_gamemode,
-            exe_path=exe_path
+            exe_path=exe_path,
+            exe_type=exe_type
         )
         env["GE_PROTON"] = proton_path(proton)
         env["GAME_EXE"] = exe_path
@@ -952,13 +867,14 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
         sys.exit(result.returncode)
 
     elif launch_mode == "proton" and proton:
-        run_game_proton(exe_path, proton, "proton", enable_mangohud, enable_gamemode, prefix_mode)
+        run_game_proton(exe_path, exe_type, proton, "proton", enable_mangohud, enable_gamemode, prefix_mode)
 
     elif launch_mode == "wine":
         run_standard(exe_path)
 
 
 def main():
+    global USER_PROFILE, USER_PROFILE_DATA
 
     if "--about" in sys.argv:
         print_about()
@@ -987,6 +903,15 @@ def main():
     if "--help" in sys.argv or "-h" in sys.argv:
         print_help()
         return
+
+    # Mode Pro
+    if "--json-profile" in sys.argv:
+        export_default_profiles()
+        return
+
+    if "--profile" in sys.argv:
+        USER_PROFILE, USER_PROFILE_DATA = load_profile_from_cli(sys.argv)
+
     # Mode execution
     launch_mode = "proton"
 

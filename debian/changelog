@@ -1,44 +1,23 @@
-proton-autogen (2.4.5) noble; urgency=medium
+proton-autogen (2.5.0) noble; urgency=medium
 
-  * Added desktop application profile
-    - WinRAR
-    - 7-Zip
-    - Notepad++
-    - Foobar2000
-    - VLC
-    - PuTTY
+  * Added user profile system (Pro mode)
+    - JSON profiles stored in ~/.config/proton-autogen/profiles/
+    - Allows per-game environment customization
 
-  * Added dedicated UT3 profile
-    - Unreal Tournament 3 stability improvements
-    - Improved DXVK compatibility for UE3/D3D9 games
+  * Added --json-profile option
+    - Generates default profile templates
+    - Includes dx11, dx12, launcher, legacy, oldgame, ut99, ut3, desktop
 
-  * Improved executable detection
-    - Better classification of launchers, desktop applications,
-      DX11/DX12 games, and legacy titles
-    - Improved handling of ambiguous executable names
+  * Added --profile <name> option
+    - Loads and applies a user profile at runtime
+    - Overrides environment variables safely
 
-  * Improved environment isolation
-    - Prevent environment variable leakage between profiles
-    - Separate launcher, desktop, modern game, UE3, and legacy environments
-
-  * Improved legacy game support
-    - Enhanced WineD3D configuration for DX8/DX9 titles
-    - Improved Unreal Tournament 99 compatibility
+  * Improved execution pipeline
+    - Profile system integrated into environment build stage
+    - Compatible with automatic exe detection and Proton/Wine fallback
 
   * Stability improvements
-    - Improved Battle.net, EA App, and Ubisoft Connect support
-    - Fixed profile conflicts affecting some D3D9 applications
+    - Better separation between detection and user overrides
+    - Fixed conflicts between auto profiles and user profiles
 
-  * Compatibility improvements
-    - Improved GE-Proton support
-    - Better DXVK and VKD3D-Proton integration
-
-  * Technical improvements
-    - Refined ESYNC/FSYNC handling
-    - Reduced unnecessary Vulkan and DXVK environment overrides
-
-  * Added legacy application profile
-    - Improved compatibility with older software such as
-      Photoshop and ImageReady
-
- -- N3oray <n3oray77@gmail.com>  Wed, 17 Jun 2026 00:00:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Thu, 18 Jun 2026 00:00:00 +0200

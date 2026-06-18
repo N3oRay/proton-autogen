@@ -14,7 +14,7 @@ import configparser
 CONFIG_FILE = os.path.expanduser("~/.config/proton-autogen.conf")
 CONFIG_DIR = os.path.expanduser("~/.config/proton-autogen/games")
 
-VERSION = "2.4.5"
+VERSION = "2.5.0"
 #-----
 # proton-autogen: improved profile system (launcher / DX11 / DX12 / oldgames)
 # fixed environment leaks between profiles
@@ -111,6 +111,188 @@ paths = ~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools
 
     return cleaned
 
+#---------------------------------------------------------------------------------------------
+def detect_exe_type(exe_path: str) -> str:
+    """
+    Simple heuristic to classify executable type for proton-autogen.
+    Returns: launcher | dx11 | dx12 | oldgame
+    """
+
+    name = os.path.basename(exe_path).lower()
+
+    legacy_app_keywords = [
+        "photoshop",
+        "photoshp",
+        "paintshop",
+        "imageready",
+        "acdsee",
+    ]
+
+    if any(k in name for k in legacy_app_keywords):
+        return "legacy"
+
+    # -----------------------------
+    # 1. LAUNCHERS (highest priority)
+    # -----------------------------
+    launcher_keywords = [
+        "battle.net",
+        "battlenet",
+        "agent",
+        "launcher",
+        "ubisoft connect",
+        "ubisoft",
+        "uplay",
+        "epicgameslauncher",
+        "steamwebhelper",
+        "ea app",
+        "eadesktop",
+        "origin",
+    ]
+
+    if any(k in name for k in launcher_keywords):
+        return "launcher"
+
+    # -----------------------------
+    # 2. OLD GAMES (DX8 / DX9 era)
+    # -----------------------------
+    oldgame_keywords = [
+        "dx8",
+        "dx9",
+        "directx 8",
+        "directx 9",
+        "rcr",
+        "swep1rcr",
+        "ut99",
+        "quake",
+        "hl1",
+        "half-life",
+        "doom95",
+    ]
+
+    if any(k in name for k in oldgame_keywords):
+        return "oldgame"
+
+    # -----------------------------
+    # 3. DX12 GAMES (modern AAA)
+    # -----------------------------
+    dx12_keywords = [
+        "dx12",
+        "d3d12",
+        "cyberpunk",
+        "starfield",
+        "hogwarts",
+        "elden",
+        "diablo",
+        "warzone",
+    ]
+
+    if any(k in name for k in dx12_keywords):
+        return "dx12"
+
+    # -----------------------------
+    # 6. LAUNCHERS (highest priority env_ut3)
+    # -----------------------------
+    ut3_keywords = [
+        # -----------------------------
+        # Unreal Tournament 3 / UE3 spécifique
+        # -----------------------------
+        "ut3",
+        "unreal3",
+        "unrealtournament3",
+        "unreal tournament 3",
+        "utgame",
+        "ut3editor",
+        "unrealfrontend",
+        "13210",  # Steam AppID UT3 Black Edition
+
+        # -----------------------------
+        # UE3 (même base moteur que UT3)
+        # -----------------------------
+        "bioshock",
+        "bioshock2",
+        "borderlands",
+        "borderlands2",
+        "mirror's edge",
+        "mirrors edge",
+        "dead space",
+        "mass effect",
+        "mass effect 2",
+        "mass effect 3",
+
+        # -----------------------------
+        # Gamebryo / DX9 RPG (souvent même era problématique Proton)
+        # -----------------------------
+        "oblivion",
+        "fallout3",
+        "fallout new vegas",
+        "falloutnv",
+        "the witcher",
+        "witcher2",
+
+        # -----------------------------
+        # Source Engine DX9
+        # -----------------------------
+        "hl2",
+        "half-life 2",
+        "portal",
+        "portal2",
+        "left 4 dead",
+        "left4dead",
+        "left 4 dead 2",
+        "tf2",
+        "team fortress 2",
+
+        # -----------------------------
+        # Open-world DX9 era
+        # -----------------------------
+        "gta4",
+        "grand theft auto iv",
+        "saints row 2",
+        "mafia2",
+        "just cause",
+        "just cause 2",
+
+        # -----------------------------
+        # STALKER / X-Ray engine DX9
+        # -----------------------------
+        "stalker",
+        "shadow of chernobyl",
+        "clear sky",
+        "call of pripyat",
+    ]
+    if any(k in name for k in ut3_keywords):
+        return "ut3"
+
+    # -----------------------------
+    # 5. LAUNCHERS (highest priority)
+    # -----------------------------
+    ut99_keywords = [
+        "ut99",
+        "unrealtournament",
+    ]
+    if any(k in name for k in ut99_keywords):
+        return "ut99"
+
+    # -----------------------------
+    # 7. DESKTOP
+    # -----------------------------
+    desktop_keywords = [
+        "winrar",
+        "7zfm",
+        "7zip",
+        "notepad++",
+        "foobar2000",
+        "vlc",
+        "putty",
+    ]
+    if any(k in name for k in desktop_keywords):
+        return "desktop"
+
+    # -----------------------------
+    # 4. DEFAULT = DX11 (safe fallback)
+    # -----------------------------
+    return "dx11"
+#---------------------------------------------------------------------------------------------
 def proton_path(p):
     if isinstance(p, dict):
         return p.get("path")
@@ -425,6 +607,65 @@ def load_game_config(exe_path):
 
 
 def add_game(exe_path: str):
+    exe_path = os.path.abspath(exe_path)
+
+    if not os.path.exists(exe_path):
+        print(f"Error: file not found: {exe_path}")
+        return
+
+    os.makedirs(CONFIG_DIR, exist_ok=True)
+
+    gid = _game_id(exe_path)
+    config_path = os.path.join(CONFIG_DIR, gid + ".json")
+
+    proton = find_proton()
+
+    # 👉 AJOUT ICI
+    exe_type = detect_exe_type(exe_path)
+
+    config = {
+        "id": gid,
+        "name": os.path.basename(exe_path),
+        "path": exe_path,
+
+        # 👇 CRITIQUE
+        "exe_type": exe_type,
+
+        # 👇 PROTON
+        "proton": proton.get("path") if isinstance(proton, dict) else proton,
+
+        # 👇 FEATURES
+        "features": {
+            "mangohud": False,
+            "gamemode": False,
+            "xalia": None
+        },
+
+        # 👇 RUNTIME POLICY (important pour cohérence future)
+        "sync": {
+            "esync": "auto",
+            "fsync": "auto"
+        },
+
+        # 👇 BASE ENV PROFILE (clé manquante aujourd’hui)
+        "env_profile": exe_type,
+
+        # 👇 custom overrides
+        "env": {
+            "DXVK_ASYNC": "1"
+        }
+    }
+
+    with open(config_path, "w") as f:
+        json.dump(config, f, indent=2)
+
+    print("[proton-autogen] Game added:")
+    print(f"  name     : {config['name']}")
+    print(f"  id       : {gid}")
+    print(f"  profile  : {exe_type}")   # 👈 utile debug
+    print(f"  config   : {config_path}")
+
+def add_game_old(exe_path: str):
     exe_path = os.path.abspath(exe_path)
 
     if not os.path.exists(exe_path):
