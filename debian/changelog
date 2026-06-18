@@ -1,31 +1,36 @@
-proton-autogen (2.4.3) noble; urgency=medium
+proton-autogen (2.4.4) noble; urgency=medium
+
+  * UT3 support
+    - Unreal Tournament III: added dedicated "UT3 FIXED" profile
+    - Improved UE3 (D3D9) stability under Proton + DXVK
 
   * Improved executable detection and profile system
     - More robust classification for launchers, DX11/DX12 games, and legacy DX8/DX9 games
-    - Better handling of ambiguous executable names
+    - Improved handling of ambiguous executable names and Steam wrappers
 
   * Environment profile isolation
     - Fixed issue where environment variables could leak between profiles
-    - Strict separation between launcher, modern games, and old game profiles
+    - Strict separation between launcher, modern games, UE3/UT3, and legacy profiles
 
   * Legacy game support improvements
-    - Improved WineD3D profile for DX8/DX9 games (e.g. Unreal Tournament)
-    - Correct handling of PROTON_USE_WINED3D and WINEDLLOVERRIDES for old games
+    - Improved WineD3D profile for DX8/DX9 games (e.g. Unreal Tournament 99)
+    - Correct handling of PROTON_USE_WINED3D and WINEDLLOVERRIDES for legacy titles
 
   * Stability fixes
     - Fixed conflicts between launcher and oldgame profiles
-    - Improved stability for Battle.net and related launchers
-    - Fixed incorrect environment overrides affecting certain games
+    - Improved stability for Battle.net, EA App, and Ubisoft Connect
+    - Fixed incorrect environment overrides affecting specific D3D9 games
 
   * Compatibility improvements
     - Better support for GE-Proton environments
     - Improved compatibility with DXVK and VKD3D-Proton setups
+    - Reduced unintended interference with Vulkan/DXVK configuration
 
-  * Technical notes
+  * Technical improvements
     - Cleaner ESYNC/FSYNC handling per profile
-    - Reduced unnecessary Vulkan/DXVK environment pollution
+    - Reduced unnecessary DXVK/Vulkan environment pollution
 
-  * Support Legacy
-    - Support legacy (Photoshop / ImageReady)
+  * Legacy support
+    - Added support for legacy applications (Photoshop / ImageReady class software)
 
  -- N3oray <n3oray77@gmail.com>  Wed, 17 Jun 2026 00:00:00 +0200
