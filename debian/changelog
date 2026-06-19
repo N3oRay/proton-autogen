@@ -1,26 +1,18 @@
-proton-autogen (2.5.2) noble; urgency=medium
+proton-autogen (2.5.3) noble; urgency=medium
 
-  * Patch Battle.net
-    - Stability - New Profil dx11BNet
+  * New utilities:
+    - proton-autogen --help-env (new in v2.5.3) for PRO users (EN/FR)
 
-  * Added user profile system (Pro mode)
+  * Patch:
+    - proton_autogen --json-profile: export all profile environment variables in JSON format
+    - proton_autogen --profile dx11: apply the selected profile type
+
+  * User profile system (Pro mode):
     - JSON profiles stored in ~/.config/proton-autogen/profiles/
     - Allows per-game environment customization
 
-  * Added --json-profile option
-    - Generates default profile templates
-    - Includes dx11, dx12, launcher, legacy, oldgame, ut99, ut3, desktop
+  * --profile <name> option:
+    - Loads and applies a user-defined profile at runtime
+    - Safely overrides environment variables
 
-  * Added --profile <name> option
-    - Loads and applies a user profile at runtime
-    - Overrides environment variables safely
-
-  * Improved execution pipeline
-    - Profile system integrated into environment build stage
-    - Compatible with automatic exe detection and Proton/Wine fallback
-
-  * Stability improvements
-    - Better separation between detection and user overrides
-    - Fixed conflicts between auto profiles and user profiles
-
- -- N3oray <n3oray77@gmail.com>  Thu, 18 Jun 2026 00:00:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Thu, 19 Jun 2026 00:00:00 +0200

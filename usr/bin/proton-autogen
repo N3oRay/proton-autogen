@@ -492,8 +492,56 @@ def load_user_profile(name):
     with open(path, "r") as f:
         return json.load(f)
 
+#---------------------------------------------------------------------
+# set des variables autorisées
+ALLOWED_ENV_VARS = {var["name"] for var in ENV_VARS}
 
+
+def filter_env(env: dict) -> dict:
+    """
+    Ne garde que les variables déclarées dans ENV_VARS.
+    """
+    return {k: v for k, v in env.items() if k in ALLOWED_ENV_VARS}
+
+#------------------------------------------------------------------------------
+# new version for extract variables only ALLOWED_ENV_VARS in ENV_VARS
 def export_default_profiles():
+    base_dir = os.path.expanduser("~/.config/proton-autogen/profiles")
+    os.makedirs(base_dir, exist_ok=True)
+
+    profiles = {
+        "legacy": env_legacy_app(),
+        "launcher": env_launcher(),
+        "dx11": env_dx11(),
+        "dx11Bnet": env_dx11BNet(),
+        "dx12": env_dx12(),
+        "oldgame": env_oldgame(),
+        "ut99": env_ut99(),
+        "ut3": env_ut3(),
+        "desktop": env_desktop(),
+    }
+
+    for name, env in profiles.items():
+
+        # ✅ filtrage strict ici
+        filtered_env = filter_env(env)
+
+        data = {
+            "name": name,
+            "env": filtered_env,
+            "remove": [],
+            "base": name
+        }
+
+        path = os.path.join(base_dir, f"{name}.json")
+
+        with open(path, "w") as f:
+            json.dump(data, f, indent=2)
+
+        print(f"[export] {name}.json generated ({len(filtered_env)} vars)")
+#------------------------------------------------------------------------------
+# old version for full extract variables
+def export_default_profiles_full():
     base_dir = os.path.expanduser("~/.config/proton-autogen/profiles")
     os.makedirs(base_dir, exist_ok=True)
 
@@ -614,7 +662,7 @@ Information:
   proton-autogen --v
   proton-autogen --about
   proton-autogen --help
-  proton-autogen --help-env
+  proton-autogen --help-env ( New V 2.5.3)
 
 Prefix: (STEAM_COMPAT_DATA_PATH)
   proton_autogen --pc
@@ -628,7 +676,7 @@ Prefix: (STEAM_COMPAT_DATA_PATH)
 
 Profil:
   proton_autogen --json-profile  : Make all profile env Type in Json
-                 --profile dx11 : Use profile Type
+  proton_autogen --profile dx11 : Use profile Type
 
 Discovery:
   proton-autogen --list-protons
