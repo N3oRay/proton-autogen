@@ -422,12 +422,12 @@ ENV_VARS = [
     }
 ]
 
-
+#------------------------------------------------------------------------------------
 
 def detect_help_env_lang():
     """
     Détecte la langue pour --help-env :
-    priorité = CLI > env LANGUAGE > défaut fr
+    priorité = CLI > env LANGUAGE > défaut en
     """
 
     # 1. Override CLI
@@ -448,7 +448,7 @@ def detect_help_env_lang():
             return "en"
 
     # 3. défaut
-    return "fr"
+    return "en"
 
 
 def print_help_env(lang="fr"):
@@ -463,33 +463,7 @@ def print_help_env(lang="fr"):
         for var in vars_:
             desc = var.get("description_en" if lang == "en" else "description_fr", "")
             print(f"- {var['name']}: {desc}")
-
-def print_help_env_v1(lang="fr"):
-    print("\nproton-autogen - Environment variables\n")
-    print("=" * 110)
-
-    rows = []
-
-    for var in ENV_VARS:
-        name = var["name"]
-        desc = var.get("description_en" if lang == "en" else "description_fr", "")
-        rows.append((name, desc))
-
-    # largeur colonnes
-    name_width = max(len("VAR"), max(len(r[0]) for r in rows))
-    desc_width = max(len("DESCRIPTION"), max(len(r[1]) for r in rows))
-
-    # header
-    print(f"| {'VAR'.ljust(name_width)} | {'DESCRIPTION'.ljust(desc_width)} |")
-    print("-" * (name_width + desc_width + 7))
-
-    for name, desc in rows:
-        print(f"| {name.ljust(name_width)} | {desc.ljust(desc_width)} |")
-
-    print("=" * 110)
-    print(f"Total variables: {len(rows)}\n")
-
-
+#-----------------------------------------------------------------------------------------------
 
 def apply_user_profile(env, profile):
     if not profile:
