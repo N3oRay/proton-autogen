@@ -5,6 +5,7 @@ import sys
 import subprocess
 import hashlib
 import json
+from collections import defaultdict
 from pathlib import Path
 from proton_autogen.backend import list_programs, add_game, load_game_config, find_proton_by_name, find_proton, has_gamemode, has_mangohud, normalize_flag, print_diagnostic, list_protons, has_proton_call, has_wine, proton_name, proton_path, load_proton_paths, detect_exe_type, VERSION
 
@@ -15,280 +16,409 @@ USER_PROFILE = None
 USER_PROFILE_DATA = None
 
 ENV_VARS = [
+
+    # =========================================================
+    # DXVK
+    # =========================================================
     {
         "name": "DXVK_ASYNC",
-        "description_fr": "Active la compilation asynchrone des shaders DXVK (version dépendante de DXVK).",
-        "description_en": "Enables asynchronous DXVK shader compilation (DXVK version dependent)."
+        "type": "dxvk",
+        "category": "performance",
+        "description_fr": "Active la compilation asynchrone des shaders DXVK.",
+        "description_en": "Enables asynchronous DXVK shader compilation."
     },
     {
         "name": "DXVK_CONFIG",
-        "description_fr": "Fichier ou configuration DXVK personnalisée.",
-        "description_en": "Custom DXVK configuration file or settings."
-    },
-    {
-        "name": "DXVK_ENABLE_NVAPI",
-        "description_fr": "Active NVAPI via DXVK pour les jeux Nvidia.",
-        "description_en": "Enables NVAPI support through DXVK for NVIDIA games."
-    },
-    {
-        "name": "DXVK_FILTER_DEVICE_NAME",
-        "description_fr": "Force l'utilisation d'un GPU Vulkan spécifique.",
-        "description_en": "Forces the use of a specific Vulkan GPU."
-    },
-    {
-        "name": "DXVK_FRAME_RATE",
-        "description_fr": "Limite le nombre maximal de FPS.",
-        "description_en": "Limits the maximum frame rate."
+        "type": "dxvk",
+        "category": "configuration",
+        "description_fr": "Configuration personnalisée DXVK.",
+        "description_en": "Custom DXVK configuration."
     },
     {
         "name": "DXVK_HUD",
-        "description_fr": "Affiche le HUD DXVK (FPS, mémoire, compilations shaders, etc.).",
-        "description_en": "Displays the DXVK HUD (FPS, memory usage, shader compilation, etc.)."
+        "type": "dxvk",
+        "category": "debug",
+        "description_fr": "Affiche l'overlay DXVK (FPS, mémoire, shaders).",
+        "description_en": "Displays DXVK HUD overlay."
     },
     {
         "name": "DXVK_LOG_LEVEL",
-        "description_fr": "Niveau de journalisation DXVK.",
-        "description_en": "DXVK logging verbosity level."
+        "type": "dxvk",
+        "category": "debug",
+        "description_fr": "Niveau de logs DXVK.",
+        "description_en": "DXVK logging level."
+    },
+    {
+        "name": "DXVK_LOG_PATH",
+        "type": "dxvk",
+        "category": "debug",
+        "description_fr": "Chemin des logs DXVK.",
+        "description_en": "DXVK log output path."
     },
     {
         "name": "DXVK_STATE_CACHE",
-        "description_fr": "Active ou désactive le cache d'état DXVK.",
-        "description_en": "Enables or disables the DXVK state cache."
+        "type": "dxvk",
+        "category": "performance",
+        "description_fr": "Active le cache DXVK.",
+        "description_en": "Enables DXVK state cache."
     },
     {
         "name": "DXVK_STATE_CACHE_PATH",
-        "description_fr": "Chemin personnalisé du cache DXVK.",
-        "description_en": "Custom path for the DXVK state cache."
+        "type": "dxvk",
+        "category": "configuration",
+        "description_fr": "Chemin du cache DXVK.",
+        "description_en": "DXVK cache path."
     },
     {
-        "name": "GAME_EXE",
-        "description_fr": "Variable interne proton-autogen contenant le chemin de l'exécutable.",
-        "description_en": "Internal proton-autogen variable containing the executable path."
+        "name": "DXVK_STATE_CACHE_SIZE",
+        "type": "dxvk",
+        "category": "performance",
+        "description_fr": "Taille du cache DXVK.",
+        "description_en": "DXVK cache size limit."
     },
     {
-        "name": "GAMEMODE",
-        "description_fr": "Active GameMode pour optimiser les performances.",
-        "description_en": "Enables GameMode performance optimizations."
+        "name": "DXVK_ENABLE_NVAPI",
+        "type": "dxvk",
+        "category": "compatibility",
+        "description_fr": "Active NVAPI via DXVK.",
+        "description_en": "Enables NVAPI support."
     },
     {
-        "name": "GE_PROTON",
-        "description_fr": "Variable interne indiquant le chemin du runtime GE-Proton.",
-        "description_en": "Internal variable pointing to the GE-Proton runtime path."
+        "name": "DXVK_FILTER_DEVICE_NAME",
+        "type": "dxvk",
+        "category": "graphics",
+        "description_fr": "Force un GPU Vulkan.",
+        "description_en": "Forces a specific Vulkan GPU."
     },
     {
-        "name": "LD_LIBRARY_PATH",
-        "description_fr": "Chemin des bibliothèques dynamiques Linux.",
-        "description_en": "Linux shared library search path."
+        "name": "DXVK_FRAME_RATE",
+        "type": "dxvk",
+        "category": "performance",
+        "description_fr": "Limite les FPS.",
+        "description_en": "FPS limiter."
+    },
+
+    # =========================================================
+    # VKD3D (DirectX 12)
+    # =========================================================
+    {
+        "name": "VKD3D_CONFIG",
+        "type": "vkd3d",
+        "category": "configuration",
+        "description_fr": "Configuration VKD3D-Proton (DX12).",
+        "description_en": "VKD3D-Proton configuration."
     },
     {
-        "name": "LD_PRELOAD",
-        "description_fr": "Précharge des bibliothèques avant le lancement.",
-        "description_en": "Preloads shared libraries before application startup."
+        "name": "VKD3D_DEBUG",
+        "type": "vkd3d",
+        "category": "debug",
+        "description_fr": "Logs VKD3D.",
+        "description_en": "VKD3D debug output."
     },
     {
-        "name": "MANGOHUD",
-        "description_fr": "Active l'overlay MangoHud.",
-        "description_en": "Enables the MangoHud overlay."
+        "name": "VKD3D_SHADER_DEBUG",
+        "type": "vkd3d",
+        "category": "debug",
+        "description_fr": "Debug shaders DX12.",
+        "description_en": "DX12 shader debugging."
     },
     {
-        "name": "MESA_VK_DEVICE_SELECT",
-        "description_fr": "Sélectionne un GPU Vulkan spécifique sous Mesa.",
-        "description_en": "Selects a specific Vulkan GPU on Mesa."
+        "name": "VKD3D_FEATURE_LEVEL",
+        "type": "vkd3d",
+        "category": "compatibility",
+        "description_fr": "Force un feature level DX12.",
+        "description_en": "Forces DX12 feature level."
     },
     {
-        "name": "mesa_glthread",
-        "description_fr": "Active le multithreading OpenGL de Mesa.",
-        "description_en": "Enables Mesa OpenGL multithreading."
+        "name": "VKD3D_DEBUGFLAGS",
+        "type": "vkd3d",
+        "category": "debug",
+        "description_fr": "Flags debug VKD3D.",
+        "description_en": "VKD3D debug flags."
     },
-    {
-        "name": "PROTONFIXES_DISABLE",
-        "description_fr": "Désactive les correctifs ProtonFixes.",
-        "description_en": "Disables ProtonFixes compatibility patches."
-    },
-    {
-        "name": "PROTON_DUMP_DEBUG_COMMANDS",
-        "description_fr": "Génère les commandes de débogage Proton.",
-        "description_en": "Generates Proton debug command scripts."
-    },
-    {
-        "name": "PROTON_ENABLE_NVAPI",
-        "description_fr": "Active NVAPI dans Proton.",
-        "description_en": "Enables NVAPI support in Proton."
-    },
-    {
-        "name": "PROTON_FORCE_LARGE_ADDRESS_AWARE",
-        "description_fr": "Force le support Large Address Aware pour les applications 32 bits.",
-        "description_en": "Forces Large Address Aware support for 32-bit applications."
-    },
-    {
-        "name": "PROTON_HIDE_NVIDIA_GPU",
-        "description_fr": "Masque la présence d'un GPU Nvidia.",
-        "description_en": "Hides the NVIDIA GPU from the application."
-    },
+
+    # =========================================================
+    # PROTON
+    # =========================================================
     {
         "name": "PROTON_LOG",
+        "type": "proton",
+        "category": "debug",
         "description_fr": "Active les logs Proton.",
-        "description_en": "Enables Proton logging."
+        "description_en": "Enables Proton logs."
     },
     {
         "name": "PROTON_LOG_DIR",
-        "description_fr": "Répertoire de destination des logs Proton.",
-        "description_en": "Directory where Proton logs are stored."
+        "type": "proton",
+        "category": "debug",
+        "description_fr": "Dossier des logs Proton.",
+        "description_en": "Proton log directory."
     },
     {
         "name": "PROTON_NO_ESYNC",
+        "type": "proton",
+        "category": "performance",
         "description_fr": "Désactive Esync.",
         "description_en": "Disables Esync."
     },
     {
         "name": "PROTON_NO_FSYNC",
+        "type": "proton",
+        "category": "performance",
         "description_fr": "Désactive Fsync.",
         "description_en": "Disables Fsync."
     },
     {
         "name": "PROTON_USE_WINED3D",
-        "description_fr": "Utilise WineD3D à la place de DXVK.",
+        "type": "proton",
+        "category": "compatibility",
+        "description_fr": "Utilise WineD3D au lieu de DXVK.",
         "description_en": "Uses WineD3D instead of DXVK."
     },
     {
-        "name": "PROTON_USE_XALIA",
-        "description_fr": "Active ou désactive Xalia (accessibilité).",
-        "description_en": "Enables or disables Xalia accessibility support."
+        "name": "PROTON_ENABLE_NVAPI",
+        "type": "proton",
+        "category": "compatibility",
+        "description_fr": "Active NVAPI Proton.",
+        "description_en": "Enables NVAPI in Proton."
     },
     {
-        "name": "RADV_PERFTEST",
-        "description_fr": "Active certaines optimisations expérimentales du pilote AMD RADV.",
-        "description_en": "Enables experimental AMD RADV driver optimizations."
+        "name": "PROTON_FORCE_LARGE_ADDRESS_AWARE",
+        "type": "proton",
+        "category": "compatibility",
+        "description_fr": "Force LAA pour 32-bit.",
+        "description_en": "Forces Large Address Awareness."
     },
     {
-        "name": "STEAM_COMPAT_APP_ID",
-        "description_fr": "Identifiant Steam de l'application.",
-        "description_en": "Steam application ID."
+        "name": "PROTON_ENABLE_FSYNC",
+        "type": "proton",
+        "category": "performance",
+        "description_fr": "Force Fsync Proton.",
+        "description_en": "Enables Fsync."
     },
+
+    # =========================================================
+    # WINE
+    # =========================================================
     {
-        "name": "STEAM_COMPAT_CLIENT_INSTALL_PATH",
-        "description_fr": "Chemin d'installation du client Steam.",
-        "description_en": "Steam client installation path."
-    },
-    {
-        "name": "STEAM_COMPAT_DATA_PATH",
-        "description_fr": "Chemin du préfixe Proton.",
-        "description_en": "Path to the Proton compatibility prefix."
-    },
-    {
-        "name": "STEAM_COMPAT_TOOL_PATHS",
-        "description_fr": "Chemin des outils Proton utilisés.",
-        "description_en": "Path to Proton compatibility tools."
-    },
-    {
-        "name": "VKD3D_CONFIG",
-        "description_fr": "Configuration VKD3D-Proton (DirectX 12).",
-        "description_en": "VKD3D-Proton configuration options."
-    },
-    {
-        "name": "VKD3D_DEBUG",
-        "description_fr": "Active les logs de débogage VKD3D.",
-        "description_en": "Enables VKD3D debugging output."
-    },
-    {
-        "name": "VKD3D_FEATURE_LEVEL",
-        "description_fr": "Force un niveau de fonctionnalités DirectX.",
-        "description_en": "Forces a specific DirectX feature level."
-    },
-    {
-        "name": "VKD3D_SHADER_DEBUG",
-        "description_fr": "Active le débogage des shaders DX12.",
-        "description_en": "Enables DirectX 12 shader debugging."
-    },
-    {
-        "name": "VK_DRIVER_FILES",
-        "description_fr": "Force un pilote Vulkan spécifique.",
-        "description_en": "Forces the use of specific Vulkan driver files."
-    },
-    {
-        "name": "VK_ICD_FILENAMES",
-        "description_fr": "Force un ICD Vulkan spécifique.",
-        "description_en": "Forces a specific Vulkan ICD."
-    },
-    {
-        "name": "VK_INSTANCE_LAYERS",
-        "description_fr": "Liste des couches Vulkan à charger.",
-        "description_en": "List of Vulkan layers to load."
-    },
-    {
-        "name": "VK_LAYER_PATH",
-        "description_fr": "Chemin des couches Vulkan personnalisées.",
-        "description_en": "Path to custom Vulkan layers."
+        "name": "WINEPREFIX",
+        "type": "wine",
+        "category": "configuration",
+        "description_fr": "Préfixe Wine.",
+        "description_en": "Wine prefix path."
     },
     {
         "name": "WINEARCH",
-        "description_fr": "Architecture du préfixe Wine (win32 ou win64).",
-        "description_en": "Wine prefix architecture (win32 or win64)."
+        "type": "wine",
+        "category": "configuration",
+        "description_fr": "Architecture Wine.",
+        "description_en": "Wine architecture."
     },
     {
         "name": "WINEDEBUG",
-        "description_fr": "Contrôle le niveau de débogage Wine.",
-        "description_en": "Controls Wine debug output."
+        "type": "wine",
+        "category": "debug",
+        "description_fr": "Debug Wine.",
+        "description_en": "Wine debug output."
     },
     {
         "name": "WINEDLLOVERRIDES",
-        "description_fr": "Redéfinit le chargement des DLL Windows.",
-        "description_en": "Overrides Windows DLL loading behavior."
+        "type": "wine",
+        "category": "compatibility",
+        "description_fr": "Overrides DLL.",
+        "description_en": "DLL override rules."
     },
     {
         "name": "WINEESYNC",
-        "description_fr": "Active Esync côté Wine.",
-        "description_en": "Enables Wine Esync."
+        "type": "wine",
+        "category": "performance",
+        "description_fr": "Esync Wine.",
+        "description_en": "Wine Esync."
     },
     {
         "name": "WINEFSYNC",
-        "description_fr": "Active Fsync côté Wine.",
-        "description_en": "Enables Wine Fsync."
+        "type": "wine",
+        "category": "performance",
+        "description_fr": "Fsync Wine.",
+        "description_en": "Wine Fsync."
     },
     {
-        "name": "WINEPREFIX",
-        "description_fr": "Chemin du préfixe Wine.",
-        "description_en": "Path to the Wine prefix."
+        "name": "WINE_LARGE_ADDRESS_AWARE",
+        "type": "wine",
+        "category": "compatibility",
+        "description_fr": "LAA Wine.",
+        "description_en": "Large address aware mode."
+    },
+
+    # =========================================================
+    # VULKAN
+    # =========================================================
+    {
+        "name": "VK_ICD_FILENAMES",
+        "type": "vulkan",
+        "category": "graphics",
+        "description_fr": "ICD Vulkan forcé.",
+        "description_en": "Forces Vulkan ICD."
     },
     {
-        "name": "WINE_FULLSCREEN_FSR",
-        "description_fr": "Active AMD FSR en plein écran.",
-        "description_en": "Enables AMD FSR fullscreen upscaling."
+        "name": "VK_LAYER_PATH",
+        "type": "vulkan",
+        "category": "graphics",
+        "description_fr": "Chemin layers Vulkan.",
+        "description_en": "Vulkan layers path."
     },
     {
-        "name": "WINE_FULLSCREEN_FSR_STRENGTH",
-        "description_fr": "Réglage de netteté FSR.",
-        "description_en": "Controls FSR sharpening strength."
+        "name": "VK_INSTANCE_LAYERS",
+        "type": "vulkan",
+        "category": "graphics",
+        "description_fr": "Layers Vulkan.",
+        "description_en": "Vulkan instance layers."
     },
     {
-        "name": "WINE_SIMULATE_WRITECOPY",
-        "description_fr": "Simule le comportement WriteCopy pour certains launchers.",
-        "description_en": "Simulates Windows WriteCopy behavior for compatibility."
+        "name": "VK_LOADER_DEBUG",
+        "type": "vulkan",
+        "category": "debug",
+        "description_fr": "Debug loader Vulkan.",
+        "description_en": "Vulkan loader debug."
     },
+
+    # =========================================================
+    # MESA / AMD
+    # =========================================================
+    {
+        "name": "MESA_VK_DEVICE_SELECT",
+        "type": "mesa",
+        "category": "graphics",
+        "description_fr": "Sélection GPU Mesa.",
+        "description_en": "Select Vulkan GPU."
+    },
+    {
+        "name": "RADV_PERFTEST",
+        "type": "mesa",
+        "category": "performance",
+        "description_fr": "Optimisations RADV.",
+        "description_en": "RADV experimental features."
+    },
+    {
+        "name": "RADV_DEBUG",
+        "type": "mesa",
+        "category": "debug",
+        "description_fr": "Debug RADV.",
+        "description_en": "RADV debug mode."
+    },
+    {
+        "name": "mesa_glthread",
+        "type": "mesa",
+        "category": "performance",
+        "description_fr": "Multithread OpenGL.",
+        "description_en": "OpenGL threading."
+    },
+
+    # =========================================================
+    # NVIDIA
+    # =========================================================
     {
         "name": "__GL_SHADER_DISK_CACHE",
-        "description_fr": "Active le cache shaders Nvidia.",
-        "description_en": "Enables NVIDIA shader disk cache."
+        "type": "nvidia",
+        "category": "performance",
+        "description_fr": "Cache shaders NVIDIA.",
+        "description_en": "NVIDIA shader cache."
     },
     {
         "name": "__GL_SHADER_DISK_CACHE_PATH",
-        "description_fr": "Chemin du cache shaders Nvidia.",
-        "description_en": "Path to the NVIDIA shader cache."
+        "type": "nvidia",
+        "category": "configuration",
+        "description_fr": "Chemin cache NVIDIA.",
+        "description_en": "NVIDIA cache path."
     },
     {
         "name": "__GL_SYNC_TO_VBLANK",
-        "description_fr": "Synchronisation verticale Nvidia.",
-        "description_en": "Enables NVIDIA vertical synchronization."
+        "type": "nvidia",
+        "category": "graphics",
+        "description_fr": "VSync NVIDIA.",
+        "description_en": "Vertical sync."
     },
     {
         "name": "__GL_THREADED_OPTIMIZATIONS",
-        "description_fr": "Optimisations multithread Nvidia.",
-        "description_en": "Enables NVIDIA threaded optimizations."
+        "type": "nvidia",
+        "category": "performance",
+        "description_fr": "Threading NVIDIA.",
+        "description_en": "Threaded optimizations."
+    },
+
+    # =========================================================
+    # SYSTEM LINUX
+    # =========================================================
+    {
+        "name": "LD_LIBRARY_PATH",
+        "type": "system",
+        "category": "linux",
+        "description_fr": "Librairies Linux.",
+        "description_en": "Linux library path."
+    },
+    {
+        "name": "LD_PRELOAD",
+        "type": "system",
+        "category": "linux",
+        "description_fr": "Préchargement libs.",
+        "description_en": "Preload libraries."
+    },
+    {
+        "name": "MALLOC_ARENA_MAX",
+        "type": "system",
+        "category": "performance",
+        "description_fr": "Optimisation mémoire.",
+        "description_en": "Memory allocator tuning."
+    },
+
+    # =========================================================
+    # STEAM
+    # =========================================================
+    {
+        "name": "STEAM_COMPAT_APP_ID",
+        "type": "steam",
+        "category": "internal",
+        "description_fr": "App Steam ID.",
+        "description_en": "Steam app ID."
+    },
+    {
+        "name": "STEAM_COMPAT_DATA_PATH",
+        "type": "steam",
+        "category": "internal",
+        "description_fr": "Prefix Proton.",
+        "description_en": "Proton prefix path."
+    },
+    {
+        "name": "STEAM_COMPAT_TOOL_PATHS",
+        "type": "steam",
+        "category": "internal",
+        "description_fr": "Tools Proton.",
+        "description_en": "Proton tools path."
+    },
+    {
+        "name": "STEAM_COMPAT_SHADER_PATH",
+        "type": "steam",
+        "category": "performance",
+        "description_fr": "Cache shaders Steam.",
+        "description_en": "Steam shader cache."
+    },
+
+    # =========================================================
+    # HUD / OVERLAY
+    # =========================================================
+    {
+        "name": "MANGOHUD",
+        "type": "hud",
+        "category": "overlay",
+        "description_fr": "Overlay MangoHud.",
+        "description_en": "MangoHud overlay."
     },
     {
         "name": "vblank_mode",
-        "description_fr": "Contrôle la synchronisation verticale sous Mesa.",
-        "description_en": "Controls vertical synchronization under Mesa."
+        "type": "hud",
+        "category": "graphics",
+        "description_fr": "VSync Mesa.",
+        "description_en": "Mesa vsync mode."
     }
 ]
 
@@ -320,7 +450,21 @@ def detect_help_env_lang():
     # 3. défaut
     return "fr"
 
+
 def print_help_env(lang="fr"):
+    groups = defaultdict(list)
+
+    for var in ENV_VARS:
+        groups[var.get("type", "unknown")].append(var)
+
+    for group, vars_ in sorted(groups.items()):
+        print(f"\n[{group.upper()}]\n")
+
+        for var in vars_:
+            desc = var.get("description_en" if lang == "en" else "description_fr", "")
+            print(f"- {var['name']}: {desc}")
+
+def print_help_env_v1(lang="fr"):
     print("\nproton-autogen - Environment variables\n")
     print("=" * 110)
 
@@ -345,30 +489,7 @@ def print_help_env(lang="fr"):
     print("=" * 110)
     print(f"Total variables: {len(rows)}\n")
 
-def print_help_env_old(lang="fr"):
-    """
-    Affiche la liste des variables d'environnement supportées par proton-autogen.
-    lang: "fr" ou "en"
-    """
 
-    print("\nproton-autogen - Environment variables\n")
-    print("=============================================\n")
-    print("-"*120)
-    print("|   VAR      |   DESC                   |")
-    print("-"*120)
-
-    for var in ENV_VARS:
-        name = var["name"]
-
-        if lang == "en":
-            desc = var.get("description_en", "")
-        else:
-            desc = var.get("description_fr", "")
-
-        print(f"| {name} |    {desc} |")
-    print("-"*120)
-    print("=============================================\n")
-    print(f"Total variables: {len(ENV_VARS)}\n")
 
 def apply_user_profile(env, profile):
     if not profile:
