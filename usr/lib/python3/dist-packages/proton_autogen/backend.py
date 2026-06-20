@@ -14,7 +14,7 @@ import configparser
 CONFIG_FILE = os.path.expanduser("~/.config/proton-autogen.conf")
 CONFIG_DIR = os.path.expanduser("~/.config/proton-autogen/games")
 
-VERSION = "2.5.4"
+VERSION = "2.5.5"
 #-----
 # proton-autogen: improved profile system (launcher / DX11 / DX12 / oldgames)
 # fixed environment leaks between profiles
@@ -223,6 +223,13 @@ def detect_exe_type(exe_path: str) -> str:
     # 2. OLD GAMES (DX8 / DX9 era)
     # -----------------------------
     oldgame_keywords = [
+        "doom95",
+    ]
+
+    if any(k in name for k in oldgame_keywords):
+        return "oldgame"
+
+    dx9opengl_keywords = [
         "most wanted",          # NFS Most Wanted (2005) → DX9
         "carbon",               # NFS Carbon → DX9
         "left 4 dead",          # DX9
@@ -286,12 +293,11 @@ def detect_exe_type(exe_path: str) -> str:
         "ut99",
         "quake",
         "hl1",
-        "half-life",
-        "doom95",
+        "half-life"
     ]
 
-    if any(k in name for k in oldgame_keywords):
-        return "oldgame"
+    if any(k in name for k in dx9opengl_keywords):
+        return "dx9opengl"
 
     # -----------------------------
     # 3. DX12 GAMES (modern AAA)

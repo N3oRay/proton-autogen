@@ -1,4 +1,8 @@
-proton-autogen (2.5.4) noble; urgency=medium
+proton-autogen (2.5.5) noble; urgency=medium
+
+  * Add game support mangohud 32 Bit:
+    - New profil Dx9 - Dx9 OpenGL
+    - Mangohud 32 Bit compatibility
 
   * Add game support:
     - Need for Speed, RPG titles, and more.

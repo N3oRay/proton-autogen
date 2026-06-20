@@ -21,6 +21,13 @@ ENV_VARS = [
     # DXVK
     # =========================================================
     {
+        "name": "DXVK_FULLSCREEN",
+        "type": "dxvk",
+        "category": "compatibility",
+        "description_fr": "Force DXVK à utiliser un mode plein écran exclusif ou contrôlé pour les applications Vulkan via DXVK.",
+        "description_en": "Forces DXVK to use exclusive or controlled fullscreen mode for Vulkan-based applications."
+    },
+    {
         "name": "DXVK_ASYNC",
         "type": "dxvk",
         "category": "performance",
@@ -250,6 +257,21 @@ ENV_VARS = [
         "description_en": "Large address aware mode."
     },
 
+    {
+        "name": "WINE_FULLSCREEN_FSR",
+        "type": "wine",
+        "category": "graphics",
+        "description_fr": "Active ou désactive l'utilisation de FSR (FidelityFX Super Resolution) pour l'upscaling en plein écran dans Wine/Proton.",
+        "description_en": "Enables or disables FidelityFX Super Resolution (FSR) upscaling in fullscreen mode in Wine/Proton."
+    },
+    {
+        "name": "WINE_VK_FULLSCREEN_METHOD",
+        "type": "wine",
+        "category": "compatibility",
+        "description_fr": "Définit la méthode utilisée par Wine pour gérer le plein écran Vulkan (ex: desktop, exclusive, auto).",
+        "description_en": "Defines how Wine handles Vulkan fullscreen mode (e.g., desktop, exclusive, auto)."
+    },
+
     # =========================================================
     # VULKAN
     # =========================================================
@@ -414,6 +436,27 @@ ENV_VARS = [
         "description_en": "MangoHud overlay."
     },
     {
+        "name": "MANGOHUD_DLSYM",
+        "type": "hud",
+        "category": "compatibility",
+        "description_fr": "Active le mode d'injection dynamique MangoHud via dlsym pour améliorer la détection des applications utilisant des bibliothèques graphiques chargées dynamiquement.",
+        "description_en": "Enables MangoHud dynamic dlsym injection mode to improve detection of applications using dynamically loaded graphics libraries."
+    },
+    {
+        "name": "MANGOHUD_CONFIG",
+        "type": "hud",
+        "category": "configuration",
+        "description_fr": "Définit les paramètres de configuration MangoHud (affichage, métriques, limite FPS, position et options de l'overlay).",
+        "description_en": "Defines MangoHud configuration parameters (display, metrics, FPS limit, position and overlay options)."
+    },
+    {
+        "name": "MANGOHUD_OPENGL",
+        "type": "hud",
+        "category": "compatibility",
+        "description_fr": "Active le support du rendu OpenGL dans MangoHud pour afficher l'overlay avec les applications utilisant OpenGL.",
+        "description_en": "Enables MangoHud OpenGL rendering support to display the overlay with applications using OpenGL."
+    },
+    {
         "name": "vblank_mode",
         "type": "hud",
         "category": "graphics",
@@ -541,6 +584,8 @@ def export_default_profiles():
         "dx11Bnet": env_dx11BNet(),
         "dx12": env_dx12(),
         "oldgame": env_oldgame(),
+        "dx9": env_dx9(),
+        "dx9opengl": env_dx9opengl(),
         "ut99": env_ut99(),
         "ut3": env_ut3(),
         "desktop": env_desktop(),
@@ -576,6 +621,8 @@ def export_default_profiles_full():
         "dx11": env_dx11(),
         "dx11Bnet": env_dx11BNet(),
         "dx12": env_dx12(),
+        "dx9": env_dx9(),
+        "dx9opengl": env_dx9opengl(),
         "oldgame": env_oldgame(),
         "ut99": env_ut99(),
         "ut3": env_ut3(),
@@ -869,6 +916,7 @@ def init_env():
     env["vblank_mode"] = "0"
     env["mesa_glthread"] = "true"
 
+
     return env
 
 # ---------------------------------------------------
@@ -1018,6 +1066,62 @@ def env_oldgame():
 
     return env
 
+
+def env_dx9():
+    env = init_env()
+
+    print("[proton-autogen] PROFILE: OLD GAME (DX8/DX9)")
+
+    env["PROTON_USE_WINED3D"] = "1"
+
+    #env["WINE_FULLSCREEN_FSR"] = "0"
+    #env["WINE_VK_FULLSCREEN_METHOD"] = "desktop"
+    #env["DXVK_FULLSCREEN"] = "0"
+    #env["WINEDLLOVERRIDES"] = "d3d8=n,b"
+    env["DXVK_FRAME_RATE"] = "60"
+    env["MANGOHUD_CONFIG"] = "fps_limit=60"
+    env["MANGOHUD_OPENGL"] = "1"
+
+    env["PROTON_NO_ESYNC"] = "1"
+    env["PROTON_NO_FSYNC"] = "1"
+
+    env["WINEESYNC"] = "0"
+    env["WINEFSYNC"] = "0"
+
+    # disable DXVK completely behaviorally (WineD3D takes over)
+    env.pop("DXVK_HUD", None)
+
+    env.pop("vblank_mode", None)
+    env.pop("mesa_glthread", None)
+
+    return env
+
+
+def env_dx9opengl():
+    env = init_env()
+
+    print("[proton-autogen] PROFILE: OLD GAME (DX8/DX9) OPENGL")
+
+    env["PROTON_USE_WINED3D"] = "1"
+
+    env["DXVK_FRAME_RATE"] = "60"
+    env["MANGOHUD_CONFIG"] = "fps_limit=60"
+    env["MANGOHUD_OPENGL"] = "1"
+
+    env["PROTON_NO_ESYNC"] = "1"
+    env["PROTON_NO_FSYNC"] = "1"
+
+    env["WINEESYNC"] = "0"
+    env["WINEFSYNC"] = "0"
+
+    # disable DXVK completely behaviorally (WineD3D takes over)
+    env.pop("DXVK_HUD", None)
+
+    env.pop("vblank_mode", None)
+    env.pop("mesa_glthread", None)
+
+    return env
+
 # ---------------------------------------------------
 # 5.  PROFILE (UnrealTournament)
 # ---------------------------------------------------
@@ -1154,6 +1258,12 @@ def base_env(enable_mangohud=False, enable_gamemode=False, exe_path="", exe_type
     elif exe_type == "oldgame":
         env = env_oldgame()
 
+    elif exe_type == "dx9":
+        env = env_dx9()
+
+    elif exe_type == "dx9opengl":
+        env = env_dx9opengl()
+
     else:
         env = env_dx11()
 
@@ -1162,8 +1272,10 @@ def base_env(enable_mangohud=False, enable_gamemode=False, exe_path="", exe_type
     # -----------------------------
     if enable_mangohud and has_mangohud():
         env["MANGOHUD"] = "1"
+        env["MANGOHUD_DLSYM"] = "1"
     else:
         env.pop("MANGOHUD", None)
+        env.pop("MANGOHUD_DLSYM", None)
 
     # -----------------------------
     # GameMode
@@ -1194,6 +1306,7 @@ def base_env(enable_mangohud=False, enable_gamemode=False, exe_path="", exe_type
         print(f"[proton-autogen] SYNC: PROTON_USE_WINED3D={env.get('PROTON_USE_WINED3D')} VKD3D_CONFIG={env.get('VKD3D_CONFIG')}")
         print(f"[proton-autogen] Xalia     : {'disabled' if env.get('PROTON_USE_XALIA') == '0' else 'enabled'}")
     else:
+        print(f"[proton-autogen] SYNC: MANGOHUD={env.get('MANGOHUD')} MANGOHUD_DLSYM={env.get('MANGOHUD_DLSYM')}")
         print(
             f"[proton-autogen] Apply PROFILE={exe_type.upper()} | "
             f"SYNC={'ON' if env.get('WINEESYNC') == '1' else 'OFF'} | "
@@ -1246,9 +1359,108 @@ def get_prefix_path(prefix_mode: str, exe_path: str) -> str:
         prefixes["main"]
     )
 
+
+def add_ld_preload(env, library):
+    """
+    Ajoute une bibliothèque à LD_PRELOAD sans écraser
+    les bibliothèques déjà présentes.
+    """
+    if not os.path.exists(library):
+        print(f"[proton-autogen] WARNING: missing library: {library}")
+        return env
+
+    current = env.get("LD_PRELOAD", "")
+
+    if current:
+        if library not in current.split(":"):
+            env["LD_PRELOAD"] = f"{library}:{current}"
+    else:
+        env["LD_PRELOAD"] = library
+
+    return env
+
+
+def get_exe_arch(path):
+    result = subprocess.run(
+        ["file", path],
+        capture_output=True,
+        text=True
+    )
+
+    output = result.stdout.lower()
+
+    if "pe32+" in output:
+        return "64bit"
+
+    if "pe32" in output:
+        return "32bit"
+
+    return "unknown"
+
+
+def is_32bit_exe(path):
+    return get_exe_arch(path) == "32bit"
+
+
+import subprocess
+
+
+def run_filtered(cmd, env=None, filters=None):
+    """
+    Lance une commande et filtre certains messages stderr.
+
+    :param cmd: liste de commandes
+    :param env: environnement
+    :param filters: liste de chaînes à ignorer dans stderr
+    """
+
+    if filters is None:
+        filters = []
+
+    process = subprocess.Popen(
+        cmd,
+        env=env,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        bufsize=1
+    )
+
+    # Affichage stdout normal
+    for line in process.stdout:
+        print(line, end="")
+
+    # Filtrage stderr
+    for line in process.stderr:
+        if any(f in line for f in filters):
+            continue
+
+        print(line, end="")
+
+    return process.wait()
+
+
+def find_mangohud_shim():
+    candidates = [
+        "/usr/lib32/mangohud/libMangoHud_shim.so",
+        "/usr/lib/i386-linux-gnu/mangohud/libMangoHud_shim.so",
+        "/usr/local/lib/i386-linux-gnu/mangohud/libMangoHud_shim.so",
+        "/usr/local/lib32/mangohud/libMangoHud_shim.so",
+    ]
+
+    for path in candidates:
+        if os.path.exists(path):
+            return path
+
+    return None
+
 def run_game_proton(exe_path, exe_type, proton, launch_mode="proton",
                     enable_mangohud=False, enable_gamemode=False,
                     prefix_mode="main"):
+
+
+    arch = get_exe_arch(exe_path)
+    print(f"[proton-autogen] EXE architecture: {arch}")
 
     game_id = hashlib.md5(exe_path.encode()).hexdigest()
 
@@ -1318,7 +1530,22 @@ def run_game_proton(exe_path, exe_type, proton, launch_mode="proton",
 
     if enable_mangohud and has_mangohud():
         env["MANGOHUD"] = "1"
+        env["MANGOHUD_DLSYM"] = "1"
+        env["MANGOHUD_OPENGL"] = "1"
+        env["MANGOHUD_CONFIG"] = "fps_limit=60"
         env["DXVK_HUD"] = "0"
+
+        if exe_type in ["dx9", "dx9opengl", "oldgame", "ut99", "ut3"]:
+
+            if is_32bit_exe(exe_path):
+                print("[proton-autogen] 32-bit legacy game detected")
+                mangohud_shim = find_mangohud_shim()
+                if mangohud_shim:
+                    if os.path.exists(mangohud_shim):
+                        env = add_ld_preload(env, mangohud_shim)
+                    else:
+                        print("[proton-autogen] MangoHud 32-bit shim missing")
+
     else:
         env.pop("MANGOHUD", None)
 
@@ -1327,8 +1554,26 @@ def run_game_proton(exe_path, exe_type, proton, launch_mode="proton",
 
     print(f"[proton-autogen] Launch mode: {launch_mode}")
 
-    result = subprocess.run(cmd, env=env)
-    sys.exit(result.returncode)
+
+    if enable_mangohud and has_mangohud():
+        # =========================
+        # DEBUG ENVIRONMENT
+        # =========================
+        for key in [
+            "MANGOHUD",
+            "MANGOHUD_DLSYM",
+            "MANGOHUD_CONFIG",
+            "MANGOHUD_OPENGL",
+            "LD_PRELOAD"
+        ]:
+            print(f"[DEBUG] {key}={env.get(key)}")
+        filters = [ "wrong ELF class", ]
+        returncode = run_filtered( cmd, env=env, filters=filters )
+        sys.exit(returncode)
+    else:
+        result = subprocess.run(cmd, env=env)
+        sys.exit(result.returncode)
+
 
 
 def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
@@ -1414,6 +1659,7 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
             if mangohud_available:
                 print("[proton-autogen] MangoHud enabled")
                 env["MANGOHUD"] = "1"
+                env["MANGOHUD_DLSYM"] = "1"
                 env["DXVK_HUD"] = "0"
                 env.pop("LD_PRELOAD", None)
             else:
