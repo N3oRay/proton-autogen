@@ -1,11 +1,16 @@
-proton-autogen (2.5.3) noble; urgency=medium
+proton-autogen (2.5.4) noble; urgency=medium
+
+  * Add game support:
+    - Need for Speed, RPG titles, and more.
 
   * New utilities:
-    - proton-autogen --help-env (new in v2.5.3) for PRO users (EN/FR)
+    - proton-autogen --help-env (new in v2.5.3) for PRO users (EN/FR support)
 
   * Patch:
-    - proton_autogen --json-profile: export all profile environment variables in JSON format
-    - proton_autogen --profile dx11: apply the selected profile type
+    - proton-autogen --json-profile:
+      export all profile environment variables in JSON format
+    - proton-autogen --profile dx11:
+      apply the selected profile type
 
   * User profile system (Pro mode):
     - JSON profiles stored in ~/.config/proton-autogen/profiles/
@@ -15,4 +20,4 @@ proton-autogen (2.5.3) noble; urgency=medium
     - Loads and applies a user-defined profile at runtime
     - Safely overrides environment variables
 
- -- N3oray <n3oray77@gmail.com>  Thu, 19 Jun 2026 00:00:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Thu, 20 Jun 2026 00:00:00 +0200
