@@ -419,6 +419,31 @@ ENV_VARS = [
         "category": "graphics",
         "description_fr": "VSync Mesa.",
         "description_en": "Mesa vsync mode."
+    },
+
+    # =========================================================
+    # WINE / GSTREAMER (MULTIMEDIA STACK CONTROL)
+    # =========================================================
+    {
+        "name": "GST_PLUGIN_PATH",
+        "type": "wine",
+        "category": "compatibility",
+        "description_fr": "Chemin des plugins GStreamer. Vide pour éviter les conflits avec les plugins système ou Proton.",
+        "description_en": "GStreamer plugin path. Empty to avoid conflicts with system or Proton plugins."
+    },
+    {
+        "name": "GST_DEBUG",
+        "type": "wine",
+        "category": "debug",
+        "description_fr": "Niveau de logs GStreamer. 0 désactive totalement les logs.",
+        "description_en": "GStreamer debug level. 0 disables all logging."
+    },
+    {
+        "name": "WINE_DISABLE_GSTREAMER",
+        "type": "wine",
+        "category": "compatibility",
+        "description_fr": "Désactive l’utilisation de GStreamer dans Wine pour éviter les erreurs multimédia et dépendances cassées.",
+        "description_en": "Disables Wine GStreamer integration to prevent multimedia errors and broken dependencies."
     }
 ]
 
@@ -821,8 +846,24 @@ def init_env():
         env.pop(k, None)
 
 
-    env["PROTON_LOG"] = "1"
-    env["WINEDEBUG"] = "-all"
+    # =========================
+    # FIX GStreamer Proton/Wine
+    # =========================
+    for k in [
+        "GST_PLUGIN_PATH",
+        "GST_PLUGIN_SYSTEM_PATH",
+        "GST_REGISTRY",
+        "GST_REGISTRY_UPDATE",
+        "GST_DEBUG",
+    ]:
+        env.pop(k, None)
+
+    if DEBUG:
+        env["PROTON_LOG"] = "1"
+        env["WINEDEBUG"] = "-all"
+    else:
+        env["PROTON_LOG"] = "0"
+
     env["STEAM_COMPAT_APP_ID"] = "0"
 
     env["vblank_mode"] = "0"
@@ -920,6 +961,11 @@ def env_dx11BNet():
     env.pop("WINEFSYNC", None)
 
     env.pop("WINEDLLOVERRIDES", None)
+
+    # silence multimedia stack
+    env["GST_PLUGIN_PATH"] = ""
+    env["GST_DEBUG"] = "0"
+    env["WINE_DISABLE_GSTREAMER"] = "1"
 
     return env
 

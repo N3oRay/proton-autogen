@@ -14,7 +14,7 @@ import configparser
 CONFIG_FILE = os.path.expanduser("~/.config/proton-autogen.conf")
 CONFIG_DIR = os.path.expanduser("~/.config/proton-autogen/games")
 
-VERSION = "2.5.3"
+VERSION = "2.5.4"
 #-----
 # proton-autogen: improved profile system (launcher / DX11 / DX12 / oldgames)
 # fixed environment leaks between profiles
@@ -120,6 +120,44 @@ def detect_exe_type(exe_path: str) -> str:
 
     name = os.path.basename(exe_path).lower()
 
+    #------------------------------
+    # 0. Dx11 ( Game DirectX : Jeux connus pour fonctionner avec le profil DXVK/D3D11 )
+
+    dxvk_keywords = [
+        # Rockstar
+        "gta v",
+        "gta 5",
+        "gtav",
+        "gta5",
+        "max payne 3",
+
+        # Racing
+        "dirt 2",
+        "dirt 3",
+
+        # RPG
+        "witcher 2",
+        "witcher 3",
+        "witcher3",
+
+        # Online
+        "final fantasy xiv",
+
+        # Modern DX11
+        "monster hunter world",
+        "dark souls 3",
+        "dark souls iii",
+        "resident evil 2",
+        "resident evil 3",
+        "days gone",
+        "horizon zero dawn",
+        "death stranding",
+        "red dead redemption 2",
+    ]
+
+    if any(k in name for k in dxvk_keywords):
+        return "dx11"
+
     # -----------------------------
     # 0. Dx11 (highest priority)
     # -----------------------------
@@ -143,9 +181,6 @@ def detect_exe_type(exe_path: str) -> str:
 
         "battle.net helper",
         "battle.net helper.exe",
-
-        "bootstrapper",
-        "updater",
     ]
 
     if any(k in name for k in batte_keywords):
@@ -170,7 +205,6 @@ def detect_exe_type(exe_path: str) -> str:
     # 1. LAUNCHERS (highest priority)
     # -----------------------------
     launcher_keywords = [
-        "agent",
         "launcher",
         "ubisoft connect",
         "ubisoft",
@@ -189,8 +223,62 @@ def detect_exe_type(exe_path: str) -> str:
     # 2. OLD GAMES (DX8 / DX9 era)
     # -----------------------------
     oldgame_keywords = [
+        "most wanted",          # NFS Most Wanted (2005) → DX9
+        "carbon",               # NFS Carbon → DX9
+        "left 4 dead",          # DX9
+        "left4dead",            # DX9
+        "left 4 dead 2",        # DX9
+        "left4dead2",           # DX9
+        "source engine",        # majoritairement DX9
+        "gta 4",               # DX9
+        "mass effect 3",       # DX9
+        # Need for Speed
+        "nfsu2",
+        "nfsmw",
+        "nfsc",
+        "portal",
+        "undercover",
+        "pro street",
+        "speed2",
+        "underground",
+        "underground 2",
+        "speed.exe",
+        "grid",
+        "dirt",
+        # Valve / Source
+        "hl2",
+        "half-life",
+        "half life",
         "dx8",
         "dx9",
+        # Bethesda
+        "flatout",
+        "flatout 2",
+        "flatout ultimate carnage",
+        "trackmania",
+        "trackmania nations",
+        "burnout paradise",
+        #RPG
+        "gta iv",
+        "portal2",
+        "counter-strike source",
+        "counter strike source",
+        "team fortress 2",
+        "tesv",
+        "falloutnv",
+        #STAR WARS
+        "swtor",
+        "star wars the old republic",
+        "the witcher",
+        "mass effect",
+        "mass effect 2",
+        "oblivion",
+        "skyrim",
+        "fallout 3",
+        "fallout new vegas",
+        "dragon age origins",
+        "dragon age 2",
+        "fallout nv",
         "directx 8",
         "directx 9",
         "rcr",
@@ -217,6 +305,8 @@ def detect_exe_type(exe_path: str) -> str:
         "elden",
         "diablo",
         "warzone",
+        "elden ring",
+        "hogwarts legacy",
     ]
 
     if any(k in name for k in dx12_keywords):
@@ -248,14 +338,10 @@ def detect_exe_type(exe_path: str) -> str:
         "mirror's edge",
         "mirrors edge",
         "dead space",
-        "mass effect",
-        "mass effect 2",
-        "mass effect 3",
 
         # -----------------------------
         # Gamebryo / DX9 RPG (souvent même era problématique Proton)
         # -----------------------------
-        "oblivion",
         "fallout3",
         "fallout new vegas",
         "falloutnv",
