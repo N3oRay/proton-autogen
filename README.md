@@ -9,8 +9,8 @@
 
 Run Windows executables through Proton with zero Steam configuration.
 ---
-
-<p align="center">
+🎬 Quick Demo
+<p align="left">
   <img src="docs/screenshots/demo.gif" width="600" alt="Proton-Autogen Demo">
 </p>
 
