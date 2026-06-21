@@ -89,18 +89,14 @@ $ proton-autogen GAME.EXE
   GameMode   : available
   MangoHud   : available
 
-[proton-autogen] Launch mode: proton - prefix : /home/<user>/Documents/Proton/prefixes/main
-
-[DEBUG] LD_PRELOAD final = None
-[DEBUG] PATH = /usr/local/bin:/home/<user>/.local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-
-ProtonFixes[10233] WARN: Skipping fix execution. We are probably running a unit test.
-ProtonFixes[10233] WARN: Skipping fix execution. We are probably running a unit test.
-
-fsync: up and running.
-
-[2026-06-15 23:21:34.185] [MANGOHUD] [info] [blacklist.cpp:86] process 'explorer.exe' is blacklisted in MangoHud
-[2026-06-15 23:21:34.963] [MANGOHUD] [info] [cpu.cpp:636] hwmon: using input: /sys/class/hwmon/hwmon0/temp2_input
+[proton-autogen] EXE architecture: 32bit
+[proton-autogen] INIT PROFILE - type: oldgame
+[proton-autogen] PROFILE: OLD GAME (DX8/DX9)
+[proton-autogen] Apply PROFILE=OLDGAME | SYNC=OFF | WINED3D=ON | XALIA=ON | DXVK_HUD=OFF
+[proton-autogen] Prefix mode : shared
+[proton-autogen] Prefix path : /home/n3oray/Documents/Proton/env/shared
+[proton-autogen] 32-bit legacy game detected
+[proton-autogen] Launch mode: proton
 ```
 
 ---
