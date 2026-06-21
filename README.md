@@ -10,6 +10,10 @@
 Run Windows executables through Proton with zero Steam configuration.
 ---
 
+<p align="center">
+  <img src="docs/screenshots/demo.gif" width="900" alt="Proton-Autogen Demo">
+</p>
+
 ## 🚀 Overview
 
 Proton-Autogen is a lightweight Linux utility.
