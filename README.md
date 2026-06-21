@@ -86,7 +86,7 @@ $ proton-autogen GAME.EXE
   Proton     : GE-Proton10-34
   Path       : /home/<user>/.steam/root/compatibilitytools.d/GE-Proton10-34
   proton-call: detected
-  GameMode   : enabled
+  GameMode   : available
   MangoHud   : available
 
 [proton-autogen] Launch mode: proton - prefix : /home/<user>/Documents/Proton/prefixes/main
