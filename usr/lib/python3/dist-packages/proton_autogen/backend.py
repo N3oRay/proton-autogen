@@ -6,6 +6,7 @@ import re
 import sys
 import shutil
 import subprocess
+import uuid
 from pathlib import Path
 from shutil import which
 import configparser
@@ -14,7 +15,7 @@ import configparser
 CONFIG_FILE = os.path.expanduser("~/.config/proton-autogen.conf")
 CONFIG_DIR = os.path.expanduser("~/.config/proton-autogen/games")
 
-VERSION = "2.5.5"
+VERSION = "2.5.6"
 #-----
 # proton-autogen: improved profile system (launcher / DX11 / DX12 / oldgames)
 # fixed environment leaks between profiles
@@ -165,20 +166,15 @@ def detect_exe_type(exe_path: str) -> str:
         "battle.net",
         "battlenet",
         "battle net",
-
         "blizzard agent",
-
         "heroesofthestorm",
         "heroes of the storm",
         "hots",
-
         "blizzard",
         "blizzard update",
         "blizzard launcher",
-
         "battle.net launcher",
         "battlenet launcher",
-
         "battle.net helper",
         "battle.net helper.exe",
     ]
@@ -229,6 +225,17 @@ def detect_exe_type(exe_path: str) -> str:
     if any(k in name for k in oldgame_keywords):
         return "oldgame"
 
+    dx9_keywords = [
+        "dx9",
+        # Need for Speed
+        "speed2",
+        "nfsc",
+        "undercover",
+    ]
+
+    if any(k in name for k in dx9_keywords):
+        return "dx9"
+
     dx9opengl_keywords = [
         "most wanted",          # NFS Most Wanted (2005) → DX9
         "carbon",               # NFS Carbon → DX9
@@ -242,14 +249,10 @@ def detect_exe_type(exe_path: str) -> str:
         # Need for Speed
         "nfsu2",
         "nfsmw",
-        "nfsc",
         "portal",
-        "undercover",
         "pro street",
-        "speed2",
         "underground",
         "underground 2",
-        "speed.exe",
         "grid",
         "dirt",
         # Valve / Source
@@ -257,7 +260,6 @@ def detect_exe_type(exe_path: str) -> str:
         "half-life",
         "half life",
         "dx8",
-        "dx9",
         # Bethesda
         "flatout",
         "flatout 2",
@@ -731,6 +733,95 @@ def load_game_config(exe_path):
     return None
 
 
+def list_prefixes():
+    root = os.path.expanduser("~/Documents/Proton/env")
+
+    if not os.path.isdir(root):
+        return []
+
+    prefixes = []
+
+    for name in sorted(os.listdir(root)):
+        path = os.path.join(root, name)
+
+        if not os.path.isdir(path):
+            continue
+
+        prefixes.append({
+            "name": name,
+            "path": path
+        })
+
+    return prefixes
+
+
+def create_new_prefix():
+    name = input("Prefix name (empty = auto): ").strip()
+
+    if not name:
+        name = f"auto-{uuid.uuid4().hex[:8]}"
+
+    root = os.path.expanduser("~/Documents/Proton/env")
+    path = os.path.join(root, name)
+
+    os.makedirs(path, exist_ok=True)
+
+    return name
+
+def choose_prefix():
+    prefixes = list_prefixes()
+    root = os.path.expanduser("~/Documents/Proton/env")
+
+    print("\nAvailable prefixes:\n")
+
+    for idx, prefix in enumerate(prefixes, start=1):
+        print(f"[{idx}] {prefix['name']}")
+
+    print("[new] Create new prefix")
+
+    while True:
+        choice = input("\nSelection: ").strip().lower()
+
+        # -------------------------
+        # NEW PREFIX
+        # -------------------------
+        if choice == "new":
+            name = input("Prefix name (empty = auto): ").strip()
+
+            if not name:
+                name = f"auto-{uuid.uuid4().hex[:8]}"
+
+            path = os.path.join(root, name)
+            os.makedirs(path, exist_ok=True)
+
+            return {
+                "name": name,
+                "path": path
+            }
+
+        # -------------------------
+        # EXISTING PREFIX
+        # -------------------------
+        try:
+            idx = int(choice) - 1
+
+            if 0 <= idx < len(prefixes):
+                return prefixes[idx]
+
+        except ValueError:
+            pass
+
+        print("Invalid selection")
+
+def find_existing_prefix_for_game(exe_path: str):
+    cfg = load_game_config(exe_path)
+
+    if not cfg:
+        return None
+
+    return cfg.get("prefix")
+
+
 def add_game(exe_path: str):
     exe_path = os.path.abspath(exe_path)
 
@@ -744,38 +835,54 @@ def add_game(exe_path: str):
     config_path = os.path.join(CONFIG_DIR, gid + ".json")
 
     proton = find_proton()
-
-    # 👉 AJOUT ICI
     exe_type = detect_exe_type(exe_path)
+
+    # ----------------------------------
+    # PREFIX LOGIC (reuse if exists)
+    # ----------------------------------
+    existing_prefix = find_existing_prefix_for_game(exe_path)
+
+    if existing_prefix:
+        print("\n[proton-autogen] Existing prefix found:")
+        print(f"  {existing_prefix['name']} -> {existing_prefix['path']}")
+
+        choice = input("Reuse this prefix ? (Y/n) : ").strip().lower()
+
+        if choice not in ("n", "no"):
+            prefix = existing_prefix
+        else:
+            prefix = choose_prefix()
+    else:
+        prefix = choose_prefix()
 
     config = {
         "id": gid,
         "name": os.path.basename(exe_path),
         "path": exe_path,
 
-        # 👇 CRITIQUE
         "exe_type": exe_type,
 
-        # 👇 PROTON
         "proton": proton.get("path") if isinstance(proton, dict) else proton,
 
-        # 👇 FEATURES
+        # IMPORTANT
+        "prefix": {
+            "name": prefix["name"],
+            "path": prefix["path"]
+        },
+
         "features": {
             "mangohud": False,
             "gamemode": False,
             "xalia": None
         },
 
-        # 👇 RUNTIME POLICY (important pour cohérence future)
         "sync": {
             "esync": "auto",
             "fsync": "auto"
         },
 
-        # 👇 BASE ENV PROFILE (clé manquante aujourd’hui)
         "env_profile": exe_type,
 
-        # 👇 custom overrides
         "env": {
             "DXVK_ASYNC": "1"
         }
@@ -787,7 +894,8 @@ def add_game(exe_path: str):
     print("[proton-autogen] Game added:")
     print(f"  name     : {config['name']}")
     print(f"  id       : {gid}")
-    print(f"  profile  : {exe_type}")   # 👈 utile debug
+    print(f"  profile  : {exe_type}")
+    print(f"  prefix   : {prefix['name']}")
     print(f"  config   : {config_path}")
 
 def add_game_old(exe_path: str):

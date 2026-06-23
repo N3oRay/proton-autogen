@@ -1,4 +1,16 @@
-proton-autogen (2.5.5) noble; urgency=medium
+proton-autogen (2.5.6) noble; urgency=medium
+
+  * Improve "add" system (major evolution)
+    - Interactive prefix selection (reuse / create / switch easily)
+    - Auto-detection of existing prefixes per game
+    - Support multiple prefix targets (main, custom, shared, etc.)
+    - Game binding stored in JSON config (~/.config/proton-autogen/games/)
+    - Safer workflow: confirmation before overwriting/reusing prefixes
+    - Better integration with Proton profiles (dx9, dx11, etc.)
+    - Automatic mapping between executable and execution profile
+
+  * Add Verbose option
+    - proton-autogen app.exe --verbose      Verbose output
 
   * Add game support mangohud 32 Bit:
     - New profil Dx9 - Dx9 OpenGL

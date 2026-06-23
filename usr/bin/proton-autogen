@@ -11,6 +11,8 @@ from proton_autogen.backend import list_programs, add_game, load_game_config, fi
 
 
 DEBUG = "--debug" in sys.argv
+
+VERBOSE = "--verbose" in sys.argv
 #-------------------------- Profile PRO -------------------
 USER_PROFILE = None
 USER_PROFILE_DATA = None
@@ -29,10 +31,10 @@ ENV_VARS = [
     },
     {
         "name": "DXVK_ASYNC",
-        "type": "dxvk",
+        "type": "proton",
         "category": "performance",
-        "description_fr": "Active la compilation asynchrone des shaders DXVK.",
-        "description_en": "Enables asynchronous DXVK shader compilation."
+        "description_fr": "Active la compilation asynchrone des shaders avec DXVK afin de réduire les saccades liées à leur compilation pendant le jeu.",
+        "description_en": "Enables asynchronous shader compilation in DXVK to reduce shader compilation stuttering during gameplay."
     },
     {
         "name": "DXVK_CONFIG",
@@ -185,9 +187,23 @@ ENV_VARS = [
     {
         "name": "PROTON_ENABLE_NVAPI",
         "type": "proton",
-        "category": "compatibility",
-        "description_fr": "Active NVAPI Proton.",
-        "description_en": "Enables NVAPI in Proton."
+        "category": "graphics",
+        "description_fr": "Active le support de NVIDIA NVAPI dans Proton pour permettre l'utilisation de certaines fonctionnalités spécifiques aux cartes NVIDIA.",
+        "description_en": "Enables NVIDIA NVAPI support in Proton, allowing access to certain NVIDIA-specific features."
+    },
+    {
+        "name": "PROTON_ENABLE_WAYLAND",
+        "type": "proton",
+        "category": "graphics",
+        "description_fr": "Active le support Wayland dans Proton lorsque disponible.",
+        "description_en": "Enables Wayland support in Proton when available."
+    },
+    {
+        "name": "PROTON_ENABLE_HDR",
+        "type": "proton",
+        "category": "graphics",
+        "description_fr": "Active la prise en charge HDR pour les jeux compatibles via Proton. Dépréciée dans Proton-CachyOS où le HDR est géré automatiquement.",
+        "description_en": "Enables HDR support for compatible games through Proton. Deprecated in Proton-CachyOS where HDR is handled automatically."
     },
     {
         "name": "PROTON_FORCE_LARGE_ADDRESS_AWARE",
@@ -202,6 +218,14 @@ ENV_VARS = [
         "category": "performance",
         "description_fr": "Force Fsync Proton.",
         "description_en": "Enables Fsync."
+    },
+
+    {
+        "name": "PROTON_USE_NTSYNC",
+        "type": "proton",
+        "category": "performance",
+        "description_fr": "Active NTSync, une méthode de synchronisation plus efficace visant à améliorer les performances CPU et la compatibilité des jeux Windows.",
+        "description_en": "Enables NTSync, a more efficient synchronization method designed to improve CPU performance and Windows game compatibility."
     },
 
     # =========================================================
@@ -393,6 +417,14 @@ ENV_VARS = [
         "description_en": "Memory allocator tuning."
     },
 
+    {
+        "name": "GAMEMODERUN",
+        "type": "system",
+        "category": "performance",
+        "description_fr": "Lance le jeu via GameMode afin d'appliquer automatiquement des optimisations système dédiées au jeu.",
+        "description_en": "Launches the game through GameMode to automatically apply gaming-oriented system optimizations."
+    },
+
     # =========================================================
     # STEAM
     # =========================================================
@@ -487,6 +519,23 @@ ENV_VARS = [
         "category": "compatibility",
         "description_fr": "Désactive l’utilisation de GStreamer dans Wine pour éviter les erreurs multimédia et dépendances cassées.",
         "description_en": "Disables Wine GStreamer integration to prevent multimedia errors and broken dependencies."
+    },
+    # =========================================================
+    # GAME
+    # =========================================================
+    {
+        "name": "USE_D3D11",
+        "type": "game",
+        "category": "graphics",
+        "description_fr": "Force l'utilisation du moteur de rendu Direct3D 11 au lieu de versions plus récentes de DirectX.",
+        "description_en": "Forces the use of the Direct3D 11 renderer instead of newer DirectX versions."
+    },
+    {
+        "name": "USEALLAVAILABLECORES",
+        "type": "game",
+        "category": "performance",
+        "description_fr": "Demande au moteur Unreal Engine d'utiliser tous les cœurs CPU disponibles pour le traitement du jeu.",
+        "description_en": "Instructs Unreal Engine to use all available CPU cores for game processing."
     }
 ]
 
@@ -587,6 +636,8 @@ def export_default_profiles():
         "dx9": env_dx9(),
         "dx9opengl": env_dx9opengl(),
         "ut99": env_ut99(),
+        "quake": env_quake(),
+        "win95": env_win95(),
         "ut3": env_ut3(),
         "desktop": env_desktop(),
     }
@@ -625,9 +676,12 @@ def export_default_profiles_full():
         "dx9opengl": env_dx9opengl(),
         "oldgame": env_oldgame(),
         "ut99": env_ut99(),
+        "quake": env_quake(),
+        "win95": env_win95(),
         "ut3": env_ut3(),
         "desktop": env_desktop(),
     }
+
 
     for name, env in profiles.items():
 
@@ -768,7 +822,8 @@ Execution:
       Force execution without profile override
 
 Options:
-  --debug        Verbose output
+  --debug        Debug output
+  --verbose      Verbose output
   --mangohud     Enable MangoHud overlay
   --gamemode     Enable GameMode
   --call         use Proton-Call
@@ -908,13 +963,13 @@ def init_env():
     if DEBUG:
         env["PROTON_LOG"] = "1"
         env["WINEDEBUG"] = "-all"
+    elif VERBOSE:
+        env["PROTON_LOG"] = "1"
+        env["WINEDEBUG"] = "-all,-trace,-relay,-seh"
     else:
         env["PROTON_LOG"] = "0"
 
     env["STEAM_COMPAT_APP_ID"] = "0"
-
-    env["vblank_mode"] = "0"
-    env["mesa_glthread"] = "true"
 
 
     return env
@@ -935,6 +990,9 @@ def env_legacy_app():
     env["WINEFSYNC"] = "0"
 
     env.pop("DXVK_HUD", None)
+
+    env["vblank_mode"] = "0"
+    env["mesa_glthread"] = "true"
 
     return env
 
@@ -958,6 +1016,9 @@ def env_launcher():
 
     # IMPORTANT: stability > performance
     env["WINE_SIMULATE_WRITECOPY"] = "1"
+
+    env["vblank_mode"] = "0"
+    env["mesa_glthread"] = "true"
 
     return env
 
@@ -983,6 +1044,9 @@ def env_dx11():
     env["WINE_SIMULATE_WRITECOPY"] = "1"
 
     env.pop("DXVK_HUD", None)
+
+    env["vblank_mode"] = "0"
+    env["mesa_glthread"] = "true"
 
     return env
 
@@ -1015,6 +1079,9 @@ def env_dx11BNet():
     env["GST_DEBUG"] = "0"
     env["WINE_DISABLE_GSTREAMER"] = "1"
 
+    env["vblank_mode"] = "0"
+    env["mesa_glthread"] = "true"
+
     return env
 
 
@@ -1040,6 +1107,9 @@ def env_dx12():
     # DO NOT enable RADV_PERFTEST by default (breaks some setups)
     # env["RADV_PERFTEST"] = "gpl"  # optional advanced users only
 
+    env["vblank_mode"] = "0"
+    env["mesa_glthread"] = "true"
+
     return env
 
 
@@ -1063,6 +1133,9 @@ def env_oldgame():
 
     # disable DXVK completely behaviorally (WineD3D takes over)
     env.pop("DXVK_HUD", None)
+
+    env["vblank_mode"] = "0"
+    env["mesa_glthread"] = "true"
 
     return env
 
@@ -1094,6 +1167,7 @@ def env_dx9():
     env.pop("vblank_mode", None)
     env.pop("mesa_glthread", None)
 
+
     return env
 
 
@@ -1120,10 +1194,11 @@ def env_dx9opengl():
     env.pop("vblank_mode", None)
     env.pop("mesa_glthread", None)
 
+
     return env
 
 # ---------------------------------------------------
-# 5.  PROFILE (UnrealTournament)
+# 5.  PROFILE (UnrealTournament) AND QUAKE
 # ---------------------------------------------------
 
 def env_ut99():
@@ -1141,6 +1216,65 @@ def env_ut99():
     env.pop("DXVK_HUD", None)
     env["WINEESYNC"] = "0"
     env["WINEFSYNC"] = "0"
+
+    env["vblank_mode"] = "0"
+    env["mesa_glthread"] = "true"
+
+    return env
+
+
+def env_quake():
+    env = init_env()
+
+    print("[proton-autogen] PROFILE: QUAKE II CLEAN")
+    #print("[proton-autogen] RECOMMANDATION: Pour une expérience stable, utiliser Yamagi Quake II")
+    print("\033[93m[proton-autogen] RECOMMANDATION: Yamagi Quake II est recommandé pour stabilité\033[0m")
+    print("[proton-autogen] https://www.yamagi.org/quake2/")
+
+    # désactiver Xalia
+    env["PROTON_USE_XALIA"] = "0"
+
+    # forcer WineD3D (old OpenGL path)
+    env["PROTON_USE_WINED3D"] = "1"
+
+
+    # prefix propre
+    env["WINEPREFIX"] = os.path.expanduser("~/quake2-test")
+
+    # sync stable (laisser Proton gérer)
+    env.pop("PROTON_NO_ESYNC", None)
+    env.pop("PROTON_NO_FSYNC", None)
+    env.pop("WINEESYNC", None)
+    env.pop("WINEFSYNC", None)
+
+    # pas d’overrides cassants
+    env.pop("WINEDLLOVERRIDES", None)
+
+    return env
+
+#-----------------------------------------------------------
+# DirectDraw
+#-----------------------------------------------------------
+
+def env_win95():
+    env = init_env()
+
+    print("[proton-autogen] PROFILE: DirectDraw")
+
+    # désactiver Xalia
+    env["PROTON_USE_XALIA"] = "0"
+
+    # DirectDraw
+    env["PROTON_USE_WINED3D"] = "0"
+
+    # sync stable (laisser Proton gérer)
+    env.pop("PROTON_NO_ESYNC", None)
+    env.pop("PROTON_NO_FSYNC", None)
+    env.pop("WINEESYNC", None)
+    env.pop("WINEFSYNC", None)
+
+    # pas d’overrides cassants
+    env.pop("WINEDLLOVERRIDES", None)
 
     return env
 
@@ -1170,6 +1304,9 @@ def env_ut3():
     # UE3 stability tweak
     env["DXVK_CONFIG"] = "dxgi.customSwapchain=false"
 
+    env["vblank_mode"] = "0"
+    env["mesa_glthread"] = "true"
+
     return env
 
 
@@ -1191,6 +1328,9 @@ def env_desktop():
 
     env.pop("DXVK_HUD", None)
     env.pop("VKD3D_CONFIG", None)
+
+    env["vblank_mode"] = "0"
+    env["mesa_glthread"] = "true"
 
     return env
 
@@ -1231,41 +1371,23 @@ def base_env(enable_mangohud=False, enable_gamemode=False, exe_path="", exe_type
         dx12     -> VKD3D-Proton games
         oldgame  -> DX8/DX9 WineD3D fallback
     """
-    if exe_type == "launcher":
-        env = env_launcher()
+    env_factories = {
+        "launcher": env_launcher,
+        "legacy": env_legacy_app,
+        "desktop": env_desktop,
+        "dx11": env_dx11,
+        "dx11Bnet": env_dx11BNet,
+        "dx12": env_dx12,
+        "ut99": env_ut99,
+        "quake": env_quake,
+        "win95": env_win95,
+        "ut3": env_ut3,
+        "oldgame": env_oldgame,
+        "dx9": env_dx9,
+        "dx9opengl": env_dx9opengl,
+    }
 
-    elif exe_type == "legacy":
-        env = env_legacy_app()
-
-    elif exe_type == "desktop":
-        env = env_desktop()
-
-    elif exe_type == "dx11":
-        env = env_dx11()
-
-    elif exe_type == "dx11Bnet":
-        env = env_dx11BNet()
-
-    elif exe_type == "dx12":
-        env = env_dx12()
-
-    elif exe_type == "ut99":
-        env = env_ut99()
-
-    elif exe_type == "ut3":
-        env = env_ut3()
-
-    elif exe_type == "oldgame":
-        env = env_oldgame()
-
-    elif exe_type == "dx9":
-        env = env_dx9()
-
-    elif exe_type == "dx9opengl":
-        env = env_dx9opengl()
-
-    else:
-        env = env_dx11()
+    env = env_factories.get(exe_type, env_dx11)()
 
     # -----------------------------
     # MangoHud
@@ -1299,12 +1421,14 @@ def base_env(enable_mangohud=False, enable_gamemode=False, exe_path="", exe_type
     profile = USER_PROFILE_DATA if USER_PROFILE_DATA else None
     env = apply_user_profile(env, profile)
 
-    if DEBUG:
+    if DEBUG or VERBOSE:
         print(f"[proton-autogen] SYNC: WINEESYNC={env.get('WINEESYNC')} WINEFSYNC={env.get('WINEFSYNC')}")
         print(f"[proton-autogen] SYNC: PROTON_NO_FSYNC={env.get('PROTON_NO_FSYNC')} PROTON_NO_ESYNC={env.get('PROTON_NO_ESYNC')}")
         print(f"[proton-autogen] SYNC: WINEDLLOVERRIDES={env.get('WINEDLLOVERRIDES')} DXVK_HUD={env.get('DXVK_HUD')}")
         print(f"[proton-autogen] SYNC: PROTON_USE_WINED3D={env.get('PROTON_USE_WINED3D')} VKD3D_CONFIG={env.get('VKD3D_CONFIG')}")
         print(f"[proton-autogen] Xalia     : {'disabled' if env.get('PROTON_USE_XALIA') == '0' else 'enabled'}")
+        # WINEDEBUG
+        print(f"[proton-autogen] SYNC: WINEDEBUG={env.get('WINEDEBUG')} PROTON_LOG={env.get('PROTON_LOG')}")
     else:
         print(f"[proton-autogen] SYNC: MANGOHUD={env.get('MANGOHUD')} MANGOHUD_DLSYM={env.get('MANGOHUD_DLSYM')}")
         print(
@@ -1321,8 +1445,36 @@ def base_env(enable_mangohud=False, enable_gamemode=False, exe_path="", exe_type
 
 # Return the Wine/Proton prefix path for the selected prefix mode.
 
-
 def get_prefix_path(prefix_mode: str, exe_path: str) -> str:
+    root = os.path.expanduser("~/Documents/Proton/env")
+
+    if prefix_mode == "auto":
+        name = os.path.splitext(os.path.basename(exe_path))[0]
+
+        safe_name = (
+            name.replace(" ", "_")
+                .replace("/", "_")
+                .replace("\\", "_")
+        )
+
+        short_hash = hashlib.md5(exe_path.encode()).hexdigest()[:8]
+
+        return os.path.join(root, f"{safe_name}-{short_hash}")
+
+    if prefix_mode.startswith("auto-"):
+        # déjà résolu → on le traite comme prefix direct
+        return os.path.join(root, prefix_mode)
+
+    prefixes = {
+        "main": os.path.join(root, "main"),
+        "shared": os.path.join(root, "shared"),
+        "custom": os.path.expanduser("~/Documents/Proton/env/Proton Custom"),
+    }
+
+    return prefixes.get(prefix_mode, prefixes["main"])
+
+
+def get_prefix_path_v1(prefix_mode: str, exe_path: str) -> str:
     root = os.path.expanduser("~/Documents/Proton/env")
 
     if prefix_mode == "auto":
@@ -1672,7 +1824,7 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
                 print("[proton-autogen] GameMode enabled")
                 #cmd.append("gamemoderun")
                 env["GAMEMODE"] = "1"
-        elif DEBUG:
+        elif DEBUG or VERBOSE:
             print("[proton-autogen] GameMode not found")
 
         cmd += [
@@ -1688,6 +1840,14 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
         sys.exit(result.returncode)
 
     elif launch_mode == "proton" and proton:
+
+        # ----------------------------
+        # Prefix resolution (IMPORTANT PART)
+        # ----------------------------
+        if config and config.get("prefix"):
+            prefix_mode = config["prefix"].get("name", prefix_mode)
+            print(f"[proton-autogen] LOAD CONFIG PREFIX: {prefix_mode}")
+
         run_game_proton(exe_path, exe_type, proton, "proton", enable_mangohud, enable_gamemode, prefix_mode)
 
     elif launch_mode == "wine":
