@@ -1,4 +1,6 @@
-proton-autogen (2.5.6) noble; urgency=medium
+proton-autogen (2.5.7) noble; urgency=medium
+
+  * New Profil
 
   * Improve "add" system (major evolution)
     - Interactive prefix selection (reuse / create / switch easily)

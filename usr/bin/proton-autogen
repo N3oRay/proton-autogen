@@ -295,6 +295,53 @@ ENV_VARS = [
         "description_fr": "Définit la méthode utilisée par Wine pour gérer le plein écran Vulkan (ex: desktop, exclusive, auto).",
         "description_en": "Defines how Wine handles Vulkan fullscreen mode (e.g., desktop, exclusive, auto)."
     },
+    # =========================================================
+    # SDL
+    # =========================================================
+
+    {
+        "name": "SDL_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR",
+        "type": "sdl",
+        "category": "graphics",
+        "description_fr": "Contrôle si SDL demande au compositeur X11 de contourner la composition (bypass). Peut réduire la latence ou les problèmes d'affichage, mais peut causer des soucis de focus ou de capture de souris sur certains gestionnaires de fenêtres.",
+        "description_en": "Controls whether SDL requests the X11 compositor bypass. Can reduce latency and rendering issues, but may cause focus or mouse capture problems on some window managers."
+    },
+
+    {
+        "name": "SDL_MOUSE_AUTO_CAPTURE",
+        "type": "sdl",
+        "category": "input",
+        "description_fr": "Active la capture automatique de la souris lorsque la fenêtre devient active. Améliore le comportement des jeux en plein écran ou en mode FPS, en évitant la perte de contrôle de la souris.",
+        "description_en": "Enables automatic mouse capture when the window becomes active. Improves mouse behavior in fullscreen or FPS-style games by preventing loss of mouse control."
+    },
+    {
+        "name": "SDL_MOUSE_RELATIVE_MODE_WARP",
+        "type": "sdl",
+        "category": "input",
+        "description_fr": "Active le mode de souris relative avec recentering (warp). Utilisé par certains jeux anciens pour simuler un mouvement continu de la souris. Peut améliorer la compatibilité avec les jeux DirectDraw ou moteurs anciens.",
+        "description_en": "Enables relative mouse mode using pointer warping. Used by some older games to simulate continuous mouse movement. Can improve compatibility with DirectDraw or legacy engines."
+    },
+    {
+        "name": "SDL_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR",
+        "type": "sdl",
+        "category": "graphics",
+        "description_fr": "Demande au gestionnaire de fenêtres X11 de contourner le compositeur pour la fenêtre SDL. Peut réduire la latence et améliorer la réactivité, mais peut aussi causer des problèmes de focus ou de capture de souris selon le gestionnaire de fenêtres.",
+        "description_en": "Requests the X11 window manager to bypass the compositor for the SDL window. Can reduce latency and improve responsiveness, but may cause focus or mouse capture issues depending on the window manager."
+    },
+    {
+        "name": "SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS",
+        "type": "sdl",
+        "category": "window",
+        "description_fr": "Détermine si la fenêtre doit être minimisée lors d'une perte de focus. Utile pour éviter certains comportements de plein écran instable dans les anciens jeux.",
+        "description_en": "Determines whether the window should be minimized when it loses focus. Useful to avoid unstable fullscreen behavior in older games."
+    },
+    {
+        "name": "SDL_HINT_GRAB_KEYBOARD",
+        "type": "sdl",
+        "category": "input",
+        "description_fr": "Force SDL à capturer le clavier lorsque la fenêtre est active. Empêche les touches de sortir du contexte du jeu, améliorant l'immersion et la compatibilité des anciens moteurs.",
+        "description_en": "Forces SDL to grab the keyboard when the window is active. Prevents key input from leaving the game context, improving immersion and compatibility with legacy engines."
+    },
 
     # =========================================================
     # VULKAN
@@ -358,6 +405,21 @@ ENV_VARS = [
         "category": "performance",
         "description_fr": "Multithread OpenGL.",
         "description_en": "OpenGL threading."
+    },
+
+    {
+        "name": "MESA_GL_VERSION_OVERRIDE",
+        "type": "opengl",
+        "category": "graphics",
+        "description_fr": "Force la version d'OpenGL exposée par le pilote Mesa aux applications.",
+        "description_en": "Forces the OpenGL version reported by the Mesa driver to applications."
+    },
+    {
+        "name": "MESA_GLSL_VERSION_OVERRIDE",
+        "type": "opengl",
+        "category": "graphics",
+        "description_fr": "Force la version du langage de shaders GLSL utilisée par Mesa pour la compilation des shaders.",
+        "description_en": "Forces the GLSL shader language version used by Mesa for shader compilation."
     },
 
     # =========================================================
@@ -633,12 +695,16 @@ def export_default_profiles():
         "dx11Bnet": env_dx11BNet(),
         "dx12": env_dx12(),
         "oldgame": env_oldgame(),
+        "dx8dg": env_dx8dg(),
+        "dx9dg": env_dx9dg(),
         "dx9": env_dx9(),
         "dx9opengl": env_dx9opengl(),
+        "install": env_install_clean(),
         "ut99": env_ut99(),
         "quake": env_quake(),
         "win95": env_win95(),
         "ut3": env_ut3(),
+        "valve": env_goldsrc(),
         "desktop": env_desktop(),
     }
 
@@ -673,12 +739,16 @@ def export_default_profiles_full():
         "dx11Bnet": env_dx11BNet(),
         "dx12": env_dx12(),
         "dx9": env_dx9(),
+        "dx8dg": env_dx8dg(),
+        "dx9dg": env_dx9dg(),
         "dx9opengl": env_dx9opengl(),
+        "install": env_install_clean(),
         "oldgame": env_oldgame(),
         "ut99": env_ut99(),
         "quake": env_quake(),
         "win95": env_win95(),
         "ut3": env_ut3(),
+        "valve": env_goldsrc(),
         "desktop": env_desktop(),
     }
 
@@ -836,12 +906,29 @@ Examples:
   proton-autogen run game.exe
   proton-autogen game.exe --mangohud
 
+
+  # Basic run
+  proton-autogen game.exe
+
+  # DX9 old game (recommended)
+  proton-autogen SWEP1RCR.EXE --profile dx9dg
+
+  # With GameMode + MangoHud
+  proton-autogen game.exe --gamemode --mangohud
+
+  # Gamescope (recommended for scaling)
+  gamescope -f -W 1280 -H 1024 -- proton-autogen game.exe
+
+  # Gamescope + FSR (may blur UI in old DX9 games)
+  gamescope -f -W 1280 -H 1024 --fsr-sharpness 0 -- proton-autogen game.exe
+
 Notes:
   - Uses saved JSON config when available
   - Automatically selects best Proton version
   - Falls back to Wine if Proton is unavailable
   - Supports Steam, Flatpak, and compatibilitytools installs
   - Config custom Proton locations with ~/.config/proton-autogen.conf
+
 """)
 
 
@@ -960,14 +1047,6 @@ def init_env():
     ]:
         env.pop(k, None)
 
-    if DEBUG:
-        env["PROTON_LOG"] = "1"
-        env["WINEDEBUG"] = "-all"
-    elif VERBOSE:
-        env["PROTON_LOG"] = "1"
-        env["WINEDEBUG"] = "-all,-trace,-relay,-seh"
-    else:
-        env["PROTON_LOG"] = "0"
 
     env["STEAM_COMPAT_APP_ID"] = "0"
 
@@ -1139,6 +1218,72 @@ def env_oldgame():
 
     return env
 
+def env_dx8dg():
+    env = init_env()
+
+    print("[proton-autogen] PROFILE: OLD GAME (DX8) dgVoodooCpl")
+
+    # HARD DISABLE DXVK / VKD3D PATH
+    env["WINEDLLOVERRIDES"] = (
+        "d3d8=n,b;"
+        "d3d9=n,b;"
+        "ddraw=n,b;"
+        "dxgi=n;"
+        "d3d11=n;"
+        "d3d10=n"
+    )
+
+    env["PROTON_USE_WINED3D"] = "1"
+
+    env["WINEDLLOVERRIDES"] = "d3d8=n,b;d3d9=n,b;ddraw=n,b"
+
+    env["PROTON_NO_ESYNC"] = "1"
+    env["PROTON_NO_FSYNC"] = "1"
+
+    env["WINEESYNC"] = "0"
+    env["WINEFSYNC"] = "0"
+
+    env["vblank_mode"] = "0"
+    env["mesa_glthread"] = "true"
+
+    env["DXVK_ENABLE_NVAPI"] = "0"
+    env.pop("DXVK_HUD", None)
+
+    return env
+
+def env_dx9dg():
+    env = init_env()
+
+    print("[proton-autogen] PROFILE: OLD GAME (DX9) dgVoodooCpl")
+
+    # HARD DISABLE DXVK / VKD3D PATH
+    env["WINEDLLOVERRIDES"] = (
+        "d3d8=n,b;"
+        "d3d9=n,b;"
+        "ddraw=n,b;"
+        "dxgi=n;"
+        "d3d11=n;"
+        "d3d10=n"
+    )
+
+    env["PROTON_USE_WINED3D"] = "1"
+
+    env["WINEDLLOVERRIDES"] = "d3d9=n,b;d3d8=n,b;ddraw=n,b"
+
+    env["PROTON_NO_ESYNC"] = "1"
+    env["PROTON_NO_FSYNC"] = "1"
+
+    env["WINEESYNC"] = "0"
+    env["WINEFSYNC"] = "0"
+
+    env["vblank_mode"] = "0"
+    env["mesa_glthread"] = "true"
+
+    env["DXVK_ENABLE_NVAPI"] = "0"
+    env.pop("DXVK_HUD", None)
+
+    return env
+
 
 def env_dx9():
     env = init_env()
@@ -1167,6 +1312,35 @@ def env_dx9():
     env.pop("vblank_mode", None)
     env.pop("mesa_glthread", None)
 
+
+    return env
+
+
+def env_install_clean():
+    env = init_env()
+
+    print("[proton-autogen] PROFILE: INSTALL CLEAN (legacy Windows setup)")
+
+    # MUST: WineD3D only
+    env["PROTON_USE_WINED3D"] = "1"
+
+    # disable ALL async/sync complexity
+    env["PROTON_NO_ESYNC"] = "1"
+    env["PROTON_NO_FSYNC"] = "1"
+    env["WINEESYNC"] = "0"
+    env["WINEFSYNC"] = "0"
+
+    # no overlays at all
+    env.pop("DXVK_HUD", None)
+    env.pop("MANGOHUD_CONFIG", None)
+    env.pop("MANGOHUD_OPENGL", None)
+
+    # kill all DLL override influence
+    env.pop("WINEDLLOVERRIDES", None)
+
+    # avoid driver-side tweaks
+    env.pop("vblank_mode", None)
+    env.pop("mesa_glthread", None)
 
     return env
 
@@ -1253,28 +1427,178 @@ def env_quake():
     return env
 
 #-----------------------------------------------------------
-# DirectDraw
+# Valve - Sierra - Old Game (Hal-Life)
 #-----------------------------------------------------------
-
-def env_win95():
+def env_goldsrc():
     env = init_env()
 
-    print("[proton-autogen] PROFILE: DirectDraw")
+    print("[proton-autogen] GOLDSRC STEAM-LIKE PROFILE")
 
-    # désactiver Xalia
+    # =========================
+    # 🎮 RENDERING
+    # =========================
+    # GoldSrc stable = OpenGL via WineD3D
+    env["PROTON_USE_WINED3D"] = "1"
+    env["DXVK_HUD"] = "0"
+    env["VKD3D_CONFIG"] = ""
+
+    # =========================
+    # 🧠 SOUND (Miles Audio)
+    # =========================
+    # IMPORTANT: évite crash audio GoldSrc
+    env["WINEDLLOVERRIDES"] = "mss32=builtin"
+
+    # =========================
+    # 🖱️ INPUT (GoldSrc safe mode)
+    # =========================
+    # désactive Xalia proprement
     env["PROTON_USE_XALIA"] = "0"
+    env["XALIA"] = "0"
 
-    # DirectDraw
-    env["PROTON_USE_WINED3D"] = "0"
+    # SDL overrides forcés en mode neutre (évite input cassé)
+    env["SDL_MOUSE_AUTO_CAPTURE"] = "0"
+    env["SDL_MOUSE_RELATIVE_MODE_WARP"] = "0"
+    env["SDL_HINT_GRAB_KEYBOARD"] = "0"
 
-    # sync stable (laisser Proton gérer)
+    # comportement fenêtre stable
+    env["SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS"] = "0"
+
+    env["SDL_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR"] = "0"
+    env["MESA_GL_VERSION_OVERRIDE"] = "3.3"
+    env["MESA_GLSL_VERSION_OVERRIDE"] = "330"
+
+    # =========================
+    # ⚙️ SYNC (STABILITY MODE)
+    # =========================
+    env["PROTON_NO_ESYNC"] = "1"
+    env["PROTON_NO_FSYNC"] = "1"
+    env["WINEESYNC"] = "0"
+    env["WINEFSYNC"] = "0"
+
+    # =========================
+    # 🧪 DEBUG SAFE MODE
+    # =========================
+    #env["WINEDEBUG"] = "-all"
+    env["WINEDEBUG"] = "+loaddll,+module"
+
+    return env
+
+
+def env_gold_test():
+    env = init_env()
+
+    print("[proton-autogen] SAFE GOLDSRC PROFILE")
+
+    # NO TOUCH PROTON CORE
+    # pas de pop esync/fsync
+    # --- CRITICAL ---
+    env["PROTON_USE_XALIA"] = "0"
+    env["WINEDLLOVERRIDES"] = "mss32=builtin"
+
+    # INPUT minimal
+    env["SDL_MOUSE_RELATIVE_MODE_WARP"] = "1"
+    env["SDL_MOUSE_AUTO_CAPTURE"] = "1"
+
+    # compositing safe
+    env["SDL_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR"] = "0"
+
+    return env
+
+def env_goldsrc_full():
+    env = init_env()
+
+    print("[proton-autogen] PROFILE: GOLDSRC (Half-Life)")
+
+    # OpenGL natif propre
+    env.pop("PROTON_USE_WINED3D", None)
+
+    #env["WINEDLLOVERRIDES"] = "mss32=n,b"
+
+    # --- CRITICAL ---
+    env["PROTON_USE_XALIA"] = "0"
+    #env.pop("XALIA", None)
+
+    # --- GOLD SRC FIX ---
+    env["WINEDLLOVERRIDES"] = "mss32=native,builtin"
+
+    # sync stable
     env.pop("PROTON_NO_ESYNC", None)
     env.pop("PROTON_NO_FSYNC", None)
     env.pop("WINEESYNC", None)
     env.pop("WINEFSYNC", None)
 
-    # pas d’overrides cassants
+    # éviter interférences Vulkan/DXVK
+    env.pop("DXVK_HUD", None)
+    env.pop("VKD3D_CONFIG", None)
+
+    # SDL input fixes (important pour GoldSrc)
+    env["SDL_MOUSE_RELATIVE_MODE_WARP"] = "1"
+    env["SDL_MOUSE_AUTO_CAPTURE"] = "1"
+    env["SDL_HINT_GRAB_KEYBOARD"] = "1"
+    env["SDL_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR"] = "0"
+
+    # IMPORTANT: évite double capture
+    env["SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS"] = "0"
+
+    return env
+#-----------------------------------------------------------
+# DirectDraw
+#-----------------------------------------------------------
+def env_win95():
+    env = init_env()
+    print("[proton-autogen] PROFILE: Win 95")
+
+    env["PROTON_USE_XALIA"] = "0"
+    env["PROTON_USE_WINED3D"] = "1"
+
+    env["PROTON_NO_ESYNC"] = "1"
+    env["PROTON_NO_FSYNC"] = "1"
+
+    env["WINEESYNC"] = "0"
+    env["WINEFSYNC"] = "0"
+
+    #env["WINE_VK_FULLSCREEN_METHOD"] = "desktop"
+    env["SDL_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR"] = "0"
+
+    env.pop("DXVK_HUD", None)
+    env.pop("VKD3D_CONFIG", None)
+
+    return env
+
+
+def env_win95Beta():
+    env = init_env()
+    print("[proton-autogen] PROFILE: Win 95 Beta")
+
+    env["PROTON_USE_XALIA"] = "0"
+    env["PROTON_USE_WINED3D"] = "1"
+
+    env["PROTON_NO_ESYNC"] = "1"
+    env["PROTON_NO_FSYNC"] = "1"
+
+    env["WINEESYNC"] = "0"
+    env["WINEFSYNC"] = "0"
+
+    return env
+
+def env_DDraw():
+    env = init_env()
+
+    print("[proton-autogen] PROFILE: DirectDraw")
+
+    env["PROTON_USE_XALIA"] = "0"
+
+    env["PROTON_NO_ESYNC"] = "1"
+    env["PROTON_NO_FSYNC"] = "1"
+
+    env["WINEESYNC"] = "0"
+    env["WINEFSYNC"] = "0"
+
     env.pop("WINEDLLOVERRIDES", None)
+    env.pop("DXVK_HUD", None)
+
+    env["vblank_mode"] = "0"
+    env["mesa_glthread"] = "true"
 
     return env
 
@@ -1383,11 +1707,26 @@ def base_env(enable_mangohud=False, enable_gamemode=False, exe_path="", exe_type
         "win95": env_win95,
         "ut3": env_ut3,
         "oldgame": env_oldgame,
+        "valve": env_goldsrc,
         "dx9": env_dx9,
+        "dx8dg": env_dx8dg,
+        "dx9dg": env_dx9dg,
         "dx9opengl": env_dx9opengl,
     }
 
     env = env_factories.get(exe_type, env_dx11)()
+
+
+    # FORCE CLEAN GRAPHICS PIPELINE FOR OLD GAMES
+    if exe_type in ["dx8dg", "dx9dg"]:
+        env["DXVK_HUD"] = ""
+        env.pop("DXVK_HUD", None)
+        env.pop("VKD3D_CONFIG", None)
+
+        # IMPORTANT: kill DXVK behavior fully
+        env["WINEDLLOVERRIDES"] = (
+            env.get("WINEDLLOVERRIDES", "") + ";dxgi=n;d3d11=n;d3d10=n"
+        )
 
     # -----------------------------
     # MangoHud
@@ -1421,6 +1760,17 @@ def base_env(enable_mangohud=False, enable_gamemode=False, exe_path="", exe_type
     profile = USER_PROFILE_DATA if USER_PROFILE_DATA else None
     env = apply_user_profile(env, profile)
 
+    if DEBUG:
+        env["PROTON_LOG"] = "1"
+        #env["WINEDEBUG"] = "-all" #WINEDEBUG=+err,+warn
+        #env["WINEDEBUG"] = "+err,+warn"
+        env["WINEDEBUG"] = "+loaddll,+module"
+    elif VERBOSE:
+        env["PROTON_LOG"] = "1"
+        env["WINEDEBUG"] = "-all,-trace,-relay,-seh"
+    else:
+        env["PROTON_LOG"] = "0"
+
     if DEBUG or VERBOSE:
         print(f"[proton-autogen] SYNC: WINEESYNC={env.get('WINEESYNC')} WINEFSYNC={env.get('WINEFSYNC')}")
         print(f"[proton-autogen] SYNC: PROTON_NO_FSYNC={env.get('PROTON_NO_FSYNC')} PROTON_NO_ESYNC={env.get('PROTON_NO_ESYNC')}")
@@ -1429,6 +1779,12 @@ def base_env(enable_mangohud=False, enable_gamemode=False, exe_path="", exe_type
         print(f"[proton-autogen] Xalia     : {'disabled' if env.get('PROTON_USE_XALIA') == '0' else 'enabled'}")
         # WINEDEBUG
         print(f"[proton-autogen] SYNC: WINEDEBUG={env.get('WINEDEBUG')} PROTON_LOG={env.get('PROTON_LOG')}")
+
+        print("[DEBUG] DXVK =", "DXVK_HUD" not in env)
+        print("[DEBUG] WINED3D =", env.get("PROTON_USE_WINED3D"))
+        print("[DEBUG] VKD3D =", env.get("VKD3D_CONFIG"))
+        print("[DEBUG] WINEDLLOVERRIDES =", env.get("WINEDLLOVERRIDES")) # WINEDLLOVERRIDES
+        print(f"[DEBUG] FINAL EXEC: {exe_path}")
     else:
         print(f"[proton-autogen] SYNC: MANGOHUD={env.get('MANGOHUD')} MANGOHUD_DLSYM={env.get('MANGOHUD_DLSYM')}")
         print(
@@ -1670,8 +2026,9 @@ def run_game_proton(exe_path, exe_type, proton, launch_mode="proton",
         cmd = [
             "proton-call",
             "-c", proton_path(proton),
-            "-r", exe_path
-        ]
+            "-r", exe_path,
+            "--",
+        ] + [exe_path] + sys.argv[2:]
 
     else:
         raise ValueError(f"Unknown launch mode: {launch_mode}")
@@ -1687,7 +2044,7 @@ def run_game_proton(exe_path, exe_type, proton, launch_mode="proton",
         env["MANGOHUD_CONFIG"] = "fps_limit=60"
         env["DXVK_HUD"] = "0"
 
-        if exe_type in ["dx9", "dx9opengl", "oldgame", "ut99", "ut3"]:
+        if exe_type in ["dx9", "dx9opengl", "oldgame", "ut99", "ut3", "valve"]:
 
             if is_32bit_exe(exe_path):
                 print("[proton-autogen] 32-bit legacy game detected")
@@ -1723,7 +2080,8 @@ def run_game_proton(exe_path, exe_type, proton, launch_mode="proton",
         returncode = run_filtered( cmd, env=env, filters=filters )
         sys.exit(returncode)
     else:
-        result = subprocess.run(cmd, env=env)
+        cmd_cwd = os.path.dirname(exe_path)
+        result = subprocess.run(cmd, env=env, cwd=cmd_cwd)
         sys.exit(result.returncode)
 
 
@@ -1827,11 +2185,12 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
         elif DEBUG or VERBOSE:
             print("[proton-autogen] GameMode not found")
 
-        cmd += [
+        cmd = [
             "proton-call",
             "-c", proton_path(proton),
-            "-r", exe_path
-        ]
+            "-r", exe_path,
+            "--",
+        ] + [exe_path] + sys.argv[2:]
 
         print(f"[proton-autogen] Launching with {proton_name(proton)}")
 
