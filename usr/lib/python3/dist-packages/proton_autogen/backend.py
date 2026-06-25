@@ -15,7 +15,7 @@ import configparser
 CONFIG_FILE = os.path.expanduser("~/.config/proton-autogen.conf")
 CONFIG_DIR = os.path.expanduser("~/.config/proton-autogen/games")
 
-VERSION = "2.5.7"
+VERSION = "2.5.8"
 #-----
 # proton-autogen: improved profile system (launcher / DX11 / DX12 / oldgames)
 # fixed environment leaks between profiles
@@ -236,6 +236,8 @@ def detect_exe_type(exe_path: str) -> str:
     if any(k in name for k in dx9_keywords):
         return "dx9"
 
+
+
     dx9opengl_keywords = [
         "most wanted",          # NFS Most Wanted (2005) → DX9
         "carbon",               # NFS Carbon → DX9
@@ -255,10 +257,7 @@ def detect_exe_type(exe_path: str) -> str:
         "underground 2",
         "grid",
         "dirt",
-        # Valve / Source
         "hl2",
-        "half-life",
-        "half life",
         "dx8",
         # Bethesda
         "flatout",
@@ -293,13 +292,30 @@ def detect_exe_type(exe_path: str) -> str:
         "rcr",
         "swep1rcr",
         "ut99",
-        "quake",
-        "hl1",
-        "half-life"
+        "quake"
     ]
 
     if any(k in name for k in dx9opengl_keywords):
         return "dx9opengl"
+
+    # -----------------------------
+    # 3. VALVE SIERRA - old Game
+    # -----------------------------
+    valve_keywords = [
+        # Valve / Source
+        "counter-strike",
+        "hl1",
+        "hl",
+        "tfc",
+        "dmc",
+        "ricochet",
+        "half-life",
+        "half life",
+        "half-life"
+    ]
+
+    if any(k in name for k in valve_keywords):
+        return "valve"
 
     # -----------------------------
     # 3. DX12 GAMES (modern AAA)
@@ -931,6 +947,167 @@ def add_game_old(exe_path: str):
     print(f"  name   : {config['name']}")
     print(f"  id     : {gid}")
     print(f"  config : {config_path}")
+
+
+def choose_profile():
+    profiles = [
+        "launcher",
+        "dx11",
+        "dx11Bnet",
+        "dx12",
+        "dx9",
+        "dx9opengl",
+        "oldgame",
+        "valve",
+        "ut3",
+        "ut99",
+        "legacy",
+        "desktop",
+    ]
+
+    print("\nAvailable profiles:\n")
+
+    for idx, p in enumerate(profiles, start=1):
+        print(f"[{idx}] {p}")
+
+    print("[d] Detect automatically")
+
+    while True:
+        choice = input("\nSelection: ").strip().lower()
+
+        if choice == "d":
+            return None  # on utilisera detect_exe_type()
+
+        try:
+            idx = int(choice) - 1
+            if 0 <= idx < len(profiles):
+                return profiles[idx]
+        except ValueError:
+            pass
+
+        print("Invalid selection")
+
+
+def choose_proton():
+    protons = find_all_protons()
+
+    if not protons:
+        print("No Proton found.")
+        return None
+
+    # IMPORTANT: single source of truth
+    protons = sorted(protons, key=lambda x: os.path.basename(x).lower())
+
+    selected = find_proton()
+
+    selected_path = None
+    if isinstance(selected, dict):
+        selected_path = selected["path"]
+    else:
+        selected_path = selected
+
+    print("\nAvailable Protons:\n")
+
+    for idx, p in enumerate(protons, start=1):
+        mark = ""
+        if selected_path and os.path.realpath(p) == os.path.realpath(selected_path):
+            mark = " (current)"
+
+        print(f"[{idx}] {os.path.basename(p)}{mark}")
+        print(f"    {p}")
+
+    print("[d] Auto (best match)")
+
+    while True:
+        choice = input("\nSelection: ").strip().lower()
+
+        if choice == "d":
+            return find_proton()
+
+        try:
+            idx = int(choice) - 1
+
+            if 0 <= idx < len(protons):
+                return protons[idx]
+        except ValueError:
+            pass
+
+        print("Invalid selection")
+
+def edit_game(exe_path: str):
+    exe_path = os.path.abspath(exe_path)
+
+    gid = _game_id(exe_path)
+    config_path = os.path.join(CONFIG_DIR, gid + ".json")
+
+    if not os.path.exists(config_path):
+        print("[proton-autogen] Game not registered.")
+        return
+
+    with open(config_path, "r") as f:
+        config = json.load(f)
+
+    while True:
+        print("\n=== Edit Game ===")
+        print(f"1) Profile    : {config['env_profile']}")
+        print(f"2) Proton     : {os.path.basename(config['proton'])}")
+        print(f"3) Prefix     : {config['prefix']['name']}")
+        print(f"4) MangoHud   : {config['features']['mangohud']}")
+        print(f"5) GameMode   : {config['features']['gamemode']}")
+        print("6) Save & Quit")
+        print("0) Cancel")
+
+        choice = input("\nSelection: ").strip()
+
+        if choice == "1":
+            print(f"\nCurrent profile: {config['env_profile']}")
+            print(f"Detected profile: {detect_exe_type(exe_path)}")
+
+            profile = choose_profile()
+
+            if profile is None:
+                config["env_profile"] = detect_exe_type(exe_path)
+            else:
+                config["env_profile"] = profile
+
+        elif choice == "2":
+            proton = choose_proton()
+
+            if proton:
+                config["proton"] = proton["path"] if isinstance(proton, dict) else proton
+                print(f"Selected Proton: {os.path.basename(config['proton'])}")
+            else:
+                print("No Proton selected.")
+
+        elif choice == "3":
+            prefix = choose_prefix()
+
+            config["prefix"] = {
+                "name": prefix["name"],
+                "path": prefix["path"]
+            }
+
+        elif choice == "4":
+            current = config["features"].get("mangohud", False)
+            config["features"]["mangohud"] = not current
+
+        elif choice == "5":
+            current = config["features"].get("gamemode", False)
+            config["features"]["gamemode"] = not current
+
+        elif choice == "6":
+            with open(config_path, "w") as f:
+                json.dump(config, f, indent=2)
+
+            print("[proton-autogen] Configuration updated.")
+            return
+
+        elif choice == "0":
+            print("[proton-autogen] Cancelled.")
+            return
+
+        else:
+            print("Invalid selection.")
 
 def find_windows_programs(root=None):
     if root is None:

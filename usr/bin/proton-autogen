@@ -7,7 +7,7 @@ import hashlib
 import json
 from collections import defaultdict
 from pathlib import Path
-from proton_autogen.backend import list_programs, add_game, load_game_config, find_proton_by_name, find_proton, has_gamemode, has_mangohud, normalize_flag, print_diagnostic, list_protons, has_proton_call, has_wine, proton_name, proton_path, load_proton_paths, detect_exe_type, VERSION
+from proton_autogen.backend import list_programs, add_game, edit_game, load_game_config, find_proton_by_name, find_proton, has_gamemode, has_mangohud, normalize_flag, print_diagnostic, list_protons, has_proton_call, has_wine, proton_name, proton_path, load_proton_paths, detect_exe_type, VERSION
 
 
 DEBUG = "--debug" in sys.argv
@@ -853,6 +853,7 @@ Usage:
   proton-autogen <file.exe>
   proton-autogen run <file.exe>
   proton-autogen add <file.exe>
+  proton-autogen edit <file.exe>
 
 Information:
   proton-autogen --v
@@ -1479,7 +1480,7 @@ def env_goldsrc():
     # 🧪 DEBUG SAFE MODE
     # =========================
     #env["WINEDEBUG"] = "-all"
-    env["WINEDEBUG"] = "+loaddll,+module"
+    #env["WINEDEBUG"] = "+loaddll,+module"
 
     return env
 
@@ -1489,8 +1490,6 @@ def env_gold_test():
 
     print("[proton-autogen] SAFE GOLDSRC PROFILE")
 
-    # NO TOUCH PROTON CORE
-    # pas de pop esync/fsync
     # --- CRITICAL ---
     env["PROTON_USE_XALIA"] = "0"
     env["WINEDLLOVERRIDES"] = "mss32=builtin"
@@ -2280,12 +2279,19 @@ def main():
     if len(sys.argv) < 2:
         print("Usage: proton-autogen <file.exe>")
         return
-
+    #add_game
     if sys.argv[1] == "add":
         if len(sys.argv) < 3:
             print("Usage: proton-autogen add <file.exe>")
             return
         add_game(sys.argv[2])
+        return
+    #edit_game
+    if sys.argv[1] == "edit":
+        if len(sys.argv) < 3:
+            print("Usage: proton-autogen edit <file.exe>")
+            return
+        edit_game(sys.argv[2])
         return
 
     if sys.argv[1] == "run":
