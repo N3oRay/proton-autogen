@@ -1,4 +1,6 @@
-proton-autogen (2.5.8) noble; urgency=medium
+proton-autogen (2.5.9) noble; urgency=medium
+
+  * Refacto
 
   * Add edit system:
     - New command:

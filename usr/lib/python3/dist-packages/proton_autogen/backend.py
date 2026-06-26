@@ -1,4 +1,4 @@
-#backend.py proton-autogen core
+#backend.py proton-autogen
 import os
 import json
 import hashlib
@@ -15,7 +15,7 @@ import configparser
 CONFIG_FILE = os.path.expanduser("~/.config/proton-autogen.conf")
 CONFIG_DIR = os.path.expanduser("~/.config/proton-autogen/games")
 
-VERSION = "2.5.8"
+from proton_autogen.core import VERSION, DEFAULT_PROTON_PATHS
 #-----
 # proton-autogen: improved profile system (launcher / DX11 / DX12 / oldgames)
 # fixed environment leaks between profiles
@@ -26,19 +26,7 @@ VERSION = "2.5.8"
 # ----------------------------
 # PROTON PATHS FIXED (robuste multi-distro)
 # ----------------------------
-DEFAULT_PROTON_PATHS = [
-    # Steam natif
-    "~/.steam/root/compatibilitytools.d",
-    "~/.steam/steam/compatibilitytools.d",
-    "~/.local/share/Steam/compatibilitytools.d",
 
-    # Steam runtimes
-    "~/.steam/steam/steamapps/common",
-    "~/.local/share/Steam/steamapps/common",
-
-    # system-wide (CachyOS / Arch / custom builds)
-    "/usr/share/steam/compatibilitytools.d",
-]
 
 def load_proton_paths():
     def create_default_config():
