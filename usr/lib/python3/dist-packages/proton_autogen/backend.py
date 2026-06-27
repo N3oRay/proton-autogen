@@ -1204,11 +1204,65 @@ def edit_game(exe_path: str):
             print("Invalid selection.")
 
 
-from pathlib import Path
 
-from pathlib import Path
+def load_registered_games():
+    games_dir = Path.home() / ".config/proton-autogen/games"
+
+    if not games_dir.exists():
+        return []
+
+    games = []
+
+    for file in games_dir.glob("*.json"):
+
+        try:
+            with file.open("r", encoding="utf-8") as f:
+                data = json.load(f)
+
+            exe = data.get("path")
+
+            if not exe:
+                continue
+
+            games.append({
+                "id": data.get("id"),
+                "name": data.get("name") or Path(exe).name,
+                "path": exe,
+                "source": "database"
+            })
+
+        except (json.JSONDecodeError, OSError) as e:
+            print(f"Erreur lecture {file}: {e}")
+
+    return games
+
+def load_registered_games_ux():
+    """
+    Retourne uniquement les chemins des .exe déjà enregistrés
+    Format compatible avec find_windows_programs_ux()
+    """
+
+    games = load_registered_games()
+
+    return [
+        game["path"]
+        for game in games
+        if game.get("path")
+    ]
 
 def find_windows_programs_ux(root=None):
+
+    programs = []
+
+    programs.extend(load_registered_games_ux())
+
+    programs.extend(find_windows_programs_ux_search(root))
+
+
+    # suppression doublons
+    return list(dict.fromkeys(programs))
+
+def find_windows_programs_ux_search(root=None):
     if root is None:
         root = Path.home()
 
@@ -1216,6 +1270,7 @@ def find_windows_programs_ux(root=None):
         root / "Bureau",
         root / "Downloads",
         root / "Jeux",
+        root / "Téléchargements",
     ]
 
     excluded_dirs = {
@@ -1273,6 +1328,8 @@ def find_windows_programs_ux(root=None):
             programs.append(str(path))
 
     return programs
+
+
 
 def find_windows_programs(root=None):
     if root is None:
