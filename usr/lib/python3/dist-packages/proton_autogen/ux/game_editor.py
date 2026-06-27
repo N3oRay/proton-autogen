@@ -22,7 +22,7 @@ class GameEditor(Gtk.Window):
         #self.set_resizable(True)
         self.on_saved = None
         self.set_size_request(520, 420)
-        self.profile_model = ["dx11", "dx12", "oldgame", "launcher", "legacy", "ut99", "quake", "valve"]
+        self.profile_model = [ "launcher", "dx11", "dx11Bnet", "dx12", "dx9", "dx9opengl", "oldgame", "valve", "ut3", "ut99", "legacy", "desktop"]
         self.prefix_model = ["main", "shared", "auto", "custom"]
 
         self.game = game

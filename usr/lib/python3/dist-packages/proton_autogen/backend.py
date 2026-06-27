@@ -782,7 +782,7 @@ def save_game_config_v1(data: dict):
     print("[proton-autogen] Saved:", config_path)
 
 # -- Save game for UI
-def edit_game(exe_path: str):
+def edit_game_ui(exe_path: str):
 
     if isinstance(exe_path, dict):
         exe_path = exe_path.get("path")
@@ -803,7 +803,8 @@ def edit_game(exe_path: str):
 
     while True:
         print("\n=== Edit Game ===")
-        print(f"1) Profile    : {config['env_profile']}")
+        current_env_profile = config.get("exe_type") or config.get("env_profile")
+        print(f"1) Profile    : {current_env_profile}")
         print(f"2) Proton     : {os.path.basename(config['proton'])}")
         print(f"3) Prefix     : {config['prefix']['name']}")
         print(f"4) MangoHud   : {config['features']['mangohud']}")
@@ -814,7 +815,7 @@ def edit_game(exe_path: str):
         choice = input("\nSelection: ").strip()
 
         if choice == "1":
-            print(f"\nCurrent profile: {config['env_profile']}")
+            print(f"\nCurrent profile: {current_env_profile}")
             print(f"Detected profile: {detect_exe_type(exe_path)}")
 
             profile = choose_profile()

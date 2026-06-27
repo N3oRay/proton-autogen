@@ -97,12 +97,12 @@ def main():
             return
         add_game(sys.argv[2])
         return
-    #edit_game
+    #edit_game_ui
     if sys.argv[1] == "edit":
         if len(sys.argv) < 3:
             print("Usage: proton-autogen edit <file.exe>")
             return
-        edit_game(sys.argv[2])
+        edit_game_ui(sys.argv[2])
         return
 
     if sys.argv[1] == "run":
