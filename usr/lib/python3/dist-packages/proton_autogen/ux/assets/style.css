@@ -1,141 +1,244 @@
-window,
-.background {
+/* =========================================================
+   FENETRE
+   ========================================================= */
+
+window {
     background: transparent;
 }
 
-/* Conteneur principal */
-.style {
-    background: rgba(20, 20, 20, 0.75);
+window.background {
+    background: rgba(20,20,20,0.75);
     border-radius: 16px;
 }
 
-/* GTK containers internes */
+
+/* =========================================================
+   CONTENEUR PRINCIPAL
+   ========================================================= */
+
+.style {
+    background: rgba(20,20,20,0.75);
+    border-radius: 16px;
+}
+
+
+/* =========================================================
+   CONTENEURS GTK
+   ========================================================= */
+
 scrolledwindow,
 viewport,
-list {
-    background: transparent;
-}
-
-/* Liste */
-.game-list {
-    background: transparent;
-}
-
-/* Rows */
+list,
+.game-list,
 .game-row {
     background: transparent;
 }
 
-/* Carte jeu */
-.game-container {
-    background: linear-gradient(
-        180deg,
-        rgba(40, 40, 40, 0.75),
-        rgba(25, 25, 25, 0.65)
-    );
 
-    border-radius: 14px;
-    padding: 10px 12px;
+/* =========================================================
+   HEADER
+   ========================================================= */
 
-    border: 1px solid rgba(255, 255, 255, 0.06);
-
-    transition: all 150ms ease-in-out;
-}
-
-.game-container:hover {
-    background: linear-gradient(
-        180deg,
-        rgba(55, 55, 55, 0.85),
-        rgba(30, 30, 30, 0.75)
-    );
-
-    border: 1px solid rgba(255, 255, 255, 0.12);
-
-    transform: translateY(-1px);
-}
-
-.game-container:active {
-    transform: translateY(0px);
-    background: rgba(20, 20, 20, 0.85);
-}
-
-.game-row {
-    margin-bottom: 6px;
-}
-
-/* Texte */
-label {
-    color: green;
-    font-size: 16px;
-}
-
-.dim-label1 {
-    color: rgba(255,255,255,0.70);
-    font-size: 14px;
-}
-
-.dim-label2 {
-    color: rgba(0,255,0,0.70);
-    font-size: 12px;
-}
-
-/* Boutons */
-button {
-    background: rgba(255,255,255,0.12);
-    color: white;
-    border-radius: 8px;
-}
-
-button:hover {
-    background: rgba(255,255,255,0.20);
-}
-
-/* Header */
+/* GtkHeaderBar native */
 headerbar {
     background: rgba(20,20,20,0.60);
     color: white;
 }
 
+
+/* Header personnalisé */
 .main-header {
-    background: rgba(15, 15, 15, 0.92);
-    color: white;
+    background: rgba(15,15,15,0.92);
+    color:white;
     border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
-textview {
-    background: rgba(20,20,20,0.8);
-    color: white;
-    font-family: monospace;
+
+/* =========================================================
+   BOUTONS SYSTEME GTK4
+   NE PAS TOUCHER AUX BOUTONS GLOBALEMENT
+   ========================================================= */
+
+windowcontrols button,
+.titlebar button,
+.titlebar .titlebutton {
+
+    background: transparent;
+    color:white;
+
+    min-width:24px;
+    min-height:24px;
+
+    border-radius:8px;
+    opacity:1;
 }
+
+
+windowcontrols image {
+    color:white;
+    opacity:1;
+}
+
+
+windowcontrols button:hover,
+.titlebar button:hover,
+.titlebar .titlebutton:hover {
+
+    background:rgba(255,255,255,0.15);
+}
+
+
+/* =========================================================
+   BOUTONS APPLICATION
+   Ajouter .app-button dans le code GTK
+   ========================================================= */
+
+.app-button {
+
+    background:rgba(255,255,255,0.12);
+    color:white;
+
+    border-radius:8px;
+}
+
+
+.app-button:hover {
+    background:rgba(255,255,255,0.20);
+}
+
+
+/* =========================================================
+   CARTES DE JEUX
+   ========================================================= */
+
+.game-container {
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(40,40,40,0.75),
+            rgba(25,25,25,0.65)
+        );
+
+    border-radius:14px;
+
+    padding:10px 12px;
+
+    border:
+        1px solid rgba(255,255,255,0.06);
+}
+
+
+.game-container:hover {
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(55,55,55,0.85),
+            rgba(30,30,30,0.75)
+        );
+
+    border-color:
+        rgba(255,255,255,0.12);
+}
+
+
+.game-container:active {
+
+    background:
+        rgba(20,20,20,0.85);
+}
+
+
+.game-row {
+    margin-bottom:6px;
+}
+
+
+/* =========================================================
+   TEXTES
+   Eviter label {}
+   ========================================================= */
+
+.game-container label {
+
+    color:white;
+    font-size:16px;
+}
+
+
+.dim-label1 {
+
+    color:
+        rgba(255,255,255,0.70);
+
+    font-size:14px;
+}
+
+
+.dim-label2 {
+
+    color:
+        rgba(0,255,0,0.70);
+
+    font-size:12px;
+}
+
+
+/* =========================================================
+   DIALOGUES
+   ========================================================= */
 
 .dialog-content {
-    background: rgba(20, 20, 20, 0.80);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 16px;
-    padding: 12px;
+
+    background:
+        rgba(20,20,20,0.80);
+
+    border:
+        1px solid rgba(255,255,255,0.06);
+
+    border-radius:16px;
+
+    padding:12px;
 }
+
 
 .dialog-content textview {
-    background: transparent;
-    color: white;
+
+    background:transparent;
+    color:white;
+
+    font-family:monospace;
 }
 
 
-scrolledwindow {
-    background: transparent;
-}
+/* =========================================================
+   TEXTVIEW
+   ========================================================= */
 
 textview {
-    background: transparent;
-    color: white;
+
+    background:transparent;
+    color:white;
+
+    font-family:monospace;
 }
 
-/* IMPORTANT : fond interne du buffer GTK */
+
 textview text {
-    background: transparent;
-    color: white;
+
+    background:transparent;
+    color:white;
 }
 
-viewport {
-    background: transparent;
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+scrollbar,
+scrollbar slider {
+
+    min-width:8px;
+    min-height:8px;
 }
