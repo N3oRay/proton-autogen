@@ -12,10 +12,10 @@ from shutil import which
 import configparser
 
 
-CONFIG_FILE = os.path.expanduser("~/.config/proton-autogen.conf")
-CONFIG_DIR = os.path.expanduser("~/.config/proton-autogen/games")
 
-from proton_autogen.core import VERSION, DEFAULT_PROTON_PATHS
+
+
+from proton_autogen.core import *
 #-----
 # proton-autogen: improved profile system (launcher / DX11 / DX12 / oldgames)
 # fixed environment leaks between profiles
@@ -27,78 +27,147 @@ from proton_autogen.core import VERSION, DEFAULT_PROTON_PATHS
 # PROTON PATHS FIXED (robuste multi-distro)
 # ----------------------------
 
+def print_runtime_info(proton, exe_path, mangohud_available):
+    print("[proton-autogen] Runtime information")
+    print(f"  Executable : {exe_path}")
+    print(f"  Proton     : {proton_name(proton)}")
+    print(f"  Path       : {proton_path(proton)}")
 
-def load_proton_paths():
-    def create_default_config():
-        os.makedirs(os.path.dirname(CONFIG_FILE), exist_ok=True)
+    print("  proton-call:", "detected" if has_proton_call() else "missing")
+    print("  GameMode  :", "available" if has_gamemode() else "unavailable")
+    print("  MangoHud  :", "available" if mangohud_available else "unavailable")
+    print("")
 
-        sample = """[proton]
-# Flatpak Steam in ~/.config/proton-autogen.conf by default
-# Add custom Proton locations here
-# You can separate paths with newlines, ":" or ";"
 
-paths = ~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools.d;~/.var/app/com.valvesoftware.Steam/.steam/root/compatibilitytools.d
-"""
 
-        try:
-            with open(CONFIG_FILE, "w") as f:
-                f.write(sample)
-        except Exception:
-            pass
+def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
+    exe_path = os.path.abspath(exe_path)
 
-    # ----------------------------
-    # base paths (always safe)
-    # ----------------------------
-    base_paths = [os.path.expanduser(p) for p in DEFAULT_PROTON_PATHS]
+    if not os.path.exists(exe_path):
+        print(f"Error: file not found: {exe_path}")
+        sys.exit(1)
 
-    # ----------------------------
-    # auto-create config if missing
-    # ----------------------------
-    if not os.path.isfile(CONFIG_FILE):
-        create_default_config()
-        return base_paths
+    # Proton path (à adapter)
+    #proton = os.path.expanduser(
+    #    "~/.steam/debian-installation/compatibilitytools.d/GE-Proton10-34/"
+    #)
+    mangohud_available = has_mangohud()
 
-    config = configparser.ConfigParser()
+    config = load_game_config(exe_path)
+    #-------------------------------- Compatibility old profil ------
+    exe_type = None
 
-    try:
-        config.read(CONFIG_FILE)
+    if config:
+        exe_type = config.get("exe_type") or config.get("env_profile")
 
-        if config.has_section("proton") and config.has_option("proton", "paths"):
-            raw = config["proton"]["paths"]
+    if not exe_type:
+        exe_type = detect_exe_type(exe_path)
+    #---------------------------------------Mode PRO -------------------------
+    if USER_PROFILE_DATA:
+        exe_type = USER_PROFILE_DATA.get("base") or USER_PROFILE_DATA.get("name") or exe_type
+    #-------------------------------------------------------------------------
 
-            for p in re.split(r"[;:\n]", raw):
-                p = os.path.expanduser(p.strip())
-                if p:
-                    base_paths.append(p)
+    if config:
+        saved_proton_name = config.get("proton")
+        features = config.get("features", {})
+        cfg_mangohud = normalize_flag(features.get("mangohud"), False)
+        cfg_gamemode = normalize_flag(features.get("gamemode"), False)
+        proton = find_proton_by_name(saved_proton_name)
 
-    except Exception:
-        # fail-safe: never break proton detection
-        return base_paths
+        if not proton:
+            print("[proton-autogen] stored Proton missing → fallback")
+            proton = find_proton()
+    else:
+        # By Default
+        cfg_mangohud = False
+        cfg_gamemode = False
+        proton = find_proton()
 
-    # ----------------------------
-    # normalization + deduplication (SAFE VERSION)
-    # ----------------------------
-    cleaned = []
-    seen = set()
 
-    for p in base_paths:
-        if not p:
-            continue
+    enable_mangohud = cfg_mangohud if config else False
+    enable_gamemode = cfg_gamemode if config else False
 
-        # keep symlinks safe (Steam/Flatpak compatibility)
-        p = os.path.expanduser(p)
-        p = os.path.normpath(p)
+    # CLI overrides (priorité utilisateur)
+    if "--mangohud" in sys.argv:
+        enable_mangohud = True
 
-        # stable dedup key
-        key = p.lower()
+    if "--gamemode" in sys.argv:
+        enable_gamemode = True
 
-        if key in seen:
-            continue
 
-        seen.add(key)
-        cleaned.append(p)
+    if proton:
+        print_runtime_info(proton, exe_path, mangohud_available)
+    else:
+        print("[proton-autogen] ERROR: No Proton installation found")
+        print("")
+        print("Install GE-Proton with:")
+        print("  protonup-qt")
+        print("")
+        print("Or install Proton-GE from command line:")
+        print("  protonup -d ~/.steam/root/compatibilitytools.d")
+        print("")
+        print("Then restart Steam and try again.")
+        sys.exit(1)
 
-    return cleaned
+    if launch_mode == "proton-call" and has_proton_call():
+        env = base_env(
+            enable_mangohud=enable_mangohud,
+            enable_gamemode=enable_gamemode,
+            exe_path=exe_path,
+            exe_type=exe_type
+        )
+        env["GE_PROTON"] = proton_path(proton)
+        env["GAME_EXE"] = exe_path
+
+        if enable_mangohud:
+            if mangohud_available:
+                print("[proton-autogen] MangoHud enabled")
+                env["MANGOHUD"] = "1"
+                env["MANGOHUD_DLSYM"] = "1"
+                env["DXVK_HUD"] = "0"
+                env.pop("LD_PRELOAD", None)
+            else:
+                print("[proton-autogen] WARNING: MangoHud requested but not installed")
+
+        cmd = []
+
+        if enable_gamemode:
+            if has_gamemode():
+                print("[proton-autogen] GameMode enabled")
+                #cmd.append("gamemoderun")
+                env["GAMEMODE"] = "1"
+        elif DEBUG or VERBOSE:
+            print("[proton-autogen] GameMode not found")
+
+        cmd = [
+            "proton-call",
+            "-c", proton_path(proton),
+            "-r", exe_path,
+            "--",
+        ] + [exe_path] + sys.argv[2:]
+
+        print(f"[proton-autogen] Launching with {proton_name(proton)}")
+
+        #subprocess.run(cmd, env=env)
+        result = subprocess.run(cmd, env=env)
+        sys.exit(result.returncode)
+
+    elif launch_mode == "proton" and proton:
+
+        # ----------------------------
+        # Prefix resolution (IMPORTANT PART)
+        # ----------------------------
+        if config and config.get("prefix"):
+            prefix_mode = config["prefix"].get("name", prefix_mode)
+            print(f"[proton-autogen] LOAD CONFIG PREFIX: {prefix_mode}")
+
+        run_game_proton(exe_path, exe_type, proton, "proton", enable_mangohud, enable_gamemode, prefix_mode)
+
+    elif launch_mode == "wine":
+        run_standard(exe_path)
+
+
+
 
 #---------------------------------------------------------------------------------------------
 def detect_exe_type(exe_path: str) -> str:
@@ -424,18 +493,14 @@ def detect_exe_type(exe_path: str) -> str:
     # -----------------------------
     return "dx11"
 #---------------------------------------------------------------------------------------------
-def proton_path(p):
-    if isinstance(p, dict):
-        return p.get("path")
-    return p
+
 
 def proton_name(p):
     if isinstance(p, dict):
         return p.get("name", "Unknown Proton")
     return os.path.basename(p) if p else "Unknown Proton"
 
-def has_wine():
-    return which("wine") is not None
+
 
 def has_proton_call():
     return which("proton-call") is not None
@@ -472,6 +537,51 @@ def list_protons():
 
         print(f"  {os.path.basename(proton)}{suffix}")
         print(f"    {proton}\n")
+
+def get_diagnostic_text():
+    lines = []
+
+    lines.append("proton-autogen diagnostic\n")
+
+    lines.append(f"Version      : {VERSION}")
+    lines.append(f"Python       : {sys.version.split()[0]}\n")
+
+    lines.append("Runtime:")
+    lines.append(f"  proton-call : {'yes' if has_proton_call() else 'no'}")
+    lines.append(f"  wine        : {'yes' if has_wine() else 'no'}")
+    lines.append(f"  gamemode    : {'yes' if has_gamemode() else 'no'}")
+    lines.append(f"  mangohud    : {'yes' if has_mangohud() else 'no'}\n")
+
+    lines.append(f"Platform     : {sys.platform}\n")
+
+    protons = find_all_protons()
+    lines.append(f"Detected Proton installations: {len(protons)}\n")
+
+    if not protons:
+        lines.append("  none\n")
+        return "\n".join(lines)
+
+    selected = find_proton()
+
+    if isinstance(selected, dict):
+        selected_path = selected.get("path")
+    else:
+        selected_path = selected
+
+    selected_path = os.path.realpath(selected_path) if selected_path else None
+
+    protons_sorted = sorted(protons, key=lambda x: os.path.basename(x).lower())
+
+    for proton in protons_sorted:
+        proton_real = os.path.realpath(proton)
+
+        marker = " [selected]" if selected_path and proton_real == selected_path else ""
+
+        lines.append(f"  {os.path.basename(proton)}{marker}")
+        lines.append(f"    {proton}")
+
+    lines.append("")
+    return "\n".join(lines)
 
 def print_diagnostic():
     print("proton-autogen diagnostic\n")
@@ -635,11 +745,7 @@ def normalize_flag(value, default=True):
         return value.lower() in ("1", "true", "yes", "on")
     return bool(value)
 
-def has_mangohud():
-    return which("mangohud") is not None
 
-def has_gamemode():
-    return which("gamemoderun") is not None
 
 # ----------------------------
 # PROTON SCORE (robuste)
@@ -1097,6 +1203,77 @@ def edit_game(exe_path: str):
         else:
             print("Invalid selection.")
 
+
+from pathlib import Path
+
+from pathlib import Path
+
+def find_windows_programs_ux(root=None):
+    if root is None:
+        root = Path.home()
+
+    allowed_roots = [
+        root / "Bureau",
+        root / "Downloads",
+        root / "Jeux",
+    ]
+
+    excluded_dirs = {
+        ".steam",
+        ".cache",
+        "pfx",
+        "drive_c",
+        "windows",
+        "old",
+        "tmp",
+        "dgVoodoo2",
+        "stockages",
+        "drivers",
+        "bios",
+        "JAVA",
+        "www",
+        "mail",
+        "personnel",
+        "virus",
+    }
+
+    excluded_names = {
+        "setup.exe",
+        "install.exe",
+    }
+
+    MAX_DEPTH = 6  # 👈 réglable
+
+    programs = []
+
+    for base in allowed_roots:
+        if not base.exists():
+            continue
+
+        base_depth = len(base.parts)
+
+        for path in base.rglob("*.exe"):
+
+            # 🚀 filtre dossiers
+            if any(part in excluded_dirs for part in path.parts):
+                continue
+
+            # 🚀 limite profondeur
+            if len(path.parts) - base_depth > MAX_DEPTH:
+                continue
+
+            name = path.name.lower()
+
+            if name.startswith("unins"):
+                continue
+
+            if name in excluded_names:
+                continue
+
+            programs.append(str(path))
+
+    return programs
+
 def find_windows_programs(root=None):
     if root is None:
         root = os.path.expanduser("~")
@@ -1161,6 +1338,21 @@ def list_programs():
 
     for exe in sorted(programs):
         print(exe)
+
+def list_programs_ux():
+    programs = find_windows_programs_ux()
+
+    if not programs:
+        return []
+
+    return [
+        {
+            "name": exe.split("/")[-1],
+            "path": exe,
+            "exe_type": detect_exe_type(exe)
+        }
+        for exe in sorted(programs)
+    ]
 
 def _normalize(name: str):
     return re.sub(r"[^a-z0-9]", "", name.lower())

@@ -1,0 +1,414 @@
+#!/usr/bin/env python3
+import os
+import gi
+import threading
+gi.require_version("Gtk", "4.0")
+from gi.repository import Gtk, Gio, Gdk
+
+from proton_autogen.ux.game_list import GameList
+from proton_autogen.ux.game_editor import GameEditor
+from proton_autogen.ux.dialogs import open_game_file_dialog
+from proton_autogen.ux.menu import attach_menu
+
+from proton_autogen.backend import (
+    run,
+    list_programs_ux,
+    edit_game,
+    add_game,
+    get_diagnostic_text,
+)
+
+
+from proton_autogen.core import print_about, get_about_text
+from proton_autogen.info import print_help, get_help_text
+
+
+# -----------------------------
+# MAIN WINDOW
+# -----------------------------
+class Dashboard(Gtk.ApplicationWindow):
+
+    def __init__(self, app):
+        super().__init__(application=app)
+        self.set_title("Proton-Autogen")
+        self.set_default_size(750, 900)
+        self.set_size_request(750, 900)
+
+        self.games = []
+
+        self.build_ui()
+        self.refresh_games()
+
+    # -------------------------
+    # UI
+    # -------------------------
+    def build_ui(self):
+
+        # =========================
+        # OVERLAY
+        # =========================
+        overlay = Gtk.Overlay()
+        self.set_child(overlay)
+
+        # =========================
+        # BACKGROUND IMAGE
+        # =========================
+        base = os.path.dirname(__file__)
+        background = Gtk.Picture.new_for_filename(
+            os.path.join(base, "assets", "logo-pa.jpg")
+        )
+        background.set_content_fit(Gtk.ContentFit.COVER)
+        background.set_hexpand(True)
+        background.set_vexpand(True)
+
+        # Le fond est le widget principal
+        overlay.set_child(background)
+        # overlay.set_hexpand(True)
+        # overlay.set_vexpand(True)
+        #background.set_can_shrink(False)
+
+        # =========================
+        # ROOT CONTAINER
+        # =========================
+        root = Gtk.Box(
+            orientation=Gtk.Orientation.VERTICAL,
+            spacing=8,
+        )
+
+
+        root.set_vexpand(True)
+        root.set_hexpand(True)
+        root.set_halign(Gtk.Align.FILL)
+        root.set_valign(Gtk.Align.FILL)
+
+        root.set_margin_top(10)
+        root.set_margin_bottom(10)
+        root.set_margin_start(5)
+        root.set_margin_end(10)
+        root.add_css_class("style")
+
+        # Le contenu est affiché au-dessus du fond
+
+        wrapper = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        wrapper.set_halign(Gtk.Align.CENTER)
+        wrapper.set_valign(Gtk.Align.FILL)
+        wrapper.set_margin_start(0)
+        wrapper.set_margin_end(0)
+        wrapper.set_margin_top(0)
+        wrapper.set_margin_bottom(0)
+
+        wrapper.append(root)
+
+        overlay.add_overlay(wrapper)
+
+        # =========================
+        # HEADER BAR (MODERN GTK4)
+        # =========================
+        header = Gtk.HeaderBar()
+        header.add_css_class("main-header")
+        self.set_titlebar(header)
+
+        # ADD GAME
+        add_btn = Gtk.Button(label="+")
+        add_btn.set_sensitive(False)
+        add_btn.add_css_class("suggested-action")
+        add_btn.connect("clicked", self.on_add_game)
+        header.pack_start(add_btn)
+
+        # MENU BUTTON
+        menu_btn = Gtk.MenuButton(label="☰")
+        attach_menu(menu_btn, self.get_application())
+        header.pack_end(menu_btn)
+
+        # =========================
+        # GAME LIST
+        # =========================
+        self.game_list = GameList(
+            on_launch=self.launch_game,
+            on_edit=self.edit_game,
+        )
+
+        self.game_list.set_vexpand(True)
+        self.game_list.set_hexpand(True)
+        self.game_list.set_halign(Gtk.Align.FILL)
+        self.game_list.set_size_request(700, -1)
+        root.append(self.game_list)
+
+        # =========================
+        # STATUS BAR
+        # =========================
+        self.status = Gtk.Label(label="Ready")
+        self.status.set_xalign(0)
+        self.status.add_css_class("dim-label")
+
+        root.append(self.status)
+
+
+    # -------------------------
+    # DATA
+    # -------------------------
+    def refresh_games(self):
+        self.status.set_text("Loading games...")
+
+        games = list_programs_ux() or []
+
+        # normalize safe format (future-proof)
+        self.games = [
+            {
+                "name": g.get("name", "Unknown"),
+                "path": g.get("path"),
+                "exe_type": g.get("exe_type", "dx11")
+            }
+            for g in games
+            if isinstance(g, dict)
+        ]
+
+        if hasattr(self, "game_list"):
+            self.game_list.set_games(self.games)
+
+        self.status.set_text(f"{len(self.games)} games installed")
+
+
+    # -------------------------
+    # BUILD DIALOG
+    # -------------------------
+
+    def build_dialog(self, title, content_widget, width=600, height=800):
+
+        win = Gtk.Window(
+            title=title,
+            transient_for=self,
+            modal=True
+        )
+
+        win.add_css_class("style")
+        win.set_default_size(width, height)
+
+        overlay = Gtk.Overlay()
+        win.set_child(overlay)
+
+        base = os.path.dirname(__file__)
+
+        logo = Gtk.Image.new_from_file(
+            os.path.join(base, "assets", "logo-pa.jpg")
+        )
+        logo.set_opacity(0.06)
+
+        overlay.set_child(logo)
+
+
+        root = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
+        root.set_margin_top(10)
+        root.set_margin_bottom(10)
+        root.set_margin_start(10)
+        root.set_margin_end(10)
+        root.add_css_class("dialog-content")
+
+        root.append(content_widget)
+
+        overlay.add_overlay(root)
+
+        win.present()
+
+        return win
+
+    # -------------------------
+    # DIALOG ABOUT
+    # -------------------------
+    def show_about_dialog(self):
+
+        scroll = Gtk.ScrolledWindow()
+        scroll.set_vexpand(True)
+        scroll.set_hexpand(True)
+
+        textview = Gtk.TextView()
+        textview.set_editable(False)
+        textview.set_cursor_visible(False)
+        textview.set_monospace(True)
+        textview.set_left_margin(6)
+        textview.set_right_margin(6)
+        textview.set_wrap_mode(Gtk.WrapMode.WORD)
+
+        buffer = textview.get_buffer()
+        buffer.set_text(get_about_text())
+
+        scroll.set_child(textview)
+
+        self.build_dialog(
+            "About",
+            scroll,
+            width=500,
+            height=650
+        )
+    # -------------------------
+    # DIALOG HELP
+    # -------------------------
+    def show_help_dialog(self):
+
+        scroll = Gtk.ScrolledWindow()
+        scroll.set_vexpand(True)
+        scroll.set_hexpand(True)
+
+        textview = Gtk.TextView()
+        textview.set_editable(False)
+        textview.set_cursor_visible(False)
+        textview.set_monospace(True)
+        textview.set_wrap_mode(Gtk.WrapMode.WORD)
+        textview.set_left_margin(8)
+        textview.set_right_margin(8)
+        textview.set_pixels_above_lines(2)
+        textview.set_pixels_below_lines(2)
+
+        buffer = textview.get_buffer()
+        buffer.set_text(get_help_text())
+
+        scroll.set_child(textview)
+
+        self.build_dialog(
+            "Help",
+            scroll,
+            width=700,
+            height=800
+        )
+
+    # -------------------------
+    # DIALOG DIAGNOSTIC
+    # -------------------------
+    def show_diagnostic_dialog(self):
+
+        scroll = Gtk.ScrolledWindow()
+        scroll.set_vexpand(True)
+        scroll.set_hexpand(True)
+
+        textview = Gtk.TextView()
+        textview.set_editable(False)
+        textview.set_cursor_visible(False)
+        textview.set_monospace(True)
+        textview.set_wrap_mode(Gtk.WrapMode.WORD)
+
+        buffer = textview.get_buffer()
+        buffer.set_text(get_diagnostic_text())
+
+        scroll.set_child(textview)
+
+        self.build_dialog(
+            "Diagnostic",
+            scroll,
+            width=800,
+            height=750
+        )
+
+
+    # -------------------------
+    # ACTIONS
+    # -------------------------
+    def launch_game(self, game):
+        if not game.get("path"):
+            return
+
+        name = game.get("name", "Unknown")
+        self.status.set_text(f"Launching {name}...")
+
+        def worker():
+            try:
+                run(game["path"])
+            except Exception as e:
+                print("[UX] Launch error:", e)
+
+        threading.Thread(target=worker, daemon=True).start()
+
+    def edit_game(self, game):
+        editor = GameEditor(self.get_application(), game)
+        editor.present()
+        self.refresh_games()
+
+    def on_add_game(self, _btn):
+        open_game_file_dialog(self, self._on_file_selected)
+
+    def _on_file_selected(self, path):
+        if not path:
+            return
+
+        try:
+            add_game(path)
+            self.refresh_games()
+        except Exception as e:
+            print("[UX] Add game error:", e)
+
+
+# -----------------------------
+# GTK APPLICATION
+# -----------------------------
+class ProtonAutogenApp(Gtk.Application):
+
+    def __init__(self):
+        super().__init__(application_id="com.proton.autogen")
+
+        base = os.path.dirname(__file__)
+
+        provider = Gtk.CssProvider()
+        provider.load_from_path(os.path.join(base, "assets", "style.css"))
+
+        Gtk.StyleContext.add_provider_for_display(
+            Gdk.Display.get_default(),
+            provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION,
+        )
+
+    def do_activate(self):
+        self._create_actions()
+        win = Dashboard(self)
+        win.present()
+
+
+    def _create_actions(self):
+
+        # -------------------------
+        # DIAGNOSTIC
+        # -------------------------
+        diag = Gio.SimpleAction.new("diag", None)
+
+        def open_diag(*args):
+            win = self.get_active_window()
+            if win:
+                win.show_diagnostic_dialog()
+
+        diag.connect("activate", open_diag)
+        self.add_action(diag)
+
+        # -------------------------
+        # HELP
+        # -------------------------
+        help_ = Gio.SimpleAction.new("help", None)
+
+        def open_help(*a):
+            win = self.get_active_window()
+            if win:
+                win.show_help_dialog()
+
+        help_.connect("activate", open_help)
+        self.add_action(help_)
+                # -------------------------
+        # ABOUT
+        # -------------------------
+        about = Gio.SimpleAction.new("about", None)
+
+        def open_about(*a):
+            win = self.get_active_window()
+            if win:
+                win.show_about_dialog()
+
+        about.connect("activate", open_about)
+        self.add_action(about)
+
+        # -------------------------
+        # SHORTCUTS
+        # -------------------------
+        self.set_accels_for_action("app.diag", ["<Ctrl>D"])
+        self.set_accels_for_action("app.help", ["F1"])
+        self.set_accels_for_action("app.about", ["F2"])
+
+
+def start_dashboard():
+    app = ProtonAutogenApp()
+    app.run()

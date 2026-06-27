@@ -1,41 +1,31 @@
-proton-autogen (2.5.9) noble; urgency=medium
+proton-autogen (2.6.0) noble; urgency=medium
 
-  * Refacto
+  * New
+    - New UX : proton-autogen --ux
+    - UI/UX cleanup and improved GTK4 layout stability
+    - Better separation between backend, UX, and config layers
+    - Improved performance on game list rendering
 
-  * Add edit system:
-    - New command:
-      proton-autogen edit game.exe
-    - Interactive editor for existing game configurations
-    - Manage Proton, Prefix, Profile, MangoHud, and GameMode per game
-    - Safe update workflow with persistent JSON config
+  * Improve game scanning system (major UX improvement)
+    - Limited scan scope to user directories only:
+      ~/Bureau, ~/Downloads, ~/Jeux
+    - Added excluded directories filtering (Backup, Windows dumps, drivers, etc.)
+    - Added depth limitation to avoid deep legacy directories
+    - Reduced scan noise from old archives and installer collections
+    - Significant performance improvement on large home directories
 
-  * New Profil
-    - [1] launcher [2] dx11 [3] dx11Bnet [4] dx12 [5] dx9 [6] dx9opengl [7] oldgame [8] valve [9] ut3 [10] ut99 [11] legacy [12] desktop
-    - Improved automatic profile detection (exe-based heuristics)
-    - Consistent environment mapping across profiles
-
-
-  * Improve "add" system (major evolution)
-    - Interactive prefix selection (reuse / create / switch easily)
-    - Auto-detection of existing prefixes per game
-    - Support multiple prefix targets (main, custom, shared, etc.)
-    - Game binding stored in JSON config (~/.config/proton-autogen/games/)
-    - Safer workflow: confirmation before overwriting/reusing prefixes
-    - Better integration with Proton profiles (dx9, dx11, etc.)
-    - Automatic mapping between executable and execution profile
 
   * Add Verbose option
-    - proton-autogen app.exe --verbose      Verbose output
+    - proton-autogen app.exe --verbose
+      Verbose output for debugging and diagnostics
 
-  * Add game support mangohud 32 Bit:
-    - New profil Dx9 - Dx9 OpenGL
-    - Mangohud 32 Bit compatibility
 
   * Add game support:
-    - Need for Speed, RPG titles, and more.
+    - Improved compatibility for legacy Windows games (Need for Speed series, RPG titles, etc.)
 
   * New utilities:
-    - proton-autogen --help-env (new in v2.5.3) for PRO users (EN/FR support)
+    - proton-autogen --help-env (new in v2.5.3)
+      Environment variable reference (EN/FR support)
 
   * Patch:
     - proton-autogen --json-profile:
@@ -51,4 +41,4 @@ proton-autogen (2.5.9) noble; urgency=medium
     - Loads and applies a user-defined profile at runtime
     - Safely overrides environment variables
 
- -- N3oray <n3oray77@gmail.com>  Thu, 26 Jun 2026 00:00:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Thu, 27 Jun 2026 00:00:00 +0200

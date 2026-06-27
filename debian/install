@@ -2,8 +2,16 @@ usr/bin/proton-autogen usr/bin/
 
 usr/lib/python3/dist-packages/proton_autogen/backend.py usr/lib/python3/dist-packages/proton_autogen/
 usr/lib/python3/dist-packages/proton_autogen/core.py usr/lib/python3/dist-packages/proton_autogen/
-usr/lib/python3/dist-packages/proton_autogen/ux.py usr/lib/python3/dist-packages/proton_autogen/
+usr/lib/python3/dist-packages/proton_autogen/info.py usr/lib/python3/dist-packages/proton_autogen/
 usr/lib/python3/dist-packages/proton_autogen/__init__.py usr/lib/python3/dist-packages/proton_autogen/
+
+usr/lib/python3/dist-packages/proton_autogen/ux/menu.py /usr/lib/python3/dist-packages/proton_autogen/ux/
+usr/lib/python3/dist-packages/proton_autogen/ux/dialogs.py /usr/lib/python3/dist-packages/proton_autogen/ux/
+usr/lib/python3/dist-packages/proton_autogen/ux/game_list.py /usr/lib/python3/dist-packages/proton_autogen/ux/
+usr/lib/python3/dist-packages/proton_autogen/ux/game_editor.py /usr/lib/python3/dist-packages/proton_autogen/ux/
+usr/lib/python3/dist-packages/proton_autogen/ux/dashboard.py /usr/lib/python3/dist-packages/proton_autogen/ux/
+usr/lib/python3/dist-packages/proton_autogen/ux/assets/logo-pa.jpg /usr/lib/python3/dist-packages/proton_autogen/ux/assets/
+usr/lib/python3/dist-packages/proton_autogen/ux/assets/style.css /usr/lib/python3/dist-packages/proton_autogen/ux/assets/
 
 usr/share/applications/proton-autogen.desktop usr/share/applications/
 usr/share/kio/servicemenus/proton-autogen.desktop usr/share/kio/servicemenus/
