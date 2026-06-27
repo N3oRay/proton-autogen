@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 
 import gi
+import os
 gi.require_version("Gtk", "4.0")
 from gi.repository import Gtk
 
-from proton_autogen.backend import edit_game
+#from proton_autogen.backend import edit_game
+from proton_autogen.backend import save_game_config
+from proton_autogen.backend import find_all_protons
 
 
 # -----------------------------
@@ -17,7 +20,10 @@ class GameEditor(Gtk.Window):
         self.set_title("Edit Game Profile")
         self.set_default_size(520, 420)
         #self.set_resizable(True)
+        self.on_saved = None
         self.set_size_request(520, 420)
+        self.profile_model = ["dx11", "dx12", "oldgame", "launcher", "legacy", "ut99", "quake", "valve"]
+        self.prefix_model = ["main", "shared", "auto", "custom"]
 
         self.game = game
         self.build_ui()
@@ -41,49 +47,61 @@ class GameEditor(Gtk.Window):
         # TITLE
         # -------------------------
         title = Gtk.Label(label=self.game.get("name", "Game"))
-        title.add_css_class("title-2")
+        title.add_css_class("title-4")
         root.append(title)
 
         # -------------------------
         # PROFILE SELECT
         # -------------------------
-        self.profile = Gtk.DropDown.new_from_strings([
-            "dx11",
-            "dx12",
-            "oldgame",
-            "launcher",
-            "legacy",
-            "ut99",
-            "quake",
-            "valve"
-        ])
-        self.profile.set_selected(0)
+        self.profile = Gtk.DropDown.new_from_strings(self.profile_model)
+
+        current_profile = self.game.get("exe_type", "dx11")
+
+        if current_profile in self.profile_model:
+            self.profile.set_selected(self.profile_model.index(current_profile))
+
         root.append(self._row("Profile", self.profile))
 
         # -------------------------
         # PROTON SELECT (simplifié)
         # -------------------------
-        self.proton = Gtk.Entry()
-        self.proton.set_text(self.game.get("proton", "GE-Proton"))
+        #self.proton = Gtk.Entry()
+        #self.proton.set_text(self.game.get("proton", "GE-Proton"))
+
+        self.protons = find_all_protons()
+        self.proton_names = [os.path.basename(p) for p in self.protons]
+        self.proton = Gtk.DropDown.new_from_strings(self.protons)
+        current = self.game.get("proton", "")
+        if current in self.protons:
+            self.proton.set_selected(self.protons.index(current))
+
         root.append(self._row("Proton", self.proton))
 
         # -------------------------
         # PREFIX MODE
         # -------------------------
-        self.prefix = Gtk.DropDown.new_from_strings([
-            "main",
-            "shared",
-            "auto",
-            "custom"
-        ])
-        self.prefix.set_selected(0)
+        self.prefix = Gtk.DropDown.new_from_strings(self.prefix_model)
+
+        current_prefix = self.game.get("prefix", {}).get("name", "main")
+
+
+        if current_prefix in self.prefix_model:
+            self.prefix.set_selected(self.prefix_model.index(current_prefix))
         root.append(self._row("Prefix", self.prefix))
 
         # -------------------------
         # TOGGLES
         # -------------------------
+        features = self.game.get("features", {})
+
         self.mangohud = Gtk.CheckButton(label="Enable MangoHud")
+        self.mangohud.add_css_class("feature-toggle")
+        self.mangohud.set_active(features.get("mangohud", False))
+
         self.gamemode = Gtk.CheckButton(label="Enable GameMode")
+        self.gamemode.add_css_class("feature-toggle")
+        self.gamemode.set_active(features.get("gamemode", False))
+
 
         root.append(self.mangohud)
         root.append(self.gamemode)
@@ -91,7 +109,8 @@ class GameEditor(Gtk.Window):
         # -------------------------
         # SAVE BUTTON
         # -------------------------
-        save_btn = Gtk.Button(label="Save")
+        save_btn = Gtk.Button(label="Save configuration")
+        save_btn.add_css_class("suggested-action")
         save_btn.connect("clicked", self.on_save)
 
         root.append(save_btn)
@@ -105,6 +124,7 @@ class GameEditor(Gtk.Window):
 
         label = Gtk.Label(label=label_text, xalign=0)
         label.set_width_chars(10)
+        label.add_css_class("dim-label")
 
         row.append(label)
         row.append(widget)
@@ -114,26 +134,23 @@ class GameEditor(Gtk.Window):
     # -------------------------
     # SAVE LOGIC
     # -------------------------
+
     def on_save(self, _btn):
 
-        profile_map = [
-            "dx11",
-            "dx12",
-            "oldgame",
-            "launcher",
-            "legacy",
-            "ut99",
-            "quake",
-            "valve"
-        ]
+        proton = ""
+        if self.protons and self.proton.get_selected() >= 0:
+            proton = self.protons[self.proton.get_selected()]
+
+        exe_type = self.profile_model[self.profile.get_selected()] if self.profile.get_selected() >= 0 else "dx11"
+        prefix = self.prefix_model[self.prefix.get_selected()] if self.prefix.get_selected() >= 0 else "main"
 
         data = {
             "path": self.game["path"],
             "name": self.game.get("name"),
-            "exe_type": profile_map[self.profile.get_selected()],
-            "proton": self.proton.get_text(),
+            "exe_type": exe_type,
+            "proton": proton,
             "prefix": {
-                "name": ["main", "shared", "auto", "custom"][self.prefix.get_selected()]
+                "name": prefix
             },
             "features": {
                 "mangohud": self.mangohud.get_active(),
@@ -141,9 +158,9 @@ class GameEditor(Gtk.Window):
             }
         }
 
-        try:
-            edit_game(self.game["path"], data)
-        except TypeError:
-            edit_game(data)
+        save_game_config(data)
+
+        if self.on_saved:
+            self.on_saved(data)
 
         self.close()

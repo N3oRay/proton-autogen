@@ -11,11 +11,8 @@ from pathlib import Path
 from shutil import which
 import configparser
 
-
-
-
-
 from proton_autogen.core import *
+from proton_autogen.profile import *
 #-----
 # proton-autogen: improved profile system (launcher / DX11 / DX12 / oldgames)
 # fixed environment leaks between profiles
@@ -27,17 +24,19 @@ from proton_autogen.core import *
 # PROTON PATHS FIXED (robuste multi-distro)
 # ----------------------------
 
+def get_game_config_path(exe_path: str):
+    gid = _game_id(exe_path)
+    return os.path.join(CONFIG_DIR, f"{gid}.json"), gid
+
 def print_runtime_info(proton, exe_path, mangohud_available):
     print("[proton-autogen] Runtime information")
     print(f"  Executable : {exe_path}")
     print(f"  Proton     : {proton_name(proton)}")
     print(f"  Path       : {proton_path(proton)}")
-
     print("  proton-call:", "detected" if has_proton_call() else "missing")
     print("  GameMode  :", "available" if has_gamemode() else "unavailable")
     print("  MangoHud  :", "available" if mangohud_available else "unavailable")
     print("")
-
 
 
 def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
@@ -167,334 +166,7 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
         run_standard(exe_path)
 
 
-
-
 #---------------------------------------------------------------------------------------------
-def detect_exe_type(exe_path: str) -> str:
-    """
-    Simple heuristic to classify executable type for proton-autogen.
-    Returns: launcher | dx11 | dx11Bnet | dx12 | oldgame | ut3 | ut99 | legacy | desktop
-    """
-
-    name = os.path.basename(exe_path).lower()
-
-    #------------------------------
-    # 0. Dx11 ( Game DirectX : Jeux connus pour fonctionner avec le profil DXVK/D3D11 )
-
-    dxvk_keywords = [
-        # Rockstar
-        "gta v",
-        "gta 5",
-        "gtav",
-        "gta5",
-        "max payne 3",
-
-        # Racing
-        "dirt 2",
-        "dirt 3",
-
-        # RPG
-        "witcher 2",
-        "witcher 3",
-        "witcher3",
-
-        # Online
-        "final fantasy xiv",
-
-        # Modern DX11
-        "monster hunter world",
-        "dark souls 3",
-        "dark souls iii",
-        "resident evil 2",
-        "resident evil 3",
-        "days gone",
-        "horizon zero dawn",
-        "death stranding",
-        "red dead redemption 2",
-    ]
-
-    if any(k in name for k in dxvk_keywords):
-        return "dx11"
-
-    # -----------------------------
-    # 0. Dx11 (highest priority)
-    # -----------------------------
-    batte_keywords = [
-        "battle.net",
-        "battlenet",
-        "battle net",
-        "blizzard agent",
-        "heroesofthestorm",
-        "heroes of the storm",
-        "hots",
-        "blizzard",
-        "blizzard update",
-        "blizzard launcher",
-        "battle.net launcher",
-        "battlenet launcher",
-        "battle.net helper",
-        "battle.net helper.exe",
-    ]
-
-    if any(k in name for k in batte_keywords):
-        return "dx11Bnet"
-
-    # -----------------------------
-    # 0. legacy (highest priority)
-    # -----------------------------
-
-    legacy_app_keywords = [
-        "photoshop",
-        "photoshp",
-        "paintshop",
-        "imageready",
-        "acdsee",
-    ]
-
-    if any(k in name for k in legacy_app_keywords):
-        return "legacy"
-
-    # -----------------------------
-    # 1. LAUNCHERS (highest priority)
-    # -----------------------------
-    launcher_keywords = [
-        "launcher",
-        "ubisoft connect",
-        "ubisoft",
-        "uplay",
-        "epicgameslauncher",
-        "steamwebhelper",
-        "ea app",
-        "eadesktop",
-        "origin",
-    ]
-
-    if any(k in name for k in launcher_keywords):
-        return "launcher"
-
-    # -----------------------------
-    # 2. OLD GAMES (DX8 / DX9 era)
-    # -----------------------------
-    oldgame_keywords = [
-        "doom95",
-    ]
-
-    if any(k in name for k in oldgame_keywords):
-        return "oldgame"
-
-    dx9_keywords = [
-        "dx9",
-        # Need for Speed
-        "speed2",
-        "nfsc",
-        "undercover",
-    ]
-
-    if any(k in name for k in dx9_keywords):
-        return "dx9"
-
-
-
-    dx9opengl_keywords = [
-        "most wanted",          # NFS Most Wanted (2005) → DX9
-        "carbon",               # NFS Carbon → DX9
-        "left 4 dead",          # DX9
-        "left4dead",            # DX9
-        "left 4 dead 2",        # DX9
-        "left4dead2",           # DX9
-        "source engine",        # majoritairement DX9
-        "gta 4",               # DX9
-        "mass effect 3",       # DX9
-        # Need for Speed
-        "nfsu2",
-        "nfsmw",
-        "portal",
-        "pro street",
-        "underground",
-        "underground 2",
-        "grid",
-        "dirt",
-        "hl2",
-        "dx8",
-        # Bethesda
-        "flatout",
-        "flatout 2",
-        "flatout ultimate carnage",
-        "trackmania",
-        "trackmania nations",
-        "burnout paradise",
-        #RPG
-        "gta iv",
-        "portal2",
-        "counter-strike source",
-        "counter strike source",
-        "team fortress 2",
-        "tesv",
-        "falloutnv",
-        #STAR WARS
-        "swtor",
-        "star wars the old republic",
-        "the witcher",
-        "mass effect",
-        "mass effect 2",
-        "oblivion",
-        "skyrim",
-        "fallout 3",
-        "fallout new vegas",
-        "dragon age origins",
-        "dragon age 2",
-        "fallout nv",
-        "directx 8",
-        "directx 9",
-        "rcr",
-        "swep1rcr",
-        "ut99",
-        "quake"
-    ]
-
-    if any(k in name for k in dx9opengl_keywords):
-        return "dx9opengl"
-
-    # -----------------------------
-    # 3. VALVE SIERRA - old Game
-    # -----------------------------
-    valve_keywords = [
-        # Valve / Source
-        "counter-strike",
-        "hl1",
-        "hl",
-        "tfc",
-        "dmc",
-        "ricochet",
-        "half-life",
-        "half life",
-        "half-life"
-    ]
-
-    if any(k in name for k in valve_keywords):
-        return "valve"
-
-    # -----------------------------
-    # 3. DX12 GAMES (modern AAA)
-    # -----------------------------
-    dx12_keywords = [
-        "dx12",
-        "d3d12",
-        "cyberpunk",
-        "starfield",
-        "hogwarts",
-        "elden",
-        "diablo",
-        "warzone",
-        "elden ring",
-        "hogwarts legacy",
-    ]
-
-    if any(k in name for k in dx12_keywords):
-        return "dx12"
-
-    # -----------------------------
-    # 6. LAUNCHERS (highest priority env_ut3)
-    # -----------------------------
-    ut3_keywords = [
-        # -----------------------------
-        # Unreal Tournament 3 / UE3 spécifique
-        # -----------------------------
-        "ut3",
-        "unreal3",
-        "unrealtournament3",
-        "unreal tournament 3",
-        "utgame",
-        "ut3editor",
-        "unrealfrontend",
-        "13210",  # Steam AppID UT3 Black Edition
-
-        # -----------------------------
-        # UE3 (même base moteur que UT3)
-        # -----------------------------
-        "bioshock",
-        "bioshock2",
-        "borderlands",
-        "borderlands2",
-        "mirror's edge",
-        "mirrors edge",
-        "dead space",
-
-        # -----------------------------
-        # Gamebryo / DX9 RPG (souvent même era problématique Proton)
-        # -----------------------------
-        "fallout3",
-        "fallout new vegas",
-        "falloutnv",
-        "the witcher",
-        "witcher2",
-
-        # -----------------------------
-        # Source Engine DX9
-        # -----------------------------
-        "hl2",
-        "half-life 2",
-        "portal",
-        "portal2",
-        "left 4 dead",
-        "left4dead",
-        "left 4 dead 2",
-        "tf2",
-        "team fortress 2",
-
-        # -----------------------------
-        # Open-world DX9 era
-        # -----------------------------
-        "gta4",
-        "grand theft auto iv",
-        "saints row 2",
-        "mafia2",
-        "just cause",
-        "just cause 2",
-
-        # -----------------------------
-        # STALKER / X-Ray engine DX9
-        # -----------------------------
-        "stalker",
-        "shadow of chernobyl",
-        "clear sky",
-        "call of pripyat",
-    ]
-    if any(k in name for k in ut3_keywords):
-        return "ut3"
-
-    # -----------------------------
-    # 5. LAUNCHERS (highest priority)
-    # -----------------------------
-    ut99_keywords = [
-        "ut99",
-        "unrealtournament",
-    ]
-    if any(k in name for k in ut99_keywords):
-        return "ut99"
-
-    # -----------------------------
-    # 7. DESKTOP
-    # -----------------------------
-    desktop_keywords = [
-        "winrar",
-        "7zfm",
-        "7zip",
-        "notepad++",
-        "foobar2000",
-        "vlc",
-        "putty",
-    ]
-    if any(k in name for k in desktop_keywords):
-        return "desktop"
-
-    # -----------------------------
-    # 4. DEFAULT = DX11 (safe fallback)
-    # -----------------------------
-    return "dx11"
-#---------------------------------------------------------------------------------------------
-
-
 def proton_name(p):
     if isinstance(p, dict):
         return p.get("name", "Unknown Proton")
@@ -746,7 +418,6 @@ def normalize_flag(value, default=True):
     return bool(value)
 
 
-
 # ----------------------------
 # PROTON SCORE (robuste)
 # ----------------------------
@@ -940,9 +611,7 @@ def add_game(exe_path: str):
         return
 
     os.makedirs(CONFIG_DIR, exist_ok=True)
-
-    gid = _game_id(exe_path)
-    config_path = os.path.join(CONFIG_DIR, gid + ".json")
+    config_path, gid = get_game_config_path(exe_path)
 
     proton = find_proton()
     exe_type = detect_exe_type(exe_path)
@@ -1008,79 +677,6 @@ def add_game(exe_path: str):
     print(f"  prefix   : {prefix['name']}")
     print(f"  config   : {config_path}")
 
-def add_game_old(exe_path: str):
-    exe_path = os.path.abspath(exe_path)
-
-    if not os.path.exists(exe_path):
-        print(f"Error: file not found: {exe_path}")
-        return
-
-    os.makedirs(CONFIG_DIR, exist_ok=True)
-
-    gid = _game_id(exe_path)
-    config_path = os.path.join(CONFIG_DIR, gid + ".json")
-
-    proton = find_proton()
-
-    config = {
-        "id": gid,
-        "name": os.path.basename(exe_path),
-        "path": exe_path,
-        "proton": proton.get("path") if isinstance(proton, dict) else proton,
-        "mangohud": False, # has_mangohud()
-        "gamemode": False, # has_gamemode()
-        "env": {
-            "DXVK_ASYNC": "1"
-        }
-    }
-
-    with open(config_path, "w") as f:
-        json.dump(config, f, indent=2)
-
-    print("[proton-autogen] Game added:")
-    print(f"  name   : {config['name']}")
-    print(f"  id     : {gid}")
-    print(f"  config : {config_path}")
-
-
-def choose_profile():
-    profiles = [
-        "launcher",
-        "dx11",
-        "dx11Bnet",
-        "dx12",
-        "dx9",
-        "dx9opengl",
-        "oldgame",
-        "valve",
-        "ut3",
-        "ut99",
-        "legacy",
-        "desktop",
-    ]
-
-    print("\nAvailable profiles:\n")
-
-    for idx, p in enumerate(profiles, start=1):
-        print(f"[{idx}] {p}")
-
-    print("[d] Detect automatically")
-
-    while True:
-        choice = input("\nSelection: ").strip().lower()
-
-        if choice == "d":
-            return None  # on utilisera detect_exe_type()
-
-        try:
-            idx = int(choice) - 1
-            if 0 <= idx < len(profiles):
-                return profiles[idx]
-        except ValueError:
-            pass
-
-        print("Invalid selection")
-
 
 def choose_proton():
     protons = find_all_protons()
@@ -1127,12 +723,76 @@ def choose_proton():
             pass
 
         print("Invalid selection")
+# -- Save game for UX
+def deep_merge(base: dict, updates: dict):
+    for k, v in updates.items():
+        if isinstance(v, dict) and isinstance(base.get(k), dict):
+            deep_merge(base[k], v)
+        else:
+            base[k] = v
+    return base
 
+def save_game_config(data: dict):
+    exe_path = data.get("path")
+    if not exe_path:
+        raise ValueError("Missing path in data")
+
+    config_path, gid = get_game_config_path(exe_path)
+
+    # load existing config
+    if os.path.exists(config_path):
+        with open(config_path, "r") as f:
+            base = json.load(f)
+    else:
+        base = {}
+
+    # ensure id always stable
+    base["id"] = gid
+
+    # merge safely
+    merged = deep_merge(base, data)
+
+    # IMPORTANT: ensure required fields exist
+    merged.setdefault("features", {})
+    merged.setdefault("prefix", {"name": "main", "path": ""})
+    merged.setdefault("env", {})
+
+    with open(config_path, "w") as f:
+        json.dump(merged, f, indent=2)
+
+    return merged
+
+def save_game_config_v1(data: dict):
+    if not isinstance(data, dict):
+        return
+
+    exe_path = data.get("path")
+    if not exe_path:
+        return
+
+    config_path, gid = get_game_config_path(exe_path)
+
+    data["id"] = gid
+
+    os.makedirs(CONFIG_DIR, exist_ok=True)
+
+    with open(config_path, "w") as f:
+        json.dump(data, f, indent=2)
+
+    print("[proton-autogen] Saved:", config_path)
+
+# -- Save game for UI
 def edit_game(exe_path: str):
+
+    if isinstance(exe_path, dict):
+        exe_path = exe_path.get("path")
+
+    if not isinstance(exe_path, str):
+        return
+
     exe_path = os.path.abspath(exe_path)
 
-    gid = _game_id(exe_path)
-    config_path = os.path.join(CONFIG_DIR, gid + ".json")
+    config_path, gid = get_game_config_path(exe_path)
 
     if not os.path.exists(config_path):
         print("[proton-autogen] Game not registered.")
@@ -1253,11 +913,8 @@ def load_registered_games_ux():
 def find_windows_programs_ux(root=None):
 
     programs = []
-
     programs.extend(load_registered_games_ux())
-
     programs.extend(find_windows_programs_ux_search(root))
-
 
     # suppression doublons
     return list(dict.fromkeys(programs))
@@ -1273,30 +930,8 @@ def find_windows_programs_ux_search(root=None):
         root / "Téléchargements",
     ]
 
-    excluded_dirs = {
-        ".steam",
-        ".cache",
-        "pfx",
-        "drive_c",
-        "windows",
-        "old",
-        "tmp",
-        "dgVoodoo2",
-        "stockages",
-        "drivers",
-        "bios",
-        "JAVA",
-        "www",
-        "mail",
-        "personnel",
-        "virus",
-    }
-
-    excluded_names = {
-        "setup.exe",
-        "install.exe",
-    }
-
+    excluded_dirs = { ".steam", ".cache", "pfx", "drive_c", "windows", "old", "tmp", "dgVoodoo2", "stockages", "drivers", "bios", "JAVA", "www", "mail", "personnel", "virus", }
+    excluded_names = { "setup.exe", "install.exe", }
     MAX_DEPTH = 6  # 👈 réglable
 
     programs = []
@@ -1402,14 +1037,24 @@ def list_programs_ux():
     if not programs:
         return []
 
-    return [
-        {
-            "name": exe.split("/")[-1],
+    result = []
+
+    for exe in sorted(programs):
+        config = load_game_config(exe) or {}
+
+        result.append({
+            "name": config.get("name", exe.split("/")[-1]),
             "path": exe,
-            "exe_type": detect_exe_type(exe)
-        }
-        for exe in sorted(programs)
-    ]
+            "exe_type": config.get("exe_type", detect_exe_type(exe)),
+            "proton": config.get("proton", ""),
+            "prefix": config.get("prefix", {"name": "main"}),
+            "features": config.get("features", {
+                "mangohud": False,
+                "gamemode": False,
+            }),
+        })
+
+    return result
 
 def _normalize(name: str):
     return re.sub(r"[^a-z0-9]", "", name.lower())

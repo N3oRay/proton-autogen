@@ -13,7 +13,7 @@ from proton_autogen.ux.menu import attach_menu
 from proton_autogen.backend import (
     run,
     list_programs_ux,
-    edit_game,
+    #edit_game,
     add_game,
     get_diagnostic_text,
 )
@@ -22,7 +22,7 @@ from proton_autogen.backend import (
 from proton_autogen.core import print_about, get_about_text
 from proton_autogen.info import print_help, get_help_text
 
-
+addbouton = False
 # -----------------------------
 # MAIN WINDOW
 # -----------------------------
@@ -33,7 +33,6 @@ class Dashboard(Gtk.ApplicationWindow):
         self.set_title("Proton-Autogen")
         self.set_default_size(750, 900)
         self.set_size_request(750, 900)
-
         self.games = []
 
         self.build_ui()
@@ -63,9 +62,6 @@ class Dashboard(Gtk.ApplicationWindow):
 
         # Le fond est le widget principal
         overlay.set_child(background)
-        # overlay.set_hexpand(True)
-        # overlay.set_vexpand(True)
-        #background.set_can_shrink(False)
 
         # =========================
         # ROOT CONTAINER
@@ -109,11 +105,12 @@ class Dashboard(Gtk.ApplicationWindow):
         self.set_titlebar(header)
 
         # ADD GAME
-        add_btn = Gtk.Button(label="+")
-        add_btn.set_sensitive(False)
-        add_btn.add_css_class("suggested-action")
-        add_btn.connect("clicked", self.on_add_game)
-        header.pack_start(add_btn)
+        if addbouton:
+            add_btn = Gtk.Button(label="+")
+            add_btn.set_sensitive(False)
+            add_btn.add_css_class("suggested-action")
+            add_btn.connect("clicked", self.on_add_game)
+            header.pack_start(add_btn)
 
         # MENU BUTTON
         menu_btn = Gtk.MenuButton(label="☰")
@@ -126,7 +123,9 @@ class Dashboard(Gtk.ApplicationWindow):
         self.game_list = GameList(
             on_launch=self.launch_game,
             on_edit=self.edit_game,
+            on_refresh=self.refresh_games
         )
+        #self.game_list.set_on_refresh(self.refresh_games)
 
         self.game_list.set_vexpand(True)
         self.game_list.set_hexpand(True)
@@ -157,7 +156,10 @@ class Dashboard(Gtk.ApplicationWindow):
             {
                 "name": g.get("name", "Unknown"),
                 "path": g.get("path"),
-                "exe_type": g.get("exe_type", "dx11")
+                "exe_type": g.get("exe_type", "dx11"),
+                "proton": g.get("proton", ""),
+                "prefix": g.get("prefix", {}),
+                "features": g.get("features", {}),
             }
             for g in games
             if isinstance(g, dict)
@@ -166,8 +168,13 @@ class Dashboard(Gtk.ApplicationWindow):
         if hasattr(self, "game_list"):
             self.game_list.set_games(self.games)
 
-        self.status.set_text(f"{len(self.games)} games installed")
+        if not self.games:
+            self.status.set_text("No games found")
+        else:
+            self.status.set_text(f"{len(self.games)} games installed")
 
+        if hasattr(self, "status"):
+            self.status.add_css_class("label-bottom")
 
     # -------------------------
     # BUILD DIALOG
@@ -319,8 +326,16 @@ class Dashboard(Gtk.ApplicationWindow):
 
     def edit_game(self, game):
         editor = GameEditor(self.get_application(), game)
+        self.status.set_text("Updating...")
+
+        def after_save(game):
+            self.game_list.update_game(game)
+
+            self.status.set_text(f"{game.get('name')} updated ✔")
+            self.editor = None  # cleanup
+
+        editor.on_saved = after_save
         editor.present()
-        self.refresh_games()
 
     def on_add_game(self, _btn):
         open_game_file_dialog(self, self._on_file_selected)

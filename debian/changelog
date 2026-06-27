@@ -1,7 +1,8 @@
-proton-autogen (2.6.1) noble; urgency=medium
+proton-autogen (2.6.2) noble; urgency=medium
 
   * New
     - New UX : proton-autogen --ux
+    - Add Fonction EDIT
     - UI/UX cleanup and improved GTK4 layout stability
     - Better separation between backend, UX, and config layers
     - Improved performance on game list rendering

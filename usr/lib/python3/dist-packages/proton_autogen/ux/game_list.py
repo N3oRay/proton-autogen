@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-
+#game_list.py
 import gi
+import os
 gi.require_version("Gtk", "4.0")
 from gi.repository import Gtk, Gio, Gdk, Pango
 
@@ -10,11 +11,13 @@ from gi.repository import Gtk, Gio, Gdk, Pango
 # -----------------------------
 class GameList(Gtk.Box):
 
-    def __init__(self, on_launch=None, on_edit=None):
+    def __init__(self, on_launch=None, on_edit=None, on_refresh=None):
         super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=6)
 
         self.on_launch = on_launch
         self.on_edit = on_edit
+        self.refresh_games = on_refresh
+        self.row_map = {}  # path -> row
 
         self.games = []
 
@@ -30,6 +33,29 @@ class GameList(Gtk.Box):
         self.append(scroll)
 
     # -------------------------
+    # UPDATE
+    # -------------------------
+
+    def update_game(self, updated_game):
+        path = updated_game.get("path")
+        if not path:
+            return
+
+        row = self.row_map.get(path)
+        if not row:
+            return
+
+        # update text directly (LIVE UI)
+        row.title_label.set_text(updated_game.get("name", "Unknown"))
+        row.subtitle_label.set_text(self._format_subtitle(updated_game))
+        row.subtitle1_label.set_text(self._format_subtitle_options(updated_game))
+        row.subtitle2_label.set_text(self._format_subtitle_path(updated_game))
+
+        # update stored game reference (important)
+        row.game_data = updated_game
+
+
+    # -------------------------
     # PUBLIC API
     # -------------------------
     def set_games(self, games):
@@ -38,9 +64,13 @@ class GameList(Gtk.Box):
 
     def refresh(self):
         self.list_box.remove_all()
+        self.row_map.clear()
 
         for game in self.games:
-            self.list_box.append(self._create_row(game))
+            row = self._create_row(game)
+            self.list_box.append(row)
+
+            self.row_map[game["path"]] = row
 
     # -------------------------
     # UI ROW
@@ -70,47 +100,55 @@ class GameList(Gtk.Box):
         info_box.set_hexpand(True)
         info_box.set_valign(Gtk.Align.CENTER)
 
-        title = Gtk.Label(
-            label=game.get("name", "Unknown"),
-            xalign=0
-        )
+        title = Gtk.Label(label=game.get("name", "Unknown"), xalign=0)
         title.set_halign(Gtk.Align.START)
         title.add_css_class("title-4")
 
-        subtitle = Gtk.Label(
-            label=self._format_subtitle(game),
-            xalign=0
-        )
+        subtitle = Gtk.Label(label=self._format_subtitle(game), xalign=0)
         subtitle.set_halign(Gtk.Align.START)
         subtitle.add_css_class("dim-label1")
 
+        subtitle1 = Gtk.Label(label=self._format_subtitle_options(game), xalign=0)
+        subtitle1.set_halign(Gtk.Align.START)
+        subtitle1.add_css_class("dim-label1")
 
-        subtitle2 = Gtk.Label(
-            label=self._format_subtitle_path(game),
-            xalign=0
-        )
+
+        subtitle2 = Gtk.Label(label=self._format_subtitle_path(game), xalign=0)
         subtitle2.set_halign(Gtk.Align.START)
         subtitle2.set_wrap(True)
         subtitle2.set_wrap_mode(Pango.WrapMode.WORD_CHAR)
         subtitle2.set_selectable(True)
         subtitle2.add_css_class("dim-label2")
 
+        # -------------------------
+        # STORE REFERENCES (IMPORTANT)
+        # -------------------------
+        row.title_label = title
+        row.subtitle_label = subtitle
+        row.subtitle1_label = subtitle1
+        row.subtitle2_label = subtitle2
+        row.game_path = game.get("path")
+
+        # -------------------------
+        # BUILD
+        # -------------------------
+
         info_box.append(title)
         info_box.append(subtitle)
+        info_box.append(subtitle1)
         info_box.append(subtitle2)
         info_box.set_hexpand(True)
         info_box.set_size_request(400, -1)
 
-        # -------------------------
-        # BUTTONS
-        # -------------------------
         btn_launch = Gtk.Button(label="▶")
+        btn_launch.add_css_class("btn-launch")
         btn_launch.set_valign(Gtk.Align.CENTER)
         btn_launch.set_size_request(36, 36)
         btn_launch.connect("clicked", lambda x: self._launch(game))
 
         btn_edit = Gtk.Button(label="Edit")
-        btn_edit.set_sensitive(False)
+        btn_edit.add_css_class("btn-edit")
+        #btn_edit.set_sensitive(False)
         btn_edit.set_valign(Gtk.Align.CENTER)
         btn_edit.set_size_request(60, 36)
         btn_edit.connect("clicked", lambda x: self._edit(game))
@@ -137,11 +175,28 @@ class GameList(Gtk.Box):
     # FORMAT DISPLAY
     # -----------------------------
     def _format_subtitle(self, game):
-
         profile = game.get("exe_type", "auto")
-        proton = game.get("proton", "default")
 
-        return f"Profile: {profile} | Proton: {proton} "
+        proton = game.get("proton", "")
+        proton_name = os.path.basename(proton) if proton else "default"
+
+        return f"Profile: {profile} | Proton: {proton_name}"
+
+    def _format_subtitle_options(self, game):
+        prefix = game.get("prefix", {}).get("name", "main")
+
+        features = game.get("features", {})
+        options = []
+
+        if features.get("mangohud"):
+            options.append("MangoHud")
+
+        if features.get("gamemode"):
+            options.append("GameMode")
+
+        features_text = ", ".join(options) if options else "None"
+
+        return f"Prefix: {prefix} | Features: {features_text}"
 
     def _format_subtitle_path(self, game):
 

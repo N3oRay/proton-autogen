@@ -93,6 +93,17 @@ windowcontrols button:hover,
    Ajouter .app-button dans le code GTK
    ========================================================= */
 
+button.suggested-action {
+    background: #4caf50;
+    color: white;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+button.suggested-action:hover {
+    background: #43a047;
+}
+
 .app-button {
 
     background:rgba(255,255,255,0.12);
@@ -104,6 +115,27 @@ windowcontrols button:hover,
 
 .app-button:hover {
     background:rgba(255,255,255,0.20);
+}
+
+.btn-launch {
+    background: #2ecc71;
+    color: white;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.btn-launch:hover {
+    background: #27ae60;
+}
+
+.btn-edit {
+    background: #3498db;
+    color: white;
+    border-radius: 8px;
+}
+
+.btn-edit:hover {
+    background: #2980b9;
 }
 
 
@@ -158,7 +190,47 @@ windowcontrols button:hover,
 /* =========================================================
    TEXTES
    Eviter label {}
-   ========================================================= */
+   =========================================================
+*/
+
+checkbutton.feature-toggle label {
+    color: white;
+}
+
+checkbutton.feature-toggle:checked label {
+    color: #4caf50;
+}
+
+.title-1 {
+    color:
+        rgba(255,255,255,0.70);
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.title-4 {
+    color:
+        rgba(255,255,255,0.70);
+    font-size: 14px;
+    font-weight: bold;
+    opacity: 0.9;
+}
+
+.dim-label {
+    color:
+        rgba(255,255,255,0.70);
+    font-size:14px;
+}
+
+.label-bottom {
+    color: white;
+    font-size: 16px;
+}
+
+.label-bottom label {
+    color:white;
+    font-size:16px;
+}
 
 .game-container label {
 
@@ -172,7 +244,7 @@ windowcontrols button:hover,
     color:
         rgba(255,255,255,0.70);
 
-    font-size:14px;
+    font-size:12px;
 }
 
 
@@ -181,7 +253,18 @@ windowcontrols button:hover,
     color:
         rgba(0,255,0,0.70);
 
-    font-size:12px;
+    font-size:10px;
+}
+
+
+label.dim-label1 {
+    color: rgba(255,255,255,0.70);
+    font-size: 12px;
+}
+
+label.dim-label2 {
+    color: rgba(0,255,0,0.70);
+    font-size: 10px;
 }
 
 
