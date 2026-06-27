@@ -108,6 +108,7 @@ $ proton-autogen GAME.EXE
 
 ```bash
 git clone https://github.com/N3oRay/proton-autogen.git
+cd proton-autogen
 chmod +x install.sh
 ./install.sh
 ```
