@@ -1,4 +1,4 @@
-proton-autogen (2.6.0) noble; urgency=medium
+proton-autogen (2.6.1) noble; urgency=medium
 
   * New
     - New UX : proton-autogen --ux
