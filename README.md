@@ -108,20 +108,8 @@ $ proton-autogen GAME.EXE
 
 ```bash
 git clone https://github.com/N3oRay/proton-autogen.git
-cd proton-autogen
-
-# Installer les dépendances système
-sudo pacman -S --needed python python-gobject gtk4
-
-# Installer le binaire
-sudo install -Dm755 usr/bin/proton-autogen /usr/bin/proton-autogen
-
-# Installer les ressources
-sudo cp -r usr/share/* /usr/share/
-
-# Installer le module Python au bon endroit
-sudo cp -r usr/lib/python3/dist-packages/proton_autogen \
-    "$(python3 -c "import sysconfig; print(sysconfig.get_paths()['purelib'])")"
+chmod +x install.sh
+./install.sh
 ```
 
 ### Debian / Ubuntu (manual install)
