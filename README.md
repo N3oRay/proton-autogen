@@ -118,6 +118,7 @@ chmod +x install.sh
 ### (update manual)
 ```bash
 cd proton-autogen
+git pull
 chmod +x update.sh
 ./update.sh
 ```
