@@ -11,11 +11,12 @@ from gi.repository import Gtk, Gio, Gdk, Pango
 # -----------------------------
 class GameList(Gtk.Box):
 
-    def __init__(self, on_launch=None, on_edit=None, on_refresh=None):
+    def __init__(self, on_launch=None, on_edit=None, on_refresh=None, lang="en"):
         super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=6)
 
         self.on_launch = on_launch
         self.on_edit = on_edit
+        self.lang = lang
         self.refresh_games = on_refresh
         self.row_map = {}  # path -> row
 
@@ -128,6 +129,11 @@ class GameList(Gtk.Box):
         row.subtitle1_label = subtitle1
         row.subtitle2_label = subtitle2
         row.game_path = game.get("path")
+        # -------------------------
+        # MAJ GAME (IMPORTANT)
+        # -------------------------
+
+        row.game_data = game
 
         # -------------------------
         # BUILD
@@ -144,14 +150,27 @@ class GameList(Gtk.Box):
         btn_launch.add_css_class("btn-launch")
         btn_launch.set_valign(Gtk.Align.CENTER)
         btn_launch.set_size_request(36, 36)
-        btn_launch.connect("clicked", lambda x: self._launch(game))
+        #btn_launch.connect("clicked", lambda x: self._launch(game))
+
+        btn_launch.connect(
+            "clicked",
+            lambda _btn, row=row: self._launch(row.game_data)
+        )
+
+
 
         btn_edit = Gtk.Button(label="Edit")
         btn_edit.add_css_class("btn-edit")
         #btn_edit.set_sensitive(False)
         btn_edit.set_valign(Gtk.Align.CENTER)
         btn_edit.set_size_request(60, 36)
-        btn_edit.connect("clicked", lambda x: self._edit(game))
+        #btn_edit.connect("clicked", lambda x: self._edit(game))
+
+
+        btn_edit.connect(
+            "clicked",
+            lambda _btn, row=row: self._edit(row.game_data)
+        )
 
         # -------------------------
         # IMPORTANT: PUSH BUTTONS TO RIGHT

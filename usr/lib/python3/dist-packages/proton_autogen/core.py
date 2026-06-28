@@ -10,6 +10,8 @@ from pathlib import Path
 from shutil import which
 import configparser
 
+VERSION = "2.6.4"
+
 CONFIG_FILE = os.path.expanduser("~/.config/proton-autogen.conf")
 CONFIG_DIR = os.path.expanduser("~/.config/proton-autogen/games")
 
@@ -97,7 +99,7 @@ paths = ~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools
 
     return cleaned
 
-VERSION = "2.5.9"
+
 
 DEFAULT_PROTON_PATHS = [
     # Steam natif

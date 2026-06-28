@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
-
+#game_editor.py
 import gi
 import os
 gi.require_version("Gtk", "4.0")
 from gi.repository import Gtk
 
-#from proton_autogen.backend import edit_game
+
 from proton_autogen.backend import save_game_config
 from proton_autogen.backend import find_all_protons
+from proton_autogen.desc import set_tooltip
 
 
 # -----------------------------
@@ -15,7 +16,7 @@ from proton_autogen.backend import find_all_protons
 # -----------------------------
 class GameEditor(Gtk.Window):
 
-    def __init__(self, app, game):
+    def __init__(self, app, game, lang):
         super().__init__(application=app)
         self.set_title("Edit Game Profile")
         self.set_default_size(520, 420)
@@ -26,6 +27,7 @@ class GameEditor(Gtk.Window):
         self.prefix_model = ["main", "shared", "auto", "custom"]
 
         self.game = game
+        self.lang = lang
         self.build_ui()
 
     # -------------------------
@@ -81,6 +83,7 @@ class GameEditor(Gtk.Window):
         # PREFIX MODE
         # -------------------------
         self.prefix = Gtk.DropDown.new_from_strings(self.prefix_model)
+        set_tooltip(self.prefix, "prefix", self.lang)
 
         current_prefix = self.game.get("prefix", {}).get("name", "main")
 
@@ -97,10 +100,12 @@ class GameEditor(Gtk.Window):
         self.mangohud = Gtk.CheckButton(label="Enable MangoHud")
         self.mangohud.add_css_class("feature-toggle")
         self.mangohud.set_active(features.get("mangohud", False))
+        set_tooltip(self.mangohud, "mangohud", self.lang)  #new code
 
         self.gamemode = Gtk.CheckButton(label="Enable GameMode")
         self.gamemode.add_css_class("feature-toggle")
         self.gamemode.set_active(features.get("gamemode", False))
+        set_tooltip(self.gamemode, "gamemode", self.lang) #new code
 
 
         root.append(self.mangohud)

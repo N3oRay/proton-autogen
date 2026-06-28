@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+
+#dashboard.py
 import os
 import gi
 import threading
@@ -19,7 +21,7 @@ from proton_autogen.backend import (
 )
 
 
-from proton_autogen.core import print_about, get_about_text
+from proton_autogen.core import print_about, get_about_text, detect_help_env_lang
 from proton_autogen.info import print_help, get_help_text
 
 addbouton = False
@@ -34,6 +36,7 @@ class Dashboard(Gtk.ApplicationWindow):
         self.set_default_size(750, 900)
         self.set_size_request(750, 900)
         self.games = []
+        self.lang = detect_help_env_lang()
 
         self.build_ui()
         self.refresh_games()
@@ -123,7 +126,8 @@ class Dashboard(Gtk.ApplicationWindow):
         self.game_list = GameList(
             on_launch=self.launch_game,
             on_edit=self.edit_game,
-            on_refresh=self.refresh_games
+            on_refresh=self.refresh_games,
+            lang=self.lang
         )
         #self.game_list.set_on_refresh(self.refresh_games)
 
@@ -325,7 +329,7 @@ class Dashboard(Gtk.ApplicationWindow):
         threading.Thread(target=worker, daemon=True).start()
 
     def edit_game(self, game):
-        editor = GameEditor(self.get_application(), game)
+        editor = GameEditor(self.get_application(), game, self.lang)
         self.status.set_text("Updating...")
 
         def after_save(game):
@@ -334,7 +338,11 @@ class Dashboard(Gtk.ApplicationWindow):
             self.status.set_text(f"{game.get('name')} updated ✔")
             self.editor = None  # cleanup
 
+        def on_close(_editor):
+            self.status.set_text("Ready")
+
         editor.on_saved = after_save
+        editor.connect("destroy", lambda *_: on_close(editor))
         editor.present()
 
     def on_add_game(self, _btn):
