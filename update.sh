@@ -9,9 +9,6 @@ if [ ! -d ".git" ]; then
     exit 1
 fi
 
-# 2. Sauvegarde optionnelle (sécurité)
-echo "==> Saving local changes (if any)..."
-git stash push -m "auto-stash before update" || true
 
 # 3. Récupérer la dernière version
 echo "==> Pulling latest version..."
