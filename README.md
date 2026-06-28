@@ -236,7 +236,7 @@ nautilus -q
 * [x] Advanced prefix control (Steam compatdata integration)
 * [x] Configuration file support
 * [x] Game / Installer auto-detection
-* [ ] GUI frontend
+* [x] GUI frontend
 * [ ] ProtonDB integration
 * [ ] Lutris integration
 * [ ] Bottles integration
