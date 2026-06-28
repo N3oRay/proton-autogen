@@ -104,10 +104,10 @@ $ proton-autogen GAME.EXE
 
 ---
 
-## 📦 Installation
+## 📦 Installation & Update Arch Linux
 
 
-### Arch Linux (manual)
+### (install manual)
 
 ```bash
 git clone https://github.com/N3oRay/proton-autogen.git
@@ -115,11 +115,19 @@ cd proton-autogen
 chmod +x install.sh
 ./install.sh
 ```
+### (update manual)
+```bash
+cd proton-autogen
+chmod +x update.sh
+./update.sh
+```
+## 📦 Installation & Update - Debian / Ubuntu
 
 ### Debian / Ubuntu (manual install)
 
 ```bash
-
+git clone https://github.com/N3oRay/proton-autogen.git
+cd proton-autogen
 dpkg-buildpackage -b -us -uc
 sudo dpkg -i ../proton-autogen_*.deb
 ```
