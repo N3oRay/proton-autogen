@@ -272,6 +272,28 @@ label.dim-label2 {
    DIALOGUES
    ========================================================= */
 
+.launch-dialog {
+    background: rgba(25, 25, 25, 0.95);
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.launch-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.launch-game {
+    font-size: 16px;
+    font-weight: bold;
+    color: #7db8ff;
+}
+
+.launch-info {
+    color: #bbbbbb;
+}
+
 .dialog-content {
 
     background:

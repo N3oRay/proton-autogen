@@ -5,11 +5,11 @@ import os
 import gi
 import threading
 gi.require_version("Gtk", "4.0")
-from gi.repository import Gtk, Gio, Gdk
+from gi.repository import Gtk, Gio, Gdk, GLib
 
 from proton_autogen.ux.game_list import GameList
 from proton_autogen.ux.game_editor import GameEditor
-from proton_autogen.ux.dialogs import open_game_file_dialog
+from proton_autogen.ux.dialogs import open_game_file_dialog, show_launch_dialog, hide_launch_dialog
 from proton_autogen.ux.menu import attach_menu
 
 from proton_autogen.backend import (
@@ -25,6 +25,7 @@ from proton_autogen.core import print_about, get_about_text, detect_help_env_lan
 from proton_autogen.info import print_help, get_help_text
 
 addbouton = False
+refreshbouton = True
 # -----------------------------
 # MAIN WINDOW
 # -----------------------------
@@ -106,6 +107,14 @@ class Dashboard(Gtk.ApplicationWindow):
         header = Gtk.HeaderBar()
         header.add_css_class("main-header")
         self.set_titlebar(header)
+
+        # REFRESH
+        if refreshbouton:
+            refresh_btn = Gtk.Button(icon_name="view-refresh-symbolic")
+            refresh_btn.set_tooltip_text("Refresh game list")
+            refresh_btn.connect("clicked", lambda *_: self.refresh_games())
+
+            header.pack_start(refresh_btn)
 
         # ADD GAME
         if addbouton:
@@ -313,7 +322,34 @@ class Dashboard(Gtk.ApplicationWindow):
     # -------------------------
     # ACTIONS
     # -------------------------
+    def _close_launch_dialog(self):
+        hide_launch_dialog(self)
+        self.set_sensitive(True)
+        self.status.set_text("Ready")
+        return False  # le timer ne se répète pas
+
     def launch_game(self, game):
+
+        if not game.get("path"):
+            return
+
+        name = game.get("name", "Unknown")
+        self.status.set_text(f"Launching {name}...")
+        self.set_sensitive(False)
+        show_launch_dialog(self, name)
+
+        # Ferme automatiquement après 3 secondes
+        GLib.timeout_add_seconds(3, self._close_launch_dialog)
+
+        def worker():
+            try:
+                run(game["path"])
+            except Exception as e:
+                print("[UX] Launch error:", e)
+
+        threading.Thread(target=worker, daemon=True).start()
+
+    def launch_game_v1(self, game):
         if not game.get("path"):
             return
 

@@ -3,7 +3,71 @@
 import gi
 gi.require_version("Gtk", "4.0")
 from gi.repository import Gtk, Gio, GLib
+# =========================================================
+# launch  - GAME
+# =========================================================
 
+def show_launch_dialog(self, game_name):
+    """Display a modal dialog while a game is launching."""
+
+    dialog = Gtk.Window(
+        title="Launching",
+        transient_for=self,
+        modal=True,
+        resizable=False,
+        default_width=380,
+        default_height=220,
+    )
+
+    dialog.add_css_class("launch-dialog")
+
+    box = Gtk.Box(
+        orientation=Gtk.Orientation.VERTICAL,
+        spacing=18,
+        margin_top=24,
+        margin_bottom=24,
+        margin_start=24,
+        margin_end=24,
+        halign=Gtk.Align.CENTER,
+        valign=Gtk.Align.CENTER,
+    )
+
+    spinner = Gtk.Spinner()
+    spinner.set_size_request(48, 48)
+    spinner.set_halign(Gtk.Align.CENTER)
+    spinner.start()
+
+    title = Gtk.Label(label="Launching game")
+    title.add_css_class("launch-title")
+    title.set_halign(Gtk.Align.CENTER)
+
+    game = Gtk.Label(label=game_name)
+    game.add_css_class("launch-game")
+    game.set_wrap(True)
+    game.set_justify(Gtk.Justification.CENTER)
+    game.set_halign(Gtk.Align.CENTER)
+
+    info = Gtk.Label(label="Please wait...")
+    info.add_css_class("launch-info")
+    info.set_halign(Gtk.Align.CENTER)
+
+    box.append(spinner)
+    box.append(title)
+    box.append(game)
+    box.append(info)
+
+    dialog.set_child(box)
+
+    self.launch_dialog = dialog
+    dialog.present()
+
+
+def hide_launch_dialog(self):
+    """Close the launch dialog if it exists."""
+
+    if getattr(self, "launch_dialog", None):
+        self.launch_dialog.close()
+        self.launch_dialog = None
 
 # =========================================================
 # FILE PICKER - ADD GAME

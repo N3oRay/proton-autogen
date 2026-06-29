@@ -1,9 +1,9 @@
-proton-autogen (2.6.4) noble; urgency=medium
+proton-autogen (2.6.5) noble; urgency=medium
 
   * New
     - New UX : proton-autogen --ux
     - Add Fonction EDIT (add more profile) (STABLE)
-    - UI/UX cleanup and improved GTK4 layout stability
+    - UI/UX cleanup and improved GTK4 layout Improved stability
     - Better separation between backend, UX, and config layers
     - Improved performance on game list rendering
 
@@ -42,4 +42,4 @@ proton-autogen (2.6.4) noble; urgency=medium
     - Loads and applies a user-defined profile at runtime
     - Safely overrides environment variables
 
- -- N3oray <n3oray77@gmail.com>  Thu, 27 Jun 2026 00:00:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Thu, 29 Jun 2026 00:00:00 +0200
