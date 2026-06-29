@@ -1,6 +1,7 @@
-proton-autogen (2.6.5) noble; urgency=medium
+proton-autogen (2.6.6) noble; urgency=medium
 
   * New
+    - Support Chinois
     - New UX : proton-autogen --ux
     - Add Fonction EDIT (add more profile) (STABLE)
     - UI/UX cleanup and improved GTK4 layout Improved stability
