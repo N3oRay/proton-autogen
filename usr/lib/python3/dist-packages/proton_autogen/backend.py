@@ -13,6 +13,8 @@ import configparser
 
 from proton_autogen.core import *
 from proton_autogen.profile import *
+from proton_autogen.i18n import *
+from proton_autogen.stats import *
 #-----
 # proton-autogen: improved profile system (launcher / DX11 / DX12 / oldgames)
 # fixed environment leaks between profiles
@@ -509,10 +511,11 @@ def load_game_config(exe_path):
 
     if os.path.exists(path):
         with open(path, "r") as f:
-            return json.load(f)
+            config = json.load(f)
+
+        return normalize_game_config(config)
 
     return None
-
 
 def list_prefixes():
     root = os.path.expanduser("~/Documents/Proton/env")
@@ -639,6 +642,15 @@ def add_game(exe_path: str):
         "name": os.path.basename(exe_path),
         "path": exe_path,
 
+        "favorite": False,
+
+        "playtime": {
+            "seconds": 0,
+            "launch_count": 0,
+            "last_session": 0,
+            "last_launch": None
+        },
+
         "exe_type": exe_type,
 
         "proton": proton.get("path") if isinstance(proton, dict) else proton,
@@ -756,6 +768,8 @@ def save_game_config(data: dict):
     merged.setdefault("features", {})
     merged.setdefault("prefix", {"name": "main", "path": ""})
     merged.setdefault("env", {})
+    # ADD STATS AND FAV
+    merged = normalize_game_config(merged)
 
     with open(config_path, "w") as f:
         json.dump(merged, f, indent=2)
@@ -1043,6 +1057,11 @@ def list_programs_ux():
     for exe in sorted(programs):
         config = load_game_config(exe) or {}
 
+        badges = get_game_badges({
+            "favorite": config.get("favorite", False),
+            "playtime": config.get("playtime", {}),
+        })
+
         result.append({
             "name": config.get("name", exe.split("/")[-1]),
             "path": exe,
@@ -1053,6 +1072,15 @@ def list_programs_ux():
                 "mangohud": False,
                 "gamemode": False,
             }),
+
+            "favorite": config.get("favorite", False),
+            "playtime": config.get("playtime", {
+                "seconds": 0,
+                "launch_count": 0,
+                "last_session": 0,
+                "last_launch": None,
+            }),
+            "badges": badges,   # 👈 NEW
         })
 
     return result

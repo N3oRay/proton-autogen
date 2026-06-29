@@ -28,6 +28,8 @@ from proton_autogen.info import print_help, get_help_text
 
 addbouton = False
 refreshbouton = True
+
+
 # -----------------------------
 # MAIN WINDOW
 # -----------------------------
@@ -43,6 +45,25 @@ class Dashboard(Gtk.ApplicationWindow):
 
         self.build_ui()
         self.refresh_games()
+
+    # -------------------------
+    # STATS
+    # -------------------------
+    def build_global_stats(self, games):
+        total = len(games)
+
+        total_hours = sum(
+            g.get("playtime", {}).get("seconds", 0)
+            for g in games
+        ) // 3600
+
+        favorites = sum(g.get("favorite", False) for g in games)
+
+        return {
+            "total_games": total,
+            "hours": total_hours,
+            "favorites": favorites,
+        }
 
     # -------------------------
     # UI
@@ -131,6 +152,17 @@ class Dashboard(Gtk.ApplicationWindow):
         attach_menu(menu_btn, self.get_application())
         header.pack_end(menu_btn)
 
+        # =========================
+        # GAME STATS
+        # =========================
+        stats = self.build_global_stats(self.games)
+
+        self.stats_label = Gtk.Label(
+            label=f"🎮 {stats['total_games']} games  •  ⏱ {stats['hours']}h  •  ⭐ {stats['favorites']}"
+        )
+        self.stats_label.add_css_class("dim-label")
+        root.append(self.stats_label)
+
 
         # =========================
         # GAME SEARCH
@@ -172,6 +204,18 @@ class Dashboard(Gtk.ApplicationWindow):
 
         root.append(self.status)
 
+
+    # -------------------------
+    # STATS
+    # -------------------------
+    def activity_score(g):
+        p = g.get("playtime", {})
+        return (
+            p.get("seconds", 0) * 0.3 +
+            (1 if g.get("favorite") else 0) * 1000 +
+            (is_recent_launch(p, 7) * 500)
+        )
+
     # -------------------------
     # SEARCH
     # -------------------------
@@ -205,6 +249,11 @@ class Dashboard(Gtk.ApplicationWindow):
                 "proton": g.get("proton", ""),
                 "prefix": g.get("prefix", {}),
                 "features": g.get("features", {}),
+
+                # 👇 AJOUT IMPORTANT
+                "favorite": g.get("favorite", False),
+                "playtime": g.get("playtime", {}),
+                "badges": g.get("badges", []),
             }
             for g in games
             if isinstance(g, dict)
@@ -390,20 +439,6 @@ class Dashboard(Gtk.ApplicationWindow):
 
         threading.Thread(target=worker, daemon=True).start()
 
-    def launch_game_v1(self, game):
-        if not game.get("path"):
-            return
-
-        name = game.get("name", "Unknown")
-        self.status.set_text(f"Launching {name}...")
-
-        def worker():
-            try:
-                run(game["path"])
-            except Exception as e:
-                print("[UX] Launch error:", e)
-
-        threading.Thread(target=worker, daemon=True).start()
 
     def edit_game(self, game):
         editor = GameEditor(self.get_application(), game, self.lang)
