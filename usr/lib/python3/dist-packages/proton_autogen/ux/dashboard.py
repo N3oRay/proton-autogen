@@ -12,6 +12,8 @@ from proton_autogen.ux.game_editor import GameEditor
 from proton_autogen.ux.dialogs import open_game_file_dialog, show_launch_dialog, hide_launch_dialog
 from proton_autogen.ux.menu import attach_menu
 
+from proton_autogen.ux.search import filter_games
+
 from proton_autogen.backend import (
     run,
     list_programs_ux,
@@ -129,6 +131,21 @@ class Dashboard(Gtk.ApplicationWindow):
         attach_menu(menu_btn, self.get_application())
         header.pack_end(menu_btn)
 
+
+        # =========================
+        # GAME SEARCH
+        # =========================
+
+        self.search = Gtk.SearchEntry()
+        self.search.set_placeholder_text("Search games...")
+
+        self.search.connect(
+            "search-changed",
+            self.on_search_changed
+        )
+
+        root.append(self.search)
+
         # =========================
         # GAME LIST
         # =========================
@@ -155,6 +172,21 @@ class Dashboard(Gtk.ApplicationWindow):
 
         root.append(self.status)
 
+    # -------------------------
+    # SEARCH
+    # -------------------------
+    def on_search_changed(self, entry):
+
+        text = entry.get_text()
+
+        games = filter_games(self.games, text)
+
+        self.game_list.set_games(games)
+
+        self.status.set_text(
+            f"{len(games)} game(s)"
+        )
+
 
     # -------------------------
     # DATA
@@ -179,7 +211,16 @@ class Dashboard(Gtk.ApplicationWindow):
         ]
 
         if hasattr(self, "game_list"):
-            self.game_list.set_games(self.games)
+            #self.game_list.set_games(self.games)
+            if hasattr(self, "search"):
+                filtered = filter_games(
+                    self.games,
+                    self.search.get_text()
+                )
+            else:
+                filtered = self.games
+
+            self.game_list.set_games(filtered)
 
         if not self.games:
             self.status.set_text("No games found")

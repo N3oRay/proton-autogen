@@ -7,6 +7,7 @@ usr/lib/python3/dist-packages/proton_autogen/core.py usr/lib/python3/dist-packag
 usr/lib/python3/dist-packages/proton_autogen/info.py usr/lib/python3/dist-packages/proton_autogen/
 usr/lib/python3/dist-packages/proton_autogen/__init__.py usr/lib/python3/dist-packages/proton_autogen/
 
+usr/lib/python3/dist-packages/proton_autogen/ux/search.py /usr/lib/python3/dist-packages/proton_autogen/ux/
 usr/lib/python3/dist-packages/proton_autogen/ux/menu.py /usr/lib/python3/dist-packages/proton_autogen/ux/
 usr/lib/python3/dist-packages/proton_autogen/ux/dialogs.py /usr/lib/python3/dist-packages/proton_autogen/ux/
 usr/lib/python3/dist-packages/proton_autogen/ux/game_list.py /usr/lib/python3/dist-packages/proton_autogen/ux/
