@@ -6,6 +6,7 @@ import subprocess
 import hashlib
 import json
 from collections import defaultdict
+
 from pathlib import Path
 from shutil import which
 import configparser
@@ -1163,11 +1164,13 @@ def run_standard(exe_path: str):
             cwd=str(exe_path.parent)
         )
 
-        sys.exit(result.returncode)
+        #sys.exit(result.returncode)
+        return result.returncode
 
     except Exception as e:
         print(f"✗ Error running {exe_path} with Wine: {e}")
-        sys.exit(1)
+        #sys.exit(1)
+        return 1
 
 
 
@@ -2059,12 +2062,14 @@ def run_game_proton(exe_path, exe_type, proton, launch_mode="proton",
         ]:
             print(f"[DEBUG] {key}={env.get(key)}")
         filters = [ "wrong ELF class", ]
+        result_code = -1
         returncode = run_filtered( cmd, env=env, filters=filters )
-        sys.exit(returncode)
+        return returncode
     else:
+        result_code = -1
         cmd_cwd = os.path.dirname(exe_path)
-        result = subprocess.run(cmd, env=env, cwd=cmd_cwd)
-        sys.exit(result.returncode)
+        returncode = subprocess.run(cmd, env=env, cwd=cmd_cwd)
+        return returncode
 
 def print_about():
     print(f"""proton-autogen

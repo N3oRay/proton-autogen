@@ -17,7 +17,6 @@ from proton_autogen.ux.search import filter_games
 from proton_autogen.backend import (
     run,
     list_programs_ux,
-    #edit_game,
     add_game,
     get_diagnostic_text,
 )
@@ -64,6 +63,13 @@ class Dashboard(Gtk.ApplicationWindow):
             "hours": total_hours,
             "favorites": favorites,
         }
+
+    def update_stats(self, games):
+        stats = self.build_global_stats(games)
+
+        self.stats_label.set_text(
+            f"🎮 {stats['total_games']} games  •  ⏱ {stats['hours']}h  •  ⭐ {stats['favorites']}"
+        )
 
     # -------------------------
     # UI
@@ -230,6 +236,7 @@ class Dashboard(Gtk.ApplicationWindow):
         self.status.set_text(
             f"{len(games)} game(s)"
         )
+        self.update_stats(games)
 
 
     # -------------------------
@@ -270,6 +277,7 @@ class Dashboard(Gtk.ApplicationWindow):
                 filtered = self.games
 
             self.game_list.set_games(filtered)
+            self.update_stats(filtered)
 
         if not self.games:
             self.status.set_text("No games found")

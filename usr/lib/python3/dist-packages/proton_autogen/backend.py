@@ -7,14 +7,16 @@ import sys
 import shutil
 import subprocess
 import uuid
+import time
 from pathlib import Path
 from shutil import which
 import configparser
-
+from proton_autogen.loader import save_game_config, load_game_config, get_game_config_path
 from proton_autogen.core import *
 from proton_autogen.profile import *
 from proton_autogen.i18n import *
 from proton_autogen.stats import *
+
 #-----
 # proton-autogen: improved profile system (launcher / DX11 / DX12 / oldgames)
 # fixed environment leaks between profiles
@@ -26,9 +28,7 @@ from proton_autogen.stats import *
 # PROTON PATHS FIXED (robuste multi-distro)
 # ----------------------------
 
-def get_game_config_path(exe_path: str):
-    gid = _game_id(exe_path)
-    return os.path.join(CONFIG_DIR, f"{gid}.json"), gid
+
 
 def print_runtime_info(proton, exe_path, mangohud_available):
     print("[proton-autogen] Runtime information")
@@ -39,9 +39,64 @@ def print_runtime_info(proton, exe_path, mangohud_available):
     print("  GameMode  :", "available" if has_gamemode() else "unavailable")
     print("  MangoHud  :", "available" if mangohud_available else "unavailable")
     print("")
+# ----------------------------------------------------------------------------------------------------
+def finalize_session(exe_path, start_time, exit_code=None):
+    """
+    Finalise une session de jeu et met à jour les statistiques.
 
+    Args:
+        exe_path (str): chemin du jeu
+        start_time (float): time.time() au lancement
+        exit_code (int|None): code retour du process (si disponible)
+
+    Returns:
+        dict: résumé de la session
+    """
+
+    end_time = time.time()
+    session_seconds = int(end_time - start_time)
+
+    result = {
+        "exe_path": exe_path,
+        "session_seconds": session_seconds,
+        "exit_code": exit_code,
+        "status": "unknown",
+        "updated": False
+    }
+
+    # -------------------------
+    # ignore sessions trop courtes
+    # -------------------------
+    if session_seconds <= 0:
+        result["status"] = "ignored_too_short"
+        return result
+
+    # -------------------------
+    # interprétation du résultat
+    # -------------------------
+    if exit_code is None:
+        result["status"] = "no_exit_code"
+    elif exit_code == 0:
+        result["status"] = "clean_exit"
+    else:
+        result["status"] = "crash_or_error"
+
+    # -------------------------
+    # update stats
+    # -------------------------
+    try:
+        update_playtime(exe_path, session_seconds)
+        result["updated"] = True
+    except Exception as e:
+        print("[proton-autogen] stats update failed:", e)
+        result["error"] = str(e)
+
+    return result
+# ---------------------------------------------------------------------------------------------------
 
 def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
+    start_time = time.time() # Stats
+    result_code = 0 # Stats
     exe_path = os.path.abspath(exe_path)
 
     if not os.path.exists(exe_path):
@@ -149,9 +204,11 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
 
         print(f"[proton-autogen] Launching with {proton_name(proton)}")
 
-        #subprocess.run(cmd, env=env)
-        result = subprocess.run(cmd, env=env)
-        sys.exit(result.returncode)
+        result_code = -1
+        result_code = subprocess.run(cmd, env=env)
+        #
+        finalize_session(exe_path, start_time, result_code) # Stats
+        sys.exit(result_code)
 
     elif launch_mode == "proton" and proton:
 
@@ -162,10 +219,17 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
             prefix_mode = config["prefix"].get("name", prefix_mode)
             print(f"[proton-autogen] LOAD CONFIG PREFIX: {prefix_mode}")
 
-        run_game_proton(exe_path, exe_type, proton, "proton", enable_mangohud, enable_gamemode, prefix_mode)
+        result_code = -1
+        result_code = run_game_proton(exe_path, exe_type, proton, "proton", enable_mangohud, enable_gamemode, prefix_mode)
+        finalize_session(exe_path, start_time, result_code) # Stats
+        sys.exit(result_code)
 
     elif launch_mode == "wine":
-        run_standard(exe_path)
+
+        result_code = -1
+        result_code = run_standard(exe_path)
+        finalize_session(exe_path, start_time, result_code) # Stats
+        sys.exit(result_code)
 
 
 #---------------------------------------------------------------------------------------------
@@ -501,21 +565,8 @@ def find_proton():
 
     return candidates[0]
 
-def _game_id(exe_path: str):
-    return hashlib.md5(os.path.abspath(exe_path).encode()).hexdigest()
 
 
-def load_game_config(exe_path):
-    game_id = _game_id(exe_path)
-    path = os.path.expanduser(f"~/.config/proton-autogen/games/{game_id}.json")
-
-    if os.path.exists(path):
-        with open(path, "r") as f:
-            config = json.load(f)
-
-        return normalize_game_config(config)
-
-    return None
 
 def list_prefixes():
     root = os.path.expanduser("~/Documents/Proton/env")
@@ -735,65 +786,9 @@ def choose_proton():
             pass
 
         print("Invalid selection")
-# -- Save game for UX
-def deep_merge(base: dict, updates: dict):
-    for k, v in updates.items():
-        if isinstance(v, dict) and isinstance(base.get(k), dict):
-            deep_merge(base[k], v)
-        else:
-            base[k] = v
-    return base
 
-def save_game_config(data: dict):
-    exe_path = data.get("path")
-    if not exe_path:
-        raise ValueError("Missing path in data")
 
-    config_path, gid = get_game_config_path(exe_path)
 
-    # load existing config
-    if os.path.exists(config_path):
-        with open(config_path, "r") as f:
-            base = json.load(f)
-    else:
-        base = {}
-
-    # ensure id always stable
-    base["id"] = gid
-
-    # merge safely
-    merged = deep_merge(base, data)
-
-    # IMPORTANT: ensure required fields exist
-    merged.setdefault("features", {})
-    merged.setdefault("prefix", {"name": "main", "path": ""})
-    merged.setdefault("env", {})
-    # ADD STATS AND FAV
-    merged = normalize_game_config(merged)
-
-    with open(config_path, "w") as f:
-        json.dump(merged, f, indent=2)
-
-    return merged
-
-def save_game_config_v1(data: dict):
-    if not isinstance(data, dict):
-        return
-
-    exe_path = data.get("path")
-    if not exe_path:
-        return
-
-    config_path, gid = get_game_config_path(exe_path)
-
-    data["id"] = gid
-
-    os.makedirs(CONFIG_DIR, exist_ok=True)
-
-    with open(config_path, "w") as f:
-        json.dump(data, f, indent=2)
-
-    print("[proton-autogen] Saved:", config_path)
 
 # -- Save game for UI
 def edit_game_ui(exe_path: str):

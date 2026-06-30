@@ -3,7 +3,7 @@
 
 from datetime import datetime, timedelta
 
-
+from proton_autogen.loader import save_game_config, load_game_config
 # ------------------------------------------
 # BADGE GAMES
 # ------------------------------------------
@@ -91,26 +91,11 @@ def is_recent(last_launch, days=3):
     return datetime.now() - dt <= timedelta(days=days)
 
 
-
-
-
 def format_playtime(seconds: int):
     hours = seconds // 3600
     minutes = (seconds % 3600) // 60
     return f"{hours}h {minutes}m"
 
-
-def normalize_game_config(config: dict):
-    return {
-        **config,
-        "favorite": config.get("favorite", False),
-        "playtime": {
-            "seconds": config.get("playtime", {}).get("seconds", 0),
-            "launch_count": config.get("playtime", {}).get("launch_count", 0),
-            "last_session": config.get("playtime", {}).get("last_session", 0),
-            "last_launch": config.get("playtime", {}).get("last_launch", None),
-        }
-    }
 
 def get_stats(exe_path):
     config = load_game_config(exe_path)
