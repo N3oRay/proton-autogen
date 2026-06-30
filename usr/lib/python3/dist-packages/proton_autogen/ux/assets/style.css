@@ -328,7 +328,6 @@ label.dim-label2 {
     font-size: 10px;
 }
 
-   ========================================================= */
 .badge {
     padding: 2px 8px;
     margin-left: 4px;
@@ -343,10 +342,68 @@ label.dim-label2 {
 
     color: rgba(255, 255, 255, 0.80);
 }
+   ========================================================= */
+
+
+.badge {
+    padding: 2px 9px;
+    margin-left: 4px;
+
+    border-radius: 999px;
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.25px;
+
+    color: rgba(255, 255, 255, 0.90);
+
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
+
+    box-shadow:
+        inset 2px 0 0 rgba(255, 255, 255, 0.08);
+}
 
 .badge:hover {
     background: rgba(255, 255, 255, 0.10);
     border-color: rgba(255, 255, 255, 0.20);
+}
+
+.badge.profile {
+    background: rgba(80, 140, 255, 0.18);
+    border-color: rgba(80, 140, 255, 0.35);
+    border-left-color: rgba(80, 140, 255, 0.90);
+    color: rgba(200, 220, 255, 0.98);
+}
+
+.badge.platform {
+    background: rgba(255, 190, 80, 0.18);
+    border-color: rgba(255, 190, 80, 0.35);
+    border-left-color: rgba(255, 190, 80, 0.95);
+    color: rgba(255, 230, 180, 0.98);
+}
+
+.badge.feature {
+    background: rgba(100, 255, 170, 0.16);
+    border-color: rgba(100, 255, 170, 0.30);
+    border-left-color: rgba(100, 255, 170, 0.90);
+    color: rgba(190, 255, 210, 0.98);
+}
+
+.badge.favorite {
+    background: rgba(255, 60, 120, 0.20);
+    border-color: rgba(255, 60, 120, 0.40);
+    border-left-color: rgba(255, 60, 120, 1.0);
+    color: rgba(255, 200, 215, 1.0);
+
+    box-shadow:
+        0 0 10px rgba(255, 60, 120, 0.15);
+}
+
+.badge {
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
 }
 /* =========================================================
    TEXTVIEW

@@ -96,11 +96,30 @@ class GameList(Gtk.Box):
     # BADGES
     # -------------------------
     def _create_badge(self, b):
-        label = Gtk.Label(label=b.get("label", ""))
+        label_text = b.get("label", "")
+        label = Gtk.Label(label=label_text)
         label.add_css_class("badge")
+        css = b.get("css")
 
-        if b.get("text"):
-            label.set_tooltip_text(b["text"])
+        if isinstance(css, str):
+            css = [css]
+
+        if isinstance(css, list):
+            for c in css:
+                if isinstance(c, str) and c.strip():
+                    label.add_css_class(c.strip())
+
+        # -------------------------
+        # Tooltip sécurisé
+        # -------------------------
+        tooltip = b.get("text")
+        if isinstance(tooltip, str) and tooltip.strip():
+            label.set_tooltip_text(tooltip.strip())
+
+        # -------------------------
+        # Accessibilité (bonus propre)
+        # -------------------------
+        label.set_name(f"badge-{b.get('type', 'unknown')}")
 
         return label
 

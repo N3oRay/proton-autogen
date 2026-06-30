@@ -1,70 +1,38 @@
-proton-autogen (2.7.2) noble; urgency=medium
+proton-autogen (2.7.3) noble; urgency=medium
 
-  * New UX features (major update)
-    - Added badges types (DX11, DX12, Win95, Install, ...)
-    - Added dynamic game badges system (favorite, recent, playtime ranks, humor badges)
-    - Added bilingual badge system (FR / EN support)
-    - Improved GameList UI with inline badges next to game titles
-    - Added real-time badge updates on game edit (LIVE UI refresh)
-    - Enhanced GTK4 layout with structured header (title + badges row)
+  * New
+    - Added UX error handler.
 
-  * Statistics system overhaul
-    - Added playtime aggregation (seconds → hours + minutes display)
-    - Improved global dashboard stats (games count, favorites, total playtime)
-    - Fixed stats not updating on runtime session
-    - Added session tracking foundation for future analytics
+  * UX
+    - Added profile badges (DX11, DX12, Win95, Install, etc.).
+    - Added platform and game badges (Steam, Battle.net, favorites, playtime...).
+    - Added live badge updates after editing games.
+    - Improved GameList layout and GTK4 interface.
 
-  * Runtime and launch system improvements
-    - Fixed launch crash: invalid returncode scope handling
-    - Added session finalization logic (end_time / start_time tracking)
-    - Improved run() execution flow stability
-    - Better Proton execution environment handling
-    - Improved error handling during game launch
+  * Statistics
+    - Improved playtime tracking and dashboard statistics.
 
-  * Backend improvements
-    - Added finalize_session() for playtime tracking integration
-    - Added update_playtime() integration hook
-    - Improved save_game_config() merge logic (deep merge safe)
-    - Fixed inconsistent config schema handling
-    - Improved prefix system handling (reuse / selection / creation)
+  * Runtime
+    - Improved Proton launch stability.
+    - Improved session tracking and error handling.
 
-  * Proton & environment management
-    - Improved Proton detection (system + user + Steam paths)
-    - Added Proton selection UI with auto-best-match option
-    - Enhanced Proton scoring system (GE / Experimental / Cachy priority)
-    - Fixed duplicate Proton detection issues
+  * Backend
+    - Improved configuration handling.
+    - Improved prefix management.
+    - Improved Proton detection and selection.
 
-  * Game system improvements
-    - Improved game scanning UX system
-      * Limited scan scope to user directories:
-        ~/Bureau, ~/Downloads, ~/Jeux, ~/Téléchargements
-      * Added deep scan limitation to prevent slow legacy scans
-      * Added exclusion rules for system/Windows/cache folders
-    - Improved Windows .exe discovery logic (UX + performance)
-    - Added game registry system (~/.config/proton-autogen/games)
+  * Game management
+    - Improved game scanning performance.
+    - Added game registry.
+    - Improved Windows executable detection.
 
-  * UI/UX improvements (GTK4)
-    - Improved GameList rendering performance
-    - Added structured subtitle system (profile / proton / prefix / features)
-    - Added clickable launch/edit buttons per game row
-    - Improved dashboard layout (overlay + background system)
-    - Added search filtering with live stats update
-    - Improved header bar actions (refresh, menu integration)
+  * Bug fixes
+    - Fixed launch return code handling.
+    - Fixed badge refresh issues.
+    - Fixed GameList update inconsistencies.
 
-  * Localization
-    - Added FR/EN badge definitions system
-    - Improved language detection integration in UX layer
-
-  * Stability fixes
-    - Fixed "returncode referenced before assignment" crash in launcher
-    - Fixed badge rendering missing in some UI states
-    - Fixed row update inconsistency in GameList.update_game()
-    - Improved safe handling of missing config fields
-
-  * Developer experience
-    - Improved separation between backend / UX / stats / config layers
-    - Added diagnostic tools (runtime + system + Proton detection)
-    - Improved debug output for launch system
-    - Cleaner internal API for game registration and updates
+  * Developer
+    - Improved backend/UI separation.
+    - Improved debugging and internal APIs.
 
  -- N3oray <n3oray77@gmail.com>  Tue, 30 Jun 2026 00:00:00 +0200

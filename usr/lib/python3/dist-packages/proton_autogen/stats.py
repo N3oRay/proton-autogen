@@ -515,6 +515,7 @@ BADGE_DEFINITIONS = {
     "zh": BADGE_TYPE_PROFILE + BADGE_TYPE_GAME + BADGE_DEFINITIONS_ZH,
 }
 
+
 def get_game_badges(game: dict, lang: str = "en"):
     badges = []
 
@@ -528,6 +529,9 @@ def get_game_badges(game: dict, lang: str = "en"):
                     "label": badge["label"],
                 }
 
+                # 👇 AJOUT CSS CLASS
+                b["css"] = badge.get("css", badge["type"])
+
                 if "text" in badge:
                     val = badge["text"]
                     b["text"] = val(game) if callable(val) else val
@@ -535,7 +539,6 @@ def get_game_badges(game: dict, lang: str = "en"):
                 badges.append(b)
 
         except Exception as e:
-            # évite crash UI si donnée game corrompue
             print(f"[badges] error in {badge.get('type')}: {e}")
 
     return badges

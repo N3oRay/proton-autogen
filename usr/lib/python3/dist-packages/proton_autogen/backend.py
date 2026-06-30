@@ -16,6 +16,8 @@ from proton_autogen.core import *
 from proton_autogen.profile import *
 from proton_autogen.i18n import *
 from proton_autogen.stats import *
+from proton_autogen.pa_log import show_result, handle_result, show_message
+
 
 #-----
 # proton-autogen: improved profile system (launcher / DX11 / DX12 / oldgames)
@@ -207,8 +209,12 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
         result_code = -1
         result_code = subprocess.run(cmd, env=env)
         #
+        status = handle_result(result_code)
         finalize_session(exe_path, start_time, result_code) # Stats
-        sys.exit(result_code)
+
+        show_result(status, show_message)
+
+        sys.exit(status["code"])
 
     elif launch_mode == "proton" and proton:
 
@@ -221,15 +227,23 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
 
         result_code = -1
         result_code = run_game_proton(exe_path, exe_type, proton, "proton", enable_mangohud, enable_gamemode, prefix_mode)
+        status = handle_result(result_code)
         finalize_session(exe_path, start_time, result_code) # Stats
-        sys.exit(result_code)
+
+        show_result(status, show_message)
+
+        sys.exit(status["code"])
 
     elif launch_mode == "wine":
 
         result_code = -1
         result_code = run_standard(exe_path)
+        status = handle_result(result_code)
         finalize_session(exe_path, start_time, result_code) # Stats
-        sys.exit(result_code)
+
+        show_result(status, show_message)
+
+        sys.exit(status["code"])
 
 
 #---------------------------------------------------------------------------------------------
