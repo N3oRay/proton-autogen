@@ -246,7 +246,7 @@ nautilus -q
 * [x] Configuration file support
 * [x] Game / Installer auto-detection
 * [x] GUI frontend
-* [ ] ProtonDB integration
+* [x] ProtonDB integration
 * [ ] Lutris integration
 * [ ] Bottles integration
 * [ ] Silent mode
