@@ -4,6 +4,7 @@ usr/lib/python3/dist-packages/proton_autogen/loader.py usr/lib/python3/dist-pack
 usr/lib/python3/dist-packages/proton_autogen/pa_log.py usr/lib/python3/dist-packages/proton_autogen/
 usr/lib/python3/dist-packages/proton_autogen/backend.py usr/lib/python3/dist-packages/proton_autogen/
 usr/lib/python3/dist-packages/proton_autogen/lutris.py usr/lib/python3/dist-packages/proton_autogen/
+usr/lib/python3/dist-packages/proton_autogen/lutris_validate.py usr/lib/python3/dist-packages/proton_autogen/
 usr/lib/python3/dist-packages/proton_autogen/stats.py usr/lib/python3/dist-packages/proton_autogen/
 usr/lib/python3/dist-packages/proton_autogen/i18n.py usr/lib/python3/dist-packages/proton_autogen/
 
