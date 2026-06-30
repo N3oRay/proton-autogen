@@ -1,6 +1,7 @@
-proton-autogen (2.7.4) noble; urgency=medium
+proton-autogen (2.7.5) noble; urgency=medium
 
   * New
+    - Add Exprt Lutris
     - Added UX error handler.
 
   * UX
