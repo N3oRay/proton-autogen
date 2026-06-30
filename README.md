@@ -2,7 +2,7 @@
 
 ![Linux](https://img.shields.io/badge/platform-Linux-blue)
 ![Python](https://img.shields.io/badge/python-3.x-yellow)
-![Status](https://img.shields.io/badge/status-v1.0-brightgreen)
+![Status](https://img.shields.io/badge/status-v2.0-brightgreen)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 **Smart Proton launcher for Windows `.exe` files on Linux**
