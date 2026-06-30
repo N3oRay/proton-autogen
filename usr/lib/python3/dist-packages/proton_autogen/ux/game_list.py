@@ -56,6 +56,14 @@ class GameList(Gtk.Box):
 
         # update stored game reference (important)
         row.game_data = updated_game
+        # -------------------------
+        # BADGES UPDATE
+        # -------------------------
+        if hasattr(row, "badges_box"):
+            row.badges_box.remove_all()
+
+            for b in updated_game.get("badges", []):
+                row.badges_box.append(self._create_badge(b))
 
 
     # -------------------------
@@ -74,6 +82,18 @@ class GameList(Gtk.Box):
             self.list_box.append(row)
 
             self.row_map[game["path"]] = row
+
+    # -------------------------
+    # BADGES
+    # -------------------------
+    def _create_badge(self, b):
+        label = Gtk.Label(label=b.get("label", ""))
+        label.add_css_class("badge")
+
+        if b.get("text"):
+            label.set_tooltip_text(b["text"])
+
+        return label
 
     # -------------------------
     # UI ROW
@@ -106,6 +126,26 @@ class GameList(Gtk.Box):
         title = Gtk.Label(label=game.get("name", "Unknown"), xalign=0)
         title.set_halign(Gtk.Align.START)
         title.add_css_class("title-4")
+
+        # -------------------------
+        # BADGES ROW
+        # -------------------------
+        header_box = Gtk.Box(
+            orientation=Gtk.Orientation.HORIZONTAL,
+            spacing=8
+        )
+        header_box.set_halign(Gtk.Align.START)
+
+
+        badges_box = Gtk.Box(
+            orientation=Gtk.Orientation.HORIZONTAL,
+            spacing=6
+        )
+        badges_box.set_halign(Gtk.Align.START)
+
+        # -------------------------
+        # subtitle ROW
+        # -------------------------
 
         subtitle = Gtk.Label(label=self._format_subtitle(game), xalign=0)
         subtitle.set_halign(Gtk.Align.START)
@@ -141,7 +181,22 @@ class GameList(Gtk.Box):
         # BUILD
         # -------------------------
 
-        info_box.append(title)
+        # -------------------------
+        # BADGES
+        # -------------------------
+        row.badges_box = badges_box
+
+        badges = game.get("badges", [])
+
+        if badges:
+            for b in badges:
+                badges_box.append(self._create_badge(b))
+
+        badges_box.add_css_class("badges")
+        header_box.append(title)
+        header_box.append(badges_box)
+
+        info_box.append(header_box)
         info_box.append(subtitle)
         info_box.append(subtitle1)
         info_box.append(subtitle2)

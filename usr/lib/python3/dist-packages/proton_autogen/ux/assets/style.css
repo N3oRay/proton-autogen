@@ -316,7 +316,18 @@ label.dim-label2 {
     font-family:monospace;
 }
 
+/* =========================================================
+   BADGE
+   ========================================================= */
 
+.badge {
+    padding: 2px 6px;
+    margin-left: 6px;
+    border-radius: 6px;
+    /* background: linear-gradient(90deg, #3a3a3a, #1f1f1f); */
+    background: rgba(255,255,255,0.08);
+    font-size: 11px;
+}
 /* =========================================================
    TEXTVIEW
    ========================================================= */

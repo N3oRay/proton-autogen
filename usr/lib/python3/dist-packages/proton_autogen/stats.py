@@ -7,16 +7,23 @@ from proton_autogen.loader import save_game_config, load_game_config
 # ------------------------------------------
 # BADGE GAMES
 # ------------------------------------------
-BADGE_DEFINITIONS = [
+
+
+BADGE_DEFINITIONS_FR = [
+    # -------------------------
+    # CLASSIQUES
+    # -------------------------
     {
         "type": "favorite",
         "label": "⭐",
-        "condition": lambda g: g.get("favorite")
+        "condition": lambda g: g.get("favorite"),
+        "text": lambda g: "Favori"
     },
     {
         "type": "recent",
         "label": "🔥",
-        "condition": lambda g: is_recent_launch(g.get("playtime", {}), 7)
+        "condition": lambda g: is_recent_launch(g.get("playtime", {}), 7),
+        "text": lambda g: "Récemment joué"
     },
     {
         "type": "time",
@@ -24,29 +31,181 @@ BADGE_DEFINITIONS = [
         "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 3600,
         "text": lambda g: format_playtime(g.get("playtime", {}).get("seconds", 0))
     },
+
+    # -------------------------
+    # HUMOUR / RANGS JOUEUR
+    # -------------------------
+
+    # 👶 Débutant total
+    {
+        "type": "rookie",
+        "label": "🐣",
+        "condition": lambda g: 0 < g.get("playtime", {}).get("seconds", 0) < 3600,
+        "text": lambda g: "Débutant (on commence doucement)"
+    },
+
+    # 🧑 joueur occasionnel
+    {
+        "type": "casual",
+        "label": "🙂",
+        "condition": lambda g: 3600 <= g.get("playtime", {}).get("seconds", 0) < 10 * 3600,
+        "text": lambda g: "Casual gamer"
+    },
+
+    # 🎮 vrai joueur
+    {
+        "type": "gamer",
+        "label": "🎮",
+        "condition": lambda g: 10 * 3600 <= g.get("playtime", {}).get("seconds", 0) < 50 * 3600,
+        "text": lambda g: "Gamer confirmé"
+    },
+
+    # 🏆 tryhard
     {
         "type": "heavy",
         "label": "🏆",
-        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 3600 * 50,
-        "text": lambda g: "Gros joueur"
+        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 50 * 3600,
+        "text": lambda g: "Tryhard détecté"
+    },
+
+    # 💀 addiction douce (humour)
+    {
+        "type": "addict",
+        "label": "💀",
+        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 150 * 3600,
+        "text": lambda g: "Send help"
+    },
+
+    # 🌙 session récente
+    {
+        "type": "night_owl",
+        "label": "🌙",
+        "condition": lambda g: is_recent_launch(g.get("playtime", {}), 1),
+        "text": lambda g: "Actif récemment (nocturne ?)"
+    },
+
+    # 💾 old school / nostalgie
+    {
+        "type": "veteran",
+        "label": "🧓",
+        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 300 * 3600,
+        "text": lambda g: "Vétéran légendaire"
     },
 ]
 
-def get_game_badges(game: dict):
+
+BADGE_DEFINITIONS_EN = [
+    # -------------------------
+    # CLASSIC
+    # -------------------------
+    {
+        "type": "favorite",
+        "label": "⭐",
+        "condition": lambda g: g.get("favorite"),
+        "text": lambda g: "Favorite"
+    },
+    {
+        "type": "recent",
+        "label": "🔥",
+        "condition": lambda g: is_recent_launch(g.get("playtime", {}), 7),
+        "text": lambda g: "Recently played"
+    },
+    {
+        "type": "time",
+        "label": "⏱",
+        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 3600,
+        "text": lambda g: format_playtime(g.get("playtime", {}).get("seconds", 0))
+    },
+
+    # -------------------------
+    # PLAYER RANKS / HUMOR
+    # -------------------------
+
+    # 👶 Beginner
+    {
+        "type": "rookie",
+        "label": "🐣",
+        "condition": lambda g: 0 < g.get("playtime", {}).get("seconds", 0) < 3600,
+        "text": lambda g: "Beginner (just getting started)"
+    },
+
+    # 🧑 Casual player
+    {
+        "type": "casual",
+        "label": "🙂",
+        "condition": lambda g: 3600 <= g.get("playtime", {}).get("seconds", 0) < 10 * 3600,
+        "text": lambda g: "Casual gamer"
+    },
+
+    # 🎮 Regular gamer
+    {
+        "type": "gamer",
+        "label": "🎮",
+        "condition": lambda g: 10 * 3600 <= g.get("playtime", {}).get("seconds", 0) < 50 * 3600,
+        "text": lambda g: "Experienced gamer"
+    },
+
+    # 🏆 Hardcore
+    {
+        "type": "heavy",
+        "label": "🏆",
+        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 50 * 3600,
+        "text": lambda g: "Tryhard detected"
+    },
+
+    # 💀 Addiction joke
+    {
+        "type": "addict",
+        "label": "💀",
+        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 150 * 3600,
+        "text": lambda g: "Send help"
+    },
+
+    # 🌙 Night activity
+    {
+        "type": "night_owl",
+        "label": "🌙",
+        "condition": lambda g: is_recent_launch(g.get("playtime", {}), 1),
+        "text": lambda g: "Recently active (night owl?)"
+    },
+
+    # 🧓 Veteran
+    {
+        "type": "veteran",
+        "label": "🧓",
+        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 300 * 3600,
+        "text": lambda g: "Legendary veteran"
+    },
+]
+
+
+BADGE_DEFINITIONS = {
+    "fr": BADGE_DEFINITIONS_FR,
+    "en": BADGE_DEFINITIONS_EN,
+}
+
+def get_game_badges(game: dict, lang: str = "en"):
     badges = []
 
-    for badge in BADGE_DEFINITIONS:
-        if badge["condition"](game):
-            b = {
-                "type": badge["type"],
-                "label": badge["label"],
-            }
+    definitions = BADGE_DEFINITIONS.get(lang, BADGE_DEFINITIONS_EN)
 
-            if "text" in badge:
-                val = badge["text"]
-                b["text"] = val(game) if callable(val) else val
+    for badge in definitions:
+        try:
+            if badge["condition"](game):
+                b = {
+                    "type": badge["type"],
+                    "label": badge["label"],
+                }
 
-            badges.append(b)
+                if "text" in badge:
+                    val = badge["text"]
+                    b["text"] = val(game) if callable(val) else val
+
+                badges.append(b)
+
+        except Exception as e:
+            # évite crash UI si donnée game corrompue
+            print(f"[badges] error in {badge.get('type')}: {e}")
 
     return badges
 
