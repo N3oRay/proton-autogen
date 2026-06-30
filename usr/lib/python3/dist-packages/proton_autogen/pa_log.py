@@ -9,6 +9,37 @@ from gi.repository import Gtk, Gio, Gdk, GLib
 # SHOW MESSAGE
 # ------------------------------------
 def show_message(status):
+    dialog = Gtk.Dialog(
+        title=status["title"],
+        modal=True,
+    )
+
+    dialog.add_button("OK", Gtk.ResponseType.OK)
+
+    box = dialog.get_content_area()
+    box.set_spacing(12)
+    box.set_margin_top(12)
+    box.set_margin_bottom(12)
+    box.set_margin_start(12)
+    box.set_margin_end(12)
+
+    title = Gtk.Label()
+    title.set_markup(f"<b>{status['title']}</b>")
+    title.set_xalign(0)
+
+    message = Gtk.Label(label=status["message"])
+    message.set_xalign(0)
+    message.set_wrap(True)
+    message.set_selectable(True)
+
+    box.append(title)
+    box.append(message)
+
+    dialog.connect("response", lambda d, r: d.destroy())
+    dialog.present()
+
+
+def show_message_v1(status):
     """
     Affiche un message utilisateur.
 
