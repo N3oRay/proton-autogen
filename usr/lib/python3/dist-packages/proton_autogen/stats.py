@@ -178,10 +178,95 @@ BADGE_DEFINITIONS_EN = [
     },
 ]
 
+BADGE_DEFINITIONS_ZH = [
+    # -------------------------
+    # 经典
+    # -------------------------
+    {
+        "type": "favorite",
+        "label": "⭐",
+        "condition": lambda g: g.get("favorite"),
+        "text": lambda g: "收藏"
+    },
+    {
+        "type": "recent",
+        "label": "🔥",
+        "condition": lambda g: is_recent_launch(g.get("playtime", {}), 7),
+        "text": lambda g: "最近游玩"
+    },
+    {
+        "type": "time",
+        "label": "⏱",
+        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 3600,
+        "text": lambda g: format_playtime(g.get("playtime", {}).get("seconds", 0))
+    },
+
+    # -------------------------
+    # 玩家等级 / 幽默
+    # -------------------------
+
+    # 👶 新手
+    {
+        "type": "rookie",
+        "label": "🐣",
+        "condition": lambda g: 0 < g.get("playtime", {}).get("seconds", 0) < 3600,
+        "text": lambda g: "新手（刚刚开始）"
+    },
+
+    # 🧑 休闲玩家
+    {
+        "type": "casual",
+        "label": "🙂",
+        "condition": lambda g: 3600 <= g.get("playtime", {}).get("seconds", 0) < 10 * 3600,
+        "text": lambda g: "休闲玩家"
+    },
+
+    # 🎮 资深玩家
+    {
+        "type": "gamer",
+        "label": "🎮",
+        "condition": lambda g: 10 * 3600 <= g.get("playtime", {}).get("seconds", 0) < 50 * 3600,
+        "text": lambda g: "经验丰富的玩家"
+    },
+
+    # 🏆 硬核玩家
+    {
+        "type": "heavy",
+        "label": "🏆",
+        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 50 * 3600,
+        "text": lambda g: "硬核玩家"
+    },
+
+    # 💀 上瘾（玩笑）
+    {
+        "type": "addict",
+        "label": "💀",
+        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 150 * 3600,
+        "text": lambda g: "需要救援"
+    },
+
+    # 🌙 夜猫子
+    {
+        "type": "night_owl",
+        "label": "🌙",
+        "condition": lambda g: is_recent_launch(g.get("playtime", {}), 1),
+        "text": lambda g: "最近活跃（夜猫子？）"
+    },
+
+    # 🧓 老玩家
+    {
+        "type": "veteran",
+        "label": "🧓",
+        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 300 * 3600,
+        "text": lambda g: "传奇老玩家"
+    },
+]
+
 
 BADGE_DEFINITIONS = {
     "fr": BADGE_DEFINITIONS_FR,
     "en": BADGE_DEFINITIONS_EN,
+    "zh": BADGE_DEFINITIONS_ZH,
 }
 
 def get_game_badges(game: dict, lang: str = "en"):

@@ -1041,7 +1041,7 @@ def list_programs():
     for exe in sorted(programs):
         print(exe)
 
-def list_programs_ux():
+def list_programs_ux(lang: str = "en"):
     programs = find_windows_programs_ux()
 
     if not programs:
@@ -1055,7 +1055,7 @@ def list_programs_ux():
         badges = get_game_badges({
             "favorite": config.get("favorite", False),
             "playtime": config.get("playtime", {}),
-        })
+        },lang)
 
         result.append({
             "name": config.get("name", exe.split("/")[-1]),

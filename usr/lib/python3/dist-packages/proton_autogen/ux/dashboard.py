@@ -255,7 +255,7 @@ class Dashboard(Gtk.ApplicationWindow):
     def refresh_games(self):
         self.status.set_text("Loading games...")
 
-        games = list_programs_ux() or []
+        games = list_programs_ux(self.lang) or []
 
         # normalize safe format (future-proof)
         self.games = [

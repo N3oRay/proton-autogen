@@ -1,46 +1,69 @@
-proton-autogen (2.6.6) noble; urgency=medium
+proton-autogen (2.7.0) noble; urgency=medium
 
-  * New
-    - Support Chinois
-    - New UX : proton-autogen --ux
-    - Add Fonction EDIT (add more profile) (STABLE)
-    - UI/UX cleanup and improved GTK4 layout Improved stability
-    - Better separation between backend, UX, and config layers
-    - Improved performance on game list rendering
+  * New UX features (major update)
+    - Added dynamic game badges system (favorite, recent, playtime ranks, humor badges)
+    - Added bilingual badge system (FR / EN support)
+    - Improved GameList UI with inline badges next to game titles
+    - Added real-time badge updates on game edit (LIVE UI refresh)
+    - Enhanced GTK4 layout with structured header (title + badges row)
 
-  * Improve game scanning system (major UX improvement)
-    - Limited scan scope to user directories only:
-      ~/Bureau, ~/Downloads, ~/Jeux
-    - Added excluded directories filtering (Backup, Windows dumps, drivers, etc.)
-    - Added depth limitation to avoid deep legacy directories
-    - Reduced scan noise from old archives and installer collections
-    - Significant performance improvement on large home directories
+  * Statistics system overhaul
+    - Added playtime aggregation (seconds → hours + minutes display)
+    - Improved global dashboard stats (games count, favorites, total playtime)
+    - Fixed stats not updating on runtime session
+    - Added session tracking foundation for future analytics
 
+  * Runtime and launch system improvements
+    - Fixed launch crash: invalid returncode scope handling
+    - Added session finalization logic (end_time / start_time tracking)
+    - Improved run() execution flow stability
+    - Better Proton execution environment handling
+    - Improved error handling during game launch
 
-  * Add Verbose option
-    - proton-autogen app.exe --verbose
-      Verbose output for debugging and diagnostics
+  * Backend improvements
+    - Added finalize_session() for playtime tracking integration
+    - Added update_playtime() integration hook
+    - Improved save_game_config() merge logic (deep merge safe)
+    - Fixed inconsistent config schema handling
+    - Improved prefix system handling (reuse / selection / creation)
 
+  * Proton & environment management
+    - Improved Proton detection (system + user + Steam paths)
+    - Added Proton selection UI with auto-best-match option
+    - Enhanced Proton scoring system (GE / Experimental / Cachy priority)
+    - Fixed duplicate Proton detection issues
 
-  * Add game support:
-    - Improved compatibility for legacy Windows games (Need for Speed series, RPG titles, etc.)
+  * Game system improvements
+    - Improved game scanning UX system
+      * Limited scan scope to user directories:
+        ~/Bureau, ~/Downloads, ~/Jeux, ~/Téléchargements
+      * Added deep scan limitation to prevent slow legacy scans
+      * Added exclusion rules for system/Windows/cache folders
+    - Improved Windows .exe discovery logic (UX + performance)
+    - Added game registry system (~/.config/proton-autogen/games)
 
-  * New utilities:
-    - proton-autogen --help-env (new in v2.5.3)
-      Environment variable reference (EN/FR support)
+  * UI/UX improvements (GTK4)
+    - Improved GameList rendering performance
+    - Added structured subtitle system (profile / proton / prefix / features)
+    - Added clickable launch/edit buttons per game row
+    - Improved dashboard layout (overlay + background system)
+    - Added search filtering with live stats update
+    - Improved header bar actions (refresh, menu integration)
 
-  * Patch:
-    - proton-autogen --json-profile:
-      export all profile environment variables in JSON format
-    - proton-autogen --profile dx11:
-      apply the selected profile type
+  * Localization
+    - Added FR/EN badge definitions system
+    - Improved language detection integration in UX layer
 
-  * User profile system (Pro mode):
-    - JSON profiles stored in ~/.config/proton-autogen/profiles/
-    - Allows per-game environment customization
+  * Stability fixes
+    - Fixed "returncode referenced before assignment" crash in launcher
+    - Fixed badge rendering missing in some UI states
+    - Fixed row update inconsistency in GameList.update_game()
+    - Improved safe handling of missing config fields
 
-  * --profile <name> option:
-    - Loads and applies a user-defined profile at runtime
-    - Safely overrides environment variables
+  * Developer experience
+    - Improved separation between backend / UX / stats / config layers
+    - Added diagnostic tools (runtime + system + Proton detection)
+    - Improved debug output for launch system
+    - Cleaner internal API for game registration and updates
 
- -- N3oray <n3oray77@gmail.com>  Thu, 29 Jun 2026 00:00:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Tue, 30 Jun 2026 00:00:00 +0200
