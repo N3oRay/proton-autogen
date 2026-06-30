@@ -51,16 +51,20 @@ class Dashboard(Gtk.ApplicationWindow):
     def build_global_stats(self, games):
         total = len(games)
 
-        total_hours = sum(
+        total_seconds = sum(
             g.get("playtime", {}).get("seconds", 0)
             for g in games
-        ) // 3600
+        )
 
         favorites = sum(g.get("favorite", False) for g in games)
 
+        hours = total_seconds // 3600
+        minutes = (total_seconds % 3600) // 60
+
         return {
             "total_games": total,
-            "hours": total_hours,
+            "hours": hours,
+            "minutes": minutes,
             "favorites": favorites,
         }
 
@@ -68,8 +72,11 @@ class Dashboard(Gtk.ApplicationWindow):
         stats = self.build_global_stats(games)
 
         self.stats_label.set_text(
-            f"🎮 {stats['total_games']} games  •  ⏱ {stats['hours']}h  •  ⭐ {stats['favorites']}"
+            f"🎮 {stats['total_games']} games  •  "
+            f"⏱ {stats['hours']}h {stats['minutes']}m  •  "
+            f"⭐ {stats['favorites']}"
         )
+        self.stats_label.add_css_class("dim-label")
 
     # -------------------------
     # UI
@@ -164,8 +171,11 @@ class Dashboard(Gtk.ApplicationWindow):
         stats = self.build_global_stats(self.games)
 
         self.stats_label = Gtk.Label(
-            label=f"🎮 {stats['total_games']} games  •  ⏱ {stats['hours']}h  •  ⭐ {stats['favorites']}"
+            label=f"🎮 {stats['total_games']} games  •  "
+            f"⏱ {stats['hours']}h {stats['minutes']}m  •  "
+            f"⭐ {stats['favorites']}"
         )
+
         self.stats_label.add_css_class("dim-label")
         root.append(self.stats_label)
 
