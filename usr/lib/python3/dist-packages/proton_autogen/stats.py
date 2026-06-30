@@ -8,6 +8,129 @@ from proton_autogen.loader import save_game_config, load_game_config
 # BADGE GAMES
 # ------------------------------------------
 
+BADGE_TYPE_PROFILE = [
+
+    {
+        "type": "legacy",
+        "label": "🕰️",
+        "condition": lambda g: g.get("exe_type") == "legacy",
+        "text": lambda g: "Legacy profile"
+    },
+
+    {
+        "type": "launcher",
+        "label": "🚀",
+        "condition": lambda g: g.get("exe_type") == "launcher",
+        "text": lambda g: "Launcher profile"
+    },
+
+    {
+        "type": "dx11",
+        "label": "🎮",
+        "condition": lambda g: g.get("exe_type") == "dx11",
+        "text": lambda g: "DirectX 11"
+    },
+
+    {
+        "type": "dx11Bnet",
+        "label": "🎮",
+        "condition": lambda g: g.get("exe_type") == "dx11Bnet",
+        "text": lambda g: "DirectX 11 (Battle.net)"
+    },
+
+    {
+        "type": "dx12",
+        "label": "⚡",
+        "condition": lambda g: g.get("exe_type") == "dx12",
+        "text": lambda g: "DirectX 12"
+    },
+
+    {
+        "type": "dx9",
+        "label": "🎲",
+        "condition": lambda g: g.get("exe_type") == "dx9",
+        "text": lambda g: "DirectX 9"
+    },
+
+    {
+        "type": "dx9dg",
+        "label": "🧩",
+        "condition": lambda g: g.get("exe_type") == "dx9dg",
+        "text": lambda g: "DirectX 9 + dgVoodoo"
+    },
+
+    {
+        "type": "dx8dg",
+        "label": "🧩",
+        "condition": lambda g: g.get("exe_type") == "dx8dg",
+        "text": lambda g: "DirectX 8 + dgVoodoo"
+    },
+
+    {
+        "type": "dx9opengl",
+        "label": "🌐",
+        "condition": lambda g: g.get("exe_type") == "dx9opengl",
+        "text": lambda g: "DirectX 9 + OpenGL"
+    },
+
+    {
+        "type": "install",
+        "label": "📦",
+        "condition": lambda g: g.get("exe_type") == "install",
+        "text": lambda g: "Installer"
+    },
+
+    {
+        "type": "oldgame",
+        "label": "🕹️",
+        "condition": lambda g: g.get("exe_type") == "oldgame",
+        "text": lambda g: "Old game compatibility"
+    },
+
+    {
+        "type": "ut99",
+        "label": "💥",
+        "condition": lambda g: g.get("exe_type") == "ut99",
+        "text": lambda g: "Unreal Tournament 99"
+    },
+
+    {
+        "type": "ut3",
+        "label": "🔫",
+        "condition": lambda g: g.get("exe_type") == "ut3",
+        "text": lambda g: "Unreal Tournament 3"
+    },
+
+    {
+        "type": "quake",
+        "label": "☄️",
+        "condition": lambda g: g.get("exe_type") == "quake",
+        "text": lambda g: "Quake"
+    },
+
+    {
+        "type": "valve",
+        "label": "🔧",
+        "condition": lambda g: g.get("exe_type") == "valve",
+        "text": lambda g: "GoldSrc engine"
+    },
+
+    {
+        "type": "win95",
+        "label": "💾",
+        "condition": lambda g: g.get("exe_type") == "win95",
+        "text": lambda g: "Windows 95 compatibility"
+    },
+
+    {
+        "type": "desktop",
+        "label": "🖥️",
+        "condition": lambda g: g.get("exe_type") == "desktop",
+        "text": lambda g: "Windows desktop"
+    },
+
+]
+
 
 BADGE_TYPE_GAME = [
     # -------------------------
@@ -373,10 +496,11 @@ BADGE_DEFINITIONS_ZH = [
 ]
 
 
+
 BADGE_DEFINITIONS = {
-    "fr": BADGE_TYPE_GAME + BADGE_DEFINITIONS_FR,
-    "en": BADGE_TYPE_GAME + BADGE_DEFINITIONS_EN,
-    "zh": BADGE_TYPE_GAME + BADGE_DEFINITIONS_ZH,
+    "fr": BADGE_TYPE_PROFILE + BADGE_TYPE_GAME + BADGE_DEFINITIONS_FR,
+    "en": BADGE_TYPE_PROFILE + BADGE_TYPE_GAME + BADGE_DEFINITIONS_EN,
+    "zh": BADGE_TYPE_PROFILE + BADGE_TYPE_GAME + BADGE_DEFINITIONS_ZH,
 }
 
 def get_game_badges(game: dict, lang: str = "en"):
