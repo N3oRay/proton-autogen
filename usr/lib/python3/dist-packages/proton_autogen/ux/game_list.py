@@ -7,13 +7,16 @@ from gi.repository import Gtk, Gio, Gdk, Pango
 from proton_autogen.stats import get_game_badges
 
 
+lutris = True
+
+
 
 # -----------------------------
 # GAME LIST WIDGET
 # -----------------------------
 class GameList(Gtk.Box):
 
-    def __init__(self, on_launch=None, on_edit=None, on_refresh=None, lang="en"):
+    def __init__(self, on_launch=None, on_edit=None, on_export_lutris=None, on_refresh=None, lang="en"):
         super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=6)
 
         self.on_launch = on_launch
@@ -21,6 +24,7 @@ class GameList(Gtk.Box):
         self.lang = lang
         self.refresh_games = on_refresh
         self.row_map = {}  # path -> row
+        self.on_export_lutris = on_export_lutris
 
         self.games = []
 
@@ -133,13 +137,13 @@ class GameList(Gtk.Box):
 
         container = Gtk.Box(
             orientation=Gtk.Orientation.HORIZONTAL,
-            spacing=12
+            spacing=5
         )
         container.add_css_class("game-container")
         container.set_margin_top(6)
         container.set_margin_bottom(6)
-        container.set_margin_start(10)
-        container.set_margin_end(10)
+        container.set_margin_start(1)
+        container.set_margin_end(1)
 
         # -------------------------
         # LEFT INFO BLOCK
@@ -230,14 +234,24 @@ class GameList(Gtk.Box):
         info_box.append(subtitle1)
         info_box.append(subtitle2)
         info_box.set_hexpand(True)
-        info_box.set_size_request(400, -1)
+        info_box.set_size_request(300, -1)
+
+        if lutris:
+            btn_export = Gtk.Button(label="⇩")
+            btn_export.set_icon_name("document-save-symbolic")
+            btn_export.add_css_class("btn-export")
+            btn_export.set_valign(Gtk.Align.CENTER)
+            btn_export.set_size_request(18, 18)
+            btn_export.set_tooltip_text("Export Lutris (.yml)")
+            btn_export.connect(
+                "clicked",
+                lambda _btn, row=row: self._export_lutris(row.game_data)
+            )
 
         btn_launch = Gtk.Button(label="▶")
         btn_launch.add_css_class("btn-launch")
         btn_launch.set_valign(Gtk.Align.CENTER)
-        btn_launch.set_size_request(36, 36)
-        #btn_launch.connect("clicked", lambda x: self._launch(game))
-
+        btn_launch.set_size_request(24, 18)
         btn_launch.connect(
             "clicked",
             lambda _btn, row=row: self._launch(row.game_data)
@@ -247,12 +261,8 @@ class GameList(Gtk.Box):
 
         btn_edit = Gtk.Button(label="Edit")
         btn_edit.add_css_class("btn-edit")
-        #btn_edit.set_sensitive(False)
         btn_edit.set_valign(Gtk.Align.CENTER)
-        btn_edit.set_size_request(60, 36)
-        #btn_edit.connect("clicked", lambda x: self._edit(game))
-
-
+        btn_edit.set_size_request(60, 18)
         btn_edit.connect(
             "clicked",
             lambda _btn, row=row: self._edit(row.game_data)
@@ -261,20 +271,30 @@ class GameList(Gtk.Box):
         # -------------------------
         # IMPORTANT: PUSH BUTTONS TO RIGHT
         # -------------------------
+        spacer0 = Gtk.Label(label="")
         spacer = Gtk.Label(label="")
-        spacer.set_hexpand(True)
+        #spacer.set_hexpand(True)
 
         # -------------------------
         # ASSEMBLE
         # -------------------------
         container.append(info_box)
-        container.append(spacer)
+        if lutris:
+            container.append(spacer0)
+            container.append(btn_export)
+            container.append(spacer)
         container.append(btn_edit)
         container.append(btn_launch)
 
         row.set_child(container)
 
         return row
+    # -----------------------------
+    # Lutris DISPLAY
+    # -----------------------------
+    def _export_lutris(self, game):
+        if self.on_export_lutris:
+            self.on_export_lutris(game)
 
     # -----------------------------
     # FORMAT DISPLAY

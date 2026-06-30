@@ -120,8 +120,13 @@ button.suggested-action:hover {
 .btn-launch {
     background: #2ecc71;
     color: white;
-    border-radius: 8px;
+    border-radius: 6px;
     font-weight: bold;
+
+    padding: 2px 6px;
+    min-width: 28px;
+    min-height: 28px;
+    font-size: 11px;
 }
 
 .btn-launch:hover {
@@ -131,13 +136,50 @@ button.suggested-action:hover {
 .btn-edit {
     background: #3498db;
     color: white;
-    border-radius: 8px;
+    border-radius: 6px;
+
+    padding: 2px 6px;
+    min-width: 28px;
+    min-height: 28px;
+    font-size: 11px;
 }
 
 .btn-edit:hover {
     background: #2980b9;
 }
 
+.btn-export {
+    background: #9b59b6;
+    color: white;
+    border-radius: 6px;
+
+    padding: 2px 6px;
+    min-width: 28px;
+    min-height: 28px;
+    font-size: 11px;
+}
+
+.btn-export:hover {
+    background: #8e44ad;
+}
+
+
+.export-dialog {
+    background: #1e1e1e;
+}
+
+.export-title {
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.export-path {
+    background: #2a2a2a;
+    color: white;
+    padding: 8px;
+    border-radius: 6px;
+}
 
 /* =========================================================
    CARTES DE JEUX

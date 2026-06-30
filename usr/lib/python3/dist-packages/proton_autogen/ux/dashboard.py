@@ -31,6 +31,9 @@ addbouton = False
 refreshbouton = True
 
 
+
+
+
 # -----------------------------
 # MAIN WINDOW
 # -----------------------------
@@ -39,13 +42,130 @@ class Dashboard(Gtk.ApplicationWindow):
     def __init__(self, app):
         super().__init__(application=app)
         self.set_title("Proton-Autogen")
-        self.set_default_size(750, 900)
-        self.set_size_request(750, 900)
+        self.set_default_size(850, 900)
+        self.set_size_request(850, 900)
         self.games = []
         self.lang = detect_help_env_lang()
 
         self.build_ui()
         self.refresh_games()
+
+    # -------------------------
+    # MESSAGE DIAG:
+    # -------------------------
+    def show_export_dialog(self, file_path):
+        file_path = str(file_path)
+
+        win = Gtk.Window(
+            transient_for=self,
+            modal=True,
+            title="Export Lutris terminé"
+        )
+
+        win.set_default_size(520, 180)
+        win.set_destroy_with_parent(True)
+        win.add_css_class("export-dialog")
+
+        box = Gtk.Box(
+            orientation=Gtk.Orientation.VERTICAL,
+            spacing=12,
+            margin_top=20,
+            margin_bottom=20,
+            margin_start=20,
+            margin_end=20
+        )
+
+        # TITLE
+        title = Gtk.Label(label="✔ Export Lutris terminé")
+        title.add_css_class("export-title")
+        box.append(title)
+
+        # -------------------------
+        # SELECTABLE PATH (SAFE)
+        # -------------------------
+        entry = Gtk.Entry()
+        entry.set_text(file_path)
+        entry.set_editable(False)
+        entry.set_can_focus(True)
+        entry.add_css_class("export-path")
+
+        box.append(entry)
+
+        # -------------------------
+        # COPY BUTTON
+        # -------------------------
+        def copy_to_clipboard(_):
+            display = Gdk.Display.get_default()
+            clipboard = display.get_clipboard()
+            clipboard.set(file_path)
+
+        btn_copy = Gtk.Button(label="Copy path")
+        btn_copy.connect("clicked", copy_to_clipboard)
+
+        # CLOSE BUTTON
+        btn_close = Gtk.Button(label="OK")
+        btn_close.connect("clicked", lambda *_: win.close())
+
+        buttons = Gtk.Box(spacing=8)
+        buttons.append(btn_copy)
+        buttons.append(btn_close)
+
+        box.append(buttons)
+
+        win.set_child(box)
+        win.present()
+
+    # -------------------------
+    # EXPORT LUTRIS
+    # -------------------------
+    def export_lutris_handler(self, game):
+        from proton_autogen.lutris import export_game_to_lutris_yaml
+        from pathlib import Path
+        import os
+        import re
+
+        try:
+            # -----------------------------
+            # 1. YAML generation
+            # -----------------------------
+            yaml_text = export_game_to_lutris_yaml(game)
+
+            # -----------------------------
+            # 2. Safe filename
+            # -----------------------------
+            def sanitize(name: str) -> str:
+                name = name.strip()
+                name = re.sub(r"[^\w\-_. ]", "_", name)
+                name = name.replace(" ", "_")
+                return name or "game"
+
+            game_name = sanitize(game.get("name", "game"))
+
+            # -----------------------------
+            # 3. Export directory (XDG-friendly)
+            # -----------------------------
+            export_dir = Path.home() / ".local" / "share" / "proton-autogen" / "lutris_exports"
+            export_dir.mkdir(parents=True, exist_ok=True)
+
+            file_path = export_dir / f"{game_name}-lutris.yml"
+
+            # -----------------------------
+            # 4. Write file safely
+            # -----------------------------
+            file_path.write_text(yaml_text, encoding="utf-8")
+
+            # -----------------------------
+            # 5. UX feedback (better than print)
+            # -----------------------------
+            print(f"[OK] Export Lutris terminé: {file_path}")
+            self.show_export_dialog(file_path)
+
+            return str(file_path)
+
+        except Exception as e:
+            print(f"[ERROR] Export Lutris échoué: {e}")
+            return None
+
 
     # -------------------------
     # STATS
@@ -203,6 +323,7 @@ class Dashboard(Gtk.ApplicationWindow):
             on_launch=self.launch_game,
             on_edit=self.edit_game,
             on_refresh=self.refresh_games,
+            on_export_lutris=self.export_lutris_handler,
             lang=self.lang
         )
         #self.game_list.set_on_refresh(self.refresh_games)
@@ -210,7 +331,7 @@ class Dashboard(Gtk.ApplicationWindow):
         self.game_list.set_vexpand(True)
         self.game_list.set_hexpand(True)
         self.game_list.set_halign(Gtk.Align.FILL)
-        self.game_list.set_size_request(700, -1)
+        self.game_list.set_size_request(780, -1)
         root.append(self.game_list)
 
         # =========================
@@ -367,7 +488,7 @@ class Dashboard(Gtk.ApplicationWindow):
         self.build_dialog(
             "About",
             scroll,
-            width=500,
+            width=700,
             height=650
         )
     # -------------------------
