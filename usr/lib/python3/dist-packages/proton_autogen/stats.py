@@ -9,6 +9,66 @@ from proton_autogen.loader import save_game_config, load_game_config
 # ------------------------------------------
 
 
+BADGE_TYPE_GAME = [
+    # -------------------------
+    # TYPE GAME
+    # -------------------------
+
+    {
+        "type": "battlenet",
+        "label": "⚔️",
+        "condition": lambda g: "battle.net" in g.get("path", "").lower(),
+        "text": lambda g: "Battle.net game"
+    },
+
+
+    {
+        "type": "steam",
+        "label": "🚂",
+        "condition": lambda g: "steam" in g.get("path", "").lower(),
+        "text": lambda g: "Steam game"
+    },
+
+    {
+        "type": "epic",
+        "label": "🟦",
+        "condition": lambda g: "epic games" in g.get("path", "").lower(),
+        "text": lambda g: "Epic Games"
+    },
+
+    {
+        "type": "gog",
+        "label": "🟣",
+        "condition": lambda g: "gog" in g.get("path", "").lower(),
+        "text": lambda g: "GOG game"
+    },
+
+
+    {
+        "type": "ubisoft",
+        "label": "🌀",
+        "condition": lambda g: "ubisoft" in g.get("path", "").lower(),
+        "text": lambda g: "Ubisoft Connect"
+    },
+
+    {
+        "type": "ea",
+        "label": "⚽",
+        "condition": lambda g: "ea app" in g.get("path", "").lower(),
+        "text": lambda g: "EA App"
+    },
+
+
+    {
+        "type": "rockstar",
+        "label": "⭐",
+        "condition": lambda g: "rockstar games" in g.get("path", "").lower(),
+        "text": lambda g: "Rockstar Games Launcher"
+    },
+
+]
+
+
 BADGE_DEFINITIONS_FR = [
     # -------------------------
     # CLASSIQUES
@@ -31,6 +91,24 @@ BADGE_DEFINITIONS_FR = [
         "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 3600,
         "text": lambda g: format_playtime(g.get("playtime", {}).get("seconds", 0))
     },
+
+    # -------------------------
+    # MODE JOUEUR
+    # -------------------------
+    {
+        "type": "gamemode",
+        "label": "🚀",
+        "condition": lambda g: g.get("features", {}).get("gamemode", False),
+        "text": lambda g: "GameMode activé"
+    },
+    {
+        "type": "mangohud",
+        "label": "📊",
+        "condition": lambda g: g.get("features", {}).get("mangohud", False),
+        "text": lambda g: "MangoHud activé"
+    },
+
+
 
     # -------------------------
     # HUMOUR / RANGS JOUEUR
@@ -118,6 +196,22 @@ BADGE_DEFINITIONS_EN = [
     },
 
     # -------------------------
+    # PLAYER MODE
+    # -------------------------
+    {
+        "type": "gamemode",
+        "label": "🚀",
+        "condition": lambda g: g.get("features", {}).get("gamemode", False),
+        "text": lambda g: "GameMode enabled"
+    },
+    {
+        "type": "mangohud",
+        "label": "📊",
+        "condition": lambda g: g.get("features", {}).get("mangohud", False),
+        "text": lambda g: "MangoHud enabled"
+    },
+
+    # -------------------------
     # PLAYER RANKS / HUMOR
     # -------------------------
 
@@ -202,6 +296,22 @@ BADGE_DEFINITIONS_ZH = [
     },
 
     # -------------------------
+    # 玩家模式
+    # -------------------------
+    {
+        "type": "gamemode",
+        "label": "🚀",
+        "condition": lambda g: g.get("features", {}).get("mangohud", False),
+        "text": lambda g: "已启用 GameMode"
+    },
+    {
+        "type": "mangohud",
+        "label": "📊",
+        "condition": lambda g: g.get("features", {}).get("mangohud", False),
+        "text": lambda g: "已启用 MangoHud"
+    },
+
+    # -------------------------
     # 玩家等级 / 幽默
     # -------------------------
 
@@ -264,9 +374,9 @@ BADGE_DEFINITIONS_ZH = [
 
 
 BADGE_DEFINITIONS = {
-    "fr": BADGE_DEFINITIONS_FR,
-    "en": BADGE_DEFINITIONS_EN,
-    "zh": BADGE_DEFINITIONS_ZH,
+    "fr": BADGE_TYPE_GAME + BADGE_DEFINITIONS_FR,
+    "en": BADGE_TYPE_GAME + BADGE_DEFINITIONS_EN,
+    "zh": BADGE_TYPE_GAME + BADGE_DEFINITIONS_ZH,
 }
 
 def get_game_badges(game: dict, lang: str = "en"):

@@ -322,11 +322,11 @@ label.dim-label2 {
 
 .badge {
     padding: 2px 6px;
-    margin-left: 6px;
-    border-radius: 6px;
+    margin-left: 4px;
+    border-radius: 4px;
     /* background: linear-gradient(90deg, #3a3a3a, #1f1f1f); */
     background: rgba(255,255,255,0.08);
-    font-size: 11px;
+    font-size: 10px;
 }
 /* =========================================================
    TEXTVIEW

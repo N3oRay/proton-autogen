@@ -4,7 +4,7 @@ import gi
 import os
 gi.require_version("Gtk", "4.0")
 from gi.repository import Gtk, Gio, Gdk, Pango
-
+from proton_autogen.stats import get_game_badges
 
 
 
@@ -60,9 +60,18 @@ class GameList(Gtk.Box):
         # BADGES UPDATE
         # -------------------------
         if hasattr(row, "badges_box"):
-            row.badges_box.remove_all()
+            child = row.badges_box.get_first_child()
 
-            for b in updated_game.get("badges", []):
+            while child:
+                next_child = child.get_next_sibling()
+                row.badges_box.remove(child)
+                child = next_child
+
+            #for b in updated_game.get("badges", []):
+            #    row.badges_box.append(self._create_badge(b))
+
+            badges = get_game_badges(updated_game, self.lang)
+            for b in badges:
                 row.badges_box.append(self._create_badge(b))
 
 
@@ -186,7 +195,8 @@ class GameList(Gtk.Box):
         # -------------------------
         row.badges_box = badges_box
 
-        badges = game.get("badges", [])
+        #badges = game.get("badges", [])
+        badges = get_game_badges(game, self.lang)
 
         if badges:
             for b in badges:

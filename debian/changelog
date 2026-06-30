@@ -1,4 +1,4 @@
-proton-autogen (2.7.0) noble; urgency=medium
+proton-autogen (2.7.1) noble; urgency=medium
 
   * New UX features (major update)
     - Added dynamic game badges system (favorite, recent, playtime ranks, humor badges)
