@@ -4,11 +4,20 @@
 from datetime import datetime, timedelta
 
 from proton_autogen.loader import save_game_config, load_game_config
-# ------------------------------------------
-# BADGE GAMES
-# ------------------------------------------
+
 
 BADGE_TYPE_PROFILE = [
+
+    {
+        "type": "favorite",
+        "label": "❤️",
+        "condition": lambda g: g.get("favorite", False),
+        "text": lambda g: "Favorite"
+    },
+
+    # ------------------------------------------
+    # TYPE
+    # ------------------------------------------
 
     {
         "type": "legacy",
@@ -131,6 +140,9 @@ BADGE_TYPE_PROFILE = [
 
 ]
 
+# ------------------------------------------
+# BADGE GAMES
+# ------------------------------------------
 
 BADGE_TYPE_GAME = [
     # -------------------------
