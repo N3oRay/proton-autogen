@@ -11,7 +11,7 @@ from pathlib import Path
 from shutil import which
 import configparser
 
-VERSION = "2.7.7"
+VERSION = "2.7.9"
 
 CONFIG_FILE = os.path.expanduser("~/.config/proton-autogen.conf")
 CONFIG_DIR = os.path.expanduser("~/.config/proton-autogen/games")
@@ -700,6 +700,9 @@ ENV_VARS = [
     }
 ]
 #------------------------------------------------------------------------------------
+
+def has_proton_call():
+    return which("proton-call") is not None
 
 def has_wine():
     return which("wine") is not None

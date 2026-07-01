@@ -1,14 +1,15 @@
-proton-autogen (2.7.8) noble; urgency=medium
+proton-autogen (2.7.9) noble; urgency=medium
 
   * New
-    - Sensors Menu (Stable)
-    - Patch : CWD on MangoHud 32 Bit
-    - Add Exprt Lutris
+    - Added Sensors menu (stable).
+    - Added advanced diagnostics for Debian, Ubuntu, Linux Mint, Arch Linux and CachyOS.
+    - Added Lutris export.
     - Added UX error handler.
+    - Fixed MangoHud working directory handling for 32-bit applications.
 
   * UX
     - Added profile badges (DX11, DX12, Win95, Install, etc.).
-    - Added platform and game badges (Steam, Battle.net, favorites, playtime...).
+    - Added platform and game badges (Steam, Battle.net, Favorites, Playtime, etc.).
     - Added live badge updates after editing games.
     - Improved GameList layout and GTK4 interface.
 
@@ -36,6 +37,6 @@ proton-autogen (2.7.8) noble; urgency=medium
 
   * Developer
     - Improved backend/UI separation.
-    - Improved debugging and internal APIs.
+    - Improved debugging tools and internal APIs.
 
- -- N3oray <n3oray77@gmail.com>  Tue, 30 Jun 2026 00:00:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Wed, 01 Jul 2026 23:59:00 +0200
