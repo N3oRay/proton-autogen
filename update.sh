@@ -17,6 +17,14 @@ git pull origin main
 # 4. Restaurer stash si nécessaire
 git stash pop || true
 
+echo "==> Installing dependencies..."
+sudo pacman -S --needed --noconfirm \
+    python \
+    python-gobject \
+    python-pyyaml \
+    gtk4 \
+    glib2
+
 # 5. Réinstaller uniquement les fichiers système
 
 echo "==> Updating binary..."
