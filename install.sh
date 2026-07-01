@@ -5,6 +5,7 @@ echo "==> Installing dependencies..."
 sudo pacman -S --needed --noconfirm \
     python \
     python-gobject \
+    python-pyyaml \
     gtk4 \
     glib2
 
