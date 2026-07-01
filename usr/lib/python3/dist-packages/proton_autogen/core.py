@@ -1078,23 +1078,32 @@ def is_32bit_exe(path):
     return get_exe_arch(path) == "32bit"
 
 
+from pathlib import Path
 import subprocess
+import threading
 
 
-def run_filtered(cmd, env=None, filters=None):
-    """
-    Lance une commande et filtre certains messages stderr.
+def _read_stdout(pipe):
+    for line in pipe:
+        print(line, end="")
 
-    :param cmd: liste de commandes
-    :param env: environnement
-    :param filters: liste de chaînes à ignorer dans stderr
-    """
+
+def _read_stderr(pipe, filters):
+    for line in pipe:
+        if any(f in line for f in filters):
+            continue
+        print(line, end="")
+
+
+
+def run_filtered(cmd, env=None, filters=None, cwd=None):
 
     if filters is None:
         filters = []
 
     process = subprocess.Popen(
         cmd,
+        cwd=cwd,
         env=env,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
@@ -1102,18 +1111,18 @@ def run_filtered(cmd, env=None, filters=None):
         bufsize=1
     )
 
-    # Affichage stdout normal
-    for line in process.stdout:
-        print(line, end="")
+    t_out = threading.Thread(target=_read_stdout, args=(process.stdout,))
+    t_err = threading.Thread(target=_read_stderr, args=(process.stderr, filters))
 
-    # Filtrage stderr
-    for line in process.stderr:
-        if any(f in line for f in filters):
-            continue
+    t_out.start()
+    t_err.start()
 
-        print(line, end="")
+    process.wait()
 
-    return process.wait()
+    t_out.join()
+    t_err.join()
+
+    return process.returncode
 
 
 def find_mangohud_shim():
@@ -2063,9 +2072,20 @@ def run_game_proton(exe_path, exe_type, proton, launch_mode="proton",
             print(f"[DEBUG] {key}={env.get(key)}")
         filters = [ "wrong ELF class", ]
         result_code = -1
-        returncode = run_filtered( cmd, env=env, filters=filters )
+        # Code KO
+
+        cmd_cwd = os.path.dirname(exe_path)
+
+        returncode = run_filtered(
+            cmd,
+            env=env,
+            filters=filters,
+            cwd=cmd_cwd,
+        )
+
         return returncode
     else:
+        # Code OK
         result_code = -1
         cmd_cwd = os.path.dirname(exe_path)
         returncode = subprocess.run(cmd, env=env, cwd=cmd_cwd)

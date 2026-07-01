@@ -207,6 +207,23 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
         print(f"[proton-autogen] Launching with {proton_name(proton)}")
 
         result_code = -1
+
+        if DEBUG or VERBOSE:
+            print("================================")
+            print("COMMAND:")
+            print(" ".join(cmd))
+            print("================================")
+
+            print("ENV:")
+            for k in (
+                "STEAM_COMPAT_DATA_PATH",
+                "STEAM_COMPAT_CLIENT_INSTALL_PATH",
+                "WINEPREFIX",
+                "PROTONPATH",
+                "MANGOHUD",
+                "LD_PRELOAD",
+            ):
+                print(f"{k}={env.get(k)}")
         result_code = subprocess.run(cmd, env=env)
         #
         status = handle_result(result_code)
@@ -227,6 +244,12 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
 
         result_code = -1
         result_code = run_game_proton(exe_path, exe_type, proton, "proton", enable_mangohud, enable_gamemode, prefix_mode)
+        if DEBUG or VERBOSE:
+            print(type(result_code))
+            print(result_code)
+
+            if isinstance(result_code, subprocess.CompletedProcess):
+                print(result_code.returncode)
         status = handle_result(result_code)
         finalize_session(exe_path, start_time, result_code) # Stats
 
