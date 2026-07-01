@@ -1,6 +1,7 @@
-proton-autogen (2.7.5) noble; urgency=medium
+proton-autogen (2.7.6) noble; urgency=medium
 
   * New
+    - Patch : CWD on MangoHud 32 Bit
     - Add Exprt Lutris
     - Added UX error handler.
 

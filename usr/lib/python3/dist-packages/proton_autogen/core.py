@@ -11,7 +11,7 @@ from pathlib import Path
 from shutil import which
 import configparser
 
-VERSION = "2.7.5"
+VERSION = "2.7.6"
 
 CONFIG_FILE = os.path.expanduser("~/.config/proton-autogen.conf")
 CONFIG_DIR = os.path.expanduser("~/.config/proton-autogen/games")
