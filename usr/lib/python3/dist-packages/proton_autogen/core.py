@@ -11,7 +11,7 @@ from pathlib import Path
 from shutil import which
 import configparser
 
-VERSION = "2.7.6"
+VERSION = "2.7.7"
 
 CONFIG_FILE = os.path.expanduser("~/.config/proton-autogen.conf")
 CONFIG_DIR = os.path.expanduser("~/.config/proton-autogen/games")
@@ -1970,6 +1970,21 @@ def get_exe_arch(path):
     return "unknown"
 
 
+def add_ld_preload(env, lib):
+    existing = env.get("LD_PRELOAD", "")
+    if existing:
+        if lib not in existing.split(":"):
+            env["LD_PRELOAD"] = lib + ":" + existing
+    else:
+        env["LD_PRELOAD"] = lib
+    return env
+
+
+def check_mangohud_abi(lib):
+    import subprocess
+    out = subprocess.getoutput(f"ldd {lib}")
+    return "libspdlog.so.1.15" not in out
+
 def run_game_proton(exe_path, exe_type, proton, launch_mode="proton",
                     enable_mangohud=False, enable_gamemode=False,
                     prefix_mode="main"):
@@ -2048,6 +2063,43 @@ def run_game_proton(exe_path, exe_type, proton, launch_mode="proton",
     if enable_mangohud and has_mangohud():
         env["MANGOHUD"] = "1"
         env["MANGOHUD_DLSYM"] = "1"
+        env["DXVK_HUD"] = "0"
+
+        # FPS cap only if needed
+        if "fps_limit" not in env.get("MANGOHUD_CONFIG", ""):
+            env["MANGOHUD_CONFIG"] = "fps_limit=60"
+
+        is_32bit = is_32bit_exe(exe_path)
+
+        # OpenGL only for legacy DX9 / old games
+        if exe_type in ["dx9", "dx9opengl", "oldgame", "ut99", "ut3", "valve"]:
+            env["MANGOHUD_OPENGL"] = "1"
+        else:
+            env.pop("MANGOHUD_OPENGL", None)
+
+        # 32-bit shim only when needed
+        if is_32bit:
+            print("[proton-autogen] 32-bit legacy game detected")
+
+            mangohud_shim = find_mangohud_shim()
+
+            if mangohud_shim and os.path.exists(mangohud_shim):
+                if not check_mangohud_abi(mangohud_shim):
+                    print("[proton-autogen] MangoHud ABI mismatch detected - skipping")
+                else:
+                    env = add_ld_preload(env, mangohud_shim)
+            else:
+                print("[proton-autogen] MangoHud 32-bit shim missing")
+
+        # optional: Vulkan explicit toggle
+        if exe_type in ["vulkan", "dxvk"]:
+            env["MANGOHUD"] = "1"
+    else:
+        env.pop("MANGOHUD", None)
+    """
+    if enable_mangohud and has_mangohud():
+        env["MANGOHUD"] = "1"
+        env["MANGOHUD_DLSYM"] = "1"
         env["MANGOHUD_OPENGL"] = "1"
         env["MANGOHUD_CONFIG"] = "fps_limit=60"
         env["DXVK_HUD"] = "0"
@@ -2065,7 +2117,7 @@ def run_game_proton(exe_path, exe_type, proton, launch_mode="proton",
 
     else:
         env.pop("MANGOHUD", None)
-
+    """
     if enable_gamemode and has_gamemode():
         env["GAMEMODE"] = "1"
 

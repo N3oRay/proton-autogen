@@ -19,6 +19,8 @@ def build_app_menu(app):
     menu = Gio.Menu()
 
     menu.append("Diagnostics", "app.diag")
+    menu.append("Sensors", "app.sensors")
+    menu.append("Help MangoHud", "app.mangohud")
     menu.append("Help", "app.help")
     menu.append("About", "app.about")
 
@@ -48,6 +50,8 @@ def create_popover_menu(parent, actions=None):
         actions = {}
 
     box.append(make_btn("Diagnostics", actions.get("diag", lambda: None)))
+    box.append(make_btn("Sensors", actions.get("sensors", lambda: None)))
+    box.append(make_btn("Help MangoHud", actions.get("mangohud", lambda: None)))
     box.append(make_btn("Help", actions.get("help", lambda: None)))
     box.append(make_btn("About", actions.get("about", lambda: None)))
 
@@ -62,7 +66,15 @@ def create_popover_menu(parent, actions=None):
 # =========================================================
 def attach_menu(menu_button: Gtk.MenuButton, app):
     """
-    Attach Gio.Menu to a MenuButton (recommended GTK4 way)
+    Clean GTK4 menu binding (avoids GtkPopoverMenu warnings)
     """
 
-    menu_button.set_menu_model(build_app_menu(app))
+    menu_model = build_app_menu(app)
+
+    popover = Gtk.PopoverMenu.new_from_model(menu_model)
+
+    menu_button.set_popover(popover)
+
+    # 🔥 important fix: avoids "broken active state"
+    menu_button.set_can_focus(False)
+    menu_button.set_focus_on_click(False)

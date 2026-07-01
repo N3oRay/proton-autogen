@@ -25,6 +25,8 @@ from proton_autogen.backend import (
 from proton_autogen.core import print_about, get_about_text, detect_help_env_lang
 from proton_autogen.info import print_help, get_help_text
 
+from proton_autogen.sensor import get_sensors_text, print_sensors, get_mangohud_advice
+
 
 
 addbouton = False
@@ -49,6 +51,61 @@ class Dashboard(Gtk.ApplicationWindow):
 
         self.build_ui()
         self.refresh_games()
+
+    # -------------------------
+    # Show MangoHud Sensors :
+    # -------------------------
+
+    def show_mangohud_advice_dialog(self):
+
+        scroll = Gtk.ScrolledWindow()
+        scroll.set_vexpand(True)
+        scroll.set_hexpand(True)
+
+        textview = Gtk.TextView()
+        textview.set_editable(False)
+        textview.set_cursor_visible(False)
+        textview.set_monospace(True)
+
+
+        buffer = textview.get_buffer()
+        buffer.set_text(get_mangohud_advice())
+
+        scroll.set_child(textview)
+
+        self.build_dialog(
+            "MangoHud Config Advice",
+            scroll,
+            width=750,
+            height=500
+        )
+
+    # -------------------------
+    # Show Sensors :
+    # -------------------------
+
+    def show_sensors_dialog(self):
+
+        scroll = Gtk.ScrolledWindow()
+        scroll.set_vexpand(True)
+        scroll.set_hexpand(True)
+
+        textview = Gtk.TextView()
+        textview.set_editable(False)
+        textview.set_cursor_visible(False)
+        textview.set_monospace(True)
+
+        buffer = textview.get_buffer()
+        buffer.set_text(get_sensors_text())
+
+        scroll.set_child(textview)
+
+        self.build_dialog(
+            "Sensors",
+            scroll,
+            width=750,
+            height=600
+        )
 
     # -------------------------
     # MESSAGE DIAG:
@@ -639,6 +696,35 @@ class ProtonAutogenApp(Gtk.Application):
 
     def _create_actions(self):
 
+        # --------------------------
+        # Mangohud SENSORS
+        # -------------------------
+
+        mgh = Gio.SimpleAction.new("mangohud", None)
+
+        def open_mgh(*a):
+            win = self.get_active_window()
+            if win:
+                win.show_mangohud_advice_dialog()
+
+        mgh.connect("activate", open_mgh)
+        self.add_action(mgh)
+
+
+        # --------------------------
+        # SENSORS
+        # -------------------------
+
+        sensors = Gio.SimpleAction.new("sensors", None)
+
+        def open_sensors(*a):
+            win = self.get_active_window()
+            if win:
+                win.show_sensors_dialog()
+
+        sensors.connect("activate", open_sensors)
+        self.add_action(sensors)
+
         # -------------------------
         # DIAGNOSTIC
         # -------------------------
@@ -683,6 +769,8 @@ class ProtonAutogenApp(Gtk.Application):
         self.set_accels_for_action("app.diag", ["<Ctrl>D"])
         self.set_accels_for_action("app.help", ["F1"])
         self.set_accels_for_action("app.about", ["F2"])
+        self.set_accels_for_action("app.sensors", ["F3"])
+        self.set_accels_for_action("app.mangohud", ["F4"])
 
 
 def start_dashboard():
