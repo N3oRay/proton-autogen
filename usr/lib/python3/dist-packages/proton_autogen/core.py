@@ -1077,7 +1077,9 @@ def add_ld_preload(env, library):
 def is_32bit_exe(path):
     return get_exe_arch(path) == "32bit"
 
-
+# -------------------------------------------------------------------------------------------------------------------------------------
+# Two independent threads handle the simultaneous reading of standard and error outputs to ensure smooth display and prevent deadlocks.
+# -------------------------------------------------------------------------------------------------------------------------------------
 from pathlib import Path
 import subprocess
 import threading
@@ -1124,8 +1126,20 @@ def run_filtered(cmd, env=None, filters=None, cwd=None):
 
     return process.returncode
 
-
+# -------------------------------------------------------------------------------------------------------------------------------------
 def find_mangohud_shim():
+    """
+    Search for the libMangoHud_shim.so library in the most common
+    32-bit installation directories.
+
+    The function iterates through a predefined list of candidate paths
+    and returns the first existing library found.
+
+    Returns:
+        str | None:
+            - The full path to libMangoHud_shim.so if found.
+            - None if the library is not found in any of the checked locations.
+    """
     candidates = [
         "/usr/lib32/mangohud/libMangoHud_shim.so",
         "/usr/lib/i386-linux-gnu/mangohud/libMangoHud_shim.so",
