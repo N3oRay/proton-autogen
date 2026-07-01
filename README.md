@@ -247,6 +247,7 @@ nautilus -q
 * [x] Game / Installer auto-detection
 * [x] GUI frontend
 * [x] Lutris integration
+* [x] Sensors and MangoHud Help
 * [ ] ProtonDB integration
 * [ ] Bottles integration
 * [ ] Silent mode
