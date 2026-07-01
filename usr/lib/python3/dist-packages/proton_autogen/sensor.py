@@ -3,16 +3,26 @@
 
 from pathlib import Path
 from typing import Iterator
+from errno import ENODATA
+
 
 HWMON_ROOT = Path("/sys/class/hwmon")
 
 
 def read_text(path: Path) -> str | None:
-    """Read a sysfs file and return its content, or None if unavailable."""
     try:
         return path.read_text().strip()
-    except (FileNotFoundError, PermissionError, OSError):
+    except FileNotFoundError:
         return None
+    except PermissionError:
+        return None
+    except OSError as e:
+        if e.errno == ENODATA:
+            return None
+        raise
+
+
+
 
 
 def get_hwmons(root: Path = HWMON_ROOT) -> Iterator[Path]:
@@ -66,9 +76,8 @@ def get_sensors():
     sensors = []
 
     for hw in sorted(HWMON_ROOT.glob("hwmon*")):
-        try:
-            name = (hw / "name").read_text().strip()
-        except FileNotFoundError:
+        name = read_text(hw / "name")
+        if name is None:
             continue
 
         device = {
@@ -80,14 +89,11 @@ def get_sensors():
         for temp in sorted(hw.glob("temp*_input")):
             sensor = temp.name
 
-            label_file = hw / sensor.replace("_input", "_label")
-            label = (
-                label_file.read_text().strip()
-                if label_file.exists()
-                else None
-            )
+            label = read_text(hw / sensor.replace("_input", "_label"))
+            value = get_temperature_value(temp)
 
-            value = int(temp.read_text().strip()) / 1000
+            if value is None:
+                continue
 
             device["temps"].append({
                 "sensor": sensor,
