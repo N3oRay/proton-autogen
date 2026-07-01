@@ -133,7 +133,7 @@ dpkg-buildpackage -b -us -uc
 sudo dpkg -i ../proton-autogen_*.deb
 ```
 
-### Debian Package (install only)
+### Ubuntu (Linux Mint, Pop!_OS) (install only)
 
 ```bash
 sudo add-apt-repository ppa:n3oray/proton-autogen
