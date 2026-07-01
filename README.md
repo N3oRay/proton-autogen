@@ -104,7 +104,7 @@ $ proton-autogen GAME.EXE
 
 ---
 
-## 📦 Installation & Update Arch Linux
+## 📦 Installation & Update Linux (Debian/Fedora/Arch)
 
 
 ### (install manual)
