@@ -25,7 +25,7 @@ from proton_autogen.stats import is_recent_launch
 from proton_autogen.core import print_about, get_about_text, detect_help_env_lang
 from proton_autogen.info import print_help, get_help_text
 from proton_autogen.sensor import get_sensors_text, print_sensors, get_mangohud_advice
-
+from proton_autogen.requis import afficher_prerequis_label
 
 addbouton = False
 refreshbouton = True
@@ -582,6 +582,36 @@ class Dashboard(Gtk.ApplicationWindow):
 
         return win
 
+
+    # -------------------------
+    # DIALOG REQUIS
+    # -------------------------
+    def show_requis_dialog(self):
+
+        scroll = Gtk.ScrolledWindow()
+        scroll.set_vexpand(True)
+        scroll.set_hexpand(True)
+
+        textview = Gtk.TextView()
+        textview.set_editable(False)
+        textview.set_cursor_visible(False)
+        textview.set_monospace(True)
+        textview.set_left_margin(6)
+        textview.set_right_margin(6)
+        textview.set_wrap_mode(Gtk.WrapMode.WORD)
+
+        buffer = textview.get_buffer()
+        buffer.set_text(afficher_prerequis_label())
+
+        scroll.set_child(textview)
+
+        self.build_dialog(
+            "Requis",
+            scroll,
+            width=700,
+            height=650
+        )
+
     # -------------------------
     # DIALOG ABOUT
     # -------------------------
@@ -812,7 +842,8 @@ class ProtonAutogenApp(Gtk.Application):
 
         help_.connect("activate", open_help)
         self.add_action(help_)
-                # -------------------------
+
+        # -------------------------
         # ABOUT
         # -------------------------
         about = Gio.SimpleAction.new("about", None)
@@ -825,14 +856,29 @@ class ProtonAutogenApp(Gtk.Application):
         about.connect("activate", open_about)
         self.add_action(about)
 
+
+        # -------------------------
+        # Requis
+        # -------------------------
+        requis = Gio.SimpleAction.new("requis", None)
+
+        def open_requis(*a):
+            win = self.get_active_window()
+            if win:
+                win.show_requis_dialog()
+
+        requis.connect("activate", open_requis)
+        self.add_action(requis)
+
         # -------------------------
         # SHORTCUTS
         # -------------------------
         self.set_accels_for_action("app.diag", ["<Ctrl>D"])
         self.set_accels_for_action("app.help", ["F1"])
-        self.set_accels_for_action("app.about", ["F2"])
-        self.set_accels_for_action("app.sensors", ["F3"])
-        self.set_accels_for_action("app.mangohud", ["F4"])
+        self.set_accels_for_action("app.sensors", ["F2"])
+        self.set_accels_for_action("app.mangohud", ["F3"])
+        self.set_accels_for_action("app.requis", ["F4"])
+        self.set_accels_for_action("app.about", ["F5"])
 
 
 def start_dashboard():

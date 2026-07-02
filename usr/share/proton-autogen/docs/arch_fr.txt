@@ -1,0 +1,60 @@
+## Prérequis
+
+Proton-autogen s'appuie sur plusieurs outils existants
+et agit comme un orchestrateur afin de simplifier leur utilisation.
+
+Pour disposer d'un environnement Proton complet, il est recommandé d'installer :
+
+- Steam
+- GameMode
+- MangoHud
+- ProtonUp-Qt
+
+Installation (Arch Linux / CachyOS)
+-----------------------------------
+
+1. Mettre le système à jour
+
+    sudo pacman -Syu
+
+2. Installer les paquets nécessaires
+
+    sudo pacman -S steam gamemode mangohud protonup-qt
+
+Options de lancement Steam
+--------------------------
+
+Activer GameMode :
+
+    gamemoderun %command%
+
+Activer MangoHud :
+
+    mangohud %command%
+
+Activer GameMode et MangoHud :
+
+    mangohud gamemoderun %command%
+
+Optionnel
+---------
+
+Lancez ProtonUp-Qt, sélectionnez Steam, puis installez la dernière version de Proton-GE.
+
+Résultat
+---------
+
+- GameMode : optimise automatiquement les performances du processeur pendant les jeux.
+- MangoHud : affiche un overlay avec les FPS et les statistiques système.
+- ProtonUp-Qt : facilite l'installation et la gestion des versions de Proton-GE.
+
+Une fois ces outils installés, Proton-autogen pourra gérer automatiquement
+votre environnement Proton et lancer vos applications Windows.
+
+Configuration minimale recommandée :
+
+- ProtonUp-Qt
+- Proton-autogen
+
+Les autres outils restent optionnels mais sont fortement recommandés
+pour bénéficier des meilleures performances et d'un meilleur suivi en jeu.

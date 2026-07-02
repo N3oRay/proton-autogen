@@ -22,6 +22,7 @@ def build_app_menu(app):
     menu.append("Sensors", "app.sensors")
     menu.append("Help MangoHud", "app.mangohud")
     menu.append("Help", "app.help")
+    menu.append("Requis", "app.requis")
     menu.append("About", "app.about")
 
     return menu
@@ -50,9 +51,10 @@ def create_popover_menu(parent, actions=None):
         actions = {}
 
     box.append(make_btn("Diagnostics", actions.get("diag", lambda: None)))
+    box.append(make_btn("Help", actions.get("help", lambda: None)))
     box.append(make_btn("Sensors", actions.get("sensors", lambda: None)))
     box.append(make_btn("Help MangoHud", actions.get("mangohud", lambda: None)))
-    box.append(make_btn("Help", actions.get("help", lambda: None)))
+    box.append(make_btn("Requis", actions.get("requis", lambda: None)))
     box.append(make_btn("About", actions.get("about", lambda: None)))
 
     pop.set_child(box)

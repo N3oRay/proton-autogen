@@ -15,7 +15,7 @@ from proton_autogen.type_profile import init_env, env_gtav_compat, env_gtav_x11,
 
 import configparser
 
-VERSION = "2.8.2"
+VERSION = "2.8.3"
 
 CONFIG_FILE = os.path.expanduser("~/.config/proton-autogen.conf")
 CONFIG_DIR = os.path.expanduser("~/.config/proton-autogen/games")

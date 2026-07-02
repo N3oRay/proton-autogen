@@ -1,6 +1,7 @@
-proton-autogen (2.8.2) noble; urgency=medium
+proton-autogen (2.8.3) noble; urgency=medium
 
   * New
+    - Added New menu requis (FR/EN/ZH/ES/DE)
     - Added Toast message (FR/EN/ZH/ES)
     - Added Sensors menu (stable).
     - Added advanced diagnostics for Debian, Ubuntu, Linux Mint, Arch Linux and CachyOS.
@@ -11,7 +12,7 @@ proton-autogen (2.8.2) noble; urgency=medium
   * UX
     - Added profile badges (DX11, DX12, Win95, Install, etc.).
     - Added platform and game badges (Steam, Battle.net, Favorites, Playtime, etc.).
-    - Added live badge updates after editing games.
+    - Added live badge (FR/EN/ZH/ES/DE)
     - Improved GameList layout and GTK4 interface.
 
   * Statistics

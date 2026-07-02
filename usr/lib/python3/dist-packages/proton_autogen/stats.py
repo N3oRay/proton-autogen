@@ -408,6 +408,106 @@ BADGE_DEFINITIONS_EN = [
     },
 ]
 
+BADGE_DEFINITIONS_DE = [
+    # -------------------------
+    # KLASSIK
+    # -------------------------
+    {
+        "type": "favorite",
+        "label": "⭐",
+        "condition": lambda g: g.get("favorite"),
+        "text": lambda g: "Favorit"
+    },
+    {
+        "type": "recent",
+        "label": "🔥",
+        "condition": lambda g: is_recent_launch(g.get("playtime", {}), 7),
+        "text": lambda g: "Kürzlich gespielt"
+    },
+    {
+        "type": "time",
+        "label": "⏱",
+        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 3600,
+        "text": lambda g: format_playtime(g.get("playtime", {}).get("seconds", 0))
+    },
+
+    # -------------------------
+    # SPIELERMODUS
+    # -------------------------
+    {
+        "type": "gamemode",
+        "label": "🚀",
+        "condition": lambda g: g.get("features", {}).get("gamemode", False),
+        "text": lambda g: "GameMode aktiviert"
+    },
+    {
+        "type": "mangohud",
+        "label": "📊",
+        "condition": lambda g: g.get("features", {}).get("mangohud", False),
+        "text": lambda g: "MangoHud aktiviert"
+    },
+
+    # -------------------------
+    # SPIELER-RANKS / HUMOR
+    # -------------------------
+
+    # 👶 Anfänger
+    {
+        "type": "rookie",
+        "label": "🐣",
+        "condition": lambda g: 0 < g.get("playtime", {}).get("seconds", 0) < 3600,
+        "text": lambda g: "Anfänger (gerade erst gestartet)"
+    },
+
+    # 🧑 Gelegenheitsspieler
+    {
+        "type": "casual",
+        "label": "🙂",
+        "condition": lambda g: 3600 <= g.get("playtime", {}).get("seconds", 0) < 10 * 3600,
+        "text": lambda g: "Gelegenheitsspieler"
+    },
+
+    # 🎮 Erfahrener Spieler
+    {
+        "type": "gamer",
+        "label": "🎮",
+        "condition": lambda g: 10 * 3600 <= g.get("playtime", {}).get("seconds", 0) < 50 * 3600,
+        "text": lambda g: "Erfahrener Spieler"
+    },
+
+    # 🏆 Hardcore
+    {
+        "type": "heavy",
+        "label": "🏆",
+        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 50 * 3600,
+        "text": lambda g: "Tryhard erkannt"
+    },
+
+    # 💀 Sucht-Witz
+    {
+        "type": "addict",
+        "label": "💀",
+        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 150 * 3600,
+        "text": lambda g: "Bitte Hilfe senden"
+    },
+
+    # 🌙 Nachtaktiv
+    {
+        "type": "night_owl",
+        "label": "🌙",
+        "condition": lambda g: is_recent_launch(g.get("playtime", {}), 1),
+        "text": lambda g: "Kürzlich aktiv (Nachteule?)"
+    },
+
+    # 🧓 Veteran
+    {
+        "type": "veteran",
+        "label": "🧓",
+        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 300 * 3600,
+        "text": lambda g: "Legendärer Veteran"
+    },
+]
+
 BADGE_DEFINITIONS_ES = [
     # -------------------------
     # CLÁSICOS
@@ -537,7 +637,7 @@ BADGE_DEFINITIONS_ZH = [
     {
         "type": "gamemode",
         "label": "🚀",
-        "condition": lambda g: g.get("features", {}).get("mangohud", False),
+        "condition": lambda g: g.get("features", {}).get("gamemode", False),
         "text": lambda g: "已启用 GameMode"
     },
     {
@@ -614,6 +714,7 @@ BADGE_DEFINITIONS = {
     "fr": BADGE_TYPE_PROFILE + BADGE_TYPE_GAME + BADGE_DEFINITIONS_FR,
     "en": BADGE_TYPE_PROFILE + BADGE_TYPE_GAME + BADGE_DEFINITIONS_EN,
     "zh": BADGE_TYPE_PROFILE + BADGE_TYPE_GAME + BADGE_DEFINITIONS_ZH,
+    "de": BADGE_TYPE_PROFILE + BADGE_TYPE_GAME + BADGE_DEFINITIONS_DE,
     "es": BADGE_TYPE_PROFILE + BADGE_TYPE_GAME + BADGE_DEFINITIONS_ES,
 }
 
