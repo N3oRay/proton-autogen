@@ -39,12 +39,15 @@ def set_toast_callback(cb):
     global TOAST_CALLBACK
     TOAST_CALLBACK = cb
 
+#name = Path(exe_path).stem
+#notify("info", "Update", f"Update Data : {name}", ui=True)
+
 def notify_ui(level, title, message):
-    print("DEBUG toast called")
-    print(TOAST_CALLBACK)
+    #print("DEBUG toast called")
+    #print(TOAST_CALLBACK)
 
     if TOAST_CALLBACK:
-        print("CALLING GLIB IDLE ADD")
+        #print("CALLING GLIB IDLE ADD")
         GLib.idle_add(
             TOAST_CALLBACK,
             {"level": level, "title": title, "message": message}
@@ -271,7 +274,9 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
         # ----------------------------
         if config and config.get("prefix"):
             prefix_mode = config["prefix"].get("name", prefix_mode)
-            print(f"[proton-autogen] LOAD CONFIG PREFIX: {prefix_mode}")
+            #print(f"[proton-autogen] LOAD CONFIG PREFIX: {prefix_mode}")
+            #name = Path(exe_path).stem
+            notify("info", "proton-autogen", f"LOAD CONFIG PREFIX : {prefix_mode}", ui=True)
 
         result_code = -1
         result_code = run_game_proton(exe_path, exe_type, proton, "proton", enable_mangohud, enable_gamemode, prefix_mode)
