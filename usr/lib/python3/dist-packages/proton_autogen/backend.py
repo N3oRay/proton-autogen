@@ -20,7 +20,9 @@ from proton_autogen.stats import *
 from proton_autogen.pa_log import show_result, handle_result, show_message
 from proton_autogen.pa_log import notify_simple
 from proton_autogen.diag import print_diagnostic, find_all_protons, find_proton
+from proton_autogen.notify import notifications
 
+#notifications.notify("info", "Update", "Game launched")
 
 #-----
 # proton-autogen: improved profile system (launcher / DX11 / DX12 / oldgames)
@@ -32,33 +34,6 @@ from proton_autogen.diag import print_diagnostic, find_all_protons, find_proton
 # ----------------------------
 # PROTON PATHS FIXED (robuste multi-distro)
 # ----------------------------
-
-TOAST_CALLBACK = None
-
-def set_toast_callback(cb):
-    global TOAST_CALLBACK
-    TOAST_CALLBACK = cb
-
-#name = Path(exe_path).stem
-#notify("info", "Update", f"Update Data : {name}", ui=True)
-
-def notify_ui(level, title, message):
-    #print("DEBUG toast called")
-    #print(TOAST_CALLBACK)
-
-    if TOAST_CALLBACK:
-        #print("CALLING GLIB IDLE ADD")
-        GLib.idle_add(
-            TOAST_CALLBACK,
-            {"level": level, "title": title, "message": message}
-        )
-
-
-def notify(level, title, message, ui=True):
-    print(f"[{level}] {title}: {message}")
-
-    if ui:
-        notify_ui(level, title, message)
 
 def print_runtime_info(proton, exe_path, mangohud_available):
     print("[proton-autogen] Runtime information")
@@ -117,7 +92,7 @@ def finalize_session(exe_path, start_time, exit_code=None):
     try:
 
         name = Path(exe_path).stem
-        notify("info", "Update", f"Update Data : {name}", ui=True)
+        notifications.notify("info", "Update", f"Update Data : {name}", ui=True)
 
         update_playtime(exe_path, session_seconds)
         result["updated"] = True
@@ -136,7 +111,7 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
     if not os.path.exists(exe_path):
         print(f"Error: file not found: {exe_path}")
 
-        notify("warning", "Missing file", f"file not found: {exe_path}")
+        notifications.notify("warning", "Missing file", f"file not found: {exe_path}")
         sys.exit(1)
 
     # Proton path (à adapter)
@@ -210,22 +185,23 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
         )
         env["GE_PROTON"] = proton_path(proton)
         env["GAME_EXE"] = exe_path
+        name = Path(exe_path).stem
 
         if enable_mangohud:
             if mangohud_available:
-                print("[proton-autogen] MangoHud enabled")
+                notifications.notify("info", "proton-autogen", f"MangoHud : enabled for {name}", ui=False)
                 env["MANGOHUD"] = "1"
                 env["MANGOHUD_DLSYM"] = "1"
                 env["DXVK_HUD"] = "0"
                 env.pop("LD_PRELOAD", None)
             else:
-                print("[proton-autogen] WARNING: MangoHud requested but not installed")
+                notifications.notify("warning", "[proton-autogen] WARNING: MangoHud requested but not installed", ui=False)
 
         cmd = []
 
         if enable_gamemode:
             if has_gamemode():
-                print("[proton-autogen] GameMode enabled")
+                notifications.notify("info", "proton-autogen", f"GameMode : enabled for {name}", ui=False)
                 #cmd.append("gamemoderun")
                 env["GAMEMODE"] = "1"
         elif DEBUG or VERBOSE:
@@ -274,9 +250,8 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
         # ----------------------------
         if config and config.get("prefix"):
             prefix_mode = config["prefix"].get("name", prefix_mode)
-            #print(f"[proton-autogen] LOAD CONFIG PREFIX: {prefix_mode}")
-            #name = Path(exe_path).stem
-            notify("info", "proton-autogen", f"LOAD CONFIG PREFIX : {prefix_mode}", ui=True)
+            #Message
+            notifications.notify("info", "proton-autogen", f"LOAD CONFIG PREFIX : {prefix_mode}", ui=True)
 
         result_code = -1
         result_code = run_game_proton(exe_path, exe_type, proton, "proton", enable_mangohud, enable_gamemode, prefix_mode)

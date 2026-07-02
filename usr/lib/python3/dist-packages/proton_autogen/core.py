@@ -9,9 +9,12 @@ from collections import defaultdict
 
 from pathlib import Path
 from shutil import which
+from proton_autogen.notify import notifications
+
+
 import configparser
 
-VERSION = "2.8.0"
+VERSION = "2.8.1"
 
 CONFIG_FILE = os.path.expanduser("~/.config/proton-autogen.conf")
 CONFIG_DIR = os.path.expanduser("~/.config/proton-autogen/games")
@@ -1994,7 +1997,7 @@ def run_game_proton(exe_path, exe_type, proton, launch_mode="proton",
 
 
     arch = get_exe_arch(exe_path)
-    print(f"[proton-autogen] EXE architecture: {arch}")
+    notifications.notify("info", "INFO", f"EXE architecture: {arch}")
 
     game_id = hashlib.md5(exe_path.encode()).hexdigest()
 
@@ -2099,28 +2102,7 @@ def run_game_proton(exe_path, exe_type, proton, launch_mode="proton",
             env["MANGOHUD"] = "1"
     else:
         env.pop("MANGOHUD", None)
-    """
-    if enable_mangohud and has_mangohud():
-        env["MANGOHUD"] = "1"
-        env["MANGOHUD_DLSYM"] = "1"
-        env["MANGOHUD_OPENGL"] = "1"
-        env["MANGOHUD_CONFIG"] = "fps_limit=60"
-        env["DXVK_HUD"] = "0"
 
-        if exe_type in ["dx9", "dx9opengl", "oldgame", "ut99", "ut3", "valve"]:
-
-            if is_32bit_exe(exe_path):
-                print("[proton-autogen] 32-bit legacy game detected")
-                mangohud_shim = find_mangohud_shim()
-                if mangohud_shim:
-                    if os.path.exists(mangohud_shim):
-                        env = add_ld_preload(env, mangohud_shim)
-                    else:
-                        print("[proton-autogen] MangoHud 32-bit shim missing")
-
-    else:
-        env.pop("MANGOHUD", None)
-    """
     if enable_gamemode and has_gamemode():
         env["GAMEMODE"] = "1"
 

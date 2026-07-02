@@ -13,13 +13,12 @@ from proton_autogen.ux.dialogs import open_game_file_dialog, show_launch_dialog,
 from proton_autogen.ux.menu import attach_menu
 
 from proton_autogen.ux.search import filter_games
-
+from proton_autogen.notify import notifications
 from proton_autogen.backend import (
     run,
     list_programs_ux,
     add_game,
     get_diagnostic_text,
-    set_toast_callback,
 )
 
 from proton_autogen.stats import is_recent_launch
@@ -44,7 +43,7 @@ class Dashboard(Gtk.ApplicationWindow):
         self.set_size_request(850, 900)
         self.games = []
         self.lang = detect_help_env_lang()
-        set_toast_callback(self._notify_toast_ui)
+        notifications.set_callback(self._notify_toast_ui)
 
         self.build_ui()
         self.refresh_games()

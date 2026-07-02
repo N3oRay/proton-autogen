@@ -4,6 +4,7 @@
 from datetime import datetime, timedelta
 
 from proton_autogen.loader import save_game_config, load_game_config
+from proton_autogen.notify import notifications
 
 
 BADGE_TYPE_PROFILE = [
@@ -407,6 +408,106 @@ BADGE_DEFINITIONS_EN = [
     },
 ]
 
+BADGE_DEFINITIONS_ES = [
+    # -------------------------
+    # CLÁSICOS
+    # -------------------------
+    {
+        "type": "favorite",
+        "label": "⭐",
+        "condition": lambda g: g.get("favorite"),
+        "text": lambda g: "Favorito"
+    },
+    {
+        "type": "recent",
+        "label": "🔥",
+        "condition": lambda g: is_recent_launch(g.get("playtime", {}), 7),
+        "text": lambda g: "Jugado recientemente"
+    },
+    {
+        "type": "time",
+        "label": "⏱",
+        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 3600,
+        "text": lambda g: format_playtime(g.get("playtime", {}).get("seconds", 0))
+    },
+
+    # -------------------------
+    # MODO JUGADOR
+    # -------------------------
+    {
+        "type": "gamemode",
+        "label": "🚀",
+        "condition": lambda g: g.get("features", {}).get("gamemode", False),
+        "text": lambda g: "GameMode activado"
+    },
+    {
+        "type": "mangohud",
+        "label": "📊",
+        "condition": lambda g: g.get("features", {}).get("mangohud", False),
+        "text": lambda g: "MangoHud activado"
+    },
+
+    # -------------------------
+    # RANGOS / HUMOR
+    # -------------------------
+
+    # 👶 Principiante
+    {
+        "type": "rookie",
+        "label": "🐣",
+        "condition": lambda g: 0 < g.get("playtime", {}).get("seconds", 0) < 3600,
+        "text": lambda g: "Principiante (acaba de empezar)"
+    },
+
+    # 🧑 Casual
+    {
+        "type": "casual",
+        "label": "🙂",
+        "condition": lambda g: 3600 <= g.get("playtime", {}).get("seconds", 0) < 10 * 3600,
+        "text": lambda g: "Jugador ocasional"
+    },
+
+    # 🎮 Experimentado
+    {
+        "type": "gamer",
+        "label": "🎮",
+        "condition": lambda g: 10 * 3600 <= g.get("playtime", {}).get("seconds", 0) < 50 * 3600,
+        "text": lambda g: "Jugador experimentado"
+    },
+
+    # 🏆 Hardcore
+    {
+        "type": "heavy",
+        "label": "🏆",
+        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 50 * 3600,
+        "text": lambda g: "Modo hardcore activado"
+    },
+
+    # 💀 Broma
+    {
+        "type": "addict",
+        "label": "💀",
+        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 150 * 3600,
+        "text": lambda g: "Necesita ayuda"
+    },
+
+    # 🌙 Noctámbulo
+    {
+        "type": "night_owl",
+        "label": "🌙",
+        "condition": lambda g: is_recent_launch(g.get("playtime", {}), 1),
+        "text": lambda g: "Activo recientemente (¿noctámbulo?)"
+    },
+
+    # 🧓 Veterano
+    {
+        "type": "veteran",
+        "label": "🧓",
+        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 300 * 3600,
+        "text": lambda g: "Veterano legendario"
+    },
+]
+
 BADGE_DEFINITIONS_ZH = [
     # -------------------------
     # 经典
@@ -513,10 +614,13 @@ BADGE_DEFINITIONS = {
     "fr": BADGE_TYPE_PROFILE + BADGE_TYPE_GAME + BADGE_DEFINITIONS_FR,
     "en": BADGE_TYPE_PROFILE + BADGE_TYPE_GAME + BADGE_DEFINITIONS_EN,
     "zh": BADGE_TYPE_PROFILE + BADGE_TYPE_GAME + BADGE_DEFINITIONS_ZH,
+    "es": BADGE_TYPE_PROFILE + BADGE_TYPE_GAME + BADGE_DEFINITIONS_ES,
 }
 
 
 def get_game_badges(game: dict, lang: str = "en"):
+
+
     badges = []
 
     definitions = BADGE_DEFINITIONS.get(lang, BADGE_DEFINITIONS_EN)
@@ -539,6 +643,15 @@ def get_game_badges(game: dict, lang: str = "en"):
                 badges.append(b)
 
         except Exception as e:
+
+            if lang == "en":
+                notifications.notify("error", "WARNING", "Badge Updates")
+            elif lang == "fr":
+                notifications.notify("error", "WARNING", "Actualisation des Badges")
+            elif lang == "zh":
+                notifications.notify("error", "WARNING", "徽章更新")
+            elif lang == "es":
+                notifications.notify("error", "WARNING", "Actualizaciones de insignias")
             print(f"[badges] error in {badge.get('type')}: {e}")
 
     return badges
