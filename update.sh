@@ -56,6 +56,7 @@ if [ "$LOCAL" = "$REMOTE" ]; then
     echo "==> Already up to date."
 else
     echo "==> Pulling updates..."
+    git restore update.sh
     git pull origin main
 fi
 
