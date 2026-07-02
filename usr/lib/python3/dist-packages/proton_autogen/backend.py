@@ -8,6 +8,7 @@ import shutil
 import subprocess
 import uuid
 import time
+from gi.repository import GLib
 from pathlib import Path
 from shutil import which
 import configparser
@@ -17,6 +18,7 @@ from proton_autogen.profile import *
 from proton_autogen.i18n import *
 from proton_autogen.stats import *
 from proton_autogen.pa_log import show_result, handle_result, show_message
+from proton_autogen.pa_log import notify_simple
 from proton_autogen.diag import print_diagnostic, find_all_protons, find_proton
 
 
@@ -30,6 +32,30 @@ from proton_autogen.diag import print_diagnostic, find_all_protons, find_proton
 # ----------------------------
 # PROTON PATHS FIXED (robuste multi-distro)
 # ----------------------------
+
+TOAST_CALLBACK = None
+
+def set_toast_callback(cb):
+    global TOAST_CALLBACK
+    TOAST_CALLBACK = cb
+
+def notify_ui(level, title, message):
+    print("DEBUG toast called")
+    print(TOAST_CALLBACK)
+
+    if TOAST_CALLBACK:
+        print("CALLING GLIB IDLE ADD")
+        GLib.idle_add(
+            TOAST_CALLBACK,
+            {"level": level, "title": title, "message": message}
+        )
+
+
+def notify(level, title, message, ui=True):
+    print(f"[{level}] {title}: {message}")
+
+    if ui:
+        notify_ui(level, title, message)
 
 def print_runtime_info(proton, exe_path, mangohud_available):
     print("[proton-autogen] Runtime information")
@@ -86,6 +112,10 @@ def finalize_session(exe_path, start_time, exit_code=None):
     # update stats
     # -------------------------
     try:
+
+        name = Path(exe_path).stem
+        notify("info", "Update", f"Update Data : {name}", ui=True)
+
         update_playtime(exe_path, session_seconds)
         result["updated"] = True
     except Exception as e:
@@ -102,6 +132,8 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
 
     if not os.path.exists(exe_path):
         print(f"Error: file not found: {exe_path}")
+
+        notify("warning", "Missing file", f"file not found: {exe_path}")
         sys.exit(1)
 
     # Proton path (à adapter)

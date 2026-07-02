@@ -86,6 +86,48 @@ windowcontrols button:hover,
 
     background:rgba(255,255,255,0.15);
 }
+/* =========================================================
+   TOAST APPLICATION
+   ========================================================= */
+
+.toast-container {
+    background: rgba(20, 20, 28, 0.92);
+
+    border-radius: 12px;
+
+    padding: 10px 14px;
+
+    border-left: 3px solid #7c5cff;
+
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
+
+    outline: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.toast-container:hover {
+    background: linear-gradient(
+        135deg,
+        rgba(40, 40, 55, 0.92),
+        rgba(15, 15, 20, 0.85)
+    );
+}
+
+.toast {
+    color: #eaeaff;
+    font-size: 13px;
+}
+
+.toast.info {
+    border-left-color: #4da3ff;
+}
+
+.toast.warning {
+    border-left-color: #ffb020;
+}
+
+.toast.error {
+    border-left-color: #ff4d4d;
+}
 
 
 /* =========================================================

@@ -5,6 +5,127 @@ import gi
 gi.require_version("Gtk", "4.0")
 from gi.repository import Gtk, Gio, Gdk, GLib
 
+
+
+# -----------------------------------------------------------
+VALID_LEVELS = {"info", "warning", "error"}
+
+
+def build_message_type(level: str, title: str, message: str):
+    return {
+        "level": level if level in VALID_LEVELS else "info",
+        "title": title,
+        "message": message,
+    }
+
+
+# -----------------------------
+# CONSOLE
+# -----------------------------
+def _print(status):
+    print(f"[{status['level'].upper()}] {status['title']}")
+    print(status["message"])
+
+# -----------------------------
+# Toast
+# -----------------------------
+
+def _notify_toast(status, parent=None, timeout=3):
+    """
+    Toast non bloquant GTK4 (overlay simple)
+    """
+
+    win = Gtk.Window(
+        transient_for=parent,
+        decorated=False,
+        resizable=False,
+        modal=False,
+    )
+
+    win.set_default_size(300, 80)
+    win.add_css_class("toast-window")
+
+    box = Gtk.Box(
+        orientation=Gtk.Orientation.VERTICAL,
+        spacing=6,
+        margin_top=10,
+        margin_bottom=10,
+        margin_start=10,
+        margin_end=10,
+    )
+
+    title = Gtk.Label()
+    title.set_markup(f"<b>{status.get('title','')}</b>")
+    title.set_xalign(0)
+
+    message = Gtk.Label(label=status.get("message", ""))
+    message.set_xalign(0)
+    message.set_wrap(True)
+
+    box.append(title)
+    box.append(message)
+
+    win.set_child(box)
+
+    # position simple (top-right approximatif)
+    win.present()
+
+    # auto close
+    GLib.timeout_add_seconds(timeout, win.close)
+
+    return win
+# -----------------------------
+# GTK UI (Dialog simple stable GTK4)
+# -----------------------------
+def _show_ui(status):
+    content = Gtk.Box(
+        orientation=Gtk.Orientation.VERTICAL,
+        spacing=12,
+        margin_top=12,
+        margin_bottom=12,
+        margin_start=12,
+        margin_end=12,
+    )
+
+    title = Gtk.Label()
+    title.set_markup(f"<b>{status.get('title','')}</b>")
+    title.set_xalign(0)
+
+    message = Gtk.Label(label=status.get("message", ""))
+    message.set_xalign(0)
+    message.set_wrap(True)
+    message.set_selectable(True)
+
+    content.append(title)
+    content.append(message)
+
+    dialog = Gtk.Dialog(title=status.get("title", ""))
+    dialog.add_button("OK", Gtk.ResponseType.OK)
+    dialog.set_child(content)
+
+    dialog.connect("response", lambda d, r: d.destroy())
+    dialog.present()
+
+
+# -----------------------------
+# NOTIFY PUBLIC API
+# -----------------------------
+
+
+def notify_simple(level: str, title: str, message: str, ui="toast", parent=None):
+    status = build_message_type(level, title, message)
+
+    print(f"[{status['level'].upper()}] {title}")
+    print(message)
+
+    if ui == "dialog":
+        _show_ui(status)
+
+    elif ui == "toast":
+        _notify_toast(status, parent=parent)
+
+    return status
+
 # ------------------------------------
 # SHOW MESSAGE
 # ------------------------------------
@@ -39,40 +160,6 @@ def show_message(status):
     dialog.present()
 
 
-def show_message_v1(status):
-    """
-    Affiche un message utilisateur.
-
-    status = {
-        "success": False,
-        "code": 10,
-        "level": "error",
-        "title": "Proton not found",
-        "message": "Install Proton GE."
-    }
-    """
-
-    level = status.get("level", "info")
-
-    if level == "error":
-        message_type = Gtk.MessageType.ERROR
-    elif level == "warning":
-        message_type = Gtk.MessageType.WARNING
-    else:
-        message_type = Gtk.MessageType.INFO
-
-    dialog = Gtk.MessageDialog(
-        transient_for=None,
-        modal=True,
-        message_type=message_type,
-        buttons=Gtk.ButtonsType.OK,
-        text=status["title"],
-    )
-
-    dialog.format_secondary_text(status["message"])
-
-    dialog.connect("response", lambda d, r: d.destroy())
-    dialog.show()
 
 def show_result(status, ux_handler=None):
     if status["success"]:
@@ -84,6 +171,7 @@ def show_result(status, ux_handler=None):
     if ux_handler:
         ux_handler(status)
 
+#-----------------------------------------------------------
 
 def handle_result(result):
     """
@@ -121,6 +209,12 @@ def handle_result(result):
             "error",
             "Launch failed",
             "Unable to launch the game."
+        ),
+
+        5: (
+            "error",
+            "Launch failed",
+            "CWD - current working directory. Unable to launch the game."
         ),
 
         10: (

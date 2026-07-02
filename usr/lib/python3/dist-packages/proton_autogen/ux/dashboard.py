@@ -19,21 +19,17 @@ from proton_autogen.backend import (
     list_programs_ux,
     add_game,
     get_diagnostic_text,
+    set_toast_callback,
 )
 
-
+from proton_autogen.stats import is_recent_launch
 from proton_autogen.core import print_about, get_about_text, detect_help_env_lang
 from proton_autogen.info import print_help, get_help_text
-
 from proton_autogen.sensor import get_sensors_text, print_sensors, get_mangohud_advice
-
 
 
 addbouton = False
 refreshbouton = True
-
-
-
 
 
 # -----------------------------
@@ -48,9 +44,62 @@ class Dashboard(Gtk.ApplicationWindow):
         self.set_size_request(850, 900)
         self.games = []
         self.lang = detect_help_env_lang()
+        set_toast_callback(self._notify_toast_ui)
 
         self.build_ui()
         self.refresh_games()
+
+    # -------------------------
+    # Show TOAST
+    # -------------------------
+
+    def _limit_toasts(self, max_toasts=5):
+        children = []
+        child = self._toast_box.get_first_child()
+
+        while child:
+            children.append(child)
+            child = child.get_next_sibling()
+
+        while len(children) > max_toasts:
+            old = children.pop(0)
+            old.unparent()
+
+    def _notify_toast_ui(self, status, timeout=3):
+        text = f"{status.get('title','')} — {status.get('message','')}"
+
+        label = Gtk.Label(label=text)
+        label.set_wrap(True)
+        label.set_xalign(0)
+        label.add_css_class("toast")
+
+        frame = Gtk.Frame()
+        frame.set_child(label)
+        frame.add_css_class("toast-container")
+
+        revealer = Gtk.Revealer()
+        revealer.set_transition_type(Gtk.RevealerTransitionType.SLIDE_DOWN)
+        revealer.set_transition_duration(250)
+        revealer.set_child(frame)
+        #revealer.set_reveal_child(True)
+        GLib.idle_add(lambda: revealer.set_reveal_child(True))
+
+        # Limite 5
+        self._toast_box.append(revealer)
+        self._limit_toasts(5)
+
+        def destroy_toast():
+            revealer.set_reveal_child(False)
+
+            def remove():
+                if revealer.get_parent():
+                    revealer.unparent()
+                return False
+
+            GLib.timeout_add(250, remove)
+            return False
+
+        GLib.timeout_add_seconds(timeout, destroy_toast)
 
     # -------------------------
     # Show MangoHud Sensors :
@@ -267,6 +316,9 @@ class Dashboard(Gtk.ApplicationWindow):
         # =========================
         overlay = Gtk.Overlay()
         self.set_child(overlay)
+        self._overlay = overlay
+
+
 
         # =========================
         # BACKGROUND IMAGE
@@ -315,6 +367,17 @@ class Dashboard(Gtk.ApplicationWindow):
         wrapper.append(root)
 
         overlay.add_overlay(wrapper)
+
+        # =========================
+        # TOAST OVERLAY
+        # =========================
+        self._toast_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        self._toast_box.set_halign(Gtk.Align.CENTER)
+        self._toast_box.set_valign(Gtk.Align.START)
+        self._toast_box.set_margin_top(12)
+        self._toast_box.set_spacing(6)
+
+        overlay.add_overlay(self._toast_box)
 
         # =========================
         # HEADER BAR (MODERN GTK4)
@@ -404,7 +467,7 @@ class Dashboard(Gtk.ApplicationWindow):
     # -------------------------
     # STATS
     # -------------------------
-    def activity_score(g):
+    def activity_score(self, g):
         p = g.get("playtime", {})
         return (
             p.get("seconds", 0) * 0.3 +
