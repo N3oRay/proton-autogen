@@ -1,4 +1,4 @@
-proton-autogen (2.8.1) noble; urgency=medium
+proton-autogen (2.8.2) noble; urgency=medium
 
   * New
     - Added Toast message (FR/EN/ZH/ES)

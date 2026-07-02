@@ -10,11 +10,12 @@ from collections import defaultdict
 from pathlib import Path
 from shutil import which
 from proton_autogen.notify import notifications
+from proton_autogen.type_profile import init_env, env_gtav_compat, env_gtav_x11, env_gtav_safe
 
 
 import configparser
 
-VERSION = "2.8.1"
+VERSION = "2.8.2"
 
 CONFIG_FILE = os.path.expanduser("~/.config/proton-autogen.conf")
 CONFIG_DIR = os.path.expanduser("~/.config/proton-autogen/games")
@@ -813,6 +814,9 @@ def export_default_profiles():
         "dx9dg": env_dx9dg(),
         "dx9": env_dx9(),
         "dx9opengl": env_dx9opengl(),
+        "gtav_compat": env_gtav_compat(),
+        "gtav_x11": env_gtav_x11(),
+        "gtav_safe": env_gtav_safe(),
         "install": env_install_clean(),
         "ut99": env_ut99(),
         "quake": env_quake(),
@@ -856,6 +860,9 @@ def export_default_profiles_full():
         "dx8dg": env_dx8dg(),
         "dx9dg": env_dx9dg(),
         "dx9opengl": env_dx9opengl(),
+        "gtav_compat": env_gtav_compat(),
+        "gtav_x11": env_gtav_x11(),
+        "gtav_safe": env_gtav_safe(),
         "install": env_install_clean(),
         "oldgame": env_oldgame(),
         "ut99": env_ut99(),
@@ -1202,43 +1209,6 @@ def run_standard(exe_path: str):
         return 1
 
 
-
-# ---------------------------------------------------
-# BASE CLEANER (shared)
-# ---------------------------------------------------
-def init_env():
-    env = os.environ.copy()
-
-    for k in [
-        "LD_PRELOAD",
-        "LD_LIBRARY_PATH",
-        "VK_ICD_FILENAMES",
-        "VK_DRIVER_FILES",
-        "DXVK_HUD",
-        "VKD3D_CONFIG",
-        "WINEDEBUG",
-        "RADV_PERFTEST",
-    ]:
-        env.pop(k, None)
-
-
-    # =========================
-    # FIX GStreamer Proton/Wine
-    # =========================
-    for k in [
-        "GST_PLUGIN_PATH",
-        "GST_PLUGIN_SYSTEM_PATH",
-        "GST_REGISTRY",
-        "GST_REGISTRY_UPDATE",
-        "GST_DEBUG",
-    ]:
-        env.pop(k, None)
-
-
-    env["STEAM_COMPAT_APP_ID"] = "0"
-
-
-    return env
 
 # ---------------------------------------------------
 # 0. LAUNCHER PROFILE (legacy Photoshop 6)
@@ -1872,6 +1842,9 @@ def base_env(enable_mangohud=False, enable_gamemode=False, exe_path="", exe_type
         "dx8dg": env_dx8dg,
         "dx9dg": env_dx9dg,
         "dx9opengl": env_dx9opengl,
+        "gtav_compat": env_gtav_compat,
+        "gtav_x11": env_gtav_x11,
+        "gtav_safe": env_gtav_safe,
     }
 
     env = env_factories.get(exe_type, env_dx11)()

@@ -23,7 +23,7 @@ class GameEditor(Gtk.Window):
         #self.set_resizable(True)
         self.on_saved = None
         self.set_size_request(520, 420)
-        self.profile_model = [ "launcher", "dx11", "dx11Bnet", "dx12", "dx9", "dx9opengl", "oldgame", "valve", "ut3", "ut99", "legacy", "desktop"]
+        self.profile_model = [ "launcher", "dx11", "dx11Bnet", "dx12", "dx9", "dx9opengl", "gtav_compat", "gtav_x11", "gtav_safe", "oldgame", "valve", "ut3", "ut99", "legacy", "desktop"]
         self.prefix_model = ["main", "shared", "auto", "custom"]
 
         self.game = game

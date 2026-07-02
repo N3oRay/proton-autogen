@@ -4,7 +4,7 @@ from pathlib import Path
 
 def choose_profile():
     # Note: dx8dg, dx9dg -> instable
-    profiles = [ "launcher", "dx11", "dx11Bnet", "dx12", "dx9", "dx9opengl", "oldgame", "valve", "ut3", "ut99", "legacy", "desktop"]
+    profiles = [ "launcher", "dx11", "dx11Bnet", "dx12", "dx9", "dx9opengl", "gtav_compat", "gtav_x11", "gtav_safe", "oldgame", "valve", "ut3", "ut99", "legacy", "desktop"]
 
     print("\nAvailable profiles:\n")
 
