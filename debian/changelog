@@ -1,6 +1,7 @@
-proton-autogen (2.7.9) noble; urgency=medium
+proton-autogen (2.8.0) noble; urgency=medium
 
   * New
+    - Added Toast message
     - Added Sensors menu (stable).
     - Added advanced diagnostics for Debian, Ubuntu, Linux Mint, Arch Linux and CachyOS.
     - Added Lutris export.
