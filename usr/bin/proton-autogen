@@ -11,6 +11,7 @@ from pathlib import Path
 
 from proton_autogen.backend import *
 from proton_autogen.info import print_help
+from proton_autogen.diag import print_diagnostic
 from proton_autogen.ux.dashboard import start_dashboard
 
 

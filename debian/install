@@ -4,9 +4,14 @@ usr/lib/python3/dist-packages/proton_autogen/loader.py usr/lib/python3/dist-pack
 usr/lib/python3/dist-packages/proton_autogen/pa_log.py usr/lib/python3/dist-packages/proton_autogen/
 usr/lib/python3/dist-packages/proton_autogen/type_profile.py usr/lib/python3/dist-packages/proton_autogen/
 usr/lib/python3/dist-packages/proton_autogen/backend.py usr/lib/python3/dist-packages/proton_autogen/
+usr/lib/python3/dist-packages/proton_autogen/system.py usr/lib/python3/dist-packages/proton_autogen/
+usr/lib/python3/dist-packages/proton_autogen/proton_call.py usr/lib/python3/dist-packages/proton_autogen/
+usr/lib/python3/dist-packages/proton_autogen/dector.py usr/lib/python3/dist-packages/proton_autogen/
+usr/lib/python3/dist-packages/proton_autogen/session.py usr/lib/python3/dist-packages/proton_autogen/
 usr/lib/python3/dist-packages/proton_autogen/requis.py usr/lib/python3/dist-packages/proton_autogen/
 usr/lib/python3/dist-packages/proton_autogen/notify.py usr/lib/python3/dist-packages/proton_autogen/
 usr/lib/python3/dist-packages/proton_autogen/diag.py usr/lib/python3/dist-packages/proton_autogen/
+usr/lib/python3/dist-packages/proton_autogen/util_path.py usr/lib/python3/dist-packages/proton_autogen/
 usr/lib/python3/dist-packages/proton_autogen/sensor.py usr/lib/python3/dist-packages/proton_autogen/
 usr/lib/python3/dist-packages/proton_autogen/lutris.py usr/lib/python3/dist-packages/proton_autogen/
 usr/lib/python3/dist-packages/proton_autogen/lutris_validate.py usr/lib/python3/dist-packages/proton_autogen/

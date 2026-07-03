@@ -19,8 +19,15 @@ from proton_autogen.i18n import *
 from proton_autogen.stats import *
 from proton_autogen.pa_log import show_result, handle_result, show_message
 from proton_autogen.pa_log import notify_simple
-from proton_autogen.diag import print_diagnostic, find_all_protons, find_proton
-from proton_autogen.notify import notifications
+from proton_autogen.diag import find_all_protons, find_proton
+#from proton_autogen.util_path import proton_path, proton_name
+#from proton_autogen.notify import notifications
+# new files:
+from proton_autogen.dector import resolve_game_features, gpu_env
+from proton_autogen.system import detect_system_info
+from proton_autogen.session import finalize_session, notifications
+from proton_autogen.proton_call import launch_proton_call
+
 
 #notifications.notify("info", "Update", "Game launched")
 
@@ -44,63 +51,7 @@ def print_runtime_info(proton, exe_path, mangohud_available):
     print("  GameMode  :", "available" if has_gamemode() else "unavailable")
     print("  MangoHud  :", "available" if mangohud_available else "unavailable")
     print("")
-# ----------------------------------------------------------------------------------------------------
-def finalize_session(exe_path, start_time, exit_code=None):
-    """
-    Finalise une session de jeu et met à jour les statistiques.
-
-    Args:
-        exe_path (str): chemin du jeu
-        start_time (float): time.time() au lancement
-        exit_code (int|None): code retour du process (si disponible)
-
-    Returns:
-        dict: résumé de la session
-    """
-
-    end_time = time.time()
-    session_seconds = int(end_time - start_time)
-
-    result = {
-        "exe_path": exe_path,
-        "session_seconds": session_seconds,
-        "exit_code": exit_code,
-        "status": "unknown",
-        "updated": False
-    }
-
-    # -------------------------
-    # ignore sessions trop courtes
-    # -------------------------
-    if session_seconds <= 0:
-        result["status"] = "ignored_too_short"
-        return result
-
-    # -------------------------
-    # interprétation du résultat
-    # -------------------------
-    if exit_code is None:
-        result["status"] = "no_exit_code"
-    elif exit_code == 0:
-        result["status"] = "clean_exit"
-    else:
-        result["status"] = "crash_or_error"
-
-    # -------------------------
-    # update stats
-    # -------------------------
-    try:
-
-        name = Path(exe_path).stem
-        notifications.notify("info", "Update", f"Update Data : {name}", ui=True)
-
-        update_playtime(exe_path, session_seconds)
-        result["updated"] = True
-    except Exception as e:
-        print("[proton-autogen] stats update failed:", e)
-        result["error"] = str(e)
-
-    return result
+# ---------------------------------------------------------------------------------------------------
 # ---------------------------------------------------------------------------------------------------
 
 def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
@@ -121,6 +72,8 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
     mangohud_available = has_mangohud()
 
     config = load_game_config(exe_path)
+
+    system = detect_system_info()  # ou équivalent existant dans core
     #-------------------------------- Compatibility old profil ------
     exe_type = None
 
@@ -137,8 +90,15 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
     if config:
         saved_proton_name = config.get("proton")
         features = config.get("features", {})
+
         cfg_mangohud = normalize_flag(features.get("mangohud"), False)
         cfg_gamemode = normalize_flag(features.get("gamemode"), False)
+
+        rfeatures = resolve_game_features(
+            {"features": features},
+            system
+        )
+
         proton = find_proton_by_name(saved_proton_name)
 
         if not proton:
@@ -148,6 +108,7 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
         # By Default
         cfg_mangohud = False
         cfg_gamemode = False
+        rfeatures = None
         proton = find_proton()
 
 
@@ -177,71 +138,16 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
         sys.exit(1)
 
     if launch_mode == "proton-call" and has_proton_call():
-        env = base_env(
+        launch_proton_call(
+            exe_path=exe_path,
+            proton=proton,
+            system=system,
+            features=rfeatures,
             enable_mangohud=enable_mangohud,
             enable_gamemode=enable_gamemode,
-            exe_path=exe_path,
-            exe_type=exe_type
+            start_time=start_time,
+            extra_args=[]
         )
-        env["GE_PROTON"] = proton_path(proton)
-        env["GAME_EXE"] = exe_path
-        name = Path(exe_path).stem
-
-        if enable_mangohud:
-            if mangohud_available:
-                notifications.notify("info", "proton-autogen", f"MangoHud : enabled for {name}", ui=False)
-                env["MANGOHUD"] = "1"
-                env["MANGOHUD_DLSYM"] = "1"
-                env["DXVK_HUD"] = "0"
-                env.pop("LD_PRELOAD", None)
-            else:
-                notifications.notify("warning", "[proton-autogen] WARNING: MangoHud requested but not installed", ui=False)
-
-        cmd = []
-
-        if enable_gamemode:
-            if has_gamemode():
-                notifications.notify("info", "proton-autogen", f"GameMode : enabled for {name}", ui=False)
-                #cmd.append("gamemoderun")
-                env["GAMEMODE"] = "1"
-        elif DEBUG or VERBOSE:
-            print("[proton-autogen] GameMode not found")
-
-        cmd = [
-            "proton-call",
-            "-c", proton_path(proton),
-            "-r", exe_path,
-            "--",
-        ] + [exe_path] + sys.argv[2:]
-
-        print(f"[proton-autogen] Launching with {proton_name(proton)}")
-
-        result_code = -1
-
-        if DEBUG or VERBOSE:
-            print("================================")
-            print("COMMAND:")
-            print(" ".join(cmd))
-            print("================================")
-
-            print("ENV:")
-            for k in (
-                "STEAM_COMPAT_DATA_PATH",
-                "STEAM_COMPAT_CLIENT_INSTALL_PATH",
-                "WINEPREFIX",
-                "PROTONPATH",
-                "MANGOHUD",
-                "LD_PRELOAD",
-            ):
-                print(f"{k}={env.get(k)}")
-        result_code = subprocess.run(cmd, env=env)
-        #
-        status = handle_result(result_code)
-        finalize_session(exe_path, start_time, result_code) # Stats
-
-        show_result(status, show_message)
-
-        sys.exit(status["code"])
 
     elif launch_mode == "proton" and proton:
 
@@ -254,7 +160,8 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
             notifications.notify("info", "proton-autogen", f"LOAD CONFIG PREFIX : {prefix_mode}", ui=True)
 
         result_code = -1
-        result_code = run_game_proton(exe_path, exe_type, proton, "proton", enable_mangohud, enable_gamemode, prefix_mode)
+        result_code = run_game_proton(exe_path=exe_path, exe_type=exe_type, proton=proton, system=system, features=rfeatures, enable_mangohud=enable_mangohud,
+         enable_gamemode=enable_gamemode, prefix_mode=prefix_mode)
         if DEBUG or VERBOSE:
             print(type(result_code))
             print(result_code)
@@ -280,10 +187,7 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
         sys.exit(status["code"])
 
 #---------------------------------------------------------------------------------------------
-def proton_name(p):
-    if isinstance(p, dict):
-        return p.get("name", "Unknown Proton")
-    return os.path.basename(p) if p else "Unknown Proton"
+
 
 def list_protons():
     protons = find_all_protons()

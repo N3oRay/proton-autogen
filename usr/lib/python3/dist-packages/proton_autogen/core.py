@@ -11,11 +11,13 @@ from pathlib import Path
 from shutil import which
 from proton_autogen.notify import notifications
 from proton_autogen.type_profile import init_env, env_gtav_compat, env_gtav_x11, env_gtav_safe
+from proton_autogen.dector import resolve_game_features, gpu_env
+from proton_autogen.util_path import proton_path, proton_name
 
 
 import configparser
 
-VERSION = "2.8.3"
+VERSION = "2.8.4"
 
 CONFIG_FILE = os.path.expanduser("~/.config/proton-autogen.conf")
 CONFIG_DIR = os.path.expanduser("~/.config/proton-autogen/games")
@@ -26,10 +28,7 @@ VERBOSE = "--verbose" in sys.argv
 USER_PROFILE = None
 USER_PROFILE_DATA = None
 
-def proton_path(p):
-    if isinstance(p, dict):
-        return p.get("path")
-    return p
+
 
 
 def load_proton_paths():
@@ -1921,7 +1920,7 @@ def base_env(enable_mangohud=False, enable_gamemode=False, exe_path="", exe_type
     else:
         print(f"[proton-autogen] SYNC: MANGOHUD={env.get('MANGOHUD')} MANGOHUD_DLSYM={env.get('MANGOHUD_DLSYM')}")
         print(
-            f"[proton-autogen] Apply PROFILE={exe_type.upper()} | "
+            f"[proton-autogen] Apply PROFILE={(exe_type or "unknown").upper()} | "
             f"SYNC={'ON' if env.get('WINEESYNC') == '1' else 'OFF'} | "
             f"WINED3D={'ON' if env.get('PROTON_USE_WINED3D') == '1' else 'OFF'} | "
             f"XALIA={'OFF' if env.get('PROTON_USE_XALIA') == '0' else 'ON'} | "
@@ -1964,7 +1963,8 @@ def check_mangohud_abi(lib):
     out = subprocess.getoutput(f"ldd {lib}")
     return "libspdlog.so.1.15" not in out
 
-def run_game_proton(exe_path, exe_type, proton, launch_mode="proton",
+def run_game_proton(exe_path, exe_type, proton,
+                    system, features,
                     enable_mangohud=False, enable_gamemode=False,
                     prefix_mode="main"):
 
@@ -1977,63 +1977,33 @@ def run_game_proton(exe_path, exe_type, proton, launch_mode="proton",
     # =========================
     # PROTON MODE
     # =========================
-    if launch_mode == "proton":
-
-        env = base_env(
-            enable_mangohud=enable_mangohud,
-            enable_gamemode=enable_gamemode,
-            exe_path=exe_path,
-            exe_type=exe_type
+    env = base_env(
+        enable_mangohud=enable_mangohud,
+        enable_gamemode=enable_gamemode,
+        exe_path=exe_path,
+        exe_type=exe_type
         )
 
-        prefix_path = get_prefix_path(prefix_mode, exe_path)
-        print(f"[proton-autogen] Prefix mode : {prefix_mode}")
-        print(f"[proton-autogen] Prefix path : {prefix_path}")
+    prefix_path = get_prefix_path(prefix_mode, exe_path)
+    print(f"[proton-autogen] Prefix mode : {prefix_mode}")
+    print(f"[proton-autogen] Prefix path : {prefix_path}")
 
-        env["STEAM_COMPAT_DATA_PATH"] = prefix_path
-        os.makedirs(prefix_path, exist_ok=True)
+    env["STEAM_COMPAT_DATA_PATH"] = prefix_path
+    os.makedirs(prefix_path, exist_ok=True)
 
-        env["STEAM_COMPAT_CLIENT_INSTALL_PATH"] = os.path.expanduser("~/.steam/steam")
-        env["STEAM_COMPAT_TOOL_PATHS"] = proton_path(proton)
+    env["STEAM_COMPAT_CLIENT_INSTALL_PATH"] = os.path.expanduser("~/.steam/steam")
+    env["STEAM_COMPAT_TOOL_PATHS"] = proton_path(proton)
 
-        cmd = [
-            os.path.join(proton_path(proton), "proton"),
-            "run",
-            exe_path
-        ]
+    # -------------------------
+    # GPU layer (UX + system merge)
+    # -------------------------
+    env.update(gpu_env(system, features))
 
-    # =========================
-    # PROTON-CALL MODE
-    # =========================
-    elif launch_mode == "proton-call":
-
-        env = base_env(
-            enable_mangohud=enable_mangohud,
-            enable_gamemode=enable_gamemode,
-            exe_path=exe_path,
-            exe_type=exe_type
-        )
-
-        # keep prefix if defined externally
-        if "STEAM_COMPAT_DATA_PATH" not in os.environ:
-            env.pop("STEAM_COMPAT_DATA_PATH", None)
-
-        for k in [
-            "STEAM_COMPAT_CLIENT_INSTALL_PATH",
-            "STEAM_COMPAT_TOOL_PATHS",
-            "STEAM_COMPAT_APP_ID"
-        ]:
-            env.pop(k, None)
-
-        cmd = [
-            "proton-call",
-            "-c", proton_path(proton),
-            "-r", exe_path,
-            "--",
-        ] + [exe_path] + sys.argv[2:]
-
-    else:
-        raise ValueError(f"Unknown launch mode: {launch_mode}")
+    cmd = [
+        os.path.join(proton_path(proton), "proton"),
+        "run",
+        exe_path
+    ]
 
     # =========================
     # COMMON OPTIONS
@@ -2079,7 +2049,7 @@ def run_game_proton(exe_path, exe_type, proton, launch_mode="proton",
     if enable_gamemode and has_gamemode():
         env["GAMEMODE"] = "1"
 
-    print(f"[proton-autogen] Launch mode: {launch_mode}")
+    print(f"[proton-autogen] Launch mode: Proton ")
 
 
     if enable_mangohud and has_mangohud():
