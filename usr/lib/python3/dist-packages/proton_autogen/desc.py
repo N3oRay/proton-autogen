@@ -180,6 +180,96 @@ _DESCRIPTIONS = {
             "Systemleistung optimieren",
     },
 
+    "uk": {
+
+        "profile":
+            "Визначає режим запуску та оптимізації, що застосовуються до гри (DX11, DX12, "
+            "сумісність, старі ігри або специфічні конфігурації).",
+
+        "proton":
+            "Версія Proton, що використовується для запуску гри в Linux. "
+            "Різні версії можуть покращити сумісність, продуктивність або виправити помилки.",
+
+        "show_performance":
+            "Показує в грі панель з FPS, використанням CPU, GPU, пам’яті та іншими "
+            "показниками продуктивності.",
+
+        "optimize_performance":
+            "Автоматично оптимізує продуктивність системи під час запуску гри, "
+            "налаштовуючи пріоритети та параметри.",
+
+        "mangohud":
+            "MangoHud — це оверлей, який у реальному часі показує FPS, завантаження CPU/GPU, "
+            "температуру, використання пам’яті та іншу корисну інформацію.",
+
+        "gamemode":
+            "GameMode — це системний сервіс, який тимчасово оптимізує систему під час гри "
+            "для покращення продуктивності та зменшення затримок.",
+
+        "gpu":
+            "Визначає режим оптимізації GPU для гри: "
+            "auto (автоматичне визначення), safe (максимальна сумісність), "
+            "balanced (збалансований режим) або performance (максимальна продуктивність / FPS).",
+
+        "prefix":
+            "Ізольоване середовище, що містить конфігурацію Windows, бібліотеки та програмне "
+            "забезпечення для цієї програми. Кожне середовище незалежне, щоб уникнути конфліктів між іграми.",
+
+        "prefix_short":
+            "Створити окреме середовище для цієї програми.",
+
+        "performance_overlay":
+            "Показати продуктивність (FPS, CPU, GPU)",
+
+        "system_optimization":
+            "Оптимізувати продуктивність системи",
+    },
+
+    "pt": {
+
+        "profile":
+            "Define o modo de execução e as otimizações aplicadas ao jogo (DX11, DX12, "
+            "compatibilidade, jogos antigos ou configurações específicas).",
+
+        "proton":
+            "Versão do Proton usada para executar o jogo no Linux. "
+            "Diferentes versões podem melhorar a compatibilidade, o desempenho ou corrigir erros.",
+
+        "show_performance":
+            "Exibe no jogo um painel com FPS, uso de CPU, GPU, memória e outras "
+            "estatísticas de desempenho.",
+
+        "optimize_performance":
+            "Otimiza automaticamente o desempenho do sistema durante a execução do jogo, "
+            "ajustando prioridades e configurações.",
+
+        "mangohud":
+            "O MangoHud é uma sobreposição que exibe em tempo real FPS, uso de CPU/GPU, "
+            "temperatura, uso de memória e outras informações úteis.",
+
+        "gamemode":
+            "O GameMode é um serviço do sistema que otimiza temporariamente o desempenho durante o jogo "
+            "para melhorar a performance e reduzir travamentos.",
+
+        "gpu":
+            "Define o modo de otimização da GPU no jogo: "
+            "auto (detecção automática), safe (máxima compatibilidade), "
+            "balanced (equilibrado) ou performance (máximo desempenho/FPS).",
+
+        "prefix":
+            "Um ambiente isolado contendo a configuração do Windows, bibliotecas e softwares "
+            "instalados para esta aplicação. Cada ambiente é independente para evitar conflitos entre jogos.",
+
+        "prefix_short":
+            "Criar um ambiente separado para esta aplicação.",
+
+        "performance_overlay":
+            "Mostrar desempenho (FPS, CPU, GPU)",
+
+        "system_optimization":
+            "Otimizar o desempenho do sistema",
+    },
+
     "en": {
         "profile":
             "Defines the execution profile and optimizations applied to the game (DX11, DX12, "

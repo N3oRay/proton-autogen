@@ -73,6 +73,10 @@ def detect_language():
         return "es"
     if lang.startswith("zh"):
         return "zh"
+    if lang.startswith("uk"):
+        return "uk"
+    if lang.startswith("pt"):
+        return "pt"
 
     return "en"
 

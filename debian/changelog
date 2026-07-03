@@ -1,9 +1,9 @@
-proton-autogen (2.8.5) noble; urgency=medium
+proton-autogen (2.8.6) noble; urgency=medium
 
   * New
     - Added edit profil GPU profile detection (AMD/NVIDIA).
     - Added automatic GPU profile detection (AMD/NVIDIA).
-    - Added new Requirements menu (FR/EN/ZH/ES/DE).
+    - Added new Requirements menu (FR/EN/ZH/ES/DE/UK/PT).
     - Added toast notifications (FR/EN/ZH/ES).
     - Added Sensors menu (stable).
     - Added advanced diagnostics for Debian, Ubuntu, Linux Mint, Arch Linux and CachyOS.
