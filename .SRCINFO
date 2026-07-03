@@ -1,18 +1,17 @@
 pkgbase = proton-autogen
-        pkgdesc = Automatic Proton/Wine launcher for Windows executables
-        pkgver = 2.8.7
-        pkgrel = 1
-        url = https://github.com/N3oRay/proton-autogen
-        arch = x86_64
-        license = MIT
-        depends = python
-        depends = python-gobject
-        depends = python-yaml
-        depends = gtk4
-        depends = glib2
-        depends = gobject-introspection-runtime
-        source = git+https://github.com/N3oRay/proton-autogen.git
-        sha256sums = SKIP
+	pkgdesc = Automatic Proton/Wine launcher for Windows executables
+	pkgver = 2.8.7.1.ga8dcc8c
+	pkgrel = 1
+	url = https://github.com/N3oRay/proton-autogen
+	arch = x86_64
+	license = MIT
+	depends = python
+	depends = python-gobject
+	depends = python-pyyaml
+	depends = gtk4
+	depends = glib2
+	depends = gobject-introspection-runtime
+	source = git+https://github.com/N3oRay/proton-autogen.git
+	sha256sums = SKIP
 
 pkgname = proton-autogen
-
