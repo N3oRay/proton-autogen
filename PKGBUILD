@@ -18,22 +18,23 @@ depends=(
 source=("git+https://github.com/N3oRay/proton-autogen.git")
 sha256sums=('SKIP')
 
+pkgver() {
+  cd "$srcdir/proton-autogen"
+  git describe --tags --long | sed 's/^v//; s/-/./g'
+}
+
 package() {
   cd "$srcdir/proton-autogen"
 
-  # CLI
   install -Dm755 usr/bin/proton-autogen \
     "$pkgdir/usr/bin/proton-autogen"
 
-  # Desktop file
   install -Dm644 usr/share/applications/proton-autogen.desktop \
     "$pkgdir/usr/share/applications/proton-autogen.desktop"
 
-  # Icons
   cp -r usr/share/icons "$pkgdir/usr/share/"
 
-  # Python module (PROPRE Arch way)
-  install -d "$pkgdir/usr/lib/python3.*/site-packages/proton_autogen"
-  cp -r proton_autogen/* \
-    "$pkgdir/usr/lib/python3.*/site-packages/proton_autogen/"
+  install -d "$pkgdir/usr/lib/python3.*/site-packages/"
+  cp -r proton_autogen \
+    "$pkgdir/usr/lib/python3.*/site-packages/"
 }
