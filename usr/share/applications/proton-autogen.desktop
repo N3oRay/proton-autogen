@@ -5,16 +5,16 @@ Type=Application
 Name=Proton-Autogen
 Name[fr]=Proton-Autogen
 
-Comment=Run Windows executables with Proton or Wine
-Comment[fr]=Exécuter des programmes Windows avec Proton ou Wine
+Comment=Manage and run Windows games with Proton and per-game optimization
+Comment[fr]=Gérer et exécuter des jeux Windows avec Proton et des optimisations par jeu
 
-Exec=proton-autogen %f
+Exec=proton-autogen --ux
+Icon=proton-autogen
 
-Icon=wine
 Terminal=false
 StartupNotify=false
 
-MimeType=application/x-ms-dos-executable;application/x-msdownload;application/vnd.microsoft.portable-executable;
-
 Categories=Game;Utility;
-Keywords=Proton;Wine;Windows;EXE;
+Keywords=Proton;Wine;Windows;Gaming;Launcher;
+
+MimeType=application/x-ms-dos-executable;application/x-msdownload;application/vnd.microsoft.portable-executable;
