@@ -4,3 +4,7 @@ debian/debhelper-build-stamp
 debian/*.substvars
 debian/proton-autogen/
 debian/files
+pkg/
+src/
+*.pkg.tar.zst
+*.pkg.tar.zst.sig
