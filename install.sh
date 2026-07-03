@@ -72,8 +72,19 @@ sudo install -Dm755 \
     /usr/bin/proton-autogen
 
 echo "==> Installing resources..."
-sudo mkdir -p /usr/share/proton-autogen
-sudo cp -r usr/share/* /usr/share/proton-autogen/ 2>/dev/null || true
+
+sudo install -d /usr/share/proton-autogen
+sudo cp -r usr/share/proton-autogen/* /usr/share/proton-autogen/
+
+sudo install -d /usr/share/applications
+sudo install -m644 \
+    usr/share/applications/proton-autogen.desktop \
+    /usr/share/applications/
+
+sudo install -d /usr/share/icons/hicolor/256x256/apps
+sudo install -m644 \
+    usr/share/icons/hicolor/256x256/apps/proton-autogen.png \
+    /usr/share/icons/hicolor/256x256/apps/
 
 echo "==> Installing Python module..."
 
