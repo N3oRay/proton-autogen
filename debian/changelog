@@ -1,8 +1,9 @@
-proton-autogen (2.8.3) noble; urgency=medium
+proton-autogen (2.8.4) noble; urgency=medium
 
   * New
-    - Added New menu requis (FR/EN/ZH/ES/DE)
-    - Added Toast message (FR/EN/ZH/ES)
+    - Added automatic GPU profile detection (AMD/NVIDIA).
+    - Added new Requirements menu (FR/EN/ZH/ES/DE).
+    - Added toast notifications (FR/EN/ZH/ES).
     - Added Sensors menu (stable).
     - Added advanced diagnostics for Debian, Ubuntu, Linux Mint, Arch Linux and CachyOS.
     - Added Lutris export.
@@ -12,18 +13,19 @@ proton-autogen (2.8.3) noble; urgency=medium
   * UX
     - Added profile badges (DX11, DX12, Win95, Install, etc.).
     - Added platform and game badges (Steam, Battle.net, Favorites, Playtime, etc.).
-    - Added live badge (FR/EN/ZH/ES/DE)
-    - Improved GameList layout and GTK4 interface.
+    - Added live badges (FR/EN/ZH/ES/DE).
+    - Improved Game List layout and GTK4 interface.
 
   * Statistics
     - Improved playtime tracking and dashboard statistics.
 
   * Runtime
     - Improved Proton launch stability.
-    - Improved session tracking and error handling.
+    - Improved session tracking.
+    - Improved runtime error handling.
 
   * Backend
-    - Improved configuration handling.
+    - Improved configuration management.
     - Improved prefix management.
     - Improved Proton detection and selection.
 
@@ -35,10 +37,10 @@ proton-autogen (2.8.3) noble; urgency=medium
   * Bug fixes
     - Fixed launch return code handling.
     - Fixed badge refresh issues.
-    - Fixed GameList update inconsistencies.
+    - Fixed Game List update inconsistencies.
 
   * Developer
     - Improved backend/UI separation.
     - Improved debugging tools and internal APIs.
 
- -- N3oray <n3oray77@gmail.com>  Wed, 01 Jul 2026 23:59:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Fri, 03 Jul 2026 23:59:00 +0200

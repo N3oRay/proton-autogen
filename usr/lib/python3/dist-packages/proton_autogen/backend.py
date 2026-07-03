@@ -23,7 +23,7 @@ from proton_autogen.diag import find_all_protons, find_proton
 #from proton_autogen.util_path import proton_path, proton_name
 #from proton_autogen.notify import notifications
 # new files:
-from proton_autogen.dector import resolve_game_features, gpu_env
+from proton_autogen.dector import resolve_game_features
 from proton_autogen.system import detect_system_info
 from proton_autogen.session import finalize_session, notifications
 from proton_autogen.proton_call import launch_proton_call
@@ -74,6 +74,9 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
     config = load_game_config(exe_path)
 
     system = detect_system_info()  # ou équivalent existant dans core
+    print("[proton-autogen] System information:")
+    for key, value in system.items():
+        print(f"  {key}: {value}")
     #-------------------------------- Compatibility old profil ------
     exe_type = None
 

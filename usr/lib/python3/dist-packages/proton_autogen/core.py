@@ -2061,6 +2061,9 @@ def run_game_proton(exe_path, exe_type, proton,
             "MANGOHUD_DLSYM",
             "MANGOHUD_CONFIG",
             "MANGOHUD_OPENGL",
+            "PROTON_ENABLE_NVAPI",
+            "__GL_SHADER_DISK_CACHE",
+            "RADV_PERFTEST",
             "LD_PRELOAD"
         ]:
             print(f"[DEBUG] {key}={env.get(key)}")

@@ -1,6 +1,37 @@
 import os
 import subprocess
 
+from pathlib import Path
+
+def detect_gpu():
+    vendors = set()
+
+    drm = Path("/sys/class/drm")
+
+    if not drm.exists():
+        return "unknown"
+
+    for card in drm.glob("card[0-9]*"):
+        vendor = card / "device/vendor"
+
+        if vendor.exists():
+            try:
+                vendors.add(vendor.read_text().strip())
+            except OSError:
+                pass
+
+    # priorité au GPU le plus performant
+    if "0x10de" in vendors:
+        return "nvidia"
+
+    if "0x1002" in vendors:
+        return "amd"
+
+    if "0x8086" in vendors:
+        return "intel"
+
+    return "unknown"
+
 def detect_system_info():
     system = {
         "gpu": "unknown",
@@ -32,28 +63,7 @@ def detect_system_info():
     # GPU detection (simple + practical)
     # -------------------------
     try:
-        # NVIDIA check
-        if subprocess.run(
-            ["which", "nvidia-smi"],
-            capture_output=True
-        ).returncode == 0:
-            system["gpu"] = "nvidia"
-
-        # AMD check fallback
-        elif os.path.exists("/sys/class/drm/card0/device/vendor"):
-            try:
-                with open("/sys/class/drm/card0/device/vendor", "r") as f:
-                    vendor = f.read().strip()
-
-                # AMD vendor id = 0x1002
-                if vendor == "0x1002":
-                    system["gpu"] = "amd"
-            except:
-                pass
-
-        # fallback Intel
-        else:
-            system["gpu"] = "intel"
+        system["gpu"] = detect_gpu()
 
     except Exception:
         system["gpu"] = "unknown"
