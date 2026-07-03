@@ -2,6 +2,7 @@ proton-autogen
 ==============
 
 Smart Proton launcher for Windows .exe files on Linux.
+Automatic Linux gaming environment configurator
 
 ----------------------------------------
 DESCRIPTION
