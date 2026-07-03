@@ -1,5 +1,5 @@
 pkgname=proton-autogen
-pkgver=2.8.7
+pkgver=2.8.7.1.ga8dcc8c
 pkgrel=1
 pkgdesc="Automatic Proton/Wine launcher for Windows executables"
 arch=('x86_64')
@@ -9,7 +9,7 @@ license=('MIT')
 depends=(
   python
   python-gobject
-  python-yaml
+  python-pyyaml
   gtk4
   glib2
   gobject-introspection-runtime
@@ -19,7 +19,7 @@ source=("git+https://github.com/N3oRay/proton-autogen.git")
 sha256sums=('SKIP')
 
 pkgver() {
-  cd "$srcdir/proton-autogen"
+  cd "$srcdir/$pkgname"
   git describe --tags --long | sed 's/^v//; s/-/./g'
 }
 
