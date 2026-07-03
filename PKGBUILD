@@ -24,17 +24,20 @@ pkgver() {
 }
 
 package() {
-  cd "$srcdir/proton-autogen"
+    cd "$srcdir/proton-autogen"
 
-  install -Dm755 usr/bin/proton-autogen \
-    "$pkgdir/usr/bin/proton-autogen"
+    install -Dm755 usr/bin/proton-autogen \
+        "$pkgdir/usr/bin/proton-autogen"
 
-  install -Dm644 usr/share/applications/proton-autogen.desktop \
-    "$pkgdir/usr/share/applications/proton-autogen.desktop"
+    install -Dm644 usr/share/applications/proton-autogen.desktop \
+        "$pkgdir/usr/share/applications/proton-autogen.desktop"
 
-  cp -r usr/share/icons "$pkgdir/usr/share/"
+    cp -r usr/share/icons "$pkgdir/usr/share/"
 
-  install -d "$pkgdir/usr/lib/python3.*/site-packages/"
-  cp -r proton_autogen \
-    "$pkgdir/usr/lib/python3.*/site-packages/"
+    PYTHON_SITE=$(python -c "import sysconfig; print(sysconfig.get_paths()['purelib'])")
+
+    install -d "$pkgdir/$PYTHON_SITE"
+
+    cp -r usr/lib/python3/dist-packages/proton_autogen \
+        "$pkgdir/$PYTHON_SITE/"
 }
