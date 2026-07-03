@@ -1985,8 +1985,10 @@ def run_game_proton(exe_path, exe_type, proton,
         )
 
     prefix_path = get_prefix_path(prefix_mode, exe_path)
-    print(f"[proton-autogen] Prefix mode : {prefix_mode}")
-    print(f"[proton-autogen] Prefix path : {prefix_path}")
+    #print(f"[proton-autogen] Prefix mode : {prefix_mode}")
+    notifications.notify("info", "Prefix mode", f"Prefix mode : {prefix_mode}")
+    #print(f"[proton-autogen] Prefix path : {prefix_path}")
+    notifications.notify("info", "Prefix path", f"Prefix path : {prefix_path}")
 
     env["STEAM_COMPAT_DATA_PATH"] = prefix_path
     os.makedirs(prefix_path, exist_ok=True)

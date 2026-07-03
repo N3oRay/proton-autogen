@@ -7,7 +7,13 @@ Standards-Version: 4.7.0
 
 Package: proton-autogen
 Architecture: all
-Depends: python3, coreutils, desktop-file-utils
+Depends: python3,
+         coreutils,
+         desktop-file-utils,
+         python3-gi,
+         python3-gi-cairo,
+         libgtk-4-1,
+         gir1.2-gtk-4.0
 Recommends: wine, gamemode
 Description: Automatic Proton launcher for Windows executables
  Proton-Autogen automatically launches Windows executables using Proton

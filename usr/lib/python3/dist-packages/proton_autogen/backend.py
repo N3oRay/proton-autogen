@@ -20,8 +20,6 @@ from proton_autogen.stats import *
 from proton_autogen.pa_log import show_result, handle_result, show_message
 from proton_autogen.pa_log import notify_simple
 from proton_autogen.diag import find_all_protons, find_proton
-#from proton_autogen.util_path import proton_path, proton_name
-#from proton_autogen.notify import notifications
 # new files:
 from proton_autogen.dector import resolve_game_features
 from proton_autogen.system import detect_system_info
