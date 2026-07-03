@@ -25,6 +25,12 @@ class GameEditor(Gtk.Window):
         self.set_size_request(520, 420)
         self.profile_model = [ "launcher", "dx11", "dx11Bnet", "dx12", "dx9", "dx9opengl", "gtav_compat", "gtav_x11", "gtav_safe", "oldgame", "valve", "ut3", "ut99", "legacy", "desktop"]
         self.prefix_model = ["main", "shared", "auto", "custom"]
+        self.gpu_model = [
+            "auto",
+            "safe",
+            "balanced",
+            "performance"
+        ]
 
         self.game = game
         self.lang = lang
@@ -56,6 +62,7 @@ class GameEditor(Gtk.Window):
         # PROFILE SELECT
         # -------------------------
         self.profile = Gtk.DropDown.new_from_strings(self.profile_model)
+        set_tooltip(self.profile, "profile", self.lang) # new
 
         current_profile = self.game.get("exe_type", "dx11")
 
@@ -73,6 +80,8 @@ class GameEditor(Gtk.Window):
         self.protons = find_all_protons()
         self.proton_names = [os.path.basename(p) for p in self.protons]
         self.proton = Gtk.DropDown.new_from_strings(self.protons)
+        set_tooltip(self.proton, "proton", self.lang) # new
+
         current = self.game.get("proton", "")
         if current in self.protons:
             self.proton.set_selected(self.protons.index(current))
@@ -106,6 +115,21 @@ class GameEditor(Gtk.Window):
         self.gamemode.add_css_class("feature-toggle")
         self.gamemode.set_active(features.get("gamemode", False))
         set_tooltip(self.gamemode, "gamemode", self.lang) #new code
+
+
+        # -------------------------
+        # GPU MODE
+        # -------------------------
+        self.gpu = Gtk.DropDown.new_from_strings(self.gpu_model)
+
+        current_gpu = features.get("gpu", "auto")
+
+        if current_gpu in self.gpu_model:
+            self.gpu.set_selected(self.gpu_model.index(current_gpu))
+
+        set_tooltip(self.gpu, "gpu", self.lang)
+
+        root.append(self._row("GPU Mode", self.gpu))
 
 
         root.append(self.mangohud)
@@ -149,6 +173,12 @@ class GameEditor(Gtk.Window):
         exe_type = self.profile_model[self.profile.get_selected()] if self.profile.get_selected() >= 0 else "dx11"
         prefix = self.prefix_model[self.prefix.get_selected()] if self.prefix.get_selected() >= 0 else "main"
 
+        gpu = (
+            self.gpu_model[self.gpu.get_selected()]
+            if self.gpu.get_selected() >= 0
+            else "auto"
+        )
+
         data = {
             "path": self.game["path"],
             "name": self.game.get("name"),
@@ -159,7 +189,8 @@ class GameEditor(Gtk.Window):
             },
             "features": {
                 "mangohud": self.mangohud.get_active(),
-                "gamemode": self.gamemode.get_active()
+                "gamemode": self.gamemode.get_active(),
+                "gpu": gpu
             }
         }
 

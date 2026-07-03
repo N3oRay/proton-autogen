@@ -13,6 +13,12 @@
 # Dectection des profils GPU / OS
 # dector.py
 
+
+# Résout les fonctionnalités du jeu avant leur utilisation.
+# Les options automatiques (ex. gpu="auto") sont remplacées
+# par une valeur adaptée au système détecté, sans modifier
+# la configuration d'origine du jeu.
+# Si l'utilisateur n'a pas choisi explicitement un profil GPU, on le détermine automatiquement en fonction du système.
 def resolve_game_features(game: dict, system: dict):
     features = game.get("features", {}).copy()
 

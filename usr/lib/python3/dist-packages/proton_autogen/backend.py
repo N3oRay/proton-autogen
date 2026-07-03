@@ -96,11 +96,17 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
 
         cfg_mangohud = normalize_flag(features.get("mangohud"), False)
         cfg_gamemode = normalize_flag(features.get("gamemode"), False)
-
+        # Load features -----------------------------------------------
         rfeatures = resolve_game_features(
             {"features": features},
             system
         )
+        # Message features -----------------------------------------------
+        message = " | ".join(
+            f"{key}: {value}"
+            for key, value in rfeatures.items()
+        )
+        notifications.notify("info", "proton-autogen", message, ui=True)
 
         proton = find_proton_by_name(saved_proton_name)
 
@@ -429,7 +435,8 @@ def add_game(exe_path: str):
         "features": {
             "mangohud": False,
             "gamemode": False,
-            "xalia": None
+            "xalia": None,
+            "gpu": "auto"
         },
 
         "sync": {
@@ -532,7 +539,8 @@ def edit_game_ui(exe_path: str):
         print(f"3) Prefix     : {config['prefix']['name']}")
         print(f"4) MangoHud   : {config['features']['mangohud']}")
         print(f"5) GameMode   : {config['features']['gamemode']}")
-        print("6) Save & Quit")
+        print(f"6) GPU Mode   : {config['features'].get('gpu', 'auto')}")
+        print("7) Save & Quit")
         print("0) Cancel")
 
         choice = input("\nSelection: ").strip()
@@ -574,6 +582,21 @@ def edit_game_ui(exe_path: str):
             config["features"]["gamemode"] = not current
 
         elif choice == "6":
+            modes = ["auto", "safe", "balanced", "performance"]
+
+            current = config["features"].get("gpu", "auto")
+
+            print("\nGPU mode:")
+            for i, mode in enumerate(modes, 1):
+                marker = "*" if mode == current else " "
+                print(f"{i}) [{marker}] {mode}")
+
+            sel = input("Selection: ").strip()
+
+            if sel in ("1", "2", "3", "4"):
+                config["features"]["gpu"] = modes[int(sel) - 1]
+
+        elif choice == "7":
             with open(config_path, "w") as f:
                 json.dump(config, f, indent=2)
 

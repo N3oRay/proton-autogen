@@ -17,7 +17,7 @@ from proton_autogen.util_path import proton_path, proton_name
 
 import configparser
 
-VERSION = "2.8.4"
+VERSION = "2.8.5"
 
 CONFIG_FILE = os.path.expanduser("~/.config/proton-autogen.conf")
 CONFIG_DIR = os.path.expanduser("~/.config/proton-autogen/games")
