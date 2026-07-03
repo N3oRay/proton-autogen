@@ -1,21 +1,20 @@
-proton-autogen (2.8.6) noble; urgency=medium
+proton-autogen (2.8.7) noble; urgency=medium
 
-  * New
-    - Added edit profil GPU profile detection (AMD/NVIDIA).
-    - Added automatic GPU profile detection (AMD/NVIDIA).
-    - Added new Requirements menu (FR/EN/ZH/ES/DE/UK/PT).
+  * New features
+    - Added GPU profile editing and automatic GPU profile detection (AMD/NVIDIA).
+    - Introduced a new Requirements menu (FR/EN/ZH/ES/DE/UK/PT).
     - Added toast notifications (FR/EN/ZH/ES).
     - Added Sensors menu (stable).
-    - Added advanced diagnostics for Debian, Ubuntu, Linux Mint, Arch Linux and CachyOS.
-    - Added Lutris export.
+    - Added advanced diagnostics for Debian, Ubuntu, Linux Mint, Arch Linux, and CachyOS.
+    - Added Lutris export functionality.
     - Added UX error handler.
     - Fixed MangoHud working directory handling for 32-bit applications.
 
   * UX
     - Added profile badges (DX11, DX12, Win95, Install, etc.).
     - Added platform and game badges (Steam, Battle.net, Favorites, Playtime, etc.).
-    - Added live badges (FR/EN/ZH/ES/DE).
-    - Improved Game List layout and GTK4 interface.
+    - Added live language badges (FR/EN/ZH/ES/DE).
+    - Improved game list layout and GTK4 interface.
 
   * Statistics
     - Improved playtime tracking and dashboard statistics.
@@ -26,8 +25,7 @@ proton-autogen (2.8.6) noble; urgency=medium
     - Improved runtime error handling.
 
   * Backend
-    - Improved configuration management.
-    - Improved prefix management.
+    - Improved configuration and prefix management.
     - Improved Proton detection and selection.
 
   * Game management
@@ -38,10 +36,11 @@ proton-autogen (2.8.6) noble; urgency=medium
   * Bug fixes
     - Fixed launch return code handling.
     - Fixed badge refresh issues.
-    - Fixed Game List update inconsistencies.
+    - Fixed game list update inconsistencies.
 
   * Developer
     - Improved backend/UI separation.
     - Improved debugging tools and internal APIs.
 
- -- N3oray <n3oray77@gmail.com>  Fri, 03 Jul 2026 23:59:00 +0200
+
+ -- N3oray <n3oray77@gmail.com>  Sat, 04 Jul 2026 23:59:00 +0200
