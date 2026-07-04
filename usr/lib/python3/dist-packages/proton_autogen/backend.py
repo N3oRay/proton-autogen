@@ -11,6 +11,7 @@ import time
 from gi.repository import GLib
 from pathlib import Path
 from shutil import which
+from time import perf_counter
 import configparser
 from proton_autogen.loader import save_game_config, load_game_config, get_game_config_path
 from proton_autogen.core import *
@@ -664,9 +665,46 @@ def find_windows_programs_ux(root=None):
     # suppression doublons
     return list(dict.fromkeys(programs))
 
+
+"""
+Recherche les programmes Windows (.exe) dans les dossiers utilisateur
+et retourne leurs chemins.
+"""
+excluded_dirs = {
+    # cache / temp
+    ".cache", "cache", "tmp", ".tmp", "temp", ".temp", "appcache", ".cargo", '.config', "configs",
+    # dev
+    "__pycache__", "node_modules", ".git", ".svn", "JAVA", "www", ".gnupg", ".p2", ".rpmdb", ".rustup", ".ssh", ".var", ".vnc", ".nuget", ".omnisharp", ".m2", ".pki", ".lime", ".java",
+    ".eclipse", ".fltk", ".fonts", ".dotnet", ".dbus", ".config", ".icons", ".conky", ".swt", ".templateengine", ".themes", ".thunderbird", ".npm", ".gvfs",
+    ".uno", "pipeline", "eclipse-workspace", "eclipse-installer"
+    # personnal
+    "Musique", "Modèles", "Images", "customFiles", "docs", "bsa", "pdf", "Serene-Conky", ".mozilla", "os", ".wavemonrc", "steal",
+
+    # gaming
+    ".steam", "dgVoodoo2", "deb-installer", "depotcache", "friends", "linux64", "linux32",
+
+
+    # steam apps
+    "steamui", "steamrt64", "steamrt32", "userdata", "ubuntu12_32", "ubuntu12_64", "resource", "package", "root", "sdk64", "bin64", "bin32", "bin", "clientui", "controller_base",
+
+    # Proton
+    "compatibilitytools.d",
+
+    # backups
+    "backup", "backups", "old", "recovery", "stockages", "zip", "tar", "Vidéos", "Modèles",
+
+    # misc noise
+    "drivers", "bios", "logs", "log", "old", "tmp", "www", "mail", "personnel", "virus", "malware",
+}
+    #excluded_dirs = { ".steam", ".cache", "pfx", "drive_c", "windows", "old", "tmp", "dgVoodoo2", "stockages", "drivers", "bios", "JAVA", "www", "mail", "personnel", "virus", }
+excluded_names = { "setup.exe", "install.exe", }
+MAX_DEPTH = 6  # 👈 réglable
+
+
 def find_windows_programs_ux_search(root=None):
-    if root is None:
-        root = Path.home()
+    start = perf_counter()
+
+    root = Path.home() if root is None else Path(root)
 
     allowed_roots = [
         root / "Bureau",
@@ -675,37 +713,41 @@ def find_windows_programs_ux_search(root=None):
         root / "Téléchargements",
     ]
 
-    excluded_dirs = { ".steam", ".cache", "pfx", "drive_c", "windows", "old", "tmp", "dgVoodoo2", "stockages", "drivers", "bios", "JAVA", "www", "mail", "personnel", "virus", }
-    excluded_names = { "setup.exe", "install.exe", }
-    MAX_DEPTH = 6  # 👈 réglable
-
     programs = []
 
     for base in allowed_roots:
-        if not base.exists():
+        if not base.is_dir():
             continue
 
         base_depth = len(base.parts)
 
-        for path in base.rglob("*.exe"):
+        for dirpath, dirnames, filenames in os.walk(base):
 
-            # 🚀 filtre dossiers
-            if any(part in excluded_dirs for part in path.parts):
+            depth = len(Path(dirpath).parts) - base_depth
+            if depth >= MAX_DEPTH:
+                dirnames.clear()
                 continue
 
-            # 🚀 limite profondeur
-            if len(path.parts) - base_depth > MAX_DEPTH:
-                continue
+            dirnames[:] = [
+                d for d in dirnames
+                if d not in excluded_dirs
+            ]
 
-            name = path.name.lower()
+            for filename in filenames:
+                name = filename.lower()
 
-            if name.startswith("unins"):
-                continue
+                if not name.endswith(".exe"):
+                    continue
 
-            if name in excluded_names:
-                continue
+                if name.startswith("unins"):
+                    continue
 
-            programs.append(str(path))
+                if name in excluded_names:
+                    continue
+
+                programs.append(str(Path(dirpath) / filename))
+
+    print(f"The program search finished in {perf_counter() - start:.3f}s")
 
     return programs
 
