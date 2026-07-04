@@ -44,7 +44,7 @@ The tool automatically detects available Proton installations (GE-Proton preferr
 
 * ▶ Run Windows `.exe` files directly via Proton
 * 🧠 Automatic Proton detection
-* 🚀 GE-Proton support
+* 🚀 Proton-CachyOS and GE-Proton support
 * 🍷 Automatic Wine fallback
 * 🖱️ File manager integration
 
@@ -201,7 +201,7 @@ sudo apt install gamemode mangohud
 ```
 * GameMode
 * MangoHud
-* GE-Proton
+* Proton-CachyOS or GE-Proton
 * ProtonUp-Qt
 
 ---
