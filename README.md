@@ -1,5 +1,11 @@
 # 🧩 Proton-Autogen
 
+# Proton-Autogen
+
+A lightweight Linux tool that automatically runs Windows .exe files using Proton or Wine, with automatic fallback, GPU detection, and per-game configuration profiles.
+
+Works as a simple wrapper between your .exe files and Proton — no manual setup required.
+
 ![Linux](https://img.shields.io/badge/platform-Linux-blue)
 ![Python](https://img.shields.io/badge/python-3.x-yellow)
 ![Status](https://img.shields.io/badge/status-v2.0-brightgreen)
@@ -8,6 +14,8 @@
 **Smart Proton launcher for Windows `.exe` files on Linux**
 
 **Automatic Linux gaming environment configurator**
+
+
 
 Run Windows executables through Proton with zero Steam configuration.
 ---
