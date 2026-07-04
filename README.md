@@ -44,13 +44,11 @@ The tool automatically detects available Proton installations (GE-Proton preferr
 
 * ▶ Run Windows `.exe` files directly via Proton
 * 🧠 Automatic Proton detection
-* 🚀 GE-Proton priority support
+* 🚀 GE-Proton support
 * 🍷 Automatic Wine fallback
 * 🖱️ File manager integration
 
-  * Nemo
-  * Nautilus
-  * Dolphin
+  * Nemo, Nautilus, Dolphin
 * ⚙️ Optional GameMode support
 * 📦 Debian package (.deb)
 * 💻 Command-line interface
