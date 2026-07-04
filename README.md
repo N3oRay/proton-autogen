@@ -107,7 +107,15 @@ $ proton-autogen GAME.EXE
 ---
 
 ## 📦 Installation & Update Linux (Debian/Fedora/Arch)
+AUR package for proton-autogen.
 
+## Install (AUR)
+
+paru -S proton-autogen
+
+## Manual build
+
+makepkg -si
 
 ### (install manual)
 
