@@ -90,24 +90,33 @@ proton-autogen /path/to/application.exe
 ### Example Output
 
 ```text
-$ proton-autogen GAME.EXE
+$ proton-autogen 'Battle.net Launcher.exe'
 
+[proton-autogen] System information:
+  gpu: amd
+  wayland: False
+  steam_deck: False
+  desktop: x-cinnamon
+[info] proton-autogen: mangohud: True | gamemode: True | xalia: None | gpu: balanced
 [proton-autogen] Runtime information
-  Executable : /home/<user>/Games/GAME.EXE
-  Proton     : GE-Proton10-34
-  Path       : /home/<user>/.steam/root/compatibilitytools.d/GE-Proton10-34
+  Executable : /home/neoray/Documents/Proton/env/main/pfx/drive_c/Program Files (x86)/Battle.net/Battle.net Launcher.exe
+  Proton     : Proton-CachyOS Latest
+  Path       : /home/neoray/.local/share/Steam/compatibilitytools.d/Proton-CachyOS Latest
   proton-call: detected
-  GameMode   : available
-  MangoHud   : available
+  GameMode  : available
+  MangoHud  : available
 
-[proton-autogen] EXE architecture: 32bit
-[proton-autogen] INIT PROFILE - type: oldgame
-[proton-autogen] PROFILE: OLD GAME (DX8/DX9)
-[proton-autogen] Apply PROFILE=OLDGAME | SYNC=OFF | WINED3D=ON | XALIA=ON | DXVK_HUD=OFF
-[proton-autogen] Prefix mode : shared
-[proton-autogen] Prefix path : /home/n3oray/Documents/Proton/env/shared
+[info] proton-autogen: LOAD CONFIG PREFIX : main
+[info] INFO: EXE architecture: 32bit
+[proton-autogen] INIT PROFILE - type: dx11Bnet
+[proton-autogen] PROFILE: DX11 Battle.net
+[proton-autogen] SYNC: MANGOHUD=1 MANGOHUD_DLSYM=1
+[proton-autogen] Apply PROFILE=DX11BNET | SYNC=OFF | WINED3D=OFF | XALIA=OFF | DXVK_HUD=OFF
+[info] Prefix mode: Prefix mode : main
+[info] Prefix path: Prefix path : /home/neoray/Documents/Proton/env/main
 [proton-autogen] 32-bit legacy game detected
-[proton-autogen] Launch mode: proton
+[proton-autogen] MangoHud 32-bit shim missing
+[proton-autogen] Launch mode: Proton 
 ```
 
 ---
