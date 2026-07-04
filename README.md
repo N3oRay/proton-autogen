@@ -149,7 +149,7 @@ chmod +x update.sh
 ```
 ## 📦 Installation & Update - Debian / Ubuntu
 
-### Debian / Ubuntu (manual install)
+### Manual build  and install
 
 ```bash
 git clone https://github.com/N3oRay/proton-autogen.git
