@@ -683,7 +683,6 @@ excluded_dirs = {
     # gaming
     ".steam", "dgVoodoo2", "deb-installer", "depotcache", "friends", "linux64", "linux32",
 
-
     # steam apps
     "steamui", "steamrt64", "steamrt32", "userdata", "ubuntu12_32", "ubuntu12_64", "resource", "package", "root", "sdk64", "bin64", "bin32", "bin", "clientui", "controller_base",
 
@@ -696,7 +695,7 @@ excluded_dirs = {
     # misc noise
     "drivers", "bios", "logs", "log", "old", "tmp", "www", "mail", "personnel", "virus", "malware",
 }
-    #excluded_dirs = { ".steam", ".cache", "pfx", "drive_c", "windows", "old", "tmp", "dgVoodoo2", "stockages", "drivers", "bios", "JAVA", "www", "mail", "personnel", "virus", }
+
 excluded_names = { "setup.exe", "install.exe", }
 MAX_DEPTH = 6  # 👈 réglable
 
