@@ -699,7 +699,9 @@ excluded_dirs = {
 excluded_names = { "setup.exe", "install.exe", }
 MAX_DEPTH = 6  # 👈 réglable
 
+from functools import lru_cache
 
+@lru_cache(maxsize=1)
 def find_windows_programs_ux_search(root=None):
     start = perf_counter()
 
@@ -730,6 +732,7 @@ def find_windows_programs_ux_search(root=None):
             dirnames[:] = [
                 d for d in dirnames
                 if d not in excluded_dirs
+                and not d.startswith(".")
             ]
 
             for filename in filenames:
@@ -737,10 +740,8 @@ def find_windows_programs_ux_search(root=None):
 
                 if not name.endswith(".exe"):
                     continue
-
                 if name.startswith("unins"):
                     continue
-
                 if name in excluded_names:
                     continue
 
