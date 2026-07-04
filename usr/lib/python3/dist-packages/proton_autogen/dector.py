@@ -117,8 +117,11 @@ def gpu_env(system, features):
     elif gpu == "amd":
         env["RADV_PERFTEST"] = "aco"
 
-    return env
+        #if profile == "extreme" and system.get("sam_support", False):
+        #    env["RADV_PERFTEST"] = "sam"
 
+    return env
+#PROTON_DISABLE_NVAPI=1 DXVK_NVAPI_VKREFLEX=1 RADV_PERFMODE=high PROTON_USE_NTSYNC=1 RADV_PERFTEST=sam
 #----------------------------------------------------------------
 #system = { "gpu": "nvidia", "gpu_hybrid": False, "wayland": True, "steam_deck": False, "cpu_cores": 8, "cpu_threads": 16, "ram": 32, "vram": 12, }
 
