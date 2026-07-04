@@ -1,6 +1,6 @@
 pkgbase = proton-autogen
 	pkgdesc = Automatic Proton/Wine launcher for Windows executables
-	pkgver = 2.8.7.1.ga8dcc8c
+	pkgver = 2.8.7.5.g7d05035
 	pkgrel = 1
 	url = https://github.com/N3oRay/proton-autogen
 	arch = x86_64
