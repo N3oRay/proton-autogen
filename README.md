@@ -9,8 +9,7 @@ A lightweight Linux tool that automatically runs Windows .exe files using Proton
 Works as a simple wrapper between your .exe files and Proton — no manual setup required.
 
 
-
-**Smart Proton launcher for Windows `.exe` files on Linux**
+**A Proton/Wine orchestration layer for running Windows applications on Linux**
 
 **Automatic Linux gaming environment configurator**
 
