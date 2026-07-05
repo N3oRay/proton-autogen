@@ -1,4 +1,4 @@
-name: Tests
+name: Multi-distro Tests
 
 on:
   push:
@@ -10,56 +10,27 @@ permissions:
   contents: read
 
 jobs:
-  pytest:
+  debian:
     runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ["3.12"]
 
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
-          cache: pip
-
-      - name: Install system dependencies (GTK / GI)
+      - name: Install Debian dependencies
         run: |
           sudo apt update
           sudo apt install -y \
+            python3 \
             python3-gi \
             python3-gi-cairo \
+            python3-yaml \
             gir1.2-gtk-4.0 \
             gir1.2-glib-2.0 \
             libgtk-4-1 \
-            gobject-introspection
+            gobject-introspection \
+            python3-pytest
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install pytest pytest-cov pyyaml
-
-      - name: Setup project paths
-        run: |
-          echo "$GITHUB_WORKSPACE/usr/bin" >> $GITHUB_PATH
-          chmod +x usr/bin/proton-autogen
-
-      - name: Setup runtime env
-        run: |
-          echo "PYTHONPATH=$GITHUB_WORKSPACE/usr/lib/python3/dist-packages" >> $GITHUB_ENV
-          echo "PATH=$GITHUB_WORKSPACE/usr/bin:$PATH" >> $GITHUB_ENV
-
-      - name: Run tests
-        run: |
-          export PYTHONPATH=$GITHUB_WORKSPACE/usr/lib/python3/dist-packages:/usr/lib/python3/dist-packages
-          export PATH=$GITHUB_WORKSPACE/usr/bin:$PATH
-          python -m pytest -v
-
-
-      - name: Install project (Debian-style)
+      - name: Install project (system-style)
         run: |
           sudo install -Dm755 usr/bin/proton-autogen /usr/bin/proton-autogen
 
@@ -70,8 +41,83 @@ jobs:
           sudo cp -r usr/lib/python3/dist-packages/proton_autogen \
             /usr/lib/python3/dist-packages/
 
-      - name: Run tests (system environment)
+      - name: Run tests
         run: |
           export PYTHONPATH=/usr/lib/python3/dist-packages
           export PATH=/usr/bin:$PATH
-          pytest -v
+          python3 -m pytest -v
+
+
+  arch:
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux:latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Arch dependencies
+        run: |
+          pacman -Syu --noconfirm
+          pacman -S --noconfirm \
+            python \
+            python-gobject \
+            python-yaml \
+            gtk4 \
+            glib2 \
+            gobject-introspection \
+            python-pytest
+
+      - name: Install project (system-style)
+        run: |
+          install -Dm755 usr/bin/proton-autogen /usr/bin/proton-autogen
+
+          mkdir -p /usr/share/proton-autogen
+          cp -r usr/share/proton-autogen/* /usr/share/proton-autogen/ || true
+
+          mkdir -p /usr/lib/python3.*/site-packages/proton_autogen
+          cp -r usr/lib/python3/dist-packages/proton_autogen \
+            /usr/lib/python3.*/site-packages/
+
+      - name: Run tests
+        run: |
+          export PYTHONPATH=/usr/lib/python3.*/site-packages
+          export PATH=/usr/bin:$PATH
+          python -m pytest -v
+
+
+  fedora:
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Fedora dependencies
+        run: |
+          dnf install -y \
+            python3 \
+            python3-gobject \
+            python3-pyyaml \
+            gtk4 \
+            glib2 \
+            gobject-introspection \
+            python3-pytest
+
+      - name: Install project (system-style)
+        run: |
+          install -Dm755 usr/bin/proton-autogen /usr/bin/proton-autogen
+
+          mkdir -p /usr/share/proton-autogen
+          cp -r usr/share/proton-autogen/* /usr/share/proton-autogen/ || true
+
+          mkdir -p /usr/lib/python3.*/site-packages/proton_autogen
+          cp -r usr/lib/python3/dist-packages/proton_autogen \
+            /usr/lib/python3.*/site-packages/
+
+      - name: Run tests
+        run: |
+          export PYTHONPATH=/usr/lib/python3.*/site-packages
+          export PATH=/usr/bin:$PATH
+          python3 -m pytest -v
