@@ -54,4 +54,6 @@ jobs:
 
       - name: Run tests
         run: |
+          export PYTHONPATH=$GITHUB_WORKSPACE/usr/lib/python3/dist-packages:/usr/lib/python3/dist-packages
+          export PATH=$GITHUB_WORKSPACE/usr/bin:$PATH
           python -m pytest -v
