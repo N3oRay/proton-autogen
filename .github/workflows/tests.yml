@@ -52,6 +52,6 @@ jobs:
 
       - name: Run unit tests
         run: |
-          pytest -v \
+          /usr/bin/python3 -m pytest -v \
             --cov=proton_autogen \
             --cov-report=term-missing
