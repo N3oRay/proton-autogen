@@ -33,8 +33,8 @@ jobs:
             python3-gi \
             python3-gi-cairo \
             gir1.2-gtk-4.0 \
-            libgtk-4-1 \
-            libglib2.0-0
+            libgirepository1.0-dev \
+            libgtk-4-1
 
       - name: Install dependencies
         run: |
