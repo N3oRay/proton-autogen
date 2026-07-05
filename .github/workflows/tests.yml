@@ -29,7 +29,13 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -e ".[dev]"
+          pip install pytest pytest-cov pyyaml
+
+      - name: Setup project paths
+        run: |
+          echo "PYTHONPATH=$GITHUB_WORKSPACE/usr/lib/python3/dist-packages" >> $GITHUB_ENV
+          echo "$GITHUB_WORKSPACE/usr/bin" >> $GITHUB_PATH
+          chmod +x usr/bin/proton-autogen
 
       - name: Run unit tests
         run: |
