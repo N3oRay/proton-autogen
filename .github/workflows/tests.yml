@@ -47,8 +47,11 @@ jobs:
           echo "$GITHUB_WORKSPACE/usr/bin" >> $GITHUB_PATH
           chmod +x usr/bin/proton-autogen
 
+      - name: Setup runtime env
+        run: |
+          echo "PYTHONPATH=$GITHUB_WORKSPACE/usr/lib/python3/dist-packages" >> $GITHUB_ENV
+          echo "PATH=$GITHUB_WORKSPACE/usr/bin:$PATH" >> $GITHUB_ENV
+
       - name: Run tests
         run: |
-          export PYTHONPATH=$GITHUB_WORKSPACE/usr/lib/python3/dist-packages
-          export PATH=$GITHUB_WORKSPACE/usr/bin:$PATH
           python -m pytest -v
