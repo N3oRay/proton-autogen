@@ -16,7 +16,17 @@ jobs:
       - name: Install build dependencies
         run: |
           sudo apt update
-          sudo apt install -y build-essential devscripts debhelper fakeroot
+          sudo apt install -y \
+            build-essential \
+            devscripts \
+            debhelper \
+            fakeroot \
+            python3 \
+            python3-gi \
+            python3-yaml \
+            gir1.2-gtk-4.0 \
+            libglib2.0-dev \
+            gobject-introspection
 
       - name: Build package
         run: |
