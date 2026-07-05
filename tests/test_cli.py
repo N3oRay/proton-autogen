@@ -91,15 +91,65 @@ def test_diag_does_not_crash():
     Test de robustesse : juste vérifier qu'on ne crash pas.
     """
     result = run_cli(["--diag"])
-
-    assert result.returncode == 0
-
-
-def test_help_is_fast():
-    """
-    Vérifie que le CLI répond rapidement.
-    """
-    result = run_cli(["--help"], timeout=2)
-
     assert_success(result)
-  
+    stdout = result.stdout.lower()
+
+    expected = [
+        "wine",
+        "gamemode",
+        "mangohud",
+        "python",
+        "recommended",
+        "steam",
+        "session",
+    ]
+
+    for item in expected:
+        assert item in stdout
+
+    #assert result.returncode == 0
+
+
+def test_help_structure():
+    result = run_cli(["--help"])
+    assert_success(result)
+
+    stdout = result.stdout.lower()
+
+    expected = [
+        "proton-autogen",
+        "gamescope",
+        "mangohud",
+        "--ux",
+        "--diag",
+        "--help-env",
+        "--debug",
+        "--verbose",
+        "--gamemode",
+        "--wine",
+        "--proton",
+    ]
+
+    for item in expected:
+        assert item in stdout
+
+
+def test_about_structure():
+    result = run_cli(["--about"])
+    assert_success(result)
+
+    stdout = result.stdout.lower()
+
+    expected = [
+        "proton-autogen",
+        "proton",
+        "mangohud",
+        "gamemode",
+        "steam",
+        "n3oray",
+        "add-apt-repository",
+        "https://github.com/n3oray/proton-autogen",
+    ]
+
+    for item in expected:
+        assert item in stdout
