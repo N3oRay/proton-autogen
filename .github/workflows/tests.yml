@@ -57,3 +57,21 @@ jobs:
           export PYTHONPATH=$GITHUB_WORKSPACE/usr/lib/python3/dist-packages:/usr/lib/python3/dist-packages
           export PATH=$GITHUB_WORKSPACE/usr/bin:$PATH
           python -m pytest -v
+
+
+      - name: Install project (Debian-style)
+        run: |
+          sudo install -Dm755 usr/bin/proton-autogen /usr/bin/proton-autogen
+
+          sudo mkdir -p /usr/share/proton-autogen
+          sudo cp -r usr/share/proton-autogen/* /usr/share/proton-autogen/ || true
+
+          sudo mkdir -p /usr/lib/python3/dist-packages/proton_autogen
+          sudo cp -r usr/lib/python3/dist-packages/proton_autogen \
+            /usr/lib/python3/dist-packages/
+
+      - name: Run tests (system environment)
+        run: |
+          export PYTHONPATH=/usr/lib/python3/dist-packages
+          export PATH=/usr/bin:$PATH
+          pytest -v
