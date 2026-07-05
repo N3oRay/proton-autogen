@@ -9,6 +9,7 @@ usr/lib/python3/dist-packages/proton_autogen/proton_call.py usr/lib/python3/dist
 usr/lib/python3/dist-packages/proton_autogen/dector.py usr/lib/python3/dist-packages/proton_autogen/
 usr/lib/python3/dist-packages/proton_autogen/session.py usr/lib/python3/dist-packages/proton_autogen/
 usr/lib/python3/dist-packages/proton_autogen/requis.py usr/lib/python3/dist-packages/proton_autogen/
+usr/lib/python3/dist-packages/proton_autogen/about.py usr/lib/python3/dist-packages/proton_autogen/
 usr/lib/python3/dist-packages/proton_autogen/notify.py usr/lib/python3/dist-packages/proton_autogen/
 usr/lib/python3/dist-packages/proton_autogen/diag.py usr/lib/python3/dist-packages/proton_autogen/
 usr/lib/python3/dist-packages/proton_autogen/util_path.py usr/lib/python3/dist-packages/proton_autogen/

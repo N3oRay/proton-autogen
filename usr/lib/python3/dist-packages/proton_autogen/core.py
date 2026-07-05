@@ -13,6 +13,7 @@ from proton_autogen.notify import notifications
 from proton_autogen.type_profile import init_env, env_gtav_compat, env_gtav_x11, env_gtav_safe
 from proton_autogen.dector import resolve_game_features, gpu_env
 from proton_autogen.util_path import proton_path, proton_name
+from proton_autogen.about import afficher_abouts, afficher_abouts_label
 
 
 import configparser
@@ -2090,79 +2091,11 @@ def run_game_proton(exe_path, exe_type, proton,
         returncode = subprocess.run(cmd, env=env, cwd=cmd_cwd)
         return returncode
 
+
+#from proton_autogen.about import afficher_abouts, afficher_abouts_label
 def print_about():
-    print(f"""proton-autogen
-══════════════
-
-Lightweight Proton launcher for Linux.
-
-Automatically discovers Proton installations,
-selects the best available version, and launches
-Windows executables with minimal configuration.
-
-Features
-────────
-• Automatic Proton discovery
-• Smart version selection
-• Wine fallback
-• Per-game profiles
-• GameMode support
-• MangoHud integration
-• Steam & Flatpak compatibility
-
-Version : {VERSION}
-Author  : N3oray
-License : MIT
-
-Repository
-https://github.com/N3oRay/proton-autogen
-PPA
-sudo add-apt-repository ppa:n3oray/proton-autogen
-""")
+    afficher_abouts()
 
 
 def get_about_text():
-    return f"""PROTON-AUTOGEN
-
-Lightweight Proton launcher for Linux.
-
-Automatically discovers Proton installations,
-selects the best available version, and launches
-Windows executables with minimal configuration.
-
-────────────────────────
-FEATURES
-────────────────────────
-• Automatic Proton discovery
-• Smart version selection
-• Wine fallback
-• Per-game profiles
-• GameMode support
-• MangoHud integration
-• Steam & Flatpak compatibility
-
-────────────────────────
-VERSION
-────────────────────────
-{VERSION}
-
-────────────────────────
-AUTHOR
-────────────────────────
-N3oray
-
-────────────────────────
-LICENSE
-────────────────────────
-MIT
-
-────────────────────────
-REPOSITORY
-────────────────────────
-https://github.com/N3oRay/proton-autogen
-
-────────────────────────
-PPA
-────────────────────────
-sudo add-apt-repository ppa:n3oray/proton-autogen
-"""
+    return f"""{afficher_abouts_label()}"""
