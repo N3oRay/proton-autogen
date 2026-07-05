@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "proton-autogen"
+version = "2.6.1"
+dependencies = [
+  "pyyaml",
+  "pygobject"
+]
+
+[tool.setuptools]
+packages = ["proton_autogen"]
