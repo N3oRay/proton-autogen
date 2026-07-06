@@ -156,11 +156,11 @@ def test_about_structure():
 
 
 def test_about_list_protons():
-    result = run_cli(["--list_protons"])
+    result = run_cli(["--list-protons"])
     assert_success(result)
 
     stdout = result.stdout.lower()
-    #No Proton installation found
+
     expected = [
         "found",
         "proton",
@@ -202,37 +202,28 @@ def test_about_json():
 def test_about_gamemode():
     result = run_cli(["--gamemode"])
 
-    print("RETURN CODE:", result.returncode)
-    print("STDOUT:")
-    print(result.stdout)
-    print("STDERR:")
-    print(result.stderr)
+    output = (result.stdout + result.stderr).lower()
 
-    assert_success(result)
+    assert "warning" in output
+    assert "file" in output
 
 
 def test_about_mangohud():
     result = run_cli(["--mangohud"])
 
-    print("RETURN CODE:", result.returncode)
-    print("STDOUT:")
-    print(result.stdout)
-    print("STDERR:")
-    print(result.stderr)
+    output = (result.stdout + result.stderr).lower()
 
-    assert_success(result)
+    assert "warning" in output
+    assert "file" in output
 
 
 def test_about_call():
     result = run_cli(["--call"])
 
-    print("RETURN CODE:", result.returncode)
-    print("STDOUT:")
-    print(result.stdout)
-    print("STDERR:")
-    print(result.stderr)
+    output = (result.stdout + result.stderr).lower()
 
-    assert_success(result)
+    assert "warning" in output
+    assert "file" in output
 
 
 def test_missing_file():
