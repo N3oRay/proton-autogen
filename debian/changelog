@@ -1,6 +1,7 @@
-proton-autogen (2.9.0) noble; urgency=medium
+proton-autogen (2.9.1) noble; urgency=medium
 
   * New features
+    - Stabilisation and logger file: ~/.local/share/proton-autogen/logs/proton-autogen.json
     - New Theme UX (Style: Adwaita)
     - About menu (FR/EN/ZH/ES/DE/UK/PT).
     - Optimisation Perf Search with cache.
