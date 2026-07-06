@@ -35,6 +35,7 @@ usr/lib/python3/dist-packages/proton_autogen/ux/game_editor.py /usr/lib/python3/
 usr/lib/python3/dist-packages/proton_autogen/ux/dashboard.py /usr/lib/python3/dist-packages/proton_autogen/ux/
 usr/lib/python3/dist-packages/proton_autogen/ux/assets/logo-pa.jpg /usr/lib/python3/dist-packages/proton_autogen/ux/assets/
 usr/lib/python3/dist-packages/proton_autogen/ux/assets/style.css /usr/lib/python3/dist-packages/proton_autogen/ux/assets/
+usr/lib/python3/dist-packages/proton_autogen/ux/assets/style_adwaita.css /usr/lib/python3/dist-packages/proton_autogen/ux/assets/
 
 usr/share/applications/proton-autogen.desktop usr/share/applications/
 usr/share/icons/hicolor/256x256/apps/proton-autogen.png usr/share/icons/hicolor/256x256/apps/

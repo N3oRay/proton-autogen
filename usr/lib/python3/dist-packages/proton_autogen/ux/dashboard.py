@@ -48,6 +48,22 @@ class Dashboard(Gtk.ApplicationWindow):
         self.build_ui()
         self.refresh_games()
 
+
+    # -------------------------
+    # Change Theme
+    # -------------------------
+
+
+    def on_change_style(self, _btn):
+        app = self.get_application()
+
+        if app.current_style == "fluent":
+            app.apply_style("adwaita")
+            self.status.set_text("Style: Adwaita")
+        else:
+            app.apply_style("fluent")
+            self.status.set_text("Style: Proton Autogen")
+
     # -------------------------
     # Show TOAST
     # -------------------------
@@ -405,6 +421,18 @@ class Dashboard(Gtk.ApplicationWindow):
         menu_btn = Gtk.MenuButton(label="☰")
         attach_menu(menu_btn, self.get_application())
         header.pack_end(menu_btn)
+
+
+
+        # =========================
+        # STYLE SWITCH BUTTON
+        # =========================
+        style_btn = Gtk.Button(icon_name="applications-graphics-symbolic")
+        style_btn.set_tooltip_text("Change UI style")
+        style_btn.add_css_class("app-button")
+        style_btn.connect("clicked", self.on_change_style)
+
+        header.pack_end(style_btn)
 
         # =========================
         # GAME STATS
@@ -777,6 +805,34 @@ class ProtonAutogenApp(Gtk.Application):
         Gtk.StyleContext.add_provider_for_display(
             Gdk.Display.get_default(),
             provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION,
+        )
+
+        self.css_provider = Gtk.CssProvider()
+        self.current_style = "fluent"
+        self.apply_style("fluent")
+
+
+    def apply_style(self, style_name):
+
+        base = os.path.dirname(__file__)
+
+        style_map = {
+            "fluent": os.path.join(base, "assets", "style.css"),
+            "adwaita": os.path.join(base, "assets", "style_adwaita.css"),
+        }
+
+        path = style_map.get(style_name)
+        if not path:
+            return
+
+        self.current_style = style_name
+
+        self.css_provider.load_from_path(path)
+
+        Gtk.StyleContext.add_provider_for_display(
+            Gdk.Display.get_default(),
+            self.css_provider,
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION,
         )
 

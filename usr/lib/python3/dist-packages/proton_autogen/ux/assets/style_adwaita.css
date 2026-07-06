@@ -1,0 +1,303 @@
+/* =========================================================
+   GTK4 - Adwaita Inspired
+   Part 1 / 4
+   Palette - Fenêtre - Header - Boutons
+   ========================================================= */
+
+
+/* =========================================================
+   PALETTE
+   ========================================================= */
+
+@define-color bg #1e1e1e;
+@define-color bg-alt #262626;
+@define-color bg-hover #303030;
+
+@define-color surface #242424;
+@define-color surface-hover #2f2f2f;
+
+@define-color border rgba(255,255,255,.08);
+
+@define-color text #f6f5f4;
+@define-color text-muted #b5b8bd;
+
+@define-color accent #3584e4;
+@define-color accent-hover #4a90e8;
+
+@define-color success #33d17a;
+@define-color warning #f6d32d;
+@define-color error #e01b24;
+
+
+/* =========================================================
+   FENETRE
+   ========================================================= */
+
+window {
+    background: transparent;
+}
+
+window.background,
+.style {
+
+    background: @bg;
+
+    border-radius: 12px;
+
+    border: 1px solid @border;
+}
+
+
+/* =========================================================
+   CONTENEURS GTK
+   ========================================================= */
+
+scrolledwindow,
+viewport,
+list,
+.game-list,
+.game-row {
+
+    background: transparent;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+headerbar,
+.main-header {
+
+    background: @bg-alt;
+
+    color: @text;
+
+    border-bottom: 1px solid @border;
+
+    min-height: 44px;
+
+    padding: 6px 10px;
+}
+
+
+/* =========================================================
+   WINDOW CONTROLS
+   ========================================================= */
+
+windowcontrols button,
+.titlebar button,
+.titlebar .titlebutton {
+
+    background: transparent;
+
+    color: @text;
+
+    min-width: 28px;
+    min-height: 28px;
+
+    border-radius: 8px;
+
+    border: none;
+}
+
+windowcontrols image {
+
+    color: @text;
+}
+
+windowcontrols button:hover,
+.titlebar button:hover,
+.titlebar .titlebutton:hover {
+
+    background: rgba(255,255,255,.08);
+}
+
+windowcontrols button:active,
+.titlebar button:active {
+
+    background: rgba(255,255,255,.14);
+}
+
+
+/* =========================================================
+   BOUTONS
+   ========================================================= */
+
+button {
+
+    background: @surface;
+
+    color: @text;
+
+    border-radius: 8px;
+
+    border: 1px solid @border;
+
+    padding: 6px 12px;
+
+    transition: 150ms ease;
+}
+
+button:hover {
+
+    background: @surface-hover;
+}
+
+button:active {
+
+    background: @bg-hover;
+}
+
+button:disabled {
+
+    opacity: .45;
+}
+
+
+/* =========================================================
+   BOUTON PRINCIPAL
+   ========================================================= */
+
+button.suggested-action {
+
+    background: @accent;
+
+    color: white;
+
+    border: none;
+
+    font-weight: 600;
+}
+
+button.suggested-action:hover {
+
+    background: @accent-hover;
+}
+
+
+/* =========================================================
+   BOUTONS APPLICATION
+   ========================================================= */
+
+.app-button {
+
+    background: @surface;
+
+    color: @text;
+
+    border: 1px solid @border;
+
+    border-radius: 8px;
+
+    padding: 6px 10px;
+}
+
+.app-button:hover {
+
+    background: @surface-hover;
+}
+
+
+/* =========================================================
+   ACTIONS
+   ========================================================= */
+
+.btn-launch {
+
+    background: @accent;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 8px;
+
+    min-width: 30px;
+    min-height: 30px;
+
+    padding: 4px 8px;
+
+    font-weight: 600;
+}
+
+.btn-launch:hover {
+
+    background: @accent-hover;
+}
+
+
+.btn-edit {
+
+    background: @surface;
+
+    color: @text;
+
+    border-radius: 8px;
+
+    border: 1px solid @border;
+
+    min-width: 30px;
+    min-height: 30px;
+
+    padding: 4px 8px;
+}
+
+.btn-edit:hover {
+
+    background: @surface-hover;
+}
+
+
+.btn-export {
+
+    background: @surface;
+
+    color: @text;
+
+    border-radius: 8px;
+
+    border: 1px solid @border;
+
+    min-width: 30px;
+    min-height: 30px;
+
+    padding: 4px 8px;
+}
+
+.btn-export:hover {
+
+    background: @surface-hover;
+}
+
+
+/* =========================================================
+   EXPORT
+   ========================================================= */
+
+.export-dialog {
+
+    background: @bg;
+}
+
+.export-title {
+
+    color: @text;
+
+    font-size: 15px;
+
+    font-weight: 600;
+}
+
+.export-path {
+
+    background: @surface;
+
+    color: @text;
+
+    border-radius: 8px;
+
+    padding: 8px;
+
+    border: 1px solid @border;
+}

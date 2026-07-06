@@ -1,6 +1,7 @@
-proton-autogen (2.8.9) noble; urgency=medium
+proton-autogen (2.9.0) noble; urgency=medium
 
   * New features
+    - New Theme UX (Style: Adwaita)
     - About menu (FR/EN/ZH/ES/DE/UK/PT).
     - Optimisation Perf Search with cache.
     - Added GPU profile editing and automatic GPU profile detection (AMD/NVIDIA).
