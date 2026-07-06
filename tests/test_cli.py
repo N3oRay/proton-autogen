@@ -153,3 +153,92 @@ def test_about_structure():
 
     for item in expected:
         assert item in stdout
+
+
+def test_about_list_protons():
+    result = run_cli(["--list_protons"])
+    assert_success(result)
+
+    stdout = result.stdout.lower()
+
+    expected = [
+        "detected",
+        "proton",
+        "installations",
+    ]
+
+    for item in expected:
+        assert item in stdout
+
+
+def test_about_version():
+    result = run_cli(["--v"])
+    assert_success(result)
+
+    stdout = result.stdout.lower()
+
+    expected = [
+        "proton-autogen",
+    ]
+
+    for item in expected:
+        assert item in stdout
+
+def test_about_json():
+    result = run_cli(["--json-profile"])
+    assert_success(result)
+
+    stdout = result.stdout.lower()
+
+    expected = [
+        "proton-autogen",
+        "export",
+    ]
+
+    for item in expected:
+        assert item in stdout
+
+
+def test_about_call():
+    result = run_cli(["--call"])
+    assert_success(result)
+
+    stdout = result.stdout.lower()
+
+    expected = [
+        "warning",
+        "file",
+    ]
+
+    for item in expected:
+        assert item in stdout
+
+
+def test_about_gamemode():
+    result = run_cli(["--gamemode"])
+    assert_success(result)
+
+    stdout = result.stdout.lower()
+
+    expected = [
+        "warning",
+        "file",
+    ]
+
+    for item in expected:
+        assert item in stdout
+
+
+def test_about_mangohud():
+    result = run_cli(["--mangohud"])
+    assert_success(result)
+
+    stdout = result.stdout.lower()
+
+    expected = [
+        "warning",
+        "file",
+    ]
+
+    for item in expected:
+        assert item in stdout
