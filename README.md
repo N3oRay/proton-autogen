@@ -271,6 +271,8 @@ nautilus -q
 * [x] GUI frontend
 * [x] Lutris integration
 * [x] Sensors and MangoHud Help
+* [ ] GameScope
+* [ ] Winetricks
 * [ ] ProtonDB integration
 * [ ] Bottles integration
 * [ ] Silent mode
