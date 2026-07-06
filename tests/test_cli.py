@@ -231,14 +231,20 @@ def test_about_gamemode():
 
 def test_about_mangohud():
     result = run_cli(["--mangohud"])
+
+    print("EXIT:", result.exit_code)
+    print("STDOUT:")
+    print(result.stdout)
+    print("STDERR:")
+    print(result.stderr)
+
     assert_success(result)
 
-    stdout = result.stdout.lower()
 
-    expected = [
-        "warning",
-        "file",
-    ]
+def test_missing_file():
+    result = run_cli(["missing.exe"])
 
-    for item in expected:
-        assert item in stdout
+    output = (result.stdout + result.stderr).lower()
+
+    assert "warning" in output
+    assert "file" in output
