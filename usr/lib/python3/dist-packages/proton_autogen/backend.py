@@ -13,9 +13,12 @@ from pathlib import Path
 from shutil import which
 from time import perf_counter
 import configparser
+
+from proton_autogen.utils.logger import StructuredLogger
+
 from proton_autogen.loader import save_game_config, load_game_config, get_game_config_path
 from proton_autogen.core import *
-from proton_autogen.profile import *
+from proton_autogen.profiles.init import *
 from proton_autogen.i18n import *
 from proton_autogen.stats import *
 from proton_autogen.pa_log import show_result, handle_result, show_message
@@ -29,6 +32,9 @@ from proton_autogen.proton_call import launch_proton_call
 
 
 #notifications.notify("info", "Update", "Game launched")
+
+#-------------------------- Init Log -------------------
+logger = StructuredLogger("proton-autogen.backend")
 
 #-----
 # proton-autogen: improved profile system (launcher / DX11 / DX12 / oldgames)
@@ -73,9 +79,11 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
     config = load_game_config(exe_path)
 
     system = detect_system_info()  # ou équivalent existant dans core
-    print("[proton-autogen] System information:")
-    for key, value in system.items():
-        print(f"  {key}: {value}")
+    logger.info(
+        "System information:\n" +
+        "\n".join(f"  {key}: {value}" for key, value in system.items())
+    )
+
     #-------------------------------- Compatibility old profil ------
     exe_type = None
 
