@@ -202,7 +202,7 @@ def test_about_json():
 def test_about_gamemode():
     result = run_cli(["--gamemode"])
 
-    print("EXIT:", result.exit_code)
+    print("RETURN CODE:", result.returncode)
     print("STDOUT:")
     print(result.stdout)
     print("STDERR:")
@@ -214,7 +214,7 @@ def test_about_gamemode():
 def test_about_mangohud():
     result = run_cli(["--mangohud"])
 
-    print("EXIT:", result.exit_code)
+    print("RETURN CODE:", result.returncode)
     print("STDOUT:")
     print(result.stdout)
     print("STDERR:")
@@ -226,7 +226,7 @@ def test_about_mangohud():
 def test_about_call():
     result = run_cli(["--call"])
 
-    print("EXIT:", result.exit_code)
+    print("RETURN CODE:", result.returncode)
     print("STDOUT:")
     print(result.stdout)
     print("STDERR:")
