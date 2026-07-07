@@ -37,7 +37,7 @@ from proton_autogen.about import afficher_abouts, afficher_abouts_label
 
 import configparser
 
-VERSION = "2.9.1"
+VERSION = "2.9.2"
 
 CONFIG_FILE = os.path.expanduser("~/.config/proton-autogen.conf")
 CONFIG_DIR = os.path.expanduser("~/.config/proton-autogen/games")

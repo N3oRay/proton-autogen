@@ -205,7 +205,7 @@ def test_about_gamemode():
     output = (result.stdout + result.stderr).lower()
 
     assert "warning" in output
-    assert "file" in output
+    assert "found" in output
 
 
 def test_about_mangohud():
@@ -214,7 +214,7 @@ def test_about_mangohud():
     output = (result.stdout + result.stderr).lower()
 
     assert "warning" in output
-    assert "file" in output
+    assert "found" in output
 
 
 def test_about_call():
@@ -223,7 +223,7 @@ def test_about_call():
     output = (result.stdout + result.stderr).lower()
 
     assert "warning" in output
-    assert "file" in output
+    assert "found" in output
 
 
 def test_missing_file():
@@ -232,4 +232,24 @@ def test_missing_file():
     output = (result.stdout + result.stderr).lower()
 
     assert "warning" in output
-    assert "file" in output
+    assert "found" in output
+
+def test_run_invalid_executable_returns_cleanly():
+
+    result = run_cli(
+        ["does-not-exist.exe"],
+        timeout=10
+    )
+
+    assert result.returncode != None
+
+def test_missing_cmd():
+    result = run_cli()
+    assert_success(result)
+
+    stdout = result.stdout.lower()
+
+    expected = [
+        "proton-autogen",
+        "usage",
+    ]

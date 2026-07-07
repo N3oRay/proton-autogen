@@ -210,6 +210,8 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None):
 
             sys.exit(status["code"])
 
+        progress.update(100, "Run started ...")
+
     except ExecutableNotFoundError as e:
         logger.error(str(e))
         notifications.notify( "warning", "Missing executable", str(e), ui=True, )
