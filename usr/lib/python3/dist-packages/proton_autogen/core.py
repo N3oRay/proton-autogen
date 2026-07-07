@@ -819,11 +819,12 @@ def run_game_proton(exe_path, exe_type, proton,
 
             if mangohud_shim and os.path.exists(mangohud_shim):
                 if not check_mangohud_abi(mangohud_shim):
-                    logger.warn("MangoHud ABI mismatch detected - skipping")
+                    logger.info("MangoHud ABI mismatch detected - skipping")
                 else:
                     env = add_ld_preload(env, mangohud_shim)
+                    logger.info("Loaded MangoHud 32-bit shim")
             else:
-                logger.warn("MangoHud 32-bit shim missing")
+                logger.info("No MangoHud 32-bit shim found, relying on Proton runtime")
 
         # optional: Vulkan explicit toggle
         if exe_type in ["vulkan", "dxvk"]:

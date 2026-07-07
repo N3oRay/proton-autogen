@@ -14,11 +14,38 @@ def find_mangohud_shim():
             - The full path to libMangoHud_shim.so if found.
             - None if the library is not found in any of the checked locations.
     """
+    """
     candidates = [
         "/usr/lib32/mangohud/libMangoHud_shim.so",
         "/usr/lib/i386-linux-gnu/mangohud/libMangoHud_shim.so",
         "/usr/local/lib/i386-linux-gnu/mangohud/libMangoHud_shim.so",
         "/usr/local/lib32/mangohud/libMangoHud_shim.so",
+    ]
+    """
+    candidates = [
+        # Arch Linux / CachyOS / EndeavourOS / Manjaro
+        "/usr/lib32/mangohud/libMangoHud_shim.so",
+
+        # Debian / Ubuntu / Linux Mint
+        "/usr/lib/i386-linux-gnu/mangohud/libMangoHud_shim.so",
+
+        # Installations locales
+        "/usr/local/lib32/mangohud/libMangoHud_shim.so",
+        "/usr/local/lib/i386-linux-gnu/mangohud/libMangoHud_shim.so",
+
+        # Steam Runtime 32 bits (si fourni)
+        os.path.expanduser(
+            "~/.steam/root/ubuntu12_32/steam-runtime/usr/lib/mangohud/libMangoHud_shim.so"
+        ),
+
+        # Flatpak Runtime 32 bits (rare)
+        "/var/lib/flatpak/runtime/org.freedesktop.Platform.VulkanLayer.MangoHud/current/active/files/lib/i386-linux-gnu/libMangoHud_shim.so",
+
+        os.path.expanduser(
+            "~/.local/share/flatpak/runtime/"
+            "org.freedesktop.Platform.VulkanLayer.MangoHud/"
+            "current/active/files/lib/i386-linux-gnu/libMangoHud_shim.so"
+        ),
     ]
 
     for path in candidates:
