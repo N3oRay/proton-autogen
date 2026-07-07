@@ -14,7 +14,7 @@ CLI_CMD = ["proton-autogen"]  # ou ["python", "-m", "proton_autogen"]
 # ----------------------------
 
 def run_cli(args=None, timeout=5):
-      """
+    """
     Exécute la commande CLI et retourne le résultat.
     """
     if args is None:
