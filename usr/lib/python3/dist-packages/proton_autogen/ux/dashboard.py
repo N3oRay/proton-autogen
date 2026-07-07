@@ -14,6 +14,7 @@ from proton_autogen.ux.menu import attach_menu
 
 from proton_autogen.ux.search import filter_games
 from proton_autogen.notify import notifications
+from proton_autogen.progress import Progress
 from proton_autogen.backend import (
     run,
     list_programs_ux,
@@ -47,6 +48,18 @@ class Dashboard(Gtk.ApplicationWindow):
 
         self.build_ui()
         self.refresh_games()
+
+    # -------------------------
+    # Progres Barre
+    # -------------------------
+    def progress_callback(self, percent, message):
+        def update():
+            self.status.set_text(
+                f"{message} ({percent}%)"
+            )
+            return False
+
+        GLib.idle_add(update)
 
 
     # -------------------------
@@ -750,8 +763,16 @@ class Dashboard(Gtk.ApplicationWindow):
         GLib.timeout_add_seconds(3, self._close_launch_dialog)
 
         def worker():
+            progress = Progress(
+                callback=self.progress_callback
+            )
+
             try:
-                run(game["path"])
+                run(
+                    game["path"],
+                    progress=progress
+                )
+
             except Exception as e:
                 print("[UX] Launch error:", e)
 

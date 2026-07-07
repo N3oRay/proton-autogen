@@ -10,13 +10,16 @@ import uuid
 import time
 from gi.repository import GLib
 from pathlib import Path
+from proton_autogen.exceptions import ExecutableNotFoundError, ProtonNotFoundError, GameConfigError, PrefixError
 from shutil import which
 from time import perf_counter
 import configparser
 
 from proton_autogen.utils.logger import StructuredLogger
+from proton_autogen.progress import Progress
 
-from proton_autogen.loader import save_game_config, load_game_config, get_game_config_path
+from proton_autogen.loader import save_game_config, load_game_config
+from proton_autogen.editor import add_game, edit_game_ui
 from proton_autogen.core import *
 from proton_autogen.profiles.init import *
 from proton_autogen.i18n import *
@@ -59,148 +62,185 @@ def print_runtime_info(proton, exe_path, mangohud_available):
 # ---------------------------------------------------------------------------------------------------
 # ---------------------------------------------------------------------------------------------------
 
-def run(exe_path: str, launch_mode="proton", prefix_mode="main"):
-    start_time = time.time() # Stats
-    result_code = 0 # Stats
-    exe_path = os.path.abspath(exe_path)
+def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None):
+    try:
+        start_time = time.time() # Stats
+        result_code = 0 # Stats
+        if progress is None:
+            progress = Progress()
 
-    if not os.path.exists(exe_path):
-        print(f"Error: file not found: {exe_path}")
+        exe_path = os.path.abspath(exe_path)
 
-        notifications.notify("warning", "Missing file", f"file not found: {exe_path}")
-        sys.exit(1)
+        exe = Path(exe_path).resolve()
+        progress.update( 5, "Checking executable" )
+        if not exe.exists():
+            raise ExecutableNotFoundError(exe)
 
-    # Proton path (à adapter)
-    #proton = os.path.expanduser(
-    #    "~/.steam/debian-installation/compatibilitytools.d/GE-Proton10-34/"
-    #)
-    mangohud_available = has_mangohud()
+        # Proton path (à adapter)
+        #proton = os.path.expanduser(
+        #    "~/.steam/debian-installation/compatibilitytools.d/GE-Proton10-34/"
+        #)
+        mangohud_available = has_mangohud()
 
-    config = load_game_config(exe_path)
+        config = load_game_config(exe_path)
+        progress.update( 25, "Loading game configuration" )
 
-    system = detect_system_info()  # ou équivalent existant dans core
-    logger.info(
-        "System information:\n" +
-        "\n".join(f"  {key}: {value}" for key, value in system.items())
-    )
-
-    #-------------------------------- Compatibility old profil ------
-    exe_type = None
-
-    if config:
-        exe_type = config.get("exe_type") or config.get("env_profile")
-
-    if not exe_type:
-        exe_type = detect_exe_type(exe_path)
-    #---------------------------------------Mode PRO -------------------------
-    if USER_PROFILE_DATA:
-        exe_type = USER_PROFILE_DATA.get("base") or USER_PROFILE_DATA.get("name") or exe_type
-    #-------------------------------------------------------------------------
-
-    if config:
-        saved_proton_name = config.get("proton")
-        features = config.get("features", {})
-
-        cfg_mangohud = normalize_flag(features.get("mangohud"), False)
-        cfg_gamemode = normalize_flag(features.get("gamemode"), False)
-        # Load features -----------------------------------------------
-        rfeatures = resolve_game_features(
-            {"features": features},
-            system
+        system = detect_system_info()  # ou équivalent existant dans core
+        logger.info(
+            "System information:\n" +
+            "\n".join(f"  {key}: {value}" for key, value in system.items())
         )
-        # Message features -----------------------------------------------
-        message = " | ".join(
-            f"{key}: {value}"
-            for key, value in rfeatures.items()
-        )
-        notifications.notify("info", "proton-autogen", message, ui=True)
+        progress.update( 40, "Detecting system" )
 
-        proton = find_proton_by_name(saved_proton_name)
+        #-------------------------------- Compatibility old profil ------
+        exe_type = None
 
-        if not proton:
-            print("[proton-autogen] stored Proton missing → fallback")
+        if config:
+            exe_type = config.get("exe_type") or config.get("env_profile")
+
+        if not exe_type:
+            exe_type = detect_exe_type(exe_path)
+        #---------------------------------------Mode PRO -------------------------
+        if USER_PROFILE_DATA:
+            exe_type = USER_PROFILE_DATA.get("base") or USER_PROFILE_DATA.get("name") or exe_type
+        #-------------------------------------------------------------------------
+
+        if config:
+            saved_proton_name = config.get("proton")
+            features = config.get("features", {})
+
+            cfg_mangohud = normalize_flag(features.get("mangohud"), False)
+            cfg_gamemode = normalize_flag(features.get("gamemode"), False)
+            # Load features -----------------------------------------------
+            rfeatures = resolve_game_features(
+                {"features": features},
+                system
+            )
+            # Message features -----------------------------------------------
+            message = " | ".join(
+                f"{key}: {value}"
+                for key, value in rfeatures.items()
+            )
+            notifications.notify("info", "proton-autogen", message, ui=True)
+
+            proton = find_proton_by_name(saved_proton_name)
+
+            if not proton:
+                logger.warning(
+                    "Stored Proton '%s' missing, using fallback",
+                    saved_proton_name,
+                )
+                proton = find_proton()
+        else:
+            # By Default
+            cfg_mangohud = False
+            cfg_gamemode = False
+            rfeatures = None
             proton = find_proton()
-    else:
-        # By Default
-        cfg_mangohud = False
-        cfg_gamemode = False
-        rfeatures = None
-        proton = find_proton()
+
+        progress.update( 60, "Proton runtime selected" )
+        enable_mangohud = cfg_mangohud if config else False
+        enable_gamemode = cfg_gamemode if config else False
+
+        # CLI overrides (priorité utilisateur)
+        if "--mangohud" in sys.argv:
+            enable_mangohud = True
+
+        if "--gamemode" in sys.argv:
+            enable_gamemode = True
 
 
-    enable_mangohud = cfg_mangohud if config else False
-    enable_gamemode = cfg_gamemode if config else False
+        if proton:
+            print_runtime_info(proton, exe_path, mangohud_available)
+        else:
+            raise ProtonNotFoundError(exe_path)
 
-    # CLI overrides (priorité utilisateur)
-    if "--mangohud" in sys.argv:
-        enable_mangohud = True
+        if launch_mode == "proton-call" and has_proton_call():
+            progress.update( 80, "Starting Proton Call" )
+            launch_proton_call(
+                exe_path=exe_path,
+                proton=proton,
+                system=system,
+                features=rfeatures,
+                enable_mangohud=enable_mangohud,
+                enable_gamemode=enable_gamemode,
+                start_time=start_time,
+                extra_args=[]
+            )
 
-    if "--gamemode" in sys.argv:
-        enable_gamemode = True
+        elif launch_mode == "proton" and proton:
 
+            # ----------------------------
+            # Prefix resolution (IMPORTANT PART)
+            # ----------------------------
+            if config and config.get("prefix"):
+                prefix_mode = config["prefix"].get("name", prefix_mode)
+                #Message
+                notifications.notify("info", "proton-autogen", f"LOAD CONFIG PREFIX : {prefix_mode}", ui=True)
 
-    if proton:
-        print_runtime_info(proton, exe_path, mangohud_available)
-    else:
-        print("[proton-autogen] ERROR: No Proton installation found")
-        print("")
-        print("Install GE-Proton with:")
-        print("  protonup-qt")
-        print("")
-        print("Or install Proton-GE from command line:")
-        print("  protonup -d ~/.steam/root/compatibilitytools.d")
-        print("")
-        print("Then restart Steam and try again.")
+            result_code = -1
+            progress.update( 80, "Starting Proton" )
+            result_code = run_game_proton(exe_path=exe_path, exe_type=exe_type, proton=proton, system=system, features=rfeatures, enable_mangohud=enable_mangohud,
+             enable_gamemode=enable_gamemode, prefix_mode=prefix_mode)
+            if DEBUG or VERBOSE:
+                logger.debug("Result type: %s", type(result_code))
+                logger.debug("Result: %s", result_code)
+
+                if isinstance(result_code, subprocess.CompletedProcess):
+                    logger.info(
+                        "Process return code: %s",
+                        result_code.returncode,
+                    )
+            status = handle_result(result_code)
+            finalize_session(exe_path, start_time, result_code) # Stats
+
+            show_result(status, show_message)
+
+            sys.exit(status["code"])
+
+        elif launch_mode == "wine":
+
+            result_code = -1
+            progress.update( 80, "Starting Wine" )
+            result_code = run_standard(exe_path)
+            status = handle_result(result_code)
+            finalize_session(exe_path, start_time, result_code) # Stats
+
+            show_result(status, show_message)
+
+            sys.exit(status["code"])
+
+    except ExecutableNotFoundError as e:
+        logger.error(str(e))
+        notifications.notify( "warning", "Missing executable", str(e), ui=True, )
         sys.exit(1)
 
-    if launch_mode == "proton-call" and has_proton_call():
-        launch_proton_call(
-            exe_path=exe_path,
-            proton=proton,
-            system=system,
-            features=rfeatures,
-            enable_mangohud=enable_mangohud,
-            enable_gamemode=enable_gamemode,
-            start_time=start_time,
-            extra_args=[]
-        )
+    except ProtonNotFoundError as e:
+        message = """
+            No Proton installation found.
 
-    elif launch_mode == "proton" and proton:
+            Install a Proton version (e.g. via ProtonUp-Qt)
+            or specify PROTON_PATH.
 
-        # ----------------------------
-        # Prefix resolution (IMPORTANT PART)
-        # ----------------------------
-        if config and config.get("prefix"):
-            prefix_mode = config["prefix"].get("name", prefix_mode)
-            #Message
-            notifications.notify("info", "proton-autogen", f"LOAD CONFIG PREFIX : {prefix_mode}", ui=True)
+            Command line:
+              protonup -d ~/.steam/root/compatibilitytools.d
 
-        result_code = -1
-        result_code = run_game_proton(exe_path=exe_path, exe_type=exe_type, proton=proton, system=system, features=rfeatures, enable_mangohud=enable_mangohud,
-         enable_gamemode=enable_gamemode, prefix_mode=prefix_mode)
-        if DEBUG or VERBOSE:
-            print(type(result_code))
-            print(result_code)
+            Restart Steam and try again.
+            """.strip()
+        notifications.notify( "error", "proton-autogen", message, ui=True, )
+        logger.error(str(e))
+        sys.exit(2)
 
-            if isinstance(result_code, subprocess.CompletedProcess):
-                print(result_code.returncode)
-        status = handle_result(result_code)
-        finalize_session(exe_path, start_time, result_code) # Stats
+    except GameConfigError as e:
+        logger.error(str(e))
+        sys.exit(3)
 
-        show_result(status, show_message)
-
-        sys.exit(status["code"])
-
-    elif launch_mode == "wine":
-
-        result_code = -1
-        result_code = run_standard(exe_path)
-        status = handle_result(result_code)
-        finalize_session(exe_path, start_time, result_code) # Stats
-
-        show_result(status, show_message)
-
-        sys.exit(status["code"])
+    except PrefixError as e:
+        logger.error(str(e))
+        sys.exit(4)
+    except Exception:
+        logger.exception("Unexpected error")
+        raise
 
 #---------------------------------------------------------------------------------------------
 
@@ -295,26 +335,7 @@ def normalize_flag(value, default=True):
 
 
 
-def list_prefixes():
-    root = os.path.expanduser("~/Documents/Proton/env")
 
-    if not os.path.isdir(root):
-        return []
-
-    prefixes = []
-
-    for name in sorted(os.listdir(root)):
-        path = os.path.join(root, name)
-
-        if not os.path.isdir(path):
-            continue
-
-        prefixes.append({
-            "name": name,
-            "path": path
-        })
-
-    return prefixes
 
 
 def create_new_prefix():
@@ -329,144 +350,6 @@ def create_new_prefix():
     os.makedirs(path, exist_ok=True)
 
     return name
-
-def choose_prefix():
-    prefixes = list_prefixes()
-    root = os.path.expanduser("~/Documents/Proton/env")
-
-    print("\nAvailable prefixes:\n")
-
-    for idx, prefix in enumerate(prefixes, start=1):
-        print(f"[{idx}] {prefix['name']}")
-
-    print("[new] Create new prefix")
-
-    while True:
-        choice = input("\nSelection: ").strip().lower()
-
-        # -------------------------
-        # NEW PREFIX
-        # -------------------------
-        if choice == "new":
-            name = input("Prefix name (empty = auto): ").strip()
-
-            if not name:
-                name = f"auto-{uuid.uuid4().hex[:8]}"
-
-            path = os.path.join(root, name)
-            os.makedirs(path, exist_ok=True)
-
-            return {
-                "name": name,
-                "path": path
-            }
-
-        # -------------------------
-        # EXISTING PREFIX
-        # -------------------------
-        try:
-            idx = int(choice) - 1
-
-            if 0 <= idx < len(prefixes):
-                return prefixes[idx]
-
-        except ValueError:
-            pass
-
-        print("Invalid selection")
-
-def find_existing_prefix_for_game(exe_path: str):
-    cfg = load_game_config(exe_path)
-
-    if not cfg:
-        return None
-
-    return cfg.get("prefix")
-
-
-def add_game(exe_path: str):
-    exe_path = os.path.abspath(exe_path)
-
-    if not os.path.exists(exe_path):
-        print(f"Error: file not found: {exe_path}")
-        return
-
-    os.makedirs(CONFIG_DIR, exist_ok=True)
-    config_path, gid = get_game_config_path(exe_path)
-
-    proton = find_proton()
-    exe_type = detect_exe_type(exe_path)
-
-    # ----------------------------------
-    # PREFIX LOGIC (reuse if exists)
-    # ----------------------------------
-    existing_prefix = find_existing_prefix_for_game(exe_path)
-
-    if existing_prefix:
-        print("\n[proton-autogen] Existing prefix found:")
-        print(f"  {existing_prefix['name']} -> {existing_prefix['path']}")
-
-        choice = input("Reuse this prefix ? (Y/n) : ").strip().lower()
-
-        if choice not in ("n", "no"):
-            prefix = existing_prefix
-        else:
-            prefix = choose_prefix()
-    else:
-        prefix = choose_prefix()
-
-    config = {
-        "id": gid,
-        "name": os.path.basename(exe_path),
-        "path": exe_path,
-
-        "favorite": False,
-
-        "playtime": {
-            "seconds": 0,
-            "launch_count": 0,
-            "last_session": 0,
-            "last_launch": None
-        },
-
-        "exe_type": exe_type,
-
-        "proton": proton.get("path") if isinstance(proton, dict) else proton,
-
-        # IMPORTANT
-        "prefix": {
-            "name": prefix["name"],
-            "path": prefix["path"]
-        },
-
-        "features": {
-            "mangohud": False,
-            "gamemode": False,
-            "xalia": None,
-            "gpu": "auto"
-        },
-
-        "sync": {
-            "esync": "auto",
-            "fsync": "auto"
-        },
-
-        "env_profile": exe_type,
-
-        "env": {
-            "DXVK_ASYNC": "1"
-        }
-    }
-
-    with open(config_path, "w") as f:
-        json.dump(config, f, indent=2)
-
-    print("[proton-autogen] Game added:")
-    print(f"  name     : {config['name']}")
-    print(f"  id       : {gid}")
-    print(f"  profile  : {exe_type}")
-    print(f"  prefix   : {prefix['name']}")
-    print(f"  config   : {config_path}")
 
 
 def choose_proton():
@@ -518,104 +401,7 @@ def choose_proton():
 
 
 
-# -- Save game for UI
-def edit_game_ui(exe_path: str):
 
-    if isinstance(exe_path, dict):
-        exe_path = exe_path.get("path")
-
-    if not isinstance(exe_path, str):
-        return
-
-    exe_path = os.path.abspath(exe_path)
-
-    config_path, gid = get_game_config_path(exe_path)
-
-    if not os.path.exists(config_path):
-        print("[proton-autogen] Game not registered.")
-        return
-
-    with open(config_path, "r") as f:
-        config = json.load(f)
-
-    while True:
-        print("\n=== Edit Game ===")
-        current_env_profile = config.get("exe_type") or config.get("env_profile")
-        print(f"1) Profile    : {current_env_profile}")
-        print(f"2) Proton     : {os.path.basename(config['proton'])}")
-        print(f"3) Prefix     : {config['prefix']['name']}")
-        print(f"4) MangoHud   : {config['features']['mangohud']}")
-        print(f"5) GameMode   : {config['features']['gamemode']}")
-        print(f"6) GPU Mode   : {config['features'].get('gpu', 'auto')}")
-        print("7) Save & Quit")
-        print("0) Cancel")
-
-        choice = input("\nSelection: ").strip()
-
-        if choice == "1":
-            print(f"\nCurrent profile: {current_env_profile}")
-            print(f"Detected profile: {detect_exe_type(exe_path)}")
-
-            profile = choose_profile()
-
-            if profile is None:
-                config["env_profile"] = detect_exe_type(exe_path)
-            else:
-                config["env_profile"] = profile
-
-        elif choice == "2":
-            proton = choose_proton()
-
-            if proton:
-                config["proton"] = proton["path"] if isinstance(proton, dict) else proton
-                print(f"Selected Proton: {os.path.basename(config['proton'])}")
-            else:
-                print("No Proton selected.")
-
-        elif choice == "3":
-            prefix = choose_prefix()
-
-            config["prefix"] = {
-                "name": prefix["name"],
-                "path": prefix["path"]
-            }
-
-        elif choice == "4":
-            current = config["features"].get("mangohud", False)
-            config["features"]["mangohud"] = not current
-
-        elif choice == "5":
-            current = config["features"].get("gamemode", False)
-            config["features"]["gamemode"] = not current
-
-        elif choice == "6":
-            modes = ["auto", "safe", "balanced", "performance"]
-
-            current = config["features"].get("gpu", "auto")
-
-            print("\nGPU mode:")
-            for i, mode in enumerate(modes, 1):
-                marker = "*" if mode == current else " "
-                print(f"{i}) [{marker}] {mode}")
-
-            sel = input("Selection: ").strip()
-
-            if sel in ("1", "2", "3", "4"):
-                config["features"]["gpu"] = modes[int(sel) - 1]
-
-        elif choice == "7":
-            with open(config_path, "w") as f:
-                json.dump(config, f, indent=2)
-
-            print("[proton-autogen] Configuration updated.")
-            return
-
-        elif choice == "0":
-            print("[proton-autogen] Cancelled.")
-            return
-
-        else:
-            print("Invalid selection.")
 
 
 
