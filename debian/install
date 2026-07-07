@@ -40,6 +40,7 @@ usr/lib/python3/dist-packages/proton_autogen/ux/dialogs.py /usr/lib/python3/dist
 usr/lib/python3/dist-packages/proton_autogen/ux/game_list.py /usr/lib/python3/dist-packages/proton_autogen/ux/
 usr/lib/python3/dist-packages/proton_autogen/ux/game_editor.py /usr/lib/python3/dist-packages/proton_autogen/ux/
 usr/lib/python3/dist-packages/proton_autogen/ux/dashboard.py /usr/lib/python3/dist-packages/proton_autogen/ux/
+usr/lib/python3/dist-packages/proton_autogen/ux/themes.py /usr/lib/python3/dist-packages/proton_autogen/ux/
 usr/lib/python3/dist-packages/proton_autogen/ux/assets/* /usr/lib/python3/dist-packages/proton_autogen/ux/assets/
 
 

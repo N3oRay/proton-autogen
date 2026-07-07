@@ -11,6 +11,7 @@ from proton_autogen.ux.game_list import GameList
 from proton_autogen.ux.game_editor import GameEditor
 from proton_autogen.ux.dialogs import open_game_file_dialog, show_launch_dialog, hide_launch_dialog
 from proton_autogen.ux.menu import attach_menu
+from proton_autogen.ux.themes import load_saved_theme, save_theme, AVAILABLE_THEMES, DEFAULT_THEME
 
 from proton_autogen.ux.search import filter_games
 from proton_autogen.notify import notifications
@@ -69,13 +70,19 @@ class Dashboard(Gtk.ApplicationWindow):
 
     def on_change_style(self, _btn):
         app = self.get_application()
-
-        if app.current_style == "fluent":
-            app.apply_style("adwaita")
-            self.status.set_text("Style: Adwaita")
+        # on fait défiler les thèmes
+        if hasattr(app, "cycle_style"):
+            app.cycle_style()
+            # feedback rapide
+            self.status.set_text(f"Style: {app.current_style}")
         else:
-            app.apply_style("fluent")
-            self.status.set_text("Style: Proton Autogen")
+            # fallback ancien comportement
+            if app.current_style == "fluent":
+                app.apply_style("adwaita")
+                self.status.set_text("Style: Adwaita")
+            else:
+                app.apply_style("fluent")
+                self.status.set_text("Style: Proton Autogen")
 
     # -------------------------
     # Show TOAST
@@ -820,42 +827,70 @@ class ProtonAutogenApp(Gtk.Application):
 
         base = os.path.dirname(__file__)
 
-        provider = Gtk.CssProvider()
-        provider.load_from_path(os.path.join(base, "assets", "style.css"))
-
-        Gtk.StyleContext.add_provider_for_display(
-            Gdk.Display.get_default(),
-            provider,
-            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION,
-        )
-
+        # CSS provider réutilisable
         self.css_provider = Gtk.CssProvider()
-        self.current_style = "fluent"
-        self.apply_style("fluent")
 
-
-    def apply_style(self, style_name):
-
-        base = os.path.dirname(__file__)
-
+        # map des fichiers CSS (assure-toi que les fichiers existent dans assets/)
         style_map = {
             "fluent": os.path.join(base, "assets", "style.css"),
             "adwaita": os.path.join(base, "assets", "style_adwaita.css"),
+            "hellokit": os.path.join(base, "assets", "hello-kit.css"),
         }
+        self._style_map = style_map
 
-        path = style_map.get(style_name)
+        # charge le thème sauvegardé (ou défaut)
+        saved = load_saved_theme()
+        if saved not in AVAILABLE_THEMES:
+            saved = DEFAULT_THEME
+        self.current_style = saved
+
+        # applique le thème initial
+        self.apply_style(self.current_style)
+
+    def apply_style(self, style_name):
+        # path du CSS à appliquer
+        path = self._style_map.get(style_name)
         if not path:
             return
 
-        self.current_style = style_name
+        # enlève le provider précédent (si présent) pour éviter accumulations
+        try:
+            Gtk.StyleContext.remove_provider_for_display(
+                Gdk.Display.get_default(),
+                self.css_provider
+            )
+        except Exception:
+            # ignore si non supporté / pas encore ajouté
+            pass
 
-        self.css_provider.load_from_path(path)
+        # recharge le provider avec le nouveau fichier
+        try:
+            self.css_provider.load_from_path(path)
+        except Exception as e:
+            # si échec, on loggue et on retourne
+            print(f"[WARN] Echec chargement CSS {path}: {e}")
+            return
 
+        # ajoute le provider pour l'affichage (priorité application)
         Gtk.StyleContext.add_provider_for_display(
             Gdk.Display.get_default(),
             self.css_provider,
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION,
         )
+
+        # met à jour l'état et sauvegarde le choix
+        self.current_style = style_name
+        save_theme(style_name)
+
+    def cycle_style(self):
+        # choisis l'indice suivant dans AVAILABLE_THEMES et applique
+        try:
+            idx = AVAILABLE_THEMES.index(self.current_style)
+        except ValueError:
+            idx = 0
+        next_idx = (idx + 1) % len(AVAILABLE_THEMES)
+        next_theme = AVAILABLE_THEMES[next_idx]
+        self.apply_style(next_theme)
 
     def do_activate(self):
         self._create_actions()

@@ -1,10 +1,54 @@
 # Architecture Overview
 
+# lancer un exe via Proton
+proton-autogen /chemin/vers/jeu.exe
+
+# options utiles (CLI)
+proton-autogen --list-protons
+proton-autogen --diag
+proton-autogen --ux            # lance le dashboard GTK
+
+
+git clone https://github.com/N3oRay/proton-autogen.git
+cd proton-autogen
+
+# Installation manuelle (exemple)
+chmod +x install.sh
+./install.sh
+
+# Ou construire un .deb (Debian/Ubuntu)
+dpkg-buildpackage -b -us -uc
+sudo dpkg -i ../proton-autogen_*.deb
 
 ### proton_autogen.profiles
 Contains all 18 game profiles (DX11, DX12, GoldSrc, etc).
 
 # 🏗️ Architecture Overview - Proton-Autogen
+
+.SRCINFO                 (meta pour Arch)
+.github/                 (actions / templates — ne semble pas critique)
+.gitignore
+About.md
+CONTRIBUTE.md
+LICENSE
+Note.txt
+PKGBUILD                 (paquet Arch/AUR)
+README.md                (guide d'utilisation, installation, captures)
+debian/                  (débian packaging)
+docs/                    (screenshots, démonstrations)
+install.sh               (script d'installation manuelle)
+update.sh                (script de mise à jour)
+pyproject.toml           (packaging Python minimal)
+requirements*.txt        (dépendances)
+tests/                   (répertoire de tests — vide dans l'arbre)
+usr/
+  bin/
+    proton-autogen       (point d'entrée CLI — script Python)
+  lib/python3/dist-packages/proton_autogen/
+    ux/                  (UI GTK4 : dashboard, game_editor, etc.)
+    backend.py           (logique de lancement, profils, etc.)
+    ...                  (autres modules: info, diag, sensor, stats, etc.)
+docs/screenshots/        (images démonstratives)
 
 
 ## 📦 Module Map
@@ -177,4 +221,3 @@ Contains all 18 game profiles (DX11, DX12, GoldSrc, etc).
 # CPU Optimization
 ├─ detect_use_all_available_cores()
 └─ cpu_args()               # Return -USEALLAVAILABLECORES if applicable
-
