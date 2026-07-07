@@ -13,10 +13,12 @@ CLI_CMD = ["proton-autogen"]  # ou ["python", "-m", "proton_autogen"]
 # CORE HELPER
 # ----------------------------
 
-def run_cli(args, timeout=5):
-    """
+def run_cli(args=None, timeout=5):
+      """
     Exécute la commande CLI et retourne le résultat.
     """
+    if args is None:
+        args = []
     return subprocess.run(
         CLI_CMD + args,
         capture_output=True,
