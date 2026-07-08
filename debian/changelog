@@ -1,33 +1,27 @@
 proton-autogen (2.9.4) noble; urgency=medium
 
-* New features
+  * New features:
+    - Added GPU profile management with AMD/NVIDIA detection.
+    - Added system diagnostics for Debian, Ubuntu, Linux Mint, Arch and CachyOS.
+    - Added Lutris export support and game registry.
+    - Added JSON logging and multilingual UI support.
+    - Added launch progress reporting and stable Sensors menu.
 
-  * Added GPU profile management with AMD/NVIDIA detection.
-  * Added system diagnostics for Debian, Ubuntu, Linux Mint, Arch and CachyOS.
-  * Added Lutris export support and game registry.
-  * Added JSON logging and improved runtime feedback.
-  * Added multilingual UI support (FR, EN, ZH, ES, DE, UK, PT).
-  * Added stable Sensors menu and launch progress reporting.
+  * User interface:
+    - Improved Adwaita and Kitty themes.
+    - Added game, profile and platform badges.
+    - Improved GTK4 layout and notifications.
 
-* UX improvements
+  * Runtime and backend:
+    - Improved Proton detection, launch stability and session tracking.
+    - Improved prefix/configuration management.
+    - Optimized executable scanning with caching.
 
-  * Improved Adwaita and Kitty UI themes.
-  * Added game/profile/platform badges.
-  * Improved GTK4 game list layout and notifications.
+  * Bug fixes:
+    - Fixed MangoHud handling for 32-bit applications.
+    - Fixed launch return codes, badge refresh and game list updates.
 
-* Runtime & backend
+  * Developer:
+    - Improved backend/UI separation and debugging tools.
 
-  * Improved Proton detection, launch stability and session tracking.
-  * Improved prefix/configuration management.
-  * Optimized executable scanning with caching.
-
-* Bug fixes
-
-  * Fixed MangoHud handling for 32-bit applications.
-  * Fixed launch return codes, badge refresh and game list updates.
-
-* Developer
-
-  * Improved backend/UI separation and debugging tools.
-
--- N3oray [n3oray77@gmail.com](mailto:n3oray77@gmail.com)  Wed, 09 Jul 2026 00:27:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Wed, 09 Jul 2026 00:27:00 +0200
