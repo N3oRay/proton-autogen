@@ -73,6 +73,8 @@ class Dashboard(Gtk.ApplicationWindow):
         # on fait défiler les thèmes
         if hasattr(app, "cycle_style"):
             app.cycle_style()
+            # Changement du background
+            self.update_background(app.current_style)
             # feedback rapide
             self.status.set_text(f"Style: {app.current_style}")
         else:
@@ -83,6 +85,7 @@ class Dashboard(Gtk.ApplicationWindow):
             else:
                 app.apply_style("fluent")
                 self.status.set_text("Style: Proton Autogen")
+            self.update_background(app.current_style)
 
     # -------------------------
     # Show TOAST
@@ -341,6 +344,22 @@ class Dashboard(Gtk.ApplicationWindow):
         )
         self.stats_label.add_css_class("home-label")
 
+
+    def update_background(self, theme):
+        base = os.path.dirname(__file__)
+
+        backgrounds = {
+            "fluent": "logo-pa.jpg",
+            "adwaita": "logo-adwaita.jpg",
+            "hellokit": "logo-hellokit.jpg",
+        }
+
+        filename = backgrounds.get(theme, "logo-pa.jpg")
+
+        self.background.set_filename(
+            os.path.join(base, "assets", filename)
+        )
+
     # -------------------------
     # UI
     # -------------------------
@@ -359,15 +378,15 @@ class Dashboard(Gtk.ApplicationWindow):
         # BACKGROUND IMAGE
         # =========================
         base = os.path.dirname(__file__)
-        background = Gtk.Picture.new_for_filename(
+        self.background = Gtk.Picture.new_for_filename(
             os.path.join(base, "assets", "logo-pa.jpg")
         )
-        background.set_content_fit(Gtk.ContentFit.COVER)
-        background.set_hexpand(True)
-        background.set_vexpand(True)
 
-        # Le fond est le widget principal
-        overlay.set_child(background)
+        self.background.set_content_fit(Gtk.ContentFit.COVER)
+        self.background.set_hexpand(True)
+        self.background.set_vexpand(True)
+
+        overlay.set_child(self.background)
 
         # =========================
         # ROOT CONTAINER
@@ -509,6 +528,8 @@ class Dashboard(Gtk.ApplicationWindow):
         self.status.add_css_class("home-label")
 
         root.append(self.status)
+        # themes
+        self.update_background(self.get_application().current_style)
 
 
     # -------------------------
