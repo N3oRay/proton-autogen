@@ -1,56 +1,33 @@
-proton-autogen (2.9.3) noble; urgency=medium
+proton-autogen (2.9.4) noble; urgency=medium
 
-  * New features
-    - Added new Adwaita UI theme and Kitty UI theme
-    - Added launch progress reporting for improved UX.
-    - Added improved UX error handling and runtime feedback.
-    - Added structured JSON logging:
-      ~/.local/share/proton-autogen/logs/proton-autogen.json
-    - Added multilingual About menu support:
-      FR, EN, ZH, ES, DE, UK, PT.
-    - Added multilingual Requirements menu support:
-      FR, EN, ZH, ES, DE, UK, PT.
-    - Added toast notification system:
-      FR, EN, ZH, ES.
-    - Added GPU profile management with automatic AMD/NVIDIA detection.
-    - Added stable Sensors menu.
-    - Added advanced system diagnostics for:
-      Debian, Ubuntu, Linux Mint, Arch Linux, and CachyOS.
-    - Added Lutris game export support.
-    - Added optimized executable search with caching.
-    - Fixed MangoHud working directory handling for 32-bit applications.
+* New features
 
-  * UX
-    - Added profile badges (DX11, DX12, Win95, Install, etc.).
-    - Added platform and game badges (Steam, Battle.net, Favorites, Playtime, etc.).
-    - Added live language badges (FR/EN/ZH/ES/DE).
-    - Improved game list layout and GTK4 interface.
+  * Added GPU profile management with AMD/NVIDIA detection.
+  * Added system diagnostics for Debian, Ubuntu, Linux Mint, Arch and CachyOS.
+  * Added Lutris export support and game registry.
+  * Added JSON logging and improved runtime feedback.
+  * Added multilingual UI support (FR, EN, ZH, ES, DE, UK, PT).
+  * Added stable Sensors menu and launch progress reporting.
 
-  * Statistics
-    - Improved playtime tracking and dashboard statistics.
+* UX improvements
 
-  * Runtime
-    - Improved Proton launch stability.
-    - Improved session tracking.
-    - Improved runtime error handling.
+  * Improved Adwaita and Kitty UI themes.
+  * Added game/profile/platform badges.
+  * Improved GTK4 game list layout and notifications.
 
-  * Backend
-    - Improved configuration and prefix management.
-    - Improved Proton detection and selection.
+* Runtime & backend
 
-  * Game management
-    - Improved game scanning performance.
-    - Added game registry.
-    - Improved Windows executable detection.
+  * Improved Proton detection, launch stability and session tracking.
+  * Improved prefix/configuration management.
+  * Optimized executable scanning with caching.
 
-  * Bug fixes
-    - Fixed launch return code handling.
-    - Fixed badge refresh issues.
-    - Fixed game list update inconsistencies.
+* Bug fixes
 
-  * Developer
-    - Improved backend/UI separation.
-    - Improved debugging tools and internal APIs.
+  * Fixed MangoHud handling for 32-bit applications.
+  * Fixed launch return codes, badge refresh and game list updates.
 
+* Developer
 
- -- N3oray <n3oray77@gmail.com>  Wed, 08 Jul 2026 00:27:00 +0200
+  * Improved backend/UI separation and debugging tools.
+
+-- N3oray [n3oray77@gmail.com](mailto:n3oray77@gmail.com)  Wed, 09 Jul 2026 00:27:00 +0200
