@@ -79,7 +79,8 @@ windowcontrols button,
 .titlebar .titlebutton {
 
     background: transparent;
-    color: var(--hk-text);
+    /*color: var(--hk-text); */
+    color: white;
 
     min-width:24px;
     min-height:24px;
@@ -165,7 +166,7 @@ button.suggested-action:hover {
 }
 
 .btn-launch {
-    background: var(--hk-accent);
+    background: #ffb6d9;
     color: white;
     border-radius: 10px;
     font-weight: bold;
@@ -328,6 +329,12 @@ label.dim-label2 {
     color: rgba(255,105,180,0.65);
     font-size: 10px;
 }
+
+label.home-label {
+    color: rgba(255,255,255,0.70);
+    font-size: 14px;
+}
+
 
 /* =========================================================
    DIALOGUES

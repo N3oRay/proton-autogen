@@ -351,6 +351,11 @@ label.dim-label2 {
     font-size: 10px;
 }
 
+label.home-label {
+    color: rgba(255,255,255,0.70);
+    font-size: 14px;
+}
+
 
 /* =========================================================
    DIALOGUES

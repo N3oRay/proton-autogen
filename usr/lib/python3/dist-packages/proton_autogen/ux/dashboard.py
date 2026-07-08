@@ -339,7 +339,7 @@ class Dashboard(Gtk.ApplicationWindow):
             f"⏱ {stats['hours']}h {stats['minutes']}m  •  "
             f"⭐ {stats['favorites']}"
         )
-        self.stats_label.add_css_class("dim-label")
+        self.stats_label.add_css_class("home-label")
 
     # -------------------------
     # UI
@@ -465,7 +465,7 @@ class Dashboard(Gtk.ApplicationWindow):
             f"⭐ {stats['favorites']}"
         )
 
-        self.stats_label.add_css_class("dim-label")
+        self.stats_label.add_css_class("home-label")
         root.append(self.stats_label)
 
 
@@ -506,7 +506,7 @@ class Dashboard(Gtk.ApplicationWindow):
         # =========================
         self.status = Gtk.Label(label="Ready")
         self.status.set_xalign(0)
-        self.status.add_css_class("dim-label")
+        self.status.add_css_class("home-label")
 
         root.append(self.status)
 

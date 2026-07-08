@@ -58,7 +58,7 @@ list,
 .game-list,
 .game-row {
 
-    background: transparent;
+    background: @bg-alt;
 }
 
 
@@ -383,10 +383,16 @@ label {
     font-size: 13px;
 }
 
+label.home-label {
+    color: rgba(255,255,255,0.70);
+    font-size: 12px;
+}
+
+
 /* small helper text */
 .help-text {
     color: @text-muted;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 /* =========================================================
