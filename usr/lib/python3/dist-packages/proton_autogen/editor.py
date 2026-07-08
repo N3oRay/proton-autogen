@@ -118,6 +118,125 @@ def find_existing_prefix_for_game(exe_path: str):
 
     return cfg.get("prefix")
 
+
+# add game for UX
+
+def add_game_ux(exe_path: str, prefix=None):
+    """
+    Add game from GTK UI.
+    No terminal interaction.
+    """
+
+    exe_path = os.path.abspath(exe_path)
+
+    if not os.path.exists(exe_path):
+        raise FileNotFoundError(
+            f"Game file not found: {exe_path}"
+        )
+
+    os.makedirs(CONFIG_DIR, exist_ok=True)
+
+    config_path, gid = get_game_config_path(exe_path)
+
+    proton = find_proton()
+    exe_type = detect_exe_type(exe_path)
+
+
+    # ----------------------------------
+    # PREFIX
+    # ----------------------------------
+
+    if prefix is None:
+
+        existing_prefix = find_existing_prefix_for_game(exe_path)
+
+        if existing_prefix:
+            prefix = existing_prefix
+
+        else:
+            # choix automatique pour UI
+            root = os.path.expanduser(PREFIX_DIR)
+
+            name = "auto-" + uuid.uuid4().hex[:8]
+
+            path = os.path.join(root, name)
+
+            os.makedirs(path, exist_ok=True)
+
+            prefix = {
+                "name": name,
+                "path": path
+            }
+
+
+    config = {
+
+        "id": gid,
+
+        "name": os.path.basename(exe_path),
+
+        "path": exe_path,
+
+        "favorite": False,
+
+
+        "playtime": {
+            "seconds": 0,
+            "launch_count": 0,
+            "last_session": 0,
+            "last_launch": None
+        },
+
+
+        "exe_type": exe_type,
+
+
+        "proton": (
+            proton.get("path")
+            if isinstance(proton, dict)
+            else proton
+        ),
+
+
+        "prefix": {
+            "name": prefix["name"],
+            "path": prefix["path"]
+        },
+
+
+        "features": {
+            "mangohud": False,
+            "gamemode": False,
+            "xalia": None,
+            "gpu": "auto"
+        },
+
+
+        "sync": {
+            "esync": "auto",
+            "fsync": "auto"
+        },
+
+
+        "env_profile": exe_type,
+
+
+        "env": {
+            "DXVK_ASYNC": "1"
+        }
+    }
+
+
+    with open(config_path, "w", encoding="utf-8") as f:
+        json.dump(
+            config,
+            f,
+            indent=2
+        )
+
+
+    return config
+
 # -- add game for UI
 def add_game(exe_path: str):
     exe_path = os.path.abspath(exe_path)

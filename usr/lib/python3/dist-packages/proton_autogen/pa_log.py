@@ -77,90 +77,10 @@ def _notify_toast(status, parent=None, timeout=3):
 # -----------------------------
 # GTK UI (Dialog simple stable GTK4)
 # -----------------------------
-def _show_ui(status):
-    content = Gtk.Box(
-        orientation=Gtk.Orientation.VERTICAL,
-        spacing=12,
-        margin_top=12,
-        margin_bottom=12,
-        margin_start=12,
-        margin_end=12,
-    )
-
-    title = Gtk.Label()
-    title.set_markup(f"<b>{status.get('title','')}</b>")
-    title.set_xalign(0)
-
-    message = Gtk.Label(label=status.get("message", ""))
-    message.set_xalign(0)
-    message.set_wrap(True)
-    message.set_selectable(True)
-
-    content.append(title)
-    content.append(message)
-
-    dialog = Gtk.Dialog(title=status.get("title", ""))
-    dialog.add_button("OK", Gtk.ResponseType.OK)
-    dialog.set_child(content)
-
-    dialog.connect("response", lambda d, r: d.destroy())
-    dialog.present()
-
-
-# -----------------------------
-# NOTIFY PUBLIC API
-# -----------------------------
-
-
-def notify_simple(level: str, title: str, message: str, ui="toast", parent=None):
-    status = build_message_type(level, title, message)
-
-    print(f"[{status['level'].upper()}] {title}")
-    print(message)
-
-    if ui == "dialog":
-        _show_ui(status)
-
-    elif ui == "toast":
-        _notify_toast(status, parent=parent)
-
-    return status
 
 # ------------------------------------
-# SHOW MESSAGE
+# SHOW RESULT
 # ------------------------------------
-def show_message(status):
-    dialog = Gtk.Dialog(
-        title=status["title"],
-        modal=True,
-    )
-
-    dialog.add_button("OK", Gtk.ResponseType.OK)
-
-    box = dialog.get_content_area()
-    box.set_spacing(12)
-    box.set_margin_top(12)
-    box.set_margin_bottom(12)
-    box.set_margin_start(12)
-    box.set_margin_end(12)
-
-    title = Gtk.Label()
-    title.set_markup(f"<b>{status['title']}</b>")
-    title.set_xalign(0)
-
-    message = Gtk.Label(label=status["message"])
-    message.set_xalign(0)
-    message.set_wrap(True)
-    message.set_selectable(True)
-
-    box.append(title)
-    box.append(message)
-
-    dialog.connect("response", lambda d, r: d.destroy())
-    dialog.present()
-
-
-
 def show_result(status, ux_handler=None):
     if status["success"]:
         return

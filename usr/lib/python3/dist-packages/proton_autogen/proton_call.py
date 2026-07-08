@@ -14,7 +14,7 @@ from proton_autogen.core import (
 
 from proton_autogen.dector import resolve_game_features, gpu_env
 from proton_autogen.util_path import proton_path, proton_name
-from proton_autogen.pa_log import handle_result, show_result, show_message
+from proton_autogen.pa_log import handle_result
 from proton_autogen.session import finalize_session
 from proton_autogen.notify import notifications
 
@@ -125,6 +125,7 @@ def launch_proton_call(
     status = handle_result(result_code)
     finalize_session(exe_path, start_time, result_code)
 
-    show_result(status, show_message)
+    #show_result(status, show_message)
+    progress.update( 80, status )
 
     sys.exit(status["code"])

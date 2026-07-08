@@ -16,10 +16,10 @@ from proton_autogen.ux.themes import load_saved_theme, save_theme, AVAILABLE_THE
 from proton_autogen.ux.search import filter_games
 from proton_autogen.notify import notifications
 from proton_autogen.progress import Progress
+from proton_autogen.editor import add_game_ux
 from proton_autogen.backend import (
     run,
     list_programs_ux,
-    add_game,
     get_diagnostic_text,
 )
 
@@ -29,7 +29,7 @@ from proton_autogen.info import print_help, get_help_text
 from proton_autogen.sensor import get_sensors_text, print_sensors, get_mangohud_advice
 from proton_autogen.requis import afficher_prerequis_label
 
-addbouton = False
+addbouton = True
 refreshbouton = True
 
 
@@ -451,7 +451,7 @@ class Dashboard(Gtk.ApplicationWindow):
         # ADD GAME
         if addbouton:
             add_btn = Gtk.Button(label="+")
-            add_btn.set_sensitive(False)
+            #add_btn.set_sensitive(False)
             add_btn.add_css_class("suggested-action")
             add_btn.connect("clicked", self.on_add_game)
             header.pack_start(add_btn)
@@ -802,6 +802,13 @@ class Dashboard(Gtk.ApplicationWindow):
                 )
 
             except Exception as e:
+                msg = str(e)
+                GLib.idle_add(
+                    lambda:
+                        self.status.set_text(
+                            f"Launch failed: {msg}"
+                        )
+                )
                 print("[UX] Launch error:", e)
 
         threading.Thread(target=worker, daemon=True).start()
@@ -832,9 +839,19 @@ class Dashboard(Gtk.ApplicationWindow):
             return
 
         try:
-            add_game(path)
+            game = add_game_ux(path)
+
+            self.status.set_text(
+                f"{game['name']} added ✔"
+            )
+
             self.refresh_games()
+
         except Exception as e:
+            self.status.set_text(
+                "Add game failed"
+            )
+
             print("[UX] Add game error:", e)
 
 

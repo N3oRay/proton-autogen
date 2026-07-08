@@ -98,7 +98,75 @@ def detect_gpu_profile(system):
 
 
 
-def gpu_env(system, features):
+def gpu_env(system=None, features=None):
+    """
+    Génère les variables d'environnement GPU selon le profil choisi.
+
+    Args:
+        system (dict): informations système détectées
+        features (dict): options du jeu
+
+    Returns:
+        dict: variables environnementales à appliquer
+    """
+
+    # Sécurité : éviter None ou mauvais type
+    if not isinstance(system, dict):
+        system = {}
+
+    if not isinstance(features, dict):
+        features = {}
+
+    # Valeurs par défaut
+    profile = features.get("gpu", "auto")
+    gpu = system.get("gpu", "").lower()
+
+
+    # Normalisation
+    if not isinstance(profile, str):
+        profile = "auto"
+
+    if not isinstance(gpu, str):
+        gpu = ""
+
+
+    # Seulement les profils performance
+    if profile not in ("performance", "extreme"):
+        return {}
+
+
+    env = {}
+
+
+    # NVIDIA
+    if gpu == "nvidia":
+
+        env.update({
+            "PROTON_ENABLE_NVAPI": "1",
+            "__GL_SHADER_DISK_CACHE": "1",
+        })
+
+        if profile == "extreme":
+            env["__GL_SHADER_DISK_CACHE_SKIP_CLEANUP"] = "1"
+
+
+    # AMD
+    elif gpu == "amd":
+
+        env["RADV_PERFTEST"] = "aco"
+
+        # Activation SAM éventuelle
+        if (
+            profile == "extreme"
+            and system.get("sam_support", False)
+        ):
+            env["RADV_PERFTEST"] = "aco,sam"
+
+    # Intel / inconnu :
+    # on ne force rien
+    return env
+
+def gpu_env_v1(system, features):
     profile = features.get("gpu")
     gpu = system.get("gpu")
 

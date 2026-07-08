@@ -777,8 +777,19 @@ def run_game_proton(exe_path, exe_type, proton,
     os.makedirs(prefix_path, exist_ok=True)
 
     env["STEAM_COMPAT_CLIENT_INSTALL_PATH"] = os.path.expanduser("~/.steam/steam")
-    env["STEAM_COMPAT_TOOL_PATHS"] = proton_path(proton)
+    # -------------------------
+    # Proton Path
+    # -------------------------
+    proton_dir = proton_path(proton)
 
+    if not os.path.isdir(proton_dir):
+        logger.error(
+            f"Invalid Proton path: {proton_dir}"
+        )
+        return -1
+
+
+    env["STEAM_COMPAT_TOOL_PATHS"] = proton_dir
     # -------------------------
     # GPU layer (UX + system merge)
     # -------------------------
@@ -859,6 +870,12 @@ def run_game_proton(exe_path, exe_type, proton,
 
         cmd_cwd = os.path.dirname(exe_path)
 
+        if not os.path.isdir(cmd_cwd):
+            logger.warning(
+                f"Invalid cwd {cmd_cwd}, using home"
+            )
+            cmd_cwd = os.path.expanduser("~")
+
         returncode = run_filtered(
             cmd,
             env=env,
@@ -871,6 +888,11 @@ def run_game_proton(exe_path, exe_type, proton,
         # Code OK
         result_code = -1
         cmd_cwd = os.path.dirname(exe_path)
+
+        logger.info(f"EXE PATH   : {exe_path}")
+        logger.info(f"CWD       : {cmd_cwd}")
+        logger.info(f"CWD EXISTS: {os.path.isdir(cmd_cwd)}")
+        logger.info(f"EXE EXISTS: {os.path.isfile(exe_path)}")
         returncode = subprocess.run(cmd, env=env, cwd=cmd_cwd)
         return returncode
 

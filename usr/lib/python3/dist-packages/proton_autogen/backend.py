@@ -24,8 +24,7 @@ from proton_autogen.core import *
 from proton_autogen.profiles.init import *
 from proton_autogen.i18n import *
 from proton_autogen.stats import *
-from proton_autogen.pa_log import show_result, handle_result, show_message
-from proton_autogen.pa_log import notify_simple
+from proton_autogen.pa_log import show_result, handle_result
 from proton_autogen.diag import find_all_protons, find_proton
 # new files:
 from proton_autogen.dector import resolve_game_features
@@ -194,7 +193,8 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None):
             status = handle_result(result_code)
             finalize_session(exe_path, start_time, result_code) # Stats
 
-            show_result(status, show_message)
+            #show_result(status, show_message)
+            progress.update( 80, status )
 
             sys.exit(status["code"])
 
@@ -206,7 +206,8 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None):
             status = handle_result(result_code)
             finalize_session(exe_path, start_time, result_code) # Stats
 
-            show_result(status, show_message)
+            #show_result(status, show_message)
+            progress.update( 80, status )
 
             sys.exit(status["code"])
 
