@@ -9,8 +9,11 @@ from proton_autogen.core import CONFIG_DIR
 from proton_autogen.diag import find_all_protons, find_proton
 import uuid
 
+
+PREFIX_DIR = "~/Documents/Proton/env"
+
 def list_prefixes():
-    root = os.path.expanduser("~/Documents/Proton/env")
+    root = os.path.expanduser(PREFIX_DIR)
 
     if not os.path.isdir(root):
         return []
@@ -31,9 +34,30 @@ def list_prefixes():
     return prefixes
 
 
+#Liste prefixes for UX:
+def list_prefixes_ux():
+    root = os.path.expanduser(PREFIX_DIR)
+
+    prefixes = [
+        "main",
+        "shared",
+        "auto",
+        "custom",
+    ]
+
+    if os.path.isdir(root):
+        for name in sorted(os.listdir(root)):
+            path = os.path.join(root, name)
+
+            if os.path.isdir(path) and name not in ("main", "shared", "auto", "custom", "Proton Custom"):
+                prefixes.append(name)
+
+    return prefixes
+
+
 def choose_prefix():
     prefixes = list_prefixes()
-    root = os.path.expanduser("~/Documents/Proton/env")
+    root = os.path.expanduser(PREFIX_DIR)
 
     print("\nAvailable prefixes:\n")
 

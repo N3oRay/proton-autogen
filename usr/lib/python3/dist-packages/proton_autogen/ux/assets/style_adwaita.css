@@ -536,14 +536,11 @@ entry placeholder,
 
 .progress {
     background: rgba(255,255,255,0.03);
-    height: 8px;
     border-radius: 999px;
-    overflow: hidden;
 }
 
 .progress .bar {
     background: @accent;
-    height: 100%;
     transition: width 220ms ease;
 }
 
@@ -642,14 +639,4 @@ button,
 .entry,
 .listbox row {
     transition: background-color 150ms ease, transform 150ms ease, box-shadow 150ms ease;
-}
-
-/* =========================================================
-   RESPONSIVE / ADAPTATIONS
-   ========================================================= */
-
-@media (max-width: 900px) {
-    .title-1 { font-size: 16px; }
-    .game-container { padding: 8px; }
-    headerbar, .main-header { padding: 8px; }
 }
