@@ -3,8 +3,12 @@ import os
 import sys
 import re
 import platform
+import json
+from pathlib import Path
+
 
 from proton_autogen.core import has_wine, has_gamemode, has_mangohud, has_proton_call, VERSION, load_proton_paths
+from proton_autogen.diagnostic import diagnostic_report, load_logs
 
 
 
@@ -276,6 +280,13 @@ def print_diagnostic():
 
     print("")
     print_install_hints()
+    print("Log diagnostic:")
+    #   Chargement du diagnostic des logs:
+    report = diagnostic_report(
+        "~/.local/share/proton-autogen/logs/proton-autogen.json"
+    )
+
+    print(json.dumps(report, indent=2))
 
 def print_install_hints():
     print("== Installation suggestions ==\n")

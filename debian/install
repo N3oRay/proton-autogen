@@ -15,6 +15,7 @@ usr/lib/python3/dist-packages/proton_autogen/requis.py usr/lib/python3/dist-pack
 usr/lib/python3/dist-packages/proton_autogen/about.py usr/lib/python3/dist-packages/proton_autogen/
 usr/lib/python3/dist-packages/proton_autogen/notify.py usr/lib/python3/dist-packages/proton_autogen/
 usr/lib/python3/dist-packages/proton_autogen/diag.py usr/lib/python3/dist-packages/proton_autogen/
+usr/lib/python3/dist-packages/proton_autogen/diagnostic.py usr/lib/python3/dist-packages/proton_autogen/
 usr/lib/python3/dist-packages/proton_autogen/util_path.py usr/lib/python3/dist-packages/proton_autogen/
 usr/lib/python3/dist-packages/proton_autogen/sensor.py usr/lib/python3/dist-packages/proton_autogen/
 usr/lib/python3/dist-packages/proton_autogen/lutris.py usr/lib/python3/dist-packages/proton_autogen/
