@@ -316,8 +316,8 @@ checkbutton.feature-toggle:checked label {
 }
 
 .dim-label2 {
-    color: rgba(255,105,180,0.65);
-    font-size:10px;
+    color: #ff4fa3;
+    font-size:12px;
 }
 
 label.dim-label1 {
@@ -326,7 +326,7 @@ label.dim-label1 {
 }
 
 label.dim-label2 {
-    color: rgba(255,105,180,0.65);
+    color: var(--hk-accent);
     font-size: 10px;
 }
 
