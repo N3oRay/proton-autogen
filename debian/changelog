@@ -1,11 +1,11 @@
-proton-autogen (2.9.2) noble; urgency=medium
+proton-autogen (2.9.3) noble; urgency=medium
 
   * New features
+    - Added new Adwaita UI theme and Kitty UI theme
     - Added launch progress reporting for improved UX.
     - Added improved UX error handling and runtime feedback.
     - Added structured JSON logging:
       ~/.local/share/proton-autogen/logs/proton-autogen.json
-    - Added new Adwaita UI theme.
     - Added multilingual About menu support:
       FR, EN, ZH, ES, DE, UK, PT.
     - Added multilingual Requirements menu support:
