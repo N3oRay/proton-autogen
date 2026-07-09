@@ -1,6 +1,8 @@
-proton-autogen (2.9.4) noble; urgency=medium
+proton-autogen (2.9.5) noble; urgency=medium
 
   * New features:
+    - Improved prefix management auto
+    - Add Log diagnostic on proton_autogen --diag
     - Added GPU profile management with AMD/NVIDIA detection.
     - Added system diagnostics for Debian, Ubuntu, Linux Mint, Arch and CachyOS.
     - Added Lutris export support and game registry.
