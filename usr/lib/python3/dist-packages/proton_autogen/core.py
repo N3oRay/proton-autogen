@@ -894,6 +894,8 @@ def run_game_proton(exe_path, exe_type, proton,
         logger.info(f"CWD EXISTS: {os.path.isdir(cmd_cwd)}")
         logger.info(f"EXE EXISTS: {os.path.isfile(exe_path)}")
         returncode = subprocess.run(cmd, env=env, cwd=cmd_cwd)
+        logger.info(f"CompletedProcess: {returncode!r}")
+        logger.info(f"Return code: {returncode.returncode}")
         return returncode
 
 

@@ -24,7 +24,7 @@ from proton_autogen.core import *
 from proton_autogen.profiles.init import *
 from proton_autogen.i18n import *
 from proton_autogen.stats import *
-from proton_autogen.pa_log import show_result, handle_result
+from proton_autogen.pa_log import show_result, handle_result, result_to_line
 from proton_autogen.diag import find_all_protons, find_proton
 # new files:
 from proton_autogen.dector import resolve_game_features
@@ -191,10 +191,11 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None):
                         result_code.returncode,
                     )
             status = handle_result(result_code)
-            finalize_session(exe_path, start_time, result_code) # Stats
+            # Update Stats
+            finalize_session(exe_path, start_time, result_code)
 
-            #show_result(status, show_message)
-            progress.update( 80, status )
+            #show_result !
+            progress.update( 100, result_to_line(status) )
 
             sys.exit(status["code"])
 
@@ -204,10 +205,10 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None):
             progress.update( 80, "Starting Wine" )
             result_code = run_standard(exe_path)
             status = handle_result(result_code)
+            # Update Stats
             finalize_session(exe_path, start_time, result_code) # Stats
-
-            #show_result(status, show_message)
-            progress.update( 80, status )
+            #show_result !
+            progress.update( 100, result_to_line(status) )
 
             sys.exit(status["code"])
 

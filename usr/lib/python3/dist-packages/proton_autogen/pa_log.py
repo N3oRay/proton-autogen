@@ -93,6 +93,13 @@ def show_result(status, ux_handler=None):
 
 #-----------------------------------------------------------
 
+def result_to_line(info):
+    return (
+        f"[{info['level'].upper()}] "
+        f"{info['title']}: {info['message']} "
+        f"(code={info['code']})"
+    )
+
 def handle_result(result):
     """
     Normalise le résultat d'une exécution.
@@ -155,10 +162,22 @@ def handle_result(result):
             "The game terminated unexpectedly."
         ),
 
+        42: (
+            "info",
+            "Game crashed",
+            "The game terminated unexpectedly."
+        ),
+
+        99: (
+            "info",
+            "Game exited",
+            "Exit code - Process exited with code 99"
+        ),
+
         255: (
-            "error",
-            "Unknown error",
-            "An unexpected error occurred."
+            "warning",
+            "Unknown warning",
+            "An unexpected warning occurred."
         ),
     }
 
