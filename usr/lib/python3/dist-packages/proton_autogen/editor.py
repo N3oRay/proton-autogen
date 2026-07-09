@@ -5,7 +5,7 @@ from pathlib import Path
 from proton_autogen.loader import get_game_config_path
 from proton_autogen.profiles.init import detect_exe_type
 from proton_autogen.loader import load_game_config
-from proton_autogen.core import CONFIG_DIR
+from proton_autogen.core import CONFIG_DIR, make_output_path, PREFIX_DIR, PREFIX_DIR_PATH
 from proton_autogen.diag import find_all_protons, find_proton
 import uuid
 
@@ -43,6 +43,7 @@ def list_prefixes_ux():
         "shared",
         "auto",
         "custom",
+        "Proton Custom",
     ]
 
     if os.path.isdir(root):
@@ -55,7 +56,7 @@ def list_prefixes_ux():
     return prefixes
 
 
-def choose_prefix():
+def choose_prefix(exe_path: str):
     prefixes = list_prefixes()
     root = os.path.expanduser(PREFIX_DIR)
 
@@ -76,7 +77,10 @@ def choose_prefix():
             name = input("Prefix name (empty = auto): ").strip()
 
             if not name:
-                name = f"auto-{uuid.uuid4().hex[:8]}"
+                #name = f"auto-{uuid.uuid4().hex[:8]}"
+                # choix automatique pour UI
+                root = PREFIX_DIR_PATH
+                path, name = make_output_path(exe_path, root)
 
             path = os.path.join(root, name)
             os.makedirs(path, exist_ok=True)
@@ -155,14 +159,8 @@ def add_game_ux(exe_path: str, prefix=None):
 
         else:
             # choix automatique pour UI
-            root = os.path.expanduser(PREFIX_DIR)
-
-            name = "auto-" + uuid.uuid4().hex[:8]
-
-            path = os.path.join(root, name)
-
-            os.makedirs(path, exist_ok=True)
-
+            root = PREFIX_DIR_PATH
+            path, name = make_output_path(exe_path, root)
             prefix = {
                 "name": name,
                 "path": path
@@ -265,9 +263,9 @@ def add_game(exe_path: str):
         if choice not in ("n", "no"):
             prefix = existing_prefix
         else:
-            prefix = choose_prefix()
+            prefix = choose_prefix(exe_path)
     else:
-        prefix = choose_prefix()
+        prefix = choose_prefix(exe_path)
 
     config = {
         "id": gid,
@@ -378,7 +376,7 @@ def edit_game_ui(exe_path: str):
                 print("No Proton selected.")
 
         elif choice == "3":
-            prefix = choose_prefix()
+            prefix = choose_prefix(exe_path)
 
             config["prefix"] = {
                 "name": prefix["name"],

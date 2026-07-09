@@ -41,6 +41,8 @@ VERSION = "2.9.4"
 
 CONFIG_FILE = os.path.expanduser("~/.config/proton-autogen.conf")
 CONFIG_DIR = os.path.expanduser("~/.config/proton-autogen/games")
+PREFIX_DIR = "~/Documents/Proton/env"
+PREFIX_DIR_PATH = os.path.expanduser(PREFIX_DIR)
 
 DEBUG = "--debug" in sys.argv
 VERBOSE = "--verbose" in sys.argv
@@ -406,23 +408,81 @@ def apply_dxvk_hud(env, exe_type, enable_mangohud, debug_mode=False):
 
 
 
+# MAKE PREFIX -----------------------------------------------------
+def make_output_path(exe_path: str, root: str) -> tuple[str, str]:
+    """Construit un chemin de sortie unique à partir du chemin d'un exécutable.
+
+    Si l'exécutable est déjà situé dans un préfixe Proton (.../<prefix>/pfx/...),
+    le nom du préfixe existant est réutilisé.
+    """
+
+    logger.info(f"make_output_path EXE PATH: {exe_path}")
+
+    path = Path(exe_path)
+
+    # Recherche d'un dossier "pfx"
+    parts = path.parts
+    if "pfx" in parts:
+        pfx_index = parts.index("pfx")
+        if pfx_index > 0:
+            prefix_name = parts[pfx_index - 1]
+            prefix_path = os.path.join(root, prefix_name)
+
+            logger.info(
+                f"Préfixe Proton détecté : {prefix_name}"
+            )
+            return prefix_path, prefix_name
+
+    # Comportement actuel
+    name = path.stem
+
+    safe_name = (
+        name.replace(" ", "_")
+            .replace("/", "_")
+            .replace("\\", "_")
+    )
+
+    short_hash = hashlib.md5(exe_path.encode("utf-8")).hexdigest()[:8]
+
+    prefix_name = f"{safe_name}-{short_hash}"
+    prefix_path = os.path.join(root, prefix_name)
+
+    logger.info(
+        f"Préfixe généré : {prefix_path} ({prefix_name})"
+    )
+
+    return prefix_path, prefix_name
+
+def make_output_path_simple(exe_path: str, root: str) -> str:
+    """Construit un chemin de sortie unique à partir du chemin d'un exécutable."""
+
+    logger.info(f"make_output_path EXE PATH   : {exe_path}")
+    name = os.path.splitext(os.path.basename(exe_path))[0]
+
+    safe_name = (
+        name.replace(" ", "_")
+            .replace("/", "_")
+            .replace("\\", "_")
+    )
+
+    short_hash = hashlib.md5(exe_path.encode("utf-8")).hexdigest()[:8]
+    prefix_name = safe_name +"-"+ short_hash
+
+    prefix_path = os.path.join(root, f"{safe_name}-{short_hash}")
+    logger.info(f"make_output_path prefix_path   : {prefix_path} - prefix_name   : {prefix_name} ")
+    return prefix_path, prefix_name
+
+
 # Return the Wine/Proton prefix path for the selected prefix mode.
 
 def get_prefix_path(prefix_mode: str, exe_path: str) -> str:
-    root = os.path.expanduser("~/Documents/Proton/env")
+
+    root = PREFIX_DIR_PATH
 
     if prefix_mode == "auto":
-        name = os.path.splitext(os.path.basename(exe_path))[0]
+        output, short_hash = make_output_path(exe_path, root)
 
-        safe_name = (
-            name.replace(" ", "_")
-                .replace("/", "_")
-                .replace("\\", "_")
-        )
-
-        short_hash = hashlib.md5(exe_path.encode()).hexdigest()[:8]
-
-        return os.path.join(root, f"{safe_name}-{short_hash}")
+        return output
 
     if prefix_mode.startswith("auto-"):
         # déjà résolu → on le traite comme prefix direct
@@ -438,7 +498,7 @@ def get_prefix_path(prefix_mode: str, exe_path: str) -> str:
 
 
 def get_prefix_path_v1(prefix_mode: str, exe_path: str) -> str:
-    root = os.path.expanduser("~/Documents/Proton/env")
+    root = PREFIX_DIR_PATH
 
     if prefix_mode == "auto":
         name = os.path.splitext(
