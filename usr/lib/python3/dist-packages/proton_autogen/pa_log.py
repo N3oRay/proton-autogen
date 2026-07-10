@@ -147,7 +147,7 @@ def handle_result(result):
         9: (
             "error",
             "Network not found",
-            "typically indicates a connection issue (Network)."
+            "Typically indicates a connection issue (network)."
         ),
 
         10: (
@@ -177,7 +177,49 @@ def handle_result(result):
         99: (
             "info",
             "Game exited",
-            "Exit code - Process exited with code 99"
+            "Process exited with code 99."
+        ),
+
+        126: (
+            "error",
+            "Permission denied",
+            "The executable was found but could not be executed."
+        ),
+
+        127: (
+            "error",
+            "Command not found",
+            "The executable or command could not be found."
+        ),
+
+        130: (
+            "warning",
+            "Interrupted",
+            "The process was interrupted (SIGINT)."
+        ),
+
+        134: (
+            "error",
+            "Process aborted",
+            "The process aborted unexpectedly (SIGABRT)."
+        ),
+
+        137: (
+            "error",
+            "Process killed",
+            "The process was terminated (SIGKILL), possibly due to an out-of-memory condition."
+        ),
+
+        139: (
+            "error",
+            "Segmentation fault",
+            "The process crashed due to a segmentation fault (SIGSEGV)."
+        ),
+
+        143: (
+            "warning",
+            "Process terminated",
+            "The process was terminated gracefully (SIGTERM)."
         ),
 
         255: (
