@@ -144,6 +144,12 @@ def handle_result(result):
             "CWD - current working directory. Unable to launch the game."
         ),
 
+        9: (
+            "error",
+            "Network not found",
+            "typically indicates a connection issue (Network)."
+        ),
+
         10: (
             "error",
             "File not found",
