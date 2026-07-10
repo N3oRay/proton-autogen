@@ -19,7 +19,7 @@ Run Windows executables through Proton with zero Steam configuration.
 ---
 🎬 Quick Demo
 <p align="left">
-  <img src="docs/screenshots/v2.7.4.png" width="450" alt="Proton-Autogen Demo">
+  <img src="docs/screenshots/V2.9.6.png" width="450" alt="Proton-Autogen Demo">
   <img src="docs/screenshots/demo.gif" width="500" alt="Proton-Autogen Demo">
 </p>
 
@@ -114,7 +114,7 @@ $ proton-autogen 'Battle.net Launcher.exe'
 [info] Prefix path: Prefix path : /home/neoray/Documents/Proton/env/main
 [proton-autogen] 32-bit legacy game detected
 [proton-autogen] MangoHud 32-bit shim missing
-[proton-autogen] Launch mode: Proton 
+[proton-autogen] Launch mode: Proton
 ```
 
 ---
@@ -197,7 +197,7 @@ Supported locations:
 
 ### Optional
 ```
-sudo apt install gamemode mangohud 
+sudo apt install gamemode mangohud
 ```
 * GameMode
 * MangoHud
