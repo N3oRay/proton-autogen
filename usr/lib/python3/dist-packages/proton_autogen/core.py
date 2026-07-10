@@ -9,7 +9,7 @@ from collections import defaultdict
 
 from pathlib import Path
 
-
+from proton_autogen.config import VERSION, CONFIG_FILE, CONFIG_DIR, PREFIX_DIR, PREFIX_DIR_PATH
 from proton_autogen.utils.logger import StructuredLogger
 
 from proton_autogen.notify import notifications
@@ -37,12 +37,6 @@ from proton_autogen.about import afficher_abouts, afficher_abouts_label
 
 import configparser
 
-VERSION = "2.9.6"
-
-CONFIG_FILE = os.path.expanduser("~/.config/proton-autogen.conf")
-CONFIG_DIR = os.path.expanduser("~/.config/proton-autogen/games")
-PREFIX_DIR = "~/Documents/Proton/env"
-PREFIX_DIR_PATH = os.path.expanduser(PREFIX_DIR)
 
 DEBUG = "--debug" in sys.argv
 VERBOSE = "--verbose" in sys.argv
@@ -99,9 +93,9 @@ paths = ~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools
         # fail-safe: never break proton detection
         return base_paths
 
-    # ----------------------------
-    # normalization + deduplication (SAFE VERSION)
-    # ----------------------------
+    # ------------------------------------
+    # normalization + deduplication (SAFE)
+    # ------------------------------------
     cleaned = []
     seen = set()
 

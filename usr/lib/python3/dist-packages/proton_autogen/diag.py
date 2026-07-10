@@ -6,10 +6,9 @@ import platform
 import json
 from pathlib import Path
 
-
-from proton_autogen.core import has_wine, has_gamemode, has_mangohud, has_proton_call, VERSION, load_proton_paths
+from proton_autogen.config import VERSION
+from proton_autogen.core import has_wine, has_gamemode, has_mangohud, has_proton_call, load_proton_paths
 from proton_autogen.diagnostic import diagnostic_report, load_logs
-
 
 
 # ----------------------------

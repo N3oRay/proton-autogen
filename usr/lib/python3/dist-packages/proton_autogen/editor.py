@@ -2,15 +2,14 @@
 import os
 import json
 from pathlib import Path
+from proton_autogen.config import VERSION, CONFIG_FILE, CONFIG_DIR, PREFIX_DIR, PREFIX_DIR_PATH
 from proton_autogen.loader import get_game_config_path
 from proton_autogen.profiles.init import detect_exe_type
 from proton_autogen.loader import load_game_config
-from proton_autogen.core import CONFIG_DIR, make_output_path, PREFIX_DIR, PREFIX_DIR_PATH
+from proton_autogen.core import make_output_path, PREFIX_DIR_PATH
 from proton_autogen.diag import find_all_protons, find_proton
 import uuid
 
-
-PREFIX_DIR = "~/Documents/Proton/env"
 
 def list_prefixes():
     root = os.path.expanduser(PREFIX_DIR)

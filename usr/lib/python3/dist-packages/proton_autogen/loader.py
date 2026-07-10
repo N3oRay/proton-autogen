@@ -12,8 +12,7 @@ from pathlib import Path
 from shutil import which
 import configparser
 
-
-from proton_autogen.core import CONFIG_FILE, CONFIG_DIR
+from proton_autogen.config import VERSION, CONFIG_FILE, CONFIG_DIR
 
 def normalize_game_config(config: dict):
     return {
