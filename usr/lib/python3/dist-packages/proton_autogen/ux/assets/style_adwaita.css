@@ -507,6 +507,140 @@ entry placeholder,
     color: rgba(255,200,215,0.98);
 }
 
+
+/* =====================================
+   PREMIUM GAMING BADGES - GTK
+   ===================================== */
+
+
+.badge {
+
+    border-radius: 10px;
+
+    padding: 5px 10px;
+
+    border-width: 1px;
+    border-style: solid;
+
+    color: #ffffff;
+
+    font-weight: bold;
+
+    background-color: rgba(255,255,255,0.06);
+
+}
+
+
+/* =====================================
+   🐣 ROOKIE - STARTER
+   ===================================== */
+
+.badge.rookie {
+
+    background-color: #17394a;
+
+    border-color: #4ed8ff;
+
+    color: #b9f2ff;
+
+}
+
+
+
+/* =====================================
+   🙂 CASUAL - COMMON
+   ===================================== */
+
+.badge.casual {
+
+    background-color: #4a4018;
+
+    border-color: #ffd84d;
+
+    color: #fff2a8;
+
+}
+
+
+
+/* =====================================
+   🎮 GAMER - RARE
+   ===================================== */
+
+.badge.gamer {
+
+    background-color: #163d28;
+
+    border-color: #4dff8a;
+
+    color: #baffd0;
+
+}
+
+
+
+/* =====================================
+   🏆 HEAVY - EPIC
+   ===================================== */
+
+.badge.heavy {
+
+    background-color: #4a2815;
+
+    border-color: #ff9b45;
+
+    color: #ffd2a8;
+
+}
+
+
+
+/* =====================================
+   💀 ADDICT - MYTHIC
+   ===================================== */
+
+.badge.addict {
+
+    background-color: #4a1623;
+
+    border-color: #ff4768;
+
+    color: #ffc0cb;
+
+}
+
+
+
+/* =====================================
+   🌙 NIGHT OWL - SPECIAL
+   ===================================== */
+
+.badge.night_owl {
+
+    background-color: #241b55;
+
+    border-color: #8d7cff;
+
+    color: #d5ceff;
+
+}
+
+
+
+/* =====================================
+   🧓 VETERAN - LEGENDARY
+   ===================================== */
+
+.badge.veteran {
+
+    background-color: #4b3b12;
+
+    border-color: #e7c45c;
+
+    color: #fff0a6;
+
+}
+
 /* =========================================================
    TOASTS / NOTIFICATIONS
    ========================================================= */

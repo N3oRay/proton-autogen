@@ -1,10 +1,13 @@
 #stats.py
 
-
+from proton_autogen.utils.logger import StructuredLogger
 from datetime import datetime, timedelta
 
 from proton_autogen.loader import save_game_config, load_game_config
 from proton_autogen.notify import notifications
+
+#-------------------------- Init Log -------------------
+logger = StructuredLogger("proton-autogen.stats")
 
 
 BADGE_TYPE_PROFILE = [
@@ -236,12 +239,14 @@ BADGE_DEFINITIONS_FR = [
     {
         "type": "recent",
         "label": "🔥",
+        "css": "favorite",
         "condition": lambda g: is_recent_launch(g.get("playtime", {}), 7),
         "text": lambda g: "Récemment joué"
     },
     {
         "type": "time",
         "label": "⏱",
+        "css": "favorite",
         "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 3600,
         "text": lambda g: format_playtime(g.get("playtime", {}).get("seconds", 0))
     },
@@ -334,6 +339,111 @@ BADGE_DEFINITIONS_FR = [
     },
 ]
 
+BADGE_DEFINITIONS_UK = [
+    # -------------------------
+    # CLASSIC
+    # -------------------------
+    {
+        "type": "favorite",
+        "label": "⭐",
+        "css": "favorite",
+        "condition": lambda g: g.get("favorite"),
+        "text": lambda g: "Улюблене"
+    },
+    {
+        "type": "recent",
+        "label": "🔥",
+        "css": "favorite",
+        "condition": lambda g: is_recent_launch(g.get("playtime", {}), 7),
+        "text": lambda g: "Нещодавно зіграно"
+    },
+    {
+        "type": "time",
+        "label": "⏱",
+        "css": "favorite",
+        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 3600,
+        "text": lambda g: format_playtime(g.get("playtime", {}).get("seconds", 0))
+    },
+
+    # -------------------------
+    # PLAYER MODE
+    # -------------------------
+    {
+        "type": "gamemode",
+        "label": "🚀",
+        "css": "feature",
+        "condition": lambda g: g.get("features", {}).get("gamemode", False),
+        "text": lambda g: "GameMode увімкнено"
+    },
+    {
+        "type": "mangohud",
+        "label": "📊",
+        "css": "feature",
+        "condition": lambda g: g.get("features", {}).get("mangohud", False),
+        "text": lambda g: "MangoHud увімкнено"
+    },
+
+    # -------------------------
+    # PLAYER RANKS / HUMOR
+    # -------------------------
+
+    {
+        "type": "rookie",
+        "label": "🐣",
+        "css": "rookie",
+        "condition": lambda g: 0 < g.get("playtime", {}).get("seconds", 0) < 3600,
+        "text": lambda g: "Початківець (тільки починає)"
+    },
+
+    {
+        "type": "casual",
+        "label": "🙂",
+        "css": "casual",
+        "condition": lambda g: 3600 <= g.get("playtime", {}).get("seconds", 0) < 10 * 3600,
+        "text": lambda g: "Казуальний гравець"
+    },
+
+    {
+        "type": "gamer",
+        "label": "🎮",
+        "css": "gamer",
+        "condition": lambda g: 10 * 3600 <= g.get("playtime", {}).get("seconds", 0) < 50 * 3600,
+        "text": lambda g: "Досвідчений гравець"
+    },
+
+    {
+        "type": "heavy",
+        "label": "🏆",
+        "css": "heavy",
+        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 50 * 3600,
+        "text": lambda g: "Виявлено хардкорного гравця"
+    },
+
+    {
+        "type": "addict",
+        "label": "💀",
+        "css": "addict",
+        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 150 * 3600,
+        "text": lambda g: "Потрібна допомога 😅"
+    },
+
+    {
+        "type": "night_owl",
+        "label": "🌙",
+        "css": "night_owl",
+        "condition": lambda g: is_recent_launch(g.get("playtime", {}), 1),
+        "text": lambda g: "Нещодавно активний (нічний гравець?)"
+    },
+
+    {
+        "type": "veteran",
+        "label": "🧓",
+        "css": "veteran",
+        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 300 * 3600,
+        "text": lambda g: "Легендарний ветеран"
+    },
+]
+
 
 BADGE_DEFINITIONS_EN = [
     # -------------------------
@@ -349,12 +459,14 @@ BADGE_DEFINITIONS_EN = [
     {
         "type": "recent",
         "label": "🔥",
+        "css": "favorite",
         "condition": lambda g: is_recent_launch(g.get("playtime", {}), 7),
         "text": lambda g: "Recently played"
     },
     {
         "type": "time",
         "label": "⏱",
+        "css": "favorite",
         "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 3600,
         "text": lambda g: format_playtime(g.get("playtime", {}).get("seconds", 0))
     },
@@ -459,12 +571,14 @@ BADGE_DEFINITIONS_DE = [
     {
         "type": "recent",
         "label": "🔥",
+        "css": "favorite",
         "condition": lambda g: is_recent_launch(g.get("playtime", {}), 7),
         "text": lambda g: "Kürzlich gespielt"
     },
     {
         "type": "time",
         "label": "⏱",
+        "css": "favorite",
         "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 3600,
         "text": lambda g: format_playtime(g.get("playtime", {}).get("seconds", 0))
     },
@@ -569,12 +683,14 @@ BADGE_DEFINITIONS_ES = [
     {
         "type": "recent",
         "label": "🔥",
+        "css": "favorite",
         "condition": lambda g: is_recent_launch(g.get("playtime", {}), 7),
         "text": lambda g: "Jugado recientemente"
     },
     {
         "type": "time",
         "label": "⏱",
+        "css": "favorite",
         "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 3600,
         "text": lambda g: format_playtime(g.get("playtime", {}).get("seconds", 0))
     },
@@ -679,12 +795,14 @@ BADGE_DEFINITIONS_ZH = [
     {
         "type": "recent",
         "label": "🔥",
+        "css": "favorite",
         "condition": lambda g: is_recent_launch(g.get("playtime", {}), 7),
         "text": lambda g: "最近游玩"
     },
     {
         "type": "time",
         "label": "⏱",
+        "css": "favorite",
         "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 3600,
         "text": lambda g: format_playtime(g.get("playtime", {}).get("seconds", 0))
     },
@@ -781,6 +899,7 @@ BADGE_DEFINITIONS = {
     "fr": BADGE_TYPE_PROFILE + BADGE_TYPE_GAME + BADGE_DEFINITIONS_FR,
     "en": BADGE_TYPE_PROFILE + BADGE_TYPE_GAME + BADGE_DEFINITIONS_EN,
     "zh": BADGE_TYPE_PROFILE + BADGE_TYPE_GAME + BADGE_DEFINITIONS_ZH,
+    "uk": BADGE_TYPE_PROFILE + BADGE_TYPE_GAME + BADGE_DEFINITIONS_UK,
     "de": BADGE_TYPE_PROFILE + BADGE_TYPE_GAME + BADGE_DEFINITIONS_DE,
     "es": BADGE_TYPE_PROFILE + BADGE_TYPE_GAME + BADGE_DEFINITIONS_ES,
 }
@@ -816,11 +935,17 @@ def get_game_badges(game: dict, lang: str = "en"):
                 notifications.notify("error", "WARNING", "Badge Updates")
             elif lang == "fr":
                 notifications.notify("error", "WARNING", "Actualisation des Badges")
+            elif lang == "uk":
+                notifications.notify("error", "УВАГА", "Оновлення значків")
+            elif lang == "de":
+                notifications.notify("error", "WARNUNG", "Aktualisierung der Benachrichtigungs-Badges")
             elif lang == "zh":
                 notifications.notify("error", "WARNING", "徽章更新")
+            elif lang == "hi":
+                notifications.notify("error", "चेतावनी", "बैज अपडेट")
             elif lang == "es":
                 notifications.notify("error", "WARNING", "Actualizaciones de insignias")
-            print(f"[badges] error in {badge.get('type')}: {e}")
+            logger.error(f"[badges] error in {badge.get('type')}: {e}")
 
     return badges
 

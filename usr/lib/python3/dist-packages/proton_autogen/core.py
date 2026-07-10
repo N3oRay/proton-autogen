@@ -647,7 +647,6 @@ def run_standard(exe_path: str):
 
     except Exception as e:
         logger.error(f"✗ Error running {exe_path} with Wine: {e}")
-        #sys.exit(1)
         return 1
 
 
