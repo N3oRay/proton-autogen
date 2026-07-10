@@ -1,6 +1,7 @@
-proton-autogen (2.9.5) noble; urgency=medium
+proton-autogen (2.9.6) noble; urgency=medium
 
   * New features:
+    - New design UX
     - Improved prefix management auto
     - Add Log diagnostic on proton_autogen --diag
     - Added GPU profile management with AMD/NVIDIA detection.

@@ -1,5 +1,28 @@
 # Architecture Overview
 
+.SRCINFO                # métadonnées (AUR)
+.github/                 # CI / actions (boilerplate)
+.gitignore
+About.md
+CONTRIBUTE.md
+LICENSE
+Note.txt
+PKGBUILD                 # Arch package build script
+README.md
+debian/                  # fichiers pour paquet Debian
+docs/                    # captures, gif, captures d'écran
+install.sh               # script d'installation
+log/                     # journaux / exemples
+pyproject.toml           # configuration packaging Python
+requirements.txt
+requirements-dev.txt
+tests/                   # tests unitaires / d'intégration
+update.sh                # script de mise à jour
+usr/                     # installation layout (bin/, lib/, share/)
+  bin/proton-autogen     # script CLI principal (entrypoint)
+  lib/
+  share/
+
 # lancer un exe via Proton
 proton-autogen /chemin/vers/jeu.exe
 
@@ -9,14 +32,15 @@ proton-autogen --diag
 proton-autogen --ux            # lance le dashboard GTK
 
 
+# Installation manuelle (exemple)
 git clone https://github.com/N3oRay/proton-autogen.git
 cd proton-autogen
-
-# Installation manuelle (exemple)
 chmod +x install.sh
 ./install.sh
 
 # Ou construire un .deb (Debian/Ubuntu)
+git clone https://github.com/N3oRay/proton-autogen.git
+cd proton-autogen
 dpkg-buildpackage -b -us -uc
 sudo dpkg -i ../proton-autogen_*.deb
 

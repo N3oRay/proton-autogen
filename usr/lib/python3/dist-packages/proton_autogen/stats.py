@@ -9,13 +9,6 @@ from proton_autogen.notify import notifications
 
 BADGE_TYPE_PROFILE = [
 
-    {
-        "type": "favorite",
-        "label": "❤️",
-        "condition": lambda g: g.get("favorite", False),
-        "text": lambda g: "Favorite"
-    },
-
     # ------------------------------------------
     # TYPE
     # ------------------------------------------
@@ -23,6 +16,7 @@ BADGE_TYPE_PROFILE = [
     {
         "type": "legacy",
         "label": "🕰️",
+        "css": "profile",
         "condition": lambda g: g.get("exe_type") == "legacy",
         "text": lambda g: "Legacy profile"
     },
@@ -30,6 +24,7 @@ BADGE_TYPE_PROFILE = [
     {
         "type": "launcher",
         "label": "🚀",
+        "css": "profile",
         "condition": lambda g: g.get("exe_type") == "launcher",
         "text": lambda g: "Launcher profile"
     },
@@ -37,6 +32,7 @@ BADGE_TYPE_PROFILE = [
     {
         "type": "dx11",
         "label": "🎮",
+        "css": "profile",
         "condition": lambda g: g.get("exe_type") == "dx11",
         "text": lambda g: "DirectX 11"
     },
@@ -44,6 +40,7 @@ BADGE_TYPE_PROFILE = [
     {
         "type": "dx11Bnet",
         "label": "🎮",
+        "css": "profile",
         "condition": lambda g: g.get("exe_type") == "dx11Bnet",
         "text": lambda g: "DirectX 11 (Battle.net)"
     },
@@ -51,6 +48,7 @@ BADGE_TYPE_PROFILE = [
     {
         "type": "dx12",
         "label": "⚡",
+        "css": "profile",
         "condition": lambda g: g.get("exe_type") == "dx12",
         "text": lambda g: "DirectX 12"
     },
@@ -58,6 +56,7 @@ BADGE_TYPE_PROFILE = [
     {
         "type": "dx9",
         "label": "🎲",
+        "css": "profile",
         "condition": lambda g: g.get("exe_type") == "dx9",
         "text": lambda g: "DirectX 9"
     },
@@ -65,6 +64,7 @@ BADGE_TYPE_PROFILE = [
     {
         "type": "dx9dg",
         "label": "🧩",
+        "css": "profile",
         "condition": lambda g: g.get("exe_type") == "dx9dg",
         "text": lambda g: "DirectX 9 + dgVoodoo"
     },
@@ -72,6 +72,7 @@ BADGE_TYPE_PROFILE = [
     {
         "type": "dx8dg",
         "label": "🧩",
+        "css": "profile",
         "condition": lambda g: g.get("exe_type") == "dx8dg",
         "text": lambda g: "DirectX 8 + dgVoodoo"
     },
@@ -79,6 +80,7 @@ BADGE_TYPE_PROFILE = [
     {
         "type": "dx9opengl",
         "label": "🌐",
+        "css": "profile",
         "condition": lambda g: g.get("exe_type") == "dx9opengl",
         "text": lambda g: "DirectX 9 + OpenGL"
     },
@@ -86,6 +88,7 @@ BADGE_TYPE_PROFILE = [
     {
         "type": "install",
         "label": "📦",
+        "css": "profile",
         "condition": lambda g: g.get("exe_type") == "install",
         "text": lambda g: "Installer"
     },
@@ -93,6 +96,7 @@ BADGE_TYPE_PROFILE = [
     {
         "type": "oldgame",
         "label": "🕹️",
+        "css": "profile",
         "condition": lambda g: g.get("exe_type") == "oldgame",
         "text": lambda g: "Old game compatibility"
     },
@@ -100,6 +104,7 @@ BADGE_TYPE_PROFILE = [
     {
         "type": "ut99",
         "label": "💥",
+        "css": "profile",
         "condition": lambda g: g.get("exe_type") == "ut99",
         "text": lambda g: "Unreal Tournament 99"
     },
@@ -107,6 +112,7 @@ BADGE_TYPE_PROFILE = [
     {
         "type": "ut3",
         "label": "🔫",
+        "css": "profile",
         "condition": lambda g: g.get("exe_type") == "ut3",
         "text": lambda g: "Unreal Tournament 3"
     },
@@ -114,6 +120,7 @@ BADGE_TYPE_PROFILE = [
     {
         "type": "quake",
         "label": "☄️",
+        "css": "profile",
         "condition": lambda g: g.get("exe_type") == "quake",
         "text": lambda g: "Quake"
     },
@@ -121,6 +128,7 @@ BADGE_TYPE_PROFILE = [
     {
         "type": "valve",
         "label": "🔧",
+        "css": "profile",
         "condition": lambda g: g.get("exe_type") == "valve",
         "text": lambda g: "GoldSrc engine"
     },
@@ -128,6 +136,7 @@ BADGE_TYPE_PROFILE = [
     {
         "type": "win95",
         "label": "💾",
+        "css": "profile",
         "condition": lambda g: g.get("exe_type") == "win95",
         "text": lambda g: "Windows 95 compatibility"
     },
@@ -135,6 +144,7 @@ BADGE_TYPE_PROFILE = [
     {
         "type": "desktop",
         "label": "🖥️",
+        "css": "profile",
         "condition": lambda g: g.get("exe_type") == "desktop",
         "text": lambda g: "Windows desktop"
     },
@@ -153,6 +163,7 @@ BADGE_TYPE_GAME = [
     {
         "type": "battlenet",
         "label": "⚔️",
+        "css": "platform",
         "condition": lambda g: "battle.net" in g.get("path", "").lower(),
         "text": lambda g: "Battle.net game"
     },
@@ -161,6 +172,7 @@ BADGE_TYPE_GAME = [
     {
         "type": "steam",
         "label": "🚂",
+        "css": "platform",
         "condition": lambda g: "steam" in g.get("path", "").lower(),
         "text": lambda g: "Steam game"
     },
@@ -168,6 +180,7 @@ BADGE_TYPE_GAME = [
     {
         "type": "epic",
         "label": "🟦",
+        "css": "platform",
         "condition": lambda g: "epic games" in g.get("path", "").lower(),
         "text": lambda g: "Epic Games"
     },
@@ -175,6 +188,7 @@ BADGE_TYPE_GAME = [
     {
         "type": "gog",
         "label": "🟣",
+        "css": "platform",
         "condition": lambda g: "gog" in g.get("path", "").lower(),
         "text": lambda g: "GOG game"
     },
@@ -183,6 +197,7 @@ BADGE_TYPE_GAME = [
     {
         "type": "ubisoft",
         "label": "🌀",
+        "css": "platform",
         "condition": lambda g: "ubisoft" in g.get("path", "").lower(),
         "text": lambda g: "Ubisoft Connect"
     },
@@ -190,6 +205,7 @@ BADGE_TYPE_GAME = [
     {
         "type": "ea",
         "label": "⚽",
+        "css": "platform",
         "condition": lambda g: "ea app" in g.get("path", "").lower(),
         "text": lambda g: "EA App"
     },
@@ -198,6 +214,7 @@ BADGE_TYPE_GAME = [
     {
         "type": "rockstar",
         "label": "⭐",
+        "css": "platform",
         "condition": lambda g: "rockstar games" in g.get("path", "").lower(),
         "text": lambda g: "Rockstar Games Launcher"
     },
@@ -212,6 +229,7 @@ BADGE_DEFINITIONS_FR = [
     {
         "type": "favorite",
         "label": "⭐",
+        "css": "favorite",
         "condition": lambda g: g.get("favorite"),
         "text": lambda g: "Favori"
     },
@@ -234,12 +252,14 @@ BADGE_DEFINITIONS_FR = [
     {
         "type": "gamemode",
         "label": "🚀",
+        "css": "feature",
         "condition": lambda g: g.get("features", {}).get("gamemode", False),
         "text": lambda g: "GameMode activé"
     },
     {
         "type": "mangohud",
         "label": "📊",
+        "css": "feature",
         "condition": lambda g: g.get("features", {}).get("mangohud", False),
         "text": lambda g: "MangoHud activé"
     },
@@ -254,6 +274,7 @@ BADGE_DEFINITIONS_FR = [
     {
         "type": "rookie",
         "label": "🐣",
+        "css": "rookie",
         "condition": lambda g: 0 < g.get("playtime", {}).get("seconds", 0) < 3600,
         "text": lambda g: "Débutant (on commence doucement)"
     },
@@ -262,6 +283,7 @@ BADGE_DEFINITIONS_FR = [
     {
         "type": "casual",
         "label": "🙂",
+        "css": "casual",
         "condition": lambda g: 3600 <= g.get("playtime", {}).get("seconds", 0) < 10 * 3600,
         "text": lambda g: "Casual gamer"
     },
@@ -270,6 +292,7 @@ BADGE_DEFINITIONS_FR = [
     {
         "type": "gamer",
         "label": "🎮",
+        "css": "gamer",
         "condition": lambda g: 10 * 3600 <= g.get("playtime", {}).get("seconds", 0) < 50 * 3600,
         "text": lambda g: "Gamer confirmé"
     },
@@ -278,6 +301,7 @@ BADGE_DEFINITIONS_FR = [
     {
         "type": "heavy",
         "label": "🏆",
+        "css": "heavy",
         "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 50 * 3600,
         "text": lambda g: "Tryhard détecté"
     },
@@ -286,6 +310,7 @@ BADGE_DEFINITIONS_FR = [
     {
         "type": "addict",
         "label": "💀",
+        "css": "addict",
         "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 150 * 3600,
         "text": lambda g: "Send help"
     },
@@ -294,6 +319,7 @@ BADGE_DEFINITIONS_FR = [
     {
         "type": "night_owl",
         "label": "🌙",
+        "css": "night_owl",
         "condition": lambda g: is_recent_launch(g.get("playtime", {}), 1),
         "text": lambda g: "Actif récemment (nocturne ?)"
     },
@@ -302,6 +328,7 @@ BADGE_DEFINITIONS_FR = [
     {
         "type": "veteran",
         "label": "🧓",
+        "css": "veteran",
         "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 300 * 3600,
         "text": lambda g: "Vétéran légendaire"
     },
@@ -315,6 +342,7 @@ BADGE_DEFINITIONS_EN = [
     {
         "type": "favorite",
         "label": "⭐",
+        "css": "favorite",
         "condition": lambda g: g.get("favorite"),
         "text": lambda g: "Favorite"
     },
@@ -337,12 +365,14 @@ BADGE_DEFINITIONS_EN = [
     {
         "type": "gamemode",
         "label": "🚀",
+        "css": "feature",
         "condition": lambda g: g.get("features", {}).get("gamemode", False),
         "text": lambda g: "GameMode enabled"
     },
     {
         "type": "mangohud",
         "label": "📊",
+        "css": "feature",
         "condition": lambda g: g.get("features", {}).get("mangohud", False),
         "text": lambda g: "MangoHud enabled"
     },
@@ -355,6 +385,7 @@ BADGE_DEFINITIONS_EN = [
     {
         "type": "rookie",
         "label": "🐣",
+        "css": "rookie",
         "condition": lambda g: 0 < g.get("playtime", {}).get("seconds", 0) < 3600,
         "text": lambda g: "Beginner (just getting started)"
     },
@@ -363,6 +394,7 @@ BADGE_DEFINITIONS_EN = [
     {
         "type": "casual",
         "label": "🙂",
+        "css": "casual",
         "condition": lambda g: 3600 <= g.get("playtime", {}).get("seconds", 0) < 10 * 3600,
         "text": lambda g: "Casual gamer"
     },
@@ -371,6 +403,7 @@ BADGE_DEFINITIONS_EN = [
     {
         "type": "gamer",
         "label": "🎮",
+        "css": "gamer",
         "condition": lambda g: 10 * 3600 <= g.get("playtime", {}).get("seconds", 0) < 50 * 3600,
         "text": lambda g: "Experienced gamer"
     },
@@ -379,6 +412,7 @@ BADGE_DEFINITIONS_EN = [
     {
         "type": "heavy",
         "label": "🏆",
+        "css": "heavy",
         "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 50 * 3600,
         "text": lambda g: "Tryhard detected"
     },
@@ -387,6 +421,7 @@ BADGE_DEFINITIONS_EN = [
     {
         "type": "addict",
         "label": "💀",
+        "css": "addict",
         "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 150 * 3600,
         "text": lambda g: "Send help"
     },
@@ -395,6 +430,7 @@ BADGE_DEFINITIONS_EN = [
     {
         "type": "night_owl",
         "label": "🌙",
+        "css": "night_owl",
         "condition": lambda g: is_recent_launch(g.get("playtime", {}), 1),
         "text": lambda g: "Recently active (night owl?)"
     },
@@ -403,6 +439,7 @@ BADGE_DEFINITIONS_EN = [
     {
         "type": "veteran",
         "label": "🧓",
+        "css": "veteran",
         "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 300 * 3600,
         "text": lambda g: "Legendary veteran"
     },
@@ -415,6 +452,7 @@ BADGE_DEFINITIONS_DE = [
     {
         "type": "favorite",
         "label": "⭐",
+        "css": "favorite",
         "condition": lambda g: g.get("favorite"),
         "text": lambda g: "Favorit"
     },
@@ -437,12 +475,14 @@ BADGE_DEFINITIONS_DE = [
     {
         "type": "gamemode",
         "label": "🚀",
+        "css": "feature",
         "condition": lambda g: g.get("features", {}).get("gamemode", False),
         "text": lambda g: "GameMode aktiviert"
     },
     {
         "type": "mangohud",
         "label": "📊",
+        "css": "feature",
         "condition": lambda g: g.get("features", {}).get("mangohud", False),
         "text": lambda g: "MangoHud aktiviert"
     },
@@ -455,6 +495,7 @@ BADGE_DEFINITIONS_DE = [
     {
         "type": "rookie",
         "label": "🐣",
+        "css": "rookie",
         "condition": lambda g: 0 < g.get("playtime", {}).get("seconds", 0) < 3600,
         "text": lambda g: "Anfänger (gerade erst gestartet)"
     },
@@ -463,6 +504,7 @@ BADGE_DEFINITIONS_DE = [
     {
         "type": "casual",
         "label": "🙂",
+        "css": "casual",
         "condition": lambda g: 3600 <= g.get("playtime", {}).get("seconds", 0) < 10 * 3600,
         "text": lambda g: "Gelegenheitsspieler"
     },
@@ -471,6 +513,7 @@ BADGE_DEFINITIONS_DE = [
     {
         "type": "gamer",
         "label": "🎮",
+        "css": "gamer",
         "condition": lambda g: 10 * 3600 <= g.get("playtime", {}).get("seconds", 0) < 50 * 3600,
         "text": lambda g: "Erfahrener Spieler"
     },
@@ -479,6 +522,7 @@ BADGE_DEFINITIONS_DE = [
     {
         "type": "heavy",
         "label": "🏆",
+        "css": "heavy",
         "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 50 * 3600,
         "text": lambda g: "Tryhard erkannt"
     },
@@ -487,6 +531,7 @@ BADGE_DEFINITIONS_DE = [
     {
         "type": "addict",
         "label": "💀",
+        "css": "addict",
         "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 150 * 3600,
         "text": lambda g: "Bitte Hilfe senden"
     },
@@ -495,6 +540,7 @@ BADGE_DEFINITIONS_DE = [
     {
         "type": "night_owl",
         "label": "🌙",
+        "css": "night_owl",
         "condition": lambda g: is_recent_launch(g.get("playtime", {}), 1),
         "text": lambda g: "Kürzlich aktiv (Nachteule?)"
     },
@@ -503,6 +549,7 @@ BADGE_DEFINITIONS_DE = [
     {
         "type": "veteran",
         "label": "🧓",
+        "css": "veteran",
         "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 300 * 3600,
         "text": lambda g: "Legendärer Veteran"
     },
@@ -515,6 +562,7 @@ BADGE_DEFINITIONS_ES = [
     {
         "type": "favorite",
         "label": "⭐",
+        "css": "favorite",
         "condition": lambda g: g.get("favorite"),
         "text": lambda g: "Favorito"
     },
@@ -537,12 +585,14 @@ BADGE_DEFINITIONS_ES = [
     {
         "type": "gamemode",
         "label": "🚀",
+        "css": "feature",
         "condition": lambda g: g.get("features", {}).get("gamemode", False),
         "text": lambda g: "GameMode activado"
     },
     {
         "type": "mangohud",
         "label": "📊",
+        "css": "feature",
         "condition": lambda g: g.get("features", {}).get("mangohud", False),
         "text": lambda g: "MangoHud activado"
     },
@@ -555,6 +605,7 @@ BADGE_DEFINITIONS_ES = [
     {
         "type": "rookie",
         "label": "🐣",
+        "css": "rookie",
         "condition": lambda g: 0 < g.get("playtime", {}).get("seconds", 0) < 3600,
         "text": lambda g: "Principiante (acaba de empezar)"
     },
@@ -563,6 +614,7 @@ BADGE_DEFINITIONS_ES = [
     {
         "type": "casual",
         "label": "🙂",
+        "css": "casual",
         "condition": lambda g: 3600 <= g.get("playtime", {}).get("seconds", 0) < 10 * 3600,
         "text": lambda g: "Jugador ocasional"
     },
@@ -571,6 +623,7 @@ BADGE_DEFINITIONS_ES = [
     {
         "type": "gamer",
         "label": "🎮",
+        "css": "gamer",
         "condition": lambda g: 10 * 3600 <= g.get("playtime", {}).get("seconds", 0) < 50 * 3600,
         "text": lambda g: "Jugador experimentado"
     },
@@ -579,6 +632,7 @@ BADGE_DEFINITIONS_ES = [
     {
         "type": "heavy",
         "label": "🏆",
+        "css": "heavy",
         "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 50 * 3600,
         "text": lambda g: "Modo hardcore activado"
     },
@@ -587,6 +641,7 @@ BADGE_DEFINITIONS_ES = [
     {
         "type": "addict",
         "label": "💀",
+        "css": "addict",
         "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 150 * 3600,
         "text": lambda g: "Necesita ayuda"
     },
@@ -595,6 +650,7 @@ BADGE_DEFINITIONS_ES = [
     {
         "type": "night_owl",
         "label": "🌙",
+        "css": "night_owl",
         "condition": lambda g: is_recent_launch(g.get("playtime", {}), 1),
         "text": lambda g: "Activo recientemente (¿noctámbulo?)"
     },
@@ -603,6 +659,7 @@ BADGE_DEFINITIONS_ES = [
     {
         "type": "veteran",
         "label": "🧓",
+        "css": "veteran",
         "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 300 * 3600,
         "text": lambda g: "Veterano legendario"
     },
@@ -615,6 +672,7 @@ BADGE_DEFINITIONS_ZH = [
     {
         "type": "favorite",
         "label": "⭐",
+        "css": "favorite",
         "condition": lambda g: g.get("favorite"),
         "text": lambda g: "收藏"
     },
@@ -637,12 +695,14 @@ BADGE_DEFINITIONS_ZH = [
     {
         "type": "gamemode",
         "label": "🚀",
+        "css": "feature",
         "condition": lambda g: g.get("features", {}).get("gamemode", False),
         "text": lambda g: "已启用 GameMode"
     },
     {
         "type": "mangohud",
         "label": "📊",
+        "css": "feature",
         "condition": lambda g: g.get("features", {}).get("mangohud", False),
         "text": lambda g: "已启用 MangoHud"
     },
@@ -655,6 +715,7 @@ BADGE_DEFINITIONS_ZH = [
     {
         "type": "rookie",
         "label": "🐣",
+        "css": "rookie",
         "condition": lambda g: 0 < g.get("playtime", {}).get("seconds", 0) < 3600,
         "text": lambda g: "新手（刚刚开始）"
     },
@@ -663,6 +724,7 @@ BADGE_DEFINITIONS_ZH = [
     {
         "type": "casual",
         "label": "🙂",
+        "css": "casual",
         "condition": lambda g: 3600 <= g.get("playtime", {}).get("seconds", 0) < 10 * 3600,
         "text": lambda g: "休闲玩家"
     },
@@ -671,6 +733,7 @@ BADGE_DEFINITIONS_ZH = [
     {
         "type": "gamer",
         "label": "🎮",
+        "css": "gamer",
         "condition": lambda g: 10 * 3600 <= g.get("playtime", {}).get("seconds", 0) < 50 * 3600,
         "text": lambda g: "经验丰富的玩家"
     },
@@ -679,6 +742,7 @@ BADGE_DEFINITIONS_ZH = [
     {
         "type": "heavy",
         "label": "🏆",
+        "css": "heavy",
         "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 50 * 3600,
         "text": lambda g: "硬核玩家"
     },
@@ -687,6 +751,7 @@ BADGE_DEFINITIONS_ZH = [
     {
         "type": "addict",
         "label": "💀",
+        "css": "addict",
         "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 150 * 3600,
         "text": lambda g: "需要救援"
     },
@@ -695,6 +760,7 @@ BADGE_DEFINITIONS_ZH = [
     {
         "type": "night_owl",
         "label": "🌙",
+        "css": "night_owl",
         "condition": lambda g: is_recent_launch(g.get("playtime", {}), 1),
         "text": lambda g: "最近活跃（夜猫子？）"
     },
@@ -703,6 +769,7 @@ BADGE_DEFINITIONS_ZH = [
     {
         "type": "veteran",
         "label": "🧓",
+        "css": "veteran",
         "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 300 * 3600,
         "text": lambda g: "传奇老玩家"
     },

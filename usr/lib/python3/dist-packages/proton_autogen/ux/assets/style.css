@@ -494,6 +494,61 @@ label.home-label {
 .badge {
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
 }
+
+/* =========================================================
+   NEW
+   ========================================================= */
+
+.badge.rookie {
+    background: rgba(120,220,255,0.18);
+    border-color: rgba(120,220,255,0.35);
+    border-left-color:#78dcff;
+}
+
+
+.badge.casual {
+    background: rgba(255,220,80,0.18);
+    border-color:rgba(255,220,80,0.35);
+    border-left-color:#ffdc50;
+}
+
+
+.badge.gamer {
+    background: rgba(80,220,130,0.18);
+    border-color:rgba(80,220,130,0.35);
+    border-left-color:#50dc82;
+}
+
+
+.badge.heavy {
+    background: rgba(255,130,50,0.22);
+    border-color:rgba(255,130,50,0.40);
+    border-left-color:#ff8232;
+}
+
+
+.badge.addict {
+    background:rgba(255,50,80,0.22);
+    border-color:rgba(255,50,80,0.45);
+    border-left-color:#ff3250;
+
+    box-shadow:
+        0 0 12px rgba(255,50,80,0.35);
+}
+
+
+.badge.night_owl {
+    background:rgba(100,90,255,0.20);
+    border-color:rgba(100,90,255,0.40);
+    border-left-color:#645aff;
+}
+
+
+.badge.veteran {
+    background:rgba(220,180,80,0.22);
+    border-color:rgba(220,180,80,0.45);
+    border-left-color:#dcb450;
+}
 /* =========================================================
    TEXTVIEW
    ========================================================= */

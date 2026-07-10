@@ -445,6 +445,125 @@ label.home-label {
     box-shadow: 0 0 12px rgba(255, 60, 120, 0.10);
 }
 
+
+/* =====================================
+   PLAYER RANK BADGES - GTK STYLE
+   ===================================== */
+
+.badge {
+    border-radius: 12px;
+    padding: 4px 8px;
+
+    border-width: 1px;
+    border-style: solid;
+
+    color: #ffffff;
+
+    background-color: rgba(255,255,255,0.08);
+
+    box-shadow:
+        inset 0 1px rgba(255,255,255,0.15),
+        0 2px 8px rgba(0,0,0,0.35);
+}
+
+
+/* 🐣 Rookie */
+
+.badge.rookie {
+
+    background-color: rgba(120,220,255,0.20);
+
+    border-color: rgba(120,220,255,0.70);
+
+    box-shadow:
+        0 0 8px rgba(120,220,255,0.45);
+
+}
+
+
+/* 🙂 Casual */
+
+.badge.casual {
+
+    background-color: rgba(255,220,80,0.22);
+
+    border-color: rgba(255,220,80,0.75);
+
+    box-shadow:
+        0 0 8px rgba(255,220,80,0.45);
+
+}
+
+
+/* 🎮 Gamer */
+
+.badge.gamer {
+
+    background-color: rgba(80,220,130,0.22);
+
+    border-color: rgba(80,220,130,0.75);
+
+    box-shadow:
+        0 0 10px rgba(80,220,130,0.45);
+
+}
+
+
+/* 🏆 Heavy */
+
+.badge.heavy {
+
+    background-color: rgba(255,130,50,0.25);
+
+    border-color: rgba(255,130,50,0.80);
+
+    box-shadow:
+        0 0 12px rgba(255,130,50,0.55);
+
+}
+
+
+/* 💀 Addict */
+
+.badge.addict {
+
+    background-color: rgba(255,50,80,0.25);
+
+    border-color: rgba(255,50,80,0.85);
+
+    box-shadow:
+        0 0 15px rgba(255,50,80,0.65);
+
+}
+
+
+/* 🌙 Night Owl */
+
+.badge.night_owl {
+
+    background-color: rgba(100,90,255,0.25);
+
+    border-color: rgba(100,90,255,0.80);
+
+    box-shadow:
+        0 0 12px rgba(100,90,255,0.55);
+
+}
+
+
+/* 🧓 Veteran */
+
+.badge.veteran {
+
+    background-color: rgba(220,180,80,0.28);
+
+    border-color: rgba(220,180,80,0.90);
+
+    box-shadow:
+        0 0 15px rgba(220,180,80,0.65);
+
+}
+
 /* =========================================================
    TEXTVIEW
    ========================================================= */
