@@ -1,11 +1,9 @@
 #!/bin/bash
 set -e
 
-USER_HOME=$(getent passwd "$SUDO_USER" | cut -d: -f6)
-
-mkdir -p "$USER_HOME/.local/share/nemo/actions"
-
-# refresh nemo si dispo
-su - "$SUDO_USER" -c "nemo -q" || true
+# Rafraîchir Nemo uniquement si disponible
+if command -v nemo >/dev/null 2>&1; then
+    nemo -q || true
+fi
 
 exit 0
