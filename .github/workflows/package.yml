@@ -1,0 +1,115 @@
+name: Debian Package
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "v*"
+
+  pull_request:
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-deb:
+
+    name: Build Debian package
+    strategy:
+      matrix:
+        ubuntu:
+          - ubuntu-22.04
+          - ubuntu-24.04
+
+    runs-on: ${{ matrix.ubuntu }}
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Install Debian packaging tools
+        run: |
+          sudo apt update
+          sudo apt install -y \
+            build-essential \
+            devscripts \
+            debhelper \
+            fakeroot \
+            lintian
+
+      - name: Build package from debian/
+        run: |
+          dpkg-buildpackage \
+            -us \
+            -uc \
+            -b
+
+      - name: List generated packages
+        run: |
+          ls -lh ../*.deb
+
+      - name: Run lintian
+        continue-on-error: true
+        run: |
+          lintian ../*.deb
+
+
+      - name: Install generated package
+        run: |
+          sudo apt install -y ../*.deb
+
+
+      - name: Verify installation
+        run: |
+          proton-autogen --help
+          proton-autogen --version
+
+
+      - name: Upload Debian artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: proton-autogen-${{ matrix.ubuntu }}-deb
+          path: ../*.deb
+
+
+  release:
+
+    name: Publish GitHub Release
+
+    needs: build-deb
+
+    if: startsWith(github.ref, 'refs/tags/v')
+
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+
+      - name: Install packaging tools
+        run: |
+          sudo apt update
+          sudo apt install -y \
+            build-essential \
+            devscripts \
+            debhelper \
+            fakeroot
+
+
+      - name: Build Debian package
+        run: |
+          dpkg-buildpackage \
+            -us \
+            -uc \
+            -b
+
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ../*.deb
