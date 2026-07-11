@@ -75,6 +75,8 @@ echo "==> Installing resources..."
 
 sudo install -d /usr/share/proton-autogen
 sudo cp -r usr/share/proton-autogen/* /usr/share/proton-autogen/
+sudo cp debian/proton-autogen.1.gz /usr/share/man/man1/
+
 
 sudo install -d /usr/share/applications
 sudo install -m644 \
