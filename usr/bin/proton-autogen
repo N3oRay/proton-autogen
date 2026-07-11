@@ -32,7 +32,7 @@ def main():
         print_about()
         return
 
-    if "--v" in sys.argv:
+    if "--v" in sys.argv or "--version" in sys.argv:
         print(f"proton-autogen {VERSION}")
         return
 
