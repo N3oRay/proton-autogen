@@ -30,7 +30,6 @@ from proton_autogen.detection.proton import DEFAULT_PROTON_PATHS
 from proton_autogen.detection.mangohud import find_mangohud_shim, check_mangohud_abi
 from proton_autogen.dector import resolve_game_features, gpu_env
 
-
 from proton_autogen.util_path import proton_path, proton_name
 from proton_autogen.about import afficher_abouts, afficher_abouts_label
 
@@ -119,10 +118,6 @@ paths = ~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools
     return cleaned
 
 #------------------------------------------------------------------------------------
-
-
-
-
 def detect_help_env_lang():
     """
     Détecte la langue pour --help-env :
@@ -489,8 +484,6 @@ def get_prefix_path_v2(prefix_mode: str, exe_path: str) -> str:
 
     return prefixes.get(prefix_mode, prefixes["main"])
 
-
-
 def add_ld_preload(env, library):
     """
     Ajoute une bibliothèque à LD_PRELOAD sans écraser
@@ -568,8 +561,6 @@ def run_filtered(cmd, env=None, filters=None, cwd=None):
 # Wine fallback execution.
 # The executable is started from its parent directory to preserve
 # relative paths required by some applications (DLLs, assets, etc.).
-
-
 def run_standard(exe_path: str):
     logger.info("[proton-autogen] Proton unavailable → using Wine fallback")
 
