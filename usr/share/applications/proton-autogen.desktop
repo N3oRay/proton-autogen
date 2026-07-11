@@ -12,9 +12,7 @@ Exec=proton-autogen --ux
 Icon=proton-autogen
 
 Terminal=false
-StartupNotify=false
+StartupNotify=true
 
 Categories=Game;Utility;
 Keywords=Proton;Wine;Windows;Gaming;Launcher;
-
-MimeType=application/x-ms-dos-executable;application/x-msdownload;application/vnd.microsoft.portable-executable;

@@ -51,3 +51,5 @@ usr/share/icons/hicolor/256x256/apps/proton-autogen.png usr/share/icons/hicolor/
 usr/share/kio/servicemenus/proton-autogen.desktop usr/share/kio/servicemenus/
 usr/share/nemo/actions/proton-autogen.nemo_action usr/share/nemo/actions/
 usr/share/nautilus-python/extensions/proton_autogen_nautilus.py usr/share/nautilus-python/extensions/
+
+debian/proton-autogen.1.gz usr/share/man/man1/
