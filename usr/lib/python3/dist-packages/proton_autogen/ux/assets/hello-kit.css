@@ -194,6 +194,19 @@ button.suggested-action:hover {
     box-shadow: 0 6px 14px @hk-shadow;
 }
 
+
+.section-toggle {
+    background: transparent;
+    color: white;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 11px;
+}
+
+.section-toggle:hover {
+    background: alpha(@theme_fg_color,0.12);
+}
+
 .btn-launch {
     background: #ffb6d9;
     color: white;

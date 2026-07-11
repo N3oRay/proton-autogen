@@ -489,7 +489,7 @@ class Dashboard(Gtk.ApplicationWindow):
         )
 
         recent_btn.add_css_class(
-            "btn-launch" # home-label "btn-launch" / label-bottom
+            "section-toggle" # home-label "btn-launch" / label-bottom
         )
 
 
