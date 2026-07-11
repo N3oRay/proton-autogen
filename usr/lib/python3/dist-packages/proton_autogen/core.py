@@ -447,25 +447,6 @@ def make_output_path(exe_path: str, root: str) -> tuple[str, str]:
 
     return prefix_path, prefix_name
 
-def make_output_path_simple(exe_path: str, root: str) -> str:
-    """Construit un chemin de sortie unique à partir du chemin d'un exécutable."""
-
-    logger.info(f"make_output_path EXE PATH   : {exe_path}")
-    name = os.path.splitext(os.path.basename(exe_path))[0]
-
-    safe_name = (
-        name.replace(" ", "_")
-            .replace("/", "_")
-            .replace("\\", "_")
-    )
-
-    short_hash = hashlib.md5(exe_path.encode("utf-8")).hexdigest()[:8]
-    prefix_name = safe_name +"-"+ short_hash
-
-    prefix_path = os.path.join(root, f"{safe_name}-{short_hash}")
-    logger.info(f"make_output_path prefix_path   : {prefix_path} - prefix_name   : {prefix_name} ")
-    return prefix_path, prefix_name
-
 
 # Return the Wine/Proton prefix path for the selected prefix mode.
 def get_prefix_path(prefix_mode: str, exe_path: str) -> str:
@@ -508,43 +489,6 @@ def get_prefix_path_v2(prefix_mode: str, exe_path: str) -> str:
 
     return prefixes.get(prefix_mode, prefixes["main"])
 
-
-def get_prefix_path_v1(prefix_mode: str, exe_path: str) -> str:
-    root = PREFIX_DIR_PATH
-
-    if prefix_mode == "auto":
-        name = os.path.splitext(
-            os.path.basename(exe_path)
-        )[0]
-
-        # Nettoyage minimal du nom
-        safe_name = (
-            name.replace(" ", "_")
-                .replace("/", "_")
-                .replace("\\", "_")
-        )
-
-        short_hash = hashlib.md5(
-            exe_path.encode()
-        ).hexdigest()[:8]
-
-        return os.path.join(
-            root,
-            f"{safe_name}-{short_hash}"
-        )
-
-    prefixes = {
-        "main": os.path.join(root, "main"),
-        "shared": os.path.join(root, "shared"),
-        "custom": os.path.expanduser(
-            "~/Documents/Proton/env/Proton Custom"
-        ),
-    }
-
-    return prefixes.get(
-        prefix_mode,
-        prefixes["main"]
-    )
 
 
 def add_ld_preload(env, library):
