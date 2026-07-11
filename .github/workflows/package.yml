@@ -68,11 +68,16 @@ jobs:
           proton-autogen --version
 
 
+      - name: Prepare Debian artifact
+        run: |
+          mkdir -p artifacts
+          cp ../*.deb artifacts/
+
       - name: Upload Debian artifact
         uses: actions/upload-artifact@v4
         with:
           name: proton-autogen-${{ matrix.ubuntu }}-deb
-          path: ../*.deb
+          path: artifacts/*.deb
 
 
   release:
