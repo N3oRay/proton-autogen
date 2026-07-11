@@ -468,8 +468,22 @@ def make_output_path_simple(exe_path: str, root: str) -> str:
 
 
 # Return the Wine/Proton prefix path for the selected prefix mode.
-
 def get_prefix_path(prefix_mode: str, exe_path: str) -> str:
+
+    root = PREFIX_DIR_PATH
+
+    if prefix_mode != "auto":
+        # déjà résolu → on le traite comme prefix direct
+        return os.path.join(root, prefix_mode)
+
+    if prefix_mode == "auto":
+        output, short_hash = make_output_path(exe_path, root)
+
+        return output
+
+
+
+def get_prefix_path_v2(prefix_mode: str, exe_path: str) -> str:
 
     root = PREFIX_DIR_PATH
 
@@ -485,7 +499,11 @@ def get_prefix_path(prefix_mode: str, exe_path: str) -> str:
     prefixes = {
         "main": os.path.join(root, "main"),
         "shared": os.path.join(root, "shared"),
-        "custom": os.path.expanduser("~/Documents/Proton/env/Proton Custom"),
+        "Battle": os.path.join(root, "Battle"),
+        "Battle.net": os.path.join(root, "Battle.net"),
+        "custom": os.path.join(root, "custom"),
+        "Proton Custom": os.path.join(root, "Proton Custom"),
+        #"custom": os.path.expanduser("~/Documents/Proton/env/Proton Custom"),
     }
 
     return prefixes.get(prefix_mode, prefixes["main"])
