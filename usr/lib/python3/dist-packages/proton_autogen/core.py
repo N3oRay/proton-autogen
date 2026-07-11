@@ -765,7 +765,7 @@ def base_env(enable_mangohud=False, enable_gamemode=False, exe_path="", exe_type
         )
     else:
         logger.info(f"SYNC: MANGOHUD={get('MANGOHUD')} MANGOHUD_DLSYM={get('MANGOHUD_DLSYM')}")
-        logger.info( f"Apply PROFILE={(exe_type or "unknown").upper()} | "
+        logger.info( f"Apply PROFILE={(exe_type or 'unknown').upper()} | "
                      f"SYNC={'ON' if get('WINEESYNC') == '1' else 'OFF'} | "
                      f"WINED3D={'ON' if get('PROTON_USE_WINED3D') == '1' else 'OFF'} | "
                      f"XALIA={'OFF' if get('PROTON_USE_XALIA') == '0' else 'ON'} | "
