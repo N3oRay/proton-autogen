@@ -9,6 +9,7 @@ from gi.repository import Gtk, Gio, Gdk, GLib
 
 from proton_autogen.ux.game_list import GameList
 from proton_autogen.ux.game_editor import GameEditor
+from proton_autogen.ux.recent_carousel import RecentCarousel
 from proton_autogen.ux.dialogs import open_game_file_dialog, show_launch_dialog, hide_launch_dialog
 from proton_autogen.ux.menu import attach_menu
 from proton_autogen.ux.themes import load_saved_theme, save_theme, AVAILABLE_THEMES, DEFAULT_THEME
@@ -17,12 +18,7 @@ from proton_autogen.ux.search import filter_games
 from proton_autogen.notify import notifications
 from proton_autogen.progress import Progress
 from proton_autogen.editor import add_game_ux
-from proton_autogen.backend import (
-    run,
-    list_programs_ux,
-    get_diagnostic_text,
-)
-
+from proton_autogen.backend import run, list_programs_ux,get_diagnostic_text
 from proton_autogen.stats import is_recent_launch
 from proton_autogen.core import print_about, get_about_text, detect_help_env_lang
 from proton_autogen.info import print_help, get_help_text
@@ -153,7 +149,6 @@ class Dashboard(Gtk.ApplicationWindow):
         textview.set_editable(False)
         textview.set_cursor_visible(False)
         textview.set_monospace(True)
-
 
         buffer = textview.get_buffer()
         buffer.set_text(get_mangohud_advice())
@@ -290,14 +285,11 @@ class Dashboard(Gtk.ApplicationWindow):
             # -----------------------------
             export_dir = Path.home() / ".local" / "share" / "proton-autogen" / "lutris_exports"
             export_dir.mkdir(parents=True, exist_ok=True)
-
             file_path = export_dir / f"{game_name}-lutris.yml"
-
             # -----------------------------
             # 4. Write file safely
             # -----------------------------
             file_path.write_text(yaml_text, encoding="utf-8")
-
             # -----------------------------
             # 5. UX feedback (better than print)
             # -----------------------------
@@ -372,8 +364,6 @@ class Dashboard(Gtk.ApplicationWindow):
         self.set_child(overlay)
         self._overlay = overlay
 
-
-
         # =========================
         # BACKGROUND IMAGE
         # =========================
@@ -396,7 +386,6 @@ class Dashboard(Gtk.ApplicationWindow):
             spacing=8,
         )
 
-
         root.set_vexpand(True)
         root.set_hexpand(True)
         root.set_halign(Gtk.Align.FILL)
@@ -417,7 +406,6 @@ class Dashboard(Gtk.ApplicationWindow):
         wrapper.set_margin_end(0)
         wrapper.set_margin_top(0)
         wrapper.set_margin_bottom(0)
-
         wrapper.append(root)
 
         overlay.add_overlay(wrapper)
@@ -487,11 +475,95 @@ class Dashboard(Gtk.ApplicationWindow):
         self.stats_label.add_css_class("home-label")
         root.append(self.stats_label)
 
+        # =========================
+        # RECENT GAMES COLLAPSE
+        # =========================
+
+        recent_header = Gtk.Box(
+            orientation=Gtk.Orientation.HORIZONTAL,
+            spacing=8
+        )
+
+        recent_btn = Gtk.Button(
+            label="▼ Recently played"
+        )
+
+        recent_btn.add_css_class(
+            "btn-launch" # home-label "btn-launch" / label-bottom
+        )
+
+
+        self.recent_revealer = Gtk.Revealer()
+
+        self.recent_revealer.set_transition_type(
+            Gtk.RevealerTransitionType.SLIDE_DOWN
+        )
+
+        self.recent_revealer.set_transition_duration(
+            250
+        )
+
+
+        self.recent_carousel = RecentCarousel(
+            on_launch=self.launch_game,
+            on_edit=self.edit_game,
+            lang=self.lang
+        )
+
+        self.recent_carousel.set_size_request(
+            -1,
+            160
+        )
+
+
+        self.recent_revealer.set_child(
+            self.recent_carousel
+        )
+
+        # état initial : True -> ouvert / False -> Fermer
+        self.recent_revealer.set_reveal_child(False)
+
+
+        def toggle_recent(_btn):
+
+            visible = self.recent_revealer.get_reveal_child()
+
+            self.recent_revealer.set_reveal_child(
+                not visible
+            )
+
+            if visible:
+                recent_btn.set_label(
+                    "▶ Recently played"
+                )
+            else:
+                recent_btn.set_label(
+                    "▼ Recently played"
+                )
+
+
+        recent_btn.connect(
+            "clicked",
+            toggle_recent
+        )
+
+
+        recent_header.append(
+            recent_btn
+        )
+
+        root.append(
+            recent_header
+        )
+
+        root.append(
+            self.recent_revealer
+        )
+
 
         # =========================
         # GAME SEARCH
         # =========================
-
         self.search = Gtk.SearchEntry()
         self.search.set_placeholder_text("Search games...")
 
@@ -512,7 +584,6 @@ class Dashboard(Gtk.ApplicationWindow):
             on_export_lutris=self.export_lutris_handler,
             lang=self.lang
         )
-        #self.game_list.set_on_refresh(self.refresh_games)
 
         self.game_list.set_vexpand(True)
         self.game_list.set_hexpand(True)
@@ -543,17 +614,32 @@ class Dashboard(Gtk.ApplicationWindow):
             (is_recent_launch(p, 7) * 500)
         )
 
+    # ---------------------------------
+    # SEARCH Recent games for Caroussel
+    # ---------------------------------
+    def get_recent_games(self, games, limit=10):
+        return sorted(
+            games,
+            key=self.activity_score,
+            reverse=True
+        )[:limit]
+
     # -------------------------
     # SEARCH
     # -------------------------
     def on_search_changed(self, entry):
 
         text = entry.get_text()
-
         games = filter_games(self.games, text)
-
         self.game_list.set_games(games)
-
+        # Caroussel
+        if hasattr(self, "recent_carousel"):
+            self.recent_carousel.set_games(
+                self.get_recent_games(
+                    self.games,
+                    10
+                )
+            )
         self.status.set_text(
             f"{len(games)} game(s)"
         )
@@ -599,6 +685,17 @@ class Dashboard(Gtk.ApplicationWindow):
 
             self.game_list.set_games(filtered)
             self.update_stats(filtered)
+            # Chargement du CAROUSEL
+            if hasattr(self, "recent_carousel"):
+
+                recent = self.get_recent_games(
+                    self.games,
+                    10
+                )
+
+                self.recent_carousel.set_games(
+                    recent
+                )
 
         if not self.games:
             self.status.set_text("No games found")
@@ -941,7 +1038,6 @@ class ProtonAutogenApp(Gtk.Application):
         # --------------------------
         # Mangohud SENSORS
         # -------------------------
-
         mgh = Gio.SimpleAction.new("mangohud", None)
 
         def open_mgh(*a):
