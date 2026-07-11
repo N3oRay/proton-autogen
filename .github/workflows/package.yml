@@ -32,8 +32,8 @@ jobs:
 
       - name: Install Debian packaging tools
         run: |
-          sudo apt update
-          sudo apt install -y \
+          sudo apt-get update
+          sudo apt-get install -y \
             build-essential \
             devscripts \
             debhelper \
@@ -59,7 +59,7 @@ jobs:
 
       - name: Install generated package
         run: |
-          sudo apt install -y ../*.deb
+          sudo apt-get install -y ../*.deb
 
 
       - name: Verify installation
@@ -97,8 +97,8 @@ jobs:
 
       - name: Install packaging tools
         run: |
-          sudo apt update
-          sudo apt install -y \
+          sudo apt-get update
+          sudo apt-get install -y \
             build-essential \
             devscripts \
             debhelper \
