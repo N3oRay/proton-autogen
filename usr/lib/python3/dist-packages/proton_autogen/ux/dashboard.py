@@ -28,7 +28,6 @@ from proton_autogen.requis import afficher_prerequis_label
 addbouton = True
 refreshbouton = True
 
-
 # -----------------------------
 # MAIN WINDOW
 # -----------------------------
@@ -62,8 +61,6 @@ class Dashboard(Gtk.ApplicationWindow):
     # -------------------------
     # Change Theme
     # -------------------------
-
-
     def on_change_style(self, _btn):
         app = self.get_application()
         # on fait défiler les thèmes
@@ -86,7 +83,6 @@ class Dashboard(Gtk.ApplicationWindow):
     # -------------------------
     # Show TOAST
     # -------------------------
-
     def _limit_toasts(self, max_toasts=5):
         children = []
         child = self._toast_box.get_first_child()
@@ -138,7 +134,6 @@ class Dashboard(Gtk.ApplicationWindow):
     # -------------------------
     # Show MangoHud Sensors :
     # -------------------------
-
     def show_mangohud_advice_dialog(self):
 
         scroll = Gtk.ScrolledWindow()
@@ -165,7 +160,6 @@ class Dashboard(Gtk.ApplicationWindow):
     # -------------------------
     # Show Sensors :
     # -------------------------
-
     def show_sensors_dialog(self):
 
         scroll = Gtk.ScrolledWindow()
@@ -230,9 +224,7 @@ class Dashboard(Gtk.ApplicationWindow):
 
         box.append(entry)
 
-        # -------------------------
         # COPY BUTTON
-        # -------------------------
         def copy_to_clipboard(_):
             display = Gdk.Display.get_default()
             clipboard = display.get_clipboard()
@@ -280,19 +272,13 @@ class Dashboard(Gtk.ApplicationWindow):
 
             game_name = sanitize(game.get("name", "game"))
 
-            # -----------------------------
             # 3. Export directory (XDG-friendly)
-            # -----------------------------
             export_dir = Path.home() / ".local" / "share" / "proton-autogen" / "lutris_exports"
             export_dir.mkdir(parents=True, exist_ok=True)
             file_path = export_dir / f"{game_name}-lutris.yml"
-            # -----------------------------
             # 4. Write file safely
-            # -----------------------------
             file_path.write_text(yaml_text, encoding="utf-8")
-            # -----------------------------
             # 5. UX feedback (better than print)
-            # -----------------------------
             print(f"[OK] Export Lutris terminé: {file_path}")
             self.show_export_dialog(file_path)
 
@@ -319,21 +305,12 @@ class Dashboard(Gtk.ApplicationWindow):
         hours = total_seconds // 3600
         minutes = (total_seconds % 3600) // 60
 
-        return {
-            "total_games": total,
-            "hours": hours,
-            "minutes": minutes,
-            "favorites": favorites,
-        }
+        return { "total_games": total, "hours": hours, "minutes": minutes, "favorites": favorites, }
 
     def update_stats(self, games):
         stats = self.build_global_stats(games)
 
-        self.stats_label.set_text(
-            f"🎮 {stats['total_games']} games  •  "
-            f"⏱ {stats['hours']}h {stats['minutes']}m  •  "
-            f"⭐ {stats['favorites']}"
-        )
+        self.stats_label.set_text( f"🎮 {stats['total_games']} games  •  " f"⏱ {stats['hours']}h {stats['minutes']}m  •  " f"⭐ {stats['favorites']}" )
         self.stats_label.add_css_class("home-label")
 
 
@@ -398,7 +375,6 @@ class Dashboard(Gtk.ApplicationWindow):
         root.add_css_class("style")
 
         # Le contenu est affiché au-dessus du fond
-
         wrapper = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         wrapper.set_halign(Gtk.Align.CENTER)
         wrapper.set_valign(Gtk.Align.FILL)
@@ -484,15 +460,8 @@ class Dashboard(Gtk.ApplicationWindow):
             spacing=8
         )
 
-        recent_btn = Gtk.Button(
-            label="▼ Recently played"
-        )
-
-        recent_btn.add_css_class(
-            "section-toggle" # home-label "btn-launch" / label-bottom
-        )
-
-
+        recent_btn = Gtk.Button( label="▼ Recently played" )
+        recent_btn.add_css_class("section-toggle")
         self.recent_revealer = Gtk.Revealer()
 
         self.recent_revealer.set_transition_type(
@@ -510,12 +479,7 @@ class Dashboard(Gtk.ApplicationWindow):
             lang=self.lang
         )
 
-        self.recent_carousel.set_size_request(
-            -1,
-            160
-        )
-
-
+        self.recent_carousel.set_vexpand(False)
         self.recent_revealer.set_child(
             self.recent_carousel
         )
@@ -533,32 +497,14 @@ class Dashboard(Gtk.ApplicationWindow):
             )
 
             if visible:
-                recent_btn.set_label(
-                    "▶ Recently played"
-                )
+                recent_btn.set_label( "▶ Recently played" )
             else:
-                recent_btn.set_label(
-                    "▼ Recently played"
-                )
+                recent_btn.set_label( "▼ Recently played" )
 
-
-        recent_btn.connect(
-            "clicked",
-            toggle_recent
-        )
-
-
-        recent_header.append(
-            recent_btn
-        )
-
-        root.append(
-            recent_header
-        )
-
-        root.append(
-            self.recent_revealer
-        )
+        recent_btn.connect( "clicked", toggle_recent )
+        recent_header.append( recent_btn )
+        root.append( recent_header )
+        root.append( self.recent_revealer )
 
 
         # =========================
@@ -617,7 +563,7 @@ class Dashboard(Gtk.ApplicationWindow):
     # ---------------------------------
     # SEARCH Recent games for Caroussel
     # ---------------------------------
-    def get_recent_games(self, games, limit=10):
+    def get_recent_games(self, games, limit=6):
         return sorted(
             games,
             key=self.activity_score,
@@ -637,7 +583,7 @@ class Dashboard(Gtk.ApplicationWindow):
             self.recent_carousel.set_games(
                 self.get_recent_games(
                     self.games,
-                    10
+                    6
                 )
             )
         self.status.set_text(
@@ -690,7 +636,7 @@ class Dashboard(Gtk.ApplicationWindow):
 
                 recent = self.get_recent_games(
                     self.games,
-                    10
+                    6
                 )
 
                 self.recent_carousel.set_games(
@@ -937,11 +883,7 @@ class Dashboard(Gtk.ApplicationWindow):
 
         try:
             game = add_game_ux(path)
-
-            self.status.set_text(
-                f"{game['name']} added ✔"
-            )
-
+            self.status.set_text( f"{game['name']} added ✔" )
             self.refresh_games()
 
         except Exception as e:

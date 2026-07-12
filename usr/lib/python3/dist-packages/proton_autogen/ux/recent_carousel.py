@@ -20,13 +20,12 @@ class RecentCarousel(Gtk.Box):
     ):
         super().__init__(
             orientation=Gtk.Orientation.VERTICAL,
-            spacing=6
+            spacing=1
         )
 
         self.on_launch = on_launch
         self.on_edit = on_edit
         self.lang = lang
-
         self.games = []
 
         # -----------------------------
@@ -34,6 +33,10 @@ class RecentCarousel(Gtk.Box):
         # -----------------------------
 
         self.scroll = Gtk.ScrolledWindow()
+
+        self.scroll.set_propagate_natural_height(False)
+        self.scroll.set_min_content_height(0)
+        self.scroll.set_max_content_height(60)
 
         self.scroll.set_policy(
             Gtk.PolicyType.AUTOMATIC,
@@ -57,6 +60,10 @@ class RecentCarousel(Gtk.Box):
         self.scroll.set_child(self.flow)
 
         self.append(self.scroll)
+
+        # patch espace hauteur
+        self.flow.set_row_spacing(2)
+        self.flow.set_column_spacing(6)
 
 
 
@@ -94,21 +101,17 @@ class RecentCarousel(Gtk.Box):
 
         box = Gtk.Box(
             orientation=Gtk.Orientation.VERTICAL,
-            spacing=5
+            spacing=0
         )
+
+        box.set_margin_top(0)
+        box.set_margin_bottom(0)
 
         box.add_css_class(
             "recent-card"
         )
 
-        box.set_size_request(
-            220,
-            130
-        )
-
-
         # TITLE
-
         title = Gtk.Label(
             label=game.get(
                 "name",
@@ -122,21 +125,17 @@ class RecentCarousel(Gtk.Box):
             "title-4"
         )
 
-
-
         # BADGES
-
         badges_box = Gtk.Box(
             orientation=Gtk.Orientation.HORIZONTAL,
             spacing=4
         )
 
+        badges_box.set_margin_top(1)
+        badges_box.set_margin_bottom(1)
 
-        badges = get_game_badges(
-            game,
-            self.lang
-        )
 
+        badges = get_game_badges(game, self.lang)
 
         for badge in badges:
 
@@ -149,7 +148,6 @@ class RecentCarousel(Gtk.Box):
 
 
         # INFO
-
         proton = os.path.basename(
             game.get(
                 "proton",
@@ -166,26 +164,15 @@ class RecentCarousel(Gtk.Box):
         )
 
         info.set_xalign(0)
-
-        info.add_css_class(
-            "dim-label1"
-        )
-
+        info.add_css_class("dim-label1")
 
 
         # BUTTONS
+        buttons = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=4)
+        btn_launch = Gtk.Button(label="▶")
+        btn_launch.add_css_class("btn-launch")
+        btn_launch.set_size_request(30, 24)
 
-        buttons = Gtk.Box(
-            orientation=Gtk.Orientation.HORIZONTAL,
-            spacing=4
-        )
-
-
-        btn_launch = Gtk.Button(
-            label="▶"
-        )
-
-        btn_launch.add_css_class( "btn-launch" )
 
         btn_launch.connect(
             "clicked",
@@ -198,6 +185,7 @@ class RecentCarousel(Gtk.Box):
             label="Edit"
         )
         btn_edit.add_css_class("btn-edit")
+        btn_edit.set_size_request(50, 24)
 
         btn_edit.connect(
             "clicked",
@@ -218,6 +206,11 @@ class RecentCarousel(Gtk.Box):
 
 
         row = Gtk.FlowBoxChild()
+
+        row.set_margin_top(0)
+        row.set_margin_bottom(0)
+        row.set_margin_start(0)
+        row.set_margin_end(0)
 
         row.set_child(box)
 

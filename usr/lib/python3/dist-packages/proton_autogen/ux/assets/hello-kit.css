@@ -631,3 +631,12 @@ tooltip {
 tooltip label {
     color: @hk_tooltip_text;
 }
+
+
+/* Recent games cards */
+.recent-card {
+    padding: 1px 5px;
+    margin: 1px;
+    border-radius: 8px;
+    background-color: alpha(@theme_fg_color, 0.05);
+}
