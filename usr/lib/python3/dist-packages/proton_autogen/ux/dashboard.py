@@ -484,6 +484,8 @@ class Dashboard(Gtk.ApplicationWindow):
             self.recent_carousel
         )
 
+        self.recent_carousel.set_vexpand(False)
+
         # état initial : True -> ouvert / False -> Fermer
         self.recent_revealer.set_reveal_child(False)
 
