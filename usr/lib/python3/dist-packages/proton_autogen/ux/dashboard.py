@@ -931,11 +931,9 @@ class ProtonAutogenApp(Gtk.Application):
         mgh.connect("activate", open_mgh)
         self.add_action(mgh)
 
-
         # --------------------------
         # SENSORS
         # -------------------------
-
         sensors = Gio.SimpleAction.new("sensors", None)
 
         def open_sensors(*a):
