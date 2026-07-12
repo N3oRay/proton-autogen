@@ -618,3 +618,11 @@ scrollbar slider {
 .carousel-button:disabled {
     opacity: 0.35;
 }
+
+.carousel-counter {
+    font-size: 0.85em;
+    opacity: 0.75;
+    color:white;
+    margin-top: 4px;
+    margin-bottom: 2px;
+}

@@ -2,7 +2,7 @@ import gi
 
 gi.require_version("Gtk", "4.0")
 
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 
 from proton_autogen.ux.recent_card import RecentGameCard
 
@@ -26,7 +26,7 @@ class RecentCarousel(Gtk.Box):
         lang="en",
     ):
         super().__init__(
-            orientation=Gtk.Orientation.HORIZONTAL,
+            orientation=Gtk.Orientation.VERTICAL,
             spacing=6,
         )
 
@@ -38,22 +38,58 @@ class RecentCarousel(Gtk.Box):
         self.on_edit = on_edit
 
         #
+        # Keyboard focus
+        #
+
+        self.set_focusable(True)
+
+        self.key_controller = Gtk.EventControllerKey()
+
+        self.key_controller.connect(
+            "key-pressed",
+            self._on_key_pressed,
+        )
+
+        self.add_controller(
+            self.key_controller
+        )
+
+        #
+        # Carousel line
+        #
+
+        self.carousel_box = Gtk.Box(
+            orientation=Gtk.Orientation.HORIZONTAL,
+            spacing=6,
+        )
+
+        self.append(
+            self.carousel_box
+        )
+
+        #
         # Previous button
         #
 
         self.prev_button = Gtk.Button(
             icon_name="go-previous-symbolic"
         )
-        self.prev_button.add_css_class("carousel-button")
+
+        self.prev_button.add_css_class(
+            "carousel-button"
+        )
+
         self.prev_button.connect(
             "clicked",
             self._on_previous,
         )
 
-        self.append(self.prev_button)
+        self.carousel_box.append(
+            self.prev_button
+        )
 
         #
-        # Viewport
+        # Fixed viewport
         #
 
         self.viewport = Gtk.Box()
@@ -63,9 +99,9 @@ class RecentCarousel(Gtk.Box):
             -1,
         )
 
-        self.viewport.set_hexpand(False)
-
-        self.append(self.viewport)
+        self.carousel_box.append(
+            self.viewport
+        )
 
         #
         # Cards container
@@ -76,7 +112,9 @@ class RecentCarousel(Gtk.Box):
             spacing=self.CARD_SPACING,
         )
 
-        self.viewport.append(self.cards_box)
+        self.viewport.append(
+            self.cards_box
+        )
 
         #
         # Next button
@@ -85,15 +123,44 @@ class RecentCarousel(Gtk.Box):
         self.next_button = Gtk.Button(
             icon_name="go-next-symbolic"
         )
-        self.next_button.add_css_class("carousel-button")
+
+        self.next_button.add_css_class(
+            "carousel-button"
+        )
+
         self.next_button.connect(
             "clicked",
             self._on_next,
         )
 
-        self.append(self.next_button)
+        self.carousel_box.append(
+            self.next_button
+        )
 
-        self._update_buttons()
+        #
+        # Counter
+        #
+
+        self.counter = Gtk.Label()
+
+
+        self.counter.add_css_class(
+            "carousel-counter"
+        )
+
+        self.counter.add_css_class(
+            "dim-label"
+        )
+
+        self.counter.set_halign(
+            Gtk.Align.CENTER
+        )
+
+        self.append(
+            self.counter
+        )
+
+        self._update_ui()
 
     #
     # Public API
@@ -103,14 +170,9 @@ class RecentCarousel(Gtk.Box):
 
         self.games = list(games)
 
-        max_index = max(
-            0,
-            len(self.games) - self.MAX_VISIBLE
-        )
-
         self.index = min(
             self.index,
-            max_index
+            self._max_index()
         )
 
         self.refresh()
@@ -134,29 +196,98 @@ class RecentCarousel(Gtk.Box):
                 self.on_edit,
             )
 
-            self.cards_box.append(card)
+            self.cards_box.append(
+                card
+            )
 
-        self._update_buttons()
+        self._update_ui()
 
     #
-    # Navigation
+    # Navigation mouse
     #
 
     def _on_previous(self, *_):
 
-        if self.index <= 0:
-            return
-
-        self.index -= 1
-        self.refresh()
+        self.move_by(-1)
 
     def _on_next(self, *_):
 
-        if self.index + self.MAX_VISIBLE >= len(self.games):
-            return
+        self.move_by(1)
 
-        self.index += 1
-        self.refresh()
+    #
+    # Navigation logic
+    #
+
+    def move_by(self, amount):
+
+        new_index = self.index + amount
+
+        new_index = max(
+            0,
+            min(
+                new_index,
+                self._max_index()
+            )
+        )
+
+        if new_index != self.index:
+
+            self.index = new_index
+            self.refresh()
+
+    def go_first(self):
+
+        if self.index != 0:
+
+            self.index = 0
+            self.refresh()
+
+    def go_last(self):
+
+        last = self._max_index()
+
+        if self.index != last:
+
+            self.index = last
+            self.refresh()
+
+    #
+    # Keyboard
+    #
+
+    def _on_key_pressed(
+        self,
+        controller,
+        keyval,
+        keycode,
+        state,
+    ):
+
+        if keyval == Gdk.KEY_Left:
+            self.move_by(-1)
+            return True
+
+        if keyval == Gdk.KEY_Right:
+            self.move_by(1)
+            return True
+
+        if keyval == Gdk.KEY_Home:
+            self.go_first()
+            return True
+
+        if keyval == Gdk.KEY_End:
+            self.go_last()
+            return True
+
+        if keyval == Gdk.KEY_Page_Up:
+            self.move_by(-self.MAX_VISIBLE)
+            return True
+
+        if keyval == Gdk.KEY_Page_Down:
+            self.move_by(self.MAX_VISIBLE)
+            return True
+
+        return False
 
     #
     # Helpers
@@ -165,12 +296,24 @@ class RecentCarousel(Gtk.Box):
     def _clear_cards(self):
 
         while child := self.cards_box.get_first_child():
-            self.cards_box.remove(child)
 
-    def _update_buttons(self):
+            self.cards_box.remove(
+                child
+            )
+
+    def _max_index(self):
+
+        return max(
+            0,
+            len(self.games) - self.MAX_VISIBLE
+        )
+
+    def _update_ui(self):
+
+        total = len(self.games)
 
         has_navigation = (
-            len(self.games) > self.MAX_VISIBLE
+            total > self.MAX_VISIBLE
         )
 
         self.prev_button.set_visible(
@@ -186,5 +329,22 @@ class RecentCarousel(Gtk.Box):
         )
 
         self.next_button.set_sensitive(
-            self.index + self.MAX_VISIBLE < len(self.games)
+            self.index < self._max_index()
         )
+
+        if total:
+
+            first = self.index + 1
+
+            last = min(
+                self.index + self.MAX_VISIBLE,
+                total,
+            )
+
+            self.counter.set_text(
+                f"{first}–{last} / {total}"
+            )
+
+        else:
+
+            self.counter.set_text("")

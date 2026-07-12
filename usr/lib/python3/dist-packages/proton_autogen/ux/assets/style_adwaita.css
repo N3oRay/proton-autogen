@@ -811,3 +811,11 @@ button,
 .carousel-button:disabled {
     opacity: 0.35;
 }
+
+.carousel-counter {
+    font-size: 0.8em;
+    color: alpha(white, 0.55);
+
+    padding: 3px 10px;
+    border-radius: 12px;
+}
