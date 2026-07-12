@@ -841,7 +841,7 @@ class Dashboard(Gtk.ApplicationWindow):
 class ProtonAutogenApp(Gtk.Application):
 
     def __init__(self):
-        super().__init__(application_id="proton-autogen")
+        super().__init__(application_id="io.github.protonautogen")
 
         base = os.path.dirname(__file__)
 

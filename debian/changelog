@@ -1,4 +1,4 @@
-proton-autogen (2.9.7) noble; urgency=medium
+proton-autogen (2.9.8) noble; urgency=medium
 
   * Redesigned the user interface with a new carousel.
   * Improved automatic Proton prefix management for greater stability.
@@ -23,4 +23,4 @@ proton-autogen (2.9.7) noble; urgency=medium
   * Enhanced debugging and diagnostic tools.
   * General code cleanup and internal optimizations.
 
- -- N3oray <n3oray77@gmail.com>  Sun, 12 Jul 2026 20:00:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Mon, 13 Jul 2026 20:00:00 +0200

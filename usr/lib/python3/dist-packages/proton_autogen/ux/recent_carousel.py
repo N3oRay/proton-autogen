@@ -141,23 +141,18 @@ class RecentCarousel(Gtk.Box):
         # Counter
         #
 
-        self.counter = Gtk.Label()
+        self.indicator = Gtk.Label()
 
-
-        self.counter.add_css_class(
-            "carousel-counter"
+        self.indicator.add_css_class(
+            "carousel-indicator"
         )
 
-        self.counter.add_css_class(
-            "dim-label"
-        )
-
-        self.counter.set_halign(
+        self.indicator.set_halign(
             Gtk.Align.CENTER
         )
 
         self.append(
-            self.counter
+            self.indicator
         )
 
         self._update_ui()
@@ -293,6 +288,19 @@ class RecentCarousel(Gtk.Box):
     # Helpers
     #
 
+    def _page_count(self):
+
+        return max(
+            1,
+            (len(self.games) + self.MAX_VISIBLE - 1)
+            // self.MAX_VISIBLE
+        )
+
+
+    def _current_page(self):
+
+        return self.index // self.MAX_VISIBLE
+
     def _clear_cards(self):
 
         while child := self.cards_box.get_first_child():
@@ -332,19 +340,28 @@ class RecentCarousel(Gtk.Box):
             self.index < self._max_index()
         )
 
-        if total:
+        if total > self.MAX_VISIBLE:
 
-            first = self.index + 1
+            pages = self._page_count()
 
-            last = min(
-                self.index + self.MAX_VISIBLE,
-                total,
+            current = self._current_page()
+
+            dots = []
+
+            for i in range(pages):
+
+                if i == current:
+                    dots.append("●")
+                else:
+                    dots.append("○")
+
+            self.indicator.set_text(
+                " ".join(dots)
             )
 
-            self.counter.set_text(
-                f"{first}–{last} / {total}"
-            )
+            self.indicator.set_visible(True)
 
         else:
 
-            self.counter.set_text("")
+            self.indicator.set_text("")
+            self.indicator.set_visible(False)
