@@ -249,6 +249,7 @@ class Dashboard(Gtk.ApplicationWindow):
 
         except Exception as e:
             print(f"[ERROR] Export Lutris échoué: {e}")
+            self.toast.error("Lutris export failed")
             return None
 
 
@@ -533,6 +534,7 @@ class Dashboard(Gtk.ApplicationWindow):
     # -------------------------
     def refresh_games(self):
         self.status.set_text("Loading games...")
+        self.toast.info("Launching game...")
 
         games = list_programs_ux(self.lang) or []
 
