@@ -36,14 +36,7 @@ usr/lib/python3/dist-packages/proton_autogen/profiles/* /usr/lib/python3/dist-pa
 usr/lib/python3/dist-packages/proton_autogen/detection/* /usr/lib/python3/dist-packages/proton_autogen/detection/
 usr/lib/python3/dist-packages/proton_autogen/utils/* /usr/lib/python3/dist-packages/proton_autogen/utils/
 
-usr/lib/python3/dist-packages/proton_autogen/ux/search.py /usr/lib/python3/dist-packages/proton_autogen/ux/
-usr/lib/python3/dist-packages/proton_autogen/ux/menu.py /usr/lib/python3/dist-packages/proton_autogen/ux/
-usr/lib/python3/dist-packages/proton_autogen/ux/dialogs.py /usr/lib/python3/dist-packages/proton_autogen/ux/
-usr/lib/python3/dist-packages/proton_autogen/ux/game_list.py /usr/lib/python3/dist-packages/proton_autogen/ux/
-usr/lib/python3/dist-packages/proton_autogen/ux/game_editor.py /usr/lib/python3/dist-packages/proton_autogen/ux/
-usr/lib/python3/dist-packages/proton_autogen/ux/dashboard.py /usr/lib/python3/dist-packages/proton_autogen/ux/
-usr/lib/python3/dist-packages/proton_autogen/ux/themes.py /usr/lib/python3/dist-packages/proton_autogen/ux/
-usr/lib/python3/dist-packages/proton_autogen/ux/recent_carousel.py /usr/lib/python3/dist-packages/proton_autogen/ux/
+usr/lib/python3/dist-packages/proton_autogen/ux/* /usr/lib/python3/dist-packages/proton_autogen/ux/
 usr/lib/python3/dist-packages/proton_autogen/ux/assets/* /usr/lib/python3/dist-packages/proton_autogen/ux/assets/
 
 
