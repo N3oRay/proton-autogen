@@ -9,9 +9,10 @@ from gi.repository import Gtk, Gio, Gdk, GLib
 
 from proton_autogen.ux.game_list import GameList
 from proton_autogen.ux.game_editor import GameEditor
+from proton_autogen.ux.widgets.headerbar import DashboardHeaderBar
+from proton_autogen.ux.widgets.toast import ToastOverlay
 from proton_autogen.ux.recent_carousel import RecentCarousel
 from proton_autogen.ux.dialogs import open_game_file_dialog, show_launch_dialog, hide_launch_dialog
-from proton_autogen.ux.menu import attach_menu
 from proton_autogen.ux.themes import load_saved_theme, save_theme, AVAILABLE_THEMES, DEFAULT_THEME
 
 from proton_autogen.ux.search import filter_games
@@ -40,10 +41,21 @@ class Dashboard(Gtk.ApplicationWindow):
         self.set_size_request(850, 900)
         self.games = []
         self.lang = detect_help_env_lang()
-        notifications.set_callback(self._notify_toast_ui)
+        notifications.set_callback(self.notify_toast)
 
         self.build_ui()
         self.refresh_games()
+
+    # -------------------------
+    # Notify Toast
+    # -------------------------
+    def notify_toast(self, status, timeout=3):
+
+        self.toast.show(
+            title=status.get("title", ""),
+            message=status.get("message", ""),
+            timeout=timeout,
+        )
 
     # -------------------------
     # Progres Barre
@@ -80,56 +92,6 @@ class Dashboard(Gtk.ApplicationWindow):
                 self.status.set_text("Style: Proton Autogen")
             self.update_background(app.current_style)
 
-    # -------------------------
-    # Show TOAST
-    # -------------------------
-    def _limit_toasts(self, max_toasts=5):
-        children = []
-        child = self._toast_box.get_first_child()
-
-        while child:
-            children.append(child)
-            child = child.get_next_sibling()
-
-        while len(children) > max_toasts:
-            old = children.pop(0)
-            old.unparent()
-
-    def _notify_toast_ui(self, status, timeout=3):
-        text = f"{status.get('title','')} — {status.get('message','')}"
-
-        label = Gtk.Label(label=text)
-        label.set_wrap(True)
-        label.set_xalign(0)
-        label.add_css_class("toast")
-
-        frame = Gtk.Frame()
-        frame.set_child(label)
-        frame.add_css_class("toast-container")
-
-        revealer = Gtk.Revealer()
-        revealer.set_transition_type(Gtk.RevealerTransitionType.SLIDE_DOWN)
-        revealer.set_transition_duration(250)
-        revealer.set_child(frame)
-        #revealer.set_reveal_child(True)
-        GLib.idle_add(lambda: revealer.set_reveal_child(True))
-
-        # Limite 5
-        self._toast_box.append(revealer)
-        self._limit_toasts(5)
-
-        def destroy_toast():
-            revealer.set_reveal_child(False)
-
-            def remove():
-                if revealer.get_parent():
-                    revealer.unparent()
-                return False
-
-            GLib.timeout_add(250, remove)
-            return False
-
-        GLib.timeout_add_seconds(timeout, destroy_toast)
 
     # -------------------------
     # Show MangoHud Sensors :
@@ -281,6 +243,7 @@ class Dashboard(Gtk.ApplicationWindow):
             # 5. UX feedback (better than print)
             print(f"[OK] Export Lutris terminé: {file_path}")
             self.show_export_dialog(file_path)
+            self.toast.success("Lutris export completed")
 
             return str(file_path)
 
@@ -389,53 +352,24 @@ class Dashboard(Gtk.ApplicationWindow):
         # =========================
         # TOAST OVERLAY
         # =========================
-        self._toast_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        self._toast_box.set_halign(Gtk.Align.CENTER)
-        self._toast_box.set_valign(Gtk.Align.START)
-        self._toast_box.set_margin_top(12)
-        self._toast_box.set_spacing(6)
-
-        overlay.add_overlay(self._toast_box)
+        self.toast = ToastOverlay()
+        overlay.add_overlay(self.toast)
 
         # =========================
         # HEADER BAR (MODERN GTK4)
         # =========================
-        header = Gtk.HeaderBar()
-        header.add_css_class("main-header")
+
+        header = DashboardHeaderBar(
+            self.get_application(),
+            on_refresh=lambda *_: self.refresh_games(),
+            on_add=self.on_add_game,
+            on_change_style=self.on_change_style,
+            show_refresh=refreshbouton,
+            show_add=addbouton,
+        )
+
         self.set_titlebar(header)
 
-        # REFRESH
-        if refreshbouton:
-            refresh_btn = Gtk.Button(icon_name="view-refresh-symbolic")
-            refresh_btn.set_tooltip_text("Refresh game list")
-            refresh_btn.connect("clicked", lambda *_: self.refresh_games())
-
-            header.pack_start(refresh_btn)
-
-        # ADD GAME
-        if addbouton:
-            add_btn = Gtk.Button(label="+")
-            #add_btn.set_sensitive(False)
-            add_btn.add_css_class("suggested-action")
-            add_btn.connect("clicked", self.on_add_game)
-            header.pack_start(add_btn)
-
-        # MENU BUTTON
-        menu_btn = Gtk.MenuButton(label="☰")
-        attach_menu(menu_btn, self.get_application())
-        header.pack_end(menu_btn)
-
-
-
-        # =========================
-        # STYLE SWITCH BUTTON
-        # =========================
-        style_btn = Gtk.Button(icon_name="applications-graphics-symbolic")
-        style_btn.set_tooltip_text("Change UI style")
-        style_btn.add_css_class("app-button")
-        style_btn.connect("clicked", self.on_change_style)
-
-        header.pack_end(style_btn)
 
         # =========================
         # GAME STATS
@@ -867,6 +801,7 @@ class Dashboard(Gtk.ApplicationWindow):
             self.game_list.update_game(game)
 
             self.status.set_text(f"{game.get('name')} updated ✔")
+            self.toast.success(f"{game.get('name')} updated")
             self.editor = None  # cleanup
 
         def on_close(_editor):
@@ -888,10 +823,11 @@ class Dashboard(Gtk.ApplicationWindow):
             self.status.set_text( f"{game['name']} added ✔" )
             self.refresh_games()
 
+            self.toast.success(f"{game['name']} added")
+
         except Exception as e:
-            self.status.set_text(
-                "Add game failed"
-            )
+            self.status.set_text("Add game failed")
+            self.toast.error("Unable to add game")
 
             print("[UX] Add game error:", e)
 

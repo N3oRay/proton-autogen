@@ -37,6 +37,7 @@ usr/lib/python3/dist-packages/proton_autogen/detection/* /usr/lib/python3/dist-p
 usr/lib/python3/dist-packages/proton_autogen/utils/* /usr/lib/python3/dist-packages/proton_autogen/utils/
 
 usr/lib/python3/dist-packages/proton_autogen/ux/* /usr/lib/python3/dist-packages/proton_autogen/ux/
+usr/lib/python3/dist-packages/proton_autogen/ux/widgets/* /usr/lib/python3/dist-packages/proton_autogen/ux/*
 usr/lib/python3/dist-packages/proton_autogen/ux/assets/* /usr/lib/python3/dist-packages/proton_autogen/ux/assets/
 
 
