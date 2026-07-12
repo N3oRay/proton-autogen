@@ -37,6 +37,7 @@ class Dashboard(Gtk.ApplicationWindow):
     def __init__(self, app):
         super().__init__(application=app)
         self.set_title("Proton-Autogen")
+        self.set_icon_name("proton-autogen")
         self.set_default_size(850, 900)
         self.set_size_request(850, 900)
         self.games = []
@@ -840,7 +841,7 @@ class Dashboard(Gtk.ApplicationWindow):
 class ProtonAutogenApp(Gtk.Application):
 
     def __init__(self):
-        super().__init__(application_id="com.proton.autogen")
+        super().__init__(application_id="proton-autogen")
 
         base = os.path.dirname(__file__)
 
