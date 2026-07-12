@@ -640,3 +640,20 @@ tooltip label {
     border-radius: 8px;
     background-color: alpha(@theme_fg_color, 0.05);
 }
+
+.carousel-button {
+    min-width: 36px;
+    min-height: 36px;
+
+    padding: 0;
+
+    border-radius: 18px;
+}
+
+.carousel-button:hover {
+    background-color: alpha(currentColor, 0.08);
+}
+
+.carousel-button:disabled {
+    opacity: 0.35;
+}
