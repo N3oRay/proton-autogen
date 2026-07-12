@@ -11,6 +11,14 @@ class RecentCarousel(Gtk.Box):
 
     MAX_VISIBLE = 3
 
+    CARD_WIDTH = 238
+    CARD_SPACING = 6
+
+    VIEWPORT_WIDTH = (
+        MAX_VISIBLE * CARD_WIDTH
+        + (MAX_VISIBLE - 1) * CARD_SPACING
+    )
+
     def __init__(
         self,
         on_launch=None,
@@ -37,15 +45,27 @@ class RecentCarousel(Gtk.Box):
             icon_name="go-previous-symbolic"
         )
         self.prev_button.add_css_class("carousel-button")
-
         self.prev_button.connect(
             "clicked",
-            self._on_previous
+            self._on_previous,
         )
 
-        self.append(
-            self.prev_button
+        self.append(self.prev_button)
+
+        #
+        # Viewport
+        #
+
+        self.viewport = Gtk.Box()
+
+        self.viewport.set_size_request(
+            self.VIEWPORT_WIDTH,
+            -1,
         )
+
+        self.viewport.set_hexpand(False)
+
+        self.append(self.viewport)
 
         #
         # Cards container
@@ -53,15 +73,10 @@ class RecentCarousel(Gtk.Box):
 
         self.cards_box = Gtk.Box(
             orientation=Gtk.Orientation.HORIZONTAL,
-            spacing=6,
-           # hexpand=True,
+            spacing=self.CARD_SPACING,
         )
 
-        self.cards_box.set_size_request(730, -1)
-
-        self.append(
-            self.cards_box
-        )
+        self.viewport.append(self.cards_box)
 
         #
         # Next button
@@ -71,15 +86,12 @@ class RecentCarousel(Gtk.Box):
             icon_name="go-next-symbolic"
         )
         self.next_button.add_css_class("carousel-button")
-
         self.next_button.connect(
             "clicked",
-            self._on_next
+            self._on_next,
         )
 
-        self.append(
-            self.next_button
-        )
+        self.append(self.next_button)
 
         self._update_buttons()
 
@@ -91,8 +103,15 @@ class RecentCarousel(Gtk.Box):
 
         self.games = list(games)
 
-        if self.index > max(0, len(self.games) - self.MAX_VISIBLE):
-            self.index = max(0, len(self.games) - self.MAX_VISIBLE)
+        max_index = max(
+            0,
+            len(self.games) - self.MAX_VISIBLE
+        )
+
+        self.index = min(
+            self.index,
+            max_index
+        )
 
         self.refresh()
 
@@ -102,8 +121,7 @@ class RecentCarousel(Gtk.Box):
 
     def refresh(self):
 
-        while child := self.cards_box.get_first_child():
-            self.cards_box.remove(child)
+        self._clear_cards()
 
         end = self.index + self.MAX_VISIBLE
 
@@ -126,21 +144,42 @@ class RecentCarousel(Gtk.Box):
 
     def _on_previous(self, *_):
 
-        if self.index > 0:
-            self.index -= 1
-            self.refresh()
+        if self.index <= 0:
+            return
+
+        self.index -= 1
+        self.refresh()
 
     def _on_next(self, *_):
 
-        if self.index + self.MAX_VISIBLE < len(self.games):
-            self.index += 1
-            self.refresh()
+        if self.index + self.MAX_VISIBLE >= len(self.games):
+            return
+
+        self.index += 1
+        self.refresh()
 
     #
     # Helpers
     #
 
+    def _clear_cards(self):
+
+        while child := self.cards_box.get_first_child():
+            self.cards_box.remove(child)
+
     def _update_buttons(self):
+
+        has_navigation = (
+            len(self.games) > self.MAX_VISIBLE
+        )
+
+        self.prev_button.set_visible(
+            has_navigation
+        )
+
+        self.next_button.set_visible(
+            has_navigation
+        )
 
         self.prev_button.set_sensitive(
             self.index > 0
