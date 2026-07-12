@@ -1,30 +1,26 @@
-proton-autogen (2.9.6) noble; urgency=medium
+proton-autogen (2.9.7) noble; urgency=medium
 
-  * New features:
-    - New design UX
-    - Improved prefix management auto
-    - Add Log diagnostic on proton_autogen --diag
-    - Added GPU profile management with AMD/NVIDIA detection.
-    - Added system diagnostics for Debian, Ubuntu, Linux Mint, Arch and CachyOS.
-    - Added Lutris export support and game registry.
-    - Added JSON logging and multilingual UI support.
-    - Added launch progress reporting and stable Sensors menu.
+  * Redesigned the user interface with a new carousel.
+  * Improved automatic Proton prefix management for greater stability.
+  * Added diagnostic log generation via `proton_autogen --diag`.
+  * Added GPU profile management with automatic AMD and NVIDIA detection.
+  * Added system diagnostics for Debian, Ubuntu, Linux Mint, Arch Linux,
+    CachyOS and Bazzite.
+  * Added Lutris export support and game registry integration.
+  * Added JSON logging and multilingual UI support.
+  * Added launch progress reporting and a stable Sensors menu.
+  * Refined Adwaita and Kitty themes.
+  * Added game, profile and platform badges.
+  * Improved GTK4 layout, responsiveness and desktop notifications.
+  * Improved Proton detection, launch reliability and session tracking.
+  * Enhanced prefix and configuration management.
+  * Optimized executable scanning with intelligent caching.
+  * Improved compatibility with Proton GE and Wine fallback.
+  * Fixed MangoHud support for 32-bit applications.
+  * Fixed launch return codes, badge refresh and game list updates.
+  * Fixed several UI refresh and stability issues.
+  * Improved backend/UI separation.
+  * Enhanced debugging and diagnostic tools.
+  * General code cleanup and internal optimizations.
 
-  * User interface:
-    - Improved Adwaita and Kitty themes.
-    - Added game, profile and platform badges.
-    - Improved GTK4 layout and notifications.
-
-  * Runtime and backend:
-    - Improved Proton detection, launch stability and session tracking.
-    - Improved prefix/configuration management.
-    - Optimized executable scanning with caching.
-
-  * Bug fixes:
-    - Fixed MangoHud handling for 32-bit applications.
-    - Fixed launch return codes, badge refresh and game list updates.
-
-  * Developer:
-    - Improved backend/UI separation and debugging tools.
-
- -- N3oray <n3oray77@gmail.com>  Thu, 09 Jul 2026 00:27:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Sun, 12 Jul 2026 20:00:00 +0200
