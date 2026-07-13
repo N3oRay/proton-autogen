@@ -440,11 +440,25 @@ entry placeholder,
    ========================================================= */
 
 .dialog-content {
-    background: @bg;
-    border: 1px solid rgba(255,255,255,0.04);
-    border-radius: 12px;
-    padding: 12px;
-    box-shadow: 0 12px 28px rgba(0,0,0,0.55);
+
+    background:
+        rgba(20,20,20,0.80);
+
+    border:
+        1px solid rgba(255,255,255,0.06);
+
+    border-radius:16px;
+
+    padding:12px;
+}
+
+
+.dialog-content textview {
+
+    background:transparent;
+    color:white;
+
+    font-family:monospace;
 }
 
 .launch-dialog {
@@ -731,9 +745,9 @@ textview {
     font-size: 13px;
 }
 
-/* text within textview (if selector supported) */
+/* Ne pas forcer la couleur interne des Gtk.TextBuffer */
 textview text {
-    color: @text;
+    background: transparent;
 }
 
 /* =========================================================

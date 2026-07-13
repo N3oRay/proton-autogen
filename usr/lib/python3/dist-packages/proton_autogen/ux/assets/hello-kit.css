@@ -399,16 +399,25 @@ label.home-label {
 }
 
 .dialog-content {
-    background: rgba(255,247,250,0.96);
-    border: 1px solid rgba(255,105,180,0.06);
+
+    background:
+        rgba(20,20,20,0.80);
+
+    border:
+        1px solid rgba(255,255,255,0.06);
+
     border-radius:16px;
+
     padding:12px;
 }
 
+
 .dialog-content textview {
+
     background:transparent;
-    color:@hk_text;
-    font-family: monospace;
+    color:white;
+
+    font-family:monospace;
 }
 
 /* =========================================================
