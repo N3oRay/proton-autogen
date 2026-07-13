@@ -21,6 +21,7 @@ from proton_autogen.progress import Progress
 from proton_autogen.editor import add_game_ux
 from proton_autogen.backend import run, list_programs_ux,get_diagnostic_text
 from proton_autogen.stats import is_recent_launch
+from proton_autogen.color_label import insert_colored_text
 from proton_autogen.core import print_about, get_about_text, detect_help_env_lang
 from proton_autogen.info import print_help, get_help_text
 from proton_autogen.sensor import get_sensors_text, print_sensors, get_mangohud_advice
@@ -681,7 +682,7 @@ class Dashboard(Gtk.ApplicationWindow):
         textview.set_wrap_mode(Gtk.WrapMode.WORD)
 
         buffer = textview.get_buffer()
-        buffer.set_text(get_about_text())
+        insert_colored_text(buffer, get_about_text())
 
         scroll.set_child(textview)
 
@@ -689,7 +690,7 @@ class Dashboard(Gtk.ApplicationWindow):
             "About",
             scroll,
             width=700,
-            height=650
+            height=750
         )
     # -------------------------
     # DIALOG HELP
