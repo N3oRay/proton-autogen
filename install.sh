@@ -41,6 +41,8 @@ install_deps() {
                 python-gobject \
                 python-pyyaml \
                 gtk4 \
+                pango \
+                cairo \
                 glib2
             ;;
         apt)
@@ -49,7 +51,9 @@ install_deps() {
                 python3 \
                 python3-gi \
                 python3-yaml \
+                python3-cairo \
                 gir1.2-gtk-4.0 \
+                gir1.2-pango-1.0 \
                 libglib2.0-0 \
                 python3-pip
             ;;
@@ -59,6 +63,8 @@ install_deps() {
                 python3-gobject \
                 python3-pyyaml \
                 gtk4 \
+                pango \
+                cairo \
                 glib2
             ;;
     esac

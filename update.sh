@@ -77,6 +77,8 @@ case "$PM" in
             python-gobject \
             python-pyyaml \
             gtk4 \
+            pango \
+            cairo \
             glib2
         ;;
     apt)
@@ -85,9 +87,10 @@ case "$PM" in
             python3 \
             python3-gi \
             python3-yaml \
+            python3-cairo \
             gir1.2-gtk-4.0 \
-            libglib2.0-0 \
-            python3-pip
+            gir1.2-pango-1.0 \
+            libglib2.0-0
         ;;
     dnf)
         sudo dnf install -y \
@@ -95,6 +98,8 @@ case "$PM" in
             python3-gobject \
             python3-pyyaml \
             gtk4 \
+            pango \
+            cairo \
             glib2
         ;;
 esac
