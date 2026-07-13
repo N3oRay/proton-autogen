@@ -1,78 +1,648 @@
 from rich.text import Text
+
 import re
-
-
 from gi.repository import Pango
 
-def insert_colored_text(buffer, text):
+def insert_about_text(buffer, text):
+
     tag_table = buffer.get_tag_table()
 
-    def ensure_tag(name, **props):
+    def tag(name, **props):
         if tag_table.lookup(name) is None:
             buffer.create_tag(name, **props)
 
-    # Création des tags une seule fois
-    ensure_tag(
-        "title",
+
+    # ==========================
+    # Tags About
+    # ==========================
+
+    tag(
+        "about_title",
         foreground="#5fd7ff",
         weight=Pango.Weight.BOLD,
+        size_points=16
     )
 
-    ensure_tag(
-        "section",
+    tag(
+        "about_section",
         foreground="#ffd75f",
-        weight=Pango.Weight.BOLD,
+        weight=Pango.Weight.BOLD
     )
 
-    ensure_tag(
-        "green",
-        foreground="#5fff87",
+    tag(
+        "about_separator",
+        foreground="#77767b"
     )
 
-    ensure_tag(
-        "link",
-        foreground="#62a0ea",
-        underline=Pango.Underline.SINGLE,
+    tag(
+        "about_text",
+        foreground="#ffffff"
     )
 
-    ensure_tag(
-        "command",
+    tag(
+        "about_check",
         foreground="#57e389",
-        family="monospace",
+        weight=Pango.Weight.BOLD
     )
 
-    ensure_tag(
-        "separator",
-        foreground="#77767b",
+    tag(
+        "about_value",
+        foreground="#f9f06b"
     )
+
+    tag(
+        "about_link",
+        foreground="#62a0ea",
+        underline=Pango.Underline.SINGLE
+    )
+
+    tag(
+        "about_command",
+        foreground="#57e389",
+        family="monospace"
+    )
+
 
     buffer.set_text("")
 
+
+    # Sections reconnues
+    sections = {
+        "POINTS FORTS",
+        "AUTEUR",
+        "LICENCE",
+        "DÉPÔT GITHUB",
+        "PPA",
+    }
+
+
     for line in text.splitlines():
+
         end = buffer.get_end_iter()
+        stripped = line.strip()
 
-        if line == "PROTON-AUTOGEN":
-            buffer.insert_with_tags_by_name(end, line + "\n", "title")
 
-        elif line.isupper() and line.strip():
-            buffer.insert_with_tags_by_name(end, line + "\n", "section")
+        # Ligne vide
+        if not stripped:
+            buffer.insert(end, "\n")
+            continue
 
-        elif line.startswith("✓"):
-            buffer.insert_with_tags_by_name(end, "✓ ", "green")
-            end = buffer.get_end_iter()
-            buffer.insert(end, line[2:] + "\n")
 
-        elif line.startswith("http://") or line.startswith("https://"):
-            buffer.insert_with_tags_by_name(end, line + "\n", "link")
+        # Titre
+        if stripped == "PROTON-AUTOGEN":
 
-        elif line.startswith("sudo "):
-            buffer.insert_with_tags_by_name(end, line + "\n", "command")
+            buffer.insert_with_tags_by_name(
+                end,
+                line + "\n",
+                "about_title"
+            )
 
-        elif set(line) == {"─"}:
-            buffer.insert_with_tags_by_name(end, line + "\n", "separator")
+            continue
 
-        else:
-            buffer.insert(end, line + "\n")
+
+        # Séparateurs
+        if set(stripped) <= {"─", "━"}:
+
+            buffer.insert_with_tags_by_name(
+                end,
+                line + "\n",
+                "about_separator"
+            )
+
+            continue
+
+
+        # Sections
+        if stripped in sections:
+
+            buffer.insert_with_tags_by_name(
+                end,
+                line + "\n",
+                "about_section"
+            )
+
+            continue
+
+
+        # Liste ✓
+        if stripped.startswith("✓"):
+
+            buffer.insert_with_tags_by_name(
+                end,
+                "✓",
+                "about_check"
+            )
+
+            buffer.insert_with_tags_by_name(
+                buffer.get_end_iter(),
+                line[1:] + "\n",
+                "about_text"
+            )
+
+            continue
+
+
+        # URL
+        if stripped.startswith(
+            ("http://", "https://")
+        ):
+
+            buffer.insert_with_tags_by_name(
+                end,
+                line + "\n",
+                "about_link"
+            )
+
+            continue
+
+
+        # Commande PPA
+        if stripped.startswith("sudo "):
+
+            buffer.insert_with_tags_by_name(
+                end,
+                line + "\n",
+                "about_command"
+            )
+
+            continue
+
+
+        # Valeurs simples auteur/licence
+        if stripped in (
+            "N3oray",
+            "MIT"
+        ):
+
+            buffer.insert_with_tags_by_name(
+                end,
+                line + "\n",
+                "about_value"
+            )
+
+            continue
+
+
+        # Texte normal
+        buffer.insert_with_tags_by_name(
+            end,
+            line + "\n",
+            "about_text"
+        )
+
+
+def insert_sensor_text(buffer, text):
+
+    tag_table = buffer.get_tag_table()
+
+    def tag(name, **props):
+        if tag_table.lookup(name) is None:
+            buffer.create_tag(name, **props)
+
+
+    # ==========================
+    # Tags sensors
+    # ==========================
+
+    tag(
+        "sensor_title",
+        foreground="#c061cb",
+        weight=Pango.Weight.BOLD
+    )
+
+    tag(
+        "sensor_name",
+        foreground="#62a0ea"
+    )
+
+    tag(
+        "temperature",
+        foreground="#57e389",
+        weight=Pango.Weight.BOLD
+    )
+
+    tag(
+        "temperature_warn",
+        foreground="#ffbe6f",
+        weight=Pango.Weight.BOLD
+    )
+
+    tag(
+        "temperature_hot",
+        foreground="#f66151",
+        weight=Pango.Weight.BOLD
+    )
+
+    tag(
+        "sensor_label",
+        foreground="#ffffff"
+    )
+
+    tag(
+        "separator",
+        foreground="#77767b"
+    )
+
+
+    buffer.set_text("")
+
+
+    # ==========================
+    # Analyse
+    # ==========================
+
+    for line in text.splitlines():
+
+        end = buffer.get_end_iter()
+        stripped = line.strip()
+
+
+        # Ligne vide
+        if not stripped:
+            buffer.insert(end, "\n")
+            continue
+
+
+        # === coretemp ===
+        if re.match(r"^===.*===$", stripped):
+
+            buffer.insert_with_tags_by_name(
+                end,
+                line + "\n",
+                "sensor_title"
+            )
+
+            continue
+
+
+        # Séparateur éventuel
+        if set(stripped) <= {"─", "━"}:
+
+            buffer.insert_with_tags_by_name(
+                end,
+                line + "\n",
+                "separator"
+            )
+
+            continue
+
+
+        # Ligne température
+        temp = re.search(
+            r"(\d+\.\d+)\s*°C",
+            line
+        )
+
+
+        if temp:
+
+            value = float(temp.group(1))
+
+            before = line[:temp.start()]
+            temp_value = temp.group(0)
+            after = line[temp.end():]
+
+
+            # Nom du capteur
+            buffer.insert_with_tags_by_name(
+                end,
+                before,
+                "sensor_name"
+            )
+
+
+            # Couleur température
+            if value >= 80:
+                color = "temperature_hot"
+
+            elif value >= 65:
+                color = "temperature_warn"
+
+            else:
+                color = "temperature"
+
+
+            buffer.insert_with_tags_by_name(
+                buffer.get_end_iter(),
+                temp_value,
+                color
+            )
+
+
+            # Label
+            buffer.insert_with_tags_by_name(
+                buffer.get_end_iter(),
+                after + "\n",
+                "sensor_label"
+            )
+
+            continue
+
+
+        # Texte restant
+        buffer.insert(
+            end,
+            line + "\n"
+        )
+#------------------------------------------------------------------------------------------------------
+
+def insert_colored_text(buffer, text):
+
+    tag_table = buffer.get_tag_table()
+
+    def tag(name, **props):
+        if tag_table.lookup(name) is None:
+            buffer.create_tag(name, **props)
+
+    # ==========================
+    # Tags
+    # ==========================
+
+    tag("title",
+        foreground="#5fd7ff",
+        weight=Pango.Weight.BOLD)
+
+    tag("section",
+        foreground="#ffd75f",
+        weight=Pango.Weight.BOLD)
+
+    tag("sensor",
+        foreground="#c061cb",
+        weight=Pango.Weight.BOLD)
+
+    tag("separator",
+        foreground="#77767b")
+
+    tag("key",
+        foreground="#f9f06b",
+        weight=Pango.Weight.BOLD)
+
+    tag("value",
+        foreground="#ffffff")
+
+    tag("green",
+        foreground="#57e389")
+
+    tag("red",
+        foreground="#f66151",
+        weight=Pango.Weight.BOLD)
+
+    tag("temperature",
+        foreground="#33d17a")
+
+    tag("hot_temperature",
+        foreground="#f66151",
+        weight=Pango.Weight.BOLD)
+
+    tag("command",
+        foreground="#57e389",
+        family="monospace")
+
+    tag("option",
+        foreground="#62a0ea")
+
+    tag("link",
+        foreground="#62a0ea",
+        underline=Pango.Underline.SINGLE)
+
+    tag("path",
+        foreground="#99c1f1")
+
+    tag("proton",
+        foreground="#33d17a")
+
+    tag("selected",
+        foreground="#ffbe6f",
+        weight=Pango.Weight.BOLD)
+
+    tag("note",
+        foreground="#f9f06b")
+
+    tag("env",
+        foreground="#c061cb",
+        weight=Pango.Weight.BOLD)
+
+
+    buffer.set_text("")
+
+
+    # ==========================
+    # Rendu
+    # ==========================
+
+    for line in text.splitlines():
+
+        end = buffer.get_end_iter()
+        s = line.strip()
+
+
+        # Ligne vide
+        if not s:
+            buffer.insert(end, "\n")
+            continue
+
+
+        # Séparateurs
+        if set(s) <= {"─", "━"}:
+            buffer.insert_with_tags_by_name(
+                end, line + "\n", "separator")
+            continue
+
+
+        # Titres
+        if s in (
+            "PROTON-AUTOGEN",
+            "PROTON-AUTOGEN - AIDE",
+            "proton-autogen diagnostic"
+        ):
+            buffer.insert_with_tags_by_name(
+                end, line + "\n", "title")
+            continue
+
+
+        # Sections === xxx ===
+        if re.match(r"^===.*===$", s):
+            buffer.insert_with_tags_by_name(
+                end, line + "\n", "sensor")
+            continue
+
+
+        # Sections aide / diagnostics
+        if (
+            s.isupper()
+            and len(s) > 2
+            and not s.startswith("PROTON")
+        ):
+            buffer.insert_with_tags_by_name(
+                end, line + "\n", "section")
+            continue
+
+
+        # Variables environnement
+        if s in (
+            "STEAM_COMPAT_DATA_PATH",
+            "WINEPREFIX"
+        ):
+            buffer.insert_with_tags_by_name(
+                end, line + "\n", "env")
+            continue
+
+
+        # Températures
+        m = re.search(r"(\d+\.\d+)\s*°C", line)
+
+        if m:
+
+            temp = float(m.group(1))
+
+            buffer.insert(
+                end,
+                line[:m.start()]
+            )
+
+            buffer.insert_with_tags_by_name(
+                buffer.get_end_iter(),
+                m.group(0),
+                "hot_temperature"
+                if temp >= 70
+                else "temperature"
+            )
+
+            buffer.insert_with_tags_by_name(
+                buffer.get_end_iter(),
+                line[m.end():] + "\n",
+                "value"
+            )
+
+            continue
+
+
+        # URL
+        if s.startswith(("http://", "https://")):
+            buffer.insert_with_tags_by_name(
+                end, line + "\n", "link")
+            continue
+
+
+        # Chemins
+        if s.startswith("/"):
+            buffer.insert_with_tags_by_name(
+                end, line + "\n", "path")
+            continue
+
+
+        # [selected]
+        if "[selected]" in line:
+
+            a, b = line.split("[selected]", 1)
+
+            buffer.insert(end, a)
+
+            buffer.insert_with_tags_by_name(
+                buffer.get_end_iter(),
+                "[selected]",
+                "selected"
+            )
+
+            buffer.insert(
+                buffer.get_end_iter(),
+                b + "\n"
+            )
+
+            continue
+
+
+        # yes/no
+        if re.search(r"\b(yes|no)\b", line):
+
+            parts = re.split(
+                r"\b(yes|no)\b",
+                line,
+                maxsplit=1
+            )
+
+            buffer.insert(end, parts[0])
+
+            buffer.insert_with_tags_by_name(
+                buffer.get_end_iter(),
+                parts[1],
+                "green"
+                if parts[1] == "yes"
+                else "red"
+            )
+
+            buffer.insert(
+                buffer.get_end_iter(),
+                parts[2] + "\n"
+            )
+
+            continue
+
+
+        # Commandes
+        if s.startswith(
+            (
+                "proton-autogen",
+                "gamescope",
+                "sudo "
+            )
+        ):
+            buffer.insert_with_tags_by_name(
+                end, line + "\n", "command")
+            continue
+
+
+        # Options
+        if s.startswith("--"):
+            buffer.insert_with_tags_by_name(
+                end, line + "\n", "option")
+            continue
+
+
+        # Notes
+        if s.startswith("- "):
+            buffer.insert_with_tags_by_name(
+                end, line + "\n", "note")
+            continue
+
+
+        # Clé : valeur
+        if ":" in line:
+
+            key, value = line.split(":", 1)
+
+            buffer.insert_with_tags_by_name(
+                end,
+                key,
+                "key"
+            )
+
+            buffer.insert(
+                buffer.get_end_iter(),
+                ":"
+            )
+
+            buffer.insert_with_tags_by_name(
+                buffer.get_end_iter(),
+                value + "\n",
+                "value"
+            )
+
+            continue
+
+
+        # Proton
+        if "Proton" in line or "GE-" in line:
+            buffer.insert_with_tags_by_name(
+                end, line + "\n", "proton")
+            continue
+
+
+        # Défaut
+        buffer.insert(
+            end,
+            line + "\n"
+        )
 
 def colorize(text: str) -> Text:
     t = Text()

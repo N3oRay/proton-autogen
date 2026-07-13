@@ -19,9 +19,9 @@ from proton_autogen.ux.search import filter_games
 from proton_autogen.notify import notifications
 from proton_autogen.progress import Progress
 from proton_autogen.editor import add_game_ux
-from proton_autogen.backend import run, list_programs_ux,get_diagnostic_text
+from proton_autogen.backend import run, list_programs_ux, get_diagnostic_text
 from proton_autogen.stats import is_recent_launch
-from proton_autogen.color_label import insert_colored_text
+from proton_autogen.color_label import insert_colored_text, insert_sensor_text, insert_about_text
 from proton_autogen.core import print_about, get_about_text, detect_help_env_lang
 from proton_autogen.info import print_help, get_help_text
 from proton_autogen.sensor import get_sensors_text, print_sensors, get_mangohud_advice
@@ -110,7 +110,7 @@ class Dashboard(Gtk.ApplicationWindow):
         textview.set_monospace(True)
 
         buffer = textview.get_buffer()
-        buffer.set_text(get_mangohud_advice())
+        insert_colored_text(buffer, get_mangohud_advice())
 
         scroll.set_child(textview)
 
@@ -136,7 +136,7 @@ class Dashboard(Gtk.ApplicationWindow):
         textview.set_monospace(True)
 
         buffer = textview.get_buffer()
-        buffer.set_text(get_sensors_text())
+        insert_sensor_text(buffer, get_sensors_text())
 
         scroll.set_child(textview)
 
@@ -653,7 +653,8 @@ class Dashboard(Gtk.ApplicationWindow):
         textview.set_wrap_mode(Gtk.WrapMode.WORD)
 
         buffer = textview.get_buffer()
-        buffer.set_text(afficher_prerequis_label())
+        insert_colored_text(buffer, afficher_prerequis_label())
+        #buffer.set_text(afficher_prerequis_label())
 
         scroll.set_child(textview)
 
@@ -682,7 +683,7 @@ class Dashboard(Gtk.ApplicationWindow):
         textview.set_wrap_mode(Gtk.WrapMode.WORD)
 
         buffer = textview.get_buffer()
-        insert_colored_text(buffer, get_about_text())
+        insert_about_text(buffer, get_about_text())
 
         scroll.set_child(textview)
 
@@ -712,7 +713,7 @@ class Dashboard(Gtk.ApplicationWindow):
         textview.set_pixels_below_lines(2)
 
         buffer = textview.get_buffer()
-        buffer.set_text(get_help_text())
+        insert_colored_text(buffer, get_help_text())
 
         scroll.set_child(textview)
 
@@ -739,7 +740,8 @@ class Dashboard(Gtk.ApplicationWindow):
         textview.set_wrap_mode(Gtk.WrapMode.WORD)
 
         buffer = textview.get_buffer()
-        buffer.set_text(get_diagnostic_text())
+        insert_colored_text(buffer, get_diagnostic_text())
+        #buffer.set_text(get_diagnostic_text())
 
         scroll.set_child(textview)
 
