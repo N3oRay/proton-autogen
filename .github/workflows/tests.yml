@@ -69,6 +69,7 @@ jobs:
             python \
             python-gobject \
             python-yaml \
+            python-rich \
             gtk4 \
             glib2 \
             pango \
