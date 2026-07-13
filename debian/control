@@ -11,6 +11,7 @@ Depends: python3,
          desktop-file-utils,
          python3-gi,
          python3-gi-cairo,
+         python3-rich,
          libgtk-4-1,
          gir1.2-gtk-4.0
 Recommends: wine, gamemode
