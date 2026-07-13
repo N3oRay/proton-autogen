@@ -3,6 +3,166 @@ from rich.text import Text
 import re
 from gi.repository import Pango
 
+def insert_changelog_text(buffer, text):
+
+    tag_table = buffer.get_tag_table()
+
+    def tag(name, **props):
+        if tag_table.lookup(name) is None:
+            buffer.create_tag(name, **props)
+
+
+    # ==========================
+    # Tags changelog
+    # ==========================
+
+    tag(
+        "changelog_title",
+        foreground="#5fd7ff",
+        weight=Pango.Weight.BOLD
+    )
+
+    tag(
+        "changelog_item",
+        foreground="#ffffff"
+    )
+
+    tag(
+        "changelog_add",
+        foreground="#57e389"
+    )
+
+    tag(
+        "changelog_fix",
+        foreground="#ffbe6f"
+    )
+
+    tag(
+        "changelog_author",
+        foreground="#c061cb"
+    )
+
+    tag(
+        "changelog_date",
+        foreground="#99c1f1"
+    )
+
+    tag(
+        "changelog_version",
+        foreground="#ffd75f",
+        weight=Pango.Weight.BOLD
+    )
+
+
+    buffer.set_text("")
+
+
+    for line in text.splitlines():
+
+        end = buffer.get_end_iter()
+        s = line.strip()
+
+
+        # Ligne vide
+        if not s:
+            buffer.insert(end, "\n")
+            continue
+
+
+        # Version Debian
+        if re.match(
+            r"^proton-autogen\s+\([0-9.]+\)",
+            s,
+            re.IGNORECASE
+        ):
+
+            buffer.insert_with_tags_by_name(
+                end,
+                line,
+                "changelog_title"
+            )
+
+            buffer.insert(
+                buffer.get_end_iter(),
+                "\n"
+            )
+
+            continue
+
+
+        # Ajouts
+        if s.startswith("* Added"):
+
+            buffer.insert_with_tags_by_name(
+                end,
+                line + "\n",
+                "changelog_add"
+            )
+
+            continue
+
+
+        # Améliorations
+        if s.startswith("* Improved") or \
+           s.startswith("* Enhanced") or \
+           s.startswith("* Optimized") or \
+           s.startswith("* Refined"):
+
+            buffer.insert_with_tags_by_name(
+                end,
+                line + "\n",
+                "changelog_item"
+            )
+
+            continue
+
+
+        # Corrections
+        if s.startswith("* Fixed"):
+
+            buffer.insert_with_tags_by_name(
+                end,
+                line + "\n",
+                "changelog_fix"
+            )
+
+            continue
+
+
+        # Signature Debian
+        if s.startswith("--"):
+
+            parts = line.split("  ", 1)
+
+            buffer.insert_with_tags_by_name(
+                end,
+                parts[0],
+                "changelog_author"
+            )
+
+            if len(parts) > 1:
+
+                buffer.insert_with_tags_by_name(
+                    buffer.get_end_iter(),
+                    "  " + parts[1] + "\n",
+                    "changelog_date"
+                )
+
+            else:
+                buffer.insert(
+                    buffer.get_end_iter(),
+                    "\n"
+                )
+
+            continue
+
+
+        # Texte normal
+        buffer.insert(
+            end,
+            line + "\n"
+        )
+
 def insert_about_text(buffer, text):
 
     tag_table = buffer.get_tag_table()

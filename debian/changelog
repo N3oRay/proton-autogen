@@ -1,26 +1,26 @@
-proton-autogen (2.9.8) noble; urgency=medium
+proton-autogen (2.9.9) noble; urgency=medium
 
-  * Redesigned the user interface with a new carousel.
-  * Improved automatic Proton prefix management for greater stability.
+  * Redesigned the GTK4 interface and added a new carousel component.
+  * Improved automatic Proton prefix management and runtime stability.
   * Added diagnostic log generation via `proton_autogen --diag`.
   * Added GPU profile management with automatic AMD and NVIDIA detection.
-  * Added system diagnostics for Debian, Ubuntu, Linux Mint, Arch Linux,
-    CachyOS and Bazzite.
+  * Added system diagnostics support for Debian, Ubuntu, Linux Mint,
+    Arch Linux, CachyOS and Bazzite.
   * Added Lutris export support and game registry integration.
   * Added JSON logging and multilingual UI support.
-  * Added launch progress reporting and a stable Sensors menu.
+  * Added launch progress reporting and stable Sensors menu support.
   * Refined Adwaita and Kitty themes.
   * Added game, profile and platform badges.
   * Improved GTK4 layout, responsiveness and desktop notifications.
   * Improved Proton detection, launch reliability and session tracking.
   * Enhanced prefix and configuration management.
   * Optimized executable scanning with intelligent caching.
-  * Improved compatibility with Proton GE and Wine fallback.
+  * Improved Proton GE compatibility and Wine fallback handling.
   * Fixed MangoHud support for 32-bit applications.
   * Fixed launch return codes, badge refresh and game list updates.
   * Fixed several UI refresh and stability issues.
   * Improved backend/UI separation.
   * Enhanced debugging and diagnostic tools.
-  * General code cleanup and internal optimizations.
+  * Performed general code cleanup and internal optimizations.
 
  -- N3oray <n3oray77@gmail.com>  Mon, 13 Jul 2026 20:00:00 +0200
