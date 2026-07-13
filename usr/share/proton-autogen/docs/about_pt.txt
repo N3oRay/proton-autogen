@@ -21,11 +21,6 @@ DESTAQUES
 ✓ Leve e com poucas dependências
 
 ────────────────────────
-VERSÃO
-────────────────────────
-{VERSION}
-
-────────────────────────
 AUTOR
 ────────────────────────
 N3oray

@@ -21,11 +21,6 @@ DESTACADOS
 ✓ Ligero y con mínimas dependencias
 
 ────────────────────────
-VERSIÓN
-────────────────────────
-{VERSION}
-
-────────────────────────
 AUTOR
 ────────────────────────
 N3oray

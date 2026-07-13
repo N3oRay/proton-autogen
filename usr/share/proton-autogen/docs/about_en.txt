@@ -21,11 +21,6 @@ HIGHLIGHTS
 ✓ Lightweight and dependency-minimal
 
 ────────────────────────
-VERSION
-────────────────────────
-{VERSION}
-
-────────────────────────
 AUTHOR
 ────────────────────────
 N3oray

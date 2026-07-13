@@ -21,11 +21,6 @@ HIGHLIGHTS
 ✓ Schlank und mit minimalen Abhängigkeiten
 
 ────────────────────────
-VERSION
-────────────────────────
-{VERSION}
-
-────────────────────────
 AUTOR
 ────────────────────────
 N3oray

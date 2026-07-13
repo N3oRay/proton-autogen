@@ -21,11 +21,6 @@ POINTS FORTS
 ✓ Léger et avec un minimum de dépendances
 
 ────────────────────────
-VERSION
-────────────────────────
-{VERSION}
-
-────────────────────────
 AUTEUR
 ────────────────────────
 N3oray
