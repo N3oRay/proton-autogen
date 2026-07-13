@@ -40,6 +40,7 @@ install_deps() {
                 python \
                 python-gobject \
                 python-pyyaml \
+                python-rich \
                 gtk4 \
                 pango \
                 cairo \
@@ -52,6 +53,7 @@ install_deps() {
                 python3-gi \
                 python3-yaml \
                 python3-cairo \
+                python3-rich \
                 gir1.2-gtk-4.0 \
                 gir1.2-pango-1.0 \
                 libglib2.0-0 \
@@ -62,6 +64,7 @@ install_deps() {
                 python3 \
                 python3-gobject \
                 python3-pyyaml \
+                python3-rich \
                 gtk4 \
                 pango \
                 cairo \
