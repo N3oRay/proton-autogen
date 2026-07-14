@@ -1,17 +1,10 @@
 # 🧩 Proton-Autogen
 ![Linux](https://img.shields.io/badge/platform-Linux-blue)
 ![Python](https://img.shields.io/badge/python-3.x-yellow)
-![Status](https://img.shields.io/badge/status-v2.0-brightgreen)
+![Status](https://img.shields.io/badge/status-v3.0.0-brightgreen)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-A lightweight Linux tool that automatically runs Windows .exe files using Proton or Wine, with automatic fallback, GPU detection, and per-game configuration profiles.
-
-Works as a simple wrapper between your .exe files and Proton — no manual setup required.
-
-
-**A Proton/Wine orchestration layer for running Windows applications on Linux**
-
-**Automatic Linux gaming environment configurator**
+**Proton-Autogen is a lightweight Proton/Wine orchestration layer that allows Linux users to run Windows applications directly from .exe files without manually configuring Steam shortcuts or Wine prefixes.**
 
 
 
@@ -87,35 +80,7 @@ proton-autogen --ux
 
 ### Example Output
 
-```text
-$ proton-autogen 'Battle.net Launcher.exe'
 
-[proton-autogen] System information:
-  gpu: amd
-  wayland: False
-  steam_deck: False
-  desktop: x-cinnamon
-[info] proton-autogen: mangohud: True | gamemode: True | xalia: None | gpu: balanced
-[proton-autogen] Runtime information
-  Executable : /home/neoray/Documents/Proton/env/main/pfx/drive_c/Program Files (x86)/Battle.net/Battle.net Launcher.exe
-  Proton     : Proton-CachyOS Latest
-  Path       : /home/neoray/.local/share/Steam/compatibilitytools.d/Proton-CachyOS Latest
-  proton-call: detected
-  GameMode  : available
-  MangoHud  : available
-
-[info] proton-autogen: LOAD CONFIG PREFIX : main
-[info] INFO: EXE architecture: 32bit
-[proton-autogen] INIT PROFILE - type: dx11Bnet
-[proton-autogen] PROFILE: DX11 Battle.net
-[proton-autogen] SYNC: MANGOHUD=1 MANGOHUD_DLSYM=1
-[proton-autogen] Apply PROFILE=DX11BNET | SYNC=OFF | WINED3D=OFF | XALIA=OFF | DXVK_HUD=OFF
-[info] Prefix mode: Prefix mode : main
-[info] Prefix path: Prefix path : /home/neoray/Documents/Proton/env/main
-[proton-autogen] 32-bit legacy game detected
-[proton-autogen] MangoHud 32-bit shim missing
-[proton-autogen] Launch mode: Proton
-```
 
 ---
 
