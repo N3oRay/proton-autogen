@@ -1,5 +1,6 @@
-proton-autogen (3.0.0) noble; urgency=medium
+proton-autogen (3.0.1) noble; urgency=medium
 
+  * Added a new button to remove game configurations.
   * Redesigned the GTK4 interface and added a new carousel component.
   * Improved automatic Proton prefix management and runtime stability.
   * Added diagnostic log generation via `proton_autogen --diag`.
@@ -23,4 +24,4 @@ proton-autogen (3.0.0) noble; urgency=medium
   * Enhanced debugging and diagnostic tools.
   * Performed general code cleanup and internal optimizations.
 
- -- N3oray <n3oray77@gmail.com>  Mon, 13 Jul 2026 20:01:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Wed, 15 Jul 2026 01:01:00 +0200
