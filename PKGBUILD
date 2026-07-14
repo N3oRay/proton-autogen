@@ -1,5 +1,5 @@
 pkgname=proton-autogen
-pkgver=2.8.7.5.g7d05035
+pkgver=3.0.0
 pkgrel=1
 pkgdesc="Automatic Proton/Wine launcher for Windows executables"
 arch=('x86_64')
@@ -10,34 +10,62 @@ depends=(
   python
   python-gobject
   python-pyyaml
+  python-rich
   gtk4
   glib2
-  gobject-introspection-runtime
+  cairo
+  pango
 )
 
-source=("git+https://github.com/N3oRay/proton-autogen.git")
+source=(
+  "https://github.com/N3oRay/proton-autogen/archive/refs/tags/v${pkgver}.tar.gz"
+)
+
 sha256sums=('SKIP')
 
-pkgver() {
-  cd "$srcdir/$pkgname"
-  git describe --tags --long | sed 's/^v//; s/-/./g'
-}
 
 package() {
-    cd "$srcdir/proton-autogen"
+    cd "$srcdir/$pkgname-$pkgver"
 
-    install -Dm755 usr/bin/proton-autogen \
+
+    # Binary
+    install -Dm755 \
+        usr/bin/proton-autogen \
         "$pkgdir/usr/bin/proton-autogen"
 
-    install -Dm644 usr/share/applications/proton-autogen.desktop \
-        "$pkgdir/usr/share/applications/proton-autogen.desktop"
 
-    cp -r usr/share/icons "$pkgdir/usr/share/"
+    # Python module
+    python_site=$(python -c "import site; print(site.getsitepackages()[0])")
 
-    PYTHON_SITE=$(python -c "import sysconfig; print(sysconfig.get_paths()['purelib'])")
-
-    install -d "$pkgdir/$PYTHON_SITE"
+    install -dm755 \
+        "$pkgdir/$python_site"
 
     cp -r usr/lib/python3/dist-packages/proton_autogen \
-        "$pkgdir/$PYTHON_SITE/"
+        "$pkgdir/$python_site/"
+
+
+    # Application data
+    install -dm755 \
+        "$pkgdir/usr/share/proton-autogen"
+
+    cp -r usr/share/proton-autogen/* \
+        "$pkgdir/usr/share/proton-autogen/"
+
+
+    # Desktop entry
+    install -Dm644 \
+        usr/share/applications/proton-autogen.desktop \
+        "$pkgdir/usr/share/applications/proton-autogen.desktop"
+
+
+    # Icon
+    install -Dm644 \
+        usr/share/icons/hicolor/256x256/apps/proton-autogen.png \
+        "$pkgdir/usr/share/icons/hicolor/256x256/apps/proton-autogen.png"
+
+
+    # Man page
+    install -Dm644 \
+        debian/proton-autogen.1.gz \
+        "$pkgdir/usr/share/man/man1/proton-autogen.1.gz"
 }
