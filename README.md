@@ -78,8 +78,8 @@ proton-autogen game.exe
 proton-autogen --ux
 ```
 
-### Example Output
-
+### Example Output : 
+See the full example output here: [Example Output](docs/examples.md)
 
 
 ---
