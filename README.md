@@ -1,7 +1,7 @@
 # 🧩 Proton-Autogen
 ![Linux](https://img.shields.io/badge/platform-Linux-blue)
 ![Python](https://img.shields.io/badge/python-3.x-yellow)
-![Status](https://img.shields.io/badge/status-v3.0.0-brightgreen)
+![GitHub release](https://img.shields.io/github/v/release/N3oRay/proton-autogen)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 **Proton-Autogen is a lightweight Proton/Wine orchestration layer that allows Linux users to run Windows applications directly from .exe files without manually configuring Steam shortcuts or Wine prefixes.**
@@ -20,16 +20,15 @@ Run Windows executables through Proton with zero Steam configuration.
 
 ## 🚀 Overview
 
-Proton-Autogen is a lightweight Linux utility.
-Automatic Windows .exe execution system for Linux using Proton + Wine fallback
+Proton-Autogen automatically detects available Proton installations, configures the required runtime environment, and launches Windows applications using Proton with Wine fallback support.
 
-Instead of manually creating Steam shortcuts, configuring compatibility options, or managing Wine prefixes, simply:
+No manual Steam shortcut creation or prefix configuration is required.
+
+Simply:
 
 * Right-click a `.exe`
 * Select **Open with Proton-Autogen**
 * Launch the application
-
-The tool automatically detects available Proton installations (GE-Proton preferred), configures the runtime environment, and falls back to Wine when necessary.
 
 ---
 
@@ -78,14 +77,24 @@ proton-autogen game.exe
 proton-autogen --ux
 ```
 
-### Example Output : 
+### Example Output: 
 See the full example output here: [Example Output](docs/examples.md)
 
 
 ---
+## 📦 Downloads
+
+Latest releases are available on GitHub:
+
+- Debian / Ubuntu: `.deb` package
+- Source installation: `install.sh`
+- Arch Linux / CachyOS: AUR (coming soon)
 
 ## 📦 Installation & Update Linux (Debian/Fedora/Arch)
-AUR package for proton-autogen. See here: [Example Output](docs/install.md)
+AUR package coming soon.
+
+See the manual installation guide:
+[Installation Guide](docs/install.md)
 
 ### (install manual)
 
@@ -129,8 +138,6 @@ This installs:
 
 ---
 
-
-
 ## ⚠️ Requirements
 
 ### Required
@@ -147,14 +154,15 @@ Supported locations:
 ```
 
 ### Optional
-```
+
+- GameMode
+- MangoHud
+- Proton-CachyOS
+- GE-Proton
+- ProtonUp-Qt
+```bash
 sudo apt install gamemode mangohud
 ```
-* GameMode
-* MangoHud
-* Proton-CachyOS or GE-Proton
-* ProtonUp-Qt
-
 ---
 
 ## 🧠 How It Works
@@ -230,6 +238,13 @@ nautilus -q
 
 ---
 
+## 🤝 Contributing
+
+Bug reports, feature requests, and contributions are welcome.
+
+Please use GitHub Issues for discussions and reports.
+
+
 ## 💡 Philosophy
 
 Linux gaming is powerful but often fragmented.
@@ -248,7 +263,7 @@ The goal is simple:
 
 ![Screenshot](https://www.fflmpics.fr/images/2026/06/15/n3oray.png)
 
-GitHub: https://github.com/N3oRay
+GitHub: [@N3oRay](https://github.com/N3oRay)
 
 ---
 
