@@ -85,15 +85,7 @@ See the full example output here: [Example Output](docs/examples.md)
 ---
 
 ## 📦 Installation & Update Linux (Debian/Fedora/Arch)
-AUR package for proton-autogen.
-
-## Install (AUR)
-
-paru -S proton-autogen
-
-## Manual build
-
-makepkg -si
+AUR package for proton-autogen. See here: [Example Output](docs/install.md)
 
 ### (install manual)
 
@@ -103,13 +95,7 @@ cd proton-autogen
 chmod +x install.sh
 ./install.sh
 ```
-### (update manual)
-```bash
-cd proton-autogen
-git pull
-chmod +x update.sh
-./update.sh
-```
+
 ## 📦 Installation & Update - Debian / Ubuntu
 
 ### Manual build  and install
