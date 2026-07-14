@@ -833,3 +833,14 @@ button,
     padding: 3px 10px;
     border-radius: 12px;
 }
+
+.btn-delete {
+    min-width: 18px;
+    min-height: 18px;
+    padding: 0;
+    margin: 0;
+}
+
+.btn-delete image {
+    -gtk-icon-size: 10px;
+}

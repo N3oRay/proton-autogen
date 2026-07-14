@@ -674,3 +674,14 @@ tooltip label {
     margin-top: 4px;
     margin-bottom: 2px;
 }
+
+.btn-delete {
+    min-width: 18px;
+    min-height: 18px;
+    padding: 0;
+    margin: 0;
+}
+
+.btn-delete image {
+    -gtk-icon-size: 10px;
+}

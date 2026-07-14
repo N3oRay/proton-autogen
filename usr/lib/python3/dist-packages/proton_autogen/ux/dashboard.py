@@ -18,7 +18,7 @@ from proton_autogen.ux.themes import load_saved_theme, save_theme, AVAILABLE_THE
 from proton_autogen.ux.search import filter_games
 from proton_autogen.notify import notifications
 from proton_autogen.progress import Progress
-from proton_autogen.editor import add_game_ux
+from proton_autogen.editor import add_game_ux, rm_game_ux
 from proton_autogen.backend import run, list_programs_ux, get_diagnostic_text
 from proton_autogen.stats import is_recent_launch
 from proton_autogen.color_label import insert_colored_text, insert_sensor_text, insert_about_text
@@ -465,6 +465,7 @@ class Dashboard(Gtk.ApplicationWindow):
         self.game_list = GameList(
             on_launch=self.launch_game,
             on_edit=self.edit_game,
+            on_delete=self.delete_game,
             on_refresh=self.refresh_games,
             on_export_lutris=self.export_lutris_handler,
             lang=self.lang
@@ -536,7 +537,7 @@ class Dashboard(Gtk.ApplicationWindow):
     # -------------------------
     def refresh_games(self):
         self.status.set_text("Loading games...")
-        self.toast.info("Launching game...")
+        self.toast.info("Loading games...")
 
         games = list_programs_ux(self.lang) or []
 
@@ -545,6 +546,7 @@ class Dashboard(Gtk.ApplicationWindow):
             {
                 "name": g.get("name", "Unknown"),
                 "path": g.get("path"),
+                "config_path": g.get("config_path"), #new
                 "exe_type": g.get("exe_type", "dx11"),
                 "proton": g.get("proton", ""),
                 "prefix": g.get("prefix", {}),
@@ -819,6 +821,19 @@ class Dashboard(Gtk.ApplicationWindow):
 
     def on_add_game(self, _btn):
         open_game_file_dialog(self, self._on_file_selected)
+
+    def delete_game(self, game):
+
+        if rm_game_ux(
+            game.get("path"),
+            game.get("config_path")
+        ):
+            self.refresh_games()
+            self.status.set_text(f"{game['name']} removed from library")
+            self.toast.success(f"{game['name']} removed from library")
+        else:
+            self.status.set_text("Unable to remove game")
+            self.toast.error("Unable to remove game")
 
     def _on_file_selected(self, path):
         if not path:

@@ -16,11 +16,12 @@ lutris = True
 # -----------------------------
 class GameList(Gtk.Box):
 
-    def __init__(self, on_launch=None, on_edit=None, on_export_lutris=None, on_refresh=None, lang="en"):
+    def __init__(self, on_launch=None, on_edit=None, on_delete=None, on_export_lutris=None, on_refresh=None, lang="en"):
         super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=6)
 
         self.on_launch = on_launch
         self.on_edit = on_edit
+        self.on_delete = on_delete
         self.lang = lang
         self.refresh_games = on_refresh
         self.row_map = {}  # path -> row
@@ -236,6 +237,16 @@ class GameList(Gtk.Box):
         info_box.set_hexpand(True)
         info_box.set_size_request(300, -1)
 
+        btn_delete = Gtk.Button()
+        btn_delete.set_icon_name("user-trash-symbolic")
+        btn_delete.add_css_class("btn-delete")
+        btn_delete.set_tooltip_text("Remove game")
+        btn_delete.set_valign(Gtk.Align.CENTER)
+        btn_delete.connect(
+            "clicked",
+            lambda _btn, row=row: self._delete(row.game_data)
+        )
+
         if lutris:
             btn_export = Gtk.Button(label="⇩")
             btn_export.set_icon_name("document-save-symbolic")
@@ -279,6 +290,7 @@ class GameList(Gtk.Box):
         # ASSEMBLE
         # -------------------------
         container.append(info_box)
+        container.append(btn_delete)
         if lutris:
             container.append(spacer0)
             container.append(btn_export)
@@ -289,6 +301,13 @@ class GameList(Gtk.Box):
         row.set_child(container)
 
         return row
+
+    # -----------------------------
+    # DELETE DISPLAY
+    # -----------------------------
+    def _delete(self, game):
+        if self.on_delete:
+            self.on_delete(game)
     # -----------------------------
     # Lutris DISPLAY
     # -----------------------------

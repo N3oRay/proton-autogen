@@ -11,8 +11,10 @@ import time
 from pathlib import Path
 from shutil import which
 import configparser
-
+from proton_autogen.utils.logger import StructuredLogger
 from proton_autogen.config import VERSION, CONFIG_FILE, CONFIG_DIR
+
+logger = StructuredLogger("proton-autogen.loader")
 
 def normalize_game_config(config: dict):
     return {
@@ -45,13 +47,23 @@ def deep_merge(base: dict, updates: dict):
 
 def load_game_config(exe_path):
     game_id = _game_id(exe_path)
-    path = os.path.expanduser(f"~/.config/proton-autogen/games/{game_id}.json")
+    path = os.path.expanduser(
+        f"~/.config/proton-autogen/games/{game_id}.json"
+    )
+
+    #logger.info(f"Loading config candidate: {path}")
 
     if os.path.exists(path):
+        #logger.info("Config found")
         with open(path, "r") as f:
             config = json.load(f)
 
-        return normalize_game_config(config)
+        config = normalize_game_config(config)
+
+        # Ajout du chemin réel du fichier de config
+        config["config_path"] = path
+
+        return config
 
     return None
 
@@ -105,4 +117,4 @@ def save_game_config_v1(data: dict):
     with open(config_path, "w") as f:
         json.dump(data, f, indent=2)
 
-    print("[proton-autogen] Saved:", config_path)
+    logger.info(f"Saved config : {config_path}")

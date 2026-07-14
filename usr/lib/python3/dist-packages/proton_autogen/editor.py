@@ -2,6 +2,7 @@
 import os
 import json
 from pathlib import Path
+from proton_autogen.utils.logger import StructuredLogger
 from proton_autogen.config import VERSION, CONFIG_FILE, CONFIG_DIR, PREFIX_DIR, PREFIX_DIR_PATH
 from proton_autogen.loader import get_game_config_path
 from proton_autogen.profiles.init import detect_exe_type
@@ -9,6 +10,8 @@ from proton_autogen.loader import load_game_config
 from proton_autogen.core import make_output_path, PREFIX_DIR_PATH
 from proton_autogen.diag import find_all_protons, find_proton
 import uuid
+
+logger = StructuredLogger("proton-autogen.editor")
 
 
 def list_prefixes():
@@ -233,6 +236,80 @@ def add_game_ux(exe_path: str, prefix=None):
 
 
     return config
+
+# -- rm game for UX:
+
+def rm_game_ux(exe_path: str, config_path: str = None) -> bool:
+
+    logger.info("Remove game requested")
+
+    if isinstance(exe_path, dict):
+        exe_path = exe_path.get("path")
+
+    if not isinstance(exe_path, str):
+        logger.warning(f"Invalid executable path: {exe_path!r}")
+        return False
+
+    target = None
+
+    # 1) chemin fourni par l'UX
+    if config_path:
+        target = config_path
+        logger.debug(f"Using provided config path: {target}")
+
+    # 2) résolution normale
+    else:
+        exe_path = os.path.abspath(exe_path)
+        target, _ = get_game_config_path(exe_path)
+
+    # 3) fallback recherche réelle
+    if not target or not os.path.isfile(target):
+        logger.warning(
+            "Config not found by id, searching by path..."
+        )
+
+        config_dir = os.path.expanduser(
+            "~/.config/proton-autogen/games"
+        )
+
+        for filename in os.listdir(config_dir):
+            if not filename.endswith(".json"):
+                continue
+
+            candidate = os.path.join(config_dir, filename)
+
+            try:
+                with open(candidate) as f:
+                    config = json.load(f)
+
+                if os.path.abspath(config.get("path", "")) == exe_path:
+                    target = candidate
+                    logger.info(
+                        f"Found config by path match: {target}"
+                    )
+                    break
+
+            except Exception:
+                continue
+
+    if not target or not os.path.isfile(target):
+        logger.warning(
+            f"Config file does not exist: {target}"
+        )
+        return False
+
+    try:
+        os.remove(target)
+        logger.info(
+            f"Game configuration removed successfully: {target}"
+        )
+        return True
+
+    except OSError as e:
+        logger.error(
+            f"Failed to remove config {target}: {e}"
+        )
+        return False
 
 # -- add game for UI
 def add_game(exe_path: str):

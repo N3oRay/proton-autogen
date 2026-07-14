@@ -635,6 +635,7 @@ def list_programs_ux(lang: str = "en"):
         result.append({
             "name": config.get("name", exe.split("/")[-1]),
             "path": exe,
+            "config_path": config.get("config_path"),
             "exe_type": config.get("exe_type", detect_exe_type(exe)),
             "proton": config.get("proton", ""),
             "prefix": config.get("prefix", {"name": "main"}),
