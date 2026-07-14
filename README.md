@@ -45,13 +45,13 @@ The tool automatically detects available Proton installations (GE-Proton preferr
 * ▶ Run Windows `.exe` files directly via Proton
 * 🧠 Automatic Proton detection
 * 🚀 Proton-CachyOS and GE-Proton support
-* 🍷 Automatic Wine fallback
-* 🖱️ File manager integration
-
-  * Nemo, Nautilus, Dolphin
-* ⚙️ Optional GameMode support
-* 📦 Debian package (.deb)
-* 💻 Command-line interface
+* 🍷 Wine fallback support
+* 📦 Prefix management
+* 🖱️ File manager integration : Nemo, Nautilus, Dolphin
+* 🎮 Game/application profiles
+* 🖥️ GTK4 graphical interface
+* 🛠️ Diagnostic tools
+* ⚙️ CLI and advanced options
 * 🔧 Lightweight and dependency-minimal
 
 ---
@@ -79,10 +79,10 @@ Open with Proton-Autogen
 proton-autogen game.exe
 ```
 
-or
+### Graphical interface:
 
 ```bash
-proton-autogen /path/to/application.exe
+proton-autogen --ux
 ```
 
 ### Example Output
