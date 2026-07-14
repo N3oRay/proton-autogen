@@ -54,3 +54,11 @@ jobs:
         with:
           name: proton-autogen-package
           path: "*.pkg.tar.zst"
+
+      - name: Install package
+        run: |
+          pacman -U --noconfirm *.pkg.tar.zst
+
+      - name: Test binary
+        run: |
+          proton-autogen --version
