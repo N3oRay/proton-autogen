@@ -7,7 +7,7 @@ left4dead.exe,Left 4 Dead,dx9opengl,Source Engine
 left4dead2.exe,Left 4 Dead 2,dx9opengl,Source Engine
 TESV.exe,The Elder Scrolls V Skyrim,dx9opengl,Gamebryo DX9
 FalloutNV.exe,Fallout New Vegas,dx9opengl,Gamebryo DX9
-Fallout3.exe,Fallout 3,ut3,Gamebryo DX9
+Fallout3.exe,Fallout 3,dx9opengl,Gamebryo DX9
 witcher.exe,The Witcher,dx9opengl,DX9 RPG
 witcher2.exe,The Witcher 2,dx11,DX11
 PlayGTAV.exe,Grand Theft Auto IV,gtav_x11,RAGE Engine
@@ -26,3 +26,9 @@ winrar.exe,WinRAR,desktop,Windows utility
 foobar2000.exe,Foobar2000,desktop,Windows application
 UnrealTournament.exe,Unreal Tournament 99,ut99,Unreal Engine 1
 UT3.exe,Unreal Tournament 3,ut3,Unreal Engine 3
+hl.exe,Half-Life,valve,GoldSrc Engine
+hlds.exe,Half-Life Server,valve,GoldSrc Engine
+Oblivion.exe,The Elder Scrolls IV Oblivion,dx9opengl,Gamebryo DX9
+UTGame.exe,Unreal Tournament 3,ut3,Unreal Engine 3
+Borderlands.exe,Borderlands,ut3,Unreal Engine 3
+BioShock.exe,BioShock,ut3,Unreal Engine 3
