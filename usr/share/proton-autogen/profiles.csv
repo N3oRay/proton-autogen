@@ -5,14 +5,14 @@ portal.exe,Portal,dx9opengl,Source Engine
 portal2.exe,Portal 2,dx9opengl,Source Engine
 left4dead.exe,Left 4 Dead,dx9opengl,Source Engine
 left4dead2.exe,Left 4 Dead 2,dx9opengl,Source Engine
-TESV.exe,The Elder Scrolls V Skyrim,dx9opengl,Gamebryo DX9
+TESV.exe,The Elder Scrolls V Skyrim,dx9,Gamebryo DX9
 FalloutNV.exe,Fallout New Vegas,dx9opengl,Gamebryo DX9
 Fallout3.exe,Fallout 3,dx9opengl,Gamebryo DX9
 witcher.exe,The Witcher,dx9opengl,DX9 RPG
 witcher2.exe,The Witcher 2,dx11,DX11
 PlayGTAV.exe,Grand Theft Auto IV,gtav_x11,RAGE Engine
 GTAIV.exe,Grand Theft Auto IV,gtav_x11,RAGE Engine
-GTAV.exe,Grand Theft Auto V,gtav_x11,DX11
+GTAV.exe,Grand Theft Auto V,gtav_compat,DX11
 Cyberpunk2077.exe,Cyberpunk 2077,dx12,DX12
 Starfield.exe,Starfield,dx12,DX12
 DiabloIV.exe,Diablo IV,dx12,DX12
@@ -28,7 +28,329 @@ UnrealTournament.exe,Unreal Tournament 99,ut99,Unreal Engine 1
 UT3.exe,Unreal Tournament 3,ut3,Unreal Engine 3
 hl.exe,Half-Life,valve,GoldSrc Engine
 hlds.exe,Half-Life Server,valve,GoldSrc Engine
+tf.exe,Team Fortress Classic,valve,GoldSrc Engine
+hl1.exe,Half-Life,valve,GoldSrc Engine
+cstrike.exe,Counter-Strike,valve,GoldSrc Engine
+hlopfor.exe,Half-Life Opposing Force,valve,GoldSrc Engine
+bshift.exe,Half-Life Blue Shift,valve,GoldSrc Engine
+tf2.exe,Team Fortress 2,valve,Source Engine
+hl2mp.exe,Half-Life 2 Deathmatch,valve,Source Engine
 Oblivion.exe,The Elder Scrolls IV Oblivion,dx9opengl,Gamebryo DX9
 UTGame.exe,Unreal Tournament 3,ut3,Unreal Engine 3
 Borderlands.exe,Borderlands,ut3,Unreal Engine 3
 BioShock.exe,BioShock,ut3,Unreal Engine 3
+Dishonored.exe,Dishonored,dx9opengl,Unreal Engine 3
+BioShock2.exe,BioShock 2,dx9opengl,Unreal Engine 3
+BioShockInfinite.exe,BioShock Infinite,dx11,Unreal Engine 3
+Borderlands2.exe,Borderlands 2,dx9opengl,Unreal Engine 3
+BorderlandsPreSequel.exe,Borderlands The Pre-Sequel,ut3,Unreal Engine 3
+SpecOpsTheLine.exe,Spec Ops The Line,ut3,Unreal Engine 3
+MassEffect.exe,Mass Effect,dx9opengl,Unreal Engine 3
+MassEffect2.exe,Mass Effect 2,ut3,Unreal Engine 3
+MassEffect3.exe,Mass Effect 3,ut3,Unreal Engine 3
+BatmanAA.exe,Batman Arkham Asylum,dx9opengl,Unreal Engine 3
+BatmanAC.exe,Batman Arkham City,ut3,Unreal Engine 3
+BatmanOrigins.exe,Batman Arkham Origins,ut3,Unreal Engine 3
+Crysis.exe,Crysis,dx9opengl,CryEngine 2
+Crysis64.exe,Crysis 64-bit,dx9opengl,CryEngine 2
+Crysis2.exe,Crysis 2,dx11,CryEngine 3
+Crysis3.exe,Crysis 3,dx11,CryEngine 3
+FarCry.exe,Far Cry,dx9opengl,CryEngine
+FarCry2.exe,Far Cry 2,dx11,Dunia Engine
+FarCry3.exe,Far Cry 3,dx11,Dunia Engine
+FarCry4.exe,Far Cry 4,dx11,Dunia Engine
+FarCry5.exe,Far Cry 5,dx11,Dunia Engine
+FarCry6.exe,Far Cry 6,dx12,Dunia Engine
+SkyrimSE.exe,Skyrim Special Edition,dx11,Creation Engine
+SkyrimVR.exe,Skyrim VR,dx11,Creation Engine
+Fallout4.exe,Fallout 4,dx11,Creation Engine
+TESVVR.exe,Skyrim VR,dx11,Creation Engine
+witcher3.exe,The Witcher 3,dx11,REDengine 3
+REDprelauncher.exe,CD Projekt Launcher,launcher,CD Projekt Launcher
+eldenring.exe,Elden Ring,dx12,DX12
+DarkSouls.exe,Dark Souls,dx9,DX9
+DarkSoulsII.exe,Dark Souls II,dx11,DX11
+DarkSoulsIII.exe,Dark Souls III,dx11,DX11
+sekiro.exe,Sekiro Shadows Die Twice,dx11,DX11
+armoredcore6.exe,Armored Core VI,dx12,DX12
+ResidentEvil7.exe,Resident Evil 7,dx11,RE Engine
+re2.exe,Resident Evil 2 Remake,dx12,RE Engine
+re3.exe,Resident Evil 3 Remake,dx12,RE Engine
+re4.exe,Resident Evil 4 Remake,dx12,RE Engine
+re8.exe,Resident Evil Village,dx12,RE Engine
+MonsterHunterWorld.exe,Monster Hunter World,dx11,MT Framework
+MonsterHunterRise.exe,Monster Hunter Rise,dx11,RE Engine
+RDR2.exe,Red Dead Redemption 2,dx12,RAGE Engine
+Launcher.exe,Rockstar Games Launcher,launcher,Launcher
+HorizonZeroDawn.exe,Horizon Zero Dawn,dx12,Decima Engine
+DaysGone.exe,Days Gone,dx11,Unreal Engine 4
+DeathStranding.exe,Death Stranding,dx12,Decima Engine
+SOTTR.exe,Shadow of the Tomb Raider,dx12,Foundation Engine
+ROTTR.exe,Rise of the Tomb Raider,dx12,Foundation Engine
+TombRaider.exe,Tomb Raider 2013,dx11,Foundation Engine
+Control_DX12.exe,Control,dx12,Northlight Engine
+AlanWake2.exe,Alan Wake 2,dx12,Northlight Engine
+ForzaHorizon4.exe,Forza Horizon 4,dx12,ForzaTech
+ForzaHorizon5.exe,Forza Horizon 5,dx12,ForzaTech
+HaloMCC.exe,Halo The Master Chief Collection,dx11,Slipspace
+HaloInfinite.exe,Halo Infinite,dx12,Slipspace
+Overwatch.exe,Overwatch,dx11,Blizzard Engine
+Wow.exe,World of Warcraft,dx12,Blizzard Engine
+WowClassic.exe,World of Warcraft Classic,dx12,Blizzard Engine
+D2R.exe,Diablo II Resurrected,dx12,Blizzard Engine
+LeagueClient.exe,League of Legends,launcher,Riot Launcher
+VALORANT.exe,Valorant,dx11,Riot Engine
+csgo.exe,Counter-Strike Global Offensive,valve,Source Engine
+cs2.exe,Counter-Strike 2,valve,Source 2 Engine
+dota2.exe,Dota 2,valve,Source 2 Engine
+gameoverlayui.exe,Steam Overlay,desktop,Steam Component
+steam.exe,Steam,desktop,Steam Client
+Minecraft.Windows.exe,Minecraft Bedrock,dx12,UWP
+GenshinImpact.exe,Genshin Impact,dx11,Unity
+ZenlessZoneZero.exe,Zenless Zone Zero,dx11,Unity
+StarRail.exe,Honkai Star Rail,dx11,Unity
+Unity.exe,Unity Editor,desktop,Unity Editor
+Godot.exe,Godot Engine,desktop,Game Engine Editor
+Age2_x1.exe,Age of Empires II HD,dx9opengl,DirectX 9
+AoE2DE_s.exe,Age of Empires II Definitive Edition,dx11,DirectX 11
+AoEDE_s.exe,Age of Empires Definitive Edition,dx11,DirectX 11
+AoE3DE_s.exe,Age of Empires III Definitive Edition,dx12,DirectX 12
+AoE4.exe,Age of Empires IV,dx12,Essence Engine
+CompanyOfHeroes.exe,Company of Heroes,dx9opengl,Essence Engine
+RelicCoH.exe,Company of Heroes Opposing Fronts,dx9opengl,Essence Engine
+RelicCoH2.exe,Company of Heroes 2,dx11,Essence Engine
+Civ4BeyondSword.exe,Civilization IV Beyond the Sword,dx9opengl,Gamebryo
+CivilizationV.exe,Civilization V,dx11,DX11
+CivilizationVI.exe,Civilization VI,dx12,DX12
+XComGame.exe,XCOM Enemy Unknown,dx9opengl,Unreal Engine 3
+XCom2.exe,XCOM 2,dx11,Unreal Engine 3
+eu4.exe,Europa Universalis IV,dx11,Clausewitz Engine
+ck2.exe,Crusader Kings II,dx9opengl,Clausewitz Engine
+ck3.exe,Crusader Kings III,dx11,Clausewitz Engine
+hoi4.exe,Hearts of Iron IV,dx11,Clausewitz Engine
+stellaris.exe,Stellaris,dx11,Clausewitz Engine
+victoria3.exe,Victoria 3,dx12,Clausewitz Engine
+Terraria.exe,Terraria,dx11,XNA/MonoGame
+Factorio.exe,Factorio,dx9opengl,OpenGL
+Stardew Valley.exe,Stardew Valley,dx11,MonoGame
+osu!.exe,osu!,desktop,Rhythm Game
+osu!.lazer.exe,osu! lazer,desktop,Rhythm Game
+PathOfExile.exe,Path of Exile,dx11,DX11
+PathOfExileSteam.exe,Path of Exile,dx11,Steam Edition
+PathOfExile_x64.exe,Path of Exile,dx12,DX12
+Warframe.x64.exe,Warframe,dx12,Evolution Engine
+Destiny2.exe,Destiny 2,dx11,Tiger Engine
+Apex.exe,Apex Legends,dx11,Source Engine
+Titanfall2.exe,Titanfall 2,dx11,Source Engine
+RainbowSix.exe,Rainbow Six Siege,dx11,AnvilNext
+TheDivision.exe,Tom Clancy's The Division,dx11,Snowdrop
+TheDivision2.exe,Tom Clancy's The Division 2,dx12,Snowdrop
+WatchDogs.exe,Watch Dogs,dx11,Disrupt Engine
+WatchDogs2.exe,Watch Dogs 2,dx11,Disrupt Engine
+AC4BFSP.exe,Assassin's Creed IV Black Flag,dx11,AnvilNext
+ACS.exe,Assassin's Creed Syndicate,dx11,AnvilNext
+ACOdyssey.exe,Assassin's Creed Odyssey,dx11,AnvilNext
+ACValhalla.exe,Assassin's Creed Valhalla,dx12,AnvilNext
+NFS13.exe,Need for Speed Most Wanted,dx11,Frostbite
+NFS16.exe,Need for Speed,dx11,Frostbite
+NFSUnbound.exe,Need for Speed Unbound,dx12,Frostbite
+DragonAgeOrigins.exe,Dragon Age Origins,dx9opengl,Eclipse Engine
+DragonAge2.exe,Dragon Age II,dx11,Lycium Engine
+DragonAgeInquisition.exe,Dragon Age Inquisition,dx11,Frostbite
+Dragon'sDogma.exe,Dragon's Dogma Dark Arisen,dx9,MT Framework
+Quake.exe,Quake,oldgame,WinQuake/OpenGL
+GLQuake.exe,GLQuake,dx9opengl,OpenGL
+Quake2.exe,Quake II,dx9opengl,OpenGL
+Quake3.exe,Quake III Arena,dx9opengl,id Tech 3
+ioquake3.exe,ioquake3,dx9opengl,OpenGL
+Doom3.exe,Doom 3,oldgame,id Tech 4
+Prey.exe,Prey 2006,dx9opengl,id Tech 4
+ReturnToCastleWolfenstein.exe,Return to Castle Wolfenstein,dx9opengl,id Tech 3
+WolfSP.exe,Wolfenstein Enemy Territory,dx9opengl,id Tech 3
+Morrowind.exe,The Elder Scrolls III Morrowind,dx9opengl,Gamebryo
+Gothic.exe,Gothic,oldgame,Genome Engine
+Gothic2.exe,Gothic II,oldgame,Genome Engine
+Arx.exe,Arx Fatalis,oldgame,DirectX 7
+MaxPayne.exe,Max Payne,dx9opengl,DirectX 8
+MaxPayne2.exe,Max Payne 2,dx9,DirectX 9
+DeusEx.exe,Deus Ex,oldgame,Unreal Engine 1
+Thief.exe,Thief Gold,oldgame,Dark Engine
+Thief2.exe,Thief II,oldgame,Dark Engine
+SystemShock2.exe,System Shock 2,oldgame,Dark Engine
+OpenTTD.exe,OpenTTD,desktop,SDL/OpenGL
+DOSBox.exe,DOSBox,desktop,DOS Emulator
+ScummVM.exe,ScummVM,desktop,Adventure Engine
+PCSX2.exe,PCSX2,desktop,PlayStation 2 Emulator
+Dolphin.exe,Dolphin Emulator,desktop,GameCube/Wii Emulator
+RPCS3.exe,RPCS3,desktop,PlayStation 3 Emulator
+Cemu.exe,Cemu,desktop,Wii U Emulator
+chrome.exe,Google Chrome,desktop,Web browser
+msedge.exe,Microsoft Edge,desktop,Web browser
+firefox.exe,Mozilla Firefox,desktop,Web browser
+opera.exe,Opera,desktop,Web browser
+brave.exe,Brave Browser,desktop,Web browser
+WINWORD.EXE,Microsoft Word,legacy,Office application
+EXCEL.EXE,Microsoft Excel,legacy,Office application
+POWERPNT.EXE,Microsoft PowerPoint,legacy,Office application
+OUTLOOK.EXE,Microsoft Outlook,legacy,Office application
+ONENOTE.EXE,Microsoft OneNote,legacy,Office application
+AcroRd32.exe,Adobe Acrobat Reader,desktop,PDF reader
+Code.exe,Visual Studio Code,desktop,Code editor
+devenv.exe,Microsoft Visual Studio,legacy,IDE
+Discord.exe,Discord,desktop,Voice chat
+Teams.exe,Microsoft Teams,desktop,Communication
+Telegram.exe,Telegram Desktop,desktop,Messaging
+Signal.exe,Signal Desktop,desktop,Messaging
+Slack.exe,Slack,desktop,Communication
+vlc.exe,VLC media player,desktop,Media player
+mpc-hc64.exe,Media Player Classic HC,desktop,Media player
+Spotify.exe,Spotify,desktop,Music streaming
+Audacity.exe,Audacity,desktop,Audio editor
+OBS64.exe,OBS Studio,desktop,Streaming
+HandBrake.exe,HandBrake,desktop,Video transcoder
+7zFM.exe,7-Zip File Manager,desktop,Archive utility
+7zG.exe,7-Zip GUI,desktop,Archive utility
+regedit.exe,Registry Editor,legacy,System utility
+cmd.exe,Command Prompt,legacy,System utility
+powershell.exe,Windows PowerShell,legacy,System utility
+explorer.exe,Windows Explorer,desktop,Shell
+notepad.exe,Notepad,desktop,Text editor
+notepad++.exe,Notepad++,desktop,Text editor
+ProcessHacker.exe,Process Hacker,desktop,System utility
+gimp.exe,GIMP,desktop,Image editor
+krita.exe,Krita,desktop,Digital painting
+blender.exe,Blender,desktop,3D editor
+Inkscape.exe,Inkscape,desktop,Vector graphics
+ShareX.exe,ShareX,desktop,Screen capture
+GPU-Z.exe,GPU-Z,desktop,GPU information
+CPU-Z.exe,CPU-Z,desktop,CPU information
+HWiNFO64.EXE,HWiNFO64,desktop,Hardware monitor
+MSIAfterburner.exe,MSI Afterburner,desktop,GPU overclocking
+RTSS.exe,RivaTuner Statistics Server,desktop,Frame limiter
+paintdotnet.exe,Paint.NET,desktop,Image editor
+Aseprite.exe,Aseprite,desktop,Pixel art editor
+Totalcmd64.exe,Total Commander,desktop,File manager
+Everything.exe,Everything,desktop,File search
+WinSCP.exe,WinSCP,desktop,SFTP client
+FileZilla.exe,FileZilla,desktop,FTP client
+KeePass.exe,KeePass,desktop,Password manager
+qBittorrent.exe,qBittorrent,desktop,Torrent client
+Transmission-qt.exe,Transmission,desktop,Torrent client
+winecfg.exe,Wine Configuration,legacy,Wine utility
+winefile.exe,Wine File Manager,legacy,Wine utility
+control.exe,Windows Control Panel,legacy,System utility
+taskmgr.exe,Task Manager,legacy,System utility
+msiexec.exe,Windows Installer,legacy,Installer
+rundll32.exe,Windows Runtime,legacy,System component
+dwm.exe,Desktop Window Manager,desktop,Windows compositor
+SearchApp.exe,Windows Search,desktop,Windows component
+RuntimeBroker.exe,Runtime Broker,desktop,UWP component
+ApplicationFrameHost.exe,UWP Application Host,desktop,UWP component
+ShellExperienceHost.exe,Windows Shell Experience,desktop,Windows component
+StartMenuExperienceHost.exe,Windows Start Menu,desktop,Windows component
+MSPaint.exe,Microsoft Paint,desktop,Image editor
+mspub.exe,Microsoft Publisher,legacy,Office application
+Visio.exe,Microsoft Visio,legacy,Office application
+Zoom.exe,Zoom,desktop,Video conference
+Skype.exe,Skype,desktop,Communication
+OneDrive.exe,Microsoft OneDrive,desktop,Cloud storage
+Dropbox.exe,Dropbox,desktop,Cloud storage
+GoogleDriveFS.exe,Google Drive,desktop,Cloud storage
+rider64.exe,JetBrains Rider,desktop,IDE
+idea64.exe,IntelliJ IDEA,desktop,IDE
+pycharm64.exe,PyCharm,desktop,IDE
+webstorm64.exe,WebStorm,desktop,IDE
+clion64.exe,CLion,desktop,IDE
+Postman.exe,Postman,desktop,API client
+Figma.exe,Figma,desktop,Design tool
+notion.exe,Notion,desktop,Notes application
+Obsidian.exe,Obsidian,desktop,Notes application
+GameBar.exe,Xbox Game Bar,desktop,Overlay
+GameBarFTServer.exe,Xbox Game Bar Service,desktop,Overlay
+nvcontainer.exe,NVIDIA Container,desktop,NVIDIA service
+AMDSoftware.exe,AMD Adrenalin,desktop,GPU utility
+Battlefield1.exe,Battlefield 1,dx11,Frostbite Engine
+bfv.exe,Battlefield V,dx12,Frostbite Engine
+bf2042.exe,Battlefield 2042,dx12,Frostbite Engine
+Battlefield4.exe,Battlefield 4,dx11,Frostbite Engine
+Battlefield3.exe,Battlefield 3,dx11,Frostbite Engine
+PUBG.exe,PlayerUnknown's Battlegrounds,dx11,Unreal Engine 4
+FortniteClient-Win64-Shipping.exe,Fortnite,dx12,Unreal Engine 5
+RocketLeague.exe,Rocket League,dx11,Unreal Engine 3
+TheForest.exe,The Forest,dx11,Unity
+SonsOfTheForest.exe,Sons of the Forest,dx12,Unreal Engine 5
+Valheim.exe,Valheim,dx11,Unity
+RustClient.exe,Rust,dx11,Unity
+AmongUs.exe,Among Us,dx11,Unity
+Hades.exe,Hades,dx11,Custom Engine
+Hades2.exe,Hades II,dx11,Custom Engine
+Cuphead.exe,Cuphead,dx11,Unity
+HollowKnight.exe,Hollow Knight,dx11,Unity
+DeadCells.exe,Dead Cells,desktop,MonoGame
+Celeste.exe,Celeste,desktop,XNA
+BaldursGate3.exe,Baldur's Gate 3,dx11,Vulkan/DX11
+bg3_dx11.exe,Baldur's Gate 3 DX11,dx11,Vulkan/DX11
+bg3.exe,Baldur's Gate 3,dx11,Vulkan Renderer
+DivinityOriginalSin2.exe,Divinity Original Sin 2,dx11,Divinity Engine
+Pathfinder_Kingmaker.exe,Pathfinder Kingmaker,dx11,Unity
+DiscoElysium.exe,Disco Elysium,dx11,Unity
+StarCitizen.exe,Star Citizen,dx11,Lumberyard Engine
+SCClient.exe,Star Citizen Client,dx11,Lumberyard Engine
+EliteDangerous64.exe,Elite Dangerous,dx11,COBRA Engine
+NoMansSky.exe,No Man's Sky,dx11,Vulkan Engine
+SnowRunner.exe,SnowRunner,dx11,Swarm Engine
+MudRunner.exe,MudRunner,dx11,Swarm Engine
+FarmingSimulator2024Game.exe,Farming Simulator 2024,dx12,Giant Engine
+Satisfactory.exe,Satisfactory,dx12,Unreal Engine 5
+Palworld-Win64-Shipping.exe,Palworld,dx12,Unreal Engine 5
+ARKAscended.exe,ARK Survival Ascended,dx12,Unreal Engine 5
+ARKSurvivalEvolved.exe,ARK Survival Evolved,dx11,Unreal Engine 4
+HeroesOfTheStorm.exe,Heroes of the Storm,dx11Bnet,Blizzard Engine
+SC2.exe,StarCraft II,dx11Bnet,Blizzard Engine
+StarCraft.exe,StarCraft Remastered,dx11Bnet,Blizzard Engine
+WarcraftIII.exe,Warcraft III,dx9opengl,Blizzard Engine
+GuildWars2-64.exe,Guild Wars 2,dx11,ArenaNet Engine
+Gw2-64.exe,Guild Wars 2,dx11,ArenaNet Engine
+FFXIVLauncher.exe,Final Fantasy XIV Launcher,launcher,Square Enix Launcher
+ffxiv_dx11.exe,Final Fantasy XIV,dx11,Luminous Engine
+eso64.exe,The Elder Scrolls Online,dx11,Hero Engine
+LotRO.exe,Lord of the Rings Online,dx9opengl,Turbine Engine
+gw.exe,Guild Wars,dx9opengl,ArenaNet Engine
+Yuzu.exe,Yuzu Emulator,desktop,Vulkan Emulator
+Ryujinx.exe,Ryujinx Emulator,desktop,Nintendo Switch Emulator
+DuckStation.exe,DuckStation,desktop,PlayStation Emulator
+PCSX-Redux.exe,PCSX Redux,desktop,PlayStation Emulator
+RetroArch.exe,RetroArch,desktop,Multi Emulator
+xenia.exe,Xenia Emulator,dx12,Xbox 360 Emulator
+PPSSPPWindows64.exe,PPSSPP Emulator,desktop,PSP Emulator
+mame.exe,MAME,desktop,Arcade Emulator
+docker.exe,Docker Desktop,desktop,Container tool
+VirtualBox.exe,VirtualBox,desktop,Virtual machine
+vmware.exe,VMware Workstation,desktop,Virtual machine
+obs32.exe,OBS Studio 32-bit,desktop,Streaming
+ffmpeg.exe,FFmpeg,desktop,Media tool
+mpv.exe,MPV Player,desktop,Media player
+davinciresolve.exe,DaVinci Resolve,desktop,Video editor
+Premiere.exe,Adobe Premiere Pro,desktop,Video editor
+AfterFX.exe,Adobe After Effects,desktop,Motion graphics
+Illustrator.exe,Adobe Illustrator,desktop,Vector graphics
+Lightroom.exe,Adobe Lightroom,desktop,Photo editor
+steamwebhelper.exe,Steam Web Helper,desktop,Steam Component
+GalaxyClient.exe,GOG Galaxy,launcher,Launcher
+BethesdaNetLauncher.exe,Bethesda Launcher,launcher,Launcher
+Playnite.DesktopApp.exe,Playnite,desktop,Game launcher
+MinecraftLauncher.exe,Minecraft Launcher,launcher,Mojang Launcher
+DoomEternalx64vk.exe,Doom Eternal,dx11,id Tech 7 Engine
+TheLastOfUsPart1.exe,The Last of Us Part I,dx12,Naughty Dog Engine
+LiesOfP-Win64-Shipping.exe,Lies of P,dx12,Unreal Engine 4
+Remnant2-Win64-Shipping.exe,Remnant II,dx12,Unreal Engine 5
+HogwartsLegacy.exe,Hogwarts Legacy,dx12,Unreal Engine 4
+StarWarsJediSurvivor.exe,Star Wars Jedi Survivor,dx12,Unreal Engine 4
+ForzaMotorsport.exe,Forza Motorsport,dx12,ForzaTech Engine
+AlanWake2.exe,Alan Wake 2,dx12,Northlight Engine
+AvatarFrontiers.exe,Avatar Frontiers of Pandora,dx12,Snowdrop Engine
+BlackMythWukong.exe,Black Myth Wukong,dx12,Unreal Engine 5
+Hellblade2.exe,Senua's Saga Hellblade II,dx12,Unreal Engine 5
+DragonAgeTheVeilguard.exe,Dragon Age The Veilguard,dx12,Frostbite Engine
+IndianaJones.exe,Indiana Jones and the Great Circle,dx12,id Tech Engine
+SilentHill2.exe,Silent Hill 2 Remake,dx12,Unreal Engine 5
