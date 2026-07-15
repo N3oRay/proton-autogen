@@ -1,10 +1,118 @@
 #profile.py proton-autogen
 import os
 from pathlib import Path
+from proton_autogen.utils.logger import StructuredLogger
+from proton_autogen.session import finalize_session, notifications
+
+import csv
+
+#-------------------------- Init Log -------------------
+logger = StructuredLogger("proton-autogen.profiles.init")
+
+
+VALID_PROFILES = [
+    "launcher",
+    "dx11",
+    "dx11Bnet",
+    "dx12",
+    "dx9",
+    "dx9opengl",
+    "gtav_compat",
+    "gtav_x11",
+    "gtav_safe",
+    "oldgame",
+    "valve",
+    "ut3",
+    "ut99",
+    "legacy",
+    "desktop",
+]
+
+
+_GAME_DATABASE = None
+
+
+def validate_profile(profile):
+
+    if profile in VALID_PROFILES:
+        return profile
+
+    return None
+
+def load_game_database():
+
+    global _GAME_DATABASE
+
+    if _GAME_DATABASE is not None:
+        return _GAME_DATABASE
+
+    database = {}
+
+    paths = [
+        "/usr/share/proton-autogen/profiles.csv",
+        os.path.expanduser(
+            "~/.config/proton-autogen/profiles.csv"
+        ),
+    ]
+
+    for path in paths:
+        if not os.path.exists(path):
+            continue
+
+        with open(path, newline="", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+
+            for row in reader:
+                exe = row.get("exe", "").lower()
+
+                if exe:
+                    database[exe] = row
+
+    _GAME_DATABASE = list(database.values())
+
+    return _GAME_DATABASE
+
+
+
+def find_game_profile(exe):
+    #logger.info(f"Find profile in db : {exe}")
+    exe = exe.lower()
+
+    for game in load_game_database():
+
+        game_exe = game.get("exe", "").lower()
+
+        if game_exe == exe:
+            return game
+
+    return None
+
+def detect_exe_type(exe_path):
+    #notifications.notify( "info", "proton-autogen", f"Analyzing executable: {os.path.basename(exe_path)}", ui=True )
+    #logger.info(f"Analyzing executable: {os.path.basename(exe_path)}")
+
+    db_game = find_game_profile(
+        os.path.basename(exe_path)
+    )
+
+    if db_game:
+
+        profile = validate_profile(
+            db_game.get("exe_type")
+        )
+
+        if profile:
+            #notifications.notify( "info", "proton-autogen", f"Profile executable: {os.path.basename(exe_path)} from database: {profile}", ui=True )
+            logger.info(f"Profile executable: {os.path.basename(exe_path)} from database: {profile}")
+            return profile
+
+    return detect_exe_type_legacy(exe_path)
+
+#---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 def choose_profile():
     # Note: dx8dg, dx9dg -> instable
-    profiles = [ "launcher", "dx11", "dx11Bnet", "dx12", "dx9", "dx9opengl", "gtav_compat", "gtav_x11", "gtav_safe", "oldgame", "valve", "ut3", "ut99", "legacy", "desktop"]
+    profiles = VALID_PROFILES
 
     print("\nAvailable profiles:\n")
 
@@ -29,7 +137,7 @@ def choose_profile():
         print("Invalid selection")
 
 
-def detect_exe_type(exe_path: str) -> str:
+def detect_exe_type_legacy(exe_path: str) -> str:
     """
     Simple heuristic to classify executable type for proton-autogen.
     Returns: launcher | dx11 | dx11Bnet | dx12 | oldgame | ut3 | ut99 | legacy | desktop

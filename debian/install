@@ -6,6 +6,7 @@ usr/lib/python3/dist-packages/proton_autogen/config.py usr/lib/python3/dist-pack
 
 usr/lib/python3/dist-packages/proton_autogen/*.py usr/lib/python3/dist-packages/proton_autogen/
 
+usr/share/proton-autogen/*.csv usr/share/proton-autogen/
 usr/share/proton-autogen/docs/* usr/share/proton-autogen/docs/
 
 

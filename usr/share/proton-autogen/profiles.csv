@@ -1,0 +1,27 @@
+exe,game,exe_type,notes
+SWEP1RCR.EXE,Star Wars Racer,dx9opengl,DirectX 8/9 OpenGL wrapper
+hl2.exe,Half-Life 2,valve,Source Engine
+portal.exe,Portal,dx9opengl,Source Engine
+portal2.exe,Portal 2,dx9opengl,Source Engine
+left4dead.exe,Left 4 Dead,dx9opengl,Source Engine
+left4dead2.exe,Left 4 Dead 2,dx9opengl,Source Engine
+TESV.exe,The Elder Scrolls V Skyrim,dx9opengl,Gamebryo DX9
+FalloutNV.exe,Fallout New Vegas,dx9opengl,Gamebryo DX9
+Fallout3.exe,Fallout 3,ut3,Gamebryo DX9
+witcher.exe,The Witcher,dx9opengl,DX9 RPG
+witcher2.exe,The Witcher 2,dx11,DX11
+GTAIV.exe,Grand Theft Auto IV,dx9opengl,RAGE Engine
+GTAV.exe,Grand Theft Auto V,dx11,DX11
+Cyberpunk2077.exe,Cyberpunk 2077,dx12,DX12
+Starfield.exe,Starfield,dx12,DX12
+DiabloIV.exe,Diablo IV,dx12,DX12
+Battle.net.exe,Battle.net,dx11Bnet,Blizzard Launcher
+EpicGamesLauncher.exe,Epic Games Launcher,launcher,Launcher
+UbisoftConnect.exe,Ubisoft Connect,launcher,Launcher
+EADesktop.exe,EA App,launcher,Launcher
+doom95.exe,Doom 95,oldgame,Old Windows game
+Photoshop.exe,Adobe Photoshop,legacy,Legacy application
+winrar.exe,WinRAR,desktop,Windows utility
+foobar2000.exe,Foobar2000,desktop,Windows application
+UnrealTournament.exe,Unreal Tournament 99,ut99,Unreal Engine 1
+UT3.exe,Unreal Tournament 3,ut3,Unreal Engine 3
