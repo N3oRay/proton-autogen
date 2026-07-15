@@ -10,8 +10,9 @@ FalloutNV.exe,Fallout New Vegas,dx9opengl,Gamebryo DX9
 Fallout3.exe,Fallout 3,ut3,Gamebryo DX9
 witcher.exe,The Witcher,dx9opengl,DX9 RPG
 witcher2.exe,The Witcher 2,dx11,DX11
-GTAIV.exe,Grand Theft Auto IV,dx9opengl,RAGE Engine
-GTAV.exe,Grand Theft Auto V,dx11,DX11
+PlayGTAV.exe,Grand Theft Auto IV,gtav_x11,RAGE Engine
+GTAIV.exe,Grand Theft Auto IV,gtav_x11,RAGE Engine
+GTAV.exe,Grand Theft Auto V,gtav_x11,DX11
 Cyberpunk2077.exe,Cyberpunk 2077,dx12,DX12
 Starfield.exe,Starfield,dx12,DX12
 DiabloIV.exe,Diablo IV,dx12,DX12
