@@ -48,6 +48,8 @@ Simply:
 * ⚙️ CLI and advanced options
 * 🔧 Lightweight and dependency-minimal
 
+See an example of generated profiles here: [Profile Output Example](docs/profiles.md)
+
 ---
 
 ## 📸 Screenshots
@@ -81,6 +83,7 @@ proton-autogen --ux
 
 ### Example Output: 
 See the full example output here: [Example Output](docs/examples.md)
+
 
 
 ---
