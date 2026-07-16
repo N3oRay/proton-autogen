@@ -1,5 +1,5 @@
 pkgname=proton-autogen
-pkgver=3.0.0
+pkgver=3.0.2
 pkgrel=1
 pkgdesc="Automatic Proton/Wine launcher for Windows executables"
 arch=('x86_64')
