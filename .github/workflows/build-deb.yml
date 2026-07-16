@@ -13,6 +13,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Remove Microsoft repositories
+        run: |
+          sudo rm -f /etc/apt/sources.list.d/microsoft-prod.list
+          sudo rm -f /etc/apt/sources.list.d/azure-cli.list
+
       - name: Install build dependencies
         run: |
           sudo apt update
