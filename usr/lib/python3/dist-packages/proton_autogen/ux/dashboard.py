@@ -13,7 +13,7 @@ from proton_autogen.ux.widgets.headerbar import DashboardHeaderBar
 from proton_autogen.ux.widgets.toast import ToastOverlay
 from proton_autogen.ux.recent_carousel import RecentCarousel
 from proton_autogen.ux.dialogs import open_game_file_dialog, show_launch_dialog, hide_launch_dialog
-from proton_autogen.ux.themes import load_saved_theme, save_theme, AVAILABLE_THEMES, DEFAULT_THEME
+from proton_autogen.ux.themes import load_saved_theme, save_theme, AVAILABLE_THEMES, DEFAULT_THEME, BACKGROUND_THEMES, STYLE_CSS
 
 from proton_autogen.ux.search import filter_games
 from proton_autogen.notify import notifications
@@ -39,8 +39,8 @@ class Dashboard(Gtk.ApplicationWindow):
         super().__init__(application=app)
         self.set_title("Proton-Autogen")
         self.set_icon_name("proton-autogen")
-        self.set_default_size(850, 900)
-        self.set_size_request(850, 900)
+        self.set_default_size(890, 900)
+        self.set_size_request(890, 900)
         self.games = []
         self.lang = detect_help_env_lang()
         notifications.set_callback(self.notify_toast)
@@ -283,11 +283,7 @@ class Dashboard(Gtk.ApplicationWindow):
     def update_background(self, theme):
         base = os.path.dirname(__file__)
 
-        backgrounds = {
-            "fluent": "logo-pa.jpg",
-            "adwaita": "logo-adwaita.jpg",
-            "hellokit": "logo-hellokit.jpg",
-        }
+        backgrounds = BACKGROUND_THEMES
 
         filename = backgrounds.get(theme, "logo-pa.jpg")
 
@@ -867,11 +863,7 @@ class ProtonAutogenApp(Gtk.Application):
         self.css_provider = Gtk.CssProvider()
 
         # map des fichiers CSS (assure-toi que les fichiers existent dans assets/)
-        style_map = {
-            "fluent": os.path.join(base, "assets", "style.css"),
-            "adwaita": os.path.join(base, "assets", "style_adwaita.css"),
-            "hellokit": os.path.join(base, "assets", "hello-kit.css"),
-        }
+        style_map = STYLE_CSS
         self._style_map = style_map
 
         # charge le thème sauvegardé (ou défaut)

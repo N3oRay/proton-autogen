@@ -1,17 +1,25 @@
+/* Palette */
+
+@define-color kawaii-bg #fff7fb;
+@define-color kawaii-surface #ffffff;
+@define-color kawaii-pink #ffb6d9;
+@define-color kawaii-pink-dark #ff8fc4;
+@define-color kawaii-purple #d7c6ff;
+@define-color kawaii-blue #bfe9ff;
+@define-color kawaii-green #c8ffd7;
+@define-color kawaii-yellow #fff2b3;
+@define-color kawaii-text #6a5873;
+@define-color kawaii-border #f3d6ea;
 @define-color hk_text #3b2b2b;
-@define-color hk_text2 #d7beff;
+@define-color hk_text2 #46356b;
 @define-color hk_text3 #5d4a8a;
-@define-color hk_text4 #e6d4ff;
+@define-color hk_text4 #d7beff;
+@define-color hk_text5 #e6d4ff;
 
 /* =========================================================
    Text
    ========================================================= */
-label,
-entry,
-text,
-textview {
-    color: @hk_text2;
-}
+label, entry, text, textview, checkbutton, button, dropdown, combobox, spinbutton { color: @hk_text; }
 
 /* =========================================================
    FENETRE
@@ -21,21 +29,24 @@ window {
     background: transparent;
 }
 
-window.background {
-    background: rgba(20,20,20,0.75);
-    border-radius: 16px;
-}
-
-
 /* =========================================================
    CONTENEUR PRINCIPAL
    ========================================================= */
 
+window.background,
 .style {
-    background: rgba(20,20,20,0.75);
-    border-radius: 16px;
-}
 
+    background: linear-gradient(
+        180deg,
+        rgba(255,247,251,0.90),
+        rgba(247,245,255,0.90)
+    );
+
+    color: @hk_text;
+
+    border-radius: 14px;
+    border: 1px solid @kawaii-border;
+}
 
 /* =========================================================
    CONTENEURS GTK
@@ -54,20 +65,20 @@ list,
    HEADER
    ========================================================= */
 
-/* GtkHeaderBar native */
-headerbar {
-    background: rgba(20,20,20,0.60);
-    color: white;
-}
-
-
-/* Header personnalisé */
+headerbar,
 .main-header {
-    background: rgba(15,15,15,0.92);
-    color:white;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-}
 
+    background:
+        linear-gradient(
+            180deg,
+            #ffd8ef,
+            #ffeaf6
+        );
+
+    color:@kawaii-text;
+
+    border-bottom:1px solid #f4cce4;
+}
 
 /* =========================================================
    BOUTONS SYSTEME GTK4
@@ -90,7 +101,7 @@ windowcontrols button,
 
 
 windowcontrols image {
-    color:white;
+    color: @hk_text;
     opacity:1;
 }
 
@@ -106,17 +117,11 @@ windowcontrols button:hover,
    ========================================================= */
 
 .toast-container {
-    background: rgba(20, 20, 28, 0.92);
-
-    border-radius: 12px;
-
-    padding: 10px 14px;
-
-    border-left: 3px solid #7c5cff;
-
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
-
-    outline: 1px solid rgba(255, 255, 255, 0.05);
+    background:#fffafc;
+    border-radius:18px;
+    border-left:6px solid #ff9ccc;
+    border:2px solid #ffd3e8;
+    color:#6d5d75;
 }
 
 .toast-container:hover {
@@ -128,7 +133,7 @@ windowcontrols button:hover,
 }
 
 .toast {
-    color: #eaeaff;
+    color: @hk_text;
     font-size: 13px;
 }
 
@@ -163,14 +168,33 @@ button.suggested-action:hover {
 
 .app-button {
 
-    background:rgba(255,255,255,0.12);
-    color:white;
-    border-radius:8px;
+    background:
+        linear-gradient(
+            180deg,
+            #ffd2eb,
+            #ffbde0
+        );
+
+    color:@kawaii-text;
+
+    border-radius:18px;
+
+    border:2px solid #ff9ccc;
+
+    padding:4px 6px;
 }
 
-
 .app-button:hover {
-    background:rgba(255,255,255,0.20);
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffe0f3,
+            #ffc9e8
+        );
+
+    box-shadow:
+        0 0 10px rgba(255,170,220,0.45);
 }
 
 .section-toggle {
@@ -186,15 +210,17 @@ button.suggested-action:hover {
 }
 
 .btn-launch {
-    background: #2ecc71;
-    color: white;
-    border-radius: 6px;
-    font-weight: bold;
 
-    padding: 2px 6px;
-    min-width: 28px;
-    min-height: 28px;
-    font-size: 11px;
+    background:
+        linear-gradient(
+            180deg,
+            #b9ffd8,
+            #8ff0b7
+        );
+
+    color:#45634f;
+    border-radius:16px;
+    border:2px solid #72e7a3;
 }
 
 .btn-launch:hover {
@@ -202,14 +228,17 @@ button.suggested-action:hover {
 }
 
 .btn-edit {
-    background: #3498db;
-    color: white;
-    border-radius: 6px;
 
-    padding: 2px 6px;
-    min-width: 28px;
-    min-height: 28px;
-    font-size: 11px;
+    background:
+        linear-gradient(
+            180deg,
+            #cde7ff,
+            #b3dbff
+        );
+
+    color:#47627f;
+    border-radius:16px;
+    border:2px solid #9fcfff;
 }
 
 .btn-edit:hover {
@@ -217,14 +246,19 @@ button.suggested-action:hover {
 }
 
 .btn-export {
-    background: #9b59b6;
-    color: white;
-    border-radius: 6px;
 
-    padding: 2px 6px;
-    min-width: 28px;
-    min-height: 28px;
-    font-size: 11px;
+    background:
+        linear-gradient(
+            180deg,
+            #e6d4ff,
+            #d7beff
+        );
+
+    color:#5d4a8a;
+
+    border-radius:16px;
+
+    border:2px solid #c8a6ff;
 }
 
 .btn-export:hover {
@@ -258,16 +292,15 @@ button.suggested-action:hover {
     background:
         linear-gradient(
             180deg,
-            rgba(40,40,40,0.75),
-            rgba(25,25,25,0.65)
+            #ffffff,
+            #fff7fd
         );
 
-    border-radius:14px;
-
-    padding:10px 12px;
-
-    border:
-        1px solid rgba(255,255,255,0.06);
+    border-radius:22px;
+    border:2px solid #f6dced;
+    padding:14px;
+    box-shadow:
+        0 8px 24px rgba(255,170,210,0.18);
 }
 
 
@@ -276,14 +309,15 @@ button.suggested-action:hover {
     background:
         linear-gradient(
             180deg,
-            rgba(55,55,55,0.85),
-            rgba(30,30,30,0.75)
+            #fffefd,
+            #fff0fa
         );
 
-    border-color:
-        rgba(255,255,255,0.12);
-}
+    border-color:#ffb4d8;
 
+    box-shadow:
+        0 10px 28px rgba(255,160,210,0.28);
+}
 
 .game-container:active {
 
@@ -312,25 +346,16 @@ checkbutton.feature-toggle:checked label {
 }
 
 .title-1 {
-    color:
-        rgba(255,255,255,0.70);
-    font-size: 20px;
-    font-weight: bold;
+    color:#d26ca2;
+    font-size:22px;
+    font-weight:800;
 }
 
 .title-4 {
-    color:
-        rgba(255,255,255,0.70);
-    font-size: 14px;
-    font-weight: bold;
-    opacity: 0.9;
+    color:#9b83c7;
+    font-weight:bold;
 }
 
-.dim-label {
-    color:
-        rgba(255,255,255,0.70);
-    font-size:14px;
-}
 
 .label-bottom {
     color: white;
@@ -343,11 +368,12 @@ checkbutton.feature-toggle:checked label {
 }
 
 .game-container label {
-
-    color:white;
-    font-size:16px;
+    color:#6f5b7d;
 }
 
+.dim-label {
+    color:#9a8da8;
+}
 
 .dim-label1 {
 
@@ -368,17 +394,17 @@ checkbutton.feature-toggle:checked label {
 
 
 label.dim-label1 {
-    color: rgba(255,255,255,0.70);
+    color: @hk_text;
     font-size: 12px;
 }
 
 label.dim-label2 {
-    color: rgba(0,255,0,0.70);
+    color: @hk_text2;
     font-size: 10px;
 }
 
 label.home-label {
-    color: rgba(255,255,255,0.70);
+    color: @hk_text;
     font-size: 14px;
     padding: 4px;
 }
@@ -412,15 +438,9 @@ label.home-label {
 
 .dialog-content {
 
-    background:
-        rgba(20,20,20,0.80);
-
-    border:
-        1px solid rgba(255,255,255,0.06);
-
-    border-radius:16px;
-
-    padding:12px;
+    background:#fffdfd;
+    border-radius:24px;
+    border:2px solid #f4d4ea;
 }
 
 
@@ -428,31 +448,18 @@ label.home-label {
 
     background:transparent;
     color:white;
-
     font-family:monospace;
 }
 
 
 
 .badge {
-    padding: 2px 9px;
-    margin-left: 4px;
-
-    border-radius: 999px;
-
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.25px;
-
-    color: rgba(255, 255, 255, 0.90);
-
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.10);
-
-    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
-
-    box-shadow:
-        inset 2px 0 0 rgba(255, 255, 255, 0.08);
+    border-radius:999px;
+    padding:4px 10px;
+    background:#ffe1f2;
+    color:#9b5d81;
+    border:2px solid #ffc4df;
+    font-weight:bold;
 }
 
 .badge:hover {
@@ -460,19 +467,6 @@ label.home-label {
     border-color: rgba(255, 255, 255, 0.20);
 }
 
-.badge.profile {
-    background: rgba(80, 140, 255, 0.18);
-    border-color: rgba(80, 140, 255, 0.35);
-    border-left-color: rgba(80, 140, 255, 0.90);
-    color: rgba(200, 220, 255, 0.98);
-}
-
-.badge.platform {
-    background: rgba(255, 190, 80, 0.18);
-    border-color: rgba(255, 190, 80, 0.35);
-    border-left-color: rgba(255, 190, 80, 0.95);
-    color: rgba(255, 230, 180, 0.98);
-}
 
 .badge.feature {
     background: rgba(100, 255, 170, 0.16);
@@ -482,13 +476,29 @@ label.home-label {
 }
 
 .badge.favorite {
-    background: rgba(255, 60, 120, 0.20);
-    border-color: rgba(255, 60, 120, 0.40);
-    border-left-color: rgba(255, 60, 120, 1.0);
-    color: rgba(255, 200, 215, 1.0);
 
-    box-shadow:
-        0 0 10px rgba(255, 60, 120, 0.15);
+    background:#ffd3e8;
+    color:#c53d74;
+    border-color:#ff8ec0;
+}
+
+.badge.platform {
+    background:#fff4c8;
+    color:#9b7d28;
+    border-color:#ffe27f;
+}
+
+.badge.profile {
+
+    background:#dff2ff;
+    color:#5f82b0;
+    border-color:#abdfff;
+}
+
+.badge.feature {
+    background:#dfffe8;
+    color:#4d9d73;
+    border-color:#9af5bb;
 }
 
 .badge {
@@ -533,7 +543,7 @@ label.home-label {
     border-left-color:#ff3250;
 
     box-shadow:
-        0 0 12px rgba(255,50,80,0.35);
+        0 0 10px rgba(255,50,80,0.35);
 }
 
 
@@ -554,16 +564,13 @@ label.home-label {
    ========================================================= */
 
 textview {
-
     background:transparent;
     color:white;
-
     font-family:monospace;
 }
 
 
 textview text {
-
     background:transparent;
     color:white;
 }
@@ -573,11 +580,10 @@ textview text {
    SCROLLBAR
    ========================================================= */
 
-scrollbar,
 scrollbar slider {
-
-    min-width:8px;
-    min-height:8px;
+    background:#ffc8e4;
+    border-radius:999px;
+    min-width:10px;
 }
 
 
@@ -586,7 +592,14 @@ scrollbar slider {
     padding: 1px 5px;
     margin: 1px;
     border-radius: 8px;
-    background-color: alpha(@theme_fg_color, 0.05);
+    /* background-color: alpha(@theme_fg_color, 0.25); */
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff,
+            #fff7fd
+        );
 }
 
 .carousel-button {
@@ -624,30 +637,4 @@ scrollbar slider {
 
 .btn-delete image {
     -gtk-icon-size: 10px;
-}
-
-
-popover {
-    background: rgba(35,35,35,0.98);
-    color: white;
-}
-
-popover contents {
-    background: transparent;
-}
-
-popover menuitem {
-    color: white;
-}
-
-popover menuitem:hover {
-    background: rgba(255,255,255,0.10);
-}
-
-popover modelbutton {
-    color: white;
-}
-
-popover modelbutton:hover {
-    background: rgba(255,255,255,0.10);
 }

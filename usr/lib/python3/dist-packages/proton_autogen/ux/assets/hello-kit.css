@@ -109,7 +109,6 @@ windowcontrols button,
 .titlebar .titlebutton {
 
     background: transparent;
-    /*color: @hk_text; */
     color: white;
 
     min-width:24px;
@@ -361,6 +360,7 @@ label.dim-label1 {
 label.dim-label2 {
     color: @hk_text;
     font-size: 10px;
+
 }
 
 label.home-label {

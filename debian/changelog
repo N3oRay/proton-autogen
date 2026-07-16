@@ -1,5 +1,6 @@
-proton-autogen (3.0.2) noble; urgency=medium
+proton-autogen (3.0.3) noble; urgency=medium
 
+  * New Theme CSS Cute
   * Added CSV-based game profile configurations.
   * Added a new button to remove game configurations.
   * Redesigned the GTK4 interface and added a new carousel component.
