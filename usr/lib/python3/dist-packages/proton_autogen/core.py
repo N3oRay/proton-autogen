@@ -686,7 +686,8 @@ def base_env(enable_mangohud=False, enable_gamemode=False, exe_path="", exe_type
         env["WINEDEBUG"] = "+loaddll,+module"
     elif VERBOSE:
         env["PROTON_LOG"] = "1"
-        env["WINEDEBUG"] = "-all,-trace,-relay,-seh"
+        #env["WINEDEBUG"] = "-all,-trace,-relay,-seh"
+        env["WINEDEBUG"] = "+seh,+loaddll"
     else:
         env["PROTON_LOG"] = "0"
 
@@ -900,6 +901,9 @@ def run_game_proton(exe_path, exe_type, proton,
         logger.info(f"CWD EXISTS: {os.path.isdir(cmd_cwd)}")
         logger.info(f"EXE EXISTS: {os.path.isfile(exe_path)}")
         returncode = subprocess.run(cmd, env=env, cwd=cmd_cwd)
+        home = Path.home()
+        for log in sorted(home.glob("steam-*.log")):
+            logger.info(f"Proton log available: {log}")
         logger.info(f"CompletedProcess: {returncode!r}")
         logger.info(f"Return code: {returncode.returncode}")
         return returncode
