@@ -2,6 +2,7 @@
 @define-color hk_text2 #d7beff;
 @define-color hk_text3 #5d4a8a;
 @define-color hk_text4 #e6d4ff;
+@define-color hk_text5 #ffffff;
 
 /* =========================================================
    Text
@@ -10,7 +11,7 @@ label,
 entry,
 text,
 textview {
-    color: @hk_text2;
+    color: @hk_text5;
 }
 
 /* =========================================================

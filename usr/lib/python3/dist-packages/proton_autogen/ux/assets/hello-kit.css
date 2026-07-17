@@ -4,6 +4,18 @@
    ========================================================= */
 
 /* Couleurs */
+
+
+@define-color kawaii-bg #fff7fb;
+@define-color kawaii-surface #ffffff;
+@define-color kawaii-pink #ffb6d9;
+@define-color kawaii-pink-dark #ff8fc4;
+@define-color kawaii-purple #d7c6ff;
+@define-color kawaii-blue #bfe9ff;
+@define-color kawaii-green #c8ffd7;
+@define-color kawaii-yellow #fff2b3;
+@define-color kawaii-text #6a5873;
+@define-color kawaii-border #f3d6ea;
 @define-color hk_bg        #fff5fa;
 
 
@@ -20,6 +32,7 @@
 /* Text */
 
 @define-color hk_text   #3b2b2b;
+@define-color hk_text2 #d7beff;
 @define-color hk_muted  #7a5b66;
 @define-color hk_accent #ff69b4;
 @define-color hk_dark_pink #c2185b;
@@ -27,6 +40,16 @@
 /* info bulles */
 @define-color hk_tooltip_bg #3b2b2b;
 @define-color hk_tooltip_text #ffffff;
+@define-color kde-bg        #eff1f5;
+@define-color kde-surface   #fcfcfc;
+@define-color kde-border    #cfd5de;
+@define-color kde-blue      #3daee9;
+@define-color kde-blue-dark #1d99f3;
+@define-color kde-text      #232629;
+@define-color kde-text2     #5b6573;
+
+@define-color kde-surface2 #1e1e1e;
+@define-color kde-dark-text #eeeeee;
 
 
 
@@ -35,15 +58,14 @@
    ========================================================= */
 
 label,
-entry,
+entry {
+    color: @kawaii-pink-dark;
+}
+
+
 text,
-textview,
-checkbutton,
-button,
-dropdown,
-combobox,
-spinbutton {
-    color: @hk_text;
+textview {
+    color: @kawaii-pink-dark;
 }
 
 /* =========================================================
@@ -685,3 +707,106 @@ tooltip label {
 .btn-delete image {
     -gtk-icon-size: 10px;
 }
+
+
+
+/* =========================================================
+ *  CHECKBOX
+ *  ========================================================= */
+
+checkbutton {
+    color: @kawaii-pink-dark;
+}
+
+checkbutton check {
+    background: @kde-surface;
+    border: 1px solid @kde-border;
+    border-radius: 4px;
+}
+
+checkbutton check:checked {
+    background: @kde-blue;
+    border-color: @kawaii-pink-dark;
+}
+
+checkbutton check:checked image {
+    color: white;
+}
+
+checkbutton label {
+    color: @kawaii-pink-dark;
+}
+
+
+/* =========================================================
+ *  LISTES DEROULANTES - CONTENU
+ *  ========================================================= */
+
+combobox popover,
+dropdown popover,
+popover.menu {
+    background: @kde-surface;
+    color: @kawaii-pink-dark;
+}
+
+combobox popover list,
+dropdown popover list {
+    background: @kde-surface;
+}
+
+combobox popover row,
+dropdown popover row,
+combobox popover modelbutton,
+dropdown popover modelbutton {
+    background: @kde-surface;
+    color: @kawaii-pink-dark;
+}
+
+combobox popover row:hover,
+dropdown popover row:hover,
+combobox popover modelbutton:hover,
+dropdown popover modelbutton:hover {
+    background: #e8f4ff;
+    color: @kawaii-green;
+}
+
+
+/* Texte dans les listes */
+combobox popover label,
+dropdown popover label,
+popover label {
+    color: @kawaii-pink-dark;
+}
+
+
+/* =========================================================
+ * SCROLLBAR GTK4
+ * ========================================================= */
+
+scrollbar {
+    background: transparent;
+}
+
+scrollbar slider {
+    background: rgba(90, 100, 115, 0.45);
+
+    border-radius: 5px;
+
+    min-width: 6px;
+    min-height: 6px;
+
+    margin: 2px;
+}
+
+scrollbar.vertical slider {
+    min-width: 6px;
+}
+
+scrollbar.horizontal slider {
+    min-height: 6px;
+}
+
+scrollbar slider:hover {
+    background: @kawaii-pink-dark;
+}
+

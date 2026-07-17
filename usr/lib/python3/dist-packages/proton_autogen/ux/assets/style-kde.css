@@ -1,20 +1,4 @@
-/* Palette */
-
-@define-color kawaii-bg #fff7fb;
-@define-color kawaii-surface #ffffff;
-@define-color kawaii-pink #ffb6d9;
-@define-color kawaii-pink-dark #ff8fc4;
-@define-color kawaii-purple #d7c6ff;
-@define-color kawaii-blue #bfe9ff;
-@define-color kawaii-green #c8ffd7;
-@define-color kawaii-yellow #fff2b3;
-@define-color kawaii-text #6a5873;
-@define-color kawaii-border #f3d6ea;
-@define-color hk_text #3b2b2b;
-@define-color hk_text2 #46356b;
-@define-color hk_text3 #5d4a8a;
-@define-color hk_text4 #d7beff;
-@define-color hk_text5 #e6d4ff;
+/* Palette KDE */
 
 
 @define-color kde-bg        #eff1f5;
@@ -31,20 +15,17 @@
 /* =========================================================
    Text
    ========================================================= */
-label{
-    color: @kawaii-pink-dark;
-}
-
-
-entry {
-    color: @kawaii-green;
-}
-
-
+label,
+entry,
 text,
 textview {
-    color: @kawaii-pink-dark;
+    color: @kde-text;
 }
+
+.dim-label {
+    color: @kde-text2;
+}
+
 
 /* =========================================================
    FENETRE
@@ -58,19 +39,11 @@ window {
    CONTENEUR PRINCIPAL
    ========================================================= */
 
-window.background,
-.style {
+window.background {
+    background: @kde-bg;
 
-    background: linear-gradient(
-        180deg,
-        rgba(255,247,251,0.90),
-        rgba(247,245,255,0.90)
-    );
-
-    color: @hk_text;
-
-    border-radius: 14px;
-    border: 1px solid @kawaii-border;
+    border: 1px solid @kde-border;
+    border-radius: 8px;
 }
 
 /* =========================================================
@@ -78,11 +51,17 @@ window.background,
    ========================================================= */
 
 scrolledwindow,
-viewport,
+viewport {
+    background: @kde-surface;
+}
+
 list,
-.game-list,
-.game-row {
+.game-list {
     background: transparent;
+}
+
+.game-row {
+    background: @kde-surface;
 }
 
 
@@ -90,19 +69,10 @@ list,
    HEADER
    ========================================================= */
 
-headerbar,
-.main-header {
+headerbar {
+    background: #e8ebef;
 
-    background:
-        linear-gradient(
-            180deg,
-            #ffd8ef,
-            #ffeaf6
-        );
-
-    color:@kawaii-text;
-
-    border-bottom:1px solid #f4cce4;
+    border-bottom: 1px solid #cfd5de;
 }
 
 /* =========================================================
@@ -120,14 +90,19 @@ windowcontrols button,
     min-width:24px;
     min-height:24px;
 
-    border-radius:8px;
+    border-radius:4px;
     opacity:1;
 }
 
 
-windowcontrols image {
-    color: @hk_text;
-    opacity:1;
+windowcontrols image,
+label.home-label,
+label.dim-label1 {
+    color: @kde-text;
+}
+
+label.dim-label2 {
+    color: @kde-text2;
 }
 
 
@@ -142,11 +117,10 @@ windowcontrols button:hover,
    ========================================================= */
 
 .toast-container {
-    background:#fffafc;
-    border-radius:18px;
-    border-left:6px solid #ff9ccc;
-    border:2px solid #ffd3e8;
-    color:#6d5d75;
+    background: @kde-surface;
+    border: 1px solid @kde-border;
+    border-left: 4px solid @kde-blue;
+    border-radius: 6px;
 }
 
 .toast-container:hover {
@@ -158,7 +132,7 @@ windowcontrols button:hover,
 }
 
 .toast {
-    color: @hk_text;
+    color: @kde-text;
     font-size: 13px;
 }
 
@@ -181,45 +155,30 @@ windowcontrols button:hover,
    ========================================================= */
 
 button.suggested-action {
-    background: #4caf50;
+    background: @kde-blue;
     color: white;
-    border-radius: 8px;
-    padding: 8px;
+    border-radius: 6px;
 }
 
 button.suggested-action:hover {
-    background: #43a047;
+    background: @kde-blue-dark;
 }
 
 .app-button {
+    background: @kde-blue-dark;
 
-    background:
-        linear-gradient(
-            180deg,
-            #ffd2eb,
-            #ffbde0
-        );
-
-    color:@kawaii-text;
-
-    border-radius:18px;
-
-    border:2px solid #ff9ccc;
-
-    padding:4px 6px;
+    border: 1px solid #bcc3cd;
+    color: @kde-text;
 }
 
 .app-button:hover {
+    background: linear-gradient(
+        to bottom,
+        #ffffff,
+        #f5f7fa
+    );
 
-    background:
-        linear-gradient(
-            180deg,
-            #ffe0f3,
-            #ffc9e8
-        );
-
-    box-shadow:
-        0 0 10px rgba(255,170,220,0.45);
+    border-color: @kde-blue;
 }
 
 .section-toggle {
@@ -235,17 +194,11 @@ button.suggested-action:hover {
 }
 
 .btn-launch {
+    background: #2ecc71;
+    color: white;
 
-    background:
-        linear-gradient(
-            180deg,
-            #b9ffd8,
-            #8ff0b7
-        );
-
-    color:#45634f;
-    border-radius:16px;
-    border:2px solid #72e7a3;
+    border-radius: 6px;
+    border: none;
 }
 
 .btn-launch:hover {
@@ -253,41 +206,20 @@ button.suggested-action:hover {
 }
 
 .btn-edit {
-
-    background:
-        linear-gradient(
-            180deg,
-            #cde7ff,
-            #b3dbff
-        );
-
-    color:#47627f;
-    border-radius:16px;
-    border:2px solid #9fcfff;
-}
-
-.btn-edit:hover {
-    background: #2980b9;
+    background: #eaf4ff;
+    border: 1px solid #8bb8e8;
 }
 
 .btn-export {
-
-    background:
-        linear-gradient(
-            180deg,
-            #e6d4ff,
-            #d7beff
-        );
-
-    color:#5d4a8a;
-
-    border-radius:16px;
-
-    border:2px solid #c8a6ff;
+    background: #f3eefc;
+    color: @kde-text;
+    border: 1px solid #bfa7e9;
+    border-radius: 6px;
+    padding: 6px 14px;
 }
 
 .btn-export:hover {
-    background: #8e44ad;
+    border-color: @kde-blue;
 }
 
 
@@ -295,59 +227,26 @@ button.suggested-action:hover {
     background: #1e1e1e;
 }
 
-.export-title {
-    color: white;
-    font-weight: bold;
-    font-size: 14px;
-}
-
-.export-path {
-    background: #2a2a2a;
-    color: white;
-    padding: 8px;
-    border-radius: 6px;
-}
-
+.export-title { color: white; font-weight: bold; font-size: 14px; }
+.export-path { background: #2a2a2a; color: white; padding: 8px; border-radius: 6px; }
 /* =========================================================
    CARTES DE JEUX
    ========================================================= */
 
 .game-container {
-
-    background:
-        linear-gradient(
-            180deg,
-            #ffffff,
-            #fff7fd
-        );
-
-    border-radius:22px;
-    border:2px solid #f6dced;
-    padding:14px;
-    box-shadow:
-        0 8px 24px rgba(255,170,210,0.18);
+    background: @kde-surface;
+    border-radius: 8px;
+    border: 1px solid @kde-border;
 }
 
 
 .game-container:hover {
-
-    background:
-        linear-gradient(
-            180deg,
-            #fffefd,
-            #fff0fa
-        );
-
-    border-color:#ffb4d8;
-
-    box-shadow:
-        0 10px 28px rgba(255,160,210,0.28);
+    border-color: @kde-blue;
+    background: #ffffff;
 }
 
 .game-container:active {
-
-    background:
-        rgba(20,20,20,0.85);
+    background: #dde5ef;
 }
 
 
@@ -362,16 +261,21 @@ button.suggested-action:hover {
    =========================================================
 */
 
+checkbutton.feature-toggle label {
+    color: @kde-text;
+}
+
+checkbutton.feature-toggle:checked label {
+    color: #2e7d32;
+}
 
 .title-1 {
-    color:#d26ca2;
-    font-size:22px;
-    font-weight:800;
+    color: @kde-text;
+    font-weight: 700;
 }
 
 .title-4 {
-    color:#9b83c7;
-    font-weight:bold;
+    color: @kde-text2;
 }
 
 
@@ -386,45 +290,33 @@ button.suggested-action:hover {
 }
 
 .game-container label {
-    color:#6f5b7d;
-}
-
-.dim-label {
-    color:#9a8da8;
+    color: @kde-text;
 }
 
 .dim-label1 {
-
-    color:
-        rgba(255,255,255,0.70);
-
     font-size:12px;
 }
 
 
 .dim-label2 {
-
-    color:
-        rgba(0,255,0,0.70);
-
     font-size:10px;
 }
 
 
 label.dim-label1 {
-    color: @hk_text;
+    color: @kde-text;
     font-size: 12px;
 }
 
 label.dim-label2 {
-    color: @hk_text2;
+    color: @kde-text2;
     font-size: 10px;
 }
 
 label.home-label {
-    color: @hk_text;
-    font-size: 14px;
-    padding: 4px;
+    font-size: 16px;
+    padding: 6px;
+    font-weight: 600;
 }
 
 
@@ -433,50 +325,53 @@ label.home-label {
    ========================================================= */
 
 .launch-dialog {
-    background: rgba(25, 25, 25, 0.95);
-    border-radius: 16px;
-    padding: 24px;
+    background: @kde-surface;
+    border: 1px solid @kde-border;
+    border-radius: 6px;
+}
+
+.launch-title,
+.launch-game,
+.launch-info {
+    color: @kde-text;
 }
 
 .launch-title {
     font-size: 20px;
     font-weight: bold;
-    color: #ffffff;
 }
 
 .launch-game {
     font-size: 16px;
     font-weight: bold;
-    color: #7db8ff;
+
 }
 
-.launch-info {
-    color: #bbbbbb;
-}
 
 .dialog-content {
-
-    background:#fffdfd;
-    border-radius:24px;
-    border:2px solid #f4d4ea;
+    background: #1e1e1e;
+    border: 1px solid @kde-border;
+    border-radius: 6px;
 }
 
+.dialog-content label {
+    color: white;
+}
 
-.dialog-content textview {
-
-    background:transparent;
-    color:white;
-    font-family:monospace;
+.dialog-content textview,
+.dialog-content textview text {
+    background: #1e1e1e;
+    color: white;
 }
 
 
 
 .badge {
-    border-radius:999px;
+    border-radius:6px;
     padding:4px 10px;
-    background:#ffe1f2;
-    color:#9b5d81;
-    border:2px solid #ffc4df;
+    background: #eef2f7;
+    color: @kde-text;
+    border: 1px solid @kde-border;
     font-weight:bold;
 }
 
@@ -494,29 +389,23 @@ label.home-label {
 }
 
 .badge.favorite {
-
-    background:#ffd3e8;
-    color:#c53d74;
-    border-color:#ff8ec0;
+    background: #fdecec;
+    color: #c0392b;
 }
 
 .badge.platform {
-    background:#fff4c8;
-    color:#9b7d28;
-    border-color:#ffe27f;
+    background: #eef7ff;
+    color: #2980b9;
 }
 
 .badge.profile {
-
     background:#dff2ff;
     color:#5f82b0;
-    border-color:#abdfff;
 }
 
 .badge.feature {
-    background:#dfffe8;
-    color:#4d9d73;
-    border-color:#9af5bb;
+    background: #edf9f0;
+    color: #2e7d32;
 }
 
 .badge {
@@ -581,39 +470,17 @@ label.home-label {
    TEXTVIEW
    ========================================================= */
 
-textview {
-    background:transparent;
-    color:white;
-    font-family:monospace;
-}
 
+textview {
+    background: #1e1e1e;
+    color: #eeeeee;
+}
 
 textview text {
-    background:transparent;
-    color:white;
+    background: #1e1e1e;
+    color: #eeeeee;
 }
 
-
-/* =========================================================
-   SCROLLBAR
-   ========================================================= */
-
-scrollbar slider {
-    min-width: 10px;
-    min-height: 10px;
-    padding: 0;
-
-    background: #ffc8e4;
-    border-radius: 999px;
-}
-
-scrollbar.horizontal slider {
-    min-height: 10px;
-}
-
-scrollbar.vertical slider {
-    min-width: 10px;
-}
 
 
 /* Recent games cards */
@@ -621,25 +488,10 @@ scrollbar.vertical slider {
     padding: 1px 5px;
     margin: 1px;
     border-radius: 8px;
-    /* background-color: alpha(@theme_fg_color, 0.25); */
-
-    background:
-        linear-gradient(
-            180deg,
-            #ffffff,
-            #fff7fd
-        );
+    background: #ffffff;
 }
 
-.carousel-button {
-    min-width: 36px;
-    min-height: 36px;
-    color:white;
-    padding: 0;
-
-    border-radius: 18px;
-    background-color: alpha(@theme_fg_color, 0.05);
-}
+.carousel-button { min-width: 36px; min-height: 36px; color: @kde-text; padding: 0; border-radius: 8px; background-color: alpha(@theme_fg_color, 0.05); }
 
 .carousel-button:hover {
     background-color: alpha(@theme_fg_color, 0.07);
@@ -649,99 +501,94 @@ scrollbar.vertical slider {
     opacity: 0.35;
 }
 
-.carousel-counter {
-    font-size: 0.85em;
-    opacity: 0.75;
-    color:white;
-    margin-top: 4px;
-    margin-bottom: 2px;
-}
+.carousel-counter { font-size: 0.85em; opacity: 0.75; color:white; margin-top: 4px; margin-bottom: 2px; }
 
-.btn-delete {
-    min-width: 18px;
-    min-height: 18px;
-    padding: 0;
-    margin: 0;
-}
-
+.btn-delete { min-width: 18px; min-height: 18px; padding: 0; margin: 0; }
 .btn-delete image {
     -gtk-icon-size: 10px;
 }
 
-
-
 /* =========================================================
- *  CHECKBOX
- *  ========================================================= */
+SEARCH BAR
+========================================================= */
 
-checkbutton {
-    color: @kawaii-pink-dark;
-}
-
-checkbutton check {
+entry.search,
+.search-entry,
+searchbar entry {
     background: @kde-surface;
+    color: @kde-text;
+
     border: 1px solid @kde-border;
-    border-radius: 4px;
+    border-radius: 6px;
 }
 
-checkbutton check:checked {
-    background: @kde-blue;
-    border-color: @kawaii-pink-dark;
+entry.search:focus,
+.search-entry:focus,
+searchbar entry:focus {
+    background: #ffffff;
+    color: @kde-text;
+    border-color: @kde-blue;
 }
 
-checkbutton check:checked image {
-    color: white;
-}
-
-checkbutton label {
-    color: @kawaii-pink-dark;
+entry.search placeholder,
+.search-entry placeholder,
+searchbar entry placeholder {
+    color: @kde-text2;
 }
 
 
 /* =========================================================
- *  LISTES DEROULANTES - CONTENU
- *  ========================================================= */
+ *   COMBOBOX / LISTES DEROULANTES
+ *   ========================================================= */
 
-combobox popover,
-dropdown popover,
+combobox,
+combobox button,
+dropdown,
+dropdown button {
+    background: @kde-surface;
+    color: @kde-text;
+
+    border: 1px solid @kde-border;
+    border-radius: 6px;
+}
+
+combobox:hover,
+combobox button:hover {
+    border-color: @kde-blue;
+}
+
+combobox arrow {
+    color: @kde-text2;
+}
+
+
+/* Menu ouvert */
+popover,
 popover.menu {
     background: @kde-surface;
-    color: @kawaii-pink-dark;
+    color: @kde-text;
+
+    border: 1px solid @kde-border;
+    border-radius: 6px;
 }
 
-combobox popover list,
-dropdown popover list {
-    background: @kde-surface;
+
+popover menuitem,
+popover modelbutton {
+    background: transparent;
+    color: @kde-text;
 }
 
-combobox popover row,
-dropdown popover row,
-combobox popover modelbutton,
-dropdown popover modelbutton {
-    background: @kde-surface;
-    color: @kawaii-pink-dark;
-}
 
-combobox popover row:hover,
-dropdown popover row:hover,
-combobox popover modelbutton:hover,
-dropdown popover modelbutton:hover {
+popover menuitem:hover,
+popover modelbutton:hover {
     background: #e8f4ff;
-    color: @kawaii-green;
+    color: @kde-text;
 }
-
-
-/* Texte dans les listes */
-combobox popover label,
-dropdown popover label,
-popover label {
-    color: @kawaii-pink-dark;
-}
-
 
 /* =========================================================
- * SCROLLBAR GTK4
- * ========================================================= */
+SCROLLBAR GTK4
+========================================================= */
 
 scrollbar {
     background: transparent;
@@ -767,5 +614,69 @@ scrollbar.horizontal slider {
 }
 
 scrollbar slider:hover {
-    background: @kawaii-pink-dark;
+    background: @kde-blue;
+}
+
+/* =========================================================
+ *  CHECKBUTTON CLAIR
+ *  ========================================================= */
+
+checkbutton label {
+    color: @kde-text;
+}
+
+checkbutton check {
+    background: @kde-surface;
+    border: 1px solid @kde-border;
+    border-radius: 4px;
+}
+
+checkbutton check:checked {
+    background: @kde-blue;
+    border-color: @kde-blue-dark;
+}
+
+checkbutton check:checked image {
+    color: @kde-text;
+}
+
+
+/* =========================================================
+ *  LISTES DEROULANTES - CONTENU
+ *  ========================================================= */
+
+combobox popover,
+dropdown popover,
+popover.menu {
+    background: @kde-surface;
+    color: @kde-text;
+}
+
+combobox popover list,
+dropdown popover list {
+    background: @kde-surface;
+}
+
+combobox popover row,
+dropdown popover row,
+combobox popover modelbutton,
+dropdown popover modelbutton {
+    background: @kde-surface;
+    color: @kde-text;
+}
+
+combobox popover row:hover,
+dropdown popover row:hover,
+combobox popover modelbutton:hover,
+dropdown popover modelbutton:hover {
+    background: #e8f4ff;
+    color: @kde-text;
+}
+
+
+/* Texte dans les listes */
+combobox popover label,
+dropdown popover label,
+popover label {
+    color: @kde-text;
 }
