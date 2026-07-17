@@ -7,7 +7,7 @@
 
 
 @define-color kawaii-bg #fff7fb;
-@define-color kawaii-surface #ffffff;
+@define-color kawaii-surface #fffafc;
 @define-color kawaii-pink #ffb6d9;
 @define-color kawaii-pink-dark #ff8fc4;
 @define-color kawaii-purple #d7c6ff;
@@ -58,13 +58,19 @@
    ========================================================= */
 
 label,
-entry {
+entry,
+text,
+textview {
     color: @kawaii-pink-dark;
 }
 
 
-text,
-textview {
+.btn-delete,
+.btn-launch,
+.btn-edit,
+.btn-export,
+.app-button,
+button.suggested-action {
     color: @kawaii-pink-dark;
 }
 
@@ -109,9 +115,14 @@ list,
    ========================================================= */
 
 /* GtkHeaderBar native */
-headerbar {
-    background: #ffe7f0;
-    color: @hk_text;
+headerbar .title,
+headerbar windowtitle {
+    font-size: 20px;
+    font-weight: 600;
+    color: @kawaii-text;
+    min-height: 48px;
+    padding: 6px 12px;
+    text-shadow: 0 1px 2px rgba(255,255,255,0.8);
 }
 
 /* Header personnalisé */
@@ -193,7 +204,7 @@ windowcontrols button:hover,
 
 button.suggested-action {
     background: linear-gradient(180deg, @hk_accent, #ff4fa3);
-    color: white;
+    /*color: white;*/
     border-radius: 10px;
     padding: 8px;
 }
@@ -206,13 +217,11 @@ button.suggested-action:hover {
     background: rgba(255,255,255,0.80);
     color: @hk_text;
     border-radius:8px;
-    border: 1px solid @hk-outline;
     padding: 6px;
 }
 
 .app-button:hover {
     background: rgba(255,250,253,0.95);
-    box-shadow: 0 6px 14px @hk-shadow;
 }
 
 
@@ -245,7 +254,7 @@ button.suggested-action:hover {
 
 .btn-edit {
     background: #ffb6d9;
-    color: @hk_text;
+    color: white;
     border-radius: 10px;
     padding: 4px 8px;
     min-width: 28px;
@@ -700,6 +709,7 @@ tooltip label {
 .btn-delete {
     min-width: 18px;
     min-height: 18px;
+    color:black;
     padding: 0;
     margin: 0;
 }
@@ -766,23 +776,6 @@ popover.menu modelbutton:checked {
 }
 
 
-combobox > button,
-dropdown > button {
-
-    background: rgba(255,255,255,0.85);
-    color: @hk_text;
-
-    border-radius: 10px;
-    border: 1px solid @hk_border;
-
-    padding: 6px 10px;
-}
-
-combobox > button:hover,
-dropdown > button:hover {
-
-    background: @hk_hover;
-}
 
 /* =========================================================
  * SCROLLBAR GTK4
@@ -815,3 +808,64 @@ scrollbar slider:hover {
     background: @kawaii-pink-dark;
 }
 
+/* =========================================================
+ * Formulaire:
+ * ========================================================= */
+.editor-form {
+    background: @kawaii-surface;
+    border: 2px solid #f4d4ea;
+    border-radius: 20px;
+    padding: 18px;
+}
+
+.editor-window {
+    background: linear-gradient(
+        180deg,
+        #fff9fc,
+        #fdf8ff
+    );
+}
+
+/* =========================================================
+ *  LISTES DEROULANTES - CONTENU
+ *  ========================================================= */
+
+combobox > button,
+dropdown > button {
+
+    background: rgba(255,255,255,0.18);
+    color: @hk_text;
+
+    border-radius: 6px;
+    border: 1px solid @hk_border;
+
+    padding: 6px 12px;
+}
+
+combobox > button:hover,
+dropdown > button:hover {
+
+    background: rgba(255,255,255,0.26);
+    border-color: rgba(255,255,255,0.35);
+}
+
+combobox > button:active,
+dropdown > button:active {
+
+    background: rgba(255,255,255,0.32);
+}
+
+combobox > button:focus,
+dropdown > button:focus {
+
+    outline: 2px solid @accent_color;
+    outline-offset: 1px;
+}
+
+combobox label,
+dropdown label {
+
+    color: @hk_text;
+    font-weight: 500;
+    background: transparent;
+}

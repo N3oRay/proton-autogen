@@ -1,3 +1,6 @@
+/* =========================================================
+   Style Cute
+   ========================================================= */
 /* Palette */
 
 @define-color kawaii-bg #fff7fb;
@@ -19,6 +22,7 @@
 
 @define-color kde-bg        #eff1f5;
 @define-color kde-surface   #fcfcfc;
+@define-color hk_soft       #fcfcfc;
 @define-color kde-border    #cfd5de;
 @define-color kde-blue      #3daee9;
 @define-color kde-blue-dark #1d99f3;
@@ -28,11 +32,17 @@
 @define-color kde-surface2 #1e1e1e;
 @define-color kde-dark-text #eeeeee;
 
+@define-color hk_panel #ffffff;
+@define-color hk_border #f3d6ea;
+@define-color hk_hover #fff3fa;
+@define-color hk_accent #ff8fc4;
+@define-color hk_dark_pink #d26ca2;
+
 /* =========================================================
    Text
    ========================================================= */
 label{
-    color: @kawaii-pink-dark;
+    color: white;
 }
 
 
@@ -63,8 +73,8 @@ window.background,
 
     background: linear-gradient(
         180deg,
-        rgba(255,247,251,0.90),
-        rgba(247,245,255,0.90)
+        rgba(255,247,251,0.70),
+        rgba(247,245,255,0.70)
     );
 
     color: @hk_text;
@@ -90,21 +100,15 @@ list,
    HEADER
    ========================================================= */
 
-headerbar,
-.main-header {
-
-    background:
-        linear-gradient(
-            180deg,
-            #ffd8ef,
-            #ffeaf6
-        );
-
-    color:@kawaii-text;
-
-    border-bottom:1px solid #f4cce4;
+headerbar .title,
+headerbar windowtitle {
+    font-size: 20px;
+    font-weight: 600;
+    color: @kawaii-text;
+    min-height: 48px;
+    padding: 6px 12px;
+    text-shadow: 0 1px 2px rgba(255,255,255,0.8);
 }
-
 /* =========================================================
    BOUTONS SYSTEME GTK4
    NE PAS TOUCHER AUX BOUTONS GLOBALEMENT
@@ -116,6 +120,7 @@ windowcontrols button,
 
     background: transparent;
     color:white;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
 
     min-width:24px;
     min-height:24px;
@@ -381,7 +386,7 @@ button.suggested-action:hover {
 }
 
 .label-bottom label {
-    color:white;
+    color: @kawaii-pink-dark;
     font-size:16px;
 }
 
@@ -390,14 +395,21 @@ button.suggested-action:hover {
 }
 
 .dim-label {
-    color:#9a8da8;
+    color: @hk_text;
+    font-weight: 600;
+}
+
+.form-label {
+    color: @hk_text;
+    font-weight: 600;
+    font-size: 13px;
 }
 
 .dim-label1 {
 
     color:
         rgba(255,255,255,0.70);
-
+    font-weight: 600;
     font-size:12px;
 }
 
@@ -423,7 +435,8 @@ label.dim-label2 {
 
 label.home-label {
     color: @hk_text;
-    font-size: 14px;
+    font-size: 16px;
+    margin-left: 6px;
     padding: 4px;
 }
 
@@ -465,7 +478,7 @@ label.home-label {
 .dialog-content textview {
 
     background:transparent;
-    color:white;
+    color: @kawaii-pink-dark;
     font-family:monospace;
 }
 
@@ -512,13 +525,13 @@ label.home-label {
     color:#5f82b0;
     border-color:#abdfff;
 }
-
+/*
 .badge.feature {
     background:#dfffe8;
     color:#4d9d73;
     border-color:#9af5bb;
 }
-
+*/
 .badge {
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
 }
@@ -583,14 +596,12 @@ label.home-label {
 
 textview {
     background:transparent;
-    color:white;
     font-family:monospace;
 }
 
 
 textview text {
     background:transparent;
-    color:white;
 }
 
 
@@ -671,7 +682,7 @@ scrollbar.vertical slider {
 
 
 /* =========================================================
- *  CHECKBOX
+ *  CHECKBOX - OK
  *  ========================================================= */
 
 checkbutton {
@@ -699,7 +710,7 @@ checkbutton label {
 
 
 /* =========================================================
- *  LISTES DEROULANTES - CONTENU
+ *  LISTES DEROULANTES - CONTENU - OK
  *  ========================================================= */
 
 popover.menu {
@@ -712,6 +723,7 @@ popover.menu {
 popover.menu modelbutton {
     background: transparent;
     color: @hk_text;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
     padding: 8px;
 }
 
@@ -731,7 +743,7 @@ dropdown > button {
 
     background: rgba(255,255,255,0.85);
     color: @hk_text;
-
+    /* text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6); */
     border-radius: 10px;
     border: 1px solid @hk_border;
 
@@ -744,6 +756,12 @@ dropdown > button:hover {
     background: @hk_hover;
 }
 
+combobox label,
+dropdown label {
+    color: #3b2b2b;
+    font-weight: 500;
+}
+
 /* =========================================================
  * SCROLLBAR GTK4
  * ========================================================= */
@@ -754,12 +772,9 @@ scrollbar {
 
 scrollbar slider {
     background: rgba(90, 100, 115, 0.45);
-
     border-radius: 5px;
-
     min-width: 6px;
     min-height: 6px;
-
     margin: 2px;
 }
 
@@ -773,4 +788,22 @@ scrollbar.horizontal slider {
 
 scrollbar slider:hover {
     background: @kawaii-pink-dark;
+}
+
+/* =========================================================
+ * Formulaire:
+ * ========================================================= */
+.editor-form {
+    background: @kawaii-surface;
+    border: 2px solid #f4d4ea;
+    border-radius: 20px;
+    padding: 18px;
+}
+
+.editor-window {
+    background: linear-gradient(
+        180deg,
+        #fff9fc,
+        #fdf8ff
+    );
 }

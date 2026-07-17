@@ -1,20 +1,20 @@
-proton-autogen (3.0.3) noble; urgency=medium
+proton-autogen (3.0.4) noble; urgency=medium
 
-  * New Theme CSS Cute
+  * Added new Cute, KDE and Dark CSS themes and reworked theme handling.
   * Added CSV-based game profile configurations.
-  * Added a new button to remove game configurations.
-  * Redesigned the GTK4 interface and added a new carousel component.
+  * Added a button to remove game configurations.
+  * Redesigned the GTK4 interface and introduced a new carousel component.
   * Improved automatic Proton prefix management and runtime stability.
   * Added diagnostic log generation via `proton_autogen --diag`.
   * Added GPU profile management with automatic AMD and NVIDIA detection.
-  * Added system diagnostics support for Debian, Ubuntu, Linux Mint,
+  * Added system diagnostics for Debian, Ubuntu, Linux Mint,
     Arch Linux, CachyOS and Bazzite.
   * Added Lutris export support and game registry integration.
   * Added JSON logging and multilingual UI support.
   * Added launch progress reporting and stable Sensors menu support.
-  * Refined Adwaita and Kitty themes.
+  * Refined the Adwaita and Hello Kitty themes.
   * Added game, profile and platform badges.
-  * Improved GTK4 layout, responsiveness and desktop notifications.
+  * Improved the GTK4 layout, responsiveness and desktop notifications.
   * Improved Proton detection, launch reliability and session tracking.
   * Enhanced prefix and configuration management.
   * Optimized executable scanning with intelligent caching.
@@ -24,6 +24,6 @@ proton-autogen (3.0.3) noble; urgency=medium
   * Fixed several UI refresh and stability issues.
   * Improved backend/UI separation.
   * Enhanced debugging and diagnostic tools.
-  * Performed general code cleanup and internal optimizations.
+  * General code cleanup and internal optimizations.
 
- -- N3oray <n3oray77@gmail.com>  Wed, 15 Jul 2026 14:01:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Sat, 18 Jul 2026 02:01:00 +0200

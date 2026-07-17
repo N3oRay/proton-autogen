@@ -656,12 +656,7 @@ class Dashboard(Gtk.ApplicationWindow):
 
         scroll.set_child(textview)
 
-        self.build_dialog(
-            "Requis",
-            scroll,
-            width=700,
-            height=650
-        )
+        self.build_dialog( "Requis", scroll, width=700, height=650 )
 
     # -------------------------
     # DIALOG ABOUT
@@ -685,12 +680,7 @@ class Dashboard(Gtk.ApplicationWindow):
 
         scroll.set_child(textview)
 
-        self.build_dialog(
-            "About",
-            scroll,
-            width=700,
-            height=750
-        )
+        self.build_dialog( "About", scroll, width=700, height=750 )
     # -------------------------
     # DIALOG HELP
     # -------------------------
@@ -715,12 +705,7 @@ class Dashboard(Gtk.ApplicationWindow):
 
         scroll.set_child(textview)
 
-        self.build_dialog(
-            "Help",
-            scroll,
-            width=700,
-            height=800
-        )
+        self.build_dialog( "Help", scroll, width=700, height=800 )
 
     # -------------------------
     # DIALOG DIAGNOSTIC
@@ -839,7 +824,6 @@ class Dashboard(Gtk.ApplicationWindow):
             game = add_game_ux(path)
             self.status.set_text( f"{game['name']} added ✔" )
             self.refresh_games()
-
             self.toast.success(f"{game['name']} added")
 
         except Exception as e:
@@ -858,10 +842,8 @@ class ProtonAutogenApp(Gtk.Application):
         super().__init__(application_id="io.github.protonautogen")
 
         base = os.path.dirname(__file__)
-
         # CSS provider réutilisable
         self.css_provider = Gtk.CssProvider()
-
         # map des fichiers CSS (assure-toi que les fichiers existent dans assets/)
         style_map = STYLE_CSS
         self._style_map = style_map
@@ -876,38 +858,40 @@ class ProtonAutogenApp(Gtk.Application):
         self.apply_style(self.current_style)
 
     def apply_style(self, style_name):
-        # path du CSS à appliquer
+
         path = self._style_map.get(style_name)
         if not path:
             return
 
-        # enlève le provider précédent (si présent) pour éviter accumulations
-        try:
-            Gtk.StyleContext.remove_provider_for_display(
-                Gdk.Display.get_default(),
-                self.css_provider
-            )
-        except Exception:
-            # ignore si non supporté / pas encore ajouté
-            pass
-
-        # recharge le provider avec le nouveau fichier
-        try:
-            self.css_provider.load_from_path(path)
-        except Exception as e:
-            # si échec, on loggue et on retourne
-            print(f"[WARN] Echec chargement CSS {path}: {e}")
+        display = Gdk.Display.get_default()
+        if display is None:
             return
 
-        # ajoute le provider pour l'affichage (priorité application)
+        # Retire l'ancien provider
+        if hasattr(self, "css_provider") and self.css_provider:
+            Gtk.StyleContext.remove_provider_for_display(
+                display,
+                self.css_provider
+            )
+
+        # Nouveau provider propre
+        provider = Gtk.CssProvider()
+
+        try:
+            provider.load_from_path(path)
+        except Exception as e:
+            print(f"[WARN] CSS error {path}: {e}")
+            return
+
         Gtk.StyleContext.add_provider_for_display(
-            Gdk.Display.get_default(),
-            self.css_provider,
-            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION,
+            display,
+            provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         )
 
-        # met à jour l'état et sauvegarde le choix
+        self.css_provider = provider
         self.current_style = style_name
+
         save_theme(style_name)
 
     def cycle_style(self):

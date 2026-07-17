@@ -3,6 +3,17 @@
 @define-color hk_text3 #5d4a8a;
 @define-color hk_text4 #e6d4ff;
 
+@define-color kde-bg        #eff1f5;
+@define-color kde-surface   #fcfcfc;
+@define-color kde-border    #cfd5de;
+@define-color kde-blue      #3daee9;
+@define-color kde-blue-dark #1d99f3;
+@define-color kde-text      #232629;
+@define-color kde-text2     #5b6573;
+
+@define-color kde-surface2 #1e1e1e;
+@define-color kde-dark-text #eeeeee;
+
 /* =========================================================
    Text
    ========================================================= */
@@ -650,4 +661,103 @@ popover modelbutton {
 
 popover modelbutton:hover {
     background: rgba(255,255,255,0.10);
+}
+
+/* =========================================================
+SCROLLBAR GTK4
+========================================================= */
+
+scrollbar {
+    background: transparent;
+}
+
+scrollbar slider {
+    background: rgba(90, 100, 115, 0.45);
+
+    border-radius: 5px;
+
+    min-width: 6px;
+    min-height: 6px;
+
+    margin: 2px;
+}
+
+scrollbar.vertical slider {
+    min-width: 6px;
+}
+
+scrollbar.horizontal slider {
+    min-height: 6px;
+}
+
+scrollbar slider:hover {
+    background: @kde-blue;
+}
+
+/* =========================================================
+ *  CHECKBUTTON CLAIR
+ *  ========================================================= */
+
+checkbutton label {
+    color: @kde-text;
+}
+
+checkbutton check {
+    background: @kde-surface;
+    border: 1px solid @kde-border;
+    border-radius: 4px;
+}
+
+checkbutton check:checked {
+    background: @kde-blue;
+    border-color: @kde-blue-dark;
+}
+
+checkbutton check:checked image {
+    color: @kde-text;
+}
+
+
+/* =========================================================
+ *  LISTES DEROULANTES - CONTENU
+ *  ========================================================= */
+
+combobox > button,
+dropdown > button {
+
+    background: rgba(255,255,255,0.18);
+    color: #f0f0f0;
+
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.20);
+
+    padding: 6px 12px;
+}
+
+combobox > button:hover,
+dropdown > button:hover {
+
+    background: rgba(255,255,255,0.26);
+    border-color: rgba(255,255,255,0.35);
+}
+
+combobox > button:active,
+dropdown > button:active {
+
+    background: rgba(255,255,255,0.32);
+}
+
+combobox > button:focus,
+dropdown > button:focus {
+
+    outline: 2px solid @accent_color;
+    outline-offset: 1px;
+}
+
+combobox label,
+dropdown label {
+
+    color: #f0f0f0;
+    font-weight: 500;
+    background: transparent;
 }

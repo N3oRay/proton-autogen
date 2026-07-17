@@ -316,6 +316,7 @@ label.dim-label2 {
 label.home-label {
     font-size: 16px;
     padding: 6px;
+    color: @kde-text;
     font-weight: 600;
 }
 

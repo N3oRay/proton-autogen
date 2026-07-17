@@ -16,13 +16,8 @@ def read_text(path: Path) -> str | None:
         return None
     except PermissionError:
         return None
-    except OSError as e:
-        if e.errno == ENODATA:
-            return None
-        raise
-
-
-
+    except OSError:
+        return None
 
 
 def get_hwmons(root: Path = HWMON_ROOT) -> Iterator[Path]:
@@ -42,15 +37,20 @@ def get_temperature_label(hwmon: Path, sensor: str) -> str:
 
 
 def get_temperature_value(sensor_file: Path) -> float | None:
-    """Return a temperature in °C."""
     value = read_text(sensor_file)
+
     if value is None:
         return None
 
     try:
-        return int(value) / 1000.0
+        temp = int(value) / 1000.0
     except ValueError:
         return None
+
+    if temp < -100 or temp > 200:
+        return None
+
+    return temp
 
 
 def iter_temperatures(hwmon: Path):
@@ -87,6 +87,8 @@ def get_sensors():
         }
 
         for temp in sorted(hw.glob("temp*_input")):
+            if not temp.is_file():
+                continue
             sensor = temp.name
 
             label = read_text(hw / sensor.replace("_input", "_label"))
@@ -155,7 +157,10 @@ def get_mangohud_advice():
     cpu_input = None
 
     for hw in hwmon_root.glob("hwmon*"):
-        name = (hw / "name").read_text().strip()
+        name = read_text(hw / "name")
+
+        if name is None:
+            continue
 
         if name in ("coretemp", "k10temp"):
             cpu_sensor = name
@@ -185,7 +190,12 @@ def get_mangohud_advice():
                 cpu_input = sorted(core_temps)[0][1]
             else:
                 # fallback sécurisé
-                cpu_input = next(hw.glob("temp*_input")).name
+                temp_files = list(hw.glob("temp*_input"))
+
+                if temp_files:
+                    cpu_input = temp_files[0].name
+                else:
+                    cpu_input = None
 
             break
 

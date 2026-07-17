@@ -24,6 +24,7 @@ class GameEditor(Gtk.Window):
         #self.set_resizable(True)
         self.on_saved = None
         self.set_size_request(520, 420)
+        self.add_css_class("editor-window")
         self.profile_model = [ "launcher", "dx11", "dx11Bnet", "dx12", "dx9", "dx9opengl", "gtav_compat", "gtav_x11", "gtav_safe", "oldgame", "valve", "ut3", "ut99", "legacy", "desktop"]
         self.prefix_model = list_prefixes_ux()
         self.gpu_model = [
@@ -42,15 +43,20 @@ class GameEditor(Gtk.Window):
     # -------------------------
     def build_ui(self):
 
+        frame = Gtk.Frame()
+        frame.add_css_class("editor-form")
+
         root = Gtk.Box(
             orientation=Gtk.Orientation.VERTICAL,
             spacing=12,
             margin_top=12,
             margin_bottom=12,
             margin_start=12,
-            margin_end=12
+            margin_end=12,
         )
-        self.set_child(root)
+
+        frame.set_child(root)
+        self.set_child(frame)
 
         # -------------------------
         # TITLE
@@ -153,8 +159,9 @@ class GameEditor(Gtk.Window):
         row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
 
         label = Gtk.Label(label=label_text, xalign=0)
-        label.set_width_chars(10)
-        label.add_css_class("dim-label")
+        label.set_width_chars(12)
+        label.add_css_class("form-label")
+        #label.add_css_class("dim-label")
 
         row.append(label)
         row.append(widget)
