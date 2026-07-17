@@ -742,42 +742,47 @@ checkbutton label {
  *  LISTES DEROULANTES - CONTENU
  *  ========================================================= */
 
-combobox popover,
-dropdown popover,
 popover.menu {
-    background: @kde-surface;
-    color: @kawaii-pink-dark;
+    background-color: @hk_panel;
+    color: @hk_text;
+    border-radius: 12px;
+    border: 1px solid @hk_border;
 }
 
-combobox popover list,
-dropdown popover list {
-    background: @kde-surface;
+popover.menu modelbutton {
+    background: transparent;
+    color: @hk_text;
+    padding: 8px;
 }
 
-combobox popover row,
-dropdown popover row,
-combobox popover modelbutton,
-dropdown popover modelbutton {
-    background: @kde-surface;
-    color: @kawaii-pink-dark;
+popover.menu modelbutton:hover {
+    background: @hk_hover;
+    color: @hk_accent;
 }
 
-combobox popover row:hover,
-dropdown popover row:hover,
-combobox popover modelbutton:hover,
-dropdown popover modelbutton:hover {
-    background: #e8f4ff;
-    color: @kawaii-green;
+popover.menu modelbutton:checked {
+    background: @hk_soft;
+    color: @hk_dark_pink;
 }
 
 
-/* Texte dans les listes */
-combobox popover label,
-dropdown popover label,
-popover label {
-    color: @kawaii-pink-dark;
+combobox > button,
+dropdown > button {
+
+    background: rgba(255,255,255,0.85);
+    color: @hk_text;
+
+    border-radius: 10px;
+    border: 1px solid @hk_border;
+
+    padding: 6px 10px;
 }
 
+combobox > button:hover,
+dropdown > button:hover {
+
+    background: @hk_hover;
+}
 
 /* =========================================================
  * SCROLLBAR GTK4
