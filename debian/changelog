@@ -1,6 +1,7 @@
 proton-autogen (3.0.4) noble; urgency=medium
 
   * Added new Cute, KDE and Dark CSS themes and reworked theme handling.
+  * Stabilized the Sensors menu.
   * Added CSV-based game profile configurations.
   * Added a button to remove game configurations.
   * Redesigned the GTK4 interface and introduced a new carousel component.
