@@ -584,6 +584,8 @@ scrollbar slider {
     background:#ffc8e4;
     border-radius:999px;
     min-width:10px;
+    min-height: 10px;
+    padding: 0;
 }
 
 
