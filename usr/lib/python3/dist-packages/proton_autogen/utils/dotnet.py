@@ -7,6 +7,15 @@ import tempfile
 from pathlib import Path
 
 
+DOTNET_CACHE = (
+    Path.home()
+    / "Documents"
+    / "Proton"
+    / "cache"
+    / "dotnet"
+)
+
+
 DOTNET48_URL = (
     "https://go.microsoft.com/fwlink/?linkid=2088631"
 )
@@ -25,6 +34,7 @@ def ensure_dotnet48(prefix, proton_path):
     """
 
     compat_data = Path(prefix)
+    dotnet_marker = compat_data / ".dotnet48_installed"
 
     # Proton prefix réel
     wine_prefix = compat_data / "pfx"
@@ -38,9 +48,23 @@ def ensure_dotnet48(prefix, proton_path):
     # Check registry
     # --------------------------------------------------
 
-    if check_dotnet48(wine_prefix, proton_path):
-        print("[proton-autogen] .NET Framework 4.8 already installed")
-        return True
+    if dotnet_marker.exists():
+
+        print(
+            "[proton-autogen] .NET Framework 4.8 cache hit"
+        )
+
+        if check_dotnet48(compat_data, proton_path):
+            print(
+                "[proton-autogen] .NET Framework 4.8 already installed"
+            )
+            return True
+
+        else:
+            print(
+                "[proton-autogen] Cache invalid, removing marker"
+            )
+            dotnet_marker.unlink()
 
 
     print("[proton-autogen] .NET Framework 4.8 missing")
@@ -50,7 +74,15 @@ def ensure_dotnet48(prefix, proton_path):
     # Download installer
     # --------------------------------------------------
 
-    installer = Path(tempfile.gettempdir()) / "NDP48-x86-x64-AllOS-ENU.exe"
+    DOTNET_CACHE.mkdir(
+        parents=True,
+        exist_ok=True
+    )
+
+    installer = (
+        DOTNET_CACHE
+        / "NDP48-x86-x64-AllOS-ENU.exe"
+    )
 
     if not installer.exists():
 
@@ -75,8 +107,15 @@ def ensure_dotnet48(prefix, proton_path):
     # Proton attend STEAM_COMPAT_DATA_PATH,
     # pas STEAM_COMPAT_DATA_PATH/pfx
     env["STEAM_COMPAT_DATA_PATH"] = str(compat_data)
-
     env["PROTONPATH"] = str(proton_path)
+
+    # nécessaire pour certains Proton non-Steam
+    env["STEAM_COMPAT_CLIENT_INSTALL_PATH"] = os.path.expanduser(
+        "~/.steam/steam"
+    )
+
+    # éviter un ancien WINEPREFIX pollué
+    env.pop("WINEPREFIX", None)
 
 
     result = subprocess.run(
@@ -84,12 +123,20 @@ def ensure_dotnet48(prefix, proton_path):
             str(Path(proton_path) / "proton"),
             "run",
             str(installer),
-            "/quiet",
+            "/passive",
             "/norestart",
+            "/log",
+            "C:\\dotnet48_install.log"
         ],
         env=env,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
         check=False,
     )
+
+    if result.stdout:
+        print(result.stdout)
 
 
     if result.returncode != 0:
@@ -102,9 +149,14 @@ def ensure_dotnet48(prefix, proton_path):
     # Verify
     # --------------------------------------------------
 
-    if check_dotnet48(wine_prefix, proton_path):
+    if check_dotnet48(compat_data, proton_path):
 
-        print("[proton-autogen] .NET Framework 4.8 installed successfully")
+        dotnet_marker.touch()
+
+        print(
+            "[proton-autogen] .NET Framework 4.8 installed successfully"
+        )
+
         return True
 
 
@@ -114,45 +166,62 @@ def ensure_dotnet48(prefix, proton_path):
 
 
 
-def check_dotnet48(prefix, proton_path):
+def check_dotnet48(compat_data, proton_path):
 
     env = os.environ.copy()
+    env["STEAM_COMPAT_DATA_PATH"] = str(compat_data)
+    env["PROTONPATH"] = str(proton_path)
+    env.pop("WINEPREFIX", None)
 
-    env["STEAM_COMPAT_DATA_PATH"] = str(prefix)
-
-    cmd = [
-        str(Path(proton_path) / "proton"),
-        "run",
-        "reg",
-        "query",
+    keys = [
         r"HKLM\Software\Microsoft\NET Framework Setup\NDP\v4\Full",
-        "/v",
-        "Release"
+        r"HKLM\Software\Wow6432Node\Microsoft\NET Framework Setup\NDP\v4\Full",
     ]
 
-    result = subprocess.run(
-        cmd,
-        env=env,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        text=True
-    )
+    for key in keys:
 
-    if result.returncode != 0:
-        return False
+        cmd = [
+            str(Path(proton_path) / "proton"),
+            "run",
+            "reg.exe",
+            "query",
+            key,
+            "/v",
+            "Release"
+        ]
 
+        result = subprocess.run(
+            cmd,
+            env=env,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True
+        )
 
-    for line in result.stdout.splitlines():
+        print(
+            f"[proton-autogen] Registry check {key}"
+        )
 
-        if "Release" in line:
+        print(result.stdout)
 
-            try:
-                value = int(line.split()[-1], 16)
+        for line in result.stdout.splitlines():
 
-                if value >= 528040:
-                    return True
+            if "Release" not in line:
+                continue
 
-            except ValueError:
-                pass
+            for part in line.split():
+
+                try:
+                    if part.startswith("0x"):
+                        value = int(part, 16)
+
+                    else:
+                        value = int(part)
+
+                    if value >= 528040:
+                        return True
+
+                except ValueError:
+                    continue
 
     return False
