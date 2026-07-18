@@ -4,7 +4,7 @@ from proton_autogen.profiles.base import init_env
 # ---------------------------------------------------
 # RageMP
 # ---------------------------------------------------
-def env_ragemp():
+def env_ragemp(prefix=None, proton_path=None):
     env = init_env()
 
     print("[proton-autogen] PROFILE: RageMP Compatibility")

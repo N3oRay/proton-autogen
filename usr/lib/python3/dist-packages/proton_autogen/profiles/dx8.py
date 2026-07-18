@@ -3,7 +3,7 @@
 from proton_autogen.profiles.base import init_env
 
 
-def env_dx8dg():
+def env_dx8dg(prefix=None, proton_path=None):
     env = init_env()
 
     print("[proton-autogen] PROFILE: OLD GAME (DX8) dgVoodooCpl")

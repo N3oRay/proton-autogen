@@ -4,7 +4,7 @@ from proton_autogen.profiles.base import init_env
 # 7. PROFILE DESKTOP
 #-----------------------------------------------------------
 
-def env_desktop():
+def env_desktop(prefix=None, proton_path=None):
     env = init_env()
 
     print("[proton-autogen] PROFILE: DESKTOP")
@@ -26,7 +26,7 @@ def env_desktop():
 
 
 
-def env_win95():
+def env_win95(prefix=None, proton_path=None):
     env = init_env()
     print("[proton-autogen] PROFILE: Win 95")
 
@@ -48,7 +48,7 @@ def env_win95():
     return env
 
 
-def env_win95Beta():
+def env_win95Beta(prefix=None, proton_path=None):
     env = init_env()
     print("[proton-autogen] PROFILE: Win 95 Beta")
 
@@ -68,7 +68,7 @@ def env_win95Beta():
 # DirectDraw
 #-----------------------------------------------------------
 
-def env_DDraw():
+def env_DDraw(prefix=None, proton_path=None):
     env = init_env()
 
     print("[proton-autogen] PROFILE: DirectDraw (BETA)")

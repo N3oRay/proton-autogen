@@ -3,7 +3,7 @@ from proton_autogen.profiles.base import init_env
 # ---------------------------------------------------
 # 3. DX12 PROFILE (VKD3D)
 # ---------------------------------------------------
-def env_dx12():
+def env_dx12(prefix=None, proton_path=None):
     env = init_env()
 
     print("[proton-autogen] PROFILE: DX12 - VKD3D")

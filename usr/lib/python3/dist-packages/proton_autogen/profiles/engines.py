@@ -3,7 +3,7 @@ from proton_autogen.profiles.base import init_env
 #-----------------------------------------------------------
 # Valve - Sierra - Old Game (Hal-Life) env_goldsrc_full env_gold_test env_goldsrc
 #-----------------------------------------------------------
-def env_goldsrc():
+def env_goldsrc(prefix=None, proton_path=None):
     env = init_env()
 
     print("[proton-autogen] GOLDSRC STEAM-LIKE PROFILE")
@@ -58,7 +58,7 @@ def env_goldsrc():
     return env
 
 
-def env_gold_test():
+def env_gold_test(prefix=None, proton_path=None):
     env = init_env()
 
     print("[proton-autogen] SAFE GOLDSRC PROFILE")
@@ -76,7 +76,7 @@ def env_gold_test():
 
     return env
 
-def env_goldsrc_full():
+def env_goldsrc_full(prefix=None, proton_path=None):
     env = init_env()
 
     print("[proton-autogen] PROFILE: GOLDSRC (Half-Life)")
@@ -118,7 +118,7 @@ def env_goldsrc_full():
 # PROFILE (UnrealTournament) AND QUAKE
 # ---------------------------------------------------
 
-def env_ut99():
+def env_ut99(prefix=None, proton_path=None):
     env = init_env()
 
     print("[proton-autogen] PROFILE: UNREAL TOURNAMENT (UT99)")
