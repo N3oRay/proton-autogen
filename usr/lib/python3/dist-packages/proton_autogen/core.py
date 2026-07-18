@@ -696,11 +696,12 @@ def base_env(enable_mangohud=False, enable_gamemode=False, exe_path="", exe_type
         env["PROTON_LOG"] = "1"
         #env["WINEDEBUG"] = "-all" #WINEDEBUG=+err,+warn
         #env["WINEDEBUG"] = "+err,+warn"
+        #env["WINEDEBUG"] = "+seh,+tid"
         env["WINEDEBUG"] = "+loaddll,+module"
     elif VERBOSE:
         env["PROTON_LOG"] = "1"
         #env["WINEDEBUG"] = "-all,-trace,-relay,-seh"
-        env["WINEDEBUG"] = "+seh,+loaddll"
+        env["WINEDEBUG"] = "+seh,+loaddll,+tid"
     else:
         env["PROTON_LOG"] = "0"
     return env
@@ -837,6 +838,11 @@ def run_game_proton(exe_path, exe_type, proton,
     if enable_gamemode and has_gamemode():
         env["GAMEMODE"] = "1"
 
+    # Set Default env:
+    env.setdefault("STEAM_COMPAT_APP_ID", "480")
+    env.setdefault("SteamAppId", "480")
+    env.setdefault("SteamGameId", "480")
+
 
     if VERBOSE or DEBUG:
         logger.info("=== PROFILE ENV CHECK ===")
@@ -865,6 +871,14 @@ def run_game_proton(exe_path, exe_type, proton,
             "PROTON_LOG",
             "DXVK_HUD",
             "PROTON_ENABLE_WAYLAND",
+            "STEAM_COMPAT_DATA_PATH",
+            "STEAM_COMPAT_CLIENT_INSTALL_PATH",
+            "STEAM_COMPAT_SHADER_PATH",
+            "STEAM_COMPAT_TOOL_PATHS",
+            "STEAM_COMPAT_MOUNTS",
+            "STEAM_COMPAT_APP_ID",
+            "SteamAppId",
+            "SteamGameId",
         ]
 
         for key in debug_vars:
@@ -929,12 +943,30 @@ def run_game_proton(exe_path, exe_type, proton,
         logger.info(f"CWD       : {cmd_cwd}")
         logger.info(f"CWD EXISTS: {os.path.isdir(cmd_cwd)}")
         logger.info(f"EXE EXISTS: {os.path.isfile(exe_path)}")
-        returncode = subprocess.run(cmd, env=env, cwd=cmd_cwd)
+
+        returncode = 0
+        if VERBOSE or DEBUG:
+            proc = subprocess.run(
+                cmd,
+                cwd=cmd_cwd,
+                env=env,
+                text=True,
+                capture_output=True,
+            )
+
+            logger.info(proc.stdout)
+            logger.warn(proc.stderr)
+            logger.info(proc.returncode)
+            returncode = proc.returncode
+        else:
+            returncode = subprocess.run(cmd, env=env, cwd=cmd_cwd)
+            logger.info(f"CompletedProcess: {returncode!r}")
+            logger.info(f"Return code: {returncode.returncode}")
+
         home = Path.home()
         for log in sorted(home.glob("steam-*.log")):
             logger.info(f"Proton log available: {log}")
-        logger.info(f"CompletedProcess: {returncode!r}")
-        logger.info(f"Return code: {returncode.returncode}")
+
         return returncode
 
 
