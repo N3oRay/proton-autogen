@@ -5,7 +5,7 @@ from pathlib import Path
 from proton_autogen.utils.logger import StructuredLogger
 from proton_autogen.config import VERSION, CONFIG_FILE, CONFIG_DIR, PREFIX_DIR, PREFIX_DIR_PATH
 from proton_autogen.loader import get_game_config_path
-from proton_autogen.profiles.init import detect_exe_type
+from proton_autogen.profiles.init import detect_exe_type, choose_profile
 from proton_autogen.loader import load_game_config
 from proton_autogen.core import make_output_path, PREFIX_DIR_PATH
 from proton_autogen.diag import find_all_protons, find_proton
@@ -107,6 +107,35 @@ def choose_prefix(exe_path: str):
         print("Invalid selection")
 
 def find_existing_prefix_for_game(exe_path: str):
+    cfg_path, _ = get_game_config_path(exe_path)
+
+    print("Checking config:", cfg_path)
+
+    try:
+        cfg = load_game_config(exe_path)
+
+    except (json.JSONDecodeError, OSError) as e:
+        print(f"Invalid config ignored: {cfg_path} ({e})")
+        return None
+
+    if not isinstance(cfg, dict):
+        return None
+
+    prefix = cfg.get("prefix")
+
+    if not isinstance(prefix, dict):
+        return None
+
+    # Compatibilité anciens fichiers
+    if "path" not in prefix:
+        prefix["path"] = os.path.join(
+            os.path.expanduser(PREFIX_DIR),
+            prefix["name"]
+        )
+
+    return prefix
+
+def find_existing_prefix_for_game_v1(exe_path: str):
 
     cfg_path, _ = get_game_config_path(exe_path)
 
@@ -419,7 +448,7 @@ def edit_game_ui(exe_path: str):
 
     while True:
         print("\n=== Edit Game ===")
-        current_env_profile = config.get("exe_type") or config.get("env_profile")
+        current_env_profile = config.get("env_profile") or config.get("exe_type")
         print(f"1) Profile    : {current_env_profile}")
         print(f"2) Proton     : {os.path.basename(config['proton'])}")
         print(f"3) Prefix     : {config['prefix']['name']}")

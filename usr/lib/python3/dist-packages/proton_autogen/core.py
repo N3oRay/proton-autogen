@@ -25,6 +25,7 @@ from proton_autogen.profiles.desktop import env_desktop, env_win95, env_win95Bet
 from proton_autogen.profiles.launcher import env_launcher, env_install_clean
 from proton_autogen.profiles.type_profile import env_gtav_compat, env_gtav_x11, env_gtav_safe
 from proton_autogen.profiles.ragemp import env_ragemp
+from proton_autogen.profiles.dotnet import env_dotnet
 
 from proton_autogen.detection.analyser import has_proton_call, has_wine, has_mangohud, has_gamemode
 from proton_autogen.detection.proton import DEFAULT_PROTON_PATHS
@@ -227,6 +228,7 @@ def export_default_profiles():
         "ut3": env_ut3(),
         "valve": env_goldsrc(),
         "desktop": env_desktop(),
+        "dotnet": env_dotnet(),
     }
 
     for name, env in profiles.items():
@@ -276,6 +278,7 @@ def export_default_profiles_full():
         "ut3": env_ut3(),
         "valve": env_goldsrc(),
         "desktop": env_desktop(),
+        "dotnet": env_dotnet(),
     }
 
 
@@ -635,6 +638,7 @@ def base_env(enable_mangohud=False, enable_gamemode=False, exe_path="", exe_type
         "gtav_x11": env_gtav_x11,
         "gtav_safe": env_gtav_safe,
         "gtav_ragemp": env_ragemp,
+        "dotnet": env_dotnet,
     }
 
     env = env_factories.get(exe_type, env_dx11)()

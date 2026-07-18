@@ -1,5 +1,6 @@
-proton-autogen (3.0.4) noble; urgency=medium
+proton-autogen (3.0.5) noble; urgency=medium
 
+  * Added Support Profile DotNet
   * Added new Cute, KDE and Dark CSS themes and reworked theme handling.
   * Stabilized the Sensors menu.
   * Added CSV-based game profile configurations.

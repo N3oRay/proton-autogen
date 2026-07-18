@@ -27,6 +27,7 @@ VALID_PROFILES = [
     "ut99",
     "legacy",
     "desktop",
+    "dotnet",
 ]
 
 
