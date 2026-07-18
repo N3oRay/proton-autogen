@@ -1,11 +1,22 @@
+import os
+
 from proton_autogen.profiles.base import init_env
+
+from proton_autogen.utils.dotnet import ensure_dotnet48
+
 
 
 # ---------------------------------------------------
 # .NET / Windows Application PROFILE
 # ---------------------------------------------------
-def env_dotnet():
+def env_dotnet(prefix=None,proton_path=None):
     env = init_env()
+
+    if prefix and proton_path:
+        ensure_dotnet48(
+            prefix=prefix,
+            proton_path=proton_path
+        )
 
     print("[proton-autogen] PROFILE: DOTNET")
 
@@ -20,7 +31,8 @@ def env_dotnet():
     env["WINEFSYNC"] = "0"
 
     # Ne pas forcer DXVK
-    env["PROTON_USE_WINED3D"] = "1"
+    # env["PROTON_USE_WINED3D"] = "1"
+    env.pop("PROTON_USE_WINED3D", None)
 
     # Nettoyage variables graphiques jeux
     env.pop("DXVK_HUD", None)

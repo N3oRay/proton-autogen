@@ -604,7 +604,7 @@ def run_standard(exe_path: str):
 
 
 
-def base_env(enable_mangohud=False, enable_gamemode=False, exe_path="", exe_type=""):
+def base_env(enable_mangohud=False, enable_gamemode=False, exe_path="", exe_type="", prefix_path=None, proton_dir=None):
     logger.info("Initializing environment", exe_type=exe_type, mangohud=enable_mangohud, gamemode=enable_gamemode)
 
     """
@@ -641,7 +641,12 @@ def base_env(enable_mangohud=False, enable_gamemode=False, exe_path="", exe_type
         "dotnet": env_dotnet,
     }
 
-    env = env_factories.get(exe_type, env_dx11)()
+    factory = env_factories.get(exe_type, env_dx11)
+
+    env = factory(
+        prefix=prefix_path,
+        proton_path=proton_dir
+    )
 
 
     # FORCE CLEAN GRAPHICS PIPELINE FOR OLD GAMES
@@ -739,6 +744,18 @@ def run_game_proton(exe_path, exe_type, proton,
 
     game_id = hashlib.md5(exe_path.encode()).hexdigest()
 
+    # -------------------------
+    # Proton Path & Prefix Path
+    # -------------------------
+    prefix_path = get_prefix_path(prefix_mode, exe_path)
+    proton_dir = proton_path(proton)
+
+    if not os.path.isdir(proton_dir):
+        logger.error(
+            f"Invalid Proton path: {proton_dir}"
+        )
+        return -1
+
     # =========================
     # PROTON MODE
     # =========================
@@ -746,10 +763,12 @@ def run_game_proton(exe_path, exe_type, proton,
         enable_mangohud=enable_mangohud,
         enable_gamemode=enable_gamemode,
         exe_path=exe_path,
-        exe_type=exe_type
+        exe_type=exe_type,
+        prefix_path=prefix_path,
+        proton_dir=proton_dir
         )
 
-    prefix_path = get_prefix_path(prefix_mode, exe_path)
+
     #Notification UX:
     notifications.notify("info", "Prefix mode", f"Prefix mode : {prefix_mode}")
     notifications.notify("info", "Prefix path", f"Prefix path : {prefix_path}")
@@ -758,16 +777,7 @@ def run_game_proton(exe_path, exe_type, proton,
     os.makedirs(prefix_path, exist_ok=True)
 
     env["STEAM_COMPAT_CLIENT_INSTALL_PATH"] = os.path.expanduser("~/.steam/steam")
-    # -------------------------
-    # Proton Path
-    # -------------------------
-    proton_dir = proton_path(proton)
 
-    if not os.path.isdir(proton_dir):
-        logger.error(
-            f"Invalid Proton path: {proton_dir}"
-        )
-        return -1
 
 
     env["STEAM_COMPAT_TOOL_PATHS"] = proton_dir
