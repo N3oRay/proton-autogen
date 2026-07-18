@@ -100,7 +100,6 @@ def ensure_dotnet48(prefix, proton_path):
 
     print("[proton-autogen] Installing .NET Framework 4.8...")
 
-
     env = os.environ.copy()
 
     # IMPORTANT :
