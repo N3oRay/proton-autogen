@@ -168,60 +168,33 @@ def ensure_dotnet48(prefix, proton_path):
 
 def check_dotnet48(compat_data, proton_path):
 
-    env = os.environ.copy()
-    env["STEAM_COMPAT_DATA_PATH"] = str(compat_data)
-    env["PROTONPATH"] = str(proton_path)
-    env.pop("WINEPREFIX", None)
+    system_reg = (
+        Path(compat_data)
+        / "pfx"
+        / "system.reg"
+    )
 
-    keys = [
-        r"HKLM\Software\Microsoft\NET Framework Setup\NDP\v4\Full",
-        r"HKLM\Software\Wow6432Node\Microsoft\NET Framework Setup\NDP\v4\Full",
-    ]
+    if not system_reg.exists():
+        return False
 
-    for key in keys:
 
-        cmd = [
-            str(Path(proton_path) / "proton"),
-            "run",
-            "reg.exe",
-            "query",
-            key,
-            "/v",
-            "Release"
-        ]
+    with open(system_reg, "r", encoding="utf-8", errors="ignore") as f:
 
-        result = subprocess.run(
-            cmd,
-            env=env,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            text=True
-        )
+        for line in f:
 
-        print(
-            f"[proton-autogen] Registry check {key}"
-        )
-
-        print(result.stdout)
-
-        for line in result.stdout.splitlines():
-
-            if "Release" not in line:
-                continue
-
-            for part in line.split():
+            if '"Release"=dword:' in line:
 
                 try:
-                    if part.startswith("0x"):
-                        value = int(part, 16)
-
-                    else:
-                        value = int(part)
+                    value = int(
+                        line.split("dword:")[1],
+                        16
+                    )
 
                     if value >= 528040:
                         return True
 
                 except ValueError:
-                    continue
+                    pass
+
 
     return False
