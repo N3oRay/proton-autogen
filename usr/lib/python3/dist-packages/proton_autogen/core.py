@@ -697,30 +697,40 @@ def base_env(enable_mangohud=False, enable_gamemode=False, exe_path="", exe_type
 
     get = env.get
 
-    if DEBUG or VERBOSE:
-        logger.debug(
-            "Wine synchronization",
-            wineesync=get("WINEESYNC"),
-            winefsync=get("WINEFSYNC"),
-            proton_no_fsync=get("PROTON_NO_FSYNC"),
-            proton_no_esync=get("PROTON_NO_ESYNC"),
-        )
+    if VERBOSE or DEBUG:
+        logger.info("=== PROFILE ENV CHECK ===")
 
-        logger.debug(
-            "Graphics configuration",
-            winedlloverrides=get("WINEDLLOVERRIDES"),
-            dxvk_hud=get("DXVK_HUD"),
-            proton_use_wined3d=get("PROTON_USE_WINED3D"),
-            vkd3d_config=get("VKD3D_CONFIG"),
-        )
+        debug_vars = [
+            "WINEESYNC",
+            "WINEFSYNC",
+            "PROTON_NO_ESYNC",
+            "PROTON_NO_FSYNC",
+            "WINE_SIMULATE_WRITECOPY",
+            "CEF_FORCE_GPU",
+            "CEF_DISABLE_GPU",
+            "CEF_FLAGS",
+            "CHROME_FLAGS",
+            "WINEPREFIX",
+            "STEAM_COMPAT_DATA_PATH",
+            "WINHTTP_TIMEOUT",
+            "DXVK_LOG_LEVEL",
+            "DXVK_HUD",
+            "MANGOHUD",
+            "SDL_VIDEODRIVER",
+            "PROTON_USE_WINED3D",
+            "WINEDLLOVERRIDES",
+            "WINEDEBUG",
+            "VKD3D_CONFIG",
+            "PROTON_LOG",
+            "DXVK_HUD",
+        ]
 
-        logger.debug(
-            "Runtime",
-            xalia=get("PROTON_USE_XALIA") != "0",
-            winedebug=get("WINEDEBUG"),
-            proton_log=get("PROTON_LOG"),
-            executable=exe_path,
-        )
+        for key in debug_vars:
+            logger.info(
+                f"ENV {key}={env.get(key, '<unset>')}"
+            )
+
+        logger.info("=== END PROFILE ENV CHECK ===")
     else:
         logger.info(f"SYNC: MANGOHUD={get('MANGOHUD')} MANGOHUD_DLSYM={get('MANGOHUD_DLSYM')}")
         logger.info( f"Apply PROFILE={(exe_type or 'unknown').upper()} | "

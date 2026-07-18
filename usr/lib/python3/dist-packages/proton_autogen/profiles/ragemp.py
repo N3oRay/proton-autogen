@@ -20,12 +20,9 @@ def env_ragemp():
     # CEF / Chromium (RageMP UI)
     # ------------------------------------------------
 
-    # Désactive l'accélération GPU CEF
-    # utile sous Wine/Proton
-    env["CEF_FORCE_GPU"] = "0"
-
-    # Evite les problèmes ANGLE/OpenGL
-    env["CEF_DISABLE_GPU"] = "1"
+    # CEF (RageMP launcher/UI)
+    env["CEF_FORCE_GPU"] = "1"
+    env.pop("CEF_DISABLE_GPU", None)
 
     # ------------------------------------------------
     # Réseau Windows
