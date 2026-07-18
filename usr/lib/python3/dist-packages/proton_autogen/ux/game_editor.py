@@ -10,7 +10,7 @@ from proton_autogen.backend import save_game_config
 from proton_autogen.backend import find_all_protons
 from proton_autogen.desc import set_tooltip
 from proton_autogen.editor import list_prefixes_ux
-
+from proton_autogen.profiles.init import VALID_PROFILES
 
 # -----------------------------
 # GAME EDITOR WINDOW
@@ -25,7 +25,7 @@ class GameEditor(Gtk.Window):
         self.on_saved = None
         self.set_size_request(520, 420)
         self.add_css_class("editor-window")
-        self.profile_model = [ "launcher", "dx11", "dx11Bnet", "dx12", "dx9", "dx9opengl", "gtav_compat", "gtav_x11", "gtav_safe", "oldgame", "valve", "ut3", "ut99", "legacy", "desktop"]
+        self.profile_model = VALID_PROFILES
         self.prefix_model = list_prefixes_ux()
         self.gpu_model = [
             "auto",

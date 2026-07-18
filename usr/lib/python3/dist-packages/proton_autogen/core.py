@@ -24,6 +24,7 @@ from proton_autogen.profiles.engines import env_goldsrc_full, env_gold_test, env
 from proton_autogen.profiles.desktop import env_desktop, env_win95, env_win95Beta, env_DDraw
 from proton_autogen.profiles.launcher import env_launcher, env_install_clean
 from proton_autogen.profiles.type_profile import env_gtav_compat, env_gtav_x11, env_gtav_safe
+from proton_autogen.profiles.ragemp import env_ragemp
 
 from proton_autogen.detection.analyser import has_proton_call, has_wine, has_mangohud, has_gamemode
 from proton_autogen.detection.proton import DEFAULT_PROTON_PATHS
@@ -217,6 +218,7 @@ def export_default_profiles():
         "gtav_compat": env_gtav_compat(),
         "gtav_x11": env_gtav_x11(),
         "gtav_safe": env_gtav_safe(),
+        "gtav_ragemp": env_ragemp(),
         "install": env_install_clean(),
         "ut99": env_ut99(),
         "quake": env_quake(),
@@ -264,6 +266,7 @@ def export_default_profiles_full():
         "gtav_compat": env_gtav_compat(),
         "gtav_x11": env_gtav_x11(),
         "gtav_safe": env_gtav_safe(),
+        "gtav_ragemp": env_ragemp(),
         "install": env_install_clean(),
         "oldgame": env_oldgame(),
         "ut99": env_ut99(),
@@ -631,6 +634,7 @@ def base_env(enable_mangohud=False, enable_gamemode=False, exe_path="", exe_type
         "gtav_compat": env_gtav_compat,
         "gtav_x11": env_gtav_x11,
         "gtav_safe": env_gtav_safe,
+        "gtav_ragemp": env_ragemp,
     }
 
     env = env_factories.get(exe_type, env_dx11)()
