@@ -694,50 +694,6 @@ def base_env(enable_mangohud=False, enable_gamemode=False, exe_path="", exe_type
         env["WINEDEBUG"] = "+seh,+loaddll"
     else:
         env["PROTON_LOG"] = "0"
-
-    get = env.get
-
-    if VERBOSE or DEBUG:
-        logger.info("=== PROFILE ENV CHECK ===")
-
-        debug_vars = [
-            "WINEESYNC",
-            "WINEFSYNC",
-            "PROTON_NO_ESYNC",
-            "PROTON_NO_FSYNC",
-            "WINE_SIMULATE_WRITECOPY",
-            "CEF_FORCE_GPU",
-            "CEF_DISABLE_GPU",
-            "CEF_FLAGS",
-            "CHROME_FLAGS",
-            "WINEPREFIX",
-            "STEAM_COMPAT_DATA_PATH",
-            "WINHTTP_TIMEOUT",
-            "DXVK_LOG_LEVEL",
-            "DXVK_HUD",
-            "MANGOHUD",
-            "SDL_VIDEODRIVER",
-            "PROTON_USE_WINED3D",
-            "WINEDLLOVERRIDES",
-            "WINEDEBUG",
-            "VKD3D_CONFIG",
-            "PROTON_LOG",
-            "DXVK_HUD",
-        ]
-
-        for key in debug_vars:
-            logger.info(
-                f"ENV {key}={env.get(key, '<unset>')}"
-            )
-
-        logger.info("=== END PROFILE ENV CHECK ===")
-    else:
-        logger.info(f"SYNC: MANGOHUD={get('MANGOHUD')} MANGOHUD_DLSYM={get('MANGOHUD_DLSYM')}")
-        logger.info( f"Apply PROFILE={(exe_type or 'unknown').upper()} | "
-                     f"SYNC={'ON' if get('WINEESYNC') == '1' else 'OFF'} | "
-                     f"WINED3D={'ON' if get('PROTON_USE_WINED3D') == '1' else 'OFF'} | "
-                     f"XALIA={'OFF' if get('PROTON_USE_XALIA') == '0' else 'ON'} | "
-                     f"DXVK_HUD={get('DXVK_HUD') or 'OFF'}" )
     return env
 
 def get_exe_arch(path):
@@ -866,6 +822,51 @@ def run_game_proton(exe_path, exe_type, proton,
 
     if enable_gamemode and has_gamemode():
         env["GAMEMODE"] = "1"
+
+
+    if VERBOSE or DEBUG:
+        logger.info("=== PROFILE ENV CHECK ===")
+
+        debug_vars = [
+            "WINEESYNC",
+            "WINEFSYNC",
+            "PROTON_NO_ESYNC",
+            "PROTON_NO_FSYNC",
+            "WINE_SIMULATE_WRITECOPY",
+            "CEF_FORCE_GPU",
+            "CEF_DISABLE_GPU",
+            "CEF_FLAGS",
+            "CHROME_FLAGS",
+            "WINEPREFIX",
+            "STEAM_COMPAT_DATA_PATH",
+            "WINHTTP_TIMEOUT",
+            "DXVK_LOG_LEVEL",
+            "DXVK_HUD",
+            "MANGOHUD",
+            "SDL_VIDEODRIVER",
+            "PROTON_USE_WINED3D",
+            "WINEDLLOVERRIDES",
+            "WINEDEBUG",
+            "VKD3D_CONFIG",
+            "PROTON_LOG",
+            "DXVK_HUD",
+            "PROTON_ENABLE_WAYLAND",
+        ]
+
+        for key in debug_vars:
+            logger.info(
+                f"ENV {key}={env.get(key, '<unset>')}"
+            )
+
+        logger.info("=== END PROFILE ENV CHECK ===")
+    else:
+        get = env.get
+        logger.info(f"SYNC: MANGOHUD={get('MANGOHUD')} MANGOHUD_DLSYM={get('MANGOHUD_DLSYM')}")
+        logger.info( f"Apply PROFILE={(exe_type or 'unknown').upper()} | "
+                     f"SYNC={'ON' if get('WINEESYNC') == '1' else 'OFF'} | "
+                     f"WINED3D={'ON' if get('PROTON_USE_WINED3D') == '1' else 'OFF'} | "
+                     f"XALIA={'OFF' if get('PROTON_USE_XALIA') == '0' else 'ON'} | "
+                     f"DXVK_HUD={get('DXVK_HUD') or 'OFF'}" )
 
     logger.info(f"Launch mode: Proton ")
 

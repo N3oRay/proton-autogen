@@ -46,6 +46,51 @@ def resolve_game_features(game: dict, system: dict):
     return features
 
 
+def detect_wayland_mode(system, features=None):
+    """
+    Détermine si Proton doit utiliser Wayland natif.
+
+    Retour:
+        True  -> activer Wayland Proton
+        False -> rester X11/XWayland
+    """
+
+    if not isinstance(system, dict):
+        system = {}
+
+    if not isinstance(features, dict):
+        features = {}
+
+    # Override utilisateur
+    mode = features.get("wayland", "auto")
+
+    if mode == "on":
+        return True
+
+    if mode == "off":
+        return False
+
+    # Auto
+    wayland = system.get("wayland", False)
+    gpu = system.get("gpu", "").lower()
+
+    # Steam Deck : Wayland natif recommandé
+    if system.get("steam_deck"):
+        return True
+
+    # NVIDIA + Wayland :
+    # rester prudent (CEF, anciens jeux, launchers)
+    if wayland and gpu == "nvidia":
+        return False
+
+    # AMD/Intel modernes :
+    # généralement OK
+    if wayland and gpu in ("amd", "intel"):
+        return True
+
+    return False
+
+
 
 def detect_gpu_profile(system):
     gpu = system.get("gpu")
@@ -117,6 +162,15 @@ def gpu_env(system=None, features=None):
     if not isinstance(features, dict):
         features = {}
 
+    env = {}
+    # -----------------------
+    # Wayland / X11 Proton
+    # -----------------------
+    if detect_wayland_mode(system, features):
+        env["PROTON_ENABLE_WAYLAND"] = "1"
+    else:
+        env["PROTON_ENABLE_WAYLAND"] = "0"
+
     # Valeurs par défaut
     profile = features.get("gpu", "auto")
     gpu = system.get("gpu", "").lower()
@@ -132,11 +186,7 @@ def gpu_env(system=None, features=None):
 
     # Seulement les profils performance
     if profile not in ("performance", "extreme"):
-        return {}
-
-
-    env = {}
-
+        return env
 
     # NVIDIA
     if gpu == "nvidia":
