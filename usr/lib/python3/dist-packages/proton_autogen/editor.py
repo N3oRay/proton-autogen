@@ -9,9 +9,57 @@ from proton_autogen.profiles.init import detect_exe_type, choose_profile
 from proton_autogen.loader import load_game_config
 from proton_autogen.core import make_output_path, PREFIX_DIR_PATH
 from proton_autogen.diag import find_all_protons, find_proton
+
 import uuid
 
 logger = StructuredLogger("proton-autogen.editor")
+
+
+def choose_proton():
+    protons = find_all_protons()
+
+    if not protons:
+        print("No Proton found.")
+        return None
+
+    # IMPORTANT: single source of truth
+    protons = sorted(protons, key=lambda x: os.path.basename(x).lower())
+
+    selected = find_proton()
+
+    selected_path = None
+    if isinstance(selected, dict):
+        selected_path = selected["path"]
+    else:
+        selected_path = selected
+
+    print("\nAvailable Protons:\n")
+
+    for idx, p in enumerate(protons, start=1):
+        mark = ""
+        if selected_path and os.path.realpath(p) == os.path.realpath(selected_path):
+            mark = " (current)"
+
+        print(f"[{idx}] {os.path.basename(p)}{mark}")
+        print(f"    {p}")
+
+    print("[d] Auto (best match)")
+
+    while True:
+        choice = input("\nSelection: ").strip().lower()
+
+        if choice == "d":
+            return find_proton()
+
+        try:
+            idx = int(choice) - 1
+
+            if 0 <= idx < len(protons):
+                return protons[idx]
+        except ValueError:
+            pass
+
+        print("Invalid selection")
 
 
 def list_prefixes():

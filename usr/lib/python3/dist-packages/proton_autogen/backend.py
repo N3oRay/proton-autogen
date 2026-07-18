@@ -356,58 +356,6 @@ def create_new_prefix():
     return name
 
 
-def choose_proton():
-    protons = find_all_protons()
-
-    if not protons:
-        print("No Proton found.")
-        return None
-
-    # IMPORTANT: single source of truth
-    protons = sorted(protons, key=lambda x: os.path.basename(x).lower())
-
-    selected = find_proton()
-
-    selected_path = None
-    if isinstance(selected, dict):
-        selected_path = selected["path"]
-    else:
-        selected_path = selected
-
-    print("\nAvailable Protons:\n")
-
-    for idx, p in enumerate(protons, start=1):
-        mark = ""
-        if selected_path and os.path.realpath(p) == os.path.realpath(selected_path):
-            mark = " (current)"
-
-        print(f"[{idx}] {os.path.basename(p)}{mark}")
-        print(f"    {p}")
-
-    print("[d] Auto (best match)")
-
-    while True:
-        choice = input("\nSelection: ").strip().lower()
-
-        if choice == "d":
-            return find_proton()
-
-        try:
-            idx = int(choice) - 1
-
-            if 0 <= idx < len(protons):
-                return protons[idx]
-        except ValueError:
-            pass
-
-        print("Invalid selection")
-
-
-
-
-
-
-
 
 def load_registered_games():
     games_dir = Path.home() / ".config/proton-autogen/games"
