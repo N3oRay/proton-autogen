@@ -1,7 +1,7 @@
-proton-autogen (3.0.6) noble; urgency=medium
+proton-autogen (3.0.7) noble; urgency=medium
 
+  * Added Support Profile DotNet (New Auto install DotNet)
   * More stability CLI
-  * Added Support Profile DotNet
   * Added new Cute, KDE and Dark CSS themes and reworked theme handling.
   * Stabilized the Sensors menu.
   * Added CSV-based game profile configurations.
@@ -29,4 +29,4 @@ proton-autogen (3.0.6) noble; urgency=medium
   * Enhanced debugging and diagnostic tools.
   * General code cleanup and internal optimizations.
 
- -- N3oray <n3oray77@gmail.com>  Sat, 18 Jul 2026 12:01:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Sat, 18 Jul 2026 18:01:00 +0200
