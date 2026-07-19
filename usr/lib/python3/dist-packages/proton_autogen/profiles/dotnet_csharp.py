@@ -43,6 +43,9 @@ def detect_managed_launcher(exe_path=None):
     if "fivem" in exe:
         return "fivem"
 
+    if "playnite" in exe:
+        return "playnite"
+
     return None
 
 def env_dotnet_csharp( prefix=None, proton_path=None, exe_path=None, ):
@@ -76,7 +79,7 @@ def env_dotnet_csharp( prefix=None, proton_path=None, exe_path=None, ):
 
     env.pop("PROTON_NO_ESYNC", None)
     env.pop("PROTON_NO_FSYNC", None)
-    env.pop("DXVK_HUD", 0)
+    env.pop("DXVK_HUD", "0")
 
     #
     # Remove variables that may have been injected for games.

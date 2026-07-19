@@ -384,7 +384,7 @@ def print_proton_paths():
 
 def apply_dxvk_hud(env, exe_type, enable_mangohud, debug_mode=False):
     """
-    FIXED signature compatible with proton-autogen
+    Apply DXVK HUD settings compatible with proton-autogen.
     """
 
     # MangoHud override
@@ -393,13 +393,17 @@ def apply_dxvk_hud(env, exe_type, enable_mangohud, debug_mode=False):
         return env
 
     # Debug mode
-    if debug_mode:
-        env["DXVK_HUD"] = "compiler"
-        return env
+    SAFE_PROFILES = ["dotnet_csharp", "dotnet"]
 
-    # Default clean state
-    env.pop("DXVK_HUD", None)
-    return env
+    if debug_mode and exe_type not in SAFE_PROFILES:
+        env["DXVK_HUD"] = "devinfo,fps,version"
+        return env
+    if debug_mode and exe_type in SAFE_PROFILES:
+        env["DXVK_HUD"] = "0"
+    else:
+        # Default clean state
+        env.pop("DXVK_HUD", None)
+        return env
 
 
 
