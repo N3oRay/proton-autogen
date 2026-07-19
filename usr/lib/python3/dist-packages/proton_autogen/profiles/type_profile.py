@@ -3,7 +3,7 @@ from proton_autogen.profiles.base import init_env
 # ---------------------------------------------------
 # GTA V
 # ---------------------------------------------------
-def env_gtav_compat(prefix=None, proton_path=None):
+def env_gtav_compat(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
 
     print("[proton-autogen] PROFILE: GTA V Compatibility")
@@ -29,7 +29,7 @@ def env_gtav_compat(prefix=None, proton_path=None):
 
 
 
-def env_gtav_x11(prefix=None, proton_path=None):
+def env_gtav_x11(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
 
     print("[proton-autogen] PROFILE: GTA V X11")
@@ -56,7 +56,7 @@ def env_gtav_x11(prefix=None, proton_path=None):
     return env
 
 
-def env_gtav_safe(prefix=None, proton_path=None):
+def env_gtav_safe(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
 
     print("[proton-autogen] PROFILE: GTA V SAFE")

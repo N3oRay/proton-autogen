@@ -2,9 +2,9 @@ from proton_autogen.profiles.base import init_env
 
 
 # ---------------------------------------------------
-# RageMP
+# RageMP - old profiles - New dotnet_csharp
 # ---------------------------------------------------
-def env_ragemp(prefix=None, proton_path=None):
+def env_ragemp(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
 
     print("[proton-autogen] PROFILE: RageMP Compatibility")

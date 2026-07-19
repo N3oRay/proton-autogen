@@ -6,7 +6,7 @@ from proton_autogen.profiles.base import init_env
 # ---------------------------------------------------
 # 0. LAUNCHER PROFILE (legacy Photoshop 6)
 # ---------------------------------------------------
-def env_legacy_app(prefix=None, proton_path=None):
+def env_legacy_app(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
 
     print("[proton-autogen] PROFILE: LEGACY APPLICATION")
@@ -29,7 +29,7 @@ def env_legacy_app(prefix=None, proton_path=None):
 # ---------------------------------------------------
 # 4. OLD GAME PROFILE (DX8 / DX9 / WineD3D)
 # ---------------------------------------------------
-def env_oldgame(prefix=None, proton_path=None):
+def env_oldgame(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
 
     print("[proton-autogen] PROFILE: OLD GAME (DX8/DX9)")
@@ -53,7 +53,7 @@ def env_oldgame(prefix=None, proton_path=None):
     return env
 
 
-def env_quake(prefix=None, proton_path=None):
+def env_quake(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
 
     print("[proton-autogen] PROFILE: QUAKE II CLEAN")
@@ -86,7 +86,7 @@ def env_quake(prefix=None, proton_path=None):
 # 6. PROFILE (UT3)
 #-----------------------------------------------------------
 
-def env_ut3(prefix=None, proton_path=None):
+def env_ut3(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
 
     print("[proton-autogen] PROFILE: UT3 FIXED (BETA)")

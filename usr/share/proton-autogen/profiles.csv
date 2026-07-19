@@ -264,7 +264,6 @@ clion64.exe,CLion,desktop,IDE
 Postman.exe,Postman,desktop,API client
 Figma.exe,Figma,desktop,Design tool
 notion.exe,Notion,desktop,Notes application
-Obsidian.exe,Obsidian,desktop,Notes application
 GameBar.exe,Xbox Game Bar,desktop,Overlay
 GameBarFTServer.exe,Xbox Game Bar Service,desktop,Overlay
 nvcontainer.exe,NVIDIA Container,desktop,NVIDIA service
@@ -500,7 +499,6 @@ LINQPad7.exe,LINQPad 7,dotnet,Developer Tool
 NCrunch.exe,NCrunch,dotnet,Testing
 OpenCover.Console.exe,OpenCover,dotnet,Code Coverage
 ReportGenerator.exe,ReportGenerator,dotnet,Code Coverage
-SpecFlow.exe,SpecFlow,dotnet,Testing
 Fake.exe,FAKE Build,dotnet,Build Automation
 Octopus.Client.exe,Octopus Deploy,dotnet,Deployment
 Squirrel.exe,Squirrel.Windows,dotnet,Installer
@@ -608,11 +606,217 @@ KeePass.exe,KeePass Password Safe,dotnet,Password Manager
 Bitwarden.exe,Bitwarden,dotnet,Password Manager
 1Password.exe,1Password,dotnet,Password Manager
 Obsidian.exe,Obsidian,dotnet,Note Application
-Joplin.exe,Joplin,dotnet,Note Application
 StandardNotes.exe,Standard Notes,dotnet,Note Application
-Calibre.exe,Calibre,dotnet,Ebook Manager
-Kavita.exe,Kavita,dotnet,Media Server
-Komga.exe,Komga,dotnet,Comic Server
-Nextcloud.exe,Nextcloud Desktop,dotnet,Cloud Storage
-Syncthing.exe,Syncthing,dotnet,File Synchronization
-ResilioSync.exe,Resilio Sync,dotnet,File Synchronization
+voice_tweak.exe,Voice Tweak,dotnet,Client Voice
+VoiceAttack.exe,Voice Attack,dotnet,Client Voice
+voiceattackinstaller_116.exe,Voice Attack,dotnet,Client Voice
+voiceattackinstaller_189_32.exe,Voice Attack,dotnet,Client Voice
+voiceattackinstaller_2.1.8.0.exe,Voice Attack,dotnet,Client Voice
+PaintDotNet.exe,Paint.NET,dotnet_csharp,WPF image editor
+KeePass.exe,KeePass Password Safe,dotnet_csharp,WinForms password manager
+LINQPad.exe,LINQPad,dotnet_csharp,.NET developer tool
+LINQPad7.exe,LINQPad 7,dotnet_csharp,.NET developer tool
+ILSpy.exe,ILSpy,dotnet_csharp,.NET decompiler
+dnSpy.exe,dnSpy,dotnet_csharp,.NET debugger
+Fiddler.exe,Fiddler Classic,dotnet_csharp,HTTP debugger
+FiddlerEverywhere.exe,Fiddler Everywhere,dotnet_csharp,HTTP debugger
+ShareX.exe,ShareX,dotnet_csharp,Screen capture
+ScreenToGif.exe,ScreenToGif,dotnet_csharp,Screen recorder
+PowerToys.exe,Microsoft PowerToys,dotnet_csharp,WPF utility
+EarTrumpet.exe,EarTrumpet,dotnet_csharp,WPF audio mixer
+Flow.Launcher.exe,Flow Launcher,dotnet_csharp,WPF launcher
+Wox.exe,Wox,dotnet_csharp,WPF launcher
+FluentSearch.exe,Fluent Search,dotnet_csharp,WPF launcher
+Bitwarden.exe,Bitwarden Desktop,dotnet_csharp,Avalonia desktop app
+Joplin.exe,Joplin,dotnet_csharp,Avalonia desktop app
+Obsidian.exe,Obsidian,dotnet_csharp,Electron + .NET helper
+Hydra.exe,Hydra Launcher,dotnet_csharp,Game launcher
+Playnite.DesktopApp.exe,Playnite,dotnet_csharp,WPF game launcher
+ChocolateyGui.exe,Chocolatey GUI,dotnet_csharp,WPF package manager
+AzureDataStudio.exe,Azure Data Studio,dotnet_csharp,SQL tool
+StorageExplorer.exe,Azure Storage Explorer,dotnet_csharp,Azure tool
+PerfView.exe,PerfView,dotnet_csharp,Performance analysis
+MediaInfoNet.exe,MediaInfo.NET,dotnet_csharp,Media information
+Sonarr.exe,Sonarr,dotnet_csharp,Media management
+Radarr.exe,Radarr,dotnet_csharp,Media management
+Lidarr.exe,Lidarr,dotnet_csharp,Media management
+Readarr.exe,Readarr,dotnet_csharp,Media management
+Prowlarr.exe,Prowlarr,dotnet_csharp,Indexer manager
+Jackett.exe,Jackett,dotnet_csharp,Indexer proxy
+JackettConsole.exe,Jackett Console,dotnet_csharp,Indexer proxy
+Bazarr.exe,Bazarr,dotnet_csharp,Subtitle manager
+Whisparr.exe,Whisparr,dotnet_csharp,Media management
+Recyclarr.exe,Recyclarr,dotnet_csharp,Media management
+Jellyfin.exe,Jellyfin Server,dotnet_csharp,Media server
+Jellyfin.Server.exe,Jellyfin Server,dotnet_csharp,Media server
+EmbyServer.exe,Emby Server,dotnet_csharp,Media server
+Duplicati.Server.exe,Duplicati Server,dotnet_csharp,Backup software
+Duplicati.GUI.TrayIcon.exe,Duplicati,dotnet_csharp,Backup client
+Calibre.exe,Calibre,dotnet_csharp,E-book manager
+Kavita.exe,Kavita,dotnet_csharp,Media server
+Komga.exe,Komga,dotnet_csharp,Comic server
+Nextcloud.exe,Nextcloud Desktop,dotnet_csharp,Cloud synchronization
+Syncthing.exe,Syncthing,dotnet_csharp,File synchronization
+ResilioSync.exe,Resilio Sync,dotnet_csharp,File synchronization
+MediaInfo.exe,MediaInfo,dotnet_csharp,Media information
+NuGet.exe,NuGet,dotnet_csharp,Package manager
+nuget.exe,NuGet CLI,dotnet_csharp,Package manager
+MSBuild.exe,MSBuild,dotnet_csharp,Build tool
+dotnet.exe,.NET Host,dotnet_csharp,.NET runtime
+dotnet-script.exe,dotnet-script,dotnet_csharp,Scripting
+dotnet-watch.exe,dotnet watch,dotnet_csharp,Development tool
+dotnet-format.exe,dotnet format,dotnet_csharp,Formatter
+dotnet-ef.exe,Entity Framework CLI,dotnet_csharp,Database tooling
+csc.exe,C# Compiler,dotnet_csharp,Compiler
+vbc.exe,VB Compiler,dotnet_csharp,Compiler
+fsc.exe,F# Compiler,dotnet_csharp,Compiler
+fsi.exe,F# Interactive,dotnet_csharp,REPL
+ildasm.exe,ILDasm,dotnet_csharp,Disassembler
+ilasm.exe,ILAsm,dotnet_csharp,Assembler
+crossgen.exe,CrossGen,dotnet_csharp,AOT compiler
+crossgen2.exe,CrossGen2,dotnet_csharp,AOT compiler
+gacutil.exe,GAC Utility,dotnet_csharp,Assembly management
+sn.exe,Strong Name Tool,dotnet_csharp,Cryptography
+devenv.exe,Microsoft Visual Studio,dotnet_csharp,IDE
+Rider64.exe,JetBrains Rider,dotnet_csharp,IDE
+RoslynPad.exe,RoslynPad,dotnet_csharp,C# editor
+NCrunch.exe,NCrunch,dotnet_csharp,Testing
+vstest.console.exe,VSTest,dotnet_csharp,Testing
+mstest.exe,MSTest,dotnet_csharp,Testing
+SpecFlow.exe,SpecFlow,dotnet_csharp,BDD testing
+Cake.exe,Cake,dotnet_csharp,Build automation
+Nuke.exe,Nuke,dotnet_csharp,Build automation
+OpenRA.exe,OpenRA,dotnet_csharp,OpenRA engine
+Terraria.exe,Terraria,dotnet_csharp,XNA/MonoGame
+Stardew Valley.exe,Stardew Valley,dotnet_csharp,MonoGame
+Celeste.exe,Celeste,dotnet_csharp,XNA
+FEZ.exe,FEZ,dotnet_csharp,XNA
+Bastion.exe,Bastion,dotnet_csharp,XNA
+Transistor.exe,Transistor,dotnet_csharp,MonoGame
+RogueLegacy.exe,Rogue Legacy,dotnet_csharp,XNA
+Rogue Legacy 2.exe,Rogue Legacy 2,dotnet_csharp,MonoGame
+Cuphead.exe,Cuphead,dotnet_csharp,Unity C#
+OriDE.exe,Ori and the Blind Forest,dotnet_csharp,Unity C#
+RimWorldWin64.exe,RimWorld,dotnet_csharp,Unity C#
+Cities.exe,Cities Skylines,dotnet_csharp,Unity C#
+KSP_x64.exe,Kerbal Space Program,dotnet_csharp,Unity C#
+DSPGAME.exe,Dyson Sphere Program,dotnet_csharp,Unity C#
+HouseFlipper.exe,House Flipper,dotnet_csharp,Unity C#
+Lethal Company.exe,Lethal Company,dotnet_csharp,Unity C#
+Phasmophobia.exe,Phasmophobia,dotnet_csharp,Unity C#
+Escape Simulator.exe,Escape Simulator,dotnet_csharp,Unity C#
+Subnautica.exe,Subnautica,dotnet_csharp,Unity C#
+SubnauticaZero.exe,Subnautica Below Zero,dotnet_csharp,Unity C#
+Valheim.exe,Valheim,dotnet_csharp,Unity C#
+Raft.exe,Raft,dotnet_csharp,Unity C#
+RustClient.exe,Rust,dotnet_csharp,Unity C#
+TheForest.exe,The Forest,dotnet_csharp,Unity C#
+SonsOfTheForest.exe,Sons Of The Forest,dotnet_csharp,Unity C#
+AmongUs.exe,Among Us,dotnet_csharp,Unity C#
+Cult Of The Lamb.exe,Cult of the Lamb,dotnet_csharp,Unity C#
+ragemp.exe,RAGE Multiplayer,dotnet_csharp,GTA V multiplayer launcher
+ragemp_v.exe,RAGE Multiplayer,dotnet_csharp,GTA V multiplayer launcher
+fivem.exe,FiveM,dotnet_csharp,GTA V multiplayer launcher
+fivem_b2189.exe,FiveM,dotnet_csharp,GTA V multiplayer launcher
+fivem_b2372.exe,FiveM,dotnet_csharp,GTA V multiplayer launcher
+fivem_b2545.exe,FiveM,dotnet_csharp,GTA V multiplayer launcher
+fivem_b2612.exe,FiveM,dotnet_csharp,GTA V multiplayer launcher
+fivem_b2699.exe,FiveM,dotnet_csharp,GTA V multiplayer launcher
+fivem_b2802.exe,FiveM,dotnet_csharp,GTA V multiplayer launcher
+fivem_b2944.exe,FiveM,dotnet_csharp,GTA V multiplayer launcher
+fivem_b3095.exe,FiveM,dotnet_csharp,GTA V multiplayer launcher
+fivem_b3258.exe,FiveM,dotnet_csharp,GTA V multiplayer launcher
+Avalonia.Diagnostics.exe,Avalonia Diagnostics,dotnet_csharp,Avalonia debugging
+AvaloniaControlCatalog.exe,Avalonia Control Catalog,dotnet_csharp,Avalonia demo
+WpfInspector.exe,WPF Inspector,dotnet_csharp,WPF debugging
+Snoop.exe,Snoop,dotnet_csharp,WPF inspection
+XamlSpy.exe,XAML Spy,dotnet_csharp,WPF inspection
+LiveCharts.exe,LiveCharts Demo,dotnet_csharp,WPF charts
+MahApps.Metro.Demo.exe,MahApps.Metro Demo,dotnet_csharp,WPF demo
+ReactiveUI.Validation.Sample.exe,ReactiveUI Sample,dotnet_csharp,Avalonia sample
+ServiceHub.Host.exe,Visual Studio ServiceHub,dotnet_csharp,Visual Studio service
+ServiceHub.RoslynCodeAnalysisService.exe,Roslyn Service,dotnet_csharp,Roslyn service
+Microsoft.ServiceHub.Controller.exe,ServiceHub Controller,dotnet_csharp,Visual Studio service
+VBCSCompiler.exe,Roslyn Compiler,dotnet_csharp,C# compiler server
+OmniSharp.exe,OmniSharp,dotnet_csharp,Language server
+omnisharp.exe,OmniSharp,dotnet_csharp,Language server
+GitVersion.exe,GitVersion,dotnet_csharp,Semantic versioning
+GitReleaseManager.exe,GitReleaseManager,dotnet_csharp,Release management
+MinVer.exe,MinVer,dotnet_csharp,Version generator
+FAKE.exe,FAKE Build,dotnet_csharp,Build automation
+psake.exe,psake,dotnet_csharp,Build automation
+Bullseye.exe,Bullseye,dotnet_csharp,Build automation
+InvokeBuild.exe,InvokeBuild,dotnet_csharp,Build automation
+ReportGenerator.exe,ReportGenerator,dotnet_csharp,Code coverage
+OpenCover.Console.exe,OpenCover,dotnet_csharp,Code coverage
+coverlet.console.exe,Coverlet,dotnet_csharp,Code coverage
+coverlet.exe,Coverlet,dotnet_csharp,Code coverage
+Verify.exe,Verify,dotnet_csharp,Snapshot testing
+BenchmarkDotNet.exe,BenchmarkDotNet,dotnet_csharp,Benchmarking
+BenchmarkDotNet.Artifacts.exe,BenchmarkDotNet,dotnet_csharp,Benchmark results
+NBomber.exe,NBomber,dotnet_csharp,Load testing
+SpecFlow.exe,SpecFlow,dotnet_csharp,BDD testing
+Cake.Tool.exe,Cake Tool,dotnet_csharp,Build automation
+Nuke.GlobalTool.exe,NUKE,dotnet_csharp,Build automation
+Octopus.Client.exe,Octopus Deploy,dotnet_csharp,Deployment
+Octopus.Server.exe,Octopus Server,dotnet_csharp,Deployment server
+TeamCity.Agent.exe,TeamCity Agent,dotnet_csharp,CI/CD agent
+TeamCity.exe,TeamCity Server,dotnet_csharp,CI/CD server
+YouTrack.exe,YouTrack,dotnet_csharp,Issue tracker
+Space.exe,JetBrains Space,dotnet_csharp,DevOps platform
+BuildXL.exe,BuildXL,dotnet_csharp,Build system
+OrleansDashboard.exe,Orleans Dashboard,dotnet_csharp,ASP.NET Core dashboard
+Kestrel.exe,ASP.NET Core Kestrel,dotnet_csharp,Web server
+iisexpress.exe,IIS Express,dotnet_csharp,Development web server
+AzureFunctionsHost.exe,Azure Functions,dotnet_csharp,Serverless runtime
+func.exe,Azure Functions Core Tools,dotnet_csharp,Development tools
+AzureStorageEmulator.exe,Azure Storage Emulator,dotnet_csharp,Azure emulator
+Azurite.exe,Azurite,dotnet_csharp,Azure storage emulator
+Seq.exe,Seq,dotnet_csharp,Structured log server
+Seq.Input.exe,Seq Input,dotnet_csharp,Logging
+NLogViewer.exe,NLog Viewer,dotnet_csharp,Log viewer
+Serilog.Sinks.Console.exe,Serilog Console,dotnet_csharp,Logging
+SerilogAnalyzer.exe,Serilog Analyzer,dotnet_csharp,Roslyn analyzer
+Hangfire.exe,Hangfire,dotnet_csharp,Background jobs
+Hangfire.Server.exe,Hangfire Server,dotnet_csharp,Background jobs
+IdentityServer.exe,IdentityServer,dotnet_csharp,Authentication server
+OpenIddict.Server.exe,OpenIddict,dotnet_csharp,OpenID server
+OrchardCore.exe,Orchard Core,dotnet_csharp,CMS
+nopCommerce.exe,nopCommerce,dotnet_csharp,E-commerce platform
+BlogEngine.NET.exe,BlogEngine.NET,dotnet_csharp,Blogging platform
+Umbraco.exe,Umbraco CMS,dotnet_csharp,CMS
+Squidex.exe,Squidex,dotnet_csharp,Headless CMS
+ServiceStack.exe,ServiceStack,dotnet_csharp,Web services
+Raven.Server.exe,RavenDB,dotnet_csharp,Database server
+EventStore.ClusterNode.exe,EventStoreDB,dotnet_csharp,Event sourcing
+NetPad.exe,NetPad,dotnet_csharp,C# scratchpad
+ScriptCS.exe,scriptcs,dotnet_csharp,C# scripting
+TryDotNet.exe,Try .NET,dotnet_csharp,C# playground
+AvalonStudio.exe,AvalonStudio,dotnet_csharp,IDE
+OpenTabletDriver.UX.Wpf.exe,OpenTabletDriver,dotnet_csharp,Tablet driver
+OpenTabletDriver.Daemon.exe,OpenTabletDriver,dotnet_csharp,Tablet service
+R2ModMan.exe,r2modman,dotnet_csharp,Game mod manager
+ThunderstoreModManager.exe,Thunderstore Mod Manager,dotnet_csharp,Game mod manager
+UnityModManager.exe,Unity Mod Manager,dotnet_csharp,Game modding
+BepInEx.GUI.exe,BepInEx,dotnet_csharp,Game modding
+BepInEx.Console.exe,BepInEx,dotnet_csharp,Game modding
+ModAssistant.exe,Beat Saber Mod Assistant,dotnet_csharp,Game modding
+MelonLoader.Installer.exe,MelonLoader,dotnet_csharp,Game modding
+WeMod.exe,WeMod,dotnet_csharp,Game trainer
+NexusMods.App.exe,Nexus Mods App,dotnet_csharp,Mod manager
+ModOrganizer2.exe,Mod Organizer 2,dotnet_csharp,Game mod manager
+SMAPI.exe,SMAPI,dotnet_csharp,Stardew Valley modding
+Vortex.exe,Vortex,dotnet_csharp,Mod manager
+ReClass.NET.exe,ReClass.NET,dotnet_csharp,Reverse engineering
+CheatEngine.exe,Cheat Engine,dotnet_csharp,Memory analysis (.NET UI)
+dnlib.exe,dnlib Tools,dotnet_csharp,.NET assembly tools
+AsmResolver.exe,AsmResolver,dotnet_csharp,.NET assembly tools
+ILVerify.exe,ILVerify,dotnet_csharp,IL verification
+NuGetPackageExplorer.exe,NuGet Package Explorer,dotnet_csharp,NuGet management
+ILMerge.exe,ILMerge,dotnet_csharp,Assembly merging
+ILRepack.exe,ILRepack,dotnet_csharp,Assembly merging
+Costura.exe,Costura.Fody,dotnet_csharp,Assembly embedding
+Fody.exe,Fody,dotnet_csharp,IL weaving
+AutoUpdater.NET.exe,AutoUpdater.NET,dotnet_csharp,Application updater
+Squirrel.exe,Squirrel.Windows,dotnet_csharp,Installer framework
+ClickOnceBootstrapper.exe,ClickOnce Bootstrapper,dotnet_csharp,Deployment

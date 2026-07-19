@@ -1,6 +1,6 @@
 from proton_autogen.profiles.base import init_env
 
-def env_dx9(prefix=None, proton_path=None):
+def env_dx9(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
 
     print("[proton-autogen] PROFILE: OLD GAME (DX8/DX9)")
@@ -30,7 +30,7 @@ def env_dx9(prefix=None, proton_path=None):
 
     return env
 
-def env_dx9dg(prefix=None, proton_path=None):
+def env_dx9dg(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
 
     print("[proton-autogen] PROFILE: OLD GAME (DX9) dgVoodooCpl")
@@ -63,7 +63,7 @@ def env_dx9dg(prefix=None, proton_path=None):
 
     return env
 
-def env_dx9opengl(prefix=None, proton_path=None):
+def env_dx9opengl(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
 
     print("[proton-autogen] PROFILE: OLD GAME (DX8/DX9) OPENGL")

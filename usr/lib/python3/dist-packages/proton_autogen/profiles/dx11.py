@@ -3,7 +3,7 @@ from proton_autogen.profiles.base import init_env
 # ---------------------------------------------------
 # 2. DX11 PROFILE (most games)
 # ---------------------------------------------------
-def env_dx11(prefix=None, proton_path=None):
+def env_dx11(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
 
     print("[proton-autogen] PROFILE: DX11")
@@ -27,7 +27,7 @@ def env_dx11(prefix=None, proton_path=None):
 
     return env
 
-def env_dx11BNet(prefix=None, proton_path=None):
+def env_dx11BNet(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
 
     print("[proton-autogen] PROFILE: DX11 Battle.net")

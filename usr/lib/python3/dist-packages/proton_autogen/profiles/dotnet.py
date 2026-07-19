@@ -215,7 +215,7 @@ def detect_dotnet_mode(prefix):
     return DOTNET_NONE
 
 
-def env_dotnet(prefix=None, proton_path=None):
+def env_dotnet(prefix=None, proton_path=None, exe_path=None):
 
     env = init_env()
 

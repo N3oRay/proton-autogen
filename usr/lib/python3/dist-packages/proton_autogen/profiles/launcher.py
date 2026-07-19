@@ -2,7 +2,7 @@ from proton_autogen.profiles.base import init_env
 # ---------------------------------------------------
 # 1. LAUNCHER PROFILE (Battle.net, EA App, Ubisoft)
 # ---------------------------------------------------
-def env_launcher(prefix=None, proton_path=None):
+def env_launcher(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
 
     print("[proton-autogen] PROFILE: LAUNCHER")
@@ -25,7 +25,7 @@ def env_launcher(prefix=None, proton_path=None):
     return env
 
 
-def env_install_clean(prefix=None, proton_path=None):
+def env_install_clean(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
 
     print("[proton-autogen] PROFILE: INSTALL CLEAN (legacy Windows setup)")

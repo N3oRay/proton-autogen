@@ -20,7 +20,7 @@ VALID_PROFILES = [
     "gtav_compat",
     "gtav_x11",
     "gtav_safe",
-    "gtav_ragemp",
+    "dotnet_csharp",
     "oldgame",
     "valve",
     "ut3",
