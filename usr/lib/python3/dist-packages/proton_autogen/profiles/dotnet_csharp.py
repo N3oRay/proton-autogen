@@ -76,7 +76,7 @@ def env_dotnet_csharp( prefix=None, proton_path=None, exe_path=None, ):
 
     env.pop("PROTON_NO_ESYNC", None)
     env.pop("PROTON_NO_FSYNC", None)
-
+    env.pop("DXVK_HUD", 0)
 
     #
     # Remove variables that may have been injected for games.

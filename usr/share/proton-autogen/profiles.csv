@@ -337,7 +337,6 @@ Lightroom.exe,Adobe Lightroom,desktop,Photo editor
 steamwebhelper.exe,Steam Web Helper,desktop,Steam Component
 GalaxyClient.exe,GOG Galaxy,launcher,Launcher
 BethesdaNetLauncher.exe,Bethesda Launcher,launcher,Launcher
-Playnite.DesktopApp.exe,Playnite,desktop,Game launcher
 MinecraftLauncher.exe,Minecraft Launcher,launcher,Mojang Launcher
 DoomEternalx64vk.exe,Doom Eternal,dx11,id Tech 7 Engine
 TheLastOfUsPart1.exe,The Last of Us Part I,dx12,Naughty Dog Engine
@@ -622,7 +621,6 @@ Bitwarden.exe,Bitwarden Desktop,dotnet_csharp,Avalonia desktop app
 Joplin.exe,Joplin,dotnet_csharp,Avalonia desktop app
 Obsidian.exe,Obsidian,dotnet_csharp,Electron + .NET helper
 Hydra.exe,Hydra Launcher,dotnet_csharp,Game launcher
-Playnite.DesktopApp.exe,Playnite,dotnet_csharp,WPF game launcher
 ChocolateyGui.exe,Chocolatey GUI,dotnet_csharp,WPF package manager
 AzureDataStudio.exe,Azure Data Studio,dotnet_csharp,SQL tool
 StorageExplorer.exe,Azure Storage Explorer,dotnet_csharp,Azure tool
@@ -851,3 +849,5 @@ TreeSize.exe,TreeSize,dotnet_csharp,Disk analyzer
 ImageGlass.exe,ImageGlass,dotnet_csharp,WPF image viewer
 CredentialManager.exe,Credential Manager,dotnet_csharp,Credential utility
 PlayniteInstaller.exe,Manager Game,dotnet_csharp,Game utility
+Playnite.DesktopApp.exe,Playnite,dotnet_csharp,WPF game launcher
+Playnite.FullscreenApp.exe,Playnite,dotnet_csharp,Game launcher
