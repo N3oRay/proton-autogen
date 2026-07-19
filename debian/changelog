@@ -1,5 +1,6 @@
-proton-autogen (3.0.7) noble; urgency=medium
+proton-autogen (3.0.8) noble; urgency=medium
 
+  * Added Support C Sharp DotNet
   * Added Support Profile DotNet (New Auto install DotNet)
   * More stability CLI
   * Added new Cute, KDE and Dark CSS themes and reworked theme handling.
