@@ -46,6 +46,9 @@ def detect_managed_launcher(exe_path=None):
     if "playnite" in exe:
         return "playnite"
 
+    if "voiceattack" in exe:
+        return "voiceattack"
+
     return None
 
 def env_dotnet_csharp( prefix=None, proton_path=None, exe_path=None, ):
@@ -145,6 +148,14 @@ def env_dotnet_csharp( prefix=None, proton_path=None, exe_path=None, ):
 
                 # Désactive les problèmes de rendu WPF/D3D
                 env["LIBGL_ALWAYS_SOFTWARE"] = "1"
+            elif launcher == "voiceattack" :
+                env["WINEDLLOVERRIDES"] = (
+                    "mscoree=b;"
+                    "winhttp=n,b;"
+                    "d3dcompiler_47=n,b"
+                )
+
+                env["WINE_SIMULATE_WRITECOPY"] = "1"
             else:
                 env["WINEDLLOVERRIDES"] = env.get(
                     "WINEDLLOVERRIDES",

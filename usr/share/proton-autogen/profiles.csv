@@ -598,10 +598,6 @@ Bitwarden.exe,Bitwarden,dotnet,Password Manager
 1Password.exe,1Password,dotnet,Password Manager
 StandardNotes.exe,Standard Notes,dotnet,Note Application
 voice_tweak.exe,Voice Tweak,dotnet,Client Voice
-VoiceAttack.exe,Voice Attack,dotnet,Client Voice
-voiceattackinstaller_116.exe,Voice Attack,dotnet,Client Voice
-voiceattackinstaller_189_32.exe,Voice Attack,dotnet,Client Voice
-voiceattackinstaller_2.1.8.0.exe,Voice Attack,dotnet,Client Voice
 PaintDotNet.exe,Paint.NET,dotnet_csharp,WPF image editor
 KeePass.exe,KeePass Password Safe,dotnet_csharp,WinForms password manager
 LINQPad.exe,LINQPad,dotnet_csharp,.NET developer tool
@@ -852,3 +848,7 @@ PlayniteInstaller.exe,Manager Game,dotnet_csharp,Game utility
 Playnite.DesktopApp.exe,Playnite,dotnet_csharp,WPF game launcher
 Playnite.FullscreenApp.exe,Playnite,dotnet_csharp,Game launcher
 RAGEMultiplayer_Setup.exe,RAGE Multiplayer,dotnet_csharp,GTA V multiplayer launcher
+VoiceAttack.exe,Voice Attack,dotnet,Client Voice
+voiceattackinstaller_116.exe,Voice Attack,dotnet,Client Voice
+voiceattackinstaller_189_32.exe,Voice Attack,dotnet,Client Voice
+voiceattackinstaller_2.1.8.0.exe,Voice Attack,dotnet,Client Voice
