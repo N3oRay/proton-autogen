@@ -392,18 +392,20 @@ def apply_dxvk_hud(env, exe_type, enable_mangohud, debug_mode=False):
         env.pop("DXVK_HUD", None)
         return env
 
-    # Debug mode
     SAFE_PROFILES = ["dotnet_csharp", "dotnet"]
 
+    # Debug mode
     if debug_mode and exe_type not in SAFE_PROFILES:
         env["DXVK_HUD"] = "devinfo,fps,version"
         return env
+
     if debug_mode and exe_type in SAFE_PROFILES:
         env["DXVK_HUD"] = "0"
-    else:
-        # Default clean state
-        env.pop("DXVK_HUD", None)
         return env
+
+    # Default clean state
+    env.pop("DXVK_HUD", None)
+    return env
 
 
 
