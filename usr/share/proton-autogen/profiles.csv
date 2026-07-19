@@ -354,15 +354,12 @@ DragonAgeTheVeilguard.exe,Dragon Age The Veilguard,dx12,Frostbite Engine
 IndianaJones.exe,Indiana Jones and the Great Circle,dx12,id Tech Engine
 SilentHill2.exe,Silent Hill 2 Remake,dx12,Unreal Engine 5
 PaintDotNet.exe,Paint.NET,dotnet,Image Editor
-KeePass.exe,KeePass Password Safe,dotnet,Password Manager
 LINQPad.exe,LINQPad,dotnet,Developer Tool
 ILSpy.exe,ILSpy,dotnet,.NET Decompiler
 dnSpy.exe,dnSpy,dotnet,.NET Debugger
 Fiddler.exe,Fiddler Classic,dotnet,Web Debugger
 FiddlerEverywhere.exe,Fiddler Everywhere,dotnet,Web Debugger
 ShareX.exe,ShareX,dotnet,Screen Capture
-Sonarr.exe,Sonarr,dotnet,Media Management
-Radarr.exe,Radarr,dotnet,Media Management
 Lidarr.exe,Lidarr,dotnet,Media Management
 Readarr.exe,Readarr,dotnet,Media Management
 Prowlarr.exe,Prowlarr,dotnet,Indexer Manager
@@ -453,7 +450,6 @@ Radarr.Console.exe,Radarr,dotnet,Media Management
 Lidarr.Console.exe,Lidarr,dotnet,Media Management
 Readarr.Console.exe,Readarr,dotnet,Media Management
 Prowlarr.Console.exe,Prowlarr,dotnet,Indexer Manager
-Jellyfin.Server.exe,Jellyfin Server,dotnet,Media Server
 EmbyServer.exe,Emby Server,dotnet,Media Server
 Bazarr.exe,Bazarr,dotnet,Subtitle Management
 Whisparr.exe,Whisparr,dotnet,Media Management
@@ -506,7 +502,6 @@ AutoUpdater.NET.exe,AutoUpdater.NET,dotnet,Updater
 ClickOnceBootstrapper.exe,ClickOnce Bootstrapper,dotnet,Installer
 Chocolatey.exe,Chocolatey,dotnet,Package Manager
 wingetcreate.exe,WinGetCreate,dotnet,Package Manager
-PowerToys.exe,Microsoft PowerToys,dotnet,System Utility
 NLogViewer.exe,NLog Viewer,dotnet,Log Viewer
 LogExpert.exe,LogExpert,dotnet,Log Viewer
 Seq.exe,Seq,dotnet,Log Server
@@ -566,7 +561,6 @@ SourceTree.exe,SourceTree,dotnet,Git Client
 GitKraken.exe,GitKraken,dotnet,Git Client
 TortoiseGitProc.exe,TortoiseGit,dotnet,Git Client
 TortoiseSVN.exe,TortoiseSVN,dotnet,SVN Client
-Rider64.exe,JetBrains Rider,dotnet,IDE
 ReSharperPlatformVs.exe,ReSharper Platform,dotnet,Developer Tool
 TeamCity.exe,TeamCity Server,dotnet,CI/CD
 YouTrack.exe,YouTrack,dotnet,Project Management
@@ -588,7 +582,6 @@ TranslucentTB.exe,TranslucentTB,dotnet,Taskbar Utility
 ExplorerPatcher.exe,Explorer Patcher,dotnet,Windows Customization
 Wallpaper32.exe,Wallpaper Engine,dotnet,Desktop Customization
 Lively.exe,Lively Wallpaper,dotnet,Desktop Customization
-ShareX.exe,ShareX,dotnet,Screen Capture
 Greenshot.exe,Greenshot,dotnet,Screen Capture
 Snagit32.exe,Snagit,dotnet,Screen Capture
 OBS64.exe,OBS Studio,dotnet,Streaming
@@ -602,10 +595,8 @@ Wireshark.exe,Wireshark,dotnet,Network Analyzer
 Npcap.exe,Npcap,dotnet,Network Driver Tool
 OpenVPNConnect.exe,OpenVPN Connect,dotnet,VPN Client
 WireGuard.exe,WireGuard,dotnet,VPN Client
-KeePass.exe,KeePass Password Safe,dotnet,Password Manager
 Bitwarden.exe,Bitwarden,dotnet,Password Manager
 1Password.exe,1Password,dotnet,Password Manager
-Obsidian.exe,Obsidian,dotnet,Note Application
 StandardNotes.exe,Standard Notes,dotnet,Note Application
 voice_tweak.exe,Voice Tweak,dotnet,Client Voice
 VoiceAttack.exe,Voice Attack,dotnet,Client Voice
@@ -820,3 +811,7 @@ Fody.exe,Fody,dotnet_csharp,IL weaving
 AutoUpdater.NET.exe,AutoUpdater.NET,dotnet_csharp,Application updater
 Squirrel.exe,Squirrel.Windows,dotnet_csharp,Installer framework
 ClickOnceBootstrapper.exe,ClickOnce Bootstrapper,dotnet_csharp,Deployment
+Godot_v4.exe,Godot 4,dotnet_csharp,Godot Mono
+Avalonia.Designer.HostApp.exe,Avalonia Designer,dotnet_csharp,Avalonia designer
+Ryujinx.Ava.exe,Ryujinx,dotnet_csharp,Avalonia UI
+BepInEx.Preloader.exe,BepInEx,dotnet_csharp,Game modding
