@@ -354,3 +354,265 @@ Hellblade2.exe,Senua's Saga Hellblade II,dx12,Unreal Engine 5
 DragonAgeTheVeilguard.exe,Dragon Age The Veilguard,dx12,Frostbite Engine
 IndianaJones.exe,Indiana Jones and the Great Circle,dx12,id Tech Engine
 SilentHill2.exe,Silent Hill 2 Remake,dx12,Unreal Engine 5
+PaintDotNet.exe,Paint.NET,dotnet,Image Editor
+KeePass.exe,KeePass Password Safe,dotnet,Password Manager
+LINQPad.exe,LINQPad,dotnet,Developer Tool
+ILSpy.exe,ILSpy,dotnet,.NET Decompiler
+dnSpy.exe,dnSpy,dotnet,.NET Debugger
+Fiddler.exe,Fiddler Classic,dotnet,Web Debugger
+FiddlerEverywhere.exe,Fiddler Everywhere,dotnet,Web Debugger
+ShareX.exe,ShareX,dotnet,Screen Capture
+Sonarr.exe,Sonarr,dotnet,Media Management
+Radarr.exe,Radarr,dotnet,Media Management
+Lidarr.exe,Lidarr,dotnet,Media Management
+Readarr.exe,Readarr,dotnet,Media Management
+Prowlarr.exe,Prowlarr,dotnet,Indexer Manager
+Jackett.exe,Jackett,dotnet,Indexer Proxy
+JackettConsole.exe,Jackett,dotnet,Indexer Proxy
+jellyfin.exe,Jellyfin Server,dotnet,Media Server
+ChocolateyGui.exe,Chocolatey GUI,dotnet,Package Manager
+nuget.exe,NuGet CLI,dotnet,Package Manager
+nunit.exe,NUnit GUI,dotnet,Testing
+nunit3-console.exe,NUnit Console,dotnet,Testing
+PerfView.exe,PerfView,dotnet,Performance Analysis
+StorageExplorer.exe,Azure Storage Explorer,dotnet,Cloud Storage
+AzureDataStudio.exe,Azure Data Studio,dotnet,Database Tool
+devenv.exe,Visual Studio,dotnet,IDE
+MSBuild.exe,MSBuild,dotnet,Build Tool
+csc.exe,C# Compiler,dotnet,Compiler
+vbc.exe,VB Compiler,dotnet,Compiler
+fsc.exe,F# Compiler,dotnet,Compiler
+fsi.exe,F# Interactive,dotnet,REPL
+ildasm.exe,ILDasm,dotnet,IL Disassembler
+ilasm.exe,ILAsm,dotnet,IL Assembler
+corflags.exe,CorFlags,dotnet,Assembly Utility
+resgen.exe,ResGen,dotnet,Resource Generator
+al.exe,Assembly Linker,dotnet,Build Tool
+sn.exe,Strong Name Tool,dotnet,Cryptography
+gacutil.exe,GAC Utility,dotnet,Assembly Management
+peverify.exe,PEVerify,dotnet,Verification
+crossgen.exe,CrossGen,dotnet,AOT Compiler
+crossgen2.exe,CrossGen2,dotnet,AOT Compiler
+dotnet.exe,.NET Host,dotnet,Runtime
+OpenRA.exe,OpenRA,dotnet,RTS Game
+Terraria.exe,Terraria,dotnet,Sandbox Game
+Stardew Valley.exe,Stardew Valley,dotnet,Farming Game
+Celeste.exe,Celeste,dotnet,Platform Game
+FEZ.exe,FEZ,dotnet,Puzzle Game
+Bastion.exe,Bastion,dotnet,Action RPG
+Transistor.exe,Transistor,dotnet,Action RPG
+RogueLegacy.exe,Rogue Legacy,dotnet,Roguelite
+Rogue Legacy 2.exe,Rogue Legacy 2,dotnet,Roguelite
+AxiomVerge.exe,Axiom Verge,dotnet,Metroidvania
+RimWorldWin64.exe,RimWorld,dotnet,Simulation Game
+Cities.exe,Cities Skylines,dotnet,City Builder
+KSP_x64.exe,Kerbal Space Program,dotnet,Space Simulation
+valheim.exe,Valheim,dotnet,Survival Game
+Subnautica.exe,Subnautica,dotnet,Survival Game
+SubnauticaZero.exe,Subnautica Below Zero,dotnet,Survival Game
+RustClient.exe,Rust,dotnet,Survival Game
+Raft.exe,Raft,dotnet,Survival Game
+TheForest.exe,The Forest,dotnet,Survival Horror
+SonsOfTheForest.exe,Sons Of The Forest,dotnet,Survival Horror
+Lethal Company.exe,Lethal Company,dotnet,Co-op Horror
+DSPGAME.exe,Dyson Sphere Program,dotnet,Factory Simulation
+HouseFlipper.exe,House Flipper,dotnet,Simulation Game
+Human.exe,Human Fall Flat,dotnet,Puzzle Platformer
+Cuphead.exe,Cuphead,dotnet,Run and Gun
+OriDE.exe,Ori and the Blind Forest,dotnet,Platform Game
+hollow_knight.exe,Hollow Knight,dotnet,Metroidvania
+Firewatch.exe,Firewatch,dotnet,Adventure Game
+INSIDE.exe,INSIDE,dotnet,Puzzle Platformer
+Among Us.exe,Among Us,dotnet,Social Deduction
+FallGuys_client.exe,Fall Guys,dotnet,Party Game
+EscapeFromTarkov.exe,Escape from Tarkov,dotnet,Extraction Shooter
+BattleTech.exe,BATTLETECH,dotnet,Turn-Based Strategy
+Hearthstone.exe,Hearthstone,dotnet,Card Game
+Pokemon TCG Live.exe,Pokémon TCG Live,dotnet,Card Game
+Cult Of The Lamb.exe,Cult of the Lamb,dotnet,Action Roguelike
+Phasmophobia.exe,Phasmophobia,dotnet,Horror Game
+Escape Simulator.exe,Escape Simulator,dotnet,Puzzle Game
+SlimeRancher.exe,Slime Rancher,dotnet,Simulation Game
+SlimeRancher2.exe,Slime Rancher 2,dotnet,Simulation Game
+Lethal Company.exe,Lethal Company,dotnet,Co-op Horror
+RimWorldWin64.exe,RimWorld,dotnet,Simulation
+Cities.exe,Cities Skylines,dotnet,City Builder
+Valheim.exe,Valheim,dotnet,Survival
+Phasmophobia.exe,Phasmophobia,dotnet,Horror
+Subnautica.exe,Subnautica,dotnet,Survival
+SubnauticaZero.exe,Subnautica Below Zero,dotnet,Survival
+HouseFlipper.exe,House Flipper,dotnet,Simulation
+Raft.exe,Raft,dotnet,Survival
+RustClient.exe,Rust,dotnet,Survival
+DSPGAME.exe,Dyson Sphere Program,dotnet,Factory
+Cult Of The Lamb.exe,Cult of the Lamb,dotnet,Roguelike
+Among Us.exe,Among Us,dotnet,Party
+Escape Simulator.exe,Escape Simulator,dotnet,Puzzle
+HollowKnight.exe,Hollow Knight,dotnet,Metroidvania
+NzbDrone.exe,Sonarr Legacy,dotnet,Media Management
+Radarr.Console.exe,Radarr,dotnet,Media Management
+Lidarr.Console.exe,Lidarr,dotnet,Media Management
+Readarr.Console.exe,Readarr,dotnet,Media Management
+Prowlarr.Console.exe,Prowlarr,dotnet,Indexer Manager
+Jellyfin.Server.exe,Jellyfin Server,dotnet,Media Server
+EmbyServer.exe,Emby Server,dotnet,Media Server
+Bazarr.exe,Bazarr,dotnet,Subtitle Management
+Whisparr.exe,Whisparr,dotnet,Media Management
+Recyclarr.exe,Recyclarr,dotnet,Media Management
+ScreenToGif.exe,ScreenToGif,dotnet,Screen Recorder
+EarTrumpet.exe,EarTrumpet,dotnet,Audio Control
+Wox.exe,Wox,dotnet,Application Launcher
+Flow.Launcher.exe,Flow Launcher,dotnet,Application Launcher
+FluentSearch.exe,Fluent Search,dotnet,Desktop Search
+Duplicati.GUI.TrayIcon.exe,Duplicati,dotnet,Backup
+Duplicati.Server.exe,Duplicati Server,dotnet,Backup
+Hydra.exe,Hydra Launcher,dotnet,Game Launcher
+MediaInfo.exe,MediaInfo,dotnet,Media Information
+MediaInfoNet.exe,MediaInfo.NET,dotnet,Media Information
+Bitwarden.exe,Bitwarden Desktop,dotnet,Password Manager
+Passky.exe,Passky,dotnet,Password Manager
+PasswordTech.exe,Password Tech,dotnet,Password Generator
+BepInEx.GUI.exe,BepInEx,dotnet,Game Modding
+BepInEx.Console.exe,BepInEx,dotnet,Game Modding
+UnityModManager.exe,Unity Mod Manager,dotnet,Game Modding
+ModAssistant.exe,Beat Saber Mod Assistant,dotnet,Game Modding
+R2ModMan.exe,r2modman,dotnet,Game Modding
+ILMerge.exe,ILMerge,dotnet,Assembly Tool
+ILRepack.exe,ILRepack,dotnet,Assembly Tool
+Costura.exe,Costura Fody,dotnet,Build Tool
+Fody.exe,Fody,dotnet,Build Tool
+NuGetPackageExplorer.exe,NuGet Package Explorer,dotnet,Package Manager
+BenchmarkDotNet.Artifacts.exe,BenchmarkDotNet,dotnet,Performance Benchmark
+dotMemory.exe,JetBrains dotMemory,dotnet,Profiler
+dotTrace.exe,JetBrains dotTrace,dotnet,Profiler
+dotPeek.exe,JetBrains dotPeek,dotnet,.NET Decompiler
+JustDecompile.exe,Telerik JustDecompile,dotnet,.NET Decompiler
+ServiceHub.Host.exe,Visual Studio ServiceHub,dotnet,Visual Studio
+ServiceHub.RoslynCodeAnalysisService.exe,Roslyn Service,dotnet,Visual Studio
+VBCSCompiler.exe,Roslyn Compiler,dotnet,Compiler
+RoslynPad.exe,RoslynPad,dotnet,C# Editor
+Microsoft.ServiceHub.Controller.exe,ServiceHub Controller,dotnet,Visual Studio
+AzureStorageEmulator.exe,Azure Storage Emulator,dotnet,Azure Tool
+Azurite.exe,Azurite,dotnet,Azure Tool
+CosmosDB.Emulator.exe,Cosmos DB Emulator,dotnet,Database
+SqlLocalDB.exe,SQL LocalDB,dotnet,Database
+LINQPad7.exe,LINQPad 7,dotnet,Developer Tool
+NCrunch.exe,NCrunch,dotnet,Testing
+OpenCover.Console.exe,OpenCover,dotnet,Code Coverage
+ReportGenerator.exe,ReportGenerator,dotnet,Code Coverage
+SpecFlow.exe,SpecFlow,dotnet,Testing
+Fake.exe,FAKE Build,dotnet,Build Automation
+Octopus.Client.exe,Octopus Deploy,dotnet,Deployment
+Squirrel.exe,Squirrel.Windows,dotnet,Installer
+AutoUpdater.NET.exe,AutoUpdater.NET,dotnet,Updater
+ClickOnceBootstrapper.exe,ClickOnce Bootstrapper,dotnet,Installer
+Chocolatey.exe,Chocolatey,dotnet,Package Manager
+wingetcreate.exe,WinGetCreate,dotnet,Package Manager
+PowerToys.exe,Microsoft PowerToys,dotnet,System Utility
+NLogViewer.exe,NLog Viewer,dotnet,Log Viewer
+LogExpert.exe,LogExpert,dotnet,Log Viewer
+Seq.exe,Seq,dotnet,Log Server
+ShareGate.exe,ShareGate Desktop,dotnet,SharePoint Migration Tool
+Rufus.NET.exe,Rufus.NET,dotnet,System Utility
+Snoop.exe,Snoop WPF,dotnet,WPF Inspector
+WpfInspector.exe,WPF Inspector,dotnet,WPF Debugging
+XamlSpy.exe,XAML Spy,dotnet,WPF Debugging
+LiveCharts.exe,LiveCharts Demo,dotnet,WPF Charts
+Avalonia.Diagnostics.exe,Avalonia Diagnostics,dotnet,Avalonia Debug Tool
+KeeAgent.exe,KeeAgent,dotnet,SSH Agent
+KeePassRPC.exe,KeePassRPC,dotnet,Browser Integration
+KeePassXC-Browser.exe,KeePassXC Browser Bridge,dotnet,Browser Integration
+Rider64.exe,JetBrains Rider,dotnet,IDE
+dotMemory.exe,JetBrains dotMemory,dotnet,.NET Profiler
+dotTrace.exe,JetBrains dotTrace,dotnet,.NET Profiler
+dotCover.exe,JetBrains dotCover,dotnet,Code Coverage
+dotPeek.exe,JetBrains dotPeek,dotnet,.NET Decompiler
+resharper.exe,ReSharper,dotnet,Visual Studio Extension
+devenv.exe,Visual Studio,dotnet,IDE
+VSIXInstaller.exe,Visual Studio Extension Installer,dotnet,Extension Manager
+mtm.exe,Microsoft Test Manager,dotnet,Testing Tool
+mstest.exe,MSTest,dotnet,Testing Framework
+vstest.console.exe,VSTest Console,dotnet,Testing Framework
+NuGet.exe,NuGet Package Manager,dotnet,Package Manager
+nuget.exe,NuGet CLI,dotnet,Package Manager
+dotnet.exe,.NET CLI,dotnet,Runtime
+dotnet-script.exe,dotnet-script,dotnet,Scripting
+dotnet-format.exe,dotnet format,dotnet,Code Formatter
+dotnet-ef.exe,Entity Framework CLI,dotnet,Database Tool
+dotnet-watch.exe,dotnet watch,dotnet,Development Tool
+EF6.exe,Entity Framework Tool,dotnet,ORM Tool
+ef.exe,Entity Framework CLI,dotnet,ORM Tool
+Cake.exe,Cake Build,dotnet,Build Automation
+Nuke.exe,Nuke Build,dotnet,Build Automation
+MSBuild.exe,MSBuild,dotnet,Build Tool
+MSBuildLocator.exe,MSBuild Locator,dotnet,Build Tool
+PowerShell.exe,PowerShell Core,dotnet,Shell
+pwsh.exe,PowerShell 7,dotnet,Shell
+ISE.exe,PowerShell ISE,dotnet,Script Editor
+AzureFunctionsHost.exe,Azure Functions Host,dotnet,Cloud Development
+func.exe,Azure Functions Core Tools,dotnet,Cloud Development
+azurite.exe,Azurite,dotnet,Azure Emulator
+SqlPackage.exe,SQLPackage,dotnet,Database Deployment
+SSMS.exe,SQL Server Management Studio,dotnet,Database Tool
+sqlproj.exe,SQL Project Tool,dotnet,Database Tool
+WiX.exe,WiX Toolset,dotnet,Installer Tool
+Burn.exe,WiX Bootstrapper,dotnet,Installer Tool
+Heat.exe,WiX Heat,dotnet,Installer Tool
+Candle.exe,WiX Compiler,dotnet,Installer Tool
+Light.exe,WiX Linker,dotnet,Installer Tool
+AdvancedInstaller.exe,Advanced Installer,dotnet,Installer Tool
+InstallShield.exe,InstallShield,dotnet,Installer Tool
+GitExtensions.exe,Git Extensions,dotnet,Git Client
+GitExtensionsShellEx.dll,Git Extensions Shell,dotnet,Git Integration
+SourceTree.exe,SourceTree,dotnet,Git Client
+GitKraken.exe,GitKraken,dotnet,Git Client
+TortoiseGitProc.exe,TortoiseGit,dotnet,Git Client
+TortoiseSVN.exe,TortoiseSVN,dotnet,SVN Client
+Rider64.exe,JetBrains Rider,dotnet,IDE
+ReSharperPlatformVs.exe,ReSharper Platform,dotnet,Developer Tool
+TeamCity.exe,TeamCity Server,dotnet,CI/CD
+YouTrack.exe,YouTrack,dotnet,Project Management
+HeidiSQL.exe,HeidiSQL,dotnet,Database Client
+DBeaver.exe,DBeaver,dotnet,Database Client
+AzureDataStudio.exe,Azure Data Studio,dotnet,Database Client
+WinMergeU.exe,WinMerge,dotnet,File Comparison
+BeyondCompare.exe,Beyond Compare,dotnet,File Comparison
+AraxisMerge.exe,Araxis Merge,dotnet,File Comparison
+Everything.exe,Everything Search,dotnet,File Search
+Listary.exe,Listary,dotnet,File Search
+DirectoryOpus.exe,Directory Opus,dotnet,File Manager
+PowerToys.exe,Microsoft PowerToys,dotnet,System Utility
+PowerToysSettings.exe,PowerToys Settings,dotnet,System Utility
+FancyZones.exe,PowerToys FancyZones,dotnet,Window Manager
+PowerRename.exe,PowerToys PowerRename,dotnet,File Utility
+EarTrumpet.exe,EarTrumpet,dotnet,Audio Control
+TranslucentTB.exe,TranslucentTB,dotnet,Taskbar Utility
+ExplorerPatcher.exe,Explorer Patcher,dotnet,Windows Customization
+Wallpaper32.exe,Wallpaper Engine,dotnet,Desktop Customization
+Lively.exe,Lively Wallpaper,dotnet,Desktop Customization
+ShareX.exe,ShareX,dotnet,Screen Capture
+Greenshot.exe,Greenshot,dotnet,Screen Capture
+Snagit32.exe,Snagit,dotnet,Screen Capture
+OBS64.exe,OBS Studio,dotnet,Streaming
+Streamlabs OBS.exe,Streamlabs,dotnet,Streaming
+Voicemeeter.exe,Voicemeeter,dotnet,Audio Mixer
+VB-AudioControl.exe,VB Audio Control,dotnet,Audio Tool
+Radmin.exe,Radmin VPN,dotnet,Network Tool
+ZeroTier One.exe,ZeroTier,dotnet,Network Tool
+Tailscale.exe,Tailscale,dotnet,VPN Client
+Wireshark.exe,Wireshark,dotnet,Network Analyzer
+Npcap.exe,Npcap,dotnet,Network Driver Tool
+OpenVPNConnect.exe,OpenVPN Connect,dotnet,VPN Client
+WireGuard.exe,WireGuard,dotnet,VPN Client
+KeePass.exe,KeePass Password Safe,dotnet,Password Manager
+Bitwarden.exe,Bitwarden,dotnet,Password Manager
+1Password.exe,1Password,dotnet,Password Manager
+Obsidian.exe,Obsidian,dotnet,Note Application
+Joplin.exe,Joplin,dotnet,Note Application
+StandardNotes.exe,Standard Notes,dotnet,Note Application
+Calibre.exe,Calibre,dotnet,Ebook Manager
+Kavita.exe,Kavita,dotnet,Media Server
+Komga.exe,Komga,dotnet,Comic Server
+Nextcloud.exe,Nextcloud Desktop,dotnet,Cloud Storage
+Syncthing.exe,Syncthing,dotnet,File Synchronization
+ResilioSync.exe,Resilio Sync,dotnet,File Synchronization
