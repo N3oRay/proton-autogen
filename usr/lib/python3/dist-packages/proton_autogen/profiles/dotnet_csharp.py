@@ -108,18 +108,16 @@ def env_dotnet_csharp( prefix=None, proton_path=None, exe_path=None, ):
                 f"[proton-autogen] {launcher.upper()} detected"
             )
 
-
-
             if launcher == "ragemp":
                 env["LIBGL_ALWAYS_SOFTWARE"] = "1"
-                env["GALLIUM_DRIVER"] = "llvmpipe"
+                #env["GALLIUM_DRIVER"] = "llvmpipe"
                 env["WINEDLLOVERRIDES"] = (
                     "mscoree=b;"
                     "winhttp=n,b;"
                     "d3dcompiler_47=n,b"
                 )
-                env["CEF_LOG_FILE"] = "/tmp/ragemp-cef.log"
-                env["CEF_LOG_SEVERITY"] = "info"
+                #env["CEF_LOG_FILE"] = "/tmp/ragemp-cef.log"
+                #env["CEF_LOG_SEVERITY"] = "info"
                 #env["CEF_DISABLE_GPU"] = "1"
                 #env["CHROME_FLAGS"] = "--disable-gpu --disable-gpu-compositing --disable-software-rasterizer"
                 #env["CHROME_FLAGS"] = "--disable-gpu --disable-gpu-compositing"
@@ -127,6 +125,26 @@ def env_dotnet_csharp( prefix=None, proton_path=None, exe_path=None, ):
 
                 #env["ANGLE_DEFAULT_PLATFORM"] = "swiftshader"
                 #env["CHROME_FLAGS"] = "--use-angle=swiftshader"
+            elif launcher == "fivem":
+                env["WINEDLLOVERRIDES"] = (
+                    "mscoree=b;"
+                    "winhttp=n,b;"
+                    "d3dcompiler_47=n,b"
+                )
+
+            elif launcher == "playnite":
+                env["WINEDLLOVERRIDES"] = (
+                    "mscoree=b;"
+                    "winhttp=n,b;"
+                    "d3dcompiler_47=n,b"
+                )
+
+                env["WINE_SIMULATE_WRITECOPY"] = "1"
+
+                env["PROTON_USE_WINED3D"] = "1"
+
+                # Désactive les problèmes de rendu WPF/D3D
+                env["LIBGL_ALWAYS_SOFTWARE"] = "1"
             else:
                 env["WINEDLLOVERRIDES"] = env.get(
                     "WINEDLLOVERRIDES",
