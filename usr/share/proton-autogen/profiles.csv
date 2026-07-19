@@ -850,3 +850,4 @@ WinDirStat.exe,WinDirStat,dotnet_csharp,Disk analyzer
 TreeSize.exe,TreeSize,dotnet_csharp,Disk analyzer
 ImageGlass.exe,ImageGlass,dotnet_csharp,WPF image viewer
 CredentialManager.exe,Credential Manager,dotnet_csharp,Credential utility
+PlayniteInstaller.exe,Manager Game,dotnet_csharp,Game utility
