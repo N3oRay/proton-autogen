@@ -1,7 +1,9 @@
-proton-autogen (3.0.8) noble; urgency=medium
+proton-autogen (3.1.0) noble; urgency=medium
 
-  * Added Support C Sharp DotNet
-  * Added Support Profile DotNet (New Auto install DotNet)
+  * Stabilized Playnite and RAGEMP support with new dotnet_csharp profile
+  * Added C#/.NET application profile support
+  * Added automatic .NET runtime installation support
+  * Added automatic .NET launcher detection for C# applications
   * More stability CLI
   * Added new Cute, KDE and Dark CSS themes and reworked theme handling.
   * Stabilized the Sensors menu.
@@ -11,8 +13,6 @@ proton-autogen (3.0.8) noble; urgency=medium
   * Improved automatic Proton prefix management and runtime stability.
   * Added diagnostic log generation via `proton_autogen --diag`.
   * Added GPU profile management with automatic AMD and NVIDIA detection.
-  * Added system diagnostics for Debian, Ubuntu, Linux Mint,
-    Arch Linux, CachyOS and Bazzite.
   * Added Lutris export support and game registry integration.
   * Added JSON logging and multilingual UI support.
   * Added launch progress reporting and stable Sensors menu support.
@@ -22,7 +22,7 @@ proton-autogen (3.0.8) noble; urgency=medium
   * Improved Proton detection, launch reliability and session tracking.
   * Enhanced prefix and configuration management.
   * Optimized executable scanning with intelligent caching.
-  * Improved Proton GE compatibility and Wine fallback handling.
+  * Improved Proton GE compatibility and Wine runtime handling.
   * Fixed MangoHud support for 32-bit applications.
   * Fixed launch return codes, badge refresh and game list updates.
   * Fixed several UI refresh and stability issues.
@@ -30,4 +30,4 @@ proton-autogen (3.0.8) noble; urgency=medium
   * Enhanced debugging and diagnostic tools.
   * General code cleanup and internal optimizations.
 
- -- N3oray <n3oray77@gmail.com>  Sat, 18 Jul 2026 18:01:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Mon, 20 Jul 2026 01:32:00 +0200
