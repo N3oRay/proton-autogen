@@ -37,7 +37,7 @@ def detect_managed_launcher(exe_path=None):
     # "fivem_b3258.exe": "fivem",
     #
 
-    if "ragemp" in exe:
+    if "ragemp" in exe or "ragemultiplayer" in exe:
         return "ragemp"
 
     if "fivem" in exe:
@@ -108,10 +108,30 @@ def env_dotnet_csharp( prefix=None, proton_path=None, exe_path=None, ):
                 f"[proton-autogen] {launcher.upper()} detected"
             )
 
-            env["WINEDLLOVERRIDES"] = env.get(
-                "WINEDLLOVERRIDES",
-                "mscoree=b"
-            )
+
+
+            if launcher == "ragemp":
+                env["LIBGL_ALWAYS_SOFTWARE"] = "1"
+                env["GALLIUM_DRIVER"] = "llvmpipe"
+                env["WINEDLLOVERRIDES"] = (
+                    "mscoree=b;"
+                    "winhttp=n,b;"
+                    "d3dcompiler_47=n,b"
+                )
+                env["CEF_LOG_FILE"] = "/tmp/ragemp-cef.log"
+                env["CEF_LOG_SEVERITY"] = "info"
+                #env["CEF_DISABLE_GPU"] = "1"
+                #env["CHROME_FLAGS"] = "--disable-gpu --disable-gpu-compositing --disable-software-rasterizer"
+                #env["CHROME_FLAGS"] = "--disable-gpu --disable-gpu-compositing"
+                env["CHROME_FLAGS"] = "--disable-gpu"
+
+                #env["ANGLE_DEFAULT_PLATFORM"] = "swiftshader"
+                #env["CHROME_FLAGS"] = "--use-angle=swiftshader"
+            else:
+                env["WINEDLLOVERRIDES"] = env.get(
+                    "WINEDLLOVERRIDES",
+                    "mscoree=b"
+                )
 
 
 

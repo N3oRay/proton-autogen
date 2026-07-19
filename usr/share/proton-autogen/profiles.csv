@@ -851,3 +851,4 @@ CredentialManager.exe,Credential Manager,dotnet_csharp,Credential utility
 PlayniteInstaller.exe,Manager Game,dotnet_csharp,Game utility
 Playnite.DesktopApp.exe,Playnite,dotnet_csharp,WPF game launcher
 Playnite.FullscreenApp.exe,Playnite,dotnet_csharp,Game launcher
+RAGEMultiplayer_Setup.exe,RAGE Multiplayer,dotnet_csharp,GTA V multiplayer launcher
