@@ -1,10 +1,10 @@
-# Community Game Profiles
+# Community Profiles Database
 
 Proton-Autogen includes a community-maintained game profile database (`profiles.csv`) used to automatically select the best runtime profile for known Windows games and applications.
 
 Everyone is welcome to contribute. No Python knowledge is required.
 
-# Profiles
+## Profiles
 
 Profiles allow you to customize the execution environment for specific applications or games without modifying Proton-Autogen itself.
 
