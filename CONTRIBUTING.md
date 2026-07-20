@@ -22,6 +22,14 @@ Email: <n3oray77@gmail.com>
 
 ---
 
+## Profiles
+
+Proton-Autogen includes a profile system that allows users to customize runtime behavior for specific applications and games.
+
+Before creating or modifying built-in profiles, please read the dedicated documentation:
+
+- 📖 [Profiles documentation](docs/profiles.md)
+
 ## 🛠️ Code Style
 
 Please follow these guidelines:
