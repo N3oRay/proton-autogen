@@ -210,14 +210,3 @@ def get_mangohud_advice():
 
 def print_mangohud_advice():
     print(get_mangohud_advice())
-
-"""
-def main():
-    for hwmon in get_hwmons():
-        print_hwmon(hwmon)
-
-
-if __name__ == "__main__":
-    main()
-
-"""
