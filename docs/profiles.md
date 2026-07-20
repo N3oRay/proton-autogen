@@ -59,6 +59,8 @@ Battle.net.exe,Battle.net,dx11Bnet,Blizzard Launcher
 | Profile       | Typical use                                       |
 | ------------- | ------------------------------------------------- |
 | `launcher`    | Game launchers                                    |
+| `dotnet` | Configures the environment for applications requiring the .NET runtime. |
+| `dotnet_csharp` | Configures the environment for C#/.NET applications with settings optimized for managed executables. |
 | `dx11`        | DirectX 10/11 games                               |
 | `dx11Bnet`    | Battle.net launcher                               |
 | `dx12`        | DirectX 12 games                                  |
