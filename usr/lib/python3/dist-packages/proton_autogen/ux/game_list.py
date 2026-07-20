@@ -240,7 +240,7 @@ class GameList(Gtk.Box):
         btn_delete = Gtk.Button()
         btn_delete.set_icon_name("user-trash-symbolic")
         btn_delete.add_css_class("btn-delete")
-        btn_delete.set_tooltip_text("Remove game")
+        btn_delete.set_tooltip_text("Remove game from library")
         btn_delete.set_valign(Gtk.Align.CENTER)
         btn_delete.connect(
             "clicked",
