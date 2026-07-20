@@ -216,29 +216,7 @@ def gpu_env(system=None, features=None):
     # on ne force rien
     return env
 
-def gpu_env_v1(system, features):
-    profile = features.get("gpu")
-    gpu = system.get("gpu")
 
-    if profile not in ("performance", "extreme"):
-        return {}
-
-    env = {}
-
-    if gpu == "nvidia":
-        env["PROTON_ENABLE_NVAPI"] = "1"
-        env["__GL_SHADER_DISK_CACHE"] = "1"
-
-        if profile == "extreme":
-            env["__GL_SHADER_DISK_CACHE_SKIP_CLEANUP"] = "1"
-
-    elif gpu == "amd":
-        env["RADV_PERFTEST"] = "aco"
-
-        #if profile == "extreme" and system.get("sam_support", False):
-        #    env["RADV_PERFTEST"] = "sam"
-
-    return env
 #PROTON_DISABLE_NVAPI=1 DXVK_NVAPI_VKREFLEX=1 RADV_PERFMODE=high PROTON_USE_NTSYNC=1 RADV_PERFTEST=sam
 #----------------------------------------------------------------
 #system = { "gpu": "nvidia", "gpu_hybrid": False, "wayland": True, "steam_deck": False, "cpu_cores": 8, "cpu_threads": 16, "ram": 32, "vram": 12, }

@@ -7,12 +7,27 @@ from proton_autogen.config import VERSION, CONFIG_FILE, CONFIG_DIR, PREFIX_DIR, 
 from proton_autogen.loader import get_game_config_path
 from proton_autogen.profiles.init import detect_exe_type, choose_profile
 from proton_autogen.loader import load_game_config
-from proton_autogen.core import make_output_path, PREFIX_DIR_PATH
+from proton_autogen.core import make_output_path
 from proton_autogen.diag import find_all_protons, find_proton
 
 import uuid
 
 logger = StructuredLogger("proton-autogen.editor")
+
+SYSTEM_PREFIXES = (
+    "main",
+    "shared",
+    "auto",
+    "custom",
+    "Proton Custom",
+)
+
+GPU_MODES = (
+    "auto",
+    "safe",
+    "balanced",
+    "performance",
+)
 
 
 def choose_proton():
@@ -88,19 +103,13 @@ def list_prefixes():
 def list_prefixes_ux():
     root = os.path.expanduser(PREFIX_DIR)
 
-    prefixes = [
-        "main",
-        "shared",
-        "auto",
-        "custom",
-        "Proton Custom",
-    ]
+    prefixes = list(SYSTEM_PREFIXES)
 
     if os.path.isdir(root):
         for name in sorted(os.listdir(root)):
             path = os.path.join(root, name)
 
-            if os.path.isdir(path) and name not in ("main", "shared", "auto", "custom", "Proton Custom"):
+            if os.path.isdir(path) and name not in SYSTEM_PREFIXES:
                 prefixes.append(name)
 
     return prefixes
@@ -182,25 +191,6 @@ def find_existing_prefix_for_game(exe_path: str):
         )
 
     return prefix
-
-def find_existing_prefix_for_game_v1(exe_path: str):
-
-    cfg_path, _ = get_game_config_path(exe_path)
-
-    print("Checking config:", cfg_path)
-
-    try:
-        cfg = load_game_config(exe_path)
-
-    except (json.JSONDecodeError, OSError) as e:
-        print(f"Invalid config ignored: {cfg_path} ({e})")
-        return None
-
-    if not isinstance(cfg, dict):
-        return None
-
-    return cfg.get("prefix")
-
 
 # add game for UX
 
@@ -466,12 +456,12 @@ def add_game(exe_path: str):
     with open(config_path, "w") as f:
         json.dump(config, f, indent=2)
 
-    print("[proton-autogen] Game added:")
-    print(f"  name     : {config['name']}")
-    print(f"  id       : {gid}")
-    print(f"  profile  : {exe_type}")
-    print(f"  prefix   : {prefix['name']}")
-    print(f"  config   : {config_path}")
+    logger.info("[proton-autogen] Game added:")
+    logger.info(f"  name     : {config['name']}")
+    logger.info(f"  id       : {gid}")
+    logger.info(f"  profile  : {exe_type}")
+    logger.info(f"  prefix   : {prefix['name']}")
+    logger.info(f"  config   : {config_path}")
 
 
 # -- Save game for UI
@@ -488,7 +478,7 @@ def edit_game_ui(exe_path: str):
     config_path, gid = get_game_config_path(exe_path)
 
     if not os.path.exists(config_path):
-        print("[proton-autogen] Game not registered.")
+        logger.info("[proton-autogen] Game not registered.")
         return
 
     with open(config_path, "r") as f:
@@ -516,8 +506,10 @@ def edit_game_ui(exe_path: str):
 
             if profile is None:
                 config["env_profile"] = detect_exe_type(exe_path)
+                config["exe_type"] = detect_exe_type(exe_path)
             else:
                 config["env_profile"] = profile
+                config["exe_type"] = profile
 
         elif choice == "2":
             proton = choose_proton()
@@ -545,25 +537,23 @@ def edit_game_ui(exe_path: str):
             config["features"]["gamemode"] = not current
 
         elif choice == "6":
-            modes = ["auto", "safe", "balanced", "performance"]
-
             current = config["features"].get("gpu", "auto")
 
             print("\nGPU mode:")
-            for i, mode in enumerate(modes, 1):
+            for i, mode in enumerate(GPU_MODES, 1):
                 marker = "*" if mode == current else " "
                 print(f"{i}) [{marker}] {mode}")
 
             sel = input("Selection: ").strip()
 
             if sel in ("1", "2", "3", "4"):
-                config["features"]["gpu"] = modes[int(sel) - 1]
+                config["features"]["gpu"] = GPU_MODES[int(sel) - 1]
 
         elif choice == "7":
             with open(config_path, "w") as f:
                 json.dump(config, f, indent=2)
 
-            print("[proton-autogen] Configuration updated.")
+            logger.info("Configuration updated.")
             return
 
         elif choice == "0":
