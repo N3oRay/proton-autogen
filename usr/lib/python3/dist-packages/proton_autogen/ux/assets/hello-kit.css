@@ -306,8 +306,8 @@ button.suggested-action:hover {
 .game-container {
     background-color: @hk_panel;
     border: 1px solid @hk_border;
-    border-radius: 14px;
-    padding: 10px;
+    border-radius:14px;
+    padding:10px 12px;
 }
 
 .game-container:hover {
@@ -453,21 +453,8 @@ label.home-label {
 
 /* =========================================================
    BADGES
-   ========================================================= */
-
-.badge {
-    padding: 2px 9px;
-    margin-left: 4px;
-    border-radius: 999px;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.25px;
-    color: @hk_text;
-    background: rgba(255,255,255,0.92);
-    border: 1px solid rgba(255,105,180,0.06);
-    box-shadow: inset 2px 0 0 rgba(255, 255, 255, 0.06);
-}
-
+   =========================================================
+*/
 .badge:hover {
     background: rgba(255,245,250,0.98);
     border-color: rgba(255,105,180,0.12);
@@ -868,4 +855,19 @@ dropdown label {
     color: @hk_text;
     font-weight: 500;
     background: transparent;
+}
+
+
+/* GAME ICON */
+.game-icon {
+
+    min-width:48px;
+    min-height:48px;
+
+    border-radius:2px;
+
+    background:
+        rgba(255,255,255,0.05);
+
+    /*padding:2px;*/
 }

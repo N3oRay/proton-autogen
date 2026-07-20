@@ -473,10 +473,8 @@ label.home-label {
         );
 
     border: 1px solid @neon-green;
-
-    border-radius: 999px;
-
-    padding: 2px 9px;
+    border-radius:6px;
+    border-radius: 12px;
 
     box-shadow:
         0 0 6px @neon-green-soft;
@@ -832,4 +830,27 @@ searchentry:focus {
 entry:disabled,
 searchentry:disabled {
     opacity: 0.5;
+}
+
+/* GAME ICON */
+.game-icon {
+
+    min-width:48px;
+    min-height:48px;
+
+    border-radius:10px;
+
+    background:
+        rgba(255,255,255,0.05);
+
+    padding:4px;
+}
+
+.game-icon:hover {
+
+    background:
+        rgba(61,255,138,0.15);
+
+    box-shadow:
+        0 0 10px rgba(61,255,138,0.35);
 }

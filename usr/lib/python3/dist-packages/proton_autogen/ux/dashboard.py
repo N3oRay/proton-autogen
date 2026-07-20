@@ -27,6 +27,7 @@ from proton_autogen.info import print_help, get_help_text
 from proton_autogen.sensor import get_sensors_text, print_sensors, get_mangohud_advice
 from proton_autogen.requis import afficher_prerequis_label
 
+
 addbouton = True
 refreshbouton = True
 
@@ -39,8 +40,8 @@ class Dashboard(Gtk.ApplicationWindow):
         super().__init__(application=app)
         self.set_title("Proton-Autogen")
         self.set_icon_name("proton-autogen")
-        self.set_default_size(890, 900)
-        self.set_size_request(890, 900)
+        self.set_default_size(930, 900)
+        self.set_size_request(930, 900)
         self.games = []
         self.lang = detect_help_env_lang()
         notifications.set_callback(self.notify_toast)

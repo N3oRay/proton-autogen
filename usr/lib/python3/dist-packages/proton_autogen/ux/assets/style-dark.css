@@ -447,10 +447,8 @@ label.home-label {
 
 
 .badge {
-    padding: 2px 9px;
-    margin-left: 4px;
-
     border-radius: 999px;
+    padding: 4px 8px;
 
     font-size: 10px;
     font-weight: 700;
@@ -761,4 +759,28 @@ dropdown label {
     color: #f0f0f0;
     font-weight: 500;
     background: transparent;
+}
+
+
+/* GAME ICON */
+.game-icon {
+
+    min-width:48px;
+    min-height:48px;
+
+    border-radius:2px;
+
+    background:
+        rgba(255,255,255,0.05);
+
+    padding:2px;
+}
+
+.game-icon:hover {
+
+    background:
+        rgba(61,255,138,0.15);
+
+    box-shadow:
+        0 0 10px rgba(61,255,138,0.35);
 }

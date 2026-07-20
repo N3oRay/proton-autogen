@@ -6,6 +6,8 @@ gi.require_version("Gtk", "4.0")
 from gi.repository import Gtk, Gio, Gdk, Pango
 from proton_autogen.stats import get_game_badges
 
+from proton_autogen.ux.icon_manager import load_game_icon
+
 
 lutris = True
 
@@ -149,10 +151,46 @@ class GameList(Gtk.Box):
         # -------------------------
         # LEFT INFO BLOCK
         # -------------------------
+        """
         info_box = Gtk.Box(
             orientation=Gtk.Orientation.VERTICAL,
             spacing=2
         )
+        """
+        # -------------------------
+        # LEFT INFO BLOCK WITH ICON
+        # -------------------------
+
+        left_box = Gtk.Box(
+            orientation=Gtk.Orientation.HORIZONTAL,
+            spacing=10
+        )
+
+        left_box.set_valign(Gtk.Align.CENTER)
+
+
+        # ICON
+        icon = load_game_icon(
+            game,
+            size=48
+        )
+
+        icon.add_css_class("game-icon")
+
+
+        # TEXT AREA
+        info_box = Gtk.Box(
+            orientation=Gtk.Orientation.VERTICAL,
+            spacing=2
+        )
+
+        info_box.set_hexpand(True)
+        info_box.set_valign(Gtk.Align.CENTER)
+
+
+        left_box.append(icon)
+        left_box.append(info_box)
+        # -------------------------
         info_box.set_hexpand(True)
         info_box.set_valign(Gtk.Align.CENTER)
 
@@ -200,6 +238,7 @@ class GameList(Gtk.Box):
         # STORE REFERENCES (IMPORTANT)
         # -------------------------
         row.title_label = title
+        row.icon = icon # new code
         row.subtitle_label = subtitle
         row.subtitle1_label = subtitle1
         row.subtitle2_label = subtitle2
@@ -289,7 +328,8 @@ class GameList(Gtk.Box):
         # -------------------------
         # ASSEMBLE
         # -------------------------
-        container.append(info_box)
+        #container.append(info_box)
+        container.append(left_box)
         container.append(btn_delete)
         if lutris:
             container.append(spacer0)

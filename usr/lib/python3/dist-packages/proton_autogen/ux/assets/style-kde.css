@@ -369,7 +369,8 @@ label.home-label {
 
 .badge {
     border-radius:6px;
-    padding:4px 10px;
+    border-radius: 12px;
+    padding: 4px 8px;
     background: #eef2f7;
     color: @kde-text;
     border: 1px solid @kde-border;
@@ -680,4 +681,27 @@ combobox popover label,
 dropdown popover label,
 popover label {
     color: @kde-text;
+}
+
+/* GAME ICON */
+.game-icon {
+
+    min-width:48px;
+    min-height:48px;
+
+    border-radius:10px;
+
+    background:
+        rgba(255,255,255,0.05);
+
+    padding:4px;
+}
+
+.game-icon:hover {
+
+    background:
+        rgba(61,255,138,0.15);
+
+    box-shadow:
+        0 0 10px rgba(61,255,138,0.35);
 }
