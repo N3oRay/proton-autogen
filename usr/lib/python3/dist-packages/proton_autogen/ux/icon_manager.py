@@ -91,7 +91,19 @@ ICON_MAPPING = {
     "goal": "goal-keeper.svg",
     "sport": "goal-keeper.svg",
 
-
+    "gta": "gta.svg",
+    "sky": "sky.svg",
+    "cat": "cat.svg",
+    "chat": "cat.svg",
+    "voice": "cat.svg",
+    "swr": "star.svg",
+    "star": "star.svg",
+    "sega": "sega.svg",
+    "sonic": "sega.svg",
+    "bench": "wipe.svg",
+    "wipe": "wipe.svg",
+    "window": "power-button.svg",
+    "dotnet": "mesh-network.svg",
     # =================================================
     # Ambiance / Décoration
     # =================================================
@@ -117,6 +129,22 @@ ICON_MAPPING = {
 
     "settings": "settings.svg",
     "config": "settings.svg",
+
+    "origin": "gamepad.svg",
+    "eaapp": "gamepad.svg",
+
+    "ubisoft": "king.svg",
+    "uplay": "king.svg",
+
+    "rockstar": "battered-axe.svg",
+
+    "riot": "cyborg-face.svg",
+
+    "itch": "boombox.svg",
+
+    "minecraft": "battle-mech.svg",
+
+    "hl": "Epic_Games_logo.svg.png",
 
 }
 
