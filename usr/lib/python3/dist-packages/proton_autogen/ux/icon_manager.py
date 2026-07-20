@@ -1,23 +1,177 @@
-# icon_manager.py
+#proton_autogen/ux/ icon_manager.py
 
 from pathlib import Path
 import os
-
+import re
 from gi.repository import Gtk, GdkPixbuf
 
 
 _ICON_CACHE = {}
 
+ASSET_DIR = (
+    Path(__file__).parent /
+    "assets" /
+    "svg"
+)
 
-DEFAULT_ICON = "application-x-executable"
+
+DEFAULT_ICON = (
+    ASSET_DIR /
+    "gamepad.svg"
+)
+
+ICON_MAPPING = {
+
+    # =================================================
+    # Launchers
+    # =================================================
+
+    "steam": "Steam_icon_logo.svg",
+    "steamclient": "Steam_icon_logo.svg",
+    "valve": "Steam_icon_logo.svg",
+
+    "epic": "Epic_Games_logo.svg.png",
+    "epicgames": "Epic_Games_logo.svg.png",
+    "epiclauncher": "Epic_Games_logo.svg.png",
+
+    "battlenet": "battle-net-64.svg",
+    "battle.net": "battle-net-64.svg",
+    "blizzard": "battle-net-64.svg",
+
+    "gog": "king.svg",
+    "goggalaxy": "king.svg",
+    "galaxy": "king.svg",
+
+
+    # =================================================
+    # Gaming / Action
+    # =================================================
+
+    "battle": "battle-gear.svg",
+    "combat": "battle-gear.svg",
+    "fighter": "battle-gear.svg",
+
+    "tank": "battle-tank.svg",
+    "mech": "battle-mech.svg",
+    "robot": "battle-mech.svg",
+
+    "cyber": "cyborg-face.svg",
+    "cyborg": "cyborg-face.svg",
+    "hacker": "cyborg-face.svg",
+
+    "war": "great-war-tank.svg",
+    "warfare": "great-war-tank.svg",
+    "military": "great-war-tank.svg",
+
+    "ship": "battleship.svg",
+    "navy": "battleship.svg",
+
+    "axe": "battered-axe.svg",
+    "viking": "viking-church.svg",
+
+    "king": "king.svg",
+    "chess": "chess-king.svg",
+
+
+    # =================================================
+    # Adventure / Simulation / Sport
+    # =================================================
+
+    "walk": "walking-scout.svg",
+    "scout": "walking-scout.svg",
+
+    "turret": "walking-turret.svg",
+
+    "bike": "cycling.svg",
+    "cycle": "cycling.svg",
+
+    "hike": "hiking.svg",
+    "hiking": "hiking.svg",
+
+    "goal": "goal-keeper.svg",
+    "sport": "goal-keeper.svg",
+
+
+    # =================================================
+    # Ambiance / Décoration
+    # =================================================
+
+    "alien": "alien-bug.svg",
+    "monster": "alien-bug.svg",
+
+    "space": "steam-blast.svg",
+    "rocket": "firework-rocket.svg",
+
+    "energy": "energy-arrow.svg",
+    "power": "power-lightning.svg",
+
+    "music": "boombox.svg",
+
+    "smile": "smile.svg",
+    "happy": "delighted.svg",
+
+
+    # =================================================
+    # Outils
+    # =================================================
+
+    "settings": "settings.svg",
+    "config": "settings.svg",
+
+}
+
+
+#DEFAULT_ICON = "application-x-executable"
 
 IMAGE_EXTENSIONS = {
-    ".png",
+    #".png",
     #".jpg",
     #".jpeg",
     ".gif",
     ".ico",
 }
+
+
+
+
+def normalize_name(value):
+    """
+    Normalise un nom pour comparaison.
+    """
+    return re.sub(
+        r"[^a-z0-9]",
+        "",
+        value.lower()
+    )
+
+
+def find_internal_icon(game):
+
+    name = normalize_name(
+        game.get("name", "")
+    )
+
+    if not name:
+        return None
+
+
+    # Recherche exacte / priorité
+    for keyword, icon in ICON_MAPPING.items():
+
+        key = normalize_name(keyword)
+
+        if key in name:
+
+            icon_path = ASSET_DIR / icon
+
+            if icon_path.exists():
+                return icon_path
+
+
+    return None
+
+
+
 
 
 # -------------------------------------------------
@@ -33,17 +187,15 @@ def find_game_icon(game):
         if not path:
             return None
 
+
         exe = Path(path)
+
 
         if not exe.exists():
             return None
 
 
         directory = exe.parent
-
-
-        if not directory.exists():
-            return None
 
 
         candidates = [
@@ -63,16 +215,25 @@ def find_game_icon(game):
                 return icon
 
 
+        #
         # Recherche limitée
-        # évite de scanner tout le disque
+        #
+        try:
 
-        for file in directory.iterdir():
+            for file in directory.iterdir():
 
-            if (
-                file.is_file()
-                and file.suffix.lower() in IMAGE_EXTENSIONS
-            ):
-                return file
+                if (
+                    file.is_file()
+                    and file.suffix.lower()
+                    in IMAGE_EXTENSIONS
+                ):
+                    return file
+
+        except (
+            PermissionError,
+            OSError
+        ):
+            pass
 
 
     except (
@@ -80,7 +241,6 @@ def find_game_icon(game):
         PermissionError,
         OSError
     ):
-
         pass
 
 
@@ -89,59 +249,106 @@ def find_game_icon(game):
 
 
 # -------------------------------------------------
+# Chargement image
+# -------------------------------------------------
+
+def _load_pixbuf(path, size):
+
+    return GdkPixbuf.Pixbuf.new_from_file_at_scale(
+        str(path),
+        size,
+        size,
+        True
+    )
+
+
+
+# -------------------------------------------------
+# Création GTK Image
+# -------------------------------------------------
+
+# -------------------------------------------------
 # Création GTK Image
 # -------------------------------------------------
 
 def load_game_icon(game, size=48):
 
     cache_key = (
-        game.get("path"),
+        str(game.get("path")),
         size
     )
 
 
-    if cache_key in _ICON_CACHE:
-        return _ICON_CACHE[cache_key]
-
-
     icon_path = find_game_icon(game)
+
+    if icon_path is None:
+        icon_path = find_internal_icon(game)
+
+
+    if icon_path:
+
+        cache_key = (
+            str(icon_path),
+            size
+        )
+
+
+    pixbuf = _ICON_CACHE.get(cache_key)
 
 
     try:
 
-        if icon_path:
+        if pixbuf is None:
 
-            pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(
-                str(icon_path),
-                size,
-                size,
-                True
+            if icon_path:
+
+                pixbuf = _load_pixbuf(
+                    icon_path,
+                    size
+                )
+
+            else:
+
+                pixbuf = _load_pixbuf(
+                    DEFAULT_ICON,
+                    size
+                )
+
+
+            _ICON_CACHE[cache_key] = pixbuf
+
+
+        image = Gtk.Image.new_from_pixbuf(
+            pixbuf
+        )
+
+
+    except Exception:
+
+        try:
+
+            pixbuf = _load_pixbuf(
+                DEFAULT_ICON,
+                size
             )
 
             image = Gtk.Image.new_from_pixbuf(
                 pixbuf
             )
 
-        else:
+        except Exception:
 
             image = Gtk.Image.new_from_icon_name(
-                DEFAULT_ICON
+                "application-x-executable"
             )
 
-            image.set_pixel_size(size)
+            image.set_pixel_size(
+                size
+            )
 
 
-    except (
-        Exception
-    ):
-
-        image = Gtk.Image.new_from_icon_name(
-            DEFAULT_ICON
-        )
-
-        image.set_pixel_size(size)
-
-
-    _ICON_CACHE[cache_key] = image
+    image.add_css_class(
+        "game-icon"
+    )
 
     return image
