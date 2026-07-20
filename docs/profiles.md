@@ -11,7 +11,7 @@ Profiles allow you to customize the execution environment for specific applicati
 They are intended to make it easy to reuse environment variables, compatibility settings, and launch options across multiple applications. Whether you want to improve compatibility, optimize performance, or maintain separate configurations for different games, profiles provide a simple and reusable solution.
 
 If you plan to contribute new built-in profiles or improve existing ones, please read the project's contribution guidelines first:
-👉 ../CONTRIBUTING.md
+👉  📖 [CONTRIBUTING documentation](/CONTRIBUTING.md)
 
 ## Location
 
