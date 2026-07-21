@@ -282,5 +282,5 @@ See the `LICENSE` file for details.
 👥 Unique cloners     ██████                374
 👀 Views              █████                 351
 🌍 Unique visitors    ██                    159
-Launchpad PPA:
-📥  Package downloads ██                    161
+Ubuntu PPA
+📥 Downloads ████████████████████ 161
