@@ -3,7 +3,7 @@
 import gi
 gi.require_version("Gtk", "4.0")
 
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 
 from proton_autogen.ux.menu import attach_menu
 
@@ -50,9 +50,15 @@ class DashboardHeaderBar(Gtk.HeaderBar):
         #
         # Style
         #
-        style_btn = Gtk.Button(
-            icon_name="applications-graphics-symbolic"
-        )
+        display = Gdk.Display.get_default()
+        theme = Gtk.IconTheme.get_for_display(display)
+
+        icon = "applications-graphics-symbolic"
+        if not theme.has_icon(icon):
+            icon = "preferences-system-symbolic"
+
+        style_btn = Gtk.Button(icon_name=icon)
+        #style_btn = Gtk.Button( icon_name="applications-graphics-symbolic" )
         style_btn.set_tooltip_text("Change UI style")
         style_btn.add_css_class("app-button")
 
