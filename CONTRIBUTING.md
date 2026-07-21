@@ -78,3 +78,30 @@ Before opening an issue:
 - Provide the executable name.
 - Include logs if possible.
 
+Please use GitHub Issues to report bugs:
+https://github.com/N3oRay/proton-autogen/issues
+
+## 🎮 Compatibility reports
+
+Testing games and applications is also a valuable contribution.
+
+Please provide:
+
+- Application/game name
+- Executable name
+- Linux distribution
+- GPU
+- Proton/Wine version
+- Result (working, partial, not working)
+- Additional configuration required
+
+## 📦 Pull Requests
+
+Before submitting a pull request:
+
+- Explain the purpose of the change.
+- Keep commits focused.
+- Test your changes.
+- Update documentation if needed.
+
+Large changes should be discussed before implementation.
