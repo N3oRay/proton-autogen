@@ -66,13 +66,27 @@ ICON_MAPPING = {
     "fallout": "fallout.svg",
     # GTA Multiplayer
     "ragemultiplayer": "gta.svg",
+    "ragemultiplayer": "gta.svg",
     "ragemp": "gta.svg",
+    "fivem": "gta.svg",
+    "altv": "gta.svg",
+    "alt:v": "gta.svg",
+    "gtav": "gta.svg",
+    "gta5": "gta.svg",
     "setup": "setup.svg",
     "board": "mb.svg",
     "pingouin": "pingouin.svg",
     "linux": "pingouin.svg",
     "photo": "image.svg",
-    'image': "image.svg",
+    "image": "image.svg",
+    "javaw": "battle-mech.svg",
+    "fabric": "battle-mech.svg",
+    "forge": "battle-mech.svg",
+
+    "wine64": "wine.svg",
+    "winecfg": "wine.svg",
+    "wineboot": "wine.svg",
+    "wineconsole": "wine.svg",
 
     # =================================================
     # Adventure / Simulation / Sport
@@ -91,6 +105,7 @@ ICON_MAPPING = {
 
     "goal": "goal-keeper.svg",
     "sport": "goal-keeper.svg",
+    "fifa": "goal-keeper.svg",
 
     "gta": "gta.svg",
     "firem": "gta.svg",
@@ -118,6 +133,9 @@ ICON_MAPPING = {
     "network": "network-bars.svg",
     "ucc": "network-bars.svg",
     "furmark": "network-bars.svg",
+    "vpn": "network-bars.svg",
+    "ethernet": "network-bars.svg",
+    "wifi": "network-bars.svg",
     "sound": "sound.svg",
     # =================================================
     # Ambiance / Décoration
@@ -163,6 +181,8 @@ ICON_MAPPING = {
 
     "dos": "wine.svg",
     "winrar": "winrar.svg",
+    "7z": "winrar.svg",
+    "7zip": "winrar.svg",
     "zip": "winrar.svg",
     "hammer": "hammer.svg",
     "update": "cute.svg",
@@ -213,8 +233,12 @@ def find_internal_icon(game):
         return None
 
 
-    # Recherche exacte / priorité
-    for keyword, icon in ICON_MAPPING.items():
+    # Recherche par mot-clé (du plus spécifique au plus générique)
+    for keyword, icon in sorted(
+        ICON_MAPPING.items(),
+        key=lambda item: len(normalize_name(item[0])),
+        reverse=True,
+    ):
 
         key = normalize_name(keyword)
 
