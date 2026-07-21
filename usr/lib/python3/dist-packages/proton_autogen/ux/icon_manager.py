@@ -29,15 +29,12 @@ ICON_MAPPING = {
     "steam": "Steam_icon_logo.svg",
     "steamclient": "Steam_icon_logo.svg",
     "valve": "Steam_icon_logo.svg",
-
-    "epic": "Epic_Games_logo.svg.png",
-    "epicgames": "Epic_Games_logo.svg.png",
-    "epiclauncher": "Epic_Games_logo.svg.png",
-
+    "epic": "Epic_Games_logo.svg",
+    "epicgames": "Epic_Games_logo.svg",
+    "epiclauncher": "Epic_Games_logo.svg",
     "battlenet": "battle-net-64.svg",
     "battle.net": "battle-net-64.svg",
     "blizzard": "battle-net-64.svg",
-
     "gog": "king.svg",
     "goggalaxy": "king.svg",
     "galaxy": "king.svg",
@@ -50,28 +47,30 @@ ICON_MAPPING = {
     "battle": "battle-gear.svg",
     "combat": "battle-gear.svg",
     "fighter": "battle-gear.svg",
-
     "tank": "battle-tank.svg",
     "mech": "battle-mech.svg",
     "robot": "battle-mech.svg",
-
     "cyber": "cyborg-face.svg",
     "cyborg": "cyborg-face.svg",
     "hacker": "cyborg-face.svg",
-
     "war": "great-war-tank.svg",
     "warfare": "great-war-tank.svg",
     "military": "great-war-tank.svg",
-
     "ship": "battleship.svg",
     "navy": "battleship.svg",
-
     "axe": "battered-axe.svg",
     "viking": "viking-church.svg",
 
     "king": "king.svg",
     "chess": "chess-king.svg",
-
+    "files": "files.svg",
+    "fallout": "fallout.svg",
+    "setup": "setup.svg",
+    "board": "mb.svg",
+    "pingouin": "pingouin.svg",
+    "linux": "pingouin.svg",
+    "photo": "image.svg",
+    'image': "image.svg",
 
     # =================================================
     # Adventure / Simulation / Sport
@@ -92,35 +91,40 @@ ICON_MAPPING = {
     "sport": "goal-keeper.svg",
 
     "gta": "gta.svg",
+    "ragemp": "gta.svg",
+    "firem": "gta.svg",
     "sky": "sky.svg",
     "cat": "cat.svg",
     "chat": "cat.svg",
-    "voice": "cat.svg",
+    "voice": "sound.svg",
+    "starwars": "star.svg",
+    "starwar": "star.svg",
     "swr": "star.svg",
     "star": "star.svg",
     "sega": "sega.svg",
     "sonic": "sega.svg",
     "bench": "wipe.svg",
     "wipe": "wipe.svg",
-    "window": "power-button.svg",
+    "window": "wine.svg",
+    "rufus": "power-button.svg",
     "dotnet": "mesh-network.svg",
+    "network": "network-bars.svg",
+    "ucc": "network-bars.svg",
+    "sound": "sound.svg",
     # =================================================
     # Ambiance / Décoration
     # =================================================
 
     "alien": "alien-bug.svg",
     "monster": "alien-bug.svg",
-
     "space": "steam-blast.svg",
     "rocket": "firework-rocket.svg",
-
     "energy": "energy-arrow.svg",
     "power": "power-lightning.svg",
-
     "music": "boombox.svg",
-
     "smile": "smile.svg",
     "happy": "delighted.svg",
+    "green": "green-power.svg",
 
 
     # =================================================
@@ -129,22 +133,15 @@ ICON_MAPPING = {
 
     "settings": "settings.svg",
     "config": "settings.svg",
-
     "origin": "gamepad.svg",
     "eaapp": "gamepad.svg",
-
     "ubisoft": "king.svg",
     "uplay": "king.svg",
-
     "rockstar": "battered-axe.svg",
-
     "riot": "cyborg-face.svg",
-
     "itch": "boombox.svg",
-
     "minecraft": "battle-mech.svg",
-
-    "hl": "Epic_Games_logo.svg.png",
+    "hl": "Epic_Games_logo.svg",
 
 }
 

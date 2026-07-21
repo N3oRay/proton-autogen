@@ -692,7 +692,7 @@ popover label {
     border-radius:10px;
 
     background:
-        rgba(255,255,255,0.05);
+        rgba(255,255,255,0.35);
 
     padding:4px;
 }
@@ -703,5 +703,5 @@ popover label {
         rgba(61,255,138,0.15);
 
     box-shadow:
-        0 0 10px rgba(61,255,138,0.35);
+        0 0 10px rgba(61,255,138,0.45);
 }
