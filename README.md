@@ -279,7 +279,7 @@ See the `LICENSE` file for details.
 ```markdown
 ## 📈 GitHub Traffic
 
-![Clones](https://img.shields.io/badge/clones%20(last%2014%20days)-1,348-blue)
-![Unique%20cloners](https://img.shields.io/badge/unique%20cloners-374-green)
-![Views](https://img.shields.io/badge/views-351-orange)
-![Unique%20visitors](https://img.shields.io/badge/unique%20visitors-159-purple)
+📦 Clones             ████████████████████  1,348
+👥 Unique cloners     ██████                374
+👀 Views              █████                 351
+🌍 Unique visitors    ██                    159
