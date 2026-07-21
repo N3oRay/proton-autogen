@@ -1,7 +1,6 @@
 #proton_autogen/ux/ icon_manager.py
 
 from pathlib import Path
-import os
 import re
 from gi.repository import Gtk, GdkPixbuf
 
@@ -65,6 +64,9 @@ ICON_MAPPING = {
     "chess": "chess-king.svg",
     "files": "files.svg",
     "fallout": "fallout.svg",
+    # GTA Multiplayer
+    "ragemultiplayer": "gta.svg",
+    "ragemp": "gta.svg",
     "setup": "setup.svg",
     "board": "mb.svg",
     "pingouin": "pingouin.svg",
@@ -91,7 +93,6 @@ ICON_MAPPING = {
     "sport": "goal-keeper.svg",
 
     "gta": "gta.svg",
-    "ragemp": "gta.svg",
     "firem": "gta.svg",
     "sky": "sky.svg",
     "cat": "cat.svg",
@@ -129,10 +130,17 @@ ICON_MAPPING = {
     "energy": "energy-arrow.svg",
     "power": "power-lightning.svg",
     "music": "boombox.svg",
+    "box": "boombox.svg",
     "smile": "smile.svg",
     "happy": "delighted.svg",
     "green": "green-power.svg",
-
+    "clock": "clockwork.svg",
+    "work": "clockwork.svg",
+    "breath": "energy-breath.svg",
+    "falling": "falling.svg",
+    "blob": "falling-blob.svg",
+    "heart": "heart-battery.svg",
+    "battery": "heart-battery.svg",
 
     # =================================================
     # Outils
@@ -157,6 +165,16 @@ ICON_MAPPING = {
     "winrar": "winrar.svg",
     "zip": "winrar.svg",
     "hammer": "hammer.svg",
+    "update": "cute.svg",
+    "cute": "cute.svg",
+    "play": "cute.svg",
+    "role": "role-play.svg",
+    "rpg": "role-play.svg",
+
+    "alert": "alert-triangle.svg",
+    "warning": "alert-triangle.svg",
+    "danger": "alert-triangle.svg",
+    "error": "alert-triangle.svg",
 
 }
 
