@@ -275,3 +275,11 @@ GitHub: [@N3oRay](https://github.com/N3oRay)
 This project is licensed under the MIT License.
 
 See the `LICENSE` file for details.
+
+```markdown
+## 📈 GitHub Traffic
+
+![Clones](https://img.shields.io/badge/clones%20(last%2014%20days)-1,348-blue)
+![Unique%20cloners](https://img.shields.io/badge/unique%20cloners-374-green)
+![Views](https://img.shields.io/badge/views-351-orange)
+![Unique%20visitors](https://img.shields.io/badge/unique%20visitors-159-purple)
