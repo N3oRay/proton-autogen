@@ -4,6 +4,16 @@ Thank you for your interest in contributing to proton-autogen!
 
 This project aims to simplify game management on Linux using Proton, per-game profiles, and system-aware optimizations.
 
+## 🌍 Community
+
+Proton-Autogen is being tested and discussed by the Linux community:
+
+- 🐧 Linux Mint community
+- 🚀 CachyOS community
+- 💬 Linux gaming users
+
+The project is actively evolving based on user feedback.
+
 ---
 
 ## 📬 Contact
