@@ -55,7 +55,7 @@ Example:
 ```python
 def resolve_game_features(game: dict, system: dict) -> dict:
     ...
-    
+```    
 ## 🤝 Ways to contribute
 
 Thank you for your interest in contributing to Proton-Autogen!
@@ -78,4 +78,3 @@ Before opening an issue:
 - Provide the executable name.
 - Include logs if possible.
 
-Example:
