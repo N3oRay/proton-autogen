@@ -1,5 +1,6 @@
-proton-autogen (3.1.0) noble; urgency=medium
+proton-autogen (3.1.2) noble; urgency=medium
 
+  * Added application icon support.
   * Stabilized Playnite and RAGEMP support with new dotnet_csharp profile
   * Added C#/.NET application profile support
   * Added automatic .NET runtime installation support
@@ -30,4 +31,4 @@ proton-autogen (3.1.0) noble; urgency=medium
   * Enhanced debugging and diagnostic tools.
   * General code cleanup and internal optimizations.
 
- -- N3oray <n3oray77@gmail.com>  Mon, 20 Jul 2026 01:32:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Tue, 21 Jul 2026 11:32:00 +0200
