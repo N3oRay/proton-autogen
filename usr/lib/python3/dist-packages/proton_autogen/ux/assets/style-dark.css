@@ -772,6 +772,8 @@ dropdown label {
 
     background:
         rgba(255,255,255,0.55);
+    box-shadow:
+        0 0 10px rgba(255,255,255,0.15);
 
     padding:2px;
 }

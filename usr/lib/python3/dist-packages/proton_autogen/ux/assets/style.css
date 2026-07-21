@@ -841,7 +841,9 @@ searchentry:disabled {
     border-radius:10px;
 
     background:
-        rgba(61,255,138,0.65);
+        rgba(46, 204, 113,0.65);
+    box-shadow:
+        0 0 10px rgba(46, 204, 113,0.15);
 
     padding:4px;
 }
@@ -849,8 +851,8 @@ searchentry:disabled {
 .game-icon:hover {
 
     background:
-        rgba(61,255,138,0.35);
+        rgba(46, 204, 113,0.35);
 
     box-shadow:
-        0 0 10px rgba(61,255,138,0.15);
+        0 0 10px rgba(46, 204, 113,0.35);
 }
