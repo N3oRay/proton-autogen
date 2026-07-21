@@ -284,3 +284,8 @@ See the `LICENSE` file for details.
 🌍 Unique visitors    ██                    159
 Ubuntu PPA
 📥 Downloads ████████████████████ 161
+
+<sub>
+GitHub traffic statistics cover the last 14 days.
+Launchpad downloads represent PPA package downloads, not unique users.
+</sub>
