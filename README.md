@@ -276,7 +276,6 @@ This project is licensed under the MIT License.
 
 See the `LICENSE` file for details.
 
-```markdown
 ## 📈 GitHub Traffic
 
 📦 Clones             ████████████████████  1,348
