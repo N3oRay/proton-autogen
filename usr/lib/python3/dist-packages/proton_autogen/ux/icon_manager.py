@@ -106,10 +106,17 @@ ICON_MAPPING = {
     "bench": "wipe.svg",
     "wipe": "wipe.svg",
     "window": "wine.svg",
+
+    "ffmpeg": "wine.svg",
+    "ffplay": "wine.svg",
+    "avast": "wine.svg",
     "rufus": "power-button.svg",
+    "mod": "mod.svg",
+
     "dotnet": "mesh-network.svg",
     "network": "network-bars.svg",
     "ucc": "network-bars.svg",
+    "furmark": "network-bars.svg",
     "sound": "sound.svg",
     # =================================================
     # Ambiance / Décoration
@@ -132,6 +139,9 @@ ICON_MAPPING = {
     # =================================================
 
     "settings": "settings.svg",
+    "connect": "connect.svg",
+    "putty": "connect.svg",
+    "scanner": "connect.svg",
     "config": "settings.svg",
     "origin": "gamepad.svg",
     "eaapp": "gamepad.svg",
@@ -142,6 +152,11 @@ ICON_MAPPING = {
     "itch": "boombox.svg",
     "minecraft": "battle-mech.svg",
     "hl": "Epic_Games_logo.svg",
+
+    "dos": "wine.svg",
+    "winrar": "winrar.svg",
+    "zip": "winrar.svg",
+    "hammer": "hammer.svg",
 
 }
 
