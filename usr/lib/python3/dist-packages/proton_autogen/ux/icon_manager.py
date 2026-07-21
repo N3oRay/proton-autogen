@@ -332,6 +332,8 @@ def load_game_icon(game, size=48):
                     size
                 )
 
+
+
             else:
 
                 pixbuf = _load_pixbuf(
@@ -346,6 +348,8 @@ def load_game_icon(game, size=48):
         image = Gtk.Image.new_from_pixbuf(
             pixbuf
         )
+        image.set_pixel_size(size)
+
 
 
     except Exception:

@@ -174,7 +174,7 @@ class GameList(Gtk.Box):
             game,
             size=48
         )
-
+        icon.set_size_request(48, 48)
         icon.add_css_class("game-icon")
 
 

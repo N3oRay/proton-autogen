@@ -768,10 +768,9 @@ dropdown label {
     min-width:48px;
     min-height:48px;
 
-    border-radius:2px;
+    border-radius:4px;
 
-    background:
-        rgba(255,255,255,0.55);
+    background: rgba(255,255,255,0.15);
     box-shadow:
         0 0 10px rgba(255,255,255,0.15);
 
@@ -781,7 +780,7 @@ dropdown label {
 .game-icon:hover {
 
     background:
-        rgba(61,255,138,0.15);
+        rgba(61,255,138,0.05);
 
     box-shadow:
         0 0 10px rgba(61,255,138,0.15);

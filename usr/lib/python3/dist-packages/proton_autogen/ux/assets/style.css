@@ -835,13 +835,13 @@ searchentry:disabled {
 /* GAME ICON */
 .game-icon {
 
-    min-width:48px;
-    min-height:48px;
+    min-width:64px;
+    min-height:64px;
 
-    border-radius:10px;
+    border-radius:14px;
 
     background:
-        rgba(46, 204, 113,0.65);
+        rgba(255,255,255,0.85);
     box-shadow:
         0 0 10px rgba(46, 204, 113,0.15);
 
@@ -851,7 +851,7 @@ searchentry:disabled {
 .game-icon:hover {
 
     background:
-        rgba(46, 204, 113,0.35);
+        rgba(255,255,255,0.35);
 
     box-shadow:
         0 0 10px rgba(46, 204, 113,0.35);

@@ -686,15 +686,15 @@ popover label {
 /* GAME ICON */
 .game-icon {
 
-    min-width:48px;
-    min-height:48px;
+    min-width:64px;
+    min-height:64px;
 
-    border-radius:10px;
+    border-radius:14px;
 
     background:
-        rgba(255,255,255,0.35);
+    rgba(255,255,255,0.85);
     box-shadow:
-        0 0 10px rgba(255,255,255,0.15);
+    0 0 10px rgba(90, 100, 115,0.15);
 
     padding:4px;
 }
@@ -702,8 +702,8 @@ popover label {
 .game-icon:hover {
 
     background:
-        rgba(61,255,138,0.15);
+    rgba(255,255,255,0.35);
 
     box-shadow:
-        0 0 10px rgba(61,255,138,0.45);
+    0 0 10px rgba(90, 100, 115,0.35);
 }
