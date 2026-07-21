@@ -277,7 +277,7 @@ This project is licensed under the MIT License.
 See the `LICENSE` file for details.
 
 ## 📈 GitHub Traffic
-
+```markdown
 📦 Clones             ████████████████████  1,348
 👥 Unique cloners     ██████                374
 👀 Views              █████                 351
