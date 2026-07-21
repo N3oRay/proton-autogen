@@ -283,4 +283,4 @@ See the `LICENSE` file for details.
 👀 Views              █████                 351
 🌍 Unique visitors    ██                    159
 Launchpad PPA:
-- 📦 161 package downloads
+📥  Package downloads ██                    161
