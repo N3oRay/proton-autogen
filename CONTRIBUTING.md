@@ -55,3 +55,27 @@ Example:
 ```python
 def resolve_game_features(game: dict, system: dict) -> dict:
     ...
+    
+## 🤝 Ways to contribute
+
+Thank you for your interest in contributing to Proton-Autogen!
+
+All contributions are welcome:
+- bug reports
+- compatibility improvements
+- new game/application profiles
+- documentation improvements
+- translations
+- code improvements
+
+## 🐛 Reporting bugs
+
+Before opening an issue:
+
+- Check that you are using the latest version.
+- Include your Linux distribution.
+- Include your Proton/Wine version.
+- Provide the executable name.
+- Include logs if possible.
+
+Example:
