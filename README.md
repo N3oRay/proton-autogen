@@ -116,7 +116,15 @@ For Debian/Ubuntu based distributions, use the `.deb` package.
 For Arch Linux and CachyOS, a native package is planned.
 Until then, the manual installer is available.
 
-### Manual build  and install
+### Recommended installation (Debian / Ubuntu / Linux Mint / Pop!_OS)
+
+```bash
+sudo add-apt-repository ppa:n3oray/proton-autogen
+sudo apt update
+sudo apt install proton-autogen
+```
+
+### Manual installation (other distributions)
 
 ```bash
 git clone https://github.com/N3oRay/proton-autogen.git
@@ -125,13 +133,7 @@ dpkg-buildpackage -b -us -uc
 sudo dpkg -i ../proton-autogen_*.deb
 ```
 
-### Ubuntu (Linux Mint, Pop!_OS) (install only)
 
-```bash
-sudo add-apt-repository ppa:n3oray/proton-autogen
-sudo apt update
-sudo apt install proton-autogen
-```
 ### Config
 The configuration is fully automatic.
 ```bash
