@@ -130,6 +130,8 @@ sudo dpkg -i ../proton-autogen_*.deb
 [Installation Guide](docs/install.md)
 
 ### (install manual)
+# Review the installer before running it
+less install.sh
 
 ```bash
 git clone https://github.com/N3oRay/proton-autogen.git
