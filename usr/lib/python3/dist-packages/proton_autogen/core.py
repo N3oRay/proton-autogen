@@ -550,9 +550,21 @@ def run_process(
     progress=None,
     filters=None,
     merge_stderr=False,
+    debug=False,
 ):
     if filters is None:
         filters = []
+
+    if debug and logger:
+        logger.debug("=== PROCESS DEBUG ===")
+        logger.debug(f"CWD: {cwd}")
+        logger.debug(f"CMD: {' '.join(cmd)}")
+
+        if env:
+            for key, value in sorted(env.items()):
+                logger.debug(f"ENV {key}={value}")
+
+        logger.debug("=====================")
 
     stderr_pipe = subprocess.STDOUT if merge_stderr else subprocess.PIPE
 
@@ -572,44 +584,53 @@ def run_process(
         progress.stop_spinner()
         progress.update(85, "Launching Proton")
 
-    def handle_line(line):
+    def handle_line(line, stream="stdout"):
         nonlocal percent
 
         line = line.rstrip()
 
+        # Filtrage uniquement en mode normal
+        if not debug:
+            if any(f in line for f in filters):
+                return
+
         if progress is not None:
             progress.update(
                 percent,
-                f"Launch: {line}"
+                f"{stream}: {line}"
             )
             percent = min(percent + 1, 99)
 
         if logger:
-            logger.info(line)
+            if debug:
+                logger.debug(f"{stream}: {line}")
+            else:
+                logger.info(line)
 
     if merge_stderr:
-        # stdout + stderr mélangés
+
         for line in process.stdout:
             handle_line(line)
 
     else:
-        # stdout
+
         def read_stdout():
             for line in process.stdout:
-                handle_line(line)
+                handle_line(line, "stdout")
 
-        # stderr avec filtres
         def read_stderr():
             for line in process.stderr:
-                line = line.rstrip()
+                handle_line(line, "stderr")
 
-                if any(f in line for f in filters):
-                    continue
+        t_out = threading.Thread(
+            target=read_stdout,
+            daemon=True
+        )
 
-                handle_line(line)
-
-        t_out = threading.Thread(target=read_stdout)
-        t_err = threading.Thread(target=read_stderr)
+        t_err = threading.Thread(
+            target=read_stderr,
+            daemon=True
+        )
 
         t_out.start()
         t_err.start()
@@ -619,8 +640,16 @@ def run_process(
 
     returncode = process.wait()
 
+    if debug and logger:
+        logger.debug(
+            f"Process finished with code: {returncode}"
+        )
+
     if progress is not None:
-        progress.update(100, "Game launched")
+        progress.update(
+            100,
+            "Game launched"
+        )
 
     return returncode
 
@@ -960,18 +989,15 @@ def run_game_proton(exe_path, exe_type, proton,
 
             returncode = 0
             if VERBOSE or DEBUG:
-                proc = subprocess.run(
+                returncode = run_process(
                     cmd,
                     cwd=cmd_cwd,
                     env=env,
-                    text=True,
-                    capture_output=True,
+                    logger=logger,
+                    progress=progress,
+                    merge_stderr=True,
+                    debug=True,
                 )
-
-                logger.info(proc.stdout)
-                logger.warn(proc.stderr)
-                logger.info(proc.returncode)
-                returncode = proc.returncode
             else:
                 returncode = run_process(
                     cmd,
