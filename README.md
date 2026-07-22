@@ -277,10 +277,10 @@ See the `LICENSE` file for details.
 
 ## 📈 GitHub Traffic
 ```markdown
-📦 Clones             ████████████████████  1,348
-👥 Unique cloners     ██████                374
-👀 Views              █████                 351
-🌍 Unique visitors    ██                    159
+📦 Clones             ████████████████████  1,476
+👥 Unique cloners     ██████                401
+👀 Views              █████                 354
+🌍 Unique visitors    ██                    160
 Ubuntu PPA
 📥 Downloads ████████████████████ 161
 ```
