@@ -477,7 +477,24 @@ class Dashboard(Gtk.ApplicationWindow):
         # =========================
         # STATUS BAR
         # =========================
+        #self.status = Gtk.Label(label="Ready")
+
+        status_box = Gtk.Box(
+            orientation=Gtk.Orientation.HORIZONTAL,
+            spacing=8
+        )
+
+        self.spinner = Gtk.Spinner()
+        self.spinner.set_visible(False)
+
         self.status = Gtk.Label(label="Ready")
+        self.status.set_xalign(0)
+
+        status_box.append(self.spinner)
+        status_box.append(self.status)
+
+        root.append(status_box)
+        #--------------------------------------------
         self.status.set_xalign(0)
         self.status.add_css_class("home-label")
 
@@ -748,6 +765,9 @@ class Dashboard(Gtk.ApplicationWindow):
 
     def launch_game(self, game):
 
+        GLib.idle_add(self.spinner.start) # new code
+        GLib.idle_add(self.spinner.set_visible, True) # new code
+
         if not game.get("path"):
             return
 
@@ -779,6 +799,10 @@ class Dashboard(Gtk.ApplicationWindow):
                         )
                 )
                 print("[UX] Launch error:", e)
+            finally:
+                GLib.idle_add(self.spinner.stop)
+                GLib.idle_add(self.spinner.set_visible, False)
+                GLib.idle_add(self.status.set_text, "Ready")
 
         threading.Thread(target=worker, daemon=True).start()
 

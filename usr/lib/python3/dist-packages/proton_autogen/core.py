@@ -750,6 +750,7 @@ def run_game_proton(exe_path, exe_type, proton,
 
     if progress is None:
         progress = Progress()
+    progress.start_spinner(81, "Launching ...")
 
 
     arch = get_exe_arch(exe_path)
@@ -925,12 +926,16 @@ def run_game_proton(exe_path, exe_type, proton,
             )
             # Logger with pourcent
             percent = 85
+            progress.stop_spinner()
+            progress.update(85, "Launching Proton")
             for line in proc.stdout:
                 if progress is not None:
                     progress.update(percent, f"Launch: {line.rstrip()}")
                     percent = min(percent + 1, 99)
 
                 logger.info(line.rstrip())
+
+            progress.update(100, "Game launched")
 
             returncode = proc.wait()
 
