@@ -93,20 +93,6 @@ Latest releases are available on GitHub:
 - Source installation: `install.sh`
 - Arch Linux / CachyOS: AUR (coming soon)
 
-## 📦 Installation & Update Linux (Debian/Fedora/Arch)
-AUR package coming soon.
-
-See the manual installation guide:
-[Installation Guide](docs/install.md)
-
-### (install manual)
-
-```bash
-git clone https://github.com/N3oRay/proton-autogen.git
-cd proton-autogen
-chmod +x install.sh
-./install.sh
-```
 
 ## 📦 Installation & Updates
 
@@ -138,6 +124,18 @@ git clone https://github.com/N3oRay/proton-autogen.git
 cd proton-autogen
 dpkg-buildpackage -b -us -uc
 sudo dpkg -i ../proton-autogen_*.deb
+```
+
+### See the manual installation guide:
+[Installation Guide](docs/install.md)
+
+### (install manual)
+
+```bash
+git clone https://github.com/N3oRay/proton-autogen.git
+cd proton-autogen
+chmod +x install.sh
+./install.sh
 ```
 
 
