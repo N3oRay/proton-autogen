@@ -200,6 +200,7 @@ sudo apt purge proton-autogen
 rm -rf ~/.config/proton-autogen
 rm -rf /usr/share/proton-autogen
 rm -f ~/.local/share/nemo/actions/proton-autogen.nemo_action
+sudo rm -f /usr/bin/proton-autogen
 ```
 
 Restart Nemo:
