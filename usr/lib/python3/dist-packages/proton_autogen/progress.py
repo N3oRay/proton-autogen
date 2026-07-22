@@ -1,12 +1,18 @@
 import threading
 import time
 
+
 class Progress:
-    _spinner = ("|", "/", "-", "\\")
+
+    _spinner = ("⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏")
 
     def __init__(self, callback=None):
         self.callback = callback
-        self.current = {"percent": 0, "message": ""}
+        self.current = {
+            "percent": 0,
+            "message": ""
+        }
+
         self._running = False
         self._thread = None
         self._spin = 0
@@ -19,19 +25,33 @@ class Progress:
             self.callback(percent, message)
 
     def start_spinner(self, percent=90, message="Launching"):
+        if self._running:
+            return
+
         self._running = True
 
         def worker():
             while self._running:
                 frame = self._spinner[self._spin]
                 self._spin = (self._spin + 1) % len(self._spinner)
-                self.update(percent, f"{frame} {message}")
+
+                self.update(
+                    percent,
+                    f"{frame} {message}"
+                )
+
                 time.sleep(0.1)
 
-        self._thread = threading.Thread(target=worker, daemon=True)
+        self._thread = threading.Thread(
+            target=worker,
+            daemon=True
+        )
         self._thread.start()
 
     def stop_spinner(self):
         self._running = False
-        if self._thread:
-            self._thread.join()
+
+        if self._thread and self._thread.is_alive():
+            self._thread.join(timeout=1)
+
+        self._thread = None

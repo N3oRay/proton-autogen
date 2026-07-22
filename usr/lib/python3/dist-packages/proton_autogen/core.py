@@ -750,203 +750,205 @@ def run_game_proton(exe_path, exe_type, proton,
 
     if progress is None:
         progress = Progress()
-    progress.start_spinner(81, "Launching ...")
+    try:
+        progress.start_spinner(81, "Launching ...")
 
 
-    arch = get_exe_arch(exe_path)
-    if progress is not None:
-        progress.update( 85, f"EXE architecture: {arch}" )
-    notifications.notify("info", "INFO", f"EXE architecture: {arch}")
-
-    game_id = hashlib.md5(exe_path.encode()).hexdigest()
-
-    # -------------------------
-    # Proton Path & Prefix Path
-    # -------------------------
-    prefix_path = get_prefix_path(prefix_mode, exe_path)
-    proton_dir = proton_path(proton)
-
-    if not os.path.isdir(proton_dir):
-        logger.error(
-            f"Invalid Proton path: {proton_dir}"
-        )
-        return -1
-
-    # =========================
-    # PROTON MODE
-    # =========================
-    env = base_env(
-        enable_mangohud=enable_mangohud,
-        enable_gamemode=enable_gamemode,
-        exe_path=exe_path,
-        exe_type=exe_type,
-        prefix_path=prefix_path,
-        proton_dir=proton_dir
-        )
-
-
-    #Notification UX:
-    notifications.notify("info", "Prefix mode", f"Prefix mode : {prefix_mode}")
-    notifications.notify("info", "Prefix path", f"Prefix path : {prefix_path}")
-
-    env["STEAM_COMPAT_DATA_PATH"] = prefix_path
-    os.makedirs(prefix_path, exist_ok=True)
-
-    env["STEAM_COMPAT_CLIENT_INSTALL_PATH"] = os.path.expanduser("~/.steam/steam")
-    env["STEAM_COMPAT_TOOL_PATHS"] = proton_dir
-    # -------------------------
-    # GPU layer (UX + system merge)
-    # -------------------------
-    env.update(gpu_env(system, features))
-
-    cmd = [
-        os.path.join(proton_path(proton), "proton"),
-        "run",
-        exe_path
-    ]
-
-    # =========================
-    # COMMON OPTIONS
-    # =========================
-
-    if enable_mangohud and has_mangohud():
-        env["MANGOHUD"] = "1"
-        env["MANGOHUD_DLSYM"] = "1"
-        env["DXVK_HUD"] = "0"
-
-        # FPS cap only if needed
-        if "fps_limit" not in env.get("MANGOHUD_CONFIG", ""):
-            env["MANGOHUD_CONFIG"] = "fps_limit=60"
-
-        is_32bit = is_32bit_exe(exe_path)
-
-        # OpenGL only for legacy DX9 / old games
-        if exe_type in ["dx9", "dx9opengl", "oldgame", "ut99", "ut3", "valve"]:
-            env["MANGOHUD_OPENGL"] = "1"
-        else:
-            env.pop("MANGOHUD_OPENGL", None)
-
-        # 32-bit shim only when needed
-        if is_32bit:
-            logger.info("32-bit legacy game detected")
-
-            mangohud_shim = find_mangohud_shim()
-
-            if mangohud_shim and os.path.exists(mangohud_shim):
-                if not check_mangohud_abi(mangohud_shim):
-                    logger.info("MangoHud ABI mismatch detected - skipping")
-                else:
-                    env = add_ld_preload(env, mangohud_shim)
-                    logger.info("Loaded MangoHud 32-bit shim")
-            else:
-                logger.info("No MangoHud 32-bit shim found, relying on Proton runtime")
-
-        # optional: Vulkan explicit toggle
-        if exe_type in ["vulkan", "dxvk"]:
-            env["MANGOHUD"] = "1"
-    else:
-        env.pop("MANGOHUD", None)
-
-    if enable_gamemode and has_gamemode():
-        env["GAMEMODE"] = "1"
-
-    # Set Default env:
-    env.setdefault("STEAM_COMPAT_APP_ID", "480")
-    env.setdefault("SteamAppId", "480")
-    env.setdefault("SteamGameId", "480")
-
-
-    if VERBOSE or DEBUG:
-        # Affichage des log debug CLI
-        log_profile_env(logger, env)
-    else:
-        # Affichage des log summary CLI
-        log_profile_summary(logger, env, exe_type)
-    if progress is not None:
-        progress.update( 83, f"Launch mode: Proton " )
-    logger.info(f"Launch mode: Proton ")
-
-
-    if enable_mangohud and has_mangohud():
-        # DEBUG ENVIRONMENT
-        log_mangohud_env(logger, env)
-
-        filters = [ "wrong ELF class", ]
-        result_code = -1
-        # Code KO
-
-        cmd_cwd = os.path.dirname(exe_path)
-
-        if not os.path.isdir(cmd_cwd):
-            logger.warning(
-                f"Invalid cwd {cmd_cwd}, using home"
-            )
-            cmd_cwd = os.path.expanduser("~")
-
-        returncode = run_filtered(
-            cmd,
-            env=env,
-            filters=filters,
-            cwd=cmd_cwd,
-        )
-
-        return returncode
-    else:
-        # Code OK
-        result_code = -1
-        cmd_cwd = os.path.dirname(exe_path)
-        #logger
-        log_executable_info(logger, exe_path, cmd_cwd)
+        arch = get_exe_arch(exe_path)
         if progress is not None:
-            progress.update( 84, f"EXE PATH   : {exe_path}" )
+            progress.update( 85, f"EXE architecture: {arch}" )
+        notifications.notify("info", "INFO", f"EXE architecture: {arch}")
 
-        returncode = 0
-        if VERBOSE or DEBUG:
-            proc = subprocess.run(
-                cmd,
-                cwd=cmd_cwd,
-                env=env,
-                text=True,
-                capture_output=True,
+        game_id = hashlib.md5(exe_path.encode()).hexdigest()
+
+        # -------------------------
+        # Proton Path & Prefix Path
+        # -------------------------
+        prefix_path = get_prefix_path(prefix_mode, exe_path)
+        proton_dir = proton_path(proton)
+
+        if not os.path.isdir(proton_dir):
+            logger.error(
+                f"Invalid Proton path: {proton_dir}"
+            )
+            return -1
+
+        # =========================
+        # PROTON MODE
+        # =========================
+        env = base_env(
+            enable_mangohud=enable_mangohud,
+            enable_gamemode=enable_gamemode,
+            exe_path=exe_path,
+            exe_type=exe_type,
+            prefix_path=prefix_path,
+            proton_dir=proton_dir
             )
 
-            logger.info(proc.stdout)
-            logger.warn(proc.stderr)
-            logger.info(proc.returncode)
-            returncode = proc.returncode
+
+        #Notification UX:
+        notifications.notify("info", "Prefix mode", f"Prefix mode : {prefix_mode}")
+        notifications.notify("info", "Prefix path", f"Prefix path : {prefix_path}")
+
+        env["STEAM_COMPAT_DATA_PATH"] = prefix_path
+        os.makedirs(prefix_path, exist_ok=True)
+
+        env["STEAM_COMPAT_CLIENT_INSTALL_PATH"] = os.path.expanduser("~/.steam/steam")
+        env["STEAM_COMPAT_TOOL_PATHS"] = proton_dir
+        # -------------------------
+        # GPU layer (UX + system merge)
+        # -------------------------
+        env.update(gpu_env(system, features))
+
+        cmd = [
+            os.path.join(proton_path(proton), "proton"),
+            "run",
+            exe_path
+        ]
+
+        # =========================
+        # COMMON OPTIONS
+        # =========================
+
+        if enable_mangohud and has_mangohud():
+            env["MANGOHUD"] = "1"
+            env["MANGOHUD_DLSYM"] = "1"
+            env["DXVK_HUD"] = "0"
+
+            # FPS cap only if needed
+            if "fps_limit" not in env.get("MANGOHUD_CONFIG", ""):
+                env["MANGOHUD_CONFIG"] = "fps_limit=60"
+
+            is_32bit = is_32bit_exe(exe_path)
+
+            # OpenGL only for legacy DX9 / old games
+            if exe_type in ["dx9", "dx9opengl", "oldgame", "ut99", "ut3", "valve"]:
+                env["MANGOHUD_OPENGL"] = "1"
+            else:
+                env.pop("MANGOHUD_OPENGL", None)
+
+            # 32-bit shim only when needed
+            if is_32bit:
+                logger.info("32-bit legacy game detected")
+
+                mangohud_shim = find_mangohud_shim()
+
+                if mangohud_shim and os.path.exists(mangohud_shim):
+                    if not check_mangohud_abi(mangohud_shim):
+                        logger.info("MangoHud ABI mismatch detected - skipping")
+                    else:
+                        env = add_ld_preload(env, mangohud_shim)
+                        logger.info("Loaded MangoHud 32-bit shim")
+                else:
+                    logger.info("No MangoHud 32-bit shim found, relying on Proton runtime")
+
+            # optional: Vulkan explicit toggle
+            if exe_type in ["vulkan", "dxvk"]:
+                env["MANGOHUD"] = "1"
         else:
-            proc = subprocess.Popen(
+            env.pop("MANGOHUD", None)
+
+        if enable_gamemode and has_gamemode():
+            env["GAMEMODE"] = "1"
+
+        # Set Default env:
+        env.setdefault("STEAM_COMPAT_APP_ID", "480")
+        env.setdefault("SteamAppId", "480")
+        env.setdefault("SteamGameId", "480")
+
+
+        if VERBOSE or DEBUG:
+            # Affichage des log debug CLI
+            log_profile_env(logger, env)
+        else:
+            # Affichage des log summary CLI
+            log_profile_summary(logger, env, exe_type)
+        if progress is not None:
+            progress.update( 83, f"Launch mode: Proton " )
+        logger.info(f"Launch mode: Proton ")
+
+
+        if enable_mangohud and has_mangohud():
+            # DEBUG ENVIRONMENT
+            log_mangohud_env(logger, env)
+
+            filters = [ "wrong ELF class", ]
+            result_code = -1
+            # Code KO
+
+            cmd_cwd = os.path.dirname(exe_path)
+
+            if not os.path.isdir(cmd_cwd):
+                logger.warning(
+                    f"Invalid cwd {cmd_cwd}, using home"
+                )
+                cmd_cwd = os.path.expanduser("~")
+
+            returncode = run_filtered(
                 cmd,
-                cwd=cmd_cwd,
                 env=env,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
-                text=True,
-                bufsize=1,
+                filters=filters,
+                cwd=cmd_cwd,
             )
-            # Logger with pourcent
-            percent = 85
-            progress.stop_spinner()
-            progress.update(85, "Launching Proton")
-            for line in proc.stdout:
-                if progress is not None:
-                    progress.update(percent, f"Launch: {line.rstrip()}")
-                    percent = min(percent + 1, 99)
 
-                logger.info(line.rstrip())
+            return returncode
+        else:
+            # Code OK
+            result_code = -1
+            cmd_cwd = os.path.dirname(exe_path)
+            #logger
+            log_executable_info(logger, exe_path, cmd_cwd)
+            if progress is not None:
+                progress.update( 84, f"EXE PATH   : {exe_path}" )
 
-            progress.update(100, "Game launched")
+            returncode = 0
+            if VERBOSE or DEBUG:
+                proc = subprocess.run(
+                    cmd,
+                    cwd=cmd_cwd,
+                    env=env,
+                    text=True,
+                    capture_output=True,
+                )
 
-            returncode = proc.wait()
+                logger.info(proc.stdout)
+                logger.warn(proc.stderr)
+                logger.info(proc.returncode)
+                returncode = proc.returncode
+            else:
+                proc = subprocess.Popen(
+                    cmd,
+                    cwd=cmd_cwd,
+                    env=env,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.STDOUT,
+                    text=True,
+                    bufsize=1,
+                )
+                # Logger with pourcent
+                percent = 85
+                progress.stop_spinner()
+                progress.update(85, "Launching Proton")
+                for line in proc.stdout:
+                    if progress is not None:
+                        progress.update(percent, f"Launch: {line.rstrip()}")
+                        percent = min(percent + 1, 99)
 
-            logger.info(f"CompletedProcess: {returncode!r}")
+                    logger.info(line.rstrip())
 
-        home = Path.home()
-        for log in sorted(home.glob("steam-*.log")):
-            logger.info(f"Proton log available: {log}")
+                progress.update(100, "Game launched")
 
-        return returncode
+                returncode = proc.wait()
 
+                logger.info(f"CompletedProcess: {returncode!r}")
+
+            home = Path.home()
+            for log in sorted(home.glob("steam-*.log")):
+                logger.info(f"Proton log available: {log}")
+
+            return returncode
+    finally:
+        progress.stop_spinner()
 
 #from proton_autogen.about import afficher_abouts, afficher_abouts_label
 def print_about():
