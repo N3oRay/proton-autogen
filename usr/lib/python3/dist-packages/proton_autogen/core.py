@@ -11,6 +11,8 @@ from pathlib import Path
 
 from proton_autogen.config import VERSION, CONFIG_FILE, CONFIG_DIR, PREFIX_DIR, PREFIX_DIR_PATH
 from proton_autogen.utils.logger import StructuredLogger
+from proton_autogen.progress import Progress
+from proton_autogen.pa_log import log_profile_env, log_profile_summary, log_mangohud_env, log_executable_info
 
 from proton_autogen.notify import notifications
 from proton_autogen.profiles.def_env import ENV_VARS
@@ -744,10 +746,15 @@ def add_ld_preload(env, lib):
 def run_game_proton(exe_path, exe_type, proton,
                     system, features,
                     enable_mangohud=False, enable_gamemode=False,
-                    prefix_mode="main"):
+                    prefix_mode="main", progress=None):
+
+    if progress is None:
+        progress = Progress()
 
 
     arch = get_exe_arch(exe_path)
+    if progress is not None:
+        progress.update( 85, f"EXE architecture: {arch}" )
     notifications.notify("info", "INFO", f"EXE architecture: {arch}")
 
     game_id = hashlib.md5(exe_path.encode()).hexdigest()
@@ -785,9 +792,6 @@ def run_game_proton(exe_path, exe_type, proton,
     os.makedirs(prefix_path, exist_ok=True)
 
     env["STEAM_COMPAT_CLIENT_INSTALL_PATH"] = os.path.expanduser("~/.steam/steam")
-
-
-
     env["STEAM_COMPAT_TOOL_PATHS"] = proton_dir
     # -------------------------
     # GPU layer (UX + system merge)
@@ -852,75 +856,20 @@ def run_game_proton(exe_path, exe_type, proton,
 
 
     if VERBOSE or DEBUG:
-        logger.info("=== PROFILE ENV CHECK ===")
-
-        debug_vars = [
-            "WINEESYNC",
-            "WINEFSYNC",
-            "PROTON_NO_ESYNC",
-            "PROTON_NO_FSYNC",
-            "WINE_SIMULATE_WRITECOPY",
-            "CEF_FORCE_GPU",
-            "CEF_DISABLE_GPU",
-            "CEF_FLAGS",
-            "CHROME_FLAGS",
-            "WINEPREFIX",
-            "STEAM_COMPAT_DATA_PATH",
-            "WINHTTP_TIMEOUT",
-            "DXVK_LOG_LEVEL",
-            "DXVK_HUD",
-            "MANGOHUD",
-            "SDL_VIDEODRIVER",
-            "PROTON_USE_WINED3D",
-            "WINEDLLOVERRIDES",
-            "WINEDEBUG",
-            "VKD3D_CONFIG",
-            "PROTON_LOG",
-            "DXVK_HUD",
-            "PROTON_ENABLE_WAYLAND",
-            "STEAM_COMPAT_DATA_PATH",
-            "STEAM_COMPAT_CLIENT_INSTALL_PATH",
-            "STEAM_COMPAT_SHADER_PATH",
-            "STEAM_COMPAT_TOOL_PATHS",
-            "STEAM_COMPAT_MOUNTS",
-            "STEAM_COMPAT_APP_ID",
-            "SteamAppId",
-            "SteamGameId",
-        ]
-
-        for key in debug_vars:
-            logger.info(
-                f"ENV {key}={env.get(key, '<unset>')}"
-            )
-
-        logger.info("=== END PROFILE ENV CHECK ===")
+        # Affichage des log debug CLI
+        log_profile_env(logger, env)
     else:
-        get = env.get
-        logger.info(f"SYNC: MANGOHUD={get('MANGOHUD')} MANGOHUD_DLSYM={get('MANGOHUD_DLSYM')}")
-        logger.info( f"Apply PROFILE={(exe_type or 'unknown').upper()} | "
-                     f"SYNC={'ON' if get('WINEESYNC') == '1' else 'OFF'} | "
-                     f"WINED3D={'ON' if get('PROTON_USE_WINED3D') == '1' else 'OFF'} | "
-                     f"XALIA={'OFF' if get('PROTON_USE_XALIA') == '0' else 'ON'} | "
-                     f"DXVK_HUD={get('DXVK_HUD') or 'OFF'}" )
-
+        # Affichage des log summary CLI
+        log_profile_summary(logger, env, exe_type)
+    if progress is not None:
+        progress.update( 83, f"Launch mode: Proton " )
     logger.info(f"Launch mode: Proton ")
 
 
     if enable_mangohud and has_mangohud():
-        # =========================
         # DEBUG ENVIRONMENT
-        # =========================
-        for key in [
-            "MANGOHUD",
-            "MANGOHUD_DLSYM",
-            "MANGOHUD_CONFIG",
-            "MANGOHUD_OPENGL",
-            "PROTON_ENABLE_NVAPI",
-            "__GL_SHADER_DISK_CACHE",
-            "RADV_PERFTEST",
-            "LD_PRELOAD"
-        ]:
-            logger.info(f" {key}={env.get(key)}")
+        log_mangohud_env(logger, env)
+
         filters = [ "wrong ELF class", ]
         result_code = -1
         # Code KO
@@ -945,11 +894,10 @@ def run_game_proton(exe_path, exe_type, proton,
         # Code OK
         result_code = -1
         cmd_cwd = os.path.dirname(exe_path)
-
-        logger.info(f"EXE PATH   : {exe_path}")
-        logger.info(f"CWD       : {cmd_cwd}")
-        logger.info(f"CWD EXISTS: {os.path.isdir(cmd_cwd)}")
-        logger.info(f"EXE EXISTS: {os.path.isfile(exe_path)}")
+        #logger
+        log_executable_info(logger, exe_path, cmd_cwd)
+        if progress is not None:
+            progress.update( 84, f"EXE PATH   : {exe_path}" )
 
         returncode = 0
         if VERBOSE or DEBUG:
@@ -966,9 +914,27 @@ def run_game_proton(exe_path, exe_type, proton,
             logger.info(proc.returncode)
             returncode = proc.returncode
         else:
-            returncode = subprocess.run(cmd, env=env, cwd=cmd_cwd)
+            proc = subprocess.Popen(
+                cmd,
+                cwd=cmd_cwd,
+                env=env,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+                bufsize=1,
+            )
+            # Logger with pourcent
+            percent = 85
+            for line in proc.stdout:
+                if progress is not None:
+                    progress.update(percent, f"Launch: {line.rstrip()}")
+                    percent = min(percent + 1, 99)
+
+                logger.info(line.rstrip())
+
+            returncode = proc.wait()
+
             logger.info(f"CompletedProcess: {returncode!r}")
-            logger.info(f"Return code: {returncode.returncode}")
 
         home = Path.home()
         for log in sorted(home.glob("steam-*.log")):
