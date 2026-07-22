@@ -108,8 +108,6 @@ chmod +x install.sh
 ./install.sh
 ```
 
-## 📦 Installation & Update - Debian / Ubuntu
-
 ## 📦 Installation & Updates
 
 ### Debian / Ubuntu / Linux Mint / Pop!_OS (Recommended)
