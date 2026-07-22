@@ -109,9 +109,12 @@ chmod +x install.sh
 ```
 
 ## 📦 Installation & Update - Debian / Ubuntu
-### Recommended installation method
 
-For Debian/Ubuntu based distributions, use the `.deb` package.
+## 📦 Installation & Updates
+
+### Debian / Ubuntu / Linux Mint / Pop!_OS (Recommended)
+
+The recommended installation method is the official Proton-Autogen PPA:
 
 For Arch Linux and CachyOS, a native package is planned.
 Until then, the manual installer is available.
