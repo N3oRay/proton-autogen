@@ -542,33 +542,87 @@ def _read_stderr(pipe, filters):
 
 
 
-def run_filtered(cmd, env=None, filters=None, cwd=None):
-
+def run_process(
+    cmd,
+    env=None,
+    cwd=None,
+    logger=None,
+    progress=None,
+    filters=None,
+    merge_stderr=False,
+):
     if filters is None:
         filters = []
+
+    stderr_pipe = subprocess.STDOUT if merge_stderr else subprocess.PIPE
 
     process = subprocess.Popen(
         cmd,
         cwd=cwd,
         env=env,
         stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        stderr=stderr_pipe,
         text=True,
-        bufsize=1
+        bufsize=1,
     )
 
-    t_out = threading.Thread(target=_read_stdout, args=(process.stdout,))
-    t_err = threading.Thread(target=_read_stderr, args=(process.stderr, filters))
+    percent = 85
 
-    t_out.start()
-    t_err.start()
+    if progress is not None:
+        progress.stop_spinner()
+        progress.update(85, "Launching Proton")
 
-    process.wait()
+    def handle_line(line):
+        nonlocal percent
 
-    t_out.join()
-    t_err.join()
+        line = line.rstrip()
 
-    return process.returncode
+        if progress is not None:
+            progress.update(
+                percent,
+                f"Launch: {line}"
+            )
+            percent = min(percent + 1, 99)
+
+        if logger:
+            logger.info(line)
+
+    if merge_stderr:
+        # stdout + stderr mélangés
+        for line in process.stdout:
+            handle_line(line)
+
+    else:
+        # stdout
+        def read_stdout():
+            for line in process.stdout:
+                handle_line(line)
+
+        # stderr avec filtres
+        def read_stderr():
+            for line in process.stderr:
+                line = line.rstrip()
+
+                if any(f in line for f in filters):
+                    continue
+
+                handle_line(line)
+
+        t_out = threading.Thread(target=read_stdout)
+        t_err = threading.Thread(target=read_stderr)
+
+        t_out.start()
+        t_err.start()
+
+        t_out.join()
+        t_err.join()
+
+    returncode = process.wait()
+
+    if progress is not None:
+        progress.update(100, "Game launched")
+
+    return returncode
 
 # -------------------------------------------------------------------------------------------------------------------------------------
 
@@ -884,11 +938,14 @@ def run_game_proton(exe_path, exe_type, proton,
                 )
                 cmd_cwd = os.path.expanduser("~")
 
-            returncode = run_filtered(
+            returncode = run_process(
                 cmd,
-                env=env,
-                filters=filters,
                 cwd=cmd_cwd,
+                env=env,
+                logger=logger,
+                progress=progress,
+                filters=filters,
+                merge_stderr=False,
             )
 
             return returncode
@@ -916,29 +973,14 @@ def run_game_proton(exe_path, exe_type, proton,
                 logger.info(proc.returncode)
                 returncode = proc.returncode
             else:
-                proc = subprocess.Popen(
+                returncode = run_process(
                     cmd,
                     cwd=cmd_cwd,
                     env=env,
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.STDOUT,
-                    text=True,
-                    bufsize=1,
+                    logger=logger,
+                    progress=progress,
+                    merge_stderr=True,
                 )
-                # Logger with pourcent
-                percent = 85
-                progress.stop_spinner()
-                progress.update(85, "Launching Proton")
-                for line in proc.stdout:
-                    if progress is not None:
-                        progress.update(percent, f"Launch: {line.rstrip()}")
-                        percent = min(percent + 1, 99)
-
-                    logger.info(line.rstrip())
-
-                progress.update(100, "Game launched")
-
-                returncode = proc.wait()
 
                 logger.info(f"CompletedProcess: {returncode!r}")
 
