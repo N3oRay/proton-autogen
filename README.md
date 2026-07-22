@@ -198,6 +198,7 @@ sudo apt purge proton-autogen
 
 ```bash
 rm -rf ~/.config/proton-autogen
+rm -rf /usr/share/proton-autogen
 rm -f ~/.local/share/nemo/actions/proton-autogen.nemo_action
 ```
 
