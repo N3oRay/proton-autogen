@@ -109,6 +109,12 @@ chmod +x install.sh
 ```
 
 ## 📦 Installation & Update - Debian / Ubuntu
+### Recommended installation method
+
+For Debian/Ubuntu based distributions, use the `.deb` package.
+
+For Arch Linux and CachyOS, a native package is planned.
+Until then, the manual installer is available.
 
 ### Manual build  and install
 
