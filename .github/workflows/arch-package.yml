@@ -23,7 +23,7 @@ jobs:
 
       - name: Update Arch Linux
         run: |
-          pacman -Syu --noconfirm
+          pacman -Sy --noconfirm archlinux-keyring
 
       - name: Install build dependencies
         run: |
@@ -34,6 +34,7 @@ jobs:
             python-gobject \
             python-pyyaml \
             python-rich \
+            gdk-pixbuf2 \
             gtk4 \
             glib2 \
             cairo \
@@ -42,7 +43,6 @@ jobs:
       - name: Create build user
         run: |
           useradd -m builder
-          echo "builder ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
       - name: Build package
         run: |
@@ -59,6 +59,9 @@ jobs:
         run: |
           pacman -U --noconfirm *.pkg.tar.zst
 
-      - name: Test binary
+      - name: Test binary version
         run: |
           proton-autogen --version
+      - name: Test binary help
+        run: |
+          proton-autogen --help
