@@ -42,9 +42,7 @@ install_deps() {
                 python-pyyaml \
                 python-rich \
                 gtk4 \
-                pango \
-                cairo \
-                glib2
+                gdk-pixbuf2 \
             ;;
         apt)
             sudo apt update
@@ -55,6 +53,7 @@ install_deps() {
                 python3-cairo \
                 python3-rich \
                 gir1.2-gtk-4.0 \
+                gir1.2-gdkpixbuf-2.0 \
                 gir1.2-pango-1.0 \
                 libglib2.0-0 \
                 python3-pip
@@ -66,9 +65,7 @@ install_deps() {
                 python3-pyyaml \
                 python3-rich \
                 gtk4 \
-                pango \
-                cairo \
-                glib2
+                gdk-pixbuf2
             ;;
     esac
 }
@@ -84,7 +81,9 @@ echo "==> Installing resources..."
 
 sudo install -d /usr/share/proton-autogen
 sudo cp -r usr/share/proton-autogen/* /usr/share/proton-autogen/
-sudo cp debian/proton-autogen.1.gz /usr/share/man/man1/
+sudo install -Dm644 \
+    debian/proton-autogen.1.gz \
+    /usr/share/man/man1/proton-autogen.1.gz
 
 
 sudo install -d /usr/share/applications
@@ -107,8 +106,8 @@ sudo cp -r \
     usr/lib/python3/dist-packages/proton_autogen \
     "$PYTHON_SITE/"
 
-echo "==> Updating library cache..."
-sudo ldconfig || true
+#echo "==> Updating library cache..."
+#sudo ldconfig || true
 
 echo ""
 echo "=============================="

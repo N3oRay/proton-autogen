@@ -4,11 +4,19 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "proton-autogen"
-version = "2.6.1"
+version = "3.1.3"
+description = "Automatic Proton/Wine launcher"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+  { name = "N3oRay" }
+]
 dependencies = [
   "pyyaml",
-  "pygobject"
+  "pygobject",
+  "rich"
 ]
 
-[tool.setuptools]
-packages = ["proton_autogen"]
+[tool.setuptools.packages.find]
+where = ["usr/lib/python3/dist-packages"]
