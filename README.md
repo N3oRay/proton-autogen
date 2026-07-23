@@ -130,7 +130,7 @@ sudo apt install ./proton-autogen_*.deb
 git clone https://github.com/N3oRay/proton-autogen.git
 cd proton-autogen
 dpkg-buildpackage -b -us -uc
-sudo dpkg -i ../proton-autogen_*.deb
+sudo apt install ../proton-autogen_*.deb
 ```
 
 ### See the manual installation guide:
