@@ -309,7 +309,7 @@ See the `LICENSE` file for details.
 👀 Views              █████                 354
 🌍 Unique visitors    ██                    160
 Ubuntu PPA
-📥 Downloads ████████████████████ 161
+📥 Downloads ████████████████████ 189
 ```
 <sub>
 GitHub traffic statistics cover the last 14 days.
