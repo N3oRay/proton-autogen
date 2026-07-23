@@ -68,8 +68,8 @@ package() {
 
     # Page de manuel
     install -Dm644 \
-        debian/proton-autogen.1 \
-        "$pkgdir/usr/share/man/man1/proton-autogen.1"
+        debian/proton-autogen.1.gz \
+        "$pkgdir/usr/share/man/man1/proton-autogen.1.gz"
 
     # Licence
     install -Dm644 \
