@@ -122,7 +122,7 @@ Debian package (.deb)
 
 Download the latest `.deb` release from GitHub:
 ```bash
-sudo dpkg -i proton-autogen_*.deb
+sudo apt install ./proton-autogen_*.deb
 ```
 ### Manual installation (other distributions)
 
