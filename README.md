@@ -79,6 +79,13 @@ proton-autogen game.exe
 proton-autogen --ux
 ```
 
+## 🛠️ Troubleshooting
+
+If an application does not launch, generate a diagnostic report:
+
+```bash
+proton-autogen --diag
+```
 ### Example Output: 
 See the full example output here: [Example Output](docs/examples.md)
 
