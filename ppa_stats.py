@@ -1,4 +1,3 @@
-
 from launchpadlib.launchpad import Launchpad
 
 
@@ -11,17 +10,25 @@ ppa = lp.people["n3oray"].getPPAByName(
     name="proton-autogen"
 )
 
-
-total = 0
-count = 0
+versions = {}
 
 for binary in ppa.getPublishedBinaries():
 
+    key = (
+        binary.binary_package_name,
+        binary.binary_package_version
+    )
+
     downloads = binary.getDownloadCount()
 
-    total += downloads
-    count += 1
+    versions[key] = versions.get(key, 0) + downloads
 
 
-print(f"Publications analysées : {count}")
+total = sum(versions.values())
+
+for (name, version), downloads in versions.items():
+    print(f"{name} {version}: {downloads}")
+
+print()
+print(f"Versions analysées : {len(versions)}")
 print(f"Téléchargements totaux : {total}")
