@@ -113,7 +113,7 @@ sudo apt install proton-autogen
 
 Debian package (.deb)
 
-You can also install the latest release manually:
+Download the latest `.deb` release from GitHub:
 ```bash
 sudo dpkg -i proton-autogen_*.deb
 ```
