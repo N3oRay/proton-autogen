@@ -18,5 +18,10 @@ dependencies = [
   "rich"
 ]
 
+[tool.setuptools.package-dir]
+proton_autogen = "usr/lib/python3/dist-packages/proton_autogen"
+
 [tool.setuptools.packages.find]
 where = ["usr/lib/python3/dist-packages"]
+include = ["proton_autogen*"]
+namespaces = false
