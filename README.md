@@ -223,6 +223,8 @@ sudo apt purge proton-autogen
 ```bash
 ./uninstall.sh
 ```
+The uninstall script only removes Proton-Autogen files and configuration.
+It does not remove Steam, Proton versions, or existing Wine prefixes.
 
 Restart Nemo:
 
