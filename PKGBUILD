@@ -26,7 +26,7 @@ source=(
     "https://github.com/N3oRay/proton-autogen/archive/refs/tags/v${pkgver}.tar.gz"
 )
 
-sha256sums=('SKIP')
+sha256sums=('3d50e9c420b5c3d8515de4c60452660b4fc94993c47b50870f22878c30679090')
 
 build() {
     cd "$srcdir/$pkgname-$pkgver"
@@ -51,6 +51,7 @@ package() {
     install -dm755 \
         "$pkgdir/usr/share/proton-autogen"
 
+    # Ressources
     cp -a \
         usr/share/proton-autogen/. \
         "$pkgdir/usr/share/proton-autogen/"
