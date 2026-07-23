@@ -26,7 +26,7 @@ source=(
     "https://github.com/N3oRay/proton-autogen/archive/refs/tags/v${pkgver}.tar.gz"
 )
 
-sha256sums=('3d50e9c420b5c3d8515de4c60452660b4fc94993c47b50870f22878c30679090')
+sha256sums=('9d8b22726ccfe1550c95dd15fa1dc3828349f6775806289bbefe11cd00afcb23')
 
 build() {
     cd "$srcdir/$pkgname-$pkgver"
