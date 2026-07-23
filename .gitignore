@@ -9,3 +9,5 @@ src/
 *.pkg.tar.zst
 *.pkg.tar.zst.sig
 deploy.sh
+__pycache__/
+*.pyc

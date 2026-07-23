@@ -2,6 +2,8 @@ from pathlib import Path
 import locale
 import os
 import subprocess
+from proton_autogen.cachyos import get_cachy_text
+
 
 def has_nvidia_gpu():
     try:
@@ -101,11 +103,59 @@ def detect_distro():
 DEV_DOCS = Path(__file__).parent / "docs"
 SYS_DOCS = Path("/usr/share/proton-autogen/docs")
 
-
+"""
 def get_docs_root():
     if DEV_DOCS.exists():
         return DEV_DOCS
     return SYS_DOCS
+"""
+
+def get_docs_root():
+
+    candidates = [
+        DEV_DOCS,
+        SYS_DOCS,
+    ]
+
+    for path in candidates:
+        if path.exists():
+            return path
+
+    return SYS_DOCS
+
+def get_requirements_text():
+
+    root = get_docs_root()
+
+    lang = detect_language()
+    distro = detect_distro()
+
+    texts = []
+
+    # Distribution
+    for filename in (
+        f"{distro}_{lang}.txt",
+        f"{distro}_en.txt"
+    ):
+        path = root / filename
+
+        if path.exists():
+            texts.append(
+                path.read_text(encoding="utf-8")
+            )
+            break
+
+
+    # CachyOS
+    cachy = get_cachy_text()
+
+    if cachy:
+        texts.append(cachy)
+
+
+    return "\n\n".join(texts) if texts else (
+        "📄 Documentation not available."
+    )
 
 
 def get_prerequisites_text():
@@ -126,9 +176,9 @@ def get_prerequisites_text():
     return "Documentation not available."
 
 
-def afficher_prerequis():
-    print(get_prerequisites_text())
+def afficher_requirements():
+    print(get_requirements_text())
 
 
-def afficher_prerequis_label():
-    return get_prerequisites_text()
+def afficher_requirements_label():
+    return get_requirements_text()

@@ -508,6 +508,8 @@ def insert_sensor_text(buffer, text):
 
 def insert_colored_text(buffer, text):
 
+
+
     tag_table = buffer.get_tag_table()
 
     def tag(name, **props):
@@ -581,7 +583,6 @@ def insert_colored_text(buffer, text):
     tag("env",
         foreground="#c061cb",
         weight=Pango.Weight.BOLD)
-
 
     buffer.set_text("")
 

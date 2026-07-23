@@ -1,0 +1,71 @@
+# Proton-CachyOS 安装指南
+
+## 前提条件
+
+开始之前，请确保满足以下条件：
+
+* 使用兼容的 Linux 发行版（Arch Linux、CachyOS 或基于 Arch 的发行版）。
+* 已安装 Steam。
+* 可正常连接互联网。
+* 拥有管理员权限（`sudo`）。
+
+---
+
+## 方法 1 – 通过 CachyOS Hello 安装（推荐）
+
+这是 CachyOS 用户最简单且推荐的安装方式。
+
+### 安装步骤
+
+1. 打开 **CachyOS Hello**。
+2. 进入 **Apps / Tweaks** 菜单。
+3. 点击 **Install Gaming Packages**。
+
+系统将自动安装以下组件：
+
+* Steam
+* Proton-CachyOS
+* MangoHud
+* Gamescope
+* Heroic Games Launcher
+* Lutris
+* 所需的 Vulkan 库
+
+### 验证安装
+
+1. 如果 Steam 已在运行，请先完全关闭它。
+2. 重新启动 Steam。
+3. 依次进入：
+
+```text
+Steam
+└── 设置（Settings）
+    └── 兼容性（Compatibility）
+```
+
+4. 确认 **Proton-CachyOS** 已出现在可用兼容性工具列表中。
+
+---
+
+## 方法 2 – 使用 Pacman 安装
+
+如果您希望手动安装相关组件，可以使用 Pacman。
+
+### 安装游戏相关软件包
+
+```bash
+sudo pacman -S cachyos-gaming-meta
+sudo pacman -S cachyos-gaming-applications
+```
+
+### 仅安装 Proton-CachyOS
+
+```bash
+sudo pacman -S proton-cachyos-slr
+```
+
+### 注意
+
+推荐使用 **Proton-CachyOS-SLR**（Steam Linux Runtime）版本。
+
+该版本能够为使用 **Easy Anti-Cheat (EAC)** 和 **BattlEye** 等反作弊系统的游戏提供更好的兼容性。

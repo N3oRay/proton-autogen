@@ -25,7 +25,7 @@ from proton_autogen.color_label import insert_colored_text, insert_sensor_text, 
 from proton_autogen.core import print_about, get_about_text, detect_help_env_lang
 from proton_autogen.info import print_help, get_help_text
 from proton_autogen.sensor import get_sensors_text, print_sensors, get_mangohud_advice
-from proton_autogen.requis import afficher_prerequis_label
+from proton_autogen.requis import afficher_requirements_label
 
 
 addbouton = True
@@ -498,7 +498,7 @@ class Dashboard(Gtk.ApplicationWindow):
         self.status.set_xalign(0)
         self.status.add_css_class("home-label")
 
-        root.append(self.status)
+        #root.append(self.status)
         # themes
         self.update_background(self.get_application().current_style)
 
@@ -613,6 +613,11 @@ class Dashboard(Gtk.ApplicationWindow):
 
     def build_dialog(self, title, content_widget, width=600, height=800):
 
+        print(
+            "CONTENT PARENT:",
+            content_widget.get_parent()
+        )
+
         win = Gtk.Window(
             title=title,
             transient_for=self,
@@ -669,8 +674,8 @@ class Dashboard(Gtk.ApplicationWindow):
         textview.set_wrap_mode(Gtk.WrapMode.WORD)
 
         buffer = textview.get_buffer()
-        insert_colored_text(buffer, afficher_prerequis_label())
-        #buffer.set_text(afficher_prerequis_label())
+
+        insert_colored_text( buffer, afficher_requirements_label())
 
         scroll.set_child(textview)
 
@@ -1015,6 +1020,7 @@ class ProtonAutogenApp(Gtk.Application):
 
         requis.connect("activate", open_requis)
         self.add_action(requis)
+
 
         # -------------------------
         # SHORTCUTS
