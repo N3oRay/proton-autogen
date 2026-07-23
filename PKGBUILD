@@ -81,8 +81,10 @@ package() {
     # /usr/lib/python3.x/site-packages/
     #
     # Cette partie risque d'être refusée par un mainteneur.
+    python_site=$(python -c "import site; print(site.getsitepackages()[0])")
+
     install -dm755 \
-        "$pkgdir/usr/lib/python/site-packages"
+        "$pkgdir$python_site"
 
 
     # Copie du module Python.
@@ -90,8 +92,8 @@ package() {
     # Problème potentiel :
     # Il faudrait idéalement installer via setuptools/pyproject
     # ou cibler le vrai site-packages Arch.
-    cp -a proton_autogen \
-        "$pkgdir/usr/lib/python/site-packages/"
+    cp -a usr/lib/python3/dist-packages/proton_autogen \
+        "$pkgdir$python_site/"
 
 
     # Données propres au programme.
