@@ -124,7 +124,7 @@ Download the latest `.deb` release from GitHub:
 ```bash
 sudo apt install ./proton-autogen_*.deb
 ```
-### Manual installation (other distributions)
+### Build Debian package manually
 
 ```bash
 git clone https://github.com/N3oRay/proton-autogen.git
