@@ -31,11 +31,15 @@ jobs:
             base-devel \
             git \
             python \
+            python-build \
+            python-installer \
+            python-wheel \
+            python-setuptools \
             python-gobject \
             python-pyyaml \
             python-rich \
-            gdk-pixbuf2 \
             gtk4 \
+            gdk-pixbuf2 \
             glib2 \
             cairo \
             pango
