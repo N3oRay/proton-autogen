@@ -4,7 +4,7 @@ pkgname=proton-autogen
 
 # Version du logiciel.
 # Généralement synchronisée avec les tags Git (v3.0.2 ici).
-pkgver=3.0.2
+pkgver=3.1.3
 
 # Révision du paquet.
 # Augmente uniquement quand le PKGBUILD change sans changement du logiciel.
