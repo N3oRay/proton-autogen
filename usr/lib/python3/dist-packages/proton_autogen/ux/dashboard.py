@@ -613,11 +613,6 @@ class Dashboard(Gtk.ApplicationWindow):
 
     def build_dialog(self, title, content_widget, width=600, height=800):
 
-        print(
-            "CONTENT PARENT:",
-            content_widget.get_parent()
-        )
-
         win = Gtk.Window(
             title=title,
             transient_for=self,

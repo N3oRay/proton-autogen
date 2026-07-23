@@ -123,6 +123,16 @@ def get_docs_root():
 
     return SYS_DOCS
 
+def is_cachyos():
+    try:
+        with open("/etc/os-release", encoding="utf-8") as f:
+            data = f.read().lower()
+
+        return "cachyos" in data
+
+    except FileNotFoundError:
+        return False
+
 def get_requirements_text():
 
     root = get_docs_root()
@@ -147,10 +157,11 @@ def get_requirements_text():
 
 
     # CachyOS
-    cachy = get_cachy_text()
+    if is_cachyos():
+        cachy = get_cachy_text()
 
-    if cachy:
-        texts.append(cachy)
+        if cachy:
+            texts.append(cachy)
 
 
     return "\n\n".join(texts) if texts else (
