@@ -64,6 +64,10 @@ jobs:
           chown -R builder:builder .
           su builder -c "makepkg -sf --noconfirm"
 
+      - name: Check package integrity
+        run: |
+          namcap *.pkg.tar.zst
+
       - name: Upload package artifact
         uses: actions/upload-artifact@v4
         with:
@@ -84,3 +88,15 @@ jobs:
       - name: Test binary help
         run: |
           proton-autogen --help
+
+      - name: List package files
+        run: |
+          pacman -Ql proton-autogen
+
+      - name: Uninstall package
+        run: |
+          pacman -Rns --noconfirm proton-autogen
+
+      - name: Verify uninstall
+        run: |
+          test ! -e /usr/bin/proton-autogen
