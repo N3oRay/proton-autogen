@@ -221,6 +221,7 @@ sudo apt purge proton-autogen
 ### Manual Cleanup
 
 ```bash
+chmod +x ./uninstall.sh
 ./uninstall.sh
 ```
 The uninstall script only removes Proton-Autogen files and configuration.
