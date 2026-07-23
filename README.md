@@ -38,7 +38,7 @@ Simply:
 
 * ▶ Run Windows `.exe` files directly via Proton
 * 🧠 Automatic Proton detection
-* 🚀 Proton-CachyOS and GE-Proton support
+* 🚀 Support for Proton-CachyOS, GE-Proton and custom Proton builds
 * 🍷 Wine fallback support
 * 📦 Prefix management
 * 🖱️ File manager integration : Nemo, Nautilus, Dolphin
