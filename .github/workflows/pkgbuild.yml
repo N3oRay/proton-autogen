@@ -1,0 +1,47 @@
+name: Arch package build
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  pkgbuild:
+    runs-on: ubuntu-latest
+
+    container:
+      image: archlinux:latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Update Arch
+        run: |
+          pacman -Syu --noconfirm
+
+      - name: Install build tools
+        run: |
+          pacman -S --needed --noconfirm \
+            base-devel \
+            git \
+            python \
+            python-gobject \
+            python-pyyaml \
+            python-rich \
+            gtk4 \
+            glib2 \
+            cairo \
+            pango
+
+      - name: Build package
+        run: |
+          useradd -m builder
+          chown -R builder:builder .
+          su builder -c "makepkg -sf --noconfirm"
+
+      - name: Upload package
+        uses: actions/upload-artifact@v4
+        with:
+          name: proton-autogen-package
+          path: "*.pkg.tar.zst"
