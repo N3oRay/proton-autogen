@@ -7,7 +7,7 @@ name = "proton-autogen"
 version = "3.1.3"
 description = "Automatic Proton/Wine launcher"
 readme = "README.md"
-license = "MIT"
+license = { text = "MIT" }
 requires-python = ">=3.10"
 authors = [
   { name = "N3oRay" }
