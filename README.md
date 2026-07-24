@@ -304,10 +304,10 @@ See the `LICENSE` file for details.
 
 ## 📈 GitHub Traffic
 ```markdown
-📦 Clones             ████████████████████  1,523
-👥 Unique cloners     ██████                414
-👀 Views              █████                 354
-🌍 Unique visitors    ██                    159
+📦 Clones             ████████████████████  1,857
+👥 Unique cloners     ██████                484
+👀 Views              █████                 343
+🌍 Unique visitors    ██                    157
 Ubuntu PPA
 📥 Downloads ████████████████████ 203
 ```
