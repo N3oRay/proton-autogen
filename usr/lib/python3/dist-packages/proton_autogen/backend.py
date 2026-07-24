@@ -7,14 +7,12 @@ import subprocess
 import time
 from pathlib import Path
 from proton_autogen.exceptions import ExecutableNotFoundError, ProtonNotFoundError, GameConfigError, PrefixError
-from shutil import which
 from time import perf_counter
 from proton_autogen.config import VERSION
 from proton_autogen.utils.logger import StructuredLogger
 from proton_autogen.progress import Progress
 
 from proton_autogen.loader import save_game_config, load_game_config
-from proton_autogen.editor import add_game, edit_game_ui
 from proton_autogen.core import (
     DEBUG,
     VERBOSE,
@@ -34,11 +32,11 @@ from proton_autogen.core import (
 
     load_proton_paths,
 )
-from proton_autogen.profiles.init import *
+from proton_autogen.profiles.init import detect_exe_type
 from proton_autogen.i18n import tr, init_language
 from proton_autogen.stats import * #get_game_badges
 from proton_autogen.pa_log import handle_result, result_to_line
-from proton_autogen.diag import find_all_protons, find_proton, print_diagnostic
+from proton_autogen.diag import find_all_protons, find_proton
 # new files:
 from proton_autogen.dector import resolve_game_features
 from proton_autogen.system import detect_system_info
