@@ -2,9 +2,11 @@
 
 import os
 import sys
+import re
 import subprocess
 import hashlib
 import json
+import threading
 from collections import defaultdict
 
 from pathlib import Path
@@ -252,54 +254,6 @@ def export_default_profiles():
 
         print(f"[export] {name}.json generated ({len(filtered_env)} vars)")
 #------------------------------------------------------------------------------
-# old version for full extract variables
-def export_default_profiles_full():
-    base_dir = os.path.expanduser("~/.config/proton-autogen/profiles")
-    os.makedirs(base_dir, exist_ok=True)
-
-    profiles = {
-        "legacy": env_legacy_app(),
-        "launcher": env_launcher(),
-        "dx11": env_dx11(),
-        "dx11Bnet": env_dx11BNet(),
-        "dx12": env_dx12(),
-        "dx9": env_dx9(),
-        "dx8dg": env_dx8dg(),
-        "dx9dg": env_dx9dg(),
-        "dx9opengl": env_dx9opengl(),
-        "gtav_compat": env_gtav_compat(),
-        "gtav_x11": env_gtav_x11(),
-        "gtav_safe": env_gtav_safe(),
-        "dotnet_csharp": env_dotnet_csharp(),
-        "install": env_install_clean(),
-        "oldgame": env_oldgame(),
-        "ut99": env_ut99(),
-        "quake": env_quake(),
-        "win95": env_win95(),
-        "directdraw": env_DDraw(),
-        "ut3": env_ut3(),
-        "valve": env_goldsrc(),
-        "desktop": env_desktop(),
-        "dotnet": env_dotnet(),
-    }
-
-
-    for name, env in profiles.items():
-
-        data = {
-            "name": name,
-            "env": env,
-            "remove": [],
-            "base": name
-        }
-
-        path = os.path.join(base_dir, f"{name}.json")
-
-        with open(path, "w") as f:
-            json.dump(data, f, indent=2)
-
-        print(f"[export] {name}.json generated")
-
 def load_profile_from_cli(sys_argv):
     idx = sys_argv.index("--profile")
 
@@ -376,9 +330,6 @@ def print_proton_paths():
     print("Note:")
     print("  Compatibility tools = real Proton builds")
     print("  Steam runtimes = execution dependencies (not Proton)")
-
-
-
 
 #-----------------------------------------------------------
 # PROFILE HUD
@@ -472,32 +423,6 @@ def get_prefix_path(prefix_mode: str, exe_path: str) -> str:
         return output
 
 
-
-def get_prefix_path_v2(prefix_mode: str, exe_path: str) -> str:
-
-    root = PREFIX_DIR_PATH
-
-    if prefix_mode == "auto":
-        output, short_hash = make_output_path(exe_path, root)
-
-        return output
-
-    if prefix_mode.startswith("auto-"):
-        # déjà résolu → on le traite comme prefix direct
-        return os.path.join(root, prefix_mode)
-
-    prefixes = {
-        "main": os.path.join(root, "main"),
-        "shared": os.path.join(root, "shared"),
-        "Battle": os.path.join(root, "Battle"),
-        "Battle.net": os.path.join(root, "Battle.net"),
-        "custom": os.path.join(root, "custom"),
-        "Proton Custom": os.path.join(root, "Proton Custom"),
-        #"custom": os.path.expanduser("~/Documents/Proton/env/Proton Custom"),
-    }
-
-    return prefixes.get(prefix_mode, prefixes["main"])
-
 def add_ld_preload(env, library):
     """
     Ajoute une bibliothèque à LD_PRELOAD sans écraser
@@ -524,21 +449,9 @@ def is_32bit_exe(path):
 # -------------------------------------------------------------------------------------------------------------------------------------
 # Two independent threads handle the simultaneous reading of standard and error outputs to ensure smooth display and prevent deadlocks.
 # -------------------------------------------------------------------------------------------------------------------------------------
-from pathlib import Path
-import subprocess
-import threading
 
 
-def _read_stdout(pipe):
-    for line in pipe:
-        logger.info(line, end="")
 
-
-def _read_stderr(pipe, filters):
-    for line in pipe:
-        if any(f in line for f in filters):
-            continue
-        logger.warn(line, end="")
 
 
 

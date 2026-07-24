@@ -74,7 +74,7 @@ def save_game_config(data: dict):
         raise ValueError("Missing path in data")
 
     config_path, gid = get_game_config_path(exe_path)
-
+    logger.info(f"Saved config : {config_path}")
     # load existing config
     if os.path.exists(config_path):
         with open(config_path, "r") as f:
@@ -99,22 +99,3 @@ def save_game_config(data: dict):
         json.dump(merged, f, indent=2)
 
     return merged
-
-def save_game_config_v1(data: dict):
-    if not isinstance(data, dict):
-        return
-
-    exe_path = data.get("path")
-    if not exe_path:
-        return
-
-    config_path, gid = get_game_config_path(exe_path)
-
-    data["id"] = gid
-
-    os.makedirs(CONFIG_DIR, exist_ok=True)
-
-    with open(config_path, "w") as f:
-        json.dump(data, f, indent=2)
-
-    logger.info(f"Saved config : {config_path}")

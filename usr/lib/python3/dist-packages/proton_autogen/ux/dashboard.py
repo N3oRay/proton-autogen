@@ -22,7 +22,7 @@ from proton_autogen.editor import add_game_ux, rm_game_ux
 from proton_autogen.backend import run, list_programs_ux, get_diagnostic_text
 from proton_autogen.stats import is_recent_launch
 from proton_autogen.color_label import insert_colored_text, insert_sensor_text, insert_about_text
-from proton_autogen.core import print_about, get_about_text, detect_help_env_lang
+from proton_autogen.core import get_about_text, detect_help_env_lang
 from proton_autogen.info import print_help, get_help_text
 from proton_autogen.sensor import get_sensors_text, print_sensors, get_mangohud_advice
 from proton_autogen.requis import afficher_requirements_label
