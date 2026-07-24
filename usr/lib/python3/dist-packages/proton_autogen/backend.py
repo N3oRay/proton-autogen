@@ -354,10 +354,6 @@ def normalize_flag(value, default=True):
     return bool(value)
 
 
-
-
-
-
 #  Legacy function. Prefix creation is now handled through game configuration and prefix profiles.
 def create_new_prefix():
     name = input(tr("prefix_name") + ": ").strip()

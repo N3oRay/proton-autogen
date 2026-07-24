@@ -761,6 +761,58 @@ dropdown label {
     background: transparent;
 }
 
+/* SearchEntry */
+
+/* Entrées de texte */
+entry,
+searchentry {
+    background: #111111;
+    color: white;
+
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 8px;
+
+    padding: 6px 10px;
+}
+
+/* Zone de texte interne */
+entry text,
+searchentry text {
+    background: transparent;
+    color: white;
+}
+
+/* Icônes (loupe, effacer, etc.) */
+entry image,
+searchentry image {
+    color: rgba(255,255,255,0.80);
+}
+
+/* Texte d'indication (placeholder) */
+entry placeholder,
+searchentry placeholder {
+    color: rgba(255,255,255,0.45);
+}
+
+/* Survol */
+entry:hover,
+searchentry:hover {
+    border-color: rgba(255,255,255,0.50);
+}
+
+/* Focus */
+entry:focus,
+searchentry:focus {
+    border-color: @accent;
+    box-shadow: 0 0 0 2px alpha(@accent, 0.25);
+}
+
+/* Désactivé */
+entry:disabled,
+searchentry:disabled {
+    opacity: 0.5;
+}
+
 
 /* GAME ICON */
 .game-icon {
