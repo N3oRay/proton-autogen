@@ -190,6 +190,7 @@ ICON_MAPPING = {
     "play": "cute.svg",
     "role": "role-play.svg",
     "rpg": "role-play.svg",
+    "snow": "snow.svg",
 
     "alert": "alert-triangle.svg",
     "warning": "alert-triangle.svg",
