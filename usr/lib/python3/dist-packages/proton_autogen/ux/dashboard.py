@@ -93,6 +93,16 @@ class Dashboard(Gtk.ApplicationWindow):
                 self.status.set_text("Style: Proton Autogen")
             self.update_background(app.current_style)
 
+    # update css carousel
+    def update_carousel_buttons(self):
+        self.favorites_btn.remove_css_class("suggested-action")
+        self.recent_btn.remove_css_class("suggested-action")
+
+        if self.current_carousel == "favorites":
+            self.favorites_btn.add_css_class("suggested-action")
+        elif self.current_carousel == "recent":
+            self.recent_btn.add_css_class("suggested-action")
+
 
     # -------------------------
     # Show MangoHud Sensors :
@@ -485,11 +495,13 @@ class Dashboard(Gtk.ApplicationWindow):
             ):
                 self.carousel_revealer.set_reveal_child(False)
                 self.current_carousel = None
+                self.update_carousel_buttons()
                 return
 
             self.current_carousel = "favorites"
             self.carousel_stack.set_visible_child_name("favorites")
             self.carousel_revealer.set_reveal_child(True)
+            self.update_carousel_buttons()
 
 
         def show_recent(_btn):
@@ -499,11 +511,13 @@ class Dashboard(Gtk.ApplicationWindow):
             ):
                 self.carousel_revealer.set_reveal_child(False)
                 self.current_carousel = None
+                self.update_carousel_buttons()
                 return
 
             self.current_carousel = "recent"
             self.carousel_stack.set_visible_child_name("recent")
             self.carousel_revealer.set_reveal_child(True)
+            self.update_carousel_buttons()
 
 
         self.favorites_btn.connect(
