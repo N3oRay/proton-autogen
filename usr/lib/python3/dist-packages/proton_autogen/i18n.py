@@ -6,6 +6,26 @@ import locale
 
 LANG = {
     "en": {
+        "no_proton_installation": "No Proton installation found",
+        "detected_proton_installations": "Detected Proton installations",
+        "selected": "selected",
+
+        "diagnostic": "proton-autogen diagnostic",
+        "version": "Version",
+        "python": "Python",
+        "runtime": "Runtime",
+        "wine": "Wine",
+        "yes": "yes",
+        "no": "no",
+        "platform": "Platform",
+        "detected_programs": "Detected Windows programs",
+        "no_windows_programs": "No Windows programs found",
+
+        "search_finished": "The program search finished in {time:.3f}s",
+
+        "load_config_prefix": "LOAD CONFIG PREFIX : {prefix}",
+
+        "feature_status": "{key}: {value}",
         "proton_call": "proton-call",
         "gamemode": "GameMode",
         "mangohud": "MangoHud",
@@ -45,6 +65,26 @@ LANG = {
     },
 
     "fr": {
+        "no_proton_installation": "Aucune installation Proton trouvée",
+        "detected_proton_installations": "Installations Proton détectées",
+        "selected": "sélectionné",
+
+        "diagnostic": "Diagnostic proton-autogen",
+        "version": "Version",
+        "python": "Python",
+        "runtime": "Environnement",
+        "wine": "Wine",
+        "yes": "oui",
+        "no": "non",
+        "platform": "Plateforme",
+        "detected_programs": "Programmes Windows détectés",
+        "no_windows_programs": "Aucun programme Windows trouvé",
+
+        "search_finished": "Recherche terminée en {time:.3f}s",
+
+        "load_config_prefix": "CHARGEMENT CONFIG PREFIX : {prefix}",
+
+        "feature_status": "{key}: {value}",
         "proton_call": "proton-call",
         "gamemode": "GameMode",
         "mangohud": "MangoHud",
@@ -84,6 +124,26 @@ LANG = {
     },
 
     "zh": {
+        "no_proton_installation": "未找到 Proton 安装",
+        "detected_proton_installations": "检测到的 Proton 安装",
+        "selected": "已选择",
+
+        "diagnostic": "proton-autogen 诊断",
+        "version": "版本",
+        "python": "Python",
+        "runtime": "运行环境",
+        "wine": "Wine",
+        "yes": "是",
+        "no": "否",
+        "platform": "平台",
+        "detected_programs": "检测到的 Windows 程序",
+        "no_windows_programs": "未找到 Windows 程序",
+
+        "search_finished": "搜索完成，用时 {time:.3f} 秒",
+
+        "load_config_prefix": "加载配置前缀：{prefix}",
+
+        "feature_status": "{key}: {value}",
         "proton_call": "proton-call",
         "gamemode": "GameMode",
         "mangohud": "MangoHud",

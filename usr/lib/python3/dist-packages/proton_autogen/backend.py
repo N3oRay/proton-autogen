@@ -189,7 +189,7 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None):
             if config and config.get("prefix"):
                 prefix_mode = config["prefix"].get("name", prefix_mode)
                 #Message
-                notifications.notify("info", "proton-autogen", f"LOAD CONFIG PREFIX : {prefix_mode}", ui=True)
+                notifications.notify( "info", "proton-autogen", tr("load_config_prefix", prefix=prefix_mode), ui=True )
 
             result_code = -1
             progress.update(80, tr("starting_proton"))
@@ -257,7 +257,7 @@ def list_protons():
     protons = find_all_protons()
 
     if not protons:
-        print("No Proton installation found")
+        print(tr("no_proton_installation"))
         return
 
     selected = find_proton()
@@ -275,13 +275,13 @@ def list_protons():
     def sort_key(p):
         return os.path.basename(p).lower()
 
-    print("Detected Proton installations:\n")
+    print(f"{tr('detected_proton_installations')}:\n")
 
     for proton in sorted(protons, key=sort_key):
         proton_real = os.path.realpath(proton)
 
         is_selected = (selected_path == proton_real)
-        suffix = " (selected)" if is_selected else ""
+        suffix = f" ({tr('selected')})" if is_selected else ""
 
         print(f"  {os.path.basename(proton)}{suffix}")
         print(f"    {proton}\n")
@@ -289,17 +289,26 @@ def list_protons():
 def get_diagnostic_text():
     lines = []
 
-    lines.append("proton-autogen diagnostic\n")
-
-    lines.append(f"Version      : {VERSION}")
-    lines.append(f"Python       : {sys.version.split()[0]}\n")
-
-    lines.append("Runtime:")
-    lines.append(f"  proton-call : {'yes' if has_proton_call() else 'no'}")
-    lines.append(f"  wine        : {'yes' if has_wine() else 'no'}")
-    lines.append(f"  gamemode    : {'yes' if has_gamemode() else 'no'}")
-    lines.append(f"  mangohud    : {'yes' if has_mangohud() else 'no'}\n")
-
+    lines.append(f"{tr('diagnostic')}\n")
+    lines.append(f"{tr('version'):<12}: {VERSION}")
+    lines.append(f"{tr('python'):<12}: {sys.version.split()[0]}\n")
+    lines.append(f"{tr('runtime')}:")
+    lines.append(
+        f"  {tr('proton_call')} : "
+        f"{tr('yes') if has_proton_call() else tr('no')}"
+    )
+    lines.append(
+        f"  {tr('wine')} : "
+        f"{tr('yes') if has_wine() else tr('no')}"
+    )
+    lines.append(
+        f"  {tr('gamemode')} : "
+        f"{tr('yes') if has_gamemode() else tr('no')}"
+    )
+    lines.append(
+        f"  {tr('mangohud')} : "
+        f"{tr('yes') if has_mangohud() else tr('no')}"
+    )
     lines.append(f"Platform     : {sys.platform}\n")
 
     protons = find_all_protons()
@@ -497,7 +506,7 @@ def find_windows_programs_ux_search(root=None):
 
                 programs.append(str(Path(dirpath) / filename))
 
-    print(f"The program search finished in {perf_counter() - start:.3f}s")
+    print( tr( "search_finished", time=perf_counter() - start ) )
 
     return programs
 
@@ -559,10 +568,10 @@ def list_programs():
     programs = find_windows_programs()
 
     if not programs:
-        print("No Windows programs found")
+        print(tr("no_windows_programs"))
         return
 
-    print("Detected Windows programs:")
+    print(f"{tr('detected_programs')}:")
     print("")
 
     for exe in sorted(programs):
