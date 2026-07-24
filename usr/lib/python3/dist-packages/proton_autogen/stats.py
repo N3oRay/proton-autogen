@@ -996,6 +996,10 @@ def format_playtime(seconds: int):
     return f"{hours}h {minutes}m"
 
 
+def get_playtime_stats(exe_path):
+    return get_stats(exe_path).get("playtime", {})
+
+
 def get_stats(exe_path):
     config = load_game_config(exe_path)
     if not config:
@@ -1056,7 +1060,6 @@ def update_playtime(exe_path, session_seconds):
     save_game_config(config)
 
     return True
-
 
 def get_playtime(exe_path):
     """Retourne les statistiques d'un jeu."""

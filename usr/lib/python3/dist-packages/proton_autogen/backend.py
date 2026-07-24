@@ -34,7 +34,7 @@ from proton_autogen.core import (
 )
 from proton_autogen.profiles.init import detect_exe_type
 from proton_autogen.i18n import tr, init_language
-from proton_autogen.stats import * #get_game_badges
+from proton_autogen.stats import get_game_badges, format_playtime, get_playtime_stats
 from proton_autogen.pa_log import handle_result, result_to_line
 from proton_autogen.diag import find_all_protons, find_proton
 # new files:
@@ -83,6 +83,17 @@ def print_runtime_info(proton, exe_path, mangohud_available):
 
     print("")
 # ---------------------------------------------------------------------------------------------------
+
+def log_game_stats(exe_path):
+    playtime = get_playtime_stats(exe_path) or {}
+
+    logger.info(
+        "Statistics:"
+        "\n  launches : %d"
+        "\n  playtime : %s",
+        playtime.get("launch_count", 0),
+        format_playtime(playtime.get("seconds", 0)),
+    )
 # ---------------------------------------------------------------------------------------------------
 
 def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None):
@@ -217,7 +228,7 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None):
             status = handle_result(result_code)
             # Update Stats
             finalize_session(exe_path, start_time, result_code)
-
+            log_game_stats(exe_path)
             #show_result !
             progress.update( 100, result_to_line(status) )
 
@@ -231,6 +242,7 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None):
             status = handle_result(result_code)
             # Update Stats
             finalize_session(exe_path, start_time, result_code) # Stats
+            log_game_stats(exe_path)
             #show_result !
             progress.update( 100, result_to_line(status) )
 
