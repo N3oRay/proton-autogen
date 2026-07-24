@@ -1,35 +1,208 @@
+#i18n
+
+import os
+import locale
+
+
 LANG = {
     "en": {
+        "proton_call": "proton-call",
+        "gamemode": "GameMode",
+        "mangohud": "MangoHud",
+        "runtime_information": "Runtime information",
+        "executable": "Executable",
+        "proton": "Proton",
+        "path": "Path",
+        "detected": "Detected",
+        "missing": "Missing",
+        "available": "Available",
+        "unavailable": "Unavailable",
         "favorite": "Favorite",
         "favorites": "Favorites",
         "playtime": "Play time",
-        "last_session": "Last session",
-        "last_launch": "Last launch",
-        "launch_count": "Launches",
-        "never": "Never",
+        "checking_executable": "Checking executable",
+        "loading_game_configuration": "Loading game configuration",
+        "detecting_system": "Detecting system",
+        "starting_proton": "Starting Proton",
+        "starting_wine": "Starting Wine",
+        "runtime_selected": "Proton runtime selected",
+        "missing_executable_title": "Missing executable",
+        "missing_executable_message": "Executable not found",
+        "starting_proton_call": "Starting Proton Call",
+        "run_started": "Run started",
+        "config_read_error": "Configuration read error {file}: {error}",
+        "proton_not_found": """
+        No Proton installation found.
+
+        Install a Proton version (e.g. via ProtonUp-Qt)
+        or specify PROTON_PATH.
+
+        Command line:
+          protonup -d ~/.steam/root/compatibilitytools.d
+
+        Restart Steam and try again.
+        """,
     },
 
     "fr": {
+        "proton_call": "proton-call",
+        "gamemode": "GameMode",
+        "mangohud": "MangoHud",
+        "runtime_information": "Informations d'exécution",
+        "executable": "Exécutable",
+        "proton": "Proton",
+        "path": "Chemin",
+        "detected": "Détecté",
+        "missing": "Manquant",
+        "available": "Disponible",
+        "unavailable": "Indisponible",
         "favorite": "Favori",
         "favorites": "Favoris",
         "playtime": "Temps de jeu",
-        "last_session": "Dernière session",
-        "last_launch": "Dernier lancement",
-        "launch_count": "Lancements",
-        "never": "Jamais",
+        "checking_executable": "Vérification de l'exécutable",
+        "loading_game_configuration": "Chargement de la configuration du jeu",
+        "detecting_system": "Détection du système",
+        "starting_proton": "Lancement de Proton",
+        "starting_wine": "Lancement de Wine",
+        "runtime_selected": "Environnement Proton sélectionné",
+        "missing_executable_title": "Exécutable manquant",
+        "missing_executable_message": "L'exécutable est introuvable",
+        "starting_proton_call": "Lancement de Proton Call",
+        "run_started": "Lancement terminé",
+        "config_read_error": "Erreur de lecture de configuration {file}: {error}",
+        "proton_not_found": """
+        Aucune installation Proton trouvée.
+
+        Installez une version de Proton (par exemple avec ProtonUp-Qt)
+        ou définissez PROTON_PATH.
+
+        Commande :
+          protonup -d ~/.steam/root/compatibilitytools.d
+
+        Redémarrez Steam puis réessayez.
+        """,
     },
 
     "zh": {
+        "proton_call": "proton-call",
+        "gamemode": "GameMode",
+        "mangohud": "MangoHud",
+        "runtime_information": "运行环境信息",
+        "executable": "可执行文件",
+        "proton": "Proton",
+        "path": "路径",
+        "detected": "已检测",
+        "missing": "缺失",
+        "available": "可用",
+        "unavailable": "不可用",
         "favorite": "收藏",
         "favorites": "收藏夹",
         "playtime": "游戏时间",
-        "last_session": "最近游戏时长",
-        "last_launch": "最近启动",
-        "launch_count": "启动次数",
-        "never": "从未",
+        "checking_executable": "正在检查可执行文件",
+        "loading_game_configuration": "正在加载游戏配置",
+        "detecting_system": "正在检测系统",
+        "starting_proton": "正在启动 Proton",
+        "starting_wine": "正在启动 Wine",
+        "runtime_selected": "已选择 Proton 运行环境",
+        "missing_executable_title": "缺少可执行文件",
+        "missing_executable_message": "未找到可执行文件",
+        "starting_proton_call": "正在启动 Proton Call",
+        "run_started": "启动完成",
+        "config_read_error": "读取配置错误 {file}: {error}",
+        "proton_not_found": """
+                        未找到 Proton 安装。
+
+                        请安装 Proton 版本（例如使用 ProtonUp-Qt）
+                        或设置 PROTON_PATH。
+
+                        命令：
+                          protonup -d ~/.steam/root/compatibilitytools.d
+
+                        请重启 Steam 后重试。
+                        """,
     },
 }
 
 
-def tr(key, lang="en"):
-    return LANG.get(lang, LANG["en"]).get(key, key)
+CURRENT_LANG = "en"
+
+def detect_language():
+    """
+    Détecte la langue du système.
+    Retourne une langue supportée par LANG.
+    """
+
+    # Priorité aux variables Linux
+    system_lang = (
+        os.environ.get("LANGUAGE")
+        or os.environ.get("LC_ALL")
+        or os.environ.get("LC_MESSAGES")
+        or os.environ.get("LANG")
+    )
+
+    # Fallback Python locale
+    if not system_lang:
+        try:
+            system_lang = locale.getdefaultlocale()[0]
+        except Exception:
+            system_lang = None
+
+    if not system_lang:
+        return "en"
+
+    # Exemple:
+    # fr_FR.UTF-8 -> fr
+    # zh_CN.UTF-8 -> zh
+    # en_US.UTF-8 -> en
+
+    system_lang = (
+        system_lang
+        .lower()
+        .replace("-", "_")
+        .split(".")[0]
+    )
+
+    lang = system_lang.split("_")[0]
+
+    return lang if lang in LANG else "en"
+
+
+def set_language(lang):
+    global CURRENT_LANG
+
+    if not lang:
+        CURRENT_LANG = detect_language()
+        return
+
+    lang = lang.lower().replace("-", "_")
+    lang = lang.split("_")[0]
+
+    CURRENT_LANG = (
+        lang if lang in LANG
+        else "en"
+    )
+
+
+def init_language():
+    """
+    Initialise automatiquement la langue.
+    """
+    set_language(detect_language())
+
+
+def get_language():
+    return CURRENT_LANG
+
+
+def tr(key, **kwargs):
+    lang_table = LANG.get(CURRENT_LANG, LANG["en"])
+
+    text = lang_table.get(
+        key,
+        LANG["en"].get(key, key)
+    )
+
+    if kwargs:
+        return text.format(**kwargs)
+
+    return text

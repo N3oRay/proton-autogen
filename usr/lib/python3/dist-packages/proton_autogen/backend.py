@@ -22,7 +22,7 @@ from proton_autogen.loader import save_game_config, load_game_config
 from proton_autogen.editor import add_game, edit_game_ui
 from proton_autogen.core import *
 from proton_autogen.profiles.init import *
-from proton_autogen.i18n import *
+from proton_autogen.i18n import tr, init_language
 from proton_autogen.stats import * #get_game_badges
 from proton_autogen.pa_log import show_result, handle_result, result_to_line
 from proton_autogen.diag import find_all_protons, find_proton
@@ -33,10 +33,10 @@ from proton_autogen.session import finalize_session, notifications
 from proton_autogen.proton_call import launch_proton_call
 
 
-#notifications.notify("info", "Update", "Game launched")
-
 #-------------------------- Init Log -------------------
 logger = StructuredLogger("proton-autogen.backend")
+#-------------------------- Init Langue -------------------
+init_language()
 
 #-----
 # proton-autogen: improved profile system (launcher / DX11 / DX12 / oldgames)
@@ -50,13 +50,27 @@ logger = StructuredLogger("proton-autogen.backend")
 # ----------------------------
 
 def print_runtime_info(proton, exe_path, mangohud_available):
-    print("[proton-autogen] Runtime information")
-    print(f"  Executable : {exe_path}")
-    print(f"  Proton     : {proton_name(proton)}")
-    print(f"  Path       : {proton_path(proton)}")
-    print("  proton-call:", "detected" if has_proton_call() else "missing")
-    print("  GameMode  :", "available" if has_gamemode() else "unavailable")
-    print("  MangoHud  :", "available" if mangohud_available else "unavailable")
+    print(f"[proton-autogen] {tr('runtime_information')}")
+
+    print(f"  {tr('executable'):<10}: {exe_path}")
+    print(f"  {tr('proton'):<10}: {proton_name(proton)}")
+    print(f"  {tr('path'):<10}: {proton_path(proton)}")
+
+    print(
+        f"  {tr('proton_call'):<10}: ",
+        tr("detected") if has_proton_call() else tr("missing")
+    )
+
+    print(
+        f"  {tr('gamemode'):<10}: ",
+        tr("available") if has_gamemode() else tr("unavailable")
+    )
+
+    print(
+        f"  {tr('mangohud'):<10}: ",
+        tr("available") if mangohud_available else tr("unavailable")
+    )
+
     print("")
 # ---------------------------------------------------------------------------------------------------
 # ---------------------------------------------------------------------------------------------------
@@ -71,7 +85,7 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None):
         exe_path = os.path.abspath(exe_path)
 
         exe = Path(exe_path).resolve()
-        progress.update( 5, "Checking executable" )
+        progress.update(5, tr("checking_executable"))
         if not exe.exists():
             raise ExecutableNotFoundError(exe)
 
@@ -82,14 +96,14 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None):
         mangohud_available = has_mangohud()
 
         config = load_game_config(exe_path)
-        progress.update( 25, "Loading game configuration" )
+        progress.update(25, tr("loading_game_configuration"))
 
         system = detect_system_info()  # ou équivalent existant dans core
         logger.info(
             "System information:\n" +
             "\n".join(f"  {key}: {value}" for key, value in system.items())
         )
-        progress.update( 40, "Detecting system" )
+        progress.update(60, tr("runtime_selected"))
 
         #-------------------------------- Compatibility old profil ------
         exe_type = None
@@ -137,7 +151,7 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None):
             rfeatures = None
             proton = find_proton()
 
-        progress.update( 60, "Proton runtime selected" )
+        progress.update(60, tr("runtime_selected"))
         enable_mangohud = cfg_mangohud if config else False
         enable_gamemode = cfg_gamemode if config else False
 
@@ -155,7 +169,7 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None):
             raise ProtonNotFoundError(exe_path)
 
         if launch_mode == "proton-call" and has_proton_call():
-            progress.update( 80, "Starting Proton Call" )
+            progress.update( 80, tr("starting_proton_call") )
             launch_proton_call(
                 exe_path=exe_path,
                 proton=proton,
@@ -178,7 +192,7 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None):
                 notifications.notify("info", "proton-autogen", f"LOAD CONFIG PREFIX : {prefix_mode}", ui=True)
 
             result_code = -1
-            progress.update( 80, "Starting Proton" )
+            progress.update(80, tr("starting_proton"))
             result_code = run_game_proton(exe_path=exe_path, exe_type=exe_type, proton=proton, system=system, features=rfeatures, enable_mangohud=enable_mangohud,
              enable_gamemode=enable_gamemode, prefix_mode=prefix_mode, progress=progress)
             if DEBUG or VERBOSE:
@@ -202,7 +216,7 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None):
         elif launch_mode == "wine":
 
             result_code = -1
-            progress.update( 80, "Starting Wine" )
+            progress.update(80, tr("starting_wine"))
             result_code = run_standard(exe_path)
             status = handle_result(result_code)
             # Update Stats
@@ -212,25 +226,15 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None):
 
             sys.exit(status["code"])
 
-        progress.update(100, "Run started ...")
+        progress.update(100, tr("run_started"))
 
     except ExecutableNotFoundError as e:
         logger.error(str(e))
-        notifications.notify( "warning", "Missing executable", str(e), ui=True, )
+        notifications.notify( "warning", tr("missing_executable_title"), tr("missing_executable_message"), ui=True, )
         sys.exit(1)
 
     except ProtonNotFoundError as e:
-        message = """
-            No Proton installation found.
-
-            Install a Proton version (e.g. via ProtonUp-Qt)
-            or specify PROTON_PATH.
-
-            Command line:
-              protonup -d ~/.steam/root/compatibilitytools.d
-
-            Restart Steam and try again.
-            """.strip()
+        message = tr("proton_not_found").strip()
         notifications.notify( "error", "proton-autogen", message, ui=True, )
         logger.error(str(e))
         sys.exit(2)
