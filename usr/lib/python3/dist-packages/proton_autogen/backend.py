@@ -23,7 +23,7 @@ from proton_autogen.editor import add_game, edit_game_ui
 from proton_autogen.core import *
 from proton_autogen.profiles.init import *
 from proton_autogen.i18n import *
-from proton_autogen.stats import *
+from proton_autogen.stats import get_game_badges
 from proton_autogen.pa_log import show_result, handle_result, result_to_line
 from proton_autogen.diag import find_all_protons, find_proton
 # new files:
