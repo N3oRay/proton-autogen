@@ -912,8 +912,7 @@ class Dashboard(Gtk.ApplicationWindow):
         self.status.set_text("Updating...")
 
         def after_save(game):
-            self.game_list.update_game(game)
-
+            #self.game_list.update_game(game)
             self.refresh_games()
 
         def on_close(_editor):
