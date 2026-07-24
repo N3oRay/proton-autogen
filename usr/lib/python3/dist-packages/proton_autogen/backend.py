@@ -309,13 +309,17 @@ def get_diagnostic_text():
         f"  {tr('mangohud')} : "
         f"{tr('yes') if has_mangohud() else tr('no')}"
     )
-    lines.append(f"Platform     : {sys.platform}\n")
+    lines.append(
+        f"{tr('platform'):<12}: {sys.platform}\n"
+    )
 
     protons = find_all_protons()
-    lines.append(f"Detected Proton installations: {len(protons)}\n")
+    lines.append(
+        f"{tr('detected_proton_installations')}: {len(protons)}\n"
+    )
 
     if not protons:
-        lines.append("  none\n")
+        lines.append(f"  {tr('none')}\n")
         return "\n".join(lines)
 
     selected = find_proton()
@@ -332,7 +336,7 @@ def get_diagnostic_text():
     for proton in protons_sorted:
         proton_real = os.path.realpath(proton)
 
-        marker = " [selected]" if selected_path and proton_real == selected_path else ""
+        marker = f" [{tr('selected')}]" if selected_path and proton_real == selected_path else ""
 
         lines.append(f"  {os.path.basename(proton)}{marker}")
         lines.append(f"    {proton}")
@@ -354,9 +358,9 @@ def normalize_flag(value, default=True):
 
 
 
-
+#  Legacy function. Prefix creation is now handled through game configuration and prefix profiles.
 def create_new_prefix():
-    name = input("Prefix name (empty = auto): ").strip()
+    name = input(tr("prefix_name") + ": ").strip()
 
     if not name:
         name = f"auto-{uuid.uuid4().hex[:8]}"
