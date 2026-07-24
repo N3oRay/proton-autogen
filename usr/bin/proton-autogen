@@ -1,15 +1,30 @@
 #!/usr/bin/env python3
 
-import os
 import sys
-import subprocess
-import hashlib
-import json
-from collections import defaultdict
-from pathlib import Path
 
+from proton_autogen.config import VERSION
+from proton_autogen.core import USER_PROFILE, USER_PROFILE_DATA
 
-from proton_autogen.backend import *
+from proton_autogen.backend import (
+    run,
+    list_protons,
+    list_programs,
+)
+
+from proton_autogen.core import (
+    print_proton_paths,
+    export_default_profiles,
+    load_profile_from_cli,
+    detect_help_env_lang,
+    print_help_env,
+    print_about,
+)
+
+from proton_autogen.editor import (
+    add_game,
+    edit_game_ui,
+)
+
 from proton_autogen.info import print_help
 from proton_autogen.diag import print_diagnostic
 from proton_autogen.ux.dashboard import start_dashboard
@@ -21,7 +36,6 @@ from proton_autogen.ux.dashboard import start_dashboard
 
 
 def main():
-    global USER_PROFILE, USER_PROFILE_DATA
     # Launcher UX
     if "--ux" in sys.argv:
         start_dashboard()
@@ -67,7 +81,7 @@ def main():
         return
 
     if "--profile" in sys.argv:
-        USER_PROFILE, USER_PROFILE_DATA = load_profile_from_cli(sys.argv)
+        core.USER_PROFILE, core.USER_PROFILE_DATA = load_profile_from_cli(sys.argv)
 
     # Mode execution
     launch_mode = "proton"
