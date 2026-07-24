@@ -160,22 +160,6 @@ def _notify_toast(status, parent=None, timeout=3):
     GLib.timeout_add_seconds(timeout, win.close)
 
     return win
-# -----------------------------
-# GTK UI (Dialog simple stable GTK4)
-# -----------------------------
-
-# ------------------------------------
-# SHOW RESULT
-# ------------------------------------
-def show_result(status, ux_handler=None):
-    if status["success"]:
-        return
-
-    print(f"[{status['level'].upper()}] {status['title']}")
-    print(status["message"])
-
-    if ux_handler:
-        ux_handler(status)
 
 #-----------------------------------------------------------
 

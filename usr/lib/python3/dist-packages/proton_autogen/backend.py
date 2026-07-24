@@ -1,19 +1,14 @@
 #backend.py proton-autogen
 import os
 import json
-import hashlib
 import re
 import sys
-import shutil
 import subprocess
-import uuid
 import time
-from gi.repository import GLib
 from pathlib import Path
 from proton_autogen.exceptions import ExecutableNotFoundError, ProtonNotFoundError, GameConfigError, PrefixError
 from shutil import which
 from time import perf_counter
-import configparser
 
 from proton_autogen.utils.logger import StructuredLogger
 from proton_autogen.progress import Progress
@@ -24,7 +19,7 @@ from proton_autogen.core import *
 from proton_autogen.profiles.init import *
 from proton_autogen.i18n import tr, init_language
 from proton_autogen.stats import * #get_game_badges
-from proton_autogen.pa_log import show_result, handle_result, result_to_line
+from proton_autogen.pa_log import handle_result, result_to_line
 from proton_autogen.diag import find_all_protons, find_proton
 # new files:
 from proton_autogen.dector import resolve_game_features
@@ -352,22 +347,6 @@ def normalize_flag(value, default=True):
     if isinstance(value, str):
         return value.lower() in ("1", "true", "yes", "on")
     return bool(value)
-
-
-#  Legacy function. Prefix creation is now handled through game configuration and prefix profiles.
-def create_new_prefix():
-    name = input(tr("prefix_name") + ": ").strip()
-
-    if not name:
-        name = f"auto-{uuid.uuid4().hex[:8]}"
-
-    root = os.path.expanduser("~/Documents/Proton/env")
-    path = os.path.join(root, name)
-
-    os.makedirs(path, exist_ok=True)
-
-    return name
-
 
 
 def load_registered_games():
