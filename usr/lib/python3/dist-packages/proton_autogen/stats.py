@@ -997,10 +997,26 @@ def format_playtime(seconds: int):
 
 
 def get_playtime_stats(exe_path):
-    return get_stats(exe_path).get("playtime", {})
+    stats = get_stats(exe_path)
 
+    if not stats:
+        return {}
+
+    return stats.get("playtime", {})
 
 def get_stats(exe_path):
+    config = load_game_config(exe_path)
+
+    if not config:
+        return None
+
+    return {
+        **config,
+        "playtime": _get_playtime(config),
+    }
+
+
+def get_stats_and_fav(exe_path):
     config = load_game_config(exe_path)
     if not config:
         return None
