@@ -12,6 +12,7 @@ from proton_autogen.ux.game_editor import GameEditor
 from proton_autogen.ux.widgets.headerbar import DashboardHeaderBar
 from proton_autogen.ux.widgets.toast import ToastOverlay
 from proton_autogen.ux.recent_carousel import RecentCarousel
+from proton_autogen.ux.favorites_carousel import FavoritesCarousel
 from proton_autogen.ux.dialogs import open_game_file_dialog, show_launch_dialog, hide_launch_dialog
 from proton_autogen.ux.themes import load_saved_theme, save_theme, AVAILABLE_THEMES, DEFAULT_THEME, BACKGROUND_THEMES, STYLE_CSS
 
@@ -43,15 +44,14 @@ class Dashboard(Gtk.ApplicationWindow):
         self.set_default_size(930, 900)
         self.set_size_request(930, 900)
         self.games = []
+        self.current_carousel = None
         self.lang = detect_help_env_lang()
         notifications.set_callback(self.notify_toast)
 
         self.build_ui()
         self.refresh_games()
 
-    # -------------------------
     # Notify Toast
-    # -------------------------
     def notify_toast(self, status, timeout=3):
 
         self.toast.show(
@@ -60,9 +60,7 @@ class Dashboard(Gtk.ApplicationWindow):
             timeout=timeout,
         )
 
-    # -------------------------
     # Progres Barre
-    # -------------------------
     def progress_callback(self, percent, message):
         def update():
             self.status.set_text(
@@ -283,11 +281,8 @@ class Dashboard(Gtk.ApplicationWindow):
 
     def update_background(self, theme):
         base = os.path.dirname(__file__)
-
         backgrounds = BACKGROUND_THEMES
-
         filename = backgrounds.get(theme, "logo-pa.jpg")
-
         self.background.set_filename(
             os.path.join(base, "assets", filename)
         )
@@ -370,7 +365,6 @@ class Dashboard(Gtk.ApplicationWindow):
 
         self.set_titlebar(header)
 
-
         # =========================
         # GAME STATS
         # =========================
@@ -385,62 +379,142 @@ class Dashboard(Gtk.ApplicationWindow):
         self.stats_label.add_css_class("home-label")
         root.append(self.stats_label)
 
+
         # =========================
-        # RECENT GAMES COLLAPSE
+        # FAVORITES / RECENT GAMES COLLAPSE
+        # =========================
+        # =========================
+        # QUICK CAROUSELS
         # =========================
 
-        recent_header = Gtk.Box(
+        carousel_buttons = Gtk.Box(
             orientation=Gtk.Orientation.HORIZONTAL,
             spacing=8
         )
 
-        recent_btn = Gtk.Button( label="▼ Recently played" )
-        recent_btn.add_css_class("section-toggle")
-        self.recent_revealer = Gtk.Revealer()
+        self.favorites_btn = Gtk.Button(
+            label="⭐ Favorites"
+        )
 
-        self.recent_revealer.set_transition_type(
+        self.recent_btn = Gtk.Button(
+            label="🕘 Recently played"
+        )
+
+        self.favorites_btn.add_css_class(
+            "section-toggle"
+        )
+
+        self.recent_btn.add_css_class(
+            "section-toggle"
+        )
+
+        carousel_buttons.append(
+            self.favorites_btn
+        )
+
+        carousel_buttons.append(
+            self.recent_btn
+        )
+
+        root.append(carousel_buttons)
+
+
+        # Zone unique d'affichage
+
+        self.carousel_revealer = Gtk.Revealer()
+
+        self.carousel_revealer.set_transition_type(
             Gtk.RevealerTransitionType.SLIDE_DOWN
         )
 
-        self.recent_revealer.set_transition_duration(
+        self.carousel_revealer.set_transition_duration(
             250
         )
 
 
+        self.carousel_stack = Gtk.Stack()
+
+        self.carousel_stack.set_transition_type(
+            Gtk.StackTransitionType.SLIDE_LEFT
+        )
+
+
+        # Favorites
+        self.favorites_carousel = FavoritesCarousel(
+            on_launch=self.launch_game,
+            on_edit=self.edit_game,
+            lang=self.lang
+        )
+
+
+        # Recent
         self.recent_carousel = RecentCarousel(
             on_launch=self.launch_game,
             on_edit=self.edit_game,
             lang=self.lang
         )
 
-        self.recent_carousel.set_vexpand(False)
-        self.recent_revealer.set_child(
-            self.recent_carousel
+
+        self.carousel_stack.add_named(
+            self.favorites_carousel,
+            "favorites"
         )
 
-        self.recent_carousel.set_vexpand(False)
+        self.carousel_stack.add_named(
+            self.recent_carousel,
+            "recent"
+        )
 
-        # état initial : True -> ouvert / False -> Fermer
-        self.recent_revealer.set_reveal_child(False)
+
+        self.carousel_revealer.set_child(
+            self.carousel_stack
+        )
+
+        root.append(
+            self.carousel_revealer
+        )
 
 
-        def toggle_recent(_btn):
+        # état initial fermé
+        self.carousel_revealer.set_reveal_child(False)
 
-            visible = self.recent_revealer.get_reveal_child()
+        def show_favorites(_btn):
+            if (
+                self.current_carousel == "favorites"
+                and self.carousel_revealer.get_reveal_child()
+            ):
+                self.carousel_revealer.set_reveal_child(False)
+                self.current_carousel = None
+                return
 
-            self.recent_revealer.set_reveal_child(
-                not visible
-            )
+            self.current_carousel = "favorites"
+            self.carousel_stack.set_visible_child_name("favorites")
+            self.carousel_revealer.set_reveal_child(True)
 
-            if visible:
-                recent_btn.set_label( "▶ Recently played" )
-            else:
-                recent_btn.set_label( "▼ Recently played" )
 
-        recent_btn.connect( "clicked", toggle_recent )
-        recent_header.append( recent_btn )
-        root.append( recent_header )
-        root.append( self.recent_revealer )
+        def show_recent(_btn):
+            if (
+                self.current_carousel == "recent"
+                and self.carousel_revealer.get_reveal_child()
+            ):
+                self.carousel_revealer.set_reveal_child(False)
+                self.current_carousel = None
+                return
+
+            self.current_carousel = "recent"
+            self.carousel_stack.set_visible_child_name("recent")
+            self.carousel_revealer.set_reveal_child(True)
+
+
+        self.favorites_btn.connect(
+            "clicked",
+            show_favorites
+        )
+
+        self.recent_btn.connect(
+            "clicked",
+            show_recent
+        )
 
 
         # =========================
@@ -477,8 +551,6 @@ class Dashboard(Gtk.ApplicationWindow):
         # =========================
         # STATUS BAR
         # =========================
-        #self.status = Gtk.Label(label="Ready")
-
         status_box = Gtk.Box(
             orientation=Gtk.Orientation.HORIZONTAL,
             spacing=8
@@ -523,6 +595,14 @@ class Dashboard(Gtk.ApplicationWindow):
             key=self.activity_score,
             reverse=True
         )[:limit]
+
+
+    def get_favorite_games(self, games, limit=6):
+
+        return [
+            g for g in games
+            if g.get("favorite", False)
+        ][:limit]
 
     # -------------------------
     # SEARCH
@@ -576,7 +656,6 @@ class Dashboard(Gtk.ApplicationWindow):
         ]
 
         if hasattr(self, "game_list"):
-            #self.game_list.set_games(self.games)
             if hasattr(self, "search"):
                 filtered = filter_games(
                     self.games,
@@ -588,15 +667,22 @@ class Dashboard(Gtk.ApplicationWindow):
             self.game_list.set_games(filtered)
             self.update_stats(filtered)
             # Chargement du CAROUSEL
+            # Recent
             if hasattr(self, "recent_carousel"):
-
-                recent = self.get_recent_games(
-                    self.games,
-                    6
+                self.recent_carousel.set_games(
+                    self.get_recent_games(
+                        self.games,
+                        6
+                    )
                 )
 
-                self.recent_carousel.set_games(
-                    recent
+            # Favorites
+            if hasattr(self, "favorites_carousel"):
+                self.favorites_carousel.set_games(
+                    self.get_favorite_games(
+                        self.games,
+                        6
+                    )
                 )
 
         if not self.games:
@@ -814,9 +900,7 @@ class Dashboard(Gtk.ApplicationWindow):
         def after_save(game):
             self.game_list.update_game(game)
 
-            self.status.set_text(f"{game.get('name')} updated ✔")
-            self.toast.success(f"{game.get('name')} updated")
-            self.editor = None  # cleanup
+            self.refresh_games()
 
         def on_close(_editor):
             self.status.set_text("Ready")
@@ -937,9 +1021,7 @@ class ProtonAutogenApp(Gtk.Application):
 
     def _create_actions(self):
 
-        # --------------------------
         # Mangohud SENSORS
-        # -------------------------
         mgh = Gio.SimpleAction.new("mangohud", None)
 
         def open_mgh(*a):
@@ -950,9 +1032,7 @@ class ProtonAutogenApp(Gtk.Application):
         mgh.connect("activate", open_mgh)
         self.add_action(mgh)
 
-        # --------------------------
         # SENSORS
-        # -------------------------
         sensors = Gio.SimpleAction.new("sensors", None)
 
         def open_sensors(*a):
@@ -963,9 +1043,7 @@ class ProtonAutogenApp(Gtk.Application):
         sensors.connect("activate", open_sensors)
         self.add_action(sensors)
 
-        # -------------------------
         # DIAGNOSTIC
-        # -------------------------
         diag = Gio.SimpleAction.new("diag", None)
 
         def open_diag(*args):
@@ -976,9 +1054,7 @@ class ProtonAutogenApp(Gtk.Application):
         diag.connect("activate", open_diag)
         self.add_action(diag)
 
-        # -------------------------
         # HELP
-        # -------------------------
         help_ = Gio.SimpleAction.new("help", None)
 
         def open_help(*a):
@@ -989,9 +1065,7 @@ class ProtonAutogenApp(Gtk.Application):
         help_.connect("activate", open_help)
         self.add_action(help_)
 
-        # -------------------------
         # ABOUT
-        # -------------------------
         about = Gio.SimpleAction.new("about", None)
 
         def open_about(*a):
@@ -1002,10 +1076,7 @@ class ProtonAutogenApp(Gtk.Application):
         about.connect("activate", open_about)
         self.add_action(about)
 
-
-        # -------------------------
         # Requis
-        # -------------------------
         requis = Gio.SimpleAction.new("requis", None)
 
         def open_requis(*a):
