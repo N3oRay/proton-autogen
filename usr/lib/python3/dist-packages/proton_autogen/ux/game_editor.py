@@ -113,11 +113,20 @@ class GameEditor(Gtk.Window):
         # -------------------------
         features = self.game.get("features", {})
 
+        # FAVORITE
+        self.favorite = Gtk.CheckButton(label="Add to favorites")
+        self.favorite.add_css_class("feature-toggle")
+        self.favorite.set_active(
+            self.game.get("favorite", False)
+        )
+
+        set_tooltip(self.favorite, "favorite", self.lang)
+        # MANGO
         self.mangohud = Gtk.CheckButton(label="Enable MangoHud")
         self.mangohud.add_css_class("feature-toggle")
         self.mangohud.set_active(features.get("mangohud", False))
         set_tooltip(self.mangohud, "mangohud", self.lang)  #new code
-
+        # GAMEMODE
         self.gamemode = Gtk.CheckButton(label="Enable GameMode")
         self.gamemode.add_css_class("feature-toggle")
         self.gamemode.set_active(features.get("gamemode", False))
@@ -138,7 +147,7 @@ class GameEditor(Gtk.Window):
 
         root.append(self._row("GPU Mode", self.gpu))
 
-
+        root.append(self.favorite)
         root.append(self.mangohud)
         root.append(self.gamemode)
 
@@ -186,21 +195,27 @@ class GameEditor(Gtk.Window):
             if self.gpu.get_selected() >= 0
             else "auto"
         )
+        data = self.game.copy()
 
-        data = {
+        features = self.game.get("features", {}).copy()
+
+        features.update({
+            "mangohud": self.mangohud.get_active(),
+            "gamemode": self.gamemode.get_active(),
+            "gpu": gpu
+        })
+
+        data.update({
             "path": self.game["path"],
             "name": self.game.get("name"),
+            "favorite": self.favorite.get_active(),
             "exe_type": exe_type,
             "proton": proton,
             "prefix": {
                 "name": prefix
             },
-            "features": {
-                "mangohud": self.mangohud.get_active(),
-                "gamemode": self.gamemode.get_active(),
-                "gpu": gpu
-            }
-        }
+            "features": features
+        })
 
         save_game_config(data)
 
