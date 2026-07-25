@@ -145,6 +145,8 @@ def detect_help_env_lang():
         return "hi"
     if "--es" in sys.argv:
         return "es"
+    if "--pt" in sys.argv:
+        return "pt"
 
     # 2. Variable d'environnement système
     lang_env = os.environ.get("LANGUAGE") or os.environ.get("LANG")
@@ -166,6 +168,8 @@ def detect_help_env_lang():
             return "hi"
         if lang_env.startswith("es"):
             return "es"
+        if lang_env.startswith("pt"):
+            return "pt"
 
     # 3. défaut
     return "en"

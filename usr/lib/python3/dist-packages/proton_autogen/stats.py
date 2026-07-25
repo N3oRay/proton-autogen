@@ -339,6 +339,118 @@ BADGE_DEFINITIONS_FR = [
     },
 ]
 
+BADGE_DEFINITIONS_PT = [
+    # -------------------------
+    # CLÁSSICOS
+    # -------------------------
+    {
+        "type": "favorite",
+        "label": "⭐",
+        "css": "favorite",
+        "condition": lambda g: g.get("favorite"),
+        "text": lambda g: "Favorito"
+    },
+    {
+        "type": "recent",
+        "label": "🔥",
+        "css": "favorite",
+        "condition": lambda g: is_recent_launch(g.get("playtime", {}), 7),
+        "text": lambda g: "Jogado recentemente"
+    },
+    {
+        "type": "time",
+        "label": "⏱",
+        "css": "favorite",
+        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 3600,
+        "text": lambda g: format_playtime(g.get("playtime", {}).get("seconds", 0))
+    },
+
+    # -------------------------
+    # MODO DE JOGO
+    # -------------------------
+    {
+        "type": "gamemode",
+        "label": "🚀",
+        "css": "feature",
+        "condition": lambda g: g.get("features", {}).get("gamemode", False),
+        "text": lambda g: "GameMode ativado"
+    },
+    {
+        "type": "mangohud",
+        "label": "📊",
+        "css": "feature",
+        "condition": lambda g: g.get("features", {}).get("mangohud", False),
+        "text": lambda g: "MangoHud ativado"
+    },
+
+    # -------------------------
+    # HUMOR / NÍVEIS DO JOGADOR
+    # -------------------------
+
+    # 👶 Iniciante
+    {
+        "type": "rookie",
+        "label": "🐣",
+        "css": "rookie",
+        "condition": lambda g: 0 < g.get("playtime", {}).get("seconds", 0) < 3600,
+        "text": lambda g: "Iniciante (começando devagar)"
+    },
+
+    # 🧑 Jogador casual
+    {
+        "type": "casual",
+        "label": "🙂",
+        "css": "casual",
+        "condition": lambda g: 3600 <= g.get("playtime", {}).get("seconds", 0) < 10 * 3600,
+        "text": lambda g: "Jogador casual"
+    },
+
+    # 🎮 Jogador experiente
+    {
+        "type": "gamer",
+        "label": "🎮",
+        "css": "gamer",
+        "condition": lambda g: 10 * 3600 <= g.get("playtime", {}).get("seconds", 0) < 50 * 3600,
+        "text": lambda g: "Jogador experiente"
+    },
+
+    # 🏆 Tryhard
+    {
+        "type": "heavy",
+        "label": "🏆",
+        "css": "heavy",
+        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 50 * 3600,
+        "text": lambda g: "Tryhard detectado"
+    },
+
+    # 💀 Vraiment accro (humour)
+    {
+        "type": "addict",
+        "label": "💀",
+        "css": "addict",
+        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 150 * 3600,
+        "text": lambda g: "Mandem ajuda"
+    },
+
+    # 🌙 Session récente
+    {
+        "type": "night_owl",
+        "label": "🌙",
+        "css": "night_owl",
+        "condition": lambda g: is_recent_launch(g.get("playtime", {}), 1),
+        "text": lambda g: "Ativo recentemente (coruja da noite?)"
+    },
+
+    # 💾 Vétéran
+    {
+        "type": "veteran",
+        "label": "🧓",
+        "css": "veteran",
+        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 300 * 3600,
+        "text": lambda g: "Veterano lendário"
+    },
+]
+
 BADGE_DEFINITIONS_UK = [
     # -------------------------
     # CLASSIC
@@ -897,6 +1009,7 @@ BADGE_DEFINITIONS_ZH = [
 
 BADGE_DEFINITIONS = {
     "fr": BADGE_TYPE_PROFILE + BADGE_TYPE_GAME + BADGE_DEFINITIONS_FR,
+    "pt": BADGE_TYPE_PROFILE + BADGE_TYPE_GAME + BADGE_DEFINITIONS_PT,
     "en": BADGE_TYPE_PROFILE + BADGE_TYPE_GAME + BADGE_DEFINITIONS_EN,
     "zh": BADGE_TYPE_PROFILE + BADGE_TYPE_GAME + BADGE_DEFINITIONS_ZH,
     "uk": BADGE_TYPE_PROFILE + BADGE_TYPE_GAME + BADGE_DEFINITIONS_UK,
@@ -935,6 +1048,8 @@ def get_game_badges(game: dict, lang: str = "en"):
                 notifications.notify("error", "WARNING", "Badge Updates")
             elif lang == "fr":
                 notifications.notify("error", "WARNING", "Actualisation des Badges")
+            elif lang == "pt":
+                notifications.notify("error", "WARNING", "Atualização dos emblemas")
             elif lang == "uk":
                 notifications.notify("error", "УВАГА", "Оновлення значків")
             elif lang == "de":
