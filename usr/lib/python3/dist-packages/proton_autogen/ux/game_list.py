@@ -5,7 +5,7 @@ import os
 gi.require_version("Gtk", "4.0")
 from gi.repository import Gtk, Gio, Gdk, Pango
 from proton_autogen.stats import get_game_badges
-
+from proton_autogen.i18n import t
 from proton_autogen.ux.icon_manager import load_game_icon
 
 
@@ -130,6 +130,16 @@ class GameList(Gtk.Box):
 
         return label
 
+    def _make_label(self, text, css_class, wrap=False):
+        label = Gtk.Label(label=text, xalign=0)
+        label.set_halign(Gtk.Align.START)
+        label.add_css_class(css_class)
+        if wrap:
+            label.set_wrap(True)
+            label.set_wrap_mode(Pango.EllipsizeMode.MIDDLE)
+            label.set_selectable(True)
+        return label
+
     # -------------------------
     # UI ROW
     # -------------------------
@@ -148,15 +158,6 @@ class GameList(Gtk.Box):
         container.set_margin_start(1)
         container.set_margin_end(1)
 
-        # -------------------------
-        # LEFT INFO BLOCK
-        # -------------------------
-        """
-        info_box = Gtk.Box(
-            orientation=Gtk.Orientation.VERTICAL,
-            spacing=2
-        )
-        """
         # -------------------------
         # LEFT INFO BLOCK WITH ICON
         # -------------------------
@@ -179,11 +180,7 @@ class GameList(Gtk.Box):
 
 
         # TEXT AREA
-        info_box = Gtk.Box(
-            orientation=Gtk.Orientation.VERTICAL,
-            spacing=2
-        )
-
+        info_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=2)
         info_box.set_hexpand(True)
         info_box.set_valign(Gtk.Align.CENTER)
 
@@ -191,12 +188,7 @@ class GameList(Gtk.Box):
         left_box.append(icon)
         left_box.append(info_box)
         # -------------------------
-        info_box.set_hexpand(True)
-        info_box.set_valign(Gtk.Align.CENTER)
-
-        title = Gtk.Label(label=game.get("name", "Unknown"), xalign=0)
-        title.set_halign(Gtk.Align.START)
-        title.add_css_class("title-4")
+        title = self._make_label(game.get("name", "Unknown"), "title-4")
 
         # -------------------------
         # BADGES ROW
@@ -217,22 +209,9 @@ class GameList(Gtk.Box):
         # -------------------------
         # subtitle ROW
         # -------------------------
-
-        subtitle = Gtk.Label(label=self._format_subtitle(game), xalign=0)
-        subtitle.set_halign(Gtk.Align.START)
-        subtitle.add_css_class("dim-label1")
-
-        subtitle1 = Gtk.Label(label=self._format_subtitle_options(game), xalign=0)
-        subtitle1.set_halign(Gtk.Align.START)
-        subtitle1.add_css_class("dim-label1")
-
-
-        subtitle2 = Gtk.Label(label=self._format_subtitle_path(game), xalign=0)
-        subtitle2.set_halign(Gtk.Align.START)
-        subtitle2.set_wrap(True)
-        subtitle2.set_wrap_mode(Pango.WrapMode.WORD_CHAR)
-        subtitle2.set_selectable(True)
-        subtitle2.add_css_class("dim-label2")
+        subtitle = self._make_label(self._format_subtitle(game), "dim-label1")
+        subtitle1 = self._make_label(self._format_subtitle_options(game), "dim-label1")
+        subtitle2 = self._make_label(self._format_subtitle_path(game), "dim-label2", wrap=True)
 
         # -------------------------
         # STORE REFERENCES (IMPORTANT)
@@ -273,6 +252,7 @@ class GameList(Gtk.Box):
         info_box.append(subtitle)
         info_box.append(subtitle1)
         info_box.append(subtitle2)
+        #info_box.append(box_path)
         info_box.set_hexpand(True)
         info_box.set_size_request(300, -1)
 
@@ -384,9 +364,7 @@ class GameList(Gtk.Box):
 
     def _format_subtitle_path(self, game):
 
-        path = game.get("path", "")
-
-        return f" {path}"
+        return game.get("path", "")
 
     # -----------------------------
     # CALLBACKS
