@@ -698,46 +698,16 @@ class Dashboard(Gtk.ApplicationWindow):
             self.game_list.set_games(filtered)
             self.update_stats(filtered)
 
-        self.status.set_text("Ready")
-
-        if hasattr(self, "game_list"):
-            if hasattr(self, "search"):
-                filtered = filter_games(
-                    self.games,
-                    self.search.get_text()
-                )
-            else:
-                filtered = self.games
-
-            self.game_list.set_games(filtered)
-            self.update_stats(filtered)
-            # Chargement du CAROUSEL
-            # Recent
             if hasattr(self, "recent_carousel"):
-                self.recent_carousel.set_games(
-                    self.get_recent_games(
-                        self.games,
-                        6
-                    )
-                )
-
-            # Favorites
+                self.recent_carousel.set_games(self.get_recent_games(self.games, 6))
             if hasattr(self, "favorites_carousel"):
-                self.favorites_carousel.set_games(
-                    self.get_favorite_games(
-                        self.games,
-                        6
-                    )
-                )
+                self.favorites_carousel.set_games(self.get_favorite_games(self.games, 6))
 
-        if not self.games:
-            self.status.set_text("No games found")
-        else:
-            self.status.set_text(f"{len(self.games)} games installed")
-
-        if hasattr(self, "status"):
-            self.status.add_css_class("label-bottom")
-        return False  # important : idle_add attend un retour False pour ne pas se répéter
+        self.status.set_text(
+            f"{len(self.games)} games installed" if self.games else "No games found"
+        )
+        self.status.add_css_class("label-bottom")
+        return False
 
 
     # -------------------------
