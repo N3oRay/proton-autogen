@@ -1,7 +1,7 @@
-#i18n
-
+# i18n.py
 import os
 import locale
+from typing import Optional
 
 
 LANG = {
@@ -189,26 +189,38 @@ LANG = {
 
 CURRENT_LANG = "en"
 
-def detect_language():
-    """
-    Détecte la langue du système.
-    Retourne une langue supportée par LANG.
-    """
+def _get_system_locale() -> Optional[str]:
+    """Récupère la locale système via les variables d'environnement,
+    puis via le module locale en dernier recours."""
 
-    # Priorité aux variables Linux
-    system_lang = (
+    # LANGUAGE peut être une liste "fr_FR:en_US:en" -> on prend le 1er élément
+    raw = (
         os.environ.get("LANGUAGE")
         or os.environ.get("LC_ALL")
         or os.environ.get("LC_MESSAGES")
         or os.environ.get("LANG")
     )
 
-    # Fallback Python locale
-    if not system_lang:
-        try:
-            system_lang = locale.getdefaultlocale()[0]
-        except Exception:
-            system_lang = None
+    if raw:
+        return raw.split(":")[0]
+
+    # Fallback : API moderne, remplace getdefaultlocale() (supprimée en 3.13)
+    try:
+        loc = locale.getlocale()
+        if loc and loc[0]:
+            return loc[0]
+    except Exception:
+        pass
+
+    return None
+
+
+def detect_language() -> str:
+    """
+    Détecte la langue du système.
+    Retourne une langue supportée par LANG (fallback "en").
+    """
+    system_lang = _get_system_locale()
 
     if not system_lang:
         return "en"
@@ -217,55 +229,48 @@ def detect_language():
     # fr_FR.UTF-8 -> fr
     # zh_CN.UTF-8 -> zh
     # en_US.UTF-8 -> en
-
-    system_lang = (
+    normalized = (
         system_lang
         .lower()
         .replace("-", "_")
         .split(".")[0]
     )
 
-    lang = system_lang.split("_")[0]
+    lang = normalized.split("_")[0]
 
     return lang if lang in LANG else "en"
 
 
-def set_language(lang):
+def set_language(lang: Optional[str]) -> None:
     global CURRENT_LANG
 
-    if not lang:
+    if not lang or not isinstance(lang, str):
         CURRENT_LANG = detect_language()
         return
 
-    lang = lang.lower().replace("-", "_")
-    lang = lang.split("_")[0]
-
-    CURRENT_LANG = (
-        lang if lang in LANG
-        else "en"
-    )
+    lang = lang.lower().replace("-", "_").split("_")[0]
+    CURRENT_LANG = lang if lang in LANG else "en"
 
 
-def init_language():
-    """
-    Initialise automatiquement la langue.
-    """
+def init_language() -> None:
+    """Initialise automatiquement la langue depuis le système."""
     set_language(detect_language())
 
 
-def get_language():
+def get_language() -> str:
     return CURRENT_LANG
 
 
-def tr(key, **kwargs):
+def tr(key: str, **kwargs) -> str:
+    """Traduit une clé, avec repli sur l'anglais si absente."""
     lang_table = LANG.get(CURRENT_LANG, LANG["en"])
-
-    text = lang_table.get(
-        key,
-        LANG["en"].get(key, key)
-    )
+    text = lang_table.get(key, LANG["en"].get(key, key))
 
     if kwargs:
-        return text.format(**kwargs)
+        try:
+            return text.format(**kwargs)
+        except (KeyError, IndexError):
+            # Évite un crash si un placeholder attendu manque dans kwargs
+            return text
 
     return text
