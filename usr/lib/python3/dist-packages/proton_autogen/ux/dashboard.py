@@ -6,7 +6,7 @@ import gi
 import threading
 gi.require_version("Gtk", "4.0")
 from gi.repository import Gtk, Gio, Gdk, GLib
-
+from proton_autogen.ux.dashboard_ui import DashboardUIMixin
 from proton_autogen.ux.game_list import GameList
 from proton_autogen.ux.game_editor import GameEditor
 from proton_autogen.ux.widgets.headerbar import DashboardHeaderBar
@@ -29,13 +29,12 @@ from proton_autogen.sensor import get_sensors_text, print_sensors, get_mangohud_
 from proton_autogen.requis import afficher_requirements_label
 
 
-addbouton = True
-refreshbouton = True
-
 # -----------------------------
 # MAIN WINDOW
 # -----------------------------
-class Dashboard(Gtk.ApplicationWindow):
+class Dashboard(DashboardUIMixin, Gtk.ApplicationWindow):
+    SHOW_ADD_BUTTON = True
+    SHOW_REFRESH_BUTTON = True
 
     def __init__(self, app):
         super().__init__(application=app)
@@ -48,7 +47,7 @@ class Dashboard(Gtk.ApplicationWindow):
         self.lang = detect_help_env_lang()
         notifications.set_callback(self.notify_toast)
 
-        self.build_ui()
+        self.build_ui()   # vient du mixin
         self.refresh_games()
 
     # Notify Toast
@@ -296,298 +295,6 @@ class Dashboard(Gtk.ApplicationWindow):
         self.background.set_filename(
             os.path.join(base, "assets", filename)
         )
-
-    # -------------------------
-    # UI
-    # -------------------------
-    def build_ui(self):
-
-        # =========================
-        # OVERLAY
-        # =========================
-        overlay = Gtk.Overlay()
-        self.set_child(overlay)
-        self._overlay = overlay
-
-        # =========================
-        # BACKGROUND IMAGE
-        # =========================
-        base = os.path.dirname(__file__)
-        self.background = Gtk.Picture.new_for_filename(
-            os.path.join(base, "assets", "logo-pa.jpg")
-        )
-
-        self.background.set_content_fit(Gtk.ContentFit.COVER)
-        self.background.set_hexpand(True)
-        self.background.set_vexpand(True)
-
-        overlay.set_child(self.background)
-
-        # =========================
-        # ROOT CONTAINER
-        # =========================
-        root = Gtk.Box(
-            orientation=Gtk.Orientation.VERTICAL,
-            spacing=8,
-        )
-
-        root.set_vexpand(True)
-        root.set_hexpand(True)
-        root.set_halign(Gtk.Align.FILL)
-        root.set_valign(Gtk.Align.FILL)
-
-        root.set_margin_top(10)
-        root.set_margin_bottom(10)
-        root.set_margin_start(5)
-        root.set_margin_end(10)
-        root.add_css_class("style")
-
-        # Le contenu est affiché au-dessus du fond
-        wrapper = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        wrapper.set_halign(Gtk.Align.CENTER)
-        wrapper.set_valign(Gtk.Align.FILL)
-        wrapper.set_margin_start(0)
-        wrapper.set_margin_end(0)
-        wrapper.set_margin_top(0)
-        wrapper.set_margin_bottom(0)
-        wrapper.append(root)
-
-        overlay.add_overlay(wrapper)
-
-        # =========================
-        # TOAST OVERLAY
-        # =========================
-        self.toast = ToastOverlay()
-        overlay.add_overlay(self.toast)
-
-        # =========================
-        # HEADER BAR (MODERN GTK4)
-        # =========================
-
-        header = DashboardHeaderBar(
-            self.get_application(),
-            on_refresh=lambda *_: self.refresh_games(),
-            on_add=self.on_add_game,
-            on_change_style=self.on_change_style,
-            show_refresh=refreshbouton,
-            show_add=addbouton,
-        )
-
-        self.set_titlebar(header)
-
-        # =========================
-        # GAME STATS
-        # =========================
-        stats = self.build_global_stats(self.games)
-
-        self.stats_label = Gtk.Label(
-            label=f"🎮 {stats['total_games']} games  •  "
-            f"⏱ {stats['hours']}h {stats['minutes']}m  •  "
-            f"⭐ {stats['favorites']}"
-        )
-
-        self.stats_label.add_css_class("home-label")
-        root.append(self.stats_label)
-
-
-        # =========================
-        # FAVORITES / RECENT GAMES COLLAPSE
-        # =========================
-        # =========================
-        # QUICK CAROUSELS
-        # =========================
-
-        carousel_buttons = Gtk.Box(
-            orientation=Gtk.Orientation.HORIZONTAL,
-            spacing=8
-        )
-
-        self.favorites_btn = Gtk.Button(
-            label="⭐ Favorites"
-        )
-
-        self.recent_btn = Gtk.Button(
-            label="🕘 Recently played"
-        )
-
-        self.favorites_btn.add_css_class(
-            "section-toggle"
-        )
-
-        self.recent_btn.add_css_class(
-            "section-toggle"
-        )
-
-        carousel_buttons.append(
-            self.favorites_btn
-        )
-
-        carousel_buttons.append(
-            self.recent_btn
-        )
-
-        root.append(carousel_buttons)
-
-
-        # Zone unique d'affichage
-
-        self.carousel_revealer = Gtk.Revealer()
-
-        self.carousel_revealer.set_transition_type(
-            Gtk.RevealerTransitionType.SLIDE_DOWN
-        )
-
-        self.carousel_revealer.set_transition_duration(
-            250
-        )
-
-
-        self.carousel_stack = Gtk.Stack()
-
-        self.carousel_stack.set_transition_type(
-            Gtk.StackTransitionType.SLIDE_LEFT
-        )
-
-
-        # Favorites
-        self.favorites_carousel = FavoritesCarousel(
-            on_launch=self.launch_game,
-            on_edit=self.edit_game,
-            lang=self.lang
-        )
-
-
-        # Recent
-        self.recent_carousel = RecentCarousel(
-            on_launch=self.launch_game,
-            on_edit=self.edit_game,
-            lang=self.lang
-        )
-
-
-        self.carousel_stack.add_named(
-            self.favorites_carousel,
-            "favorites"
-        )
-
-        self.carousel_stack.add_named(
-            self.recent_carousel,
-            "recent"
-        )
-
-
-        self.carousel_revealer.set_child(
-            self.carousel_stack
-        )
-
-        root.append(
-            self.carousel_revealer
-        )
-
-
-        # état initial fermé
-        self.carousel_revealer.set_reveal_child(False)
-
-        def show_favorites(_btn):
-            if (
-                self.current_carousel == "favorites"
-                and self.carousel_revealer.get_reveal_child()
-            ):
-                self.carousel_revealer.set_reveal_child(False)
-                self.current_carousel = None
-                self.update_carousel_buttons()
-                return
-
-            self.current_carousel = "favorites"
-            self.carousel_stack.set_visible_child_name("favorites")
-            self.carousel_revealer.set_reveal_child(True)
-            self.update_carousel_buttons()
-
-
-        def show_recent(_btn):
-            if (
-                self.current_carousel == "recent"
-                and self.carousel_revealer.get_reveal_child()
-            ):
-                self.carousel_revealer.set_reveal_child(False)
-                self.current_carousel = None
-                self.update_carousel_buttons()
-                return
-
-            self.current_carousel = "recent"
-            self.carousel_stack.set_visible_child_name("recent")
-            self.carousel_revealer.set_reveal_child(True)
-            self.update_carousel_buttons()
-
-
-        self.favorites_btn.connect(
-            "clicked",
-            show_favorites
-        )
-
-        self.recent_btn.connect(
-            "clicked",
-            show_recent
-        )
-
-
-        # =========================
-        # GAME SEARCH
-        # =========================
-        self.search = Gtk.SearchEntry()
-        self.search.set_placeholder_text("Search games...")
-
-        self.search.connect(
-            "search-changed",
-            self.on_search_changed
-        )
-
-        root.append(self.search)
-
-        # =========================
-        # GAME LIST
-        # =========================
-        self.game_list = GameList(
-            on_launch=self.launch_game,
-            on_edit=self.edit_game,
-            on_delete=self.delete_game,
-            on_refresh=self.refresh_games,
-            on_export_lutris=self.export_lutris_handler,
-            lang=self.lang
-        )
-
-        self.game_list.set_vexpand(True)
-        self.game_list.set_hexpand(True)
-        self.game_list.set_halign(Gtk.Align.FILL)
-        self.game_list.set_size_request(780, -1)
-        root.append(self.game_list)
-
-        # =========================
-        # STATUS BAR
-        # =========================
-        status_box = Gtk.Box(
-            orientation=Gtk.Orientation.HORIZONTAL,
-            spacing=8
-        )
-
-        self.spinner = Gtk.Spinner()
-        self.spinner.set_visible(False)
-
-        self.status = Gtk.Label(label="Ready")
-        self.status.set_xalign(0)
-
-        status_box.append(self.spinner)
-        status_box.append(self.status)
-
-        root.append(status_box)
-        #--------------------------------------------
-        self.status.set_xalign(0)
-        self.status.add_css_class("home-label")
-
-        #root.append(self.status)
-        # themes
-        self.update_background(self.get_application().current_style)
-
 
     # -------------------------
     # STATS
