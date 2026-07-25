@@ -646,21 +646,41 @@ class Dashboard(Gtk.ApplicationWindow):
     def refresh_games(self):
         self.status.set_text("Loading games...")
         self.toast.info("Loading games...")
+        self.spinner.set_visible(True)
+        self.spinner.start()
 
-        games = list_programs_ux(self.lang) or []
+        def worker():
+            try:
+                games = list_programs_ux(self.lang) or []
+            except Exception as e:
+                GLib.idle_add(self._on_refresh_error, str(e))
+                return
+            GLib.idle_add(self._on_games_loaded, games)
 
-        # normalize safe format (future-proof)
+        threading.Thread(target=worker, daemon=True).start()
+
+
+    def _on_refresh_error(self, error_msg):
+        self.spinner.stop()
+        self.spinner.set_visible(False)
+        self.status.set_text("Erreur de chargement")
+        self.toast.error(f"Échec du chargement des jeux : {error_msg}")
+        return False
+
+
+    def _on_games_loaded(self, games):
+        self.spinner.stop()
+        self.spinner.set_visible(False)
+
         self.games = [
             {
                 "name": g.get("name", "Unknown"),
                 "path": g.get("path"),
-                "config_path": g.get("config_path"), #new
+                "config_path": g.get("config_path"),
                 "exe_type": g.get("exe_type", "dx11"),
                 "proton": g.get("proton", ""),
                 "prefix": g.get("prefix", {}),
                 "features": g.get("features", {}),
-
-                # 👇 AJOUT IMPORTANT
                 "favorite": g.get("favorite", False),
                 "playtime": g.get("playtime", {}),
                 "badges": g.get("badges", []),
@@ -668,6 +688,17 @@ class Dashboard(Gtk.ApplicationWindow):
             for g in games
             if isinstance(g, dict)
         ]
+
+        if hasattr(self, "game_list"):
+            filtered = (
+                filter_games(self.games, self.search.get_text())
+                if hasattr(self, "search")
+                else self.games
+            )
+            self.game_list.set_games(filtered)
+            self.update_stats(filtered)
+
+        self.status.set_text("Ready")
 
         if hasattr(self, "game_list"):
             if hasattr(self, "search"):
@@ -706,6 +737,8 @@ class Dashboard(Gtk.ApplicationWindow):
 
         if hasattr(self, "status"):
             self.status.add_css_class("label-bottom")
+        return False  # important : idle_add attend un retour False pour ne pas se répéter
+
 
     # -------------------------
     # BUILD DIALOG
@@ -759,7 +792,6 @@ class Dashboard(Gtk.ApplicationWindow):
         scroll = Gtk.ScrolledWindow()
         scroll.set_vexpand(True)
         scroll.set_hexpand(True)
-
         textview = Gtk.TextView()
         textview.set_editable(False)
         textview.set_cursor_visible(False)
@@ -767,13 +799,9 @@ class Dashboard(Gtk.ApplicationWindow):
         textview.set_left_margin(6)
         textview.set_right_margin(6)
         textview.set_wrap_mode(Gtk.WrapMode.WORD)
-
         buffer = textview.get_buffer()
-
         insert_colored_text( buffer, afficher_requirements_label())
-
         scroll.set_child(textview)
-
         self.build_dialog( "Requis", scroll, width=700, height=650 )
 
     # -------------------------
@@ -784,7 +812,6 @@ class Dashboard(Gtk.ApplicationWindow):
         scroll = Gtk.ScrolledWindow()
         scroll.set_vexpand(True)
         scroll.set_hexpand(True)
-
         textview = Gtk.TextView()
         textview.set_editable(False)
         textview.set_cursor_visible(False)
@@ -792,12 +819,9 @@ class Dashboard(Gtk.ApplicationWindow):
         textview.set_left_margin(6)
         textview.set_right_margin(6)
         textview.set_wrap_mode(Gtk.WrapMode.WORD)
-
         buffer = textview.get_buffer()
         insert_about_text(buffer, get_about_text())
-
         scroll.set_child(textview)
-
         self.build_dialog( "About", scroll, width=700, height=750 )
     # -------------------------
     # DIALOG HELP
@@ -807,7 +831,6 @@ class Dashboard(Gtk.ApplicationWindow):
         scroll = Gtk.ScrolledWindow()
         scroll.set_vexpand(True)
         scroll.set_hexpand(True)
-
         textview = Gtk.TextView()
         textview.set_editable(False)
         textview.set_cursor_visible(False)
@@ -817,12 +840,9 @@ class Dashboard(Gtk.ApplicationWindow):
         textview.set_right_margin(8)
         textview.set_pixels_above_lines(2)
         textview.set_pixels_below_lines(2)
-
         buffer = textview.get_buffer()
         insert_colored_text(buffer, get_help_text())
-
         scroll.set_child(textview)
-
         self.build_dialog( "Help", scroll, width=700, height=800 )
 
     # -------------------------
@@ -833,17 +853,13 @@ class Dashboard(Gtk.ApplicationWindow):
         scroll = Gtk.ScrolledWindow()
         scroll.set_vexpand(True)
         scroll.set_hexpand(True)
-
         textview = Gtk.TextView()
         textview.set_editable(False)
         textview.set_cursor_visible(False)
         textview.set_monospace(True)
         textview.set_wrap_mode(Gtk.WrapMode.WORD)
-
         buffer = textview.get_buffer()
         insert_colored_text(buffer, get_diagnostic_text())
-        #buffer.set_text(get_diagnostic_text())
-
         scroll.set_child(textview)
 
         self.build_dialog(
@@ -951,7 +967,6 @@ class Dashboard(Gtk.ApplicationWindow):
         except Exception as e:
             self.status.set_text("Add game failed")
             self.toast.error("Unable to add game")
-
             print("[UX] Add game error:", e)
 
 

@@ -1,5 +1,6 @@
-from launchpadlib.launchpad import Launchpad
+from collections import defaultdict
 from packaging.version import Version
+from launchpadlib.launchpad import Launchpad
 
 MIN_VERSION = Version("2.9.7")
 
@@ -7,16 +8,17 @@ lp = Launchpad.login_anonymously("ppa-stats", "production")
 
 ppa = lp.people["n3oray"].getPPAByName(name="proton-autogen")
 
-versions = {}
+versions = defaultdict(int)
 
 for binary in ppa.getPublishedBinaries():
-    version = binary.binary_package_version
+    version = Version(binary.binary_package_version)
 
-    if Version(version) < MIN_VERSION:
+    if version < MIN_VERSION:
         break
 
-    key = (binary.binary_package_name, version)
-    versions[key] = versions.get(key, 0) + binary.getDownloadCount()
+    versions[(binary.binary_package_name, str(version))] += (
+        binary.getDownloadCount()
+    )
 
 total = sum(versions.values())
 
