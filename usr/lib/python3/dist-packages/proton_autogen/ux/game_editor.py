@@ -31,7 +31,8 @@ class GameEditor(Gtk.Window):
             "auto",
             "safe",
             "balanced",
-            "performance"
+            "performance",
+            "extreme"
         ]
 
         self.game = game

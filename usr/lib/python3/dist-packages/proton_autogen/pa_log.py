@@ -38,6 +38,10 @@ DEBUG_ENV_VARS = (
     "STEAM_COMPAT_TOOL_PATHS",
     "STEAM_COMPAT_MOUNTS",
     "STEAM_COMPAT_APP_ID",
+    "__GL_SHADER_DISK_CACHE",
+    "__GL_SHADER_DISK_CACHE_SKIP_CLEANUP",
+    "MESA_SHADER_CACHE_MAX_SIZE",
+    "RADV_PERFTEST",
     "SteamAppId",
     "SteamGameId",
 )
@@ -48,8 +52,6 @@ MANGOHUD_ENV_VARS = (
     "MANGOHUD_CONFIG",
     "MANGOHUD_OPENGL",
     "PROTON_ENABLE_NVAPI",
-    "__GL_SHADER_DISK_CACHE",
-    "RADV_PERFTEST",
     "LD_PRELOAD",
 )
 # -----------------------------------------------------------

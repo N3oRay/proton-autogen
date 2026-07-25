@@ -668,6 +668,19 @@ MESA_ENV_VARS = [
         "description_pt": "Seleciona a GPU Vulkan no Mesa."
     },
     {
+        "name": "MESA_SHADER_CACHE_MAX_SIZE",
+        "type": "mesa",
+        "category": "performance",
+        "description_fr": "Définit la taille maximale du cache disque des shaders Mesa afin de conserver davantage de shaders compilés et réduire les recompilations lors du lancement des jeux.",
+        "description_en": "Sets the maximum Mesa shader disk cache size to keep more compiled shaders and reduce shader recompilation when launching games.",
+        "description_de": "Legt die maximale Größe des Mesa-Shader-Disk-Caches fest, um mehr kompilierte Shader zu speichern und Neukompilierungen beim Starten von Spielen zu reduzieren.",
+        "description_uk": "Визначає максимальний розмір дискового кешу шейдерів Mesa, щоб зберігати більше скомпільованих шейдерів і зменшити повторну компіляцію під час запуску ігор.",
+        "description_zh": "设置 Mesa 着色器磁盘缓存的最大大小，以保存更多已编译着色器，并减少游戏启动时的着色器重新编译。",
+        "description_hi": "Mesa शेडर डिस्क कैश का अधिकतम आकार निर्धारित करता है, ताकि अधिक संकलित शेडर सुरक्षित रहें और गेम शुरू करते समय पुनः संकलन कम हो।",
+        "description_es": "Establece el tamaño máximo de la caché de disco de sombreadores de Mesa para conservar más sombreadores compilados y reducir la recompilación al iniciar juegos.",
+        "description_pt": "Define o tamanho máximo do cache em disco de shaders do Mesa para manter mais shaders compilados e reduzir a recompilação ao iniciar jogos."
+    },
+    {
         "name": "RADV_PERFTEST",
         "type": "mesa",
         "category": "performance",
@@ -741,14 +754,14 @@ NVIDIA_ENV_VARS = [
         "name": "__GL_SHADER_DISK_CACHE",
         "type": "nvidia",
         "category": "performance",
-        "description_fr": "Cache shaders NVIDIA.",
-        "description_en": "NVIDIA shader cache.",
-        "description_de": "NVIDIA-Shader-Cache.",
-        "description_uk": "Кеш шейдерів NVIDIA.",
-        "description_zh": "NVIDIA 着色器缓存。",
-        "description_hi": "NVIDIA शेडर कैश।",
-        "description_es": "Caché de sombreadores de NVIDIA.",
-        "description_pt": "Cache de shaders da NVIDIA."
+        "description_fr": "Active le cache disque des shaders NVIDIA afin de conserver les shaders compilés et réduire les temps de compilation ainsi que les saccades en jeu.",
+        "description_en": "Enables the NVIDIA shader disk cache to store compiled shaders and reduce compilation times and stuttering during gameplay.",
+        "description_de": "Aktiviert den NVIDIA-Shader-Disk-Cache, um kompilierte Shader zu speichern und Kompilierungszeiten sowie Ruckler im Spiel zu reduzieren.",
+        "description_uk": "Вмикає дисковий кеш шейдерів NVIDIA для збереження скомпільованих шейдерів і зменшення часу компіляції та підлагувань у грі.",
+        "description_zh": "启用 NVIDIA 着色器磁盘缓存，以保存已编译着色器并减少编译时间和游戏卡顿。",
+        "description_hi": "NVIDIA शेडर डिस्क कैश को सक्षम करता है ताकि संकलित शेडर सुरक्षित रहें और संकलन समय व गेम में रुकावट कम हो।",
+        "description_es": "Activa la caché de disco de sombreadores de NVIDIA para conservar sombreadores compilados y reducir los tiempos de compilación y los tirones durante el juego.",
+        "description_pt": "Ativa o cache em disco de shaders da NVIDIA para manter shaders compilados e reduzir o tempo de compilação e travamentos durante o jogo."
     },
     {
         "name": "__GL_SHADER_DISK_CACHE_PATH",
@@ -762,6 +775,19 @@ NVIDIA_ENV_VARS = [
         "description_hi": "NVIDIA कैश पथ।",
         "description_es": "Ruta de la caché de NVIDIA.",
         "description_pt": "Caminho do cache da NVIDIA."
+    },
+    {
+        "name": "__GL_SHADER_DISK_CACHE_SKIP_CLEANUP",
+        "type": "nvidia",
+        "category": "performance",
+        "description_fr": "Empêche le nettoyage automatique du cache disque des shaders NVIDIA afin de conserver les données compilées plus longtemps.",
+        "description_en": "Prevents automatic cleanup of the NVIDIA shader disk cache, keeping compiled shader data available for longer.",
+        "description_de": "Verhindert die automatische Bereinigung des NVIDIA-Shader-Disk-Caches, damit kompilierte Shader-Daten länger erhalten bleiben.",
+        "description_uk": "Запобігає автоматичному очищенню дискового кешу шейдерів NVIDIA, зберігаючи скомпільовані дані шейдерів довше.",
+        "description_zh": "阻止自动清理 NVIDIA 着色器磁盘缓存，使已编译的着色器数据保留更长时间。",
+        "description_hi": "NVIDIA शेडर डिस्क कैश की स्वचालित सफाई को रोकता है, जिससे संकलित शेडर डेटा अधिक समय तक सुरक्षित रहता है।",
+        "description_es": "Evita la limpieza automática de la caché de disco de sombreadores de NVIDIA, conservando los datos compilados durante más tiempo.",
+        "description_pt": "Impede a limpeza automática do cache em disco de shaders da NVIDIA, mantendo os dados compilados por mais tempo."
     },
     {
         "name": "__GL_SYNC_TO_VBLANK",
@@ -866,6 +892,32 @@ STEAM_ENV_VARS = [
         "description_pt": "ID do aplicativo Steam."
     },
     {
+        "name": "STEAM_COMPAT_CLIENT_INSTALL_PATH",
+        "type": "steam",
+        "category": "internal",
+        "description_fr": "Indique le chemin d'installation du client Steam utilisé par Proton afin de localiser les fichiers, bibliothèques et composants nécessaires à l'exécution des jeux Windows.",
+        "description_en": "Specifies the installation path of the Steam client used by Proton to locate the files, libraries, and components required to run Windows games.",
+        "description_de": "Gibt den Installationspfad des von Proton verwendeten Steam-Clients an.",
+        "description_uk": "Визначає шлях встановлення клієнта Steam, який Proton використовує для пошуку файлів, бібліотек і компонентів, необхідних для запуску ігор Windows.",
+        "description_zh": "指定 Proton 使用的 Steam 客户端安装路径，以定位运行 Windows 游戏所需的文件、库和组件。",
+        "description_hi": "Proton द्वारा उपयोग किए जाने वाले Steam क्लाइंट के इंस्टॉलेशन पथ को निर्दिष्ट करता है, ताकि Windows गेम चलाने के लिए आवश्यक फ़ाइलें, लाइब्रेरी और घटक खोजे जा सकें।",
+        "description_es": "Especifica la ruta de instalación del cliente de Steam utilizada por Proton para localizar los archivos, bibliotecas y componentes necesarios para ejecutar juegos de Windows.",
+        "description_pt": "Especifica o caminho de instalação do cliente Steam usado pelo Proton para localizar os arquivos, bibliotecas e componentes necessários para executar jogos do Windows."
+    },
+    {
+        "name": "STEAM_COMPAT_MOUNTS",
+        "type": "steam",
+        "category": "internal",
+        "description_fr": "Définit des répertoires supplémentaires à monter dans l'environnement de compatibilité Steam/Proton afin de rendre des fichiers ou bibliothèques accessibles au jeu.",
+        "description_en": "Specifies additional directories to mount inside the Steam/Proton compatibility environment, making files or libraries accessible to the game.",
+        "description_de": "Legt zusätzliche Verzeichnisse fest, die in die Steam-/Proton-Kompatibilitätsumgebung eingebunden werden, damit Dateien oder Bibliotheken für das Spiel verfügbar sind.",
+        "description_uk": "Визначає додаткові каталоги, які слід змонтувати в середовищі сумісності Steam/Proton, щоб зробити файли або бібліотеки доступними для гри.",
+        "description_zh": "指定要挂载到 Steam/Proton 兼容环境中的其他目录，使游戏能够访问这些文件或库。",
+        "description_hi": "Steam/Proton संगतता वातावरण में माउंट किए जाने वाले अतिरिक्त निर्देशिकाओं को निर्दिष्ट करता है, ताकि गेम उन फ़ाइलों या लाइब्रेरी तक पहुँच सके।",
+        "description_es": "Especifica directorios adicionales que se montarán dentro del entorno de compatibilidad de Steam/Proton para que el juego pueda acceder a archivos o bibliotecas.",
+        "description_pt": "Especifica diretórios adicionais a serem montados no ambiente de compatibilidade do Steam/Proton, tornando arquivos ou bibliotecas acessíveis ao jogo."
+    },
+    {
         "name": "STEAM_COMPAT_DATA_PATH",
         "type": "steam",
         "category": "internal",
@@ -875,14 +927,14 @@ STEAM_ENV_VARS = [
         "description_uk": "Визначає шлях до префікса сумісності Steam/Proton, який містить середовище Wine, що використовується грою (налаштування, реєстр, DLL та віртуальні системні файли).",
         "description_zh": "定义 Steam/Proton 兼容性前缀路径，其中包含游戏使用的 Wine 环境（配置、注册表、DLL 和虚拟系统文件）。",
         "description_hi": "Steam/Proton संगतता प्रीफ़िक्स पथ को परिभाषित करता है जिसमें गेम द्वारा उपयोग किया जाने वाला Wine वातावरण (कॉन्फ़िगरेशन, रजिस्ट्री, DLL और वर्चुअल सिस्टम फ़ाइलें) शामिल होता है।",
-        "description_es": "Define la ruta del prefijo de compatibilidad de Steam/Proton que contiene el entorno Wine utilizado por el juego (configuración, registro, DLL y archivos de sistema virtuales).",
+        "description_es": "Define la ruta del prefijo de compatibilidad de Steam/Proton que contiene el entorno Wine utilizado por el juego (configuración, registro, DLL ...).",
         "description_pt": "Define o caminho do prefixo de compatibilidade Steam/Proton que contém o ambiente Wine usado pelo jogo (configurações, registro, DLLs e arquivos de sistema virtuais)."
     },
     {
         "name": "STEAM_COMPAT_TOOL_PATHS",
         "type": "steam",
         "category": "internal",
-        "description_fr": "Définit le chemin vers les outils de compatibilité Steam/Proton utilisés par le jeu (runtime Proton, composants Wine, DXVK, VKD3D et autres bibliothèques nécessaires à l'exécution).",
+        "description_fr": "Définit le chemin vers les outils de compatibilité Steam/Proton utilisés par le jeu (runtime Proton, composants Wine, DXVK, VKD3D et autres bibliothèques nécessaires).",
         "description_en": "Defines the path to the Steam/Proton compatibility tools used by the game (Proton runtime, Wine components, DXVK, VKD3D and other required libraries).",
         "description_de": "Legt den Pfad zu den von Steam/Proton verwendeten Kompatibilitätswerkzeugen fest (Proton-Runtime, Wine-Komponenten, DXVK, VKD3D und weitere benötigte Bibliotheken).",
         "description_uk": "Визначає шлях до інструментів сумісності Steam/Proton, які використовуються грою (середовище Proton, компоненти Wine, DXVK, VKD3D та інші необхідні бібліотеки).",
@@ -936,6 +988,19 @@ HUD_ENV_VARS = [
         "description_pt": "Ativa o modo de injeção dinâmica via dlsym do MangoHud para melhorar a detecção de aplicativos que utilizam bibliotecas gráficas carregadas dinamicamente."
     },
     {
+        "name": "MANGOHUD_CPU_SENSOR",
+        "type": "hud",
+        "category": "configuration",
+        "description_fr": "Sélectionne le capteur CPU utilisé par MangoHud pour afficher la température, la fréquence ou d'autres informations matérielles lorsque plusieurs capteurs sont disponibles.",
+        "description_en": "Selects the CPU sensor used by MangoHud to display temperature, clock speed, or other hardware information when multiple sensors are available.",
+        "description_de": "Wählt den von MangoHud verwendeten CPU-Sensor aus, um Temperatur, Taktfrequenz oder andere Hardwareinformationen anzuzeigen, wenn mehrere Sensoren verfügbar sind.",
+        "description_uk": "Визначає датчик процесора, який MangoHud використовує для відображення температури, тактової частоти та іншої інформації про обладнання, якщо доступно кілька датчиків.",
+        "description_zh": "当系统存在多个 CPU 传感器时，选择 MangoHud 用于显示温度、频率或其他硬件信息的 CPU 传感器。",
+        "description_hi": "यदि कई CPU सेंसर उपलब्ध हों, तो तापमान, क्लॉक गति और अन्य हार्डवेयर जानकारी प्रदर्शित करने के लिए MangoHud किस CPU सेंसर का उपयोग करेगा, यह निर्धारित करता है।",
+        "description_es": "Selecciona el sensor de CPU que utilizará MangoHud para mostrar la temperatura, la frecuencia u otra información del hardware cuando haya varios sensores disponibles.",
+        "description_pt": "Seleciona o sensor de CPU que o MangoHud utilizará para exibir a temperatura, a frequência ou outras informações de hardware quando houver vários sensores disponíveis."
+    },
+    {
         "name": "MANGOHUD_CONFIG",
         "type": "hud",
         "category": "configuration",
@@ -960,6 +1025,19 @@ HUD_ENV_VARS = [
         "description_hi": "OpenGL का उपयोग करने वाले अनुप्रयोगों में ओवरले प्रदर्शित करने के लिए MangoHud का OpenGL रेंडरिंग समर्थन सक्षम करता है।",
         "description_es": "Activa la compatibilidad con OpenGL en MangoHud para mostrar la superposición en aplicaciones que utilizan OpenGL.",
         "description_pt": "Ativa o suporte de renderização OpenGL no MangoHud para exibir a sobreposição em aplicativos que utilizam OpenGL."
+    },
+    {
+        "name": "MANGOHUD_VERBOSE",
+        "type": "hud",
+        "category": "debug",
+        "description_fr": "Active ou désactive les messages d'initialisation détaillés de MangoHud.",
+        "description_en": "Enables or disables verbose MangoHud initialization messages.",
+        "description_de": "Aktiviert oder deaktiviert ausführliche Initialisierungsmeldungen von MangoHud.",
+        "description_uk": "Вмикає або вимикає докладні повідомлення ініціалізації MangoHud.",
+        "description_zh": "启用或禁用 MangoHud 的详细初始化日志。",
+        "description_hi": "MangoHud के विस्तृत प्रारंभिक लॉग को सक्षम या अक्षम करता है।",
+        "description_es": "Activa o desactiva los mensajes detallados de inicialización de MangoHud.",
+        "description_pt": "Ativa ou desativa as mensagens detalhadas de inicialização do MangoHud."
     },
     {
         "name": "vblank_mode",
@@ -1017,6 +1095,32 @@ GSTREAMER_ENV_VARS = [
         "description_hi": "मल्टीमीडिया त्रुटियों और टूटी हुई निर्भरताओं से बचने के लिए Wine में GStreamer एकीकरण को अक्षम करता है।",
         "description_es": "Desactiva la integración de GStreamer en Wine para evitar errores multimedia y dependencias dañadas.",
         "description_pt": "Desativa a integração do GStreamer no Wine para evitar erros multimídia e dependências quebradas."
+    },
+    {
+        "name": "GST_REGISTRY_REUSE_PLUGIN_SCANNER",
+        "type": "wine",
+        "category": "performance",
+        "description_fr": "Réutilise le processus d'analyse des plugins GStreamer afin de réduire le temps de découverte des plugins et d'améliorer les performances au démarrage.",
+        "description_en": "Reuses the GStreamer plugin scanner process to reduce plugin discovery time and improve startup performance.",
+        "description_de": "Verwendet den GStreamer-Plugin-Scanner erneut, um die Erkennungszeit von Plugins zu verkürzen und die Startleistung zu verbessern.",
+        "description_uk": "Повторно використовує процес сканування плагінів GStreamer, щоб скоротити час їх виявлення та покращити швидкість запуску.",
+        "description_zh": "重复使用 GStreamer 插件扫描进程，以减少插件发现时间并提升启动性能。",
+        "description_hi": "प्लगइन खोजने में लगने वाला समय कम करने और स्टार्टअप प्रदर्शन बेहतर बनाने के लिए GStreamer प्लगइन स्कैनर प्रक्रिया का पुन: उपयोग करता है।",
+        "description_es": "Reutiliza el proceso de exploración de complementos de GStreamer para reducir el tiempo de detección de los complementos y mejorar el rendimiento al iniciar.",
+        "description_pt": "Reutiliza o processo de verificação de plugins do GStreamer para reduzir o tempo de descoberta dos plugins e melhorar o desempenho na inicialização."
+    },
+    {
+        "name": "GST_PLUGIN_FEATURE_RANK",
+        "type": "wine",
+        "category": "compatibility",
+        "description_fr": "Modifie la priorité des plugins, codecs et fonctionnalités GStreamer afin de privilégier ou désactiver certains composants.",
+        "description_en": "Changes the priority of GStreamer plugins, codecs, and features to prefer or disable specific components.",
+        "description_de": "Ändert die Priorität von GStreamer-Plugins, Codecs und Funktionen, um bestimmte Komponenten zu bevorzugen oder zu deaktivieren.",
+        "description_uk": "Змінює пріоритет плагінів, кодеків і компонентів GStreamer, щоб надати перевагу або вимкнути певні елементи.",
+        "description_zh": "修改 GStreamer 插件、编解码器和功能的优先级，以优先使用或禁用特定组件。",
+        "description_hi": "विशिष्ट घटकों को प्राथमिकता देने या अक्षम करने के लिए GStreamer प्लगइनों, कोडेक्स और सुविधाओं की प्राथमिकता बदलता है।",
+        "description_es": "Modifica la prioridad de los complementos, códecs y funciones de GStreamer para priorizar o deshabilitar componentes específicos.",
+        "description_pt": "Altera a prioridade dos plugins, codecs e recursos do GStreamer para priorizar ou desativar componentes específicos."
     }
 ]
 GAME_ENV_VARS = [

@@ -173,8 +173,7 @@ def gpu_env(system=None, features=None):
 
     # Valeurs par défaut
     profile = features.get("gpu", "auto")
-    gpu = system.get("gpu", "").lower()
-
+    gpu = system.get("gpu", "")
 
     # Normalisation
     if not isinstance(profile, str):
@@ -183,34 +182,37 @@ def gpu_env(system=None, features=None):
     if not isinstance(gpu, str):
         gpu = ""
 
+    gpu = gpu.lower()
 
-    # Seulement les profils performance
-    if profile not in ("performance", "extreme"):
+
+    # Les autres profils (auto...) ne modifient rien
+    if profile not in ("balanced", "performance", "extreme"):
         return env
-
-    # NVIDIA
+    # Profils GPU pris en charge
     if gpu == "nvidia":
+        env["__GL_SHADER_DISK_CACHE"] = "1"
 
-        env.update({
-            "PROTON_ENABLE_NVAPI": "1",
-            "__GL_SHADER_DISK_CACHE": "1",
-        })
+        if profile in ("performance", "extreme"):
+            env["PROTON_ENABLE_NVAPI"] = "1"
 
         if profile == "extreme":
             env["__GL_SHADER_DISK_CACHE_SKIP_CLEANUP"] = "1"
 
 
-    # AMD
     elif gpu == "amd":
+        if profile == "balanced":
+            env["MESA_SHADER_CACHE_MAX_SIZE"] = "5G"
 
-        env["RADV_PERFTEST"] = "aco"
-
-        # Activation SAM éventuelle
-        if (
-            profile == "extreme"
-            and system.get("sam_support", False)
-        ):
+        elif profile == "performance":
             env["RADV_PERFTEST"] = "aco,sam"
+            env["MESA_SHADER_CACHE_MAX_SIZE"] = "10G"
+
+        elif profile == "extreme":
+            env["RADV_PERFTEST"] = "aco,gpl"
+            env["MESA_SHADER_CACHE_MAX_SIZE"] = "20G"
+
+            if system.get("sam_support"):
+                env["RADV_PERFTEST"] += ",sam" #sam : améliore l'accès CPU → VRAM sur les GPU compatibles.
 
     # Intel / inconnu :
     # on ne force rien
