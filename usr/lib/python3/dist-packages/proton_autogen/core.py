@@ -185,6 +185,11 @@ def print_help_env(lang="fr"):
         "fr": "description_fr",
         "en": "description_en",
         "de": "description_de",
+        "uk": "description_uk",
+        "zh": "description_zh",
+        "hi": "description_hi",
+        "es": "description_es",
+        "pt": "description_pt",
     }.get(lang, "description_en")  # anglais par défaut
 
     for group, vars_ in sorted(groups.items()):
