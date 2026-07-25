@@ -135,6 +135,16 @@ def detect_help_env_lang():
         return "en"
     if "--fr" in sys.argv:
         return "fr"
+    if "--uk" in sys.argv:
+        return "uk"
+    if "--de" in sys.argv:
+        return "de"
+    if "--zh" in sys.argv:
+        return "zh"
+    if "--hi" in sys.argv:
+        return "hi"
+    if "--es" in sys.argv:
+        return "es"
 
     # 2. Variable d'environnement système
     lang_env = os.environ.get("LANGUAGE") or os.environ.get("LANG")
@@ -146,6 +156,16 @@ def detect_help_env_lang():
             return "fr"
         if lang_env.startswith("en"):
             return "en"
+        if lang_env.startswith("de"):
+            return "de"
+        if lang_env.startswith("uk"):
+            return "uk"
+        if lang_env.startswith("zh"):
+            return "zh"
+        if lang_env.startswith("hi"):
+            return "hi"
+        if lang_env.startswith("es"):
+            return "es"
 
     # 3. défaut
     return "en"
@@ -157,11 +177,17 @@ def print_help_env(lang="fr"):
     for var in ENV_VARS:
         groups[var.get("type", "unknown")].append(var)
 
+    desc_key = {
+        "fr": "description_fr",
+        "en": "description_en",
+        "de": "description_de",
+    }.get(lang, "description_en")  # anglais par défaut
+
     for group, vars_ in sorted(groups.items()):
         print(f"\n[{group.upper()}]\n")
 
         for var in vars_:
-            desc = var.get("description_en" if lang == "en" else "description_fr", "")
+            desc = var.get(desc_key, "")
             print(f"- {var['name']}: {desc}")
 #-----------------------------------------------------------------------------------------------
 
