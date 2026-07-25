@@ -3,17 +3,12 @@
 import gi
 import os
 gi.require_version("Gtk", "4.0")
-from gi.repository import Gtk, Gio, Gdk, Pango
+from gi.repository import Gtk, Pango
 from proton_autogen.stats import get_game_badges
 from proton_autogen.i18n import tr, set_language
 from proton_autogen.ux.icon_manager import load_game_icon
 
-# Dans _create_row, avant de construire les boutons :
-
 lutris = True
-
-
-
 # -----------------------------
 # GAME LIST WIDGET
 # -----------------------------
@@ -76,9 +71,6 @@ class GameList(Gtk.Box):
                 row.badges_box.remove(child)
                 child = next_child
 
-            #for b in updated_game.get("badges", []):
-            #    row.badges_box.append(self._create_badge(b))
-
             badges = get_game_badges(updated_game, self.lang)
             for b in badges:
                 row.badges_box.append(self._create_badge(b))
@@ -99,7 +91,7 @@ class GameList(Gtk.Box):
             row = self._create_row(game)
             self.list_box.append(row)
 
-            self.row_map[game["path"]] = row
+            self.row_map[game.get("path")] = row
 
     # -------------------------
     # BADGES
@@ -231,15 +223,10 @@ class GameList(Gtk.Box):
         row.game_data = game
 
         # -------------------------
-        # BUILD
-        # -------------------------
-
-        # -------------------------
         # BADGES
         # -------------------------
         row.badges_box = badges_box
 
-        #badges = game.get("badges", [])
         badges = get_game_badges(game, self.lang)
 
         if badges:
@@ -254,8 +241,6 @@ class GameList(Gtk.Box):
         info_box.append(subtitle)
         info_box.append(subtitle1)
         info_box.append(subtitle2)
-        #info_box.append(box_path)
-        info_box.set_hexpand(True)
         info_box.set_size_request(300, -1)
 
         btn_delete = Gtk.Button()
@@ -294,7 +279,7 @@ class GameList(Gtk.Box):
         btn_edit = Gtk.Button(label=tr("edit"))
         btn_edit.add_css_class("btn-edit")
         btn_edit.set_valign(Gtk.Align.CENTER)
-        btn_edit.set_size_request(60, 18)
+        btn_edit.set_size_request(80, 18)
         btn_edit.connect(
             "clicked",
             lambda _btn, row=row: self._edit(row.game_data)

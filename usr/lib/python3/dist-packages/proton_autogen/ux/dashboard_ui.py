@@ -189,7 +189,7 @@ class DashboardUIMixin:
         self.game_list.set_vexpand(True)
         self.game_list.set_hexpand(True)
         self.game_list.set_halign(Gtk.Align.FILL)
-        self.game_list.set_size_request(780, -1)
+        self.game_list.set_size_request(860, -1)
         root.append(self.game_list)
 
     def _build_status_bar(self, root):
