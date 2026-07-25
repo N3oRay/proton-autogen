@@ -1,38 +1,31 @@
-proton-autogen (3.1.4) noble; urgency=medium
+proton-autogen (3.1.5) noble; urgency=medium
 
-  * Added a collapsible Favorites and Recently Played quick access menu.
-  * Improved the dashboard layout with a unified carousel section.
-  * Added Proton launch spinner support with improved process logging stability.
-  * Added launch progress reporting and improved runtime status feedback.
-  * Improved subprocess handling, return code management and CLI stability.
-  * Added application icon support.
-  * Stabilized Playnite and RAGEMP support with new dotnet_csharp profile.
-  * Added C#/.NET application profile support.
-  * Added automatic .NET runtime installation support.
-  * Added automatic .NET launcher detection for C# applications.
-  * Improved CLI stability.
-  * Added new Cute, KDE and Dark CSS themes and reworked theme handling.
-  * Stabilized the Sensors menu.
-  * Added CSV-based game profile configurations.
-  * Added a button to remove game configurations.
-  * Redesigned the GTK4 interface and introduced a new carousel component.
-  * Improved automatic Proton prefix management and runtime stability.
-  * Added diagnostic log generation via `proton_autogen --diag`.
-  * Added GPU profile management with automatic AMD and NVIDIA detection.
-  * Added Lutris export support and game registry integration.
-  * Added JSON logging and multilingual UI support.
-  * Refined the Adwaita and Hello Kitty themes.
-  * Added game, profile and platform badges.
-  * Improved the GTK4 layout, responsiveness and desktop notifications.
-  * Improved Proton detection, launch reliability and session tracking.
-  * Enhanced prefix and configuration management.
-  * Optimized executable scanning with intelligent caching.
-  * Improved Proton GE compatibility and Wine runtime handling.
-  * Fixed MangoHud support for 32-bit applications.
-  * Fixed launch return codes, badge refresh and game list updates.
-  * Fixed several UI refresh and stability issues.
-  * Improved backend/UI separation.
-  * Enhanced debugging and diagnostic tools.
-  * General code cleanup and internal optimizations.
+  * Thanks to all users and contributors for their continued support, feedback and encouragement throughout the development of proton-autogen.
+  * Improved overall UX stability and refined GTK4 interface behavior.
+  * Added GPU Extreme performance profile with advanced AMD and NVIDIA optimizations.
+  * Added balanced, performance and extreme GPU profiles with improved hardware detection.
+  * Improved AMD RADV optimization handling with ACO, GPL and SAM support.
+  * Improved NVIDIA shader cache management and performance tuning.
+  * Added additional multilingual translations across the application interface.
+  * Improved translation consistency and language fallback handling.
+  * Added multi-threaded UX loading system to improve application startup performance.
+  * Optimized game library loading with asynchronous resource initialization.
+  * Improved icon loading performance and reduced UI blocking during startup.
+  * Improved game list rendering and GTK4 responsiveness.
+  * Added deferred loading mechanisms for heavy UI components.
+  * Improved dashboard initialization and overall application startup time.
+  * Stabilized game detection, profile loading and configuration synchronization.
+  * Improved Proton runtime management and compatibility handling.
+  * Enhanced Steam compatibility environment variable support.
+  * Improved GPU environment generation and profile selection logic.
+  * Added additional graphics stack optimizations for AMD, NVIDIA and Mesa.
+  * Improved DXVK, VKD3D, Wine and Proton configuration handling.
+  * Improved MangoHud and GameMode integration stability.
+  * Enhanced diagnostics and runtime logging reliability.
+  * Improved subprocess management and launch session tracking.
+  * Fixed various GTK4 layout, refresh and UI consistency issues.
+  * Fixed configuration loading race conditions.
+  * Fixed several translation and localization issues.
+  * General performance improvements and internal code cleanup.
 
- -- N3oray <n3oray77@gmail.com>  Fri, 24 Jul 2026 18:00:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Sat, 25 Jul 2026 23:00:00 +0200
