@@ -4,6 +4,7 @@ import locale
 from typing import Optional
 
 
+
 LANG = {
     "en": {
         "no_proton_installation": "No Proton installation found",
@@ -41,6 +42,9 @@ LANG = {
         "favorite": "Favorite",
         "favorites": "Favorites",
         "playtime": "Play time",
+        "remove_from_library": "Remove game from library",
+        "export_lutris": "Export Lutris (.yml)",
+        "edit": "Edit",
         "checking_executable": "Checking executable",
         "loading_game_configuration": "Loading game configuration",
         "detecting_system": "Detecting system",
@@ -101,6 +105,9 @@ LANG = {
         "favorite": "Favori",
         "favorites": "Favoris",
         "playtime": "Temps de jeu",
+        "remove_from_library": "Retirer le jeu de la bibliothèque",
+        "export_lutris": "Exporter vers Lutris (.yml)",
+        "edit": "Modifier",
         "checking_executable": "Vérification de l'exécutable",
         "loading_game_configuration": "Chargement de la configuration du jeu",
         "detecting_system": "Détection du système",
@@ -161,6 +168,9 @@ LANG = {
         "favorite": "收藏",
         "favorites": "收藏夹",
         "playtime": "游戏时间",
+        "remove_from_library": "从库中移除游戏",
+        "export_lutris": "导出到 Lutris (.yml)",
+        "edit": "编辑",
         "checking_executable": "正在检查可执行文件",
         "loading_game_configuration": "正在加载游戏配置",
         "detecting_system": "正在检测系统",
@@ -185,6 +195,7 @@ LANG = {
                         """,
     },
 }
+
 
 
 CURRENT_LANG = "en"

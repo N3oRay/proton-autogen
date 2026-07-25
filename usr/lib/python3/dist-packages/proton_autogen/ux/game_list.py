@@ -5,9 +5,10 @@ import os
 gi.require_version("Gtk", "4.0")
 from gi.repository import Gtk, Gio, Gdk, Pango
 from proton_autogen.stats import get_game_badges
-from proton_autogen.i18n import t
+from proton_autogen.i18n import tr, set_language
 from proton_autogen.ux.icon_manager import load_game_icon
 
+# Dans _create_row, avant de construire les boutons :
 
 lutris = True
 
@@ -25,6 +26,7 @@ class GameList(Gtk.Box):
         self.on_edit = on_edit
         self.on_delete = on_delete
         self.lang = lang
+        set_language(self.lang)
         self.refresh_games = on_refresh
         self.row_map = {}  # path -> row
         self.on_export_lutris = on_export_lutris
@@ -259,7 +261,7 @@ class GameList(Gtk.Box):
         btn_delete = Gtk.Button()
         btn_delete.set_icon_name("user-trash-symbolic")
         btn_delete.add_css_class("btn-delete")
-        btn_delete.set_tooltip_text("Remove game from library")
+        btn_delete.set_tooltip_text(tr("remove_from_library"))
         btn_delete.set_valign(Gtk.Align.CENTER)
         btn_delete.connect(
             "clicked",
@@ -272,7 +274,7 @@ class GameList(Gtk.Box):
             btn_export.add_css_class("btn-export")
             btn_export.set_valign(Gtk.Align.CENTER)
             btn_export.set_size_request(18, 18)
-            btn_export.set_tooltip_text("Export Lutris (.yml)")
+            btn_export.set_tooltip_text(tr("export_lutris"))
             btn_export.connect(
                 "clicked",
                 lambda _btn, row=row: self._export_lutris(row.game_data)
@@ -289,7 +291,7 @@ class GameList(Gtk.Box):
 
 
 
-        btn_edit = Gtk.Button(label="Edit")
+        btn_edit = Gtk.Button(label=tr("edit"))
         btn_edit.add_css_class("btn-edit")
         btn_edit.set_valign(Gtk.Align.CENTER)
         btn_edit.set_size_request(60, 18)
