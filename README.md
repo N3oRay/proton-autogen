@@ -304,9 +304,9 @@ See the `LICENSE` file for details.
 
 ## 📈 GitHub Traffic
 ```markdown
-📦 Clones             ████████████████████  1,857
-👥 Unique cloners     ██████                484
-👀 Views              █████                 343
+📦 Clones             ████████████████████  2,035
+👥 Unique cloners     ██████                512
+👀 Views              █████                 366
 🌍 Unique visitors    ██                    157
 Ubuntu PPA
 📥 Downloads ████████████████████ 217
