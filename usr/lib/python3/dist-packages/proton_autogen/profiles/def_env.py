@@ -1,4 +1,4 @@
-ENV_VARS = [
+DXVK_ENV_VARS = [
 
     # =========================================================
     # DXVK
@@ -98,8 +98,9 @@ ENV_VARS = [
         "description_fr": "Limite les FPS.",
         "description_en": "FPS limiter.",
         "description_de": "Begrenzt die Bildrate (FPS)."
-    },
-
+    }
+]
+VKD3D_ENV_VARS = [
     # =========================================================
     # VKD3D (DirectX 12)
     # =========================================================
@@ -141,8 +142,9 @@ ENV_VARS = [
         "description_fr": "Flags debug VKD3D.",
         "description_en": "VKD3D debug flags.",
         "description_de": "VKD3D-Debug-Flags."
-    },
-
+    }
+]
+PROTON_ENV_VARS = [
     # =========================================================
     # PROTON
     # =========================================================
@@ -234,8 +236,9 @@ ENV_VARS = [
         "description_fr": "Active NTSync, une méthode de synchronisation plus efficace visant à améliorer les performances CPU et la compatibilité des jeux Windows.",
         "description_en": "Enables NTSync, a more efficient synchronization method designed to improve CPU performance and Windows game compatibility.",
         "description_de": "Aktiviert NTSync, eine effizientere Synchronisationsmethode zur Verbesserung der CPU-Leistung und der Kompatibilität von Windows-Spielen."
-    },
-
+    }
+]
+WINE_ENV_VARS = [
     # =========================================================
     # WINE
     # =========================================================
@@ -311,7 +314,9 @@ ENV_VARS = [
         "description_fr": "Définit la méthode utilisée par Wine pour gérer le plein écran Vulkan (ex: desktop, exclusive, auto).",
         "description_en": "Defines how Wine handles Vulkan fullscreen mode (e.g., desktop, exclusive, auto).",
         "description_de": "Legt fest, wie Wine den Vulkan-Vollbildmodus behandelt (z. B. Desktop, exklusiv oder automatisch)."
-    },
+    }
+]
+SDL_ENV_VARS = [
     # =========================================================
     # SDL
     # =========================================================
@@ -364,8 +369,9 @@ ENV_VARS = [
         "description_fr": "Force SDL à capturer le clavier lorsque la fenêtre est active. Empêche les touches de sortir du contexte du jeu, améliorant l'immersion et la compatibilité des anciens moteurs.",
         "description_en": "Forces SDL to grab the keyboard when the window is active. Prevents key input from leaving the game context, improving immersion and compatibility with legacy engines.",
         "description_de": "Erzwingt, dass SDL die Tastatur erfasst, solange das Fenster aktiv ist. Verhindert, dass Tasteneingaben den Spielkontext verlassen, und verbessert die Immersion sowie die Kompatibilität mit älteren Spiel-Engines."
-    },
-
+    }
+]
+VULKAN_ENV_VARS = [
     # =========================================================
     # VULKAN
     # =========================================================
@@ -400,8 +406,9 @@ ENV_VARS = [
         "description_fr": "Debug loader Vulkan.",
         "description_en": "Vulkan loader debug.",
         "description_de": "Debugausgabe des Vulkan-Loaders."
-    },
-
+    }
+]
+MESA_ENV_VARS = [
     # =========================================================
     # MESA / AMD
     # =========================================================
@@ -452,8 +459,9 @@ ENV_VARS = [
         "description_fr": "Force la version du langage de shaders GLSL utilisée par Mesa pour la compilation des shaders.",
         "description_en": "Forces the GLSL shader language version used by Mesa for shader compilation.",
         "description_de": "Erzwingt die von Mesa für die Shader-Kompilierung verwendete GLSL-Version."
-    },
-
+    }
+]
+NVIDIA_ENV_VARS = [
     # =========================================================
     # NVIDIA
     # =========================================================
@@ -488,7 +496,9 @@ ENV_VARS = [
         "description_fr": "Threading NVIDIA.",
         "description_en": "Threaded optimizations.",
         "description_de": "Aktiviert Thread-Optimierungen."
-    },
+    }
+]
+SYSTEM_ENV_VARS = [
 
     # =========================================================
     # SYSTEM LINUX
@@ -524,8 +534,9 @@ ENV_VARS = [
         "description_fr": "Lance le jeu via GameMode afin d'appliquer automatiquement des optimisations système dédiées au jeu.",
         "description_en": "Launches the game through GameMode to automatically apply gaming-oriented system optimizations.",
         "description_de": "Startet das Spiel über GameMode, um automatisch auf Spiele abgestimmte Systemoptimierungen anzuwenden."
-    },
-
+    }
+]
+STEAM_ENV_VARS = [
     # =========================================================
     # STEAM
     # =========================================================
@@ -560,8 +571,9 @@ ENV_VARS = [
         "description_fr": "Cache shaders Steam.",
         "description_en": "Steam shader cache.",
         "description_de": "Steam-Shader-Cache."
-    },
-
+    }
+]
+HUD_ENV_VARS = [
     # =========================================================
     # HUD / OVERLAY
     # =========================================================
@@ -604,8 +616,9 @@ ENV_VARS = [
         "description_fr": "VSync Mesa.",
         "description_en": "Mesa vsync mode.",
         "description_de": "Mesa-VSync-Modus."
-    },
-
+    }
+]
+GSTREAMER_ENV_VARS = [
     # =========================================================
     # WINE / GSTREAMER (MULTIMEDIA STACK CONTROL)
     # =========================================================
@@ -632,8 +645,9 @@ ENV_VARS = [
         "description_fr": "Désactive l’utilisation de GStreamer dans Wine pour éviter les erreurs multimédia et dépendances cassées.",
         "description_en": "Disables Wine GStreamer integration to prevent multimedia errors and broken dependencies.",
         "description_de": "Deaktiviert die GStreamer-Integration in Wine, um Multimediafehler und fehlerhafte Abhängigkeiten zu vermeiden."
-    },
-
+    }
+]
+GAME_ENV_VARS = [
     # =========================================================
     # GAME
     # =========================================================
@@ -654,3 +668,20 @@ ENV_VARS = [
         "description_de": "Weist die Unreal Engine an, alle verfügbaren CPU-Kerne für die Spielverarbeitung zu verwenden."
     }
 ]
+
+
+ENV_VARS = (
+    DXVK_ENV_VARS
+    + VKD3D_ENV_VARS
+    + PROTON_ENV_VARS
+    + WINE_ENV_VARS
+    + SDL_ENV_VARS
+    + VULKAN_ENV_VARS
+    + MESA_ENV_VARS
+    + NVIDIA_ENV_VARS
+    + SYSTEM_ENV_VARS
+    + STEAM_ENV_VARS
+    + HUD_ENV_VARS
+    + GSTREAMER_ENV_VARS
+    + GAME_ENV_VARS
+)
