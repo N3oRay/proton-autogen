@@ -7,6 +7,7 @@ import threading
 gi.require_version("Gtk", "4.0")
 from gi.repository import Gtk, Gio, Gdk, GLib
 from proton_autogen.ux.dashboard_ui import DashboardUIMixin
+from proton_autogen.ux.dashboard_dialogs import DashboardDialogsMixin
 from proton_autogen.ux.game_list import GameList
 from proton_autogen.ux.game_editor import GameEditor
 from proton_autogen.ux.widgets.headerbar import DashboardHeaderBar
@@ -20,19 +21,17 @@ from proton_autogen.ux.search import filter_games
 from proton_autogen.notify import notifications
 from proton_autogen.progress import Progress
 from proton_autogen.editor import add_game_ux, rm_game_ux
-from proton_autogen.backend import run, list_programs_ux, get_diagnostic_text
+from proton_autogen.backend import run, list_programs_ux
 from proton_autogen.stats import is_recent_launch
-from proton_autogen.color_label import insert_colored_text, insert_sensor_text, insert_about_text
-from proton_autogen.core import get_about_text, detect_help_env_lang
-from proton_autogen.info import print_help, get_help_text
-from proton_autogen.sensor import get_sensors_text, print_sensors, get_mangohud_advice
-from proton_autogen.requis import afficher_requirements_label
+
+from proton_autogen.core import detect_help_env_lang
+from proton_autogen.info import print_help
 
 
 # -----------------------------
 # MAIN WINDOW
 # -----------------------------
-class Dashboard(DashboardUIMixin, Gtk.ApplicationWindow):
+class Dashboard(DashboardUIMixin, DashboardDialogsMixin, Gtk.ApplicationWindow):
     SHOW_ADD_BUTTON = True
     SHOW_REFRESH_BUTTON = True
 
@@ -103,120 +102,6 @@ class Dashboard(DashboardUIMixin, Gtk.ApplicationWindow):
             self.recent_btn.add_css_class("suggested-action")
 
 
-    # -------------------------
-    # Show MangoHud Sensors :
-    # -------------------------
-    def show_mangohud_advice_dialog(self):
-
-        scroll = Gtk.ScrolledWindow()
-        scroll.set_vexpand(True)
-        scroll.set_hexpand(True)
-
-        textview = Gtk.TextView()
-        textview.set_editable(False)
-        textview.set_cursor_visible(False)
-        textview.set_monospace(True)
-
-        buffer = textview.get_buffer()
-        insert_colored_text(buffer, get_mangohud_advice())
-
-        scroll.set_child(textview)
-
-        self.build_dialog(
-            "MangoHud Config Advice",
-            scroll,
-            width=750,
-            height=500
-        )
-
-    # -------------------------
-    # Show Sensors :
-    # -------------------------
-    def show_sensors_dialog(self):
-
-        scroll = Gtk.ScrolledWindow()
-        scroll.set_vexpand(True)
-        scroll.set_hexpand(True)
-
-        textview = Gtk.TextView()
-        textview.set_editable(False)
-        textview.set_cursor_visible(False)
-        textview.set_monospace(True)
-
-        buffer = textview.get_buffer()
-        insert_sensor_text(buffer, get_sensors_text())
-
-        scroll.set_child(textview)
-
-        self.build_dialog(
-            "Sensors",
-            scroll,
-            width=750,
-            height=600
-        )
-
-    # -------------------------
-    # MESSAGE DIAG:
-    # -------------------------
-    def show_export_dialog(self, file_path):
-        file_path = str(file_path)
-
-        win = Gtk.Window(
-            transient_for=self,
-            modal=True,
-            title="Export Lutris terminé"
-        )
-
-        win.set_default_size(520, 180)
-        win.set_destroy_with_parent(True)
-        win.add_css_class("export-dialog")
-
-        box = Gtk.Box(
-            orientation=Gtk.Orientation.VERTICAL,
-            spacing=12,
-            margin_top=20,
-            margin_bottom=20,
-            margin_start=20,
-            margin_end=20
-        )
-
-        # TITLE
-        title = Gtk.Label(label="✔ Export Lutris terminé")
-        title.add_css_class("export-title")
-        box.append(title)
-
-        # -------------------------
-        # SELECTABLE PATH (SAFE)
-        # -------------------------
-        entry = Gtk.Entry()
-        entry.set_text(file_path)
-        entry.set_editable(False)
-        entry.set_can_focus(True)
-        entry.add_css_class("export-path")
-
-        box.append(entry)
-
-        # COPY BUTTON
-        def copy_to_clipboard(_):
-            display = Gdk.Display.get_default()
-            clipboard = display.get_clipboard()
-            clipboard.set(file_path)
-
-        btn_copy = Gtk.Button(label="Copy path")
-        btn_copy.connect("clicked", copy_to_clipboard)
-
-        # CLOSE BUTTON
-        btn_close = Gtk.Button(label="OK")
-        btn_close.connect("clicked", lambda *_: win.close())
-
-        buttons = Gtk.Box(spacing=8)
-        buttons.append(btn_copy)
-        buttons.append(btn_close)
-
-        box.append(buttons)
-
-        win.set_child(box)
-        win.present()
 
     # -------------------------
     # EXPORT LUTRIS
@@ -417,134 +302,7 @@ class Dashboard(DashboardUIMixin, Gtk.ApplicationWindow):
         return False
 
 
-    # -------------------------
-    # BUILD DIALOG
-    # -------------------------
 
-    def build_dialog(self, title, content_widget, width=600, height=800):
-
-        win = Gtk.Window(
-            title=title,
-            transient_for=self,
-            modal=True
-        )
-
-        win.add_css_class("style")
-        win.set_default_size(width, height)
-
-        overlay = Gtk.Overlay()
-        win.set_child(overlay)
-
-        base = os.path.dirname(__file__)
-
-        logo = Gtk.Image.new_from_file(
-            os.path.join(base, "assets", "logo-pa.jpg")
-        )
-        logo.set_opacity(0.06)
-
-        overlay.set_child(logo)
-
-
-        root = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
-        root.set_margin_top(10)
-        root.set_margin_bottom(10)
-        root.set_margin_start(10)
-        root.set_margin_end(10)
-        root.add_css_class("dialog-content")
-
-        root.append(content_widget)
-
-        overlay.add_overlay(root)
-
-        win.present()
-
-        return win
-
-
-    # -------------------------
-    # DIALOG REQUIS
-    # -------------------------
-    def show_requis_dialog(self):
-
-        scroll = Gtk.ScrolledWindow()
-        scroll.set_vexpand(True)
-        scroll.set_hexpand(True)
-        textview = Gtk.TextView()
-        textview.set_editable(False)
-        textview.set_cursor_visible(False)
-        textview.set_monospace(True)
-        textview.set_left_margin(6)
-        textview.set_right_margin(6)
-        textview.set_wrap_mode(Gtk.WrapMode.WORD)
-        buffer = textview.get_buffer()
-        insert_colored_text( buffer, afficher_requirements_label())
-        scroll.set_child(textview)
-        self.build_dialog( "Requis", scroll, width=700, height=650 )
-
-    # -------------------------
-    # DIALOG ABOUT
-    # -------------------------
-    def show_about_dialog(self):
-
-        scroll = Gtk.ScrolledWindow()
-        scroll.set_vexpand(True)
-        scroll.set_hexpand(True)
-        textview = Gtk.TextView()
-        textview.set_editable(False)
-        textview.set_cursor_visible(False)
-        textview.set_monospace(True)
-        textview.set_left_margin(6)
-        textview.set_right_margin(6)
-        textview.set_wrap_mode(Gtk.WrapMode.WORD)
-        buffer = textview.get_buffer()
-        insert_about_text(buffer, get_about_text())
-        scroll.set_child(textview)
-        self.build_dialog( "About", scroll, width=700, height=750 )
-    # -------------------------
-    # DIALOG HELP
-    # -------------------------
-    def show_help_dialog(self):
-
-        scroll = Gtk.ScrolledWindow()
-        scroll.set_vexpand(True)
-        scroll.set_hexpand(True)
-        textview = Gtk.TextView()
-        textview.set_editable(False)
-        textview.set_cursor_visible(False)
-        textview.set_monospace(True)
-        textview.set_wrap_mode(Gtk.WrapMode.WORD)
-        textview.set_left_margin(8)
-        textview.set_right_margin(8)
-        textview.set_pixels_above_lines(2)
-        textview.set_pixels_below_lines(2)
-        buffer = textview.get_buffer()
-        insert_colored_text(buffer, get_help_text())
-        scroll.set_child(textview)
-        self.build_dialog( "Help", scroll, width=700, height=800 )
-
-    # -------------------------
-    # DIALOG DIAGNOSTIC
-    # -------------------------
-    def show_diagnostic_dialog(self):
-
-        scroll = Gtk.ScrolledWindow()
-        scroll.set_vexpand(True)
-        scroll.set_hexpand(True)
-        textview = Gtk.TextView()
-        textview.set_editable(False)
-        textview.set_cursor_visible(False)
-        textview.set_monospace(True)
-        textview.set_wrap_mode(Gtk.WrapMode.WORD)
-        buffer = textview.get_buffer()
-        insert_colored_text(buffer, get_diagnostic_text())
-        scroll.set_child(textview)
-
-        self.build_dialog(
-            "Diagnostic",
-            scroll,
-            width=800,
-            height=750
-        )
 
 
     # -------------------------
