@@ -8,30 +8,19 @@ gi.require_version("Gtk", "4.0")
 from gi.repository import Gtk, Gio, Gdk, GLib
 from proton_autogen.ux.dashboard_ui import DashboardUIMixin
 from proton_autogen.ux.dashboard_dialogs import DashboardDialogsMixin
-from proton_autogen.ux.game_list import GameList
-from proton_autogen.ux.game_editor import GameEditor
-from proton_autogen.ux.widgets.headerbar import DashboardHeaderBar
-from proton_autogen.ux.widgets.toast import ToastOverlay
-from proton_autogen.ux.recent_carousel import RecentCarousel
-from proton_autogen.ux.favorites_carousel import FavoritesCarousel
-from proton_autogen.ux.dialogs import open_game_file_dialog, show_launch_dialog, hide_launch_dialog
+from proton_autogen.ux.dashboard_actions import DashboardActionsMixin
 from proton_autogen.ux.themes import load_saved_theme, save_theme, AVAILABLE_THEMES, DEFAULT_THEME, BACKGROUND_THEMES, STYLE_CSS
-
 from proton_autogen.ux.search import filter_games
 from proton_autogen.notify import notifications
-from proton_autogen.progress import Progress
-from proton_autogen.editor import add_game_ux, rm_game_ux
-from proton_autogen.backend import run, list_programs_ux
+from proton_autogen.backend import list_programs_ux
 from proton_autogen.stats import is_recent_launch
-
 from proton_autogen.core import detect_help_env_lang
-from proton_autogen.info import print_help
 
 
 # -----------------------------
 # MAIN WINDOW
 # -----------------------------
-class Dashboard(DashboardUIMixin, DashboardDialogsMixin, Gtk.ApplicationWindow):
+class Dashboard(DashboardUIMixin, DashboardDialogsMixin, DashboardActionsMixin, Gtk.ApplicationWindow):
     SHOW_ADD_BUTTON = True
     SHOW_REFRESH_BUTTON = True
 
@@ -100,53 +89,6 @@ class Dashboard(DashboardUIMixin, DashboardDialogsMixin, Gtk.ApplicationWindow):
             self.favorites_btn.add_css_class("suggested-action")
         elif self.current_carousel == "recent":
             self.recent_btn.add_css_class("suggested-action")
-
-
-
-    # -------------------------
-    # EXPORT LUTRIS
-    # -------------------------
-    def export_lutris_handler(self, game):
-        from proton_autogen.lutris import export_game_to_lutris_yaml
-        from pathlib import Path
-        import os
-        import re
-
-        try:
-            # -----------------------------
-            # 1. YAML generation
-            # -----------------------------
-            yaml_text = export_game_to_lutris_yaml(game)
-
-            # -----------------------------
-            # 2. Safe filename
-            # -----------------------------
-            def sanitize(name: str) -> str:
-                name = name.strip()
-                name = re.sub(r"[^\w\-_. ]", "_", name)
-                name = name.replace(" ", "_")
-                return name or "game"
-
-            game_name = sanitize(game.get("name", "game"))
-
-            # 3. Export directory (XDG-friendly)
-            export_dir = Path.home() / ".local" / "share" / "proton-autogen" / "lutris_exports"
-            export_dir.mkdir(parents=True, exist_ok=True)
-            file_path = export_dir / f"{game_name}-lutris.yml"
-            # 4. Write file safely
-            file_path.write_text(yaml_text, encoding="utf-8")
-            # 5. UX feedback (better than print)
-            print(f"[OK] Export Lutris terminé: {file_path}")
-            self.show_export_dialog(file_path)
-            self.toast.success("Lutris export completed")
-
-            return str(file_path)
-
-        except Exception as e:
-            print(f"[ERROR] Export Lutris échoué: {e}")
-            self.toast.error("Lutris export failed")
-            return None
-
 
     # -------------------------
     # STATS
@@ -300,109 +242,6 @@ class Dashboard(DashboardUIMixin, DashboardDialogsMixin, Gtk.ApplicationWindow):
         )
         self.status.add_css_class("label-bottom")
         return False
-
-
-
-
-
-    # -------------------------
-    # ACTIONS
-    # -------------------------
-    def _close_launch_dialog(self):
-        hide_launch_dialog(self)
-        self.set_sensitive(True)
-        self.status.set_text("Ready")
-        return False  # le timer ne se répète pas
-
-    def launch_game(self, game):
-
-        GLib.idle_add(self.spinner.start) # new code
-        GLib.idle_add(self.spinner.set_visible, True) # new code
-
-        if not game.get("path"):
-            return
-
-        name = game.get("name", "Unknown")
-        self.status.set_text(f"Launching {name}...")
-        self.set_sensitive(False)
-        show_launch_dialog(self, name)
-
-        # Ferme automatiquement après 3 secondes
-        GLib.timeout_add_seconds(3, self._close_launch_dialog)
-
-        def worker():
-            progress = Progress(
-                callback=self.progress_callback
-            )
-
-            try:
-                run(
-                    game["path"],
-                    progress=progress
-                )
-
-            except Exception as e:
-                msg = str(e)
-                GLib.idle_add(
-                    lambda:
-                        self.status.set_text(
-                            f"Launch failed: {msg}"
-                        )
-                )
-                print("[UX] Launch error:", e)
-            finally:
-                GLib.idle_add(self.spinner.stop)
-                GLib.idle_add(self.spinner.set_visible, False)
-                GLib.idle_add(self.status.set_text, "Ready")
-
-        threading.Thread(target=worker, daemon=True).start()
-
-
-    def edit_game(self, game):
-        editor = GameEditor(self.get_application(), game, self.lang)
-        self.status.set_text("Updating...")
-
-        def after_save(game):
-            #self.game_list.update_game(game)
-            self.refresh_games()
-
-        def on_close(_editor):
-            self.status.set_text("Ready")
-
-        editor.on_saved = after_save
-        editor.connect("destroy", lambda *_: on_close(editor))
-        editor.present()
-
-    def on_add_game(self, _btn):
-        open_game_file_dialog(self, self._on_file_selected)
-
-    def delete_game(self, game):
-
-        if rm_game_ux(
-            game.get("path"),
-            game.get("config_path")
-        ):
-            self.refresh_games()
-            self.status.set_text(f"{game['name']} removed from library")
-            self.toast.success(f"{game['name']} removed from library")
-        else:
-            self.status.set_text("Unable to remove game")
-            self.toast.error("Unable to remove game")
-
-    def _on_file_selected(self, path):
-        if not path:
-            return
-
-        try:
-            game = add_game_ux(path)
-            self.status.set_text( f"{game['name']} added ✔" )
-            self.refresh_games()
-            self.toast.success(f"{game['name']} added")
-
-        except Exception as e:
-            self.status.set_text("Add game failed")
-            self.toast.error("Unable to add game")
-            print("[UX] Add game error:", e)
 
 
 # -----------------------------

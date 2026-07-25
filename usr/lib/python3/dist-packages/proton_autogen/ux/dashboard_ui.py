@@ -8,6 +8,7 @@ from proton_autogen.ux.widgets.headerbar import DashboardHeaderBar
 from proton_autogen.ux.widgets.toast import ToastOverlay
 from proton_autogen.ux.recent_carousel import RecentCarousel
 from proton_autogen.ux.favorites_carousel import FavoritesCarousel
+from proton_autogen.ux.game_list import GameList
 
 
 class DashboardUIMixin:
@@ -174,7 +175,6 @@ class DashboardUIMixin:
         root.append(self.search)
 
     def _build_game_list(self, root):
-        from proton_autogen.ux.game_list import GameList
         # =========================
         # GAME LIST
         # =========================
