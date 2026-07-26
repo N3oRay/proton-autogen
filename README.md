@@ -4,6 +4,7 @@
 ![GitHub release](https://img.shields.io/github/v/release/N3oRay/proton-autogen)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Build](https://github.com/N3oRay/proton-autogen/actions/workflows/arch-package.yml/badge.svg)
+![Debian Package](https://github.com/N3oRay/proton-autogen/actions/workflows/package.yml/badge.svg)
 ![Downloads](https://img.shields.io/github/downloads/N3oRay/proton-autogen/total)
 
 **Proton-Autogen is a lightweight Proton/Wine orchestration layer that allows Linux users to run Windows applications directly from .exe files without manually configuring Steam shortcuts or Wine prefixes.**
