@@ -110,7 +110,7 @@ The recommended installation method is the official Proton-Autogen PPA:
 For Arch Linux and CachyOS, a native package is planned.
 Until then, the manual installer is available.
 
-### Recommended installation (Debian / Ubuntu / Linux Mint / Pop!_OS)
+### Recommended installation (Ubuntu / Linux Mint / Pop!_OS)
 
 ```bash
 sudo add-apt-repository ppa:n3oray/proton-autogen
@@ -118,7 +118,7 @@ sudo apt update
 sudo apt install proton-autogen
 ```
 
-Debian package (.deb)
+### Debian package (.deb)
 
 Download the latest `.deb` release from GitHub:
 ```bash
