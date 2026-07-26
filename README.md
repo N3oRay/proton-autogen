@@ -103,7 +103,7 @@ Latest releases are available on GitHub:
 
 ## 📦 Installation & Updates
 
-### Debian / Ubuntu / Linux Mint / Pop!_OS (Recommended)
+### Ubuntu / Linux Mint / Pop!_OS (Recommended)
 
 The recommended installation method is the official Proton-Autogen PPA:
 
@@ -118,7 +118,7 @@ sudo apt update
 sudo apt install proton-autogen
 ```
 
-### Debian package (.deb)
+### Debian / Ubuntu-based distributions (.deb package)
 
 Download the latest `.deb` release from GitHub:
 ```bash
