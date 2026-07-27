@@ -380,44 +380,45 @@ def _from_known_appids(exe_path: Path) -> Optional[str]:
 def detect_steam_appid(exe_path: str) -> str:
     """
     Détecte l'AppID Steam associé à un exécutable.
-
-    Ordre de priorité :
-      1. Variables d'environnement déjà définies
-         (STEAM_COMPAT_APP_ID, SteamAppId, SteamGameId).
-      2. appmanifest_<id>.acf dans la bibliothèque Steam du jeu.
-      3. steam_appid.txt à côté de l'exécutable.
-      4. Liste d'exécutables connus (KNOWN_APPIDS).
-      5. Fallback : "480" (Spacewar, AppID générique Valve).
-
-    Args:
-        exe_path: chemin vers l'exécutable du jeu.
-
-    Returns:
-        L'AppID détecté, sous forme de chaîne numérique.
     """
-    path = Path(exe_path)
+
+    path = Path(exe_path).resolve()
 
     appid = _from_environment()
     if appid:
-        logger.debug(f"AppID from environment: {appid}")
+        logger.info(
+            f"Steam AppID detected: {appid} "
+            f"(environment)"
+        )
         return appid
 
     appid = _from_appmanifest(path)
     if appid:
-        logger.debug(f"AppID from appmanifest: {appid}")
+        logger.info(
+            f"Steam AppID detected: {appid} "
+            f"(appmanifest)"
+        )
         return appid
 
     appid = _from_local_txt(path)
     if appid:
-        logger.debug(f"AppID from steam_appid.txt: {appid}")
+        logger.info(
+            f"Steam AppID detected: {appid} "
+            f"(steam_appid.txt)"
+        )
         return appid
 
     appid = _from_known_appids(path)
     if appid:
-        logger.debug(f"AppID from known executables list: {appid} ({path.name})")
+        logger.info(
+            f"Steam AppID detected: {appid} "
+            f"(known executable: {path.name})"
+        )
         return appid
 
-    logger.debug(
-        f"No AppID detected for {exe_path}, using fallback {_FALLBACK_APPID}"
+    logger.info(
+        f"Steam AppID fallback: {_FALLBACK_APPID} "
+        f"(unknown executable: {path.name})"
     )
+
     return _FALLBACK_APPID
