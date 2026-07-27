@@ -113,6 +113,27 @@ KNOWN_APPIDS = {
     "SkyrimSE.exe": "489830",
 
     # -----------------------------
+    # Need for Speed
+    # -----------------------------
+    "speed.exe": "1262540",              # Need for Speed (2015)
+    "NFS16.exe": "1262540",
+
+    "NFSPayback.exe": "1262580",         # Need for Speed Payback
+
+    "NeedForSpeedHeat.exe": "1222680",   # Need for Speed Heat
+    "NFSHeat.exe": "1222680",
+
+    "NeedForSpeedUnbound.exe": "1846380",# Need for Speed Unbound
+    "NFSUnbound.exe": "1846380",
+
+    "nfs.exe": "17430",                  # Need for Speed Undercover
+    "nfsc.exe": "8790",                  # Need for Speed Carbon
+    "nfsmw.exe": "1262560",              # Need for Speed Most Wanted (2012)
+    "nfsps.exe": "47870",                # Need for Speed ProStreet
+    "nfss.exe": "24870",                 # Need for Speed Shift
+    "shift2u.exe": "47920",              # Shift 2 Unleashed
+
+    # -----------------------------
     # Fallout
     # -----------------------------
     "Fallout3.exe": "22370",
@@ -147,6 +168,128 @@ KNOWN_APPIDS = {
     # -----------------------------
     "arma3.exe": "107410",
     "arma3_x64.exe": "107410",
+    # -----------------------------
+    # CD Projekt RED
+    # -----------------------------
+    "Cyberpunk2077.exe": "1091500",
+    "witcher3.exe": "292030",
+
+    # -----------------------------
+    # Rockstar
+    # -----------------------------
+    "GTA5.exe": "271590",
+    "RDR2.exe": "1174180",
+
+    # -----------------------------
+    # FromSoftware
+    # -----------------------------
+    "eldenring.exe": "1245620",
+    "start_protected_game.exe": "1245620",   # EAC launcher
+    "DarkSoulsIII.exe": "374320",
+    "sekiro.exe": "814380",
+    "armoredcore6.exe": "1888160",
+
+    # -----------------------------
+    # Capcom
+    # -----------------------------
+    "MonsterHunterWorld.exe": "582010",
+    "MonsterHunterRise.exe": "1446780",
+    "RE2.exe": "883710",
+    "RE3.exe": "952060",
+    "re4.exe": "2050650",
+    "DevilMayCry5.exe": "601150",
+    "StreetFighter6.exe": "1364780",
+
+    # -----------------------------
+    # Bethesda
+    # -----------------------------
+    "Starfield.exe": "1716740",
+    "DOOMx64vk.exe": "379720",          # DOOM (2016)
+    "DOOMEternalx64vk.exe": "782330",
+
+    # -----------------------------
+    # Ubisoft
+    # -----------------------------
+    "ACValhalla.exe": "2208920",
+    "ACMirage.exe": "3035570",
+    "ACOdyssey.exe": "812140",
+    "FarCry5.exe": "552520",
+    "FarCry6.exe": "2369390",
+
+    # -----------------------------
+    # EA
+    # -----------------------------
+    "MassEffectLauncher.exe": "1328670",
+    "DeadSpace.exe": "1693980",
+    "JediSurvivor.exe": "1774580",
+    "JediFallenOrder.exe": "1172380",
+
+    # -----------------------------
+    # Larian
+    # -----------------------------
+    "bg3.exe": "1086940",
+
+    # -----------------------------
+    # Guerrilla
+    # -----------------------------
+    "HorizonZeroDawn.exe": "1151640",
+
+    # -----------------------------
+    # Sony
+    # -----------------------------
+    "GoW.exe": "1593500",
+    "SpiderMan.exe": "1817070",
+    "SpiderMan2.exe": "2651280",
+    "MilesMorales.exe": "1817190",
+    "DaysGone.exe": "1259420",
+    "GhostOfTsushima.exe": "2215430",
+    "Returnal.exe": "1649240",
+    "Helldivers2.exe": "553850",
+
+    # -----------------------------
+    # Remedy
+    # -----------------------------
+    "AlanWake2.exe": "2841610",
+    "Control.exe": "870780",
+
+    # -----------------------------
+    # Techland
+    # -----------------------------
+    "DyingLightGame.exe": "239140",
+    "DyingLight2.exe": "534380",
+
+    # -----------------------------
+    # 4A Games
+    # -----------------------------
+    "MetroExodus.exe": "412020",
+
+    # -----------------------------
+    # Blizzard (Steam)
+    # -----------------------------
+    "Diablo IV.exe": "2344520",
+    "Overwatch.exe": "2357570",
+
+    # -----------------------------
+    # Activision
+    # -----------------------------
+    "cod.exe": "1938090",               # Call of Duty HQ
+    # -----------------------------
+    # Independant or MUlti
+    # -----------------------------
+    "Hades.exe": "1145360",
+    "Hades2.exe": "1145350",
+    "Factorio.exe": "427520",
+    "Valheim.exe": "892970",
+    "Palworld.exe": "1623730",
+    "Satisfactory.exe": "526870",
+    "Lethal Company.exe": "1966720",
+    "ScheduleI.exe": "3164500",
+    "Rust.exe": "252490",
+    "DayZ_x64.exe": "221100",
+    "HuntGame.exe": "594650",
+    "TheFinals.exe": "2073850",
+    "PUBG.exe": "578080",
+    "ReadyOrNot.exe": "1144200",
 }
 
 # Index normalisé (casse basse) pour une recherche insensible à la casse,
