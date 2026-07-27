@@ -13,6 +13,7 @@ from pathlib import Path
 
 from proton_autogen.config import VERSION, CONFIG_FILE, CONFIG_DIR, PREFIX_DIR, PREFIX_DIR_PATH
 from proton_autogen.utils.logger import StructuredLogger
+from proton_autogen.utils.steam_appid import detect_steam_appid
 from proton_autogen.progress import Progress
 from proton_autogen.pa_log import log_profile_env, log_profile_summary, log_mangohud_env, log_executable_info
 
@@ -752,33 +753,6 @@ def get_exe_arch(path):
         return "32bit"
 
     return "unknown"
-
-def detect_steam_appid(exe_path: str) -> str:
-    """
-    Détection de l'AppID Steam.
-
-    Priorité :
-      1. Variables déjà définies.
-      2. appmanifest_*.acf si le jeu provient d'une bibliothèque Steam.
-      3. steam_appid.txt à côté de l'exécutable.
-      4. Fallback 480.
-    """
-
-    # 1. Déjà fourni
-    for key in ("STEAM_COMPAT_APP_ID", "SteamAppId", "SteamGameId"):
-        value = os.environ.get(key)
-        if value and value.isdigit():
-            return value
-
-    # 2. steam_appid.txt
-    txt = Path(exe_path).with_name("steam_appid.txt")
-    if txt.exists():
-        appid = txt.read_text().strip()
-        if appid.isdigit():
-            return appid
-
-    # 3. Fallback
-    return "480"
 
 
 def run_game_proton(exe_path, exe_type, proton,
