@@ -63,7 +63,7 @@ jobs:
       - name: Build package
         run: |
           chown -R builder:builder .
-          su builder -c "makepkg -sf --noconfirm"
+          su builder -c "makepkg -f --noconfirm"
 
       - name: Check package integrity
         run: |
