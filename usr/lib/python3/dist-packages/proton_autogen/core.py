@@ -486,10 +486,6 @@ def is_32bit_exe(path):
 # -------------------------------------------------------------------------------------------------------------------------------------
 
 
-
-
-
-
 def run_process(
     cmd,
     env=None,
@@ -696,9 +692,9 @@ def base_env(enable_mangohud=False, enable_gamemode=False, exe_path="", exe_type
         env.pop("VKD3D_CONFIG", None)
 
         # IMPORTANT: kill DXVK behavior fully
-        env["WINEDLLOVERRIDES"] = (
-            env.get("WINEDLLOVERRIDES", "") + ";dxgi=n;d3d11=n;d3d10=n"
-        )
+        existing = env.get("WINEDLLOVERRIDES", "")
+        addition = "dxgi=n;d3d11=n;d3d10=n"
+        env["WINEDLLOVERRIDES"] = f"{existing};{addition}" if existing else addition
 
     # -----------------------------
     # MangoHud
@@ -709,12 +705,6 @@ def base_env(enable_mangohud=False, enable_gamemode=False, exe_path="", exe_type
     else:
         env.pop("MANGOHUD", None)
         env.pop("MANGOHUD_DLSYM", None)
-
-    # -----------------------------
-    # GameMode
-    # -----------------------------
-    if enable_gamemode and has_gamemode():
-        env["GAMEMODE"] = "1"
 
     # -----------------------------
     # DEBUG HUD (safe only)
@@ -762,17 +752,6 @@ def get_exe_arch(path):
         return "32bit"
 
     return "unknown"
-
-
-def add_ld_preload(env, lib):
-    existing = env.get("LD_PRELOAD", "")
-    if existing:
-        if lib not in existing.split(":"):
-            env["LD_PRELOAD"] = lib + ":" + existing
-    else:
-        env["LD_PRELOAD"] = lib
-    return env
-
 
 def detect_steam_appid(exe_path: str) -> str:
     """
@@ -859,7 +838,12 @@ def run_game_proton(exe_path, exe_type, proton,
         # -------------------------
         env.update(gpu_env(system, features))
 
-        cmd = [
+        cmd = []
+
+        if enable_gamemode and has_gamemode():
+            cmd.append("gamemoderun")
+
+        cmd += [
             os.path.join(proton_path(proton), "proton"),
             "run",
             exe_path

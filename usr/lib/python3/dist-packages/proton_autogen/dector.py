@@ -23,7 +23,7 @@
 # OK - DXVK_ASYNC: Enables asynchronous shader compilation to reduce stuttering caused by shader loading.
 # OK - PROTON_ENABLE_NVAPI: Enables NVIDIA NVAPI support for NVIDIA-specific features.
 # OK - PROTON_USE_NTSYNC: Enables NTSync for improved synchronization performance and lower CPU overhead.
-# NO - PROTON_ENABLE_WAYLAND: Enables native Wayland support in Proton when available.
+# OK - PROTON_ENABLE_WAYLAND: Enables native Wayland support in Proton when available.
 # KO - PROTON_ENABLE_HDR: Enables HDR support for compatible games. Deprecated in Proton-CachyOS, where HDR is enabled automatically.
 # OK - gamemoderun: Launches the game through GameMode to apply gaming performance optimizations.
 # NA - –use-d3d11: Forces the game to use the Direct3D 11 renderer.

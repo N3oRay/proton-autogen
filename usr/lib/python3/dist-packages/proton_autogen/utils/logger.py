@@ -110,13 +110,9 @@ class StructuredLogger:
     ) -> None:
         self.logger.debug(message, *args, extra=fields)
 
-    def info(
-        self,
-        message: str,
-        *args: Any,
-        **fields: Any,
-    ) -> None:
-        self.logger.info(message, *args, extra=fields)
+    def info(self, message: str, *args: Any, **fields: Any) -> None:
+        safe_fields = {f"ctx_{k}" if k in logging.makeLogRecord({}).__dict__ else k: v for k, v in fields.items()}
+        self.logger.info(message, *args, extra=safe_fields)
 
     def warning(self, message: str, **fields: Any) -> None:
         self.logger.warning(message, extra=fields)
