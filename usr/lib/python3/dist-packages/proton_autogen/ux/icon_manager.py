@@ -191,6 +191,11 @@ ICON_MAPPING = {
     "role": "role-play.svg",
     "rpg": "role-play.svg",
     "snow": "snow.svg",
+    "install": "run.svg",
+    "goto": "run.svg",
+    "gen": "run.svg",
+    "sanity": "run.svg",
+    "check": "run.svg",
 
     "alert": "alert-triangle.svg",
     "warning": "alert-triangle.svg",

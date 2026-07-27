@@ -15,6 +15,7 @@ VALID_PROFILES = [
     "dx11",
     "dx11Bnet",
     "dx12",
+    "dx8dg",
     "dx9",
     "dx9opengl",
     "gtav_compat",

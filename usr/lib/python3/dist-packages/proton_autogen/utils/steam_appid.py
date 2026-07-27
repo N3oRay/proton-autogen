@@ -41,6 +41,9 @@ KNOWN_APPIDS = {
     "ricochet.exe": "60",               # Ricochet
     "tfc.exe": "20",                    # Team Fortress Classic
     "svencoop.exe": "225840",           # Sven Co-op
+    "cs2.exe": "730",
+    "portal2.exe": "620",
+    "aperturetag.exe": "280740",
 
     # -----------------------------
     # Source
@@ -263,10 +266,13 @@ KNOWN_APPIDS = {
     "MetroExodus.exe": "412020",
 
     # -----------------------------
-    # Blizzard (Steam)
+    # Blizzard / Battle.net
     # -----------------------------
-    "Diablo IV.exe": "2344520",
-    "Overwatch.exe": "2357570",
+    "Diablo IV.exe": "2344520",          # Diablo IV Steam
+    "Overwatch.exe": "2357570",          # Overwatch 2 Steam
+    "ModernWarfare.exe": "1938090",      # Call of Duty HQ / MWIII
+    "cod.exe": "1938090",                # Call of Duty HQ
+    "DiabloIV.exe": "2344520",
 
     # -----------------------------
     # Activision
@@ -275,6 +281,13 @@ KNOWN_APPIDS = {
     # -----------------------------
     # Independant or MUlti
     # -----------------------------
+    "witcher.exe": "20920",        # The Witcher Enhanced Edition
+    "witcher2.exe": "20920",
+    "Dishonored.exe": "205100",
+    "Dishonored2.exe": "403640",
+    "Prey.exe": "480490",
+    "NewColossus_x64vk.exe": "612880",
+    "Youngblood_x64vk.exe": "1056960",
     "Hades.exe": "1145360",
     "Hades2.exe": "1145350",
     "Factorio.exe": "427520",
@@ -289,6 +302,60 @@ KNOWN_APPIDS = {
     "TheFinals.exe": "2073850",
     "PUBG.exe": "578080",
     "ReadyOrNot.exe": "1144200",
+    "Silkworm_patch.exe": "217200",
+    "Rage.exe": "9200",
+    "Rage64.exe": "9200",
+    "QuakeLive.exe": "282440",
+    # -----------------------------
+    # Team17
+    # -----------------------------
+    # Worms series
+    "WA.exe": "217200",                 # Worms Armageddon
+    "Worms.exe": "70600",               # Worms Reloaded
+    "Worms2.exe": "217120",             # Worms 2: Armageddon
+    "WormsUltimateMayhem.exe": "70620", # Worms Ultimate Mayhem
+    "WormsClanWars.exe": "233840",      # Worms Clan Wars
+    "WormsWMD.exe": "327030",           # Worms W.M.D.
+    "WormsRumble.exe": "1186040",       # Worms Rumble
+    "WormsBattlegrounds.exe": "226400", # Worms Battlegrounds
+
+    # Alien Breed series
+    "AlienBreed.exe": "22610",          # Alien Breed: Impact
+    "AlienBreed2.exe": "22650",         # Alien Breed 2: Assault
+    "AlienBreed3.exe": "22670",         # Alien Breed 3: Descent
+
+    # Overcooked series (Team17 publishing)
+    "Overcooked.exe": "448510",         # Overcooked
+    "Overcooked2.exe": "728880",        # Overcooked! 2
+
+    # The Escapists series
+    "TheEscapists.exe": "298630",       # The Escapists
+    "TheEscapists2.exe": "641990",      # The Escapists 2
+
+    # Yooka-Laylee series (Team17 publishing)
+    "YookaLaylee.exe": "360830",        # Yooka-Laylee
+    "YookaLaylee2.exe": "2463200",      # Yooka-Replaylee
+
+    # Survival / simulation
+    "TheSurvivalists.exe": "897450",    # The Survivalists
+    "DREDGE.exe": "1562430",            # DREDGE
+    "DREDGE_Blackstone.exe": "1562430",
+
+    # Action / adventure
+    "HokkoLife.exe": "824000",          # Hokko Life
+    "GolfWithYourFriends.exe": "431240",# Golf With Your Friends
+    "MovingOut.exe": "996770",          # Moving Out
+    "MovingOut2.exe": "1641700",        # Moving Out 2
+
+    # Simulator / strategy
+    "Flockers.exe": "260330",           # Flockers
+    "Sheltered.exe": "356040",          # Sheltered
+    "Sheltered2.exe": "1289380",        # Sheltered 2
+
+    # Recent Team17 titles
+    "Dredge.exe": "1562430",
+    "Blasphemous.exe": "774361",        # Team17 publishing
+    "Thymesia.exe": "1343240",           # Team17 publishing
 }
 
 # Index normalisé (casse basse) pour une recherche insensible à la casse,

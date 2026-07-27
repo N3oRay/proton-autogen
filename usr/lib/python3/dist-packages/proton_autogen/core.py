@@ -687,7 +687,7 @@ def base_env(enable_mangohud=False, enable_gamemode=False, exe_path="", exe_type
 
 
     # FORCE CLEAN GRAPHICS PIPELINE FOR OLD GAMES
-    if exe_type in ["dx8dg", "dx9dg"]:
+    if exe_type in ["dx9dg"]:
         env["DXVK_HUD"] = ""
         env.pop("DXVK_HUD", None)
         env.pop("VKD3D_CONFIG", None)
