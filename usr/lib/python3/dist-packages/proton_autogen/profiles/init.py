@@ -149,6 +149,8 @@ def detect_exe_type_legacy(exe_path: str) -> str:
     name = os.path.basename(exe_path).lower()
      #------------------------------
     dotnet_keyworks = [
+        # Installation uniquement, cela ne permet pas de faire fonctionner robloxplayer : Bloqué par design, aucune configuration Proton n'y changera rien
+        # il n'existe à ce jour aucune méthode documentée fonctionnelle pour contourner Byfron/Hyperion
         "robloxplayerinstaller", "roblox", "robloxplayer", "robloxplayerbeta", "microsoftedgewebview2setup",
 
         # Riot Games (League of Legends, Valorant) — même famille de bootstrapper WebView2
