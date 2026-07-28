@@ -1,23 +1,12 @@
 proton-autogen (3.1.7) noble; urgency=medium
 
   * Thanks to all users and contributors for their continued support, feedback and encouragement throughout the development of proton-autogen.
-  * Improved progress spinner handling with automatic stop detection and better thread lifecycle management.
-  * Enhanced launch progress reporting and improved feedback during Proton execution phases.
-  * Added intelligent Steam AppID detection system.
-  * Added automatic Steam AppID resolution from environment variables, Steam app manifests, steam_appid.txt files and known game executables.
-  * Improved Steam compatibility variable generation using detected AppID values.
-  * Added additional AppID diagnostics to improve user understanding of Proton launch configuration.
-  * Improved GameMode integration reliability and fixed environment handling issues.
-  * Improved MangoHud and GameMode compatibility during game startup.
-  * Stabilized Proton launch environment initialization.
-  * Improved executable detection and runtime configuration handling.
-  * Improved compatibility prefix management and launch session stability.
-  * Enhanced logging information for runtime detection and troubleshooting.
-  * Improved error handling across game launch workflows.
-  * Fixed various synchronization issues in background tasks.
-  * Fixed progress reporting inconsistencies during long-running operations.
-  * Fixed several configuration and environment propagation issues.
-  * Improved internal code structure and reduced redundant processing.
+  * Added CSS compatibility fixes to improve rendering and interface consistency in affected applications.
+  * Added automatic .NET runtime detection to improve compatibility and launch configuration.
+  * Added a dedicated DirectX 8 profile with optimized compatibility settings for legacy DirectX 8 games.
+  * Added UX improvements to provide a smoother and more intuitive user experience.
+  * Improved runtime detection logic and compatibility handling.
+  * Minor stability improvements and internal code cleanup.
   * General stability improvements and code cleanup.
 
- -- N3oray <n3oray77@gmail.com>  Mon, 27 Jul 2026 04:25:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Wed, 29 Jul 2026 04:25:00 +0200
