@@ -149,7 +149,7 @@ def detect_exe_type_legacy(exe_path: str) -> str:
     name = os.path.basename(exe_path).lower()
 
     dotnet_keyworks = [
-        "robloxplayerinstaller", "roblox", "robloxplayer",
+        "robloxplayerinstaller", "roblox", "robloxplayer", "robloxplayerbeta",
         ]
 
     if any(k in name for k in dotnet_keyworks):
