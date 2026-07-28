@@ -148,6 +148,13 @@ def detect_exe_type_legacy(exe_path: str) -> str:
 
     name = os.path.basename(exe_path).lower()
 
+    dotnet_keyworks = [
+        "robloxplayerinstaller", "roblox", "robloxplayer",
+        ]
+
+    if any(k in name for k in dotnet_keyworks):
+        return "dotnet_csharp"
+
     #------------------------------
     # 0. Dx11 ( Game DirectX : Jeux connus pour fonctionner avec le profil DXVK/D3D11 )
 
