@@ -30,11 +30,13 @@ jobs:
 
       - name: Install build dependencies
         run: |
+          pacman -Syu --noconfirm
           pacman -S --needed --noconfirm \
+            archlinux-keyring \
             base-devel \
+            git \
             namcap \
             pacman-contrib \
-            git \
             python \
             python-build \
             python-installer \
