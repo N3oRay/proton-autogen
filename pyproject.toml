@@ -1,5 +1,8 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = [
+    "setuptools>=68",
+    "wheel"
+]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -13,6 +16,10 @@ authors = [
   { name = "N3oRay" }
 ]
 dependencies = [
+  "python-build"
+  "python-installer"
+  "python-setuptools"
+  "python-wheel"
   "pyyaml",
   "pygobject",
   "rich"

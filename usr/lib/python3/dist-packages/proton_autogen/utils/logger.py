@@ -114,27 +114,28 @@ class StructuredLogger:
         safe_fields = {f"ctx_{k}" if k in logging.makeLogRecord({}).__dict__ else k: v for k, v in fields.items()}
         self.logger.info(message, *args, extra=safe_fields)
 
-    def warning(self, message: str, **fields: Any) -> None:
-        self.logger.warning(message, extra=fields)
+    def warning(self, message: str, *args: Any, **fields: Any) -> None:
+        self.logger.warning(message, *args, extra=fields)
 
-    def warn(self, message: str, **fields: Any) -> None:
-        self.logger.warning(message, extra=fields)
+    def warn(self, message: str, *args: Any, **fields: Any) -> None:
+        self.logger.warning(message, *args, extra=fields)
 
     def error(
         self,
         message: str,
-        *,
+        *args: Any,
         exc_info: bool | Exception = False,
         **fields: Any,
     ) -> None:
         self.logger.error(
             message,
+            *args,
             extra=fields,
             exc_info=exc_info,
         )
 
-    def exception(self, message: str, **fields: Any) -> None:
-        self.logger.exception(message, extra=fields)
+    def exception(self, message: str, *args: Any, **fields: Any) -> None:
+        self.logger.exception(message, *args, extra=fields)
 
-    def critical(self, message: str, **fields: Any) -> None:
-        self.logger.critical(message, extra=fields)
+    def critical(self, message: str, *args: Any, **fields: Any) -> None:
+        self.logger.critical(message, *args, extra=fields)
