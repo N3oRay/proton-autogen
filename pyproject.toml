@@ -16,10 +16,10 @@ authors = [
   { name = "N3oRay" }
 ]
 dependencies = [
-  "python-build"
-  "python-installer"
-  "python-setuptools"
-  "python-wheel"
+  "python-build",
+  "python-installer",
+  "python-setuptools",
+  "python-wheel",
   "pyyaml",
   "pygobject",
   "rich"

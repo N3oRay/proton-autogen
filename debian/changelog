@@ -1,4 +1,4 @@
-proton-autogen (3.1.6) noble; urgency=medium
+proton-autogen (3.1.7) noble; urgency=medium
 
   * Thanks to all users and contributors for their continued support, feedback and encouragement throughout the development of proton-autogen.
   * Improved progress spinner handling with automatic stop detection and better thread lifecycle management.
