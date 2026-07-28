@@ -69,6 +69,7 @@ textview {
 .btn-launch,
 .btn-edit,
 .btn-export,
+.btn-delete,
 .app-button,
 button.suggested-action {
     color: @kawaii-pink-dark;
@@ -284,6 +285,19 @@ button.suggested-action:hover {
 
 .btn-export:hover {
     background: #ffe6b3;
+}
+
+.btn-delete {
+    background: @hk_gold;
+    color: @hk_text;
+    min-width: 18px;
+    min-height: 18px;
+    padding: 0;
+    margin: 0;
+}
+
+.btn-delete image {
+    -gtk-icon-size: 10px;
 }
 
 .export-dialog {
@@ -699,17 +713,7 @@ tooltip label {
     margin-bottom: 2px;
 }
 
-.btn-delete {
-    min-width: 18px;
-    min-height: 18px;
-    color:black;
-    padding: 0;
-    margin: 0;
-}
 
-.btn-delete image {
-    -gtk-icon-size: 10px;
-}
 
 
 
@@ -885,18 +889,19 @@ dropdown label {
 popover.menu contents {
     background-color: @hk_panel;
     color: @hk_text;
-    border-radius: 12px;
+    border-radius: 8px;
     border: 1px solid @hk_border;
     padding: 4px;
-    box-shadow: 0 8px 24px rgba(101,41,106,0.10);
+    box-shadow: 0 8px 8px rgba(101,41,106,0.10);
 }
 
 popover.menu modelbutton,
 popover.menu menuitem {
     background: transparent;
     color: @hk_text;
-    border-radius: 8px;
-    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid @hk_border;
+    padding: 4px 4px;
     min-height: 28px;
 }
 
@@ -911,28 +916,29 @@ popover.menu menuitem:disabled {
     color: alpha(@hk_text, 0.35);
 }
 
-/* Raccourci clavier affiché à droite (ex: Ctrl+C) */
 popover.menu modelbutton accelerator,
 popover.menu menuitem accelerator {
     color: alpha(@hk_text, 0.55);
     font-size: 11px;
 }
 
-/* Séparateur entre les groupes d'actions */
+
 popover.menu separator {
     background-color: @hk_border;
     min-height: 1px;
-    margin: 4px 6px;
+    margin: 4px 4px;
 }
 
-/* Icônes dans le menu (copier/coller ont souvent une icône) */
+
 popover.menu modelbutton image,
 popover.menu menuitem image {
     color: @hk_dark_pink;
     -gtk-icon-size: 14px;
 }
 
-/* Sous-menus (flèche ►) */
 popover.menu modelbutton.submenu arrow {
     color: @hk_text;
 }
+
+
+
