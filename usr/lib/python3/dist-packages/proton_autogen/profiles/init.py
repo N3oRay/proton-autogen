@@ -143,13 +143,23 @@ def choose_profile():
 def detect_exe_type_legacy(exe_path: str) -> str:
     """
     Simple heuristic to classify executable type for proton-autogen.
-    Returns: launcher | dx11 | dx11Bnet | dx12 | oldgame | ut3 | ut99 | legacy | desktop
+    Returns: launcher | dx11 | dx11Bnet | dx12 | oldgame | ut3 | ut99 | legacy | desktop | dotnet_csharp
     """
 
     name = os.path.basename(exe_path).lower()
-
+     #------------------------------
     dotnet_keyworks = [
         "robloxplayerinstaller", "roblox", "robloxplayer", "robloxplayerbeta", "microsoftedgewebview2setup",
+
+        # Riot Games (League of Legends, Valorant) — même famille de bootstrapper WebView2
+        "riotclientservices", "riotclientinstaller", "riotclientux",
+
+        # Applications .NET Framework / C# pures (utilisent mscoree comme Roblox)
+        "paintdotnet", "paint.net", "sharex", "greenshot", "linqpad",
+        "ilspy", "dotpeek",
+
+        # Bootstrappers Visual Studio / outils Microsoft (mscoree natif)
+        "vs_installer", "vs_bootstrapper",
         ]
 
     if any(k in name for k in dotnet_keyworks):
