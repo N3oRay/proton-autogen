@@ -145,6 +145,7 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None):
 
             cfg_mangohud = normalize_flag(features.get("mangohud"), False)
             cfg_gamemode = normalize_flag(features.get("gamemode"), False)
+            cfg_gamescope = normalize_flag(features.get("gamescope"), False)
             # Load features -----------------------------------------------
             rfeatures = resolve_game_features(
                 {"features": features},
@@ -169,12 +170,14 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None):
             # By Default
             cfg_mangohud = False
             cfg_gamemode = False
+            cfg_gamescope = False
             rfeatures = None
             proton = find_proton()
 
         progress.update(60, tr("runtime_selected"))
         enable_mangohud = cfg_mangohud if config else False
         enable_gamemode = cfg_gamemode if config else False
+        enable_gamescope = cfg_gamescope if config else False
 
         # CLI overrides (priorité utilisateur)
         if "--mangohud" in sys.argv:
@@ -182,6 +185,9 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None):
 
         if "--gamemode" in sys.argv:
             enable_gamemode = True
+
+        if "--gamescope" in sys.argv:
+            enable_gamescope = True
 
 
         if proton:
@@ -198,6 +204,7 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None):
                 features=rfeatures,
                 enable_mangohud=enable_mangohud,
                 enable_gamemode=enable_gamemode,
+                enable_gamescope=enable_gamescope,
                 start_time=start_time,
                 extra_args=[]
             )
@@ -215,7 +222,7 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None):
             result_code = -1
             progress.update(80, tr("starting_proton"))
             result_code = run_game_proton(exe_path=exe_path, exe_type=exe_type, proton=proton, system=system, features=rfeatures, enable_mangohud=enable_mangohud,
-             enable_gamemode=enable_gamemode, prefix_mode=prefix_mode, progress=progress)
+             enable_gamemode=enable_gamemode, enable_gamescope=enable_gamescope, prefix_mode=prefix_mode, progress=progress)
             if DEBUG or VERBOSE:
                 logger.debug("Result type: %s", type(result_code))
                 logger.debug("Result: %s", result_code)
@@ -326,6 +333,10 @@ def get_diagnostic_text():
     lines.append(
         f"  {tr('gamemode')} : "
         f"{tr('yes') if has_gamemode() else tr('no')}"
+    )
+    lines.append(
+        f"  {tr('gamescope')} : "
+        f"{tr('yes') if has_gamescope() else tr('no')}"
     )
     lines.append(
         f"  {tr('mangohud')} : "
@@ -609,6 +620,7 @@ def list_programs_ux(lang: str = "en"):
             "features": config.get("features", {
                 "mangohud": False,
                 "gamemode": False,
+                "gamescope": False,
             }),
 
             "favorite": config.get("favorite", False),

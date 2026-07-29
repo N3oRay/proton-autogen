@@ -28,6 +28,9 @@ def filter_games(games, text):
         if features.get("gamemode"):
             fields.append("gamemode")
 
+        if features.get("gamescope"):
+            fields.append("gamescope")
+
         searchable = " ".join(fields).lower()
 
         if text in searchable:

@@ -274,6 +274,7 @@ def add_game_ux(exe_path: str, prefix=None):
         "features": {
             "mangohud": False,
             "gamemode": False,
+            "gamescope": False,
             "xalia": None,
             "gpu": "auto"
         },
@@ -437,6 +438,7 @@ def add_game(exe_path: str):
         "features": {
             "mangohud": False,
             "gamemode": False,
+            "gamescope": False,
             "xalia": None,
             "gpu": "auto"
         },
@@ -490,10 +492,11 @@ def edit_game_ui(exe_path: str):
         print(f"1) Profile    : {current_env_profile}")
         print(f"2) Proton     : {os.path.basename(config['proton'])}")
         print(f"3) Prefix     : {config['prefix']['name']}")
-        print(f"4) MangoHud   : {config['features']['mangohud']}")
-        print(f"5) GameMode   : {config['features']['gamemode']}")
-        print(f"6) GPU Mode   : {config['features'].get('gpu', 'auto')}")
-        print("7) Save & Quit")
+        print(f"4) MangoHud   : {config['features'].get('mangohud', False)}")
+        print(f"5) GameMode   : {config['features'].get('gamemode', False)}")
+        print(f"6) Gamescope  : {config['features'].get('gamescope', False)}")
+        print(f"7) GPU Mode   : {config['features'].get('gpu', 'auto')}")
+        print("8) Save & Quit")
         print("0) Cancel")
 
         choice = input("\nSelection: ").strip()
@@ -537,6 +540,10 @@ def edit_game_ui(exe_path: str):
             config["features"]["gamemode"] = not current
 
         elif choice == "6":
+            current = config["features"].get("gamescope", False)
+            config["features"]["gamescope"] = not current
+
+        elif choice == "7":
             current = config["features"].get("gpu", "auto")
 
             print("\nGPU mode:")
@@ -549,7 +556,7 @@ def edit_game_ui(exe_path: str):
             if sel in ("1", "2", "3", "4"):
                 config["features"]["gpu"] = GPU_MODES[int(sel) - 1]
 
-        elif choice == "7":
+        elif choice == "8":
             with open(config_path, "w") as f:
                 json.dump(config, f, indent=2)
 

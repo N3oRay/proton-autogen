@@ -209,6 +209,14 @@ def test_about_gamemode():
     assert "warning" in output
     assert "found" in output
 
+def test_about_gamescope():
+    result = run_cli(["--gamescope"])
+
+    output = (result.stdout + result.stderr).lower()
+
+    assert "warning" in output
+    assert "found" in output
+
 
 def test_about_mangohud():
     result = run_cli(["--mangohud"])

@@ -132,6 +132,11 @@ class GameEditor(Gtk.Window):
         self.gamemode.add_css_class("feature-toggle")
         self.gamemode.set_active(features.get("gamemode", False))
         set_tooltip(self.gamemode, "gamemode", self.lang) #new code
+        # GAMESCOPE
+        self.gamescope = Gtk.CheckButton(label="Enable GameScope")
+        self.gamescope.add_css_class("feature-toggle")
+        self.gamescope.set_active(features.get("gamescope", False))
+        set_tooltip(self.gamescope, "gamescope", self.lang)
 
 
         # -------------------------
@@ -151,6 +156,7 @@ class GameEditor(Gtk.Window):
         root.append(self.favorite)
         root.append(self.mangohud)
         root.append(self.gamemode)
+        root.append(self.gamescope)
 
         # -------------------------
         # SAVE BUTTON
@@ -203,6 +209,7 @@ class GameEditor(Gtk.Window):
         features.update({
             "mangohud": self.mangohud.get_active(),
             "gamemode": self.gamemode.get_active(),
+            "gamescope": self.gamescope.get_active(),
             "gpu": gpu
         })
 

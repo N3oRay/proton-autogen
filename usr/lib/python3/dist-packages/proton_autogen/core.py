@@ -14,6 +14,7 @@ from pathlib import Path
 from proton_autogen.config import VERSION, CONFIG_FILE, CONFIG_DIR, PREFIX_DIR, PREFIX_DIR_PATH
 from proton_autogen.utils.logger import StructuredLogger
 from proton_autogen.utils.steam_appid import detect_steam_appid
+from proton_autogen.utils.gamescope import build_gamescope_command, init_gamescope_env
 from proton_autogen.progress import Progress
 from proton_autogen.pa_log import log_profile_env, log_profile_summary, log_mangohud_env, log_executable_info
 
@@ -32,7 +33,7 @@ from proton_autogen.profiles.type_profile import env_gtav_compat, env_gtav_x11, 
 from proton_autogen.profiles.dotnet_csharp import env_dotnet_csharp
 from proton_autogen.profiles.dotnet import env_dotnet
 
-from proton_autogen.detection.analyser import has_proton_call, has_wine, has_mangohud, has_gamemode
+from proton_autogen.detection.analyser import has_proton_call, has_wine, has_mangohud, has_gamemode, has_gamescope
 from proton_autogen.detection.proton import DEFAULT_PROTON_PATHS
 from proton_autogen.detection.mangohud import find_mangohud_shim, check_mangohud_abi
 from proton_autogen.dector import resolve_game_features, gpu_env
@@ -640,8 +641,8 @@ def run_standard(exe_path: str):
 
 
 
-def base_env(enable_mangohud=False, enable_gamemode=False, exe_path="", exe_type="", prefix_path=None, proton_dir=None):
-    logger.info("Initializing environment", exe_type=exe_type, mangohud=enable_mangohud, gamemode=enable_gamemode)
+def base_env(enable_mangohud=False, enable_gamemode=False, enable_gamescope=False, exe_path="", exe_type="", prefix_path=None, proton_dir=None):
+    logger.info("Initializing environment", exe_type=exe_type, mangohud=enable_mangohud, gamemode=enable_gamemode, gamescope=enable_gamescope)
 
     """
     Build a clean Wine/Proton environment for game execution.
@@ -706,6 +707,19 @@ def base_env(enable_mangohud=False, enable_gamemode=False, exe_path="", exe_type
     else:
         env.pop("MANGOHUD", None)
         env.pop("MANGOHUD_DLSYM", None)
+    # -----------------------------
+    # GameScope
+    # -----------------------------
+    if enable_gamescope and has_gamescope():
+        gamescope_env = init_gamescope_env(
+            enabled=True,
+            width=1920,
+            height=1200,
+            fullscreen=True,
+            cursor=True
+        )
+
+        env.update(gamescope_env)
 
     # -----------------------------
     # DEBUG HUD (safe only)
@@ -757,13 +771,16 @@ def get_exe_arch(path):
 
 def run_game_proton(exe_path, exe_type, proton,
                     system, features,
-                    enable_mangohud=False, enable_gamemode=False,
+                    enable_mangohud=False, enable_gamemode=False, enable_gamescope=False,
                     prefix_mode="main", progress=None):
 
     if progress is None:
         progress = Progress()
     try:
         progress.start_spinner(81, "Launching ...")
+
+        gamescope_available = enable_gamescope and has_gamescope()
+        gamemode_available = enable_gamemode and has_gamemode()
 
 
         arch = get_exe_arch(exe_path)
@@ -791,6 +808,7 @@ def run_game_proton(exe_path, exe_type, proton,
         env = base_env(
             enable_mangohud=enable_mangohud,
             enable_gamemode=enable_gamemode,
+            enable_gamescope=enable_gamescope,
             exe_path=exe_path,
             exe_type=exe_type,
             prefix_path=prefix_path,
@@ -814,7 +832,10 @@ def run_game_proton(exe_path, exe_type, proton,
 
         cmd = []
 
-        if enable_gamemode and has_gamemode():
+        if gamescope_available:
+            cmd += build_gamescope_command(env)
+
+        if gamemode_available:
             cmd.append("gamemoderun")
 
         cmd += [
@@ -826,6 +847,21 @@ def run_game_proton(exe_path, exe_type, proton,
         # =========================
         # COMMON OPTIONS
         # =========================
+        if gamescope_available:
+            GAMESCOPE_KEYS = [
+                "USE_GAMESCOPE",
+                "GAMESCOPE_WIDTH",
+                "GAMESCOPE_HEIGHT",
+                "GAMESCOPE_REFRESH",
+                "GAMESCOPE_FULLSCREEN",
+                "GAMESCOPE_CURSOR",
+                "GAMESCOPE_NESTED_WIDTH",
+                "GAMESCOPE_NESTED_HEIGHT",
+                "GAMESCOPE_BORDERLESS",
+            ]
+
+            for key in GAMESCOPE_KEYS:
+                env.pop(key, None)
 
         if enable_mangohud and has_mangohud():
             env["MANGOHUD"] = "1"
@@ -865,7 +901,7 @@ def run_game_proton(exe_path, exe_type, proton,
         else:
             env.pop("MANGOHUD", None)
 
-        if enable_gamemode and has_gamemode():
+        if gamemode_available:
             env["GAMEMODE"] = "1"
 
         # Set Default env:

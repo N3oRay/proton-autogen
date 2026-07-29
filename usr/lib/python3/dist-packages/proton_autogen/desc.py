@@ -27,6 +27,10 @@ _DESCRIPTIONS = {
         "gamemode":
             "GameMode 是一个系统服务，在游戏运行期间临时优化系统性能以减少卡顿并提升性能。",
 
+        "gamescope":
+            "Gamescope 是一个用于在受控图形环境中运行游戏的微型合成器。 "
+            "它可以管理分辨率、全屏模式和刷新率，并提高某些游戏或图形配置的兼容性。",
+
         "gpu":
             "定义游戏的 GPU 优化模式："
             "auto（自动检测）、safe（最大兼容性）、"
@@ -67,9 +71,15 @@ _DESCRIPTIONS = {
             "MangoHud es una superposición que muestra en tiempo real FPS, uso de CPU/GPU, "
             "temperaturas, uso de memoria y otra información útil.",
 
-        "gamemode":
-            "GameMode es un servicio del sistema que optimiza temporalmente el rendimiento durante el juego "
-            "para mejorar el rendimiento y reducir los tirones.",
+        "gamescope":
+            "Gamescope es un microcompositor utilizado para ejecutar juegos en un entorno gráfico controlado. "
+            "Permite gestionar la resolución, el modo de pantalla completa, la frecuencia de actualización "
+            "y puede mejorar la compatibilidad con algunos juegos o configuraciones gráficas.",
+
+        "gamescope":
+            "Gamescope es un microcompositor utilizado para ejecutar juegos en un entorno gráfico controlado. "
+            "Permite gestionar la resolución, el modo de pantalla completa, la frecuencia de actualización "
+            "y puede mejorar la compatibilidad con algunos juegos o configuraciones gráficas.",
 
         "gpu":
             "Define el modo de optimización de la GPU del juego: "
@@ -116,6 +126,11 @@ _DESCRIPTIONS = {
             "GameMode est un service qui optimise temporairement le système pendant l'exécution du jeu "
             "afin d'améliorer les performances et de réduire les ralentissements.",
 
+        "gamescope":
+            "Gamescope est un compositeur graphique utilisé pour exécuter les jeux dans un environnement contrôlé. "
+            "Il permet de gérer la résolution, le plein écran, la fréquence d'affichage et d'améliorer la compatibilité "
+            "avec certains jeux ou configurations graphiques.",
+
         "gpu":
             "Définit le mode d’optimisation GPU utilisé par le jeu : "
             "auto (détection automatique), safe (compatibilité maximale), "
@@ -160,6 +175,11 @@ _DESCRIPTIONS = {
         "gamemode":
             "GameMode ist ein Systemdienst, der das System während des Spielens temporär optimiert, "
             "um die Leistung zu verbessern und Ruckler zu reduzieren.",
+
+        "gamescope":
+            "Gamescope ist ein Micro-Compositor, der Spiele in einer kontrollierten grafischen Umgebung ausführt. "
+            "Er ermöglicht die Verwaltung von Auflösung, Vollbildmodus und Bildwiederholrate und kann die Kompatibilität "
+            "mit bestimmten Spielen oder Grafikkonfigurationen verbessern.",
 
         "gpu":
             "Legt den GPU-Optimierungsmodus des Spiels fest: "
@@ -206,6 +226,11 @@ _DESCRIPTIONS = {
             "GameMode — це системний сервіс, який тимчасово оптимізує систему під час гри "
             "для покращення продуктивності та зменшення затримок.",
 
+        "gamescope":
+            "Gamescope — це мікрокомпозитор, який запускає ігри в контрольованому графічному середовищі. "
+            "Він дозволяє керувати роздільною здатністю, повноекранним режимом, частотою оновлення "
+            "та може покращити сумісність із деякими іграми або графічними конфігураціями.",
+
         "gpu":
             "Визначає режим оптимізації GPU для гри: "
             "auto (автоматичне визначення), safe (максимальна сумісність), "
@@ -251,6 +276,11 @@ _DESCRIPTIONS = {
             "O GameMode é um serviço do sistema que otimiza temporariamente o desempenho durante o jogo "
             "para melhorar a performance e reduzir travamentos.",
 
+        "gamescope":
+            "Gamescope é um microcompositor usado para executar jogos em um ambiente gráfico controlado. "
+            "Ele permite gerenciar resolução, modo de tela cheia, taxa de atualização e pode melhorar "
+            "a compatibilidade com alguns jogos ou configurações gráficas.",
+
         "gpu":
             "Define o modo de otimização da GPU no jogo: "
             "auto (detecção automática), safe (máxima compatibilidade), "
@@ -294,6 +324,11 @@ _DESCRIPTIONS = {
         "gamemode":
             "GameMode is a system service that temporarily optimizes your computer while a game "
             "is running to improve performance and reduce stuttering.",
+
+        "gamescope":
+            "Gamescope is a micro-compositor used to run games in a controlled graphical environment. "
+            "It allows managing resolution, fullscreen mode, refresh rate and can improve compatibility "
+            "with some games or graphics configurations.",
 
         "gpu":
             "Defines the GPU optimization mode used by the game: "

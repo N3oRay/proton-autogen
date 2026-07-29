@@ -345,6 +345,9 @@ class GameList(Gtk.Box):
         if features.get("gamemode"):
             options.append("GameMode")
 
+        if features.get("gamescope"):
+            options.append("GameScope")
+
         features_text = ", ".join(options) if options else "None"
 
         return f"Prefix: {prefix} | Features: {features_text}"

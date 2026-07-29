@@ -199,6 +199,7 @@ def import_lutris_yaml_to_game_config(yaml_text: str) -> Dict[str, Any]:
         "features": {
             "mangohud": env.get("MANGOHUD") == "1",
             "gamemode": env.get("GAMEMODE") == "1",
+            "gamescope": env.get("GAMESCOPE") == "1",
         },
 
         "meta": {

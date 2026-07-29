@@ -262,6 +262,13 @@ BADGE_DEFINITIONS_FR = [
         "text": lambda g: "GameMode activé"
     },
     {
+        "type": "gamescope",
+        "label": "🖥️",
+        "css": "feature",
+        "condition": lambda g: g.get("features", {}).get("gamescope", False),
+        "text": lambda g: "GameScope activé"
+    },
+    {
         "type": "mangohud",
         "label": "📊",
         "css": "feature",
@@ -376,6 +383,13 @@ BADGE_DEFINITIONS_PT = [
         "text": lambda g: "GameMode ativado"
     },
     {
+        "type": "gamescope",
+        "label": "🖥️",
+        "css": "feature",
+        "condition": lambda g: g.get("features", {}).get("gamescope", False),
+        "text": lambda g: "GameScope ativado"
+    },
+    {
         "type": "mangohud",
         "label": "📊",
         "css": "feature",
@@ -488,6 +502,13 @@ BADGE_DEFINITIONS_UK = [
         "text": lambda g: "GameMode увімкнено"
     },
     {
+        "type": "gamescope",
+        "label": "🖥️",
+        "css": "feature",
+        "condition": lambda g: g.get("features", {}).get("gamescope", False),
+        "text": lambda g: "GameScope увімкнено"
+    },
+    {
         "type": "mangohud",
         "label": "📊",
         "css": "feature",
@@ -592,6 +613,13 @@ BADGE_DEFINITIONS_EN = [
         "css": "feature",
         "condition": lambda g: g.get("features", {}).get("gamemode", False),
         "text": lambda g: "GameMode enabled"
+    },
+    {
+        "type": "gamescope",
+        "label": "🖥️",
+        "css": "feature",
+        "condition": lambda g: g.get("features", {}).get("gamescope", False),
+        "text": lambda g: "GameScope enabled"
     },
     {
         "type": "mangohud",
@@ -706,6 +734,13 @@ BADGE_DEFINITIONS_DE = [
         "text": lambda g: "GameMode aktiviert"
     },
     {
+        "type": "gamescope",
+        "label": "🖥️",
+        "css": "feature",
+        "condition": lambda g: g.get("features", {}).get("gamescope", False),
+        "text": lambda g: "GameScope aktiviert"
+    },
+    {
         "type": "mangohud",
         "label": "📊",
         "css": "feature",
@@ -818,6 +853,13 @@ BADGE_DEFINITIONS_ES = [
         "text": lambda g: "GameMode activado"
     },
     {
+        "type": "gamescope",
+        "label": "🖥️",
+        "css": "feature",
+        "condition": lambda g: g.get("features", {}).get("gamescope", False),
+        "text": lambda g: "GameScope activado"
+    },
+    {
         "type": "mangohud",
         "label": "📊",
         "css": "feature",
@@ -928,6 +970,13 @@ BADGE_DEFINITIONS_ZH = [
         "css": "feature",
         "condition": lambda g: g.get("features", {}).get("gamemode", False),
         "text": lambda g: "已启用 GameMode"
+    },
+    {
+        "type": "gamescope",
+        "label": "🖥️",
+        "css": "feature",
+        "condition": lambda g: g.get("features", {}).get("gamescope", False),
+        "text": lambda g: "已启用 GameScope"
     },
     {
         "type": "mangohud",

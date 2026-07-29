@@ -11,3 +11,6 @@ def has_mangohud():
 
 def has_gamemode():
     return which("gamemoderun") is not None
+
+def has_gamescope():
+    return which("gamescope") is not None
