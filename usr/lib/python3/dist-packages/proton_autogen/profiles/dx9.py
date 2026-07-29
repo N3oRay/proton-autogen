@@ -176,15 +176,12 @@ def env_dx9opengl(prefix=None, proton_path=None, exe_path=None):
                     env["SDL_VIDEO_X11_MOUSE_GRAB"] = "1"
 
                     env["WINE_FULLSCREEN_MOUSE_CAPTURE"] = "1"
+
+                    env["WINE_FULLSCREEN_WINDOW"] = "1"
                     env["SDL_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR"] = "1"
-
-                env["WINE_FULLSCREEN_WINDOW"] = "1"
-                env["SDL_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR"] = "1"
-                env["SDL_VIDEO_X11_XRANDR"] = "1"
-                # Legacy mouse/input
-
-                env["WINE_MOUSE_WARP"] = "0"
-                #env["WINE_DISABLE_MOUSE_CAPTURE"] = "0"
+                    env["SDL_VIDEO_X11_XRANDR"] = "1"
+                    # Legacy mouse/input
+                    env["WINE_MOUSE_WARP"] = "0"
 
                 env["WINE_FULLSCREEN_FSR"] = "0"
                 env["WINE_FULLSCREEN_INTEGER_SCALING"] = "0"
