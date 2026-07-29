@@ -1,5 +1,25 @@
+import os
 from proton_autogen.profiles.base import init_env
 
+
+def detect_legacy_opengl(exe_path):
+    legacy_renderers = [
+        "ref_gl.dll",
+        "ref_gl1.dll",
+        "pvrgl.dll",
+        "pvrgl32.dll",
+        "opengl32.dll"
+    ]
+
+    directory = os.path.dirname(exe_path)
+
+    for root, dirs, files in os.walk(directory):
+        for file in files:
+            if file.lower() in legacy_renderers:
+                print(f"[proton-autogen] OpenGL legacy renderer found: {file}")
+                return True
+
+    return False
 # ---------------------------------------------------
 # 2. DX11 PROFILE (most games)
 # ---------------------------------------------------
@@ -24,6 +44,15 @@ def env_dx11(prefix=None, proton_path=None, exe_path=None):
 
     env["vblank_mode"] = "0"
     env["mesa_glthread"] = "true"
+
+    # -----------------------------------------
+    # Legacy OpenGL detection
+    # -----------------------------------------
+    if exe_path and detect_legacy_opengl(exe_path):
+        print("[proton-autogen] Legacy OpenGL renderer detected")
+
+        env["PROTON_OLD_GL_STRING"] = "1"
+        env["MESA_EXTENSION_MAX_YEAR"] = "2002"
 
     return env
 
