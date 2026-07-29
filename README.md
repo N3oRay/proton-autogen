@@ -260,7 +260,7 @@ nautilus -q
 * [x] GUI frontend
 * [x] Lutris integration
 * [x] Sensors and MangoHud Help
-* [ ] GameScope integration
+* [x] GameScope integration
 * [ ] Winetricks integration
 * [ ] ProtonDB integration
 * [ ] Bottles integration
