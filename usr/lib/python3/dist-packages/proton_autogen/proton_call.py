@@ -18,6 +18,9 @@ from proton_autogen.util_path import proton_path, proton_name
 from proton_autogen.pa_log import handle_result, result_to_line
 from proton_autogen.session import finalize_session
 from proton_autogen.notify import notifications
+from proton_autogen.util_path import proton_path, proton_name
+from proton_autogen.core import get_prefix_path
+from proton_autogen.progress import Progress
 
 
 def launch_proton_call(
@@ -29,8 +32,15 @@ def launch_proton_call(
     enable_gamemode,
     enable_gamescope,
     start_time,
-    extra_args=None
+    extra_args=None,
+    progress=None,
 ):
+
+    # -------------------------
+    # Proton Path & Prefix Path
+    # -------------------------
+    prefix_path = get_prefix_path("main", exe_path)
+    proton_dir = proton_path(proton)
     env = base_env(
         enable_mangohud=enable_mangohud,
         enable_gamemode=enable_gamemode,
@@ -158,6 +168,7 @@ def launch_proton_call(
     # Update Stats
     finalize_session(exe_path, start_time, result_code)
     #show_result !
-    progress.update( 100, result_to_line(status) )
+    if progress is not None:
+        progress.update( 100, result_to_line(status) )
 
     sys.exit(status["code"])

@@ -207,7 +207,8 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None):
                 enable_gamemode=enable_gamemode,
                 enable_gamescope=enable_gamescope,
                 start_time=start_time,
-                extra_args=[]
+                extra_args=[],
+                progress=progress
             )
 
         elif launch_mode == "proton" and proton:

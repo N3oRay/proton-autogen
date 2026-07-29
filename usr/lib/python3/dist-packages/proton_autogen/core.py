@@ -14,7 +14,7 @@ from pathlib import Path
 from proton_autogen.config import VERSION, CONFIG_FILE, CONFIG_DIR, PREFIX_DIR, PREFIX_DIR_PATH
 from proton_autogen.utils.logger import StructuredLogger
 from proton_autogen.utils.steam_appid import detect_steam_appid
-from proton_autogen.utils.gamescope import build_gamescope_command, init_gamescope_env
+from proton_autogen.utils.gamescope import build_gamescope_command, init_gamescope_env, clear_gamescope_env, apply_gamescope, LOG_FILTERS
 from proton_autogen.progress import Progress
 from proton_autogen.pa_log import log_profile_env, log_profile_summary, log_mangohud_env, log_executable_info
 
@@ -591,7 +591,7 @@ def run_standard(exe_path: str):
 
 
 def base_env(enable_mangohud=False, enable_gamemode=False, enable_gamescope=False, exe_path="", exe_type="", prefix_path=None, proton_dir=None):
-    logger.info("Initializing environment", exe_type=exe_type, mangohud=enable_mangohud, gamemode=enable_gamemode, gamescope=enable_gamescope)
+    logger.info("Initializing environment", exe_type=exe_type)
 
     """
     Build a clean Wine/Proton environment for game execution.
@@ -650,7 +650,7 @@ def base_env(enable_mangohud=False, enable_gamemode=False, enable_gamescope=Fals
     # -----------------------------
     # MangoHud
     # -----------------------------
-    if enable_mangohud and has_mangohud():
+    if enable_mangohud:
         env["MANGOHUD"] = "1"
         env["MANGOHUD_DLSYM"] = "1"
     else:
@@ -659,16 +659,10 @@ def base_env(enable_mangohud=False, enable_gamemode=False, enable_gamescope=Fals
     # -----------------------------
     # GameScope
     # -----------------------------
-    if enable_gamescope and has_gamescope():
-        gamescope_env = init_gamescope_env(
-            enabled=True,
-            width=1920,
-            height=1200,
-            fullscreen=True,
-            cursor=True
-        )
-
-        env.update(gamescope_env)
+    env = apply_gamescope(
+        env,
+        enabled=enable_gamescope,
+    )
 
     # -----------------------------
     # DEBUG HUD (safe only)
@@ -730,6 +724,7 @@ def run_game_proton(exe_path, exe_type, proton,
 
         gamescope_available = enable_gamescope and has_gamescope()
         gamemode_available = enable_gamemode and has_gamemode()
+        mangohud_available = enable_mangohud and has_mangohud()
 
 
         arch = get_exe_arch(exe_path)
@@ -755,9 +750,9 @@ def run_game_proton(exe_path, exe_type, proton,
         # PROTON MODE
         # =========================
         env = base_env(
-            enable_mangohud=enable_mangohud,
-            enable_gamemode=enable_gamemode,
-            enable_gamescope=enable_gamescope,
+            enable_mangohud=mangohud_available,
+            enable_gamemode=gamemode_available,
+            enable_gamescope=gamescope_available,
             exe_path=exe_path,
             exe_type=exe_type,
             prefix_path=prefix_path,
@@ -797,20 +792,8 @@ def run_game_proton(exe_path, exe_type, proton,
         # COMMON OPTIONS
         # =========================
         if gamescope_available:
-            GAMESCOPE_KEYS = [
-                "USE_GAMESCOPE",
-                "GAMESCOPE_WIDTH",
-                "GAMESCOPE_HEIGHT",
-                "GAMESCOPE_REFRESH",
-                "GAMESCOPE_FULLSCREEN",
-                "GAMESCOPE_CURSOR",
-                "GAMESCOPE_NESTED_WIDTH",
-                "GAMESCOPE_NESTED_HEIGHT",
-                "GAMESCOPE_BORDERLESS",
-            ]
-
-            for key in GAMESCOPE_KEYS:
-                env.pop(key, None)
+            # clean env var !
+            clear_gamescope_env(env)
 
         if enable_mangohud and has_mangohud():
             env["MANGOHUD"] = "1"
@@ -876,7 +859,7 @@ def run_game_proton(exe_path, exe_type, proton,
             # DEBUG ENVIRONMENT
             log_mangohud_env(logger, env)
 
-            filters = [ "wrong ELF class", ]
+            filters = LOG_FILTERS
             result_code = -1
             # Code KO
 
@@ -920,12 +903,14 @@ def run_game_proton(exe_path, exe_type, proton,
                     debug=True,
                 )
             else:
+                filters = LOG_FILTERS
                 returncode = run_process(
                     cmd,
                     cwd=cmd_cwd,
                     env=env,
                     logger=logger,
                     progress=progress,
+                    filters=filters,
                     merge_stderr=True,
                 )
 
