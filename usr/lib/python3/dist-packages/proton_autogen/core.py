@@ -125,58 +125,7 @@ paths = ~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools
 
     return cleaned
 
-#------------------------------------------------------------------------------------
-def detect_help_env_lang():
-    """
-    Détecte la langue pour --help-env :
-    priorité = CLI > env LANGUAGE > défaut en
-    """
-
-    # 1. Override CLI
-    if "--en" in sys.argv:
-        return "en"
-    if "--fr" in sys.argv:
-        return "fr"
-    if "--uk" in sys.argv:
-        return "uk"
-    if "--de" in sys.argv:
-        return "de"
-    if "--zh" in sys.argv:
-        return "zh"
-    if "--hi" in sys.argv:
-        return "hi"
-    if "--es" in sys.argv:
-        return "es"
-    if "--pt" in sys.argv:
-        return "pt"
-
-    # 2. Variable d'environnement système
-    lang_env = os.environ.get("LANGUAGE") or os.environ.get("LANG")
-
-    if lang_env:
-        lang_env = lang_env.lower()
-
-        if lang_env.startswith("fr"):
-            return "fr"
-        if lang_env.startswith("en"):
-            return "en"
-        if lang_env.startswith("de"):
-            return "de"
-        if lang_env.startswith("uk"):
-            return "uk"
-        if lang_env.startswith("zh"):
-            return "zh"
-        if lang_env.startswith("hi"):
-            return "hi"
-        if lang_env.startswith("es"):
-            return "es"
-        if lang_env.startswith("pt"):
-            return "pt"
-
-    # 3. défaut
-    return "en"
-
-
+#-----------------------------------------------------------------------------------------------
 def print_help_env(lang="fr"):
     groups = defaultdict(list)
 

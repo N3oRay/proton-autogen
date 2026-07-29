@@ -14,7 +14,7 @@ from proton_autogen.ux.search import filter_games
 from proton_autogen.notify import notifications
 from proton_autogen.backend import list_programs_ux
 from proton_autogen.stats import is_recent_launch
-from proton_autogen.core import detect_help_env_lang
+from proton_autogen.i18n import detect_help_env_lang
 
 
 # -----------------------------

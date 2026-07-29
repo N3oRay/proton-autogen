@@ -15,16 +15,12 @@ from proton_autogen.core import (
     print_proton_paths,
     export_default_profiles,
     load_profile_from_cli,
-    detect_help_env_lang,
     print_help_env,
     print_about,
 )
 
-from proton_autogen.editor import (
-    add_game,
-    edit_game_ui,
-)
-
+from proton_autogen.editor import add_game, edit_game_ui
+from proton_autogen.i18n import detect_help_env_lang
 from proton_autogen.info import print_help
 from proton_autogen.diag import print_diagnostic
 from proton_autogen.ux.dashboard import start_dashboard
