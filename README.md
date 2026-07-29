@@ -305,12 +305,12 @@ See the `LICENSE` file for details.
 
 ## 📈 GitHub Traffic
 ```markdown
-📦 Clones             ████████████████████  2,035
-👥 Unique cloners     ██████                512
-👀 Views              █████                 366
+📦 Clones             ████████████████████  2,091
+👥 Unique cloners     ████████              509
+👀 Views              ██████                393
 🌍 Unique visitors    ██                    157
 Ubuntu PPA
-📥 Downloads ████████████████████ 224
+📥 Downloads █████████████████████  231
 ```
 <sub>
 GitHub traffic statistics cover the last 14 days.
