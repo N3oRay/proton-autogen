@@ -5,22 +5,26 @@ LEGACY_RENDERER_RULES = {
 
     "ref_gl.dll": {
         "profile": "quake_opengl",
-        "mesa_year": "2002"
+        "mesa_year": "2002",
+        "mouse_fix": True
     },
 
     "ref_gl1.dll": {
         "profile": "quake_opengl",
-        "mesa_year": "2002"
+        "mesa_year": "2002",
+        "mouse_fix": True
     },
 
     "pvrgl.dll": {
         "profile": "powervr",
-        "mesa_year": "2001"
+        "mesa_year": "2001",
+        "mouse_fix": True
     },
 
     "pvrgl32.dll": {
         "profile": "powervr",
-        "mesa_year": "2001"
+        "mesa_year": "2001",
+        "mouse_fix": True
     }
 }
 
@@ -166,15 +170,21 @@ def env_dx9opengl(prefix=None, proton_path=None, exe_path=None):
 
             rules = LEGACY_RENDERER_RULES.get(renderer)
             if rules:
-                env["PROTON_USE_XALIA"] = "0"
-                # Legacy mouse/input
-                env["SDL_MOUSE_RELATIVE_MODE"] = "1"
-                env["WINE_MOUSE_WARP"] = "0"
-                env["WINE_DISABLE_MOUSE_CAPTURE"] = "0"
+                if rules.get("mouse_fix"):
+                    env["PROTON_USE_XALIA"] = "0"
+                    env["SDL_MOUSE_RELATIVE_MODE"] = "1"
+                    env["SDL_VIDEO_X11_MOUSE_GRAB"] = "1"
 
-                # x11
-                env["SDL_MOUSE_RELATIVE_MODE"] = "1"
-                env["SDL_VIDEO_X11_MOUSE_GRAB"] = "1"
+                    env["WINE_FULLSCREEN_MOUSE_CAPTURE"] = "1"
+                    env["SDL_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR"] = "1"
+
+                env["WINE_FULLSCREEN_WINDOW"] = "1"
+                env["SDL_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR"] = "1"
+                env["SDL_VIDEO_X11_XRANDR"] = "1"
+                # Legacy mouse/input
+
+                env["WINE_MOUSE_WARP"] = "0"
+                #env["WINE_DISABLE_MOUSE_CAPTURE"] = "0"
 
                 env["WINE_FULLSCREEN_FSR"] = "0"
                 env["WINE_FULLSCREEN_INTEGER_SCALING"] = "0"
