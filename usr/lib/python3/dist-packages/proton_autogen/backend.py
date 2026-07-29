@@ -24,6 +24,7 @@ from proton_autogen.core import (
 
     has_mangohud,
     has_gamemode,
+    has_gamescope,
     has_proton_call,
     has_wine,
 

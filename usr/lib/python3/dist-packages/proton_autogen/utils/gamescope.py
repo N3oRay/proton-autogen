@@ -78,7 +78,7 @@ def build_gamescope_command(env: dict) -> List[str]:
         cmd.append("--force-grab-cursor")
 
     if env.get("GAMESCOPE_BORDERLESS") == "1":
-        cmd.append("--borderless")  #cmd.append("-b")      # or "--borderless"
+        cmd.append("--borderless")  #cmd.append("-b")      # or "--borderless" # instable !
 
     cmd.append("--")
 

@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 
 from proton_autogen.config import VERSION
-from proton_autogen.core import has_wine, has_gamemode, has_mangohud, has_proton_call, load_proton_paths
+from proton_autogen.core import has_wine, has_gamemode, has_gamescope, has_mangohud, has_proton_call, load_proton_paths
 from proton_autogen.diagnostic import diagnostic_report, load_logs
 
 
@@ -235,11 +235,11 @@ def print_diagnostic():
 
     runtime_checks = {
         "proton-call": has_proton_call(),
-        "wine       ": has_wine(),
-        "gamemode   ": has_gamemode(),
-        "mangohud   ": has_mangohud(),
+        "wine64"     : has_wine(),
+        "GameMode"   : has_gamemode(),
+        "Gamescope"  : has_gamescope(),
+        "MangoHud"   : has_mangohud(),
     }
-
     print("Runtime:")
     for name, ok in runtime_checks.items():
         print(f"  {name} : {_yesno(ok)}")
@@ -296,6 +296,7 @@ def print_install_hints():
         ("proton-call", has_proton_call()),
         ("wine64", has_wine()),
         ("gamemode", has_gamemode()),
+        ("gamescope", has_gamescope()),
         ("mangohud", has_mangohud()),
     ]
 
@@ -315,21 +316,21 @@ def print_install_hints():
         if distro in ["debian", "ubuntu", "linuxmint"]:
             print("\nRecommended install commands (APT-based):\n")
             print("sudo apt update")
-            print("sudo apt install wine64 gamemode mangohud\n")
+            print("sudo apt install wine64 gamemode gamescope mangohud\n")
 
         # -----------------------------
         # Arch / CachyOS
         # -----------------------------
         elif distro in ["arch", "cachyos"]:
             print("\nRecommended install commands (Pacman-based):\n")
-            print("sudo pacman -S wine gamemode mangohud\n")
+            print("sudo pacman -S wine gamemode gamescope mangohud\n")
 
         # -----------------------------
         # fallback
         # -----------------------------
         else:
             print("\nGeneric Linux install commands:\n")
-            print("wine / gamemode / mangohud must be installed via your package manager\n")
+            print("wine / gamemode / gamescope / mangohud must be installed via your package manager\n")
 
         # -----------------------------
         # Flatpak (universal)
@@ -359,6 +360,7 @@ def print_install_hints():
         "Install Steam",
         "Install Proton via Steam or ProtonUp-Qt",
         "Install gamemode + mangohud for performance overlay",
+        "Install gamescope for fullscreen on old game.",
         "Restart session (important for gamemode)",
     ]
 
