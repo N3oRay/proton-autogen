@@ -1,8 +1,31 @@
 import os
 from proton_autogen.profiles.base import init_env
 
+LEGACY_RENDERER_RULES = {
 
-def detect_legacy_opengl(exe_path):
+    "ref_gl.dll": {
+        "profile": "quake_opengl",
+        "mesa_year": "2002"
+    },
+
+    "ref_gl1.dll": {
+        "profile": "quake_opengl",
+        "mesa_year": "2002"
+    },
+
+    "pvrgl.dll": {
+        "profile": "powervr",
+        "mesa_year": "2001"
+    },
+
+    "pvrgl32.dll": {
+        "profile": "powervr",
+        "mesa_year": "2001"
+    }
+}
+
+
+def detect_legacy_renderer(exe_path):
     legacy_renderers = [
         "ref_gl.dll",
         "ref_gl1.dll",
@@ -16,10 +39,10 @@ def detect_legacy_opengl(exe_path):
     for root, dirs, files in os.walk(directory):
         for file in files:
             if file.lower() in legacy_renderers:
-                print(f"[proton-autogen] OpenGL legacy renderer found: {file}")
-                return True
+                print(f"[proton-autogen] Legacy renderer found: {file}")
+                return file.lower()
 
-    return False
+    return None
 # ---------------------------------------------------
 # 2. DX11 PROFILE (most games)
 # ---------------------------------------------------
@@ -48,11 +71,18 @@ def env_dx11(prefix=None, proton_path=None, exe_path=None):
     # -----------------------------------------
     # Legacy OpenGL detection
     # -----------------------------------------
-    if exe_path and detect_legacy_opengl(exe_path):
-        print("[proton-autogen] Legacy OpenGL renderer detected")
+    if exe_path :
+        renderer = detect_legacy_renderer(exe_path)
+        if renderer:
+            print(f"[proton-autogen] Applying OpenGL compatibility fix: {renderer}")
 
-        env["PROTON_OLD_GL_STRING"] = "1"
-        env["MESA_EXTENSION_MAX_YEAR"] = "2002"
+            rules = LEGACY_RENDERER_RULES.get(renderer)
+            if rules:
+                # Legacy mouse/input
+                env["SDL_MOUSE_RELATIVE_MODE"] = "1"
+                env["WINE_MOUSE_WARP"] = "0"
+                env["PROTON_OLD_GL_STRING"] = "1"
+                env["MESA_EXTENSION_MAX_YEAR"] = rules["mesa_year"]
 
     return env
 

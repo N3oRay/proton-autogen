@@ -1,4 +1,48 @@
+import os
 from proton_autogen.profiles.base import init_env
+
+LEGACY_RENDERER_RULES = {
+
+    "ref_gl.dll": {
+        "profile": "quake_opengl",
+        "mesa_year": "2002"
+    },
+
+    "ref_gl1.dll": {
+        "profile": "quake_opengl",
+        "mesa_year": "2002"
+    },
+
+    "pvrgl.dll": {
+        "profile": "powervr",
+        "mesa_year": "2001"
+    },
+
+    "pvrgl32.dll": {
+        "profile": "powervr",
+        "mesa_year": "2001"
+    }
+}
+
+
+def detect_legacy_renderer(exe_path):
+    legacy_renderers = [
+        "ref_gl.dll",
+        "ref_gl1.dll",
+        "pvrgl.dll",
+        "pvrgl32.dll",
+        "opengl32.dll"
+    ]
+
+    directory = os.path.dirname(exe_path)
+
+    for root, dirs, files in os.walk(directory):
+        for file in files:
+            if file.lower() in legacy_renderers:
+                print(f"[proton-autogen] Legacy renderer found: {file}")
+                return file.lower()
+
+    return None
 
 def env_dx9(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
@@ -26,6 +70,19 @@ def env_dx9(prefix=None, proton_path=None, exe_path=None):
 
     env.pop("vblank_mode", None)
     env.pop("mesa_glthread", None)
+
+    # -----------------------------------------
+    # Legacy OpenGL detection
+    # -----------------------------------------
+    if exe_path :
+        renderer = detect_legacy_renderer(exe_path)
+        if renderer:
+            print(f"[proton-autogen] Applying OpenGL compatibility fix: {renderer}")
+
+            rules = LEGACY_RENDERER_RULES.get(renderer)
+            if rules:
+                env["PROTON_OLD_GL_STRING"] = "1"
+                env["MESA_EXTENSION_MAX_YEAR"] = rules["mesa_year"]
 
 
     return env
@@ -61,6 +118,19 @@ def env_dx9dg(prefix=None, proton_path=None, exe_path=None):
     env["DXVK_ENABLE_NVAPI"] = "0"
     env.pop("DXVK_HUD", None)
 
+    # -----------------------------------------
+    # Legacy OpenGL detection
+    # -----------------------------------------
+    if exe_path :
+        renderer = detect_legacy_renderer(exe_path)
+        if renderer:
+            print(f"[proton-autogen] Applying OpenGL compatibility fix: {renderer}")
+
+            rules = LEGACY_RENDERER_RULES.get(renderer)
+            if rules:
+                env["PROTON_OLD_GL_STRING"] = "1"
+                env["MESA_EXTENSION_MAX_YEAR"] = rules["mesa_year"]
+
     return env
 
 def env_dx9opengl(prefix=None, proton_path=None, exe_path=None):
@@ -85,6 +155,33 @@ def env_dx9opengl(prefix=None, proton_path=None, exe_path=None):
 
     env.pop("vblank_mode", None)
     env.pop("mesa_glthread", None)
+
+    # -----------------------------------------
+    # Legacy OpenGL detection
+    # -----------------------------------------
+    if exe_path :
+        renderer = detect_legacy_renderer(exe_path)
+        if renderer:
+            print(f"[proton-autogen] Applying OpenGL compatibility fix: {renderer}")
+
+            rules = LEGACY_RENDERER_RULES.get(renderer)
+            if rules:
+                env["PROTON_USE_XALIA"] = "0"
+                # Legacy mouse/input
+                env["SDL_MOUSE_RELATIVE_MODE"] = "1"
+                env["WINE_MOUSE_WARP"] = "0"
+                env["WINE_DISABLE_MOUSE_CAPTURE"] = "0"
+
+                # x11
+                env["SDL_MOUSE_RELATIVE_MODE"] = "1"
+                env["SDL_VIDEO_X11_MOUSE_GRAB"] = "1"
+
+                env["WINE_FULLSCREEN_FSR"] = "0"
+                env["WINE_FULLSCREEN_INTEGER_SCALING"] = "0"
+
+                env["WINEDLLOVERRIDES"] = "dinput=n,b;dinput8=n,b"
+                env["PROTON_OLD_GL_STRING"] = "1"
+                env["MESA_EXTENSION_MAX_YEAR"] = rules["mesa_year"]
 
 
     return env
