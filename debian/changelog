@@ -1,11 +1,11 @@
-proton-autogen (3.1.7) noble; urgency=medium
+proton-autogen (3.1.8) noble; urgency=medium
 
   * Thanks to all users and contributors for their continued support, feedback and encouragement throughout the development of proton-autogen.
-  * Added CSS compatibility fixes to improve rendering and interface consistency in affected applications.
-  * Added automatic .NET runtime detection to improve compatibility and launch configuration.
-  * Added a dedicated DirectX 8 profile with optimized compatibility settings for legacy DirectX 8 games.
-  * Added UX improvements to provide a smoother and more intuitive user experience.
-  * Improved runtime detection logic and compatibility handling.
+  * Added optional Gamescope support for improved fullscreen compatibility and a more consistent gaming experience.
+  * Added the --gamescope command-line option to force launching games through Gamescope.
+  * Added Proton-specific environment variables to improve compatibility with supported Proton versions.
+  * Improved the DX9/OpenGL profile for better compatibility and stability with legacy OpenGL games.
+  * Improved runtime detection and Gamescope integration.
   * Minor stability improvements and internal code cleanup.
   * General stability improvements and code cleanup.
 
