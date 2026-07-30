@@ -263,7 +263,7 @@ nautilus -q
 * [x] GameScope integration
 * [ ] Automatic dependency installation (.NET, VC++, DirectX...)
 * [ ] ProtonDB integration
-* [ ] Bottles integration
+* [ ] Import / Export Bottles
 * [ ] Silent mode
 
 ---
