@@ -252,20 +252,27 @@ nautilus -q
 ---
 
 ## 🛣️ Roadmap
+### Core features
 
-* [x] Per-application profiles
-* [x] Advanced prefix control (Steam compatdata integration)
-* [x] Configuration file support
-* [x] Game / Installer auto-detection
-* [x] GUI frontend
-* [x] Lutris profile export
-* [ ] Lutris profile import
-* [x] Sensors and MangoHud Help
-* [x] GameScope integration
-* [ ] Automatic dependency installation (.NET, VC++, DirectX...)
-* [ ] ProtonDB integration
-* [ ] Import / Export Bottles
-* [ ] Silent mode
+- [x] Per-application profiles
+- [x] Advanced prefix control (Steam compatdata integration)
+- [x] Configuration file support
+- [x] Game / Installer auto-detection
+- [x] GUI frontend
+
+### Gaming integrations
+
+- [x] Lutris profile export
+- [ ] Lutris profile import
+- [ ] Bottles profile import/export
+- [x] Sensors and MangoHud support
+- [x] Gamescope integration
+
+### Automation
+
+- [ ] ProtonDB integration
+- [ ] Automatic dependency installation (.NET, VC++, DirectX...)
+- [ ] Silent mode
 
 ---
 
