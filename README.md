@@ -311,7 +311,14 @@ This project is licensed under the MIT License.
 
 See the `LICENSE` file for details.
 
-## 📈 GitHub Traffic
+
+## 📈 Project Activity
+
+Actively maintained and used by Linux users, with regular releases and ongoing improvements.
+<sub>
+GitHub traffic statistics cover the last 14 days:
+</sub>
+
 ```markdown
 📦 Clones             ████████████████████  2,091
 👥 Unique cloners     ████████              509
