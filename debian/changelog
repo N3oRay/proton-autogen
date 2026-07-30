@@ -1,12 +1,16 @@
-proton-autogen (3.1.8) noble; urgency=medium
+proton-autogen (3.1.9) noble; urgency=medium
 
   * Thanks to all users and contributors for their continued support, feedback and encouragement throughout the development of proton-autogen.
-  * Added optional Gamescope support for improved fullscreen compatibility and a more consistent gaming experience.
-  * Added the --gamescope command-line option to force launching games through Gamescope.
-  * Added Proton-specific environment variables to improve compatibility with supported Proton versions.
-  * Improved the DX9/OpenGL profile for better compatibility and stability with legacy OpenGL games.
-  * Improved runtime detection and Gamescope integration.
-  * Minor stability improvements and internal code cleanup.
+  * Added a complete manual page (man proton-autogen) with automatic documentation generation through help2man.
+  * Added improved multilingual documentation support with external translation files.
+  * Added new translations and updated help documentation for multiple languages including English, French, German, Spanish, Portuguese, Chinese, Ukrainian, Hindi and Arabic.
+  * Improved internationalization architecture by moving user-facing documentation outside the Python source code.
+  * Improved Gamescope integration with enhanced argument handling, scaling support and runtime stability.
+  * Added automated tests for Gamescope functionality and command-line path handling.
+  * Improved Proton-Call stability and backend command filtering.
+  * Improved runtime handling and internal core module organization.
+  * Reduced duplicated code and cleaned internal components for better maintainability.
+  * Updated README documentation and project information.
   * General stability improvements and code cleanup.
 
- -- N3oray <n3oray77@gmail.com>  Wed, 29 Jul 2026 04:25:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Thu, 30 Jul 2026 22:02:47 +0200
