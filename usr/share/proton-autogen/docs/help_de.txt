@@ -1,0 +1,78 @@
+PROTON-AUTOGEN - HILFE
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+VERWENDUNG
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+proton-autogen <datei.exe>
+proton-autogen run <datei.exe>
+proton-autogen add <datei.exe>
+proton-autogen edit <datei.exe>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+INFORMATIONEN
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--ux        GTK4-Grafikoberfläche
+--v         Version anzeigen
+--about     Über Proton-Autogen
+--help      Diese Hilfe anzeigen
+--help-env  Hilfe zu den Umgebungsvariablen
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+PRÄFIX-SYSTEM
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEAM_COMPAT_DATA_PATH
+
+--pc        Benutzerdefiniertes Präfix
+--pa        Automatisches Präfix
+--ps        Gemeinsames Präfix
+Standard    Hauptpräfix
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+PROFILE
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--json-profile   Profile im JSON-Format exportieren
+--profile dx11   Angegebenes Profil verwenden
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+ERKENNUNG
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--list-protons   Erkannte Proton-Versionen auflisten
+--list-programs  Registrierte Programme auflisten
+--proton-paths   Erkannte Proton-Pfade anzeigen
+--diag           Diagnose starten
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+AUSFÜHRUNG
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+proton-autogen game.exe
+proton-autogen run game.exe
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+OPTIONEN
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--debug       Debug-Modus aktivieren
+--verbose     Ausführliche Ausgabe aktivieren
+--mangohud    FPS und Leistungsinformationen anzeigen
+--gamemode    Systemleistung für Spiele optimieren
+--gamescope   Gamescope verwenden
+--wine        Verwendung von Wine erzwingen
+--proton      Verwendung von Proton erzwingen
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+BEISPIELE
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+proton-autogen game.exe
+proton-autogen game.exe --gamemode --mangohud --gamescope
+
+# Integriertes Gamescope
+proton-autogen game.exe --gamescope
+
+# Manuelles Gamescope (fortgeschritten)
+gamescope -f -W 1280 -H 1024 -- proton-autogen game.exe
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+HINWEISE
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Automatische Auswahl der besten Proton-Version
+- Automatischer Wechsel zu Wine, wenn Proton nicht verfügbar ist
+- Kompatibel mit Steam, Flatpak und Compatibility Tools

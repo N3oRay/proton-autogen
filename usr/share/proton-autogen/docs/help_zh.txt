@@ -1,0 +1,78 @@
+PROTON-AUTOGEN - 帮助
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+用法
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+proton-autogen <file.exe>
+proton-autogen run <file.exe>
+proton-autogen add <file.exe>
+proton-autogen edit <file.exe>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+信息
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--ux        GTK4 图形界面
+--v         显示版本
+--about     关于 Proton-Autogen
+--help      显示此帮助
+--help-env  环境变量帮助
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+前缀系统
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEAM_COMPAT_DATA_PATH
+
+--pc        自定义前缀
+--pa        自动前缀
+--ps        共享前缀
+default     主前缀
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+配置文件
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--json-profile   导出配置文件为 JSON
+--profile dx11   使用指定配置文件
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+发现
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--list-protons   列出检测到的 Proton 版本
+--list-programs  列出已注册程序
+--proton-paths   显示检测到的 Proton 路径
+--diag           运行诊断
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+执行
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+proton-autogen game.exe
+proton-autogen run game.exe
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+选项
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--debug       启用调试模式
+--verbose     启用详细输出
+--mangohud    显示 FPS 和性能信息
+--gamemode    优化系统游戏性能
+--gamescope   使用 Gamescope
+--wine        强制使用 Wine
+--proton      强制使用 Proton
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+示例
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+proton-autogen game.exe
+proton-autogen game.exe --gamemode --mangohud --gamescope
+
+# 内置 Gamescope
+proton-autogen game.exe --gamescope
+
+# 手动使用 Gamescope（高级）
+gamescope -f -W 1280 -H 1024 -- proton-autogen game.exe
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+说明
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+- 自动选择最佳 Proton 版本
+- 如果 Proton 不可用，则自动回退到 Wine
+- 兼容 Steam、Flatpak 和 Compatibility Tools

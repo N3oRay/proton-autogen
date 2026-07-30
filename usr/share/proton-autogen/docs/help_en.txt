@@ -1,0 +1,78 @@
+PROTON-AUTOGEN - HELP
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+USAGE
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+proton-autogen <file.exe>
+proton-autogen run <file.exe>
+proton-autogen add <file.exe>
+proton-autogen edit <file.exe>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+INFORMATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--ux        GTK4 graphical interface
+--v         Display version
+--about     About Proton-Autogen
+--help      Display this help
+--help-env  Environment variables help
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+PREFIX SYSTEM
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEAM_COMPAT_DATA_PATH
+
+--pc        Custom prefix
+--pa        Automatic prefix
+--ps        Shared prefix
+default     Main prefix
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+PROFILES
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--json-profile   Export profiles as JSON
+--profile dx11   Use the specified profile
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+DISCOVERY
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--list-protons   List detected Proton versions
+--list-programs  List registered programs
+--proton-paths   Display detected Proton paths
+--diag           Run diagnostics
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+EXECUTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+proton-autogen game.exe
+proton-autogen run game.exe
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+OPTIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--debug       Enable debug mode
+--verbose     Enable verbose output
+--mangohud    Display FPS and performance information
+--gamemode    Optimize system performance
+--gamescope   Use Gamescope
+--wine        Force Wine
+--proton      Force Proton
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+EXAMPLES
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+proton-autogen game.exe
+proton-autogen game.exe --gamemode --mangohud --gamescope
+
+# Built-in Gamescope
+proton-autogen game.exe --gamescope
+
+# Manual Gamescope (advanced)
+gamescope -f -W 1280 -H 1024 -- proton-autogen game.exe
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+NOTES
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Automatically selects the best Proton version
+- Automatically falls back to Wine if Proton is unavailable
+- Compatible with Steam, Flatpak, and Compatibility Tools

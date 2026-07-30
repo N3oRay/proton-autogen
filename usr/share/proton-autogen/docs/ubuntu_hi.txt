@@ -1,0 +1,78 @@
+## आवश्यकताएँ
+
+Proton-autogen कई मौजूदा टूल्स पर आधारित है
+और उनके उपयोग को सरल बनाने के लिए एक ऑर्केस्ट्रेटर के रूप में कार्य करता है।
+
+पूर्ण Proton वातावरण के लिए निम्नलिखित टूल्स को स्थापित करने की अनुशंसा की जाती है:
+
+- Steam
+- GameMode
+- MangoHud
+- ProtonUp-Qt
+
+स्थापना (Linux Mint / Ubuntu)
+-----------------------------
+
+1. सिस्टम को अपडेट करें
+
+```bash
+sudo apt update && sudo apt upgrade -y
+```
+
+2. GameMode स्थापित करें
+
+```bash
+sudo apt install gamemode -y
+```
+
+Steam लॉन्च विकल्प:
+
+```text
+gamemoderun %command%
+```
+
+3. MangoHud स्थापित करें
+
+```bash
+sudo apt install mangohud -y
+```
+
+Steam लॉन्च विकल्प:
+
+```text
+mangohud %command%
+```
+
+या GameMode के साथ:
+
+```text
+mangohud gamemoderun %command%
+```
+
+4. ProtonUp-Qt स्थापित करें
+
+यदि Flatpak स्थापित है:
+
+```bash
+flatpak install flathub net.davidotek.pupgui2
+```
+
+वैकल्पिक:
+
+ProtonUp-Qt प्रारंभ करें, **Steam** चुनें,
+फिर **Proton-GE** का नवीनतम संस्करण स्थापित करें।
+
+परिणाम:
+
+- **GameMode**: CPU प्रदर्शन को अनुकूलित करता है।
+- **MangoHud**: FPS और सिस्टम आँकड़े प्रदर्शित करता है।
+- **ProtonUp-Qt**: Proton-GE की स्थापना और प्रबंधन को सरल बनाता है।
+
+इन टूल्स की स्थापना के बाद,
+**Proton-autogen** आपके Proton वातावरण को स्वचालित रूप से प्रबंधित करेगा
+और आपके Windows अनुप्रयोगों को चला सकेगा।
+
+अनुशंसित न्यूनतम कॉन्फ़िगरेशन:
+
+- ProtonUp-Qt
+- Proton-autogen

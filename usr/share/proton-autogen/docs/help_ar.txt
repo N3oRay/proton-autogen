@@ -1,0 +1,78 @@
+PROTON-AUTOGEN - المساعدة
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+الاستخدام
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+proton-autogen <file.exe>
+proton-autogen run <file.exe>
+proton-autogen add <file.exe>
+proton-autogen edit <file.exe>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+المعلومات
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--ux        واجهة رسومية GTK4
+--v         عرض الإصدار
+--about     حول Proton-Autogen
+--help      عرض هذه المساعدة
+--help-env  مساعدة متغيرات البيئة
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+نظام البادئات
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEAM_COMPAT_DATA_PATH
+
+--pc        بادئة مخصصة
+--pa        بادئة تلقائية
+--ps        بادئة مشتركة
+افتراضيًا   البادئة الرئيسية
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+الملفات الشخصية
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--json-profile   تصدير الملفات الشخصية بصيغة JSON
+--profile dx11   استخدام الملف الشخصي المحدد
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+الاكتشاف
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--list-protons   عرض إصدارات Proton المكتشفة
+--list-programs  عرض البرامج المسجلة
+--proton-paths   عرض مسارات Proton المكتشفة
+--diag           تشغيل التشخيص
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+التشغيل
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+proton-autogen game.exe
+proton-autogen run game.exe
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+الخيارات
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--debug       تفعيل وضع تصحيح الأخطاء
+--verbose     تفعيل الإخراج التفصيلي
+--mangohud    عرض FPS ومعلومات الأداء
+--gamemode    تحسين أداء النظام
+--gamescope   استخدام Gamescope
+--wine        فرض استخدام Wine
+--proton      فرض استخدام Proton
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+أمثلة
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+proton-autogen game.exe
+proton-autogen game.exe --gamemode --mangohud --gamescope
+
+# Gamescope المدمج
+proton-autogen game.exe --gamescope
+
+# Gamescope اليدوي (متقدم)
+gamescope -f -W 1280 -H 1024 -- proton-autogen game.exe
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+ملاحظات
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+- اختيار أفضل إصدار من Proton تلقائيًا
+- الرجوع تلقائيًا إلى Wine إذا لم يكن Proton متوفرًا
+- متوافق مع Steam وFlatpak وCompatibility Tools

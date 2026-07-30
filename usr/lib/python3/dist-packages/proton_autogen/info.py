@@ -3,261 +3,44 @@
 # Proton-Autogen Help System
 # English (default) / Français
 
+from pathlib import Path
+import os
 from proton_autogen.i18n import detect_help_env_lang
 
 
-HELP_TEXT = {
-
-###############################################################################
-# ENGLISH
-###############################################################################
-
-"en": """PROTON-AUTOGEN - HELP
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-USAGE
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-proton-autogen <file.exe>
-proton-autogen run <file.exe>
-proton-autogen add <file.exe>
-proton-autogen edit <file.exe>
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-INFORMATION
-━━━━━━━━━━━━━━━━━━━━━━━━━━
---ux        GTK4 interface
---v         version
---about     about information
---help      display this help
---help-env  environment help
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-PREFIX SYSTEM
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-STEAM_COMPAT_DATA_PATH
-
---pc        custom prefix
---pa        automatic prefix
---ps        shared prefix
-default     main prefix
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-PROFILES
-━━━━━━━━━━━━━━━━━━━━━━━━━━
---json-profile
---profile dx11
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-DISCOVERY
-━━━━━━━━━━━━━━━━━━━━━━━━━━
---list-protons
---list-programs
---proton-paths
---diag
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-EXECUTION
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-proton-autogen game.exe
-proton-autogen run game.exe
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-OPTIONS
-━━━━━━━━━━━━━━━━━━━━━━━━━━
---debug
---verbose
---mangohud
---gamemode
---gamescope
---wine
---proton
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-EXAMPLES
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-proton-autogen game.exe
-proton-autogen game.exe --gamemode --mangohud --gamescope
-# Built-in Gamescope
-proton-autogen game.exe --gamescope
-# Manual Gamescope (advanced)
-gamescope -f -W 1280 -H 1024 -- proton-autogen game.exe
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-NOTES
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-- Automatic Proton selection
-- Wine fallback
-- Steam / Flatpak support
-
-""",
-
-###############################################################################
-# FRANÇAIS
-###############################################################################
-
-"fr": """PROTON-AUTOGEN - AIDE
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-UTILISATION
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-proton-autogen <fichier.exe>
-proton-autogen run <fichier.exe>
-proton-autogen add <fichier.exe>
-proton-autogen edit <fichier.exe>
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-INFORMATIONS
-━━━━━━━━━━━━━━━━━━━━━━━━━━
---ux        Interface GTK4
---v         version
---about     informations
---help      afficher cette aide
---help-env  aide sur l'environnement
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-SYSTÈME DE PRÉFIXES
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-STEAM_COMPAT_DATA_PATH
-
---pc        préfixe personnalisé
---pa        préfixe automatique
---ps        préfixe partagé
-par défaut  préfixe principal
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-PROFILS
-━━━━━━━━━━━━━━━━━━━━━━━━━━
---json-profile
---profile dx11
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-DÉCOUVERTE
-━━━━━━━━━━━━━━━━━━━━━━━━━━
---list-protons
---list-programs
---proton-paths
---diag
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-EXÉCUTION
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-proton-autogen game.exe
-proton-autogen run game.exe
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-OPTIONS
-━━━━━━━━━━━━━━━━━━━━━━━━━━
---debug
---verbose
---mangohud
---gamemode
---gamescope
---wine
---proton
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-EXEMPLES
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-proton-autogen game.exe
-proton-autogen game.exe --gamemode --mangohud --gamescope
-# Gamescope intégré
-proton-autogen game.exe --gamescope
-# Gamescope manuel (avancé)
-gamescope -f -W 1280 -H 1024 -- proton-autogen game.exe
+DEV_DOCS = Path(__file__).parent / "docs"
+SYS_DOCS = Path("/usr/share/proton-autogen/docs")
 
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-NOTES
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-- Sélection automatique de Proton
-- Repli sur Wine
-- Compatible Steam / Flatpak
+def get_docs_root():
+    if DEV_DOCS.exists():
+        return DEV_DOCS
+    return SYS_DOCS
 
-""",
 
-###############################################################################
-# CHINESE (Simplified)
-###############################################################################
+def get_help_text():
+    root = get_docs_root()
+    lang = detect_help_env_lang()
 
-"zh": """PROTON-AUTOGEN - 帮助
+    candidates = [
+        f"help_{lang}.txt",
+        "help_en.txt"
+    ]
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-用法
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-proton-autogen <file.exe>
-proton-autogen run <file.exe>
-proton-autogen add <file.exe>
-proton-autogen edit <file.exe>
+    for file in candidates:
+        path = root / file
+        if path.exists():
+            return path.read_text(encoding="utf-8")
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-信息
-━━━━━━━━━━━━━━━━━━━━━━━━━━
---ux        GTK4 图形界面
---v         版本
---about     关于信息
---help      显示此帮助
---help-env  环境帮助
+    return "📄 Documentation not available."
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-前缀系统
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-STEAM_COMPAT_DATA_PATH
 
---pc        自定义前缀
---pa        自动前缀
---ps        共享前缀
-default     主前缀
+def afficher_helps():
+    print(get_help_text())
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-配置文件
-━━━━━━━━━━━━━━━━━━━━━━━━━━
---json-profile
---profile dx11
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-发现
-━━━━━━━━━━━━━━━━━━━━━━━━━━
---list-protons
---list-programs
---proton-paths
---diag
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-执行
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-proton-autogen game.exe
-proton-autogen run game.exe
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-选项
-━━━━━━━━━━━━━━━━━━━━━━━━━━
---debug
---verbose
---mangohud
---gamemode
---gamescope
---wine
---proton
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-示例
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-proton-autogen game.exe
-proton-autogen game.exe --gamemode --mangohud --gamescope
-# Built-in Gamescope
-proton-autogen game.exe --gamescope
-# Manual Gamescope (advanced)
-gamescope -f -W 1280 -H 1024 -- proton-autogen game.exe
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-备注
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-- 自动选择 Proton
-- Wine 备用方案
-- 支持 Steam / Flatpak
-
-"""
-}
+def afficher_helps_label():
+    return get_help_text()
 
 
 CLI_HELP = {
@@ -655,11 +438,6 @@ Notes :
   - 可在 ~/.config/proton-autogen.conf 配置自定义 Proton 路径
 """
 }
-
-def get_help_text(lang=None):
-    if lang is None:
-        lang = detect_help_env_lang()
-    return HELP_TEXT.get(lang, HELP_TEXT["en"])
 
 
 def print_help(lang=None):
