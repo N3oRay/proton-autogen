@@ -47,6 +47,12 @@ jobs:
           sudo cp -r usr/lib/python3/dist-packages/proton_autogen \
             /usr/lib/python3/dist-packages/
 
+      - name: Run gamescope tests only
+        run: |
+          export PYTHONPATH=/usr/lib/python3.*/site-packages
+          export PATH=/usr/bin:$PATH
+          python -m pytest tests/test_gamescope.py -v
+
       - name: Run tests
         run: |
           export PYTHONPATH=/usr/lib/python3/dist-packages
@@ -88,6 +94,12 @@ jobs:
           cp -r usr/lib/python3/dist-packages/proton_autogen \
             /usr/lib/python3.*/site-packages/
 
+      - name: Run gamescope tests only
+        run: |
+          export PYTHONPATH=/usr/lib/python3.*/site-packages
+          export PATH=/usr/bin:$PATH
+          python -m pytest tests/test_gamescope.py -v
+
       - name: Run tests
         run: |
           export PYTHONPATH=/usr/lib/python3.*/site-packages
@@ -127,6 +139,12 @@ jobs:
           mkdir -p /usr/lib/python3.*/site-packages/proton_autogen
           cp -r usr/lib/python3/dist-packages/proton_autogen \
             /usr/lib/python3.*/site-packages/
+
+      - name: Run gamescope tests only
+        run: |
+          export PYTHONPATH=/usr/lib/python3.*/site-packages
+          export PATH=/usr/bin:$PATH
+          python -m pytest tests/test_gamescope.py -v
 
       - name: Run tests
         run: |
