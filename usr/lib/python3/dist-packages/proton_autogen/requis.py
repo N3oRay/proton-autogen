@@ -3,6 +3,7 @@ import locale
 import os
 import subprocess
 from proton_autogen.cachyos import get_cachy_text
+from proton_autogen.i18n import detect_help_env_lang
 
 
 def has_nvidia_gpu():
@@ -59,29 +60,6 @@ if env["nvidia"]:
     print("NVIDIA GPU detected → enable compatibility hints")
 """
 
-def detect_language():
-    lang = locale.getlocale()[0]
-
-    if not lang:
-        return "en"
-
-    lang = lang.lower()
-
-    if lang.startswith("fr"):
-        return "fr"
-    if lang.startswith("de"):
-        return "de"
-    if lang.startswith("es"):
-        return "es"
-    if lang.startswith("zh"):
-        return "zh"
-    if lang.startswith("uk"):
-        return "uk"
-    if lang.startswith("pt"):
-        return "pt"
-
-    return "en"
-
 
 def detect_distro():
     try:
@@ -137,7 +115,7 @@ def get_requirements_text():
 
     root = get_docs_root()
 
-    lang = detect_language()
+    lang = detect_help_env_lang()
     distro = detect_distro()
 
     texts = []
@@ -172,7 +150,7 @@ def get_requirements_text():
 def get_prerequisites_text():
     root = get_docs_root()
 
-    lang = detect_language()
+    lang = detect_help_env_lang()
     distro = detect_distro()
 
     file_path = root / f"{distro}_{lang}.txt"
