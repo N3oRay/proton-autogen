@@ -483,6 +483,9 @@ def run_process(
         nonlocal percent
 
         line = line.rstrip()
+        # Ignore les lignes vides
+        if not line:
+            return
 
         # Filtrage uniquement en mode normal
         if not debug:
