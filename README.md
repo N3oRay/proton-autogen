@@ -313,9 +313,9 @@ See the `LICENSE` file for details.
 
 
 ## 📈 Project Activity
-
-Actively maintained and used by Linux users, with regular releases and ongoing improvements.
 <sub>
+Actively maintained and used by Linux users, with regular releases and ongoing improvements.
+
 GitHub traffic statistics cover the last 14 days:
 </sub>
 
@@ -328,6 +328,5 @@ Ubuntu PPA
 📥 Downloads █████████████████████  252
 ```
 <sub>
-GitHub traffic statistics cover the last 14 days.
 Launchpad downloads represent PPA package downloads, not unique users.
 </sub>
