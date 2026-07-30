@@ -258,7 +258,8 @@ nautilus -q
 * [x] Configuration file support
 * [x] Game / Installer auto-detection
 * [x] GUI frontend
-* [x] Lutris integration
+* [x] Lutris profile export
+* [ ] Lutris profile import
 * [x] Sensors and MangoHud Help
 * [x] GameScope integration
 * [ ] Automatic dependency installation (.NET, VC++, DirectX...)
