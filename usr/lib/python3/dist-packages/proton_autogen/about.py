@@ -1,30 +1,7 @@
 from pathlib import Path
-import locale
 import os
+from proton_autogen.i18n import detect_help_env_lang
 
-
-def detect_language():
-    lang = locale.getlocale()[0]
-
-    if not lang:
-        return "en"
-
-    lang = lang.lower()
-
-    if lang.startswith("fr"):
-        return "fr"
-    if lang.startswith("de"):
-        return "de"
-    if lang.startswith("es"):
-        return "es"
-    if lang.startswith("zh"):
-        return "zh"
-    if lang.startswith("uk"):
-        return "uk"
-    if lang.startswith("pt"):
-        return "pt"
-
-    return "en"
 
 DEV_DOCS = Path(__file__).parent / "docs"
 SYS_DOCS = Path("/usr/share/proton-autogen/docs")
@@ -38,7 +15,7 @@ def get_docs_root():
 
 def get_about_text():
     root = get_docs_root()
-    lang = detect_language()
+    lang = detect_help_env_lang()
 
     candidates = [
         f"about_{lang}.txt",

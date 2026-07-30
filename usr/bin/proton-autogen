@@ -63,7 +63,8 @@ def main():
         return
 
     if "--help" in sys.argv or "-h" in sys.argv:
-        print_help()
+        lang = detect_help_env_lang()
+        print_help(lang)
         return
 
     if "--help-env" in sys.argv:

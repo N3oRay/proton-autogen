@@ -3,12 +3,7 @@
 # Proton-Autogen Help System
 # English (default) / Français
 
-import locale
-
-
-def get_language():
-    lang = locale.setlocale(locale.LC_ALL, "")
-    return "fr" if lang.lower().startswith("fr") else "en"
+from proton_autogen.i18n import detect_help_env_lang
 
 
 HELP_TEXT = {
@@ -73,6 +68,7 @@ OPTIONS
 --verbose
 --mangohud
 --gamemode
+--gamescope
 --wine
 --proton
 
@@ -80,8 +76,11 @@ OPTIONS
 EXAMPLES
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 proton-autogen game.exe
-proton-autogen game.exe --gamemode --mangohud
-gamescope -f -- proton-autogen game.exe
+proton-autogen game.exe --gamemode --mangohud --gamescope
+# Built-in Gamescope
+proton-autogen game.exe --gamescope
+# Manual Gamescope (advanced)
+gamescope -f -W 1280 -H 1024 -- proton-autogen game.exe
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 NOTES
@@ -152,6 +151,7 @@ OPTIONS
 --verbose
 --mangohud
 --gamemode
+--gamescope
 --wine
 --proton
 
@@ -159,8 +159,12 @@ OPTIONS
 EXEMPLES
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 proton-autogen game.exe
-proton-autogen game.exe --gamemode --mangohud
-gamescope -f -- proton-autogen game.exe
+proton-autogen game.exe --gamemode --mangohud --gamescope
+# Gamescope intégré
+proton-autogen game.exe --gamescope
+# Gamescope manuel (avancé)
+gamescope -f -W 1280 -H 1024 -- proton-autogen game.exe
+
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 NOTES
@@ -231,6 +235,7 @@ proton-autogen run game.exe
 --verbose
 --mangohud
 --gamemode
+--gamescope
 --wine
 --proton
 
@@ -238,8 +243,11 @@ proton-autogen run game.exe
 示例
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 proton-autogen game.exe
-proton-autogen game.exe --gamemode --mangohud
-gamescope -f -- proton-autogen game.exe
+proton-autogen game.exe --gamemode --mangohud --gamescope
+# Built-in Gamescope
+proton-autogen game.exe --gamescope
+# Manual Gamescope (advanced)
+gamescope -f -W 1280 -H 1024 -- proton-autogen game.exe
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 备注
@@ -484,10 +492,11 @@ Execution:
 
 Options:
 
-  --debug        Debug output
-  --verbose      Verbose output
-  --mangohud     Enable MangoHud overlay
-  --gamemode     Enable GameMode
+  --debug        Enable debug output
+  --verbose      Enable verbose output
+  --mangohud     Enable MangoHud: FPS, frame timing and performance overlay
+  --gamemode     Enable GameMode: Optimize system performance for gaming
+  --gamescope    Enable Gamescope: allows setting an internal resolution, refresh rate and various display options
   --call         Use Proton-Call
   --wine         Use Wine
   --proton       Use Proton only (default)
@@ -547,8 +556,9 @@ Options :
 
   --debug        Mode débogage
   --verbose      Mode verbeux
-  --mangohud     Activer MangoHud
-  --gamemode     Activer GameMode
+  --mangohud     Activer MangoHud : affichage des FPS et des informations de performance.
+  --gamemode     Activer GameMode : optimisation des performances.
+  --gamescope    Activer Gamescope : permet de définir une résolution interne, un taux de rafraîchissement et diverses options d'affichage.
   --call         Utiliser Proton-Call
   --wine         Utiliser Wine
   --proton       Utiliser uniquement Proton (par défaut)
@@ -607,8 +617,9 @@ Notes :
 
   --debug        调试输出
   --verbose      详细输出
-  --mangohud     启用 MangoHud 叠加层
-  --gamemode     启用 GameMode
+  --mangohud     启用 MangoHud：显示 FPS、帧时间和性能信息
+  --gamemode     启用 GameMode：优化游戏性能
+  --gamescope    启用 Gamescope：可设置内部渲染分辨率、刷新率以及其他显示选项
   --call         使用 Proton-Call
   --wine         使用 Wine
   --proton       仅使用 Proton（默认）
@@ -646,12 +657,14 @@ Notes :
 }
 
 def get_help_text(lang=None):
-    lang = lang or get_language()
+    if lang is None:
+        lang = detect_help_env_lang()
     return HELP_TEXT.get(lang, HELP_TEXT["en"])
 
 
 def print_help(lang=None):
-    lang = lang or get_language()
+    if lang is None:
+        lang = detect_help_env_lang()
 
     print(CLI_HELP.get(lang, CLI_HELP["en"]))
     print(CLI_HELP_2.get(lang, CLI_HELP_2["en"]))
@@ -672,10 +685,18 @@ TR = {
         "notes": "Notes",
         "about": "À propos",
     },
+    "zh": {
+        "usage": "用法",
+        "options": "选项",
+        "examples": "示例",
+        "notes": "备注",
+        "about": "关于",
+    },
 }
 
 def get_tr(key, lang=None):
-    lang = lang or get_language()
+    if lang is None:
+        lang = detect_help_env_lang()
     return TR.get(lang, TR["en"]).get(key, key)
 
 #---------------------------------------------------------------------------------------------------------------------------
