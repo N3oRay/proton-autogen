@@ -313,10 +313,9 @@ See the `LICENSE` file for details.
 
 
 ## 📈 Project Activity
+
 <sub>
 Actively maintained and used by Linux users, with regular releases and ongoing improvements.
-
-GitHub traffic statistics cover the last 14 days:
 </sub>
 
 ```markdown
