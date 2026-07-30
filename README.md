@@ -261,6 +261,7 @@ nautilus -q
 * [x] Lutris integration
 * [x] Sensors and MangoHud Help
 * [x] GameScope integration
+* [ ] Automatic dependency installation (.NET, VC++, DirectX...)
 * [ ] Winetricks integration
 * [ ] ProtonDB integration
 * [ ] Bottles integration
