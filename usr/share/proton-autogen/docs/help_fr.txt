@@ -76,3 +76,24 @@ NOTES
 - Sélection automatique de la meilleure version de Proton
 - Repli automatique sur Wine si Proton est indisponible
 - Compatible avec Steam, Flatpak et Compatibility Tools
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+VARIABLES D'ENVIRONNEMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Les variables suivantes sont facultatives et peuvent être utiles pour résoudre des problèmes de compatibilité.
+
+SDL_VIDEODRIVER=x11
+    Force les applications SDL à utiliser le backend X11.
+
+    Exemple :
+        SDL_VIDEODRIVER=x11 proton-autogen --ux
+
+SDL_VIDEODRIVER=wayland
+    Force les applications SDL à utiliser le backend Wayland natif.
+
+    Exemple :
+        SDL_VIDEODRIVER=wayland proton-autogen --ux
+
+Par défaut, SDL sélectionne automatiquement le backend le plus adapté.
+Ces variables sont principalement destinées aux tests de compatibilité et au dépannage.

@@ -76,3 +76,24 @@ gamescope -f -W 1280 -H 1024 -- proton-autogen game.exe
 - 自动选择最佳 Proton 版本
 - 如果 Proton 不可用，则自动回退到 Wine
 - 兼容 Steam、Flatpak 和 Compatibility Tools
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+环境变量
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+以下变量是可选的，可用于解决兼容性问题。
+
+SDL_VIDEODRIVER=x11
+    强制 SDL 应用程序使用 X11 后端。
+
+    示例：
+        SDL_VIDEODRIVER=x11 proton-autogen --ux
+
+SDL_VIDEODRIVER=wayland
+    强制 SDL 应用程序使用原生 Wayland 后端。
+
+    示例：
+        SDL_VIDEODRIVER=wayland proton-autogen --ux
+
+默认情况下，SDL 会自动选择最合适的后端。
+这些变量主要用于兼容性测试和故障排查。

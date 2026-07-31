@@ -55,9 +55,9 @@ def apply_goldsrc_legacy_fixes(env, exe_path):
                 rules["mesa_year"]
             )
 
-#-----------------------------------------------------------
+#---------------------------------------------------------------------------------
 # Valve - Sierra - Old Game (Hal-Life) env_goldsrc_full env_gold_test env_goldsrc
-#----------------------------------------------------------- env_goldsrc
+#---------------------------------------------------------------------------------
 def env_goldsrc(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
 

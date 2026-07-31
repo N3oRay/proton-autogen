@@ -168,8 +168,10 @@ def gpu_env(system=None, features=None):
     # -----------------------
     if detect_wayland_mode(system, features):
         env["PROTON_ENABLE_WAYLAND"] = "1"
+        #env["SDL_VIDEODRIVER"] = "wayland" # Uniquement cas specifique
     else:
         env["PROTON_ENABLE_WAYLAND"] = "0"
+        #env["SDL_VIDEODRIVER"] = "x11" # Uniquement cas specifique
 
     # Valeurs par défaut
     profile = features.get("gpu", "auto")
