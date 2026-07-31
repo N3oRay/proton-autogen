@@ -598,6 +598,19 @@ VULKAN_ENV_VARS = [
     # VULKAN
     # =========================================================
     {
+        "name": "AMD_VULKAN_ICD",
+        "type": "vulkan",
+        "category": "driver",
+        "description_fr": "Choisit l’ICD Vulkan AMD (RADV ou AMDVLK) utilisé par les applications.",
+        "description_en": "Selects the AMD Vulkan ICD (RADV or AMDVLK) used by applications.",
+        "description_de": "Wählt die von Anwendungen verwendete AMD-Vulkan-ICD (RADV oder AMDVLK) aus.",
+        "description_uk": "Вибирає AMD Vulkan ICD (RADV або AMDVLK), який використовується програмами.",
+        "description_zh": "选择应用程序使用的 AMD Vulkan ICD（RADV 或 AMDVLK）。",
+        "description_hi": "एप्लिकेशन द्वारा उपयोग किए जाने वाले AMD Vulkan ICD (RADV या AMDVLK) का चयन करता है।",
+        "description_es": "Selecciona el ICD Vulkan de AMD (RADV o AMDVLK) utilizado por las aplicaciones.",
+        "description_pt": "Seleciona o ICD Vulkan AMD (RADV ou AMDVLK) usado pelos aplicativos."
+    },
+    {
         "name": "VK_ICD_FILENAMES",
         "type": "vulkan",
         "category": "graphics",
