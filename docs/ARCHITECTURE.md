@@ -161,7 +161,6 @@ docs/screenshots/        (images démonstratives)
 ├─ env_dx9()             # DirectX 9 with FPS caps
 ├─ env_dx9opengl()       # DX9 + OpenGL fallback
 ├─ env_goldsrc()         # GoldSrc engine (Half-Life, Quake)
-├─ env_gold_test()       # GoldSrc test profile
 ├─ env_ut99()            # Unreal Tournament 99
 ├─ env_quake()           # Quake II cleanup
 ├─ env_ut3()             # Unreal Tournament 3

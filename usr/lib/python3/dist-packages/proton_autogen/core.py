@@ -26,7 +26,7 @@ from proton_autogen.profiles.dx8 import env_dx8dg
 from proton_autogen.profiles.dx9 import env_dx9, env_dx9dg, env_dx9opengl
 from proton_autogen.profiles.dx11 import env_dx11, env_dx11BNet
 from proton_autogen.profiles.modern import env_dx12
-from proton_autogen.profiles.engines import env_goldsrc_full, env_gold_test, env_goldsrc, env_ut99
+from proton_autogen.profiles.engines import env_goldsrc_full, env_goldsrc, env_ut99
 from proton_autogen.profiles.desktop import env_desktop, env_win95, env_win95Beta, env_DDraw
 from proton_autogen.profiles.launcher import env_launcher, env_install_clean
 from proton_autogen.profiles.type_profile import env_gtav_compat, env_gtav_x11, env_gtav_safe
@@ -331,7 +331,7 @@ def apply_dxvk_hud(env, exe_type, enable_mangohud, debug_mode=False):
         env.pop("DXVK_HUD", None)
         return env
 
-    SAFE_PROFILES = ["dotnet_csharp", "dotnet", "dx9opengl"]
+    SAFE_PROFILES = ["dotnet_csharp", "dotnet", "dx9opengl", "valve"]
 
     # Debug mode
     if debug_mode and exe_type not in SAFE_PROFILES:
@@ -688,7 +688,7 @@ def base_env(enable_mangohud=False, enable_gamemode=False, enable_gamescope=Fals
         #env["WINEDEBUG"] = "-all" #WINEDEBUG=+err,+warn
         #env["WINEDEBUG"] = "+err,+warn"
         #env["WINEDEBUG"] = "+seh,+tid"
-        env["WINEDEBUG"] = "+loaddll,+module"
+        env["WINEDEBUG"] = "+loaddll,+module,+seh,+tid,+relay"
     elif VERBOSE:
         env["PROTON_LOG"] = "1"
         #env["WINEDEBUG"] = "-all,-trace,-relay,-seh"
@@ -846,6 +846,7 @@ def run_game_proton(exe_path, exe_type, proton,
         env["STEAM_COMPAT_APP_ID"] = appid
         env["SteamAppId"] = appid
         env["SteamGameId"] = appid
+        env["SteamOverlayGameId"] = appid
 
         if VERBOSE or DEBUG:
             # Affichage des log debug CLI

@@ -1,12 +1,67 @@
+import os
 from proton_autogen.profiles.base import init_env
+from proton_autogen.utils.logger import StructuredLogger
+#-------------------------- Init Log -------------------
+logger = StructuredLogger("proton-autogen.profiles.engines")
+# -----------------------------------------------------------
+# GoldSrc / Valve Legacy Renderer Rules
+# -----------------------------------------------------------
+
+GOLDSRC_RENDERER_RULES = {
+
+    "hw.dll": {
+        "profile": "goldsrc_opengl",
+        "mesa_year": 2000,
+        "mouse_fix": True
+    }
+}
+
+
+def detect_goldsrc_renderer(exe_path):
+
+    legacy_renderers = ["hw.dll"]
+
+    directory = os.path.dirname(exe_path)
+
+    for root, dirs, files in os.walk(directory):
+        for file in files:
+            if file.lower() in legacy_renderers:
+                logger.info(
+                    f"[proton-autogen] GoldSrc renderer found: {file}"
+                )
+                return file.lower()
+
+    return None
+
+def apply_goldsrc_legacy_fixes(env, exe_path):
+
+    if not exe_path:
+        return
+
+    renderer = detect_goldsrc_renderer(exe_path)
+
+    if renderer:
+
+        logger.info(
+            f"[proton-autogen] Applying GoldSrc OpenGL fix: {renderer}"
+        )
+
+        rules = GOLDSRC_RENDERER_RULES.get(renderer)
+
+        if rules:
+
+            env["PROTON_OLD_GL_STRING"] = "1"
+            env["MESA_EXTENSION_MAX_YEAR"] = str(
+                rules["mesa_year"]
+            )
 
 #-----------------------------------------------------------
 # Valve - Sierra - Old Game (Hal-Life) env_goldsrc_full env_gold_test env_goldsrc
-#-----------------------------------------------------------
+#----------------------------------------------------------- env_goldsrc
 def env_goldsrc(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
 
-    print("[proton-autogen] GOLDSRC STEAM-LIKE PROFILE")
+    logger.info("[proton-autogen] GOLDSRC STEAM-LIKE PROFILE")
 
     # =========================
     # 🎮 RENDERING
@@ -20,7 +75,9 @@ def env_goldsrc(prefix=None, proton_path=None, exe_path=None):
     # 🧠 SOUND (Miles Audio)
     # =========================
     # IMPORTANT: évite crash audio GoldSrc
-    env["WINEDLLOVERRIDES"] = "mss32=builtin"
+    #env["WINEDLLOVERRIDES"] = "mss32=builtin"
+    #env["WINEDLLOVERRIDES"] = "mss32=native,builtin"
+    #env["WINEDLLOVERRIDES"] = "mss32=builtin"
 
     # =========================
     # 🖱️ INPUT (GoldSrc safe mode)
@@ -38,8 +95,8 @@ def env_goldsrc(prefix=None, proton_path=None, exe_path=None):
     env["SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS"] = "0"
 
     env["SDL_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR"] = "0"
-    env["MESA_GL_VERSION_OVERRIDE"] = "3.3"
-    env["MESA_GLSL_VERSION_OVERRIDE"] = "330"
+    #env["MESA_GL_VERSION_OVERRIDE"] = "3.3"
+    #env["MESA_GLSL_VERSION_OVERRIDE"] = "330"
 
     # =========================
     # ⚙️ SYNC (STABILITY MODE)
@@ -50,36 +107,18 @@ def env_goldsrc(prefix=None, proton_path=None, exe_path=None):
     env["WINEFSYNC"] = "0"
 
     # =========================
-    # 🧪 DEBUG SAFE MODE
+    # Legacy OpenGL detection
     # =========================
-    #env["WINEDEBUG"] = "-all"
-    #env["WINEDEBUG"] = "+loaddll,+module"
 
-    return env
+    apply_goldsrc_legacy_fixes(env, exe_path)
 
-
-def env_gold_test(prefix=None, proton_path=None, exe_path=None):
-    env = init_env()
-
-    print("[proton-autogen] SAFE GOLDSRC PROFILE")
-
-    # --- CRITICAL ---
-    env["PROTON_USE_XALIA"] = "0"
-    env["WINEDLLOVERRIDES"] = "mss32=builtin"
-
-    # INPUT minimal
-    env["SDL_MOUSE_RELATIVE_MODE_WARP"] = "1"
-    env["SDL_MOUSE_AUTO_CAPTURE"] = "1"
-
-    # compositing safe
-    env["SDL_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR"] = "0"
 
     return env
 
 def env_goldsrc_full(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
 
-    print("[proton-autogen] PROFILE: GOLDSRC (Half-Life)")
+    logger.info("[proton-autogen] PROFILE: GOLDSRC (Half-Life)")
 
     # OpenGL natif propre
     env.pop("PROTON_USE_WINED3D", None)
@@ -112,6 +151,12 @@ def env_goldsrc_full(prefix=None, proton_path=None, exe_path=None):
     # IMPORTANT: évite double capture
     env["SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS"] = "0"
 
+    # =========================
+    # Legacy OpenGL detection
+    # =========================
+
+    apply_goldsrc_legacy_fixes(env, exe_path)
+
     return env
 
 # ---------------------------------------------------
@@ -121,8 +166,8 @@ def env_goldsrc_full(prefix=None, proton_path=None, exe_path=None):
 def env_ut99(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
 
-    print("[proton-autogen] PROFILE: UNREAL TOURNAMENT (UT99)")
-    print("[proton-autogen] Note: UT99 is more stable in windowed mode")
+    logger.info("[proton-autogen] PROFILE: UNREAL TOURNAMENT (UT99)")
+    logger.info("[proton-autogen] Note: UT99 is more stable in windowed mode")
 
     env["PROTON_NO_ESYNC"] = "1"
     env["PROTON_NO_FSYNC"] = "1"
@@ -136,5 +181,11 @@ def env_ut99(prefix=None, proton_path=None, exe_path=None):
 
     env["vblank_mode"] = "0"
     env["mesa_glthread"] = "true"
+
+    # =========================
+    # Legacy OpenGL detection
+    # =========================
+
+    apply_goldsrc_legacy_fixes(env, exe_path)
 
     return env

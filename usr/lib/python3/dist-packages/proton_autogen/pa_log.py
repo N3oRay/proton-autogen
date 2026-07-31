@@ -51,6 +51,7 @@ DEBUG_ENV_VARS = (
     "RADV_PERFTEST",
     "SteamAppId",
     "SteamGameId",
+    "SteamOverlayGameId",
 )
 
 MANGOHUD_ENV_VARS = (
