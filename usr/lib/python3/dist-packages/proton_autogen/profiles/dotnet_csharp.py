@@ -1,13 +1,17 @@
-from proton_autogen.profiles.dotnet import env_dotnet
 #Add .NET C# profile with RAGE:MP and FiveM detection - profile : csharp
 import os
 import sys
+from proton_autogen.profiles.dotnet import env_dotnet
+from proton_autogen.utils.logger import StructuredLogger
+
+#-------------------------- Init Log -------------------
+logger = StructuredLogger("proton-autogen.profiles.dotnet_csharp")
 
 DEBUG = "--debug" in sys.argv
 
 def detect_managed_launcher(exe_path=None):
     if DEBUG:
-        print( f"[detect_managed_launcher] {exe_path} " )
+        logger.debug( f"[detect_managed_launcher] {exe_path} " )
 
     if not exe_path:
         return None
@@ -15,7 +19,7 @@ def detect_managed_launcher(exe_path=None):
     exe = os.path.basename(exe_path).lower()
 
     if DEBUG:
-        print( f"[detect_managed_launcher] {exe} " )
+        logger.debug( f"[detect_managed_launcher] {exe} " )
 
     #
     # Known launchers (reference)
@@ -65,7 +69,7 @@ def env_dotnet_csharp( prefix=None, proton_path=None, exe_path=None, ):
 
     env = env_dotnet(prefix=prefix, proton_path=proton_path, exe_path=exe_path, )
 
-    print("[proton-autogen] PROFILE: .NET C#")
+    logger.info("[proton-autogen] PROFILE: .NET C#")
 
     #
     # Runtime and synchronization settings
@@ -107,7 +111,7 @@ def env_dotnet_csharp( prefix=None, proton_path=None, exe_path=None, ):
         launcher = detect_managed_launcher(exe_path)
 
         if launcher:
-            print(
+            logger.info(
                 f"[proton-autogen] {launcher.upper()} detected"
             )
 

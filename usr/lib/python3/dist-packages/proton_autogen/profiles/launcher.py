@@ -1,11 +1,14 @@
 from proton_autogen.profiles.base import init_env
+from proton_autogen.utils.logger import StructuredLogger
+#-------------------------- Init Log -------------------
+logger = StructuredLogger("proton-autogen.profiles.launcher")
 # ---------------------------------------------------
 # 1. LAUNCHER PROFILE (Battle.net, EA App, Ubisoft)
 # ---------------------------------------------------
 def env_launcher(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
 
-    print("[proton-autogen] PROFILE: LAUNCHER")
+    logger.info("[proton-autogen] PROFILE: LAUNCHER")
 
     env["PROTON_NO_ESYNC"] = "1"
     env["PROTON_NO_FSYNC"] = "1"
@@ -28,7 +31,7 @@ def env_launcher(prefix=None, proton_path=None, exe_path=None):
 def env_install_clean(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
 
-    print("[proton-autogen] PROFILE: INSTALL CLEAN (legacy Windows setup)")
+    logger.info("[proton-autogen] PROFILE: INSTALL CLEAN (legacy Windows setup)")
 
     # MUST: WineD3D only
     env["PROTON_USE_WINED3D"] = "1"

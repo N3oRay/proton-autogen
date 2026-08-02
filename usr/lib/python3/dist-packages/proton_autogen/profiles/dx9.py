@@ -1,5 +1,9 @@
 import os
 from proton_autogen.profiles.base import init_env
+from proton_autogen.utils.logger import StructuredLogger
+
+#-------------------------- Init Log -------------------
+logger = StructuredLogger("proton-autogen.profiles.dx9")
 
 LEGACY_RENDERER_RULES = {
 
@@ -51,7 +55,7 @@ def detect_legacy_renderer(exe_path):
 def env_dx9(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
 
-    print("[proton-autogen] PROFILE: OLD GAME (DX8/DX9)")
+    logger.info("[proton-autogen] PROFILE: OLD GAME (DX8/DX9)")
 
     env["PROTON_USE_WINED3D"] = "1"
 
@@ -94,7 +98,7 @@ def env_dx9(prefix=None, proton_path=None, exe_path=None):
 def env_dx9dg(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
 
-    print("[proton-autogen] PROFILE: OLD GAME (DX9) dgVoodooCpl")
+    logger.info("[proton-autogen] PROFILE: OLD GAME (DX9) dgVoodooCpl")
 
     # HARD DISABLE DXVK / VKD3D PATH
     env["WINEDLLOVERRIDES"] = (
@@ -128,7 +132,7 @@ def env_dx9dg(prefix=None, proton_path=None, exe_path=None):
     if exe_path :
         renderer = detect_legacy_renderer(exe_path)
         if renderer:
-            print(f"[proton-autogen] Applying OpenGL compatibility fix: {renderer}")
+            logger.info(f"[proton-autogen] Applying OpenGL compatibility fix: {renderer}")
 
             rules = LEGACY_RENDERER_RULES.get(renderer)
             if rules:
@@ -140,7 +144,7 @@ def env_dx9dg(prefix=None, proton_path=None, exe_path=None):
 def env_dx9opengl(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
 
-    print("[proton-autogen] PROFILE: OLD GAME (DX8/DX9) OPENGL")
+    logger.info("[proton-autogen] PROFILE: OLD GAME (DX8/DX9) OPENGL")
 
     env["PROTON_USE_WINED3D"] = "1"
 
@@ -166,7 +170,7 @@ def env_dx9opengl(prefix=None, proton_path=None, exe_path=None):
     if exe_path :
         renderer = detect_legacy_renderer(exe_path)
         if renderer:
-            print(f"[proton-autogen] Applying OpenGL compatibility fix: {renderer}")
+            logger.info(f"[proton-autogen] Applying OpenGL compatibility fix: {renderer}")
 
             rules = LEGACY_RENDERER_RULES.get(renderer)
             if rules:

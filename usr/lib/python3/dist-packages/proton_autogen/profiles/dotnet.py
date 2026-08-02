@@ -4,6 +4,10 @@ import re
 
 from proton_autogen.profiles.base import init_env
 from proton_autogen.utils.dotnet import ensure_dotnet48
+from proton_autogen.utils.logger import StructuredLogger
+
+#-------------------------- Init Log -------------------
+logger = StructuredLogger("proton-autogen.profiles.dotnet")
 
 DOTNET_NATIVE = "framework"
 DOTNET_MONO = "mono"
@@ -199,7 +203,7 @@ def detect_dotnet_mode(prefix):
         prefix = os.path.join(prefix, "pfx")
 
 
-    print(
+    logger.info(
         f"[proton-autogen] Registry prefix: {prefix}"
     )
 
@@ -219,7 +223,7 @@ def env_dotnet(prefix=None, proton_path=None, exe_path=None):
 
     env = init_env()
 
-    print("[proton-autogen] PROFILE: DOTNET")
+    logger.info("[proton-autogen] PROFILE: DOTNET")
 
 
 
@@ -254,7 +258,7 @@ def env_dotnet(prefix=None, proton_path=None, exe_path=None):
 
     dotnet_mode = detect_dotnet_mode(prefix)
 
-    print(
+    logger.info(
         f"[proton-autogen] CLR detection: {dotnet_mode}"
     )
 
@@ -266,7 +270,7 @@ def env_dotnet(prefix=None, proton_path=None, exe_path=None):
         )
 
         if not installed:
-            print(
+            logger.info(
                 "[proton-autogen] Warning: .NET installation failed"
             )
 
@@ -274,12 +278,12 @@ def env_dotnet(prefix=None, proton_path=None, exe_path=None):
 
 
     if dotnet_mode in (DOTNET_NATIVE, DOTNET_MONO):
-        print(
+        logger.info(
             f"[proton-autogen] CLR available ({dotnet_mode}) -> using Wine mscoree"
         )
         env["WINEDLLOVERRIDES"] = "mscoree=b"
     else:
-        print(
+        logger.info(
             "[proton-autogen] No CLR detected"
         )
         env.pop("WINEDLLOVERRIDES", None)

@@ -1,5 +1,8 @@
 import os
 from proton_autogen.profiles.base import init_env
+from proton_autogen.utils.logger import StructuredLogger
+#-------------------------- Init Log -------------------
+logger = StructuredLogger("proton-autogen.profiles.legacy")
 # ---------------------------------------------------
 # BASE CLEANER (shared)
 # ---------------------------------------------------
@@ -9,7 +12,7 @@ from proton_autogen.profiles.base import init_env
 def env_legacy_app(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
 
-    print("[proton-autogen] PROFILE: LEGACY APPLICATION")
+    logger.info("[proton-autogen] PROFILE: LEGACY APPLICATION")
     env["PROTON_USE_XALIA"] = "0"
 
     env["PROTON_NO_ESYNC"] = "1"
@@ -32,7 +35,7 @@ def env_legacy_app(prefix=None, proton_path=None, exe_path=None):
 def env_oldgame(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
 
-    print("[proton-autogen] PROFILE: OLD GAME (DX8/DX9)")
+    logger.info("[proton-autogen] PROFILE: OLD GAME (DX8/DX9)")
 
     env["PROTON_USE_WINED3D"] = "1"
 
@@ -52,24 +55,19 @@ def env_oldgame(prefix=None, proton_path=None, exe_path=None):
 
     return env
 
-
+# deprecated !!!!
 def env_quake(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
 
-    print("[proton-autogen] PROFILE: QUAKE II CLEAN")
-    #print("[proton-autogen] RECOMMANDATION: Pour une expérience stable, utiliser Yamagi Quake II")
-    print("\033[93m[proton-autogen] RECOMMANDATION: Yamagi Quake II est recommandé pour stabilité\033[0m")
-    print("[proton-autogen] https://www.yamagi.org/quake2/")
-
+    logger.info("[proton-autogen] PROFILE: QUAKE I CLEAN")
     # désactiver Xalia
     env["PROTON_USE_XALIA"] = "0"
 
     # forcer WineD3D (old OpenGL path)
     env["PROTON_USE_WINED3D"] = "1"
 
-
     # prefix propre
-    env["WINEPREFIX"] = os.path.expanduser("~/quake2-test")
+    #env["WINEPREFIX"] = os.path.expanduser("~/quake2-test")
 
     # sync stable (laisser Proton gérer)
     env.pop("PROTON_NO_ESYNC", None)
@@ -89,7 +87,7 @@ def env_quake(prefix=None, proton_path=None, exe_path=None):
 def env_ut3(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
 
-    print("[proton-autogen] PROFILE: UT3 FIXED (BETA)")
+    logger.info("[proton-autogen] PROFILE: UT3 FIXED (BETA)")
 
     env["PROTON_NO_FSYNC"] = "1"
     env["PROTON_NO_ESYNC"] = "0"
