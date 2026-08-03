@@ -200,13 +200,9 @@ def test_about_json():
 
     stdout = result.stdout.lower()
 
-    expected = [
-        "proton-autogen",
-        "export",
-    ]
-
-    for item in expected:
-        assert item in stdout
+    assert "[export]" in stdout
+    assert "legacy.json" in stdout
+    assert "desktop.json" in stdout
 
 
 def test_about_gamemode():
