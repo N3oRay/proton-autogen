@@ -1,4 +1,7 @@
 from proton_autogen.profiles.base import init_env
+from proton_autogen.utils.logger import StructuredLogger
+#-------------------------- Init Log -------------------
+logger = StructuredLogger("proton-autogen.profiles.modern")
 
 # ---------------------------------------------------
 # 3. DX12 PROFILE (VKD3D)
@@ -6,7 +9,7 @@ from proton_autogen.profiles.base import init_env
 def env_dx12(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
 
-    print("[proton-autogen] PROFILE: DX12 - VKD3D")
+    logger.info("[proton-autogen] PROFILE: DX12 - VKD3D")
 
     env["PROTON_NO_ESYNC"] = "0"
     env["PROTON_NO_FSYNC"] = "0"

@@ -1,8 +1,13 @@
 import os
+from proton_autogen.utils.logger import StructuredLogger
+
+#-------------------------- Init Log -------------------
+logger = StructuredLogger("proton-autogen.profiles.base")
 # ---------------------------------------------------
 # BASE CLEANER (shared)
 # ---------------------------------------------------
 def init_env():
+    logger.debug( "Initializing environment variables.")
     env = os.environ.copy()
 
     for k in [

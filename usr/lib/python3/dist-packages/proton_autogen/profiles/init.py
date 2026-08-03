@@ -9,26 +9,26 @@ import csv
 #-------------------------- Init Log -------------------
 logger = StructuredLogger("proton-autogen.profiles.init")
 
-
+# Liste principale des profiles
 VALID_PROFILES = [
+    "legacy",
     "launcher",
-    "dx11",
-    "dx11Bnet",
-    "dx12",
+    "desktop",
     "dx8dg",
     "dx9",
     "dx9opengl",
+    "dx11",
+    "dx11Bnet",
+    "dx12",
+    "dotnet",
+    "dotnet_csharp",
     "gtav_compat",
     "gtav_x11",
     "gtav_safe",
-    "dotnet_csharp",
     "oldgame",
-    "valve",
     "ut3",
     "ut99",
-    "legacy",
-    "desktop",
-    "dotnet",
+    "valve",
 ]
 
 
@@ -117,12 +117,12 @@ def choose_profile():
     # Note: dx8dg, dx9dg -> instable
     profiles = VALID_PROFILES
 
-    print("\nAvailable profiles:\n")
+    logger.info("\nAvailable profiles:\n")
 
     for idx, p in enumerate(profiles, start=1):
-        print(f"[{idx}] {p}")
+        logger.info(f"[{idx}] {p}")
 
-    print("[d] Detect automatically")
+    logger.info("[d] Detect automatically")
 
     while True:
         choice = input("\nSelection: ").strip().lower()
@@ -137,7 +137,7 @@ def choose_profile():
         except ValueError:
             pass
 
-        print("Invalid selection")
+        logger.info("Invalid selection")
 
 
 def detect_exe_type_legacy(exe_path: str) -> str:

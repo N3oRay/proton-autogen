@@ -1,12 +1,15 @@
 
 from proton_autogen.profiles.base import init_env
+from proton_autogen.utils.logger import StructuredLogger
+#-------------------------- Init Log -------------------
+logger = StructuredLogger("proton-autogen.profiles.type_profile")
 # ---------------------------------------------------
 # GTA V
 # ---------------------------------------------------
 def env_gtav_compat(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
 
-    print("[proton-autogen] PROFILE: GTA V Compatibility")
+    logger.info("[proton-autogen] PROFILE: GTA V Compatibility")
 
     # Activer ESYNC/FSYNC
     env["WINEESYNC"] = "1"
@@ -32,7 +35,7 @@ def env_gtav_compat(prefix=None, proton_path=None, exe_path=None):
 def env_gtav_x11(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
 
-    print("[proton-autogen] PROFILE: GTA V X11")
+    logger.info("[proton-autogen] PROFILE: GTA V X11")
 
     # Synchronisation
     env["WINEESYNC"] = "1"
@@ -59,7 +62,7 @@ def env_gtav_x11(prefix=None, proton_path=None, exe_path=None):
 def env_gtav_safe(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
 
-    print("[proton-autogen] PROFILE: GTA V SAFE")
+    logger.info("[proton-autogen] PROFILE: GTA V SAFE")
 
     # Synchronisation
     env["WINEESYNC"] = "1"

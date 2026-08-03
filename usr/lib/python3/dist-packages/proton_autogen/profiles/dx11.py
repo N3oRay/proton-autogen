@@ -1,5 +1,9 @@
 import os
 from proton_autogen.profiles.base import init_env
+from proton_autogen.utils.logger import StructuredLogger
+
+#-------------------------- Init Log -------------------
+logger = StructuredLogger("proton-autogen.profiles.dx11")
 
 LEGACY_RENDERER_RULES = {
 
@@ -49,7 +53,7 @@ def detect_legacy_renderer(exe_path):
 def env_dx11(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
 
-    print("[proton-autogen] PROFILE: DX11")
+    logger.info("[proton-autogen] PROFILE: DX11")
     env["PROTON_USE_XALIA"] = "0"
 
     env["PROTON_NO_ESYNC"] = "0"
@@ -74,11 +78,11 @@ def env_dx11(prefix=None, proton_path=None, exe_path=None):
     if exe_path :
         renderer = detect_legacy_renderer(exe_path)
         if renderer:
-            print(f"[proton-autogen] Applying OpenGL compatibility fix: {renderer}")
+            logger.info(f"[proton-autogen] Applying OpenGL compatibility fix: {renderer}")
 
             rules = LEGACY_RENDERER_RULES.get(renderer)
             if rules:
-                # Legacy mouse/input
+                logger.info("Legacy mouse/input")
                 env["SDL_MOUSE_RELATIVE_MODE"] = "1"
                 env["WINE_MOUSE_WARP"] = "0"
                 env["PROTON_OLD_GL_STRING"] = "1"
@@ -89,7 +93,7 @@ def env_dx11(prefix=None, proton_path=None, exe_path=None):
 def env_dx11BNet(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
 
-    print("[proton-autogen] PROFILE: DX11 Battle.net")
+    logger.info("[proton-autogen] PROFILE: DX11 Battle.net")
 
     env["PROTON_USE_XALIA"] = "0"
 
