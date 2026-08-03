@@ -233,9 +233,9 @@ class Dashboard(DashboardUIMixin, DashboardDialogsMixin, DashboardActionsMixin, 
             self.update_stats(filtered)
 
             if hasattr(self, "recent_carousel"):
-                self.recent_carousel.set_games(self.get_recent_games(self.games, 6))
+                self.recent_carousel.set_games(self.get_recent_games(self.games, 20))
             if hasattr(self, "favorites_carousel"):
-                self.favorites_carousel.set_games(self.get_favorite_games(self.games, 6))
+                self.favorites_carousel.set_games(self.get_favorite_games(self.games, 20))
 
         self.status.set_text(
             f"{len(self.games)} games installed" if self.games else "No games found"
