@@ -1,16 +1,17 @@
-proton-autogen (3.1.9) noble; urgency=medium
+proton-autogen (3.2.0) noble; urgency=medium
 
-  * Thanks to all users and contributors for their continued support, feedback and encouragement throughout the development of proton-autogen.
-  * Added a complete manual page (man proton-autogen) with automatic documentation generation through help2man.
-  * Added improved multilingual documentation support with external translation files.
-  * Added new translations and updated help documentation for multiple languages including English, French, German, Spanish, Portuguese, Chinese, Ukrainian, Hindi and Arabic.
-  * Improved internationalization architecture by moving user-facing documentation outside the Python source code.
-  * Improved Gamescope integration with enhanced argument handling, scaling support and runtime stability.
-  * Added automated tests for Gamescope functionality and command-line path handling.
-  * Improved Proton-Call stability and backend command filtering.
-  * Improved runtime handling and internal core module organization.
-  * Reduced duplicated code and cleaned internal components for better maintainability.
-  * Updated README documentation and project information.
-  * General stability improvements and code cleanup.
+  * Thanks to all users and contributors for their continued support, feedback and bug reports.
+  * Added automatic Steam AppID fallback detection using an internal executable database, improving compatibility for standalone, backup and non-Steam installations.
+  * Improved Steam integration by exporting SteamOverlayGameId, allowing better Steam Overlay compatibility in more launch scenarios.
+  * Improved GoldSrc, Source and other legacy OpenGL engine compatibility through automatic renderer detection and adaptive Mesa/OpenGL compatibility settings.
+  * Improved legacy DirectX/OpenGL detection by refining renderer heuristics and avoiding unnecessary compatibility workarounds on modern OpenGL applications.
+  * Improved Valve engine compatibility and enabled DXVK HUD support for Valve-specific profiles.
+  * Added AMD_VULKAN_ICD environment variable documentation to the built-in environment variable reference.
+  * Replaced console print statements with the structured logging system across profile modules, providing more consistent debugging and cleaner runtime output.
+  * Improved debug logging with additional Steam environment variables and more detailed Wine debugging information.
+  * Removed obsolete experimental GoldSrc test profile and consolidated legacy compatibility profiles.
+  * Reorganized and cleaned profile definitions and internal architecture for easier maintenance.
+  * Updated project documentation, roadmap and README.
+  * General compatibility improvements, logging enhancements and code cleanup.
 
- -- N3oray <n3oray77@gmail.com>  Thu, 30 Jul 2026 22:02:47 +0200
+ -- N3oray <n3oray77@gmail.com>  Tue, 04 Aug 2026 22:00:00 +0200
