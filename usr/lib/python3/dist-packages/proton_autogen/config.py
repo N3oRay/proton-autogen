@@ -3,7 +3,7 @@ import os
 from pathlib import Path
 
 
-VERSION = "3.1.9"
+VERSION = "3.2.0"
 
 CONFIG_FILE = os.path.expanduser("~/.config/proton-autogen.conf")
 CONFIG_DIR = os.path.expanduser("~/.config/proton-autogen/games")
