@@ -30,12 +30,15 @@ LEGACY_RENDERER_RULES = {
 
 
 def detect_legacy_renderer(exe_path):
+    # Note: opengl32.dll est volontairement exclu — c'est la DLL système
+    # standard utilisée par tout jeu OpenGL, pas un signal fiable de moteur
+    # legacy. L'inclure risquerait d'appliquer un spoof de version GL à des
+    # jeux modernes qui n'en ont pas besoin.
     legacy_renderers = [
         "ref_gl.dll",
         "ref_gl1.dll",
         "pvrgl.dll",
-        "pvrgl32.dll",
-        "opengl32.dll"
+        "pvrgl32.dll"
     ]
 
     directory = os.path.dirname(exe_path)
