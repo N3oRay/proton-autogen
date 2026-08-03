@@ -119,6 +119,8 @@ KNOWN_APPIDS = {
     "unins000.exe": "38400",         #Fallout: A Post Nuclear Role Playing Game
     "Fallout.exe": "38400",         #Fallout: A Post Nuclear Role Playing Game
     "Fallout2.exe": "38410",        #Fallout 2: A Post Nuclear Role Playing Game
+    "BOS.exe": "38420",             #Fallout Tactics: Brotherhood of Steel
+    "FT Tools.exe": "38420",        #Fallout Tactics: Brotherhood of Steel
     "FalloutTactics.exe": "38420",  #Fallout Tactics: Brotherhood of Steel
     "Fallout3.exe": "22370",        #Fallout 3: Game of the Year Edition
     "FalloutLauncher.exe": "22370", #Fallout 3: Game of the Year Edition

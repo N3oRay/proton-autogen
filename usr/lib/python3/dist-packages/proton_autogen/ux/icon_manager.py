@@ -287,6 +287,7 @@ def find_game_icon(game):
 
 
         candidates = [
+            "gfw_high.ico",
             "icon.ico",
             "game.ico",
             "folder.ico",
