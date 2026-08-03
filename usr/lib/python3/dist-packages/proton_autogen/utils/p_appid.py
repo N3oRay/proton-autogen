@@ -96,15 +96,11 @@ KNOWN_APPIDS = {
     # -----------------------------
     "speed.exe": "1262540",              # Need for Speed (2015)
     "NFS16.exe": "1262540",
-
     "NFSPayback.exe": "1262580",         # Need for Speed Payback
-
     "NeedForSpeedHeat.exe": "1222680",   # Need for Speed Heat
     "NFSHeat.exe": "1222680",
-
     "NeedForSpeedUnbound.exe": "1846380",# Need for Speed Unbound
     "NFSUnbound.exe": "1846380",
-
     "nfs.exe": "17430",                  # Need for Speed Undercover
     "nfsc.exe": "8790",                  # Need for Speed Carbon
     "nfsmw.exe": "1262560",              # Need for Speed Most Wanted (2012)
@@ -148,14 +144,25 @@ KNOWN_APPIDS = {
     # -----------------------------
     # Deus Ex
     # -----------------------------
-    "DeusEx.exe": "6910",
-    "DXHR.exe": "238010",               # Human Revolution
+    "DeusEx.exe":   "6910",      # Deus Ex: Game of the Year Edition
+    "DXHR.exe":     "238010",    # Deus Ex: Human Revolution - Director's Cut
+    "dxhr.exe":     "28050",     # Deus Ex: Human Revolution (original)
+    "DXHRDC.exe":   "238010",    # Human Revolution - Director's Cut
+    "DXMD.exe":     "337000",    # Deus Ex: Mankind Divided
 
     # -----------------------------
     # Crysis
     # -----------------------------
-    "Crysis.exe": "17300",
-    "Crysis64.exe": "17300",
+    "Crysis.exe":          "17300",     # Crysis
+    "Crysis64.exe":        "17300",
+    "CrysisWars.exe":      "17330",     # Crysis Wars
+    "Warhead.exe":         "17330",     # Crysis Warhead
+    "Warhead64.exe":       "17330",
+    "Crysis2.exe":         "108800",    # Crysis 2 Maximum Edition
+    "Crysis2Launcher.exe": "108800",
+    "Crysis3.exe":         "1282690",   # Crysis 3 Remastered
+    "CrysisRemastered.exe":  "1715130", # Crysis Remastered
+    "Crysis2Remastered.exe": "2096600", # Crysis 2 Remastered
 
     # -----------------------------
     # Far Cry
@@ -265,9 +272,27 @@ KNOWN_APPIDS = {
     # Blizzard / Battle.net
     # -----------------------------
     "Diablo IV.exe": "2344520",          # Diablo IV Steam
-    "Overwatch.exe": "2357570",          # Overwatch 2 Steam
-    "ModernWarfare.exe": "1938090",      # Call of Duty HQ / MWIII
     "DiabloIV.exe": "2344520",
+    "Overwatch.exe": "2357570",          # Overwatch 2 Steam
+    "ModernWarfare.exe": "1938090",      # Call of Duty HQ
+    "cod.exe": "1938090",                # Call of Duty HQ (nouveau launcher)
+    "BlackOps6.exe": "2933620",          # Black Ops 6 (via COD HQ) # Call of Duty HQ
+    "MWII.exe": "1938090",               # Modern Warfare II (via COD HQ)
+    "MWIII.exe": "1938090",              # Modern Warfare III (via COD HQ)
+    "Warzone.exe": "1938090",            # Warzone (via COD HQ)
+    "Diablo II Resurrected.exe": "2536520",     # Battle.net uniquement
+    "D2R.exe": "2536520",
+    # Crash Bandicoot
+    "CrashBandicoot4.exe": "1378990",    # Crash Bandicoot 4: It's About Time
+    # Spyro
+    "Spyro-Win64-Shipping.exe": "996580",# Spyro Reignited Trilogy
+    # Tony Hawk
+    "THPS12.exe": "2395210",             # Tony Hawk's Pro Skater 1 + 2
+    # Sekiro (Activision éditeur)
+    "sekiro.exe": "814380",
+    # Prototype
+    "prototypef.exe": "10150",           # Prototype
+    "prototype2.exe": "115320",          # Prototype 2
 
     # -----------------------------
     # Activision
