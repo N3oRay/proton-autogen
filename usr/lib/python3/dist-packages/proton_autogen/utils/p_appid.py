@@ -115,15 +115,33 @@ KNOWN_APPIDS = {
     # -----------------------------
     # Fallout
     # -----------------------------
-    "Fallout3.exe": "22370",
+    "falloutw.exe": "38400",         #Fallout: A Post Nuclear Role Playing Game
+    "unins000.exe": "38400",         #Fallout: A Post Nuclear Role Playing Game
+    "Fallout.exe": "38400",         #Fallout: A Post Nuclear Role Playing Game
+    "Fallout2.exe": "38410",        #Fallout 2: A Post Nuclear Role Playing Game
+    "FalloutTactics.exe": "38420",  #Fallout Tactics: Brotherhood of Steel
+    "Fallout3.exe": "22370",        #Fallout 3: Game of the Year Edition
+    "FalloutLauncher.exe": "22370", #Fallout 3: Game of the Year Edition
     "FalloutNV.exe": "22380",
+    "FalloutNVLauncher.exe": "22380",
     "Fallout4.exe": "377160",
+    "Fallout4Launcher.exe": "377160",
+    "Fallout76.exe": "1151340",
+    "Project76.exe": "1151340",      # Nom interne utilisé par certaines versions
+    "Fallout76Launcher.exe": "1151340",
 
     # -----------------------------
     # BioShock
     # -----------------------------
-    "Bioshock.exe": "7670",
-    "Bioshock2.exe": "8850",
+    "Bioshock.exe": "7670",         # BioShock
+    "BioShock.exe": "7670",
+    "BioshockHD.exe": "409710",          # BioShock Remastered
+    "BioShockHD.exe": "409710",
+    "Bioshock2.exe": "8850",        # BioShock 2
+    "BioShock2.exe": "8850",
+    "Bioshock2HD.exe": "409720",         # BioShock 2 Remastered
+    "BioShock2HD.exe": "409720",
+    "BioShockInfinite.exe": "8870",     # BioShock Infinite
 
     # -----------------------------
     # Deus Ex
