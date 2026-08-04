@@ -49,8 +49,8 @@ ICON_MAPPING = {
     "tablet": "7tablet.svg",
     "palm": "7tablet.svg",
     "smart": "7tablet.svg",
-
-
+    "sexy": "8sexy.svg",
+    "charme": "8sexy.svg",
 
     # =================================================
     # Launchers
