@@ -47,10 +47,13 @@ ICON_MAPPING = {
     "usb": "6box.svg",
     "pack": "6box.svg",
     "tablet": "7tablet.svg",
+    "redsn0w": "7tablet.svg",
     "palm": "7tablet.svg",
     "smart": "7tablet.svg",
     "sexy": "8sexy.svg",
     "charme": "8sexy.svg",
+    "love": "9love.svg",
+    "unreal": "10unreal.svg",
 
     # =================================================
     # Launchers
