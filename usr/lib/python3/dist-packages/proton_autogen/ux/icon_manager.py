@@ -22,6 +22,31 @@ DEFAULT_ICON = (
 ICON_MAPPING = {
 
     # =================================================
+    # Divers
+    # =================================================
+
+    "shop": "1shop.svg",
+    "new": "2renew.svg",
+    "scan": "2renew.svg",
+    "saver": "2renew.svg",
+    "crown": "3crown.svg",
+    "best": "3crown.svg",
+    "vip": "3crown.svg",
+    "book": "4book.svg",
+    "browser": "4book.svg",
+    "read": "4book.svg",
+    "keyboard": "5key.svg",
+    "clavier": "5key.svg",
+    "box": "6box.svg",
+    "runtime": "6box.svg",
+    "craft": "6box.svg",
+    "compil": "6box.svg",
+    "motion": "6box.svg",
+    "usb": "6box.svg",
+    "pack": "6box.svg",
+
+
+    # =================================================
     # Launchers
     # =================================================
 
@@ -66,7 +91,7 @@ ICON_MAPPING = {
     "fallout": "fallout.svg",
     # GTA Multiplayer
     "ragemultiplayer": "gta.svg",
-    "ragemultiplayer": "gta.svg",
+    "rage-multiplayer": "gta.svg",
     "ragemp": "gta.svg",
     "fivem": "gta.svg",
     "altv": "gta.svg",
@@ -148,7 +173,8 @@ ICON_MAPPING = {
     "energy": "energy-arrow.svg",
     "power": "power-lightning.svg",
     "music": "boombox.svg",
-    "box": "boombox.svg",
+    "muxer": "boombox.svg",
+    "boombox": "boombox.svg",
     "smile": "smile.svg",
     "happy": "delighted.svg",
     "green": "green-power.svg",
@@ -204,6 +230,26 @@ ICON_MAPPING = {
 
 }
 
+def normalize_name(value):
+    """
+    Normalise un nom pour comparaison.
+    """
+    return re.sub(
+        r"[^a-z0-9]",
+        "",
+        value.lower()
+    )
+
+SORTED_ICON_MAPPING = sorted(
+    (
+        (normalize_name(keyword), path)
+        for keyword, icon in ICON_MAPPING.items()
+        if (path := ASSET_DIR / icon).exists()
+    ),
+    key=lambda item: len(item[0]),
+    reverse=True,
+)
+
 
 #DEFAULT_ICON = "application-x-executable"
 
@@ -216,45 +262,16 @@ IMAGE_EXTENSIONS = {
 }
 
 
-
-
-def normalize_name(value):
-    """
-    Normalise un nom pour comparaison.
-    """
-    return re.sub(
-        r"[^a-z0-9]",
-        "",
-        value.lower()
-    )
-
-
 def find_internal_icon(game):
 
-    name = normalize_name(
-        game.get("name", "")
-    )
+    name = normalize_name(game.get("name", ""))
 
     if not name:
         return None
 
-
-    # Recherche par mot-clé (du plus spécifique au plus générique)
-    for keyword, icon in sorted(
-        ICON_MAPPING.items(),
-        key=lambda item: len(normalize_name(item[0])),
-        reverse=True,
-    ):
-
-        key = normalize_name(keyword)
-
-        if key in name:
-
-            icon_path = ASSET_DIR / icon
-
-            if icon_path.exists():
-                return icon_path
-
+    for keyword, icon_path in SORTED_ICON_MAPPING:
+        if keyword in name:
+            return icon_path
 
     return None
 
