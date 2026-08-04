@@ -34,7 +34,9 @@ ICON_MAPPING = {
     "vip": "3crown.svg",
     "book": "4book.svg",
     "browser": "4book.svg",
-    "read": "4book.svg",
+    "reading": "4book.svg",
+    "reader": "4book.svg",
+    "lector": "4book.svg",
     "keyboard": "5key.svg",
     "clavier": "5key.svg",
     "box": "6box.svg",
@@ -44,6 +46,10 @@ ICON_MAPPING = {
     "motion": "6box.svg",
     "usb": "6box.svg",
     "pack": "6box.svg",
+    "tablet": "7tablet.svg",
+    "palm": "7tablet.svg",
+    "smart": "7tablet.svg",
+
 
 
     # =================================================
@@ -175,6 +181,7 @@ ICON_MAPPING = {
     "music": "boombox.svg",
     "muxer": "boombox.svg",
     "boombox": "boombox.svg",
+    "vocalist": "boombox.svg",
     "smile": "smile.svg",
     "happy": "delighted.svg",
     "green": "green-power.svg",
