@@ -185,6 +185,7 @@ Supported locations:
 
 - GameMode
 - MangoHud
+- GameScope
 - Proton-CachyOS
 - GE-Proton
 - ProtonUp-Qt
