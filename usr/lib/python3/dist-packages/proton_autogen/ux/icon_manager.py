@@ -177,6 +177,7 @@ ICON_MAPPING = {
     "chat": "cat.svg",
     "voice": "sound.svg",
     "starwars": "star.svg",
+    "swep1rcr": "star.svg",
     "starwar": "star.svg",
     "swr": "star.svg",
     "star": "star.svg",
