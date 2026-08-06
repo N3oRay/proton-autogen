@@ -34,7 +34,7 @@ def _game_id(exe_path: str):
 
 def get_game_config_path(exe_path: str):
     gid = _game_id(exe_path)
-    return os.path.join(CONFIG_DIR, f"{gid}.json"), gid
+    return Path(CONFIG_DIR) / f"{gid}.json", gid
 
 # -- Save game for UX
 def deep_merge(base: dict, updates: dict):
@@ -47,13 +47,11 @@ def deep_merge(base: dict, updates: dict):
 
 def load_game_config(exe_path):
     game_id = _game_id(exe_path)
-    path = os.path.expanduser(
-        f"~/.config/proton-autogen/games/{game_id}.json"
-    )
+    path = Path(CONFIG_DIR) / f"{game_id}.json"
 
     #logger.info(f"Loading config candidate: {path}")
 
-    if os.path.exists(path):
+    if path.exists():
         #logger.info("Config found")
         with open(path, "r") as f:
             config = json.load(f)
@@ -94,6 +92,8 @@ def save_game_config(data: dict):
     merged.setdefault("env", {})
     # ADD STATS AND FAV
     merged = normalize_game_config(merged)
+
+    config_path.parent.mkdir(parents=True, exist_ok=True)
 
     with open(config_path, "w") as f:
         json.dump(merged, f, indent=2)

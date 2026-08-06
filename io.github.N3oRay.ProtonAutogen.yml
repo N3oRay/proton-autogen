@@ -80,6 +80,8 @@ modules:
       # Icône
       - install -Dm644 usr/share/icons/hicolor/256x256/apps/proton-autogen.png
           /app/share/icons/hicolor/256x256/apps/io.github.N3oRay.ProtonAutogen.png
+      - install -Dm644 usr/share/icons/hicolor/256x256/apps/proton-autogen.png
+          /app/share/icons/hicolor/256x256/apps/proton-autogen.png
     sources:
       - type: git
         url: https://github.com/N3oRay/proton-autogen.git
