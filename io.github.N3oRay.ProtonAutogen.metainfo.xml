@@ -1,25 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
-
   <id>io.github.N3oRay.ProtonAutogen</id>
-
   <name>Proton Autogen</name>
-
   <summary>
     Automatically generate optimized Proton launch options for Windows games.
   </summary>
-
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
-
   <developer id="io.github.N3oRay">
     <name>N3oRay</name>
   </developer>
-
-  <launchable type="desktop-id">
-    proton-autogen.desktop
-  </launchable>
-
+  <launchable type="desktop-id">io.github.N3oRay.ProtonAutogen.desktop</launchable>
+  <icon type="stock">io.github.N3oRay.ProtonAutogen</icon>
   <description>
     <p>
       Proton Autogen is a GTK4 desktop application that automatically generates
