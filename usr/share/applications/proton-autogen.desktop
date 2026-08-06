@@ -9,7 +9,7 @@ Comment=Manage and run Windows games with Proton and per-game optimization
 Comment[fr]=Gérer et exécuter des jeux Windows avec Proton et des optimisations par jeu
 
 Exec=proton-autogen --ux
-Icon=proton-autogen
+Icon=io.github.N3oRay.ProtonAutogen
 
 Terminal=false
 StartupNotify=true
