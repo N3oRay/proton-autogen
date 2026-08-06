@@ -250,7 +250,7 @@ class Dashboard(DashboardUIMixin, DashboardDialogsMixin, DashboardActionsMixin, 
 class ProtonAutogenApp(Gtk.Application):
 
     def __init__(self):
-        super().__init__(application_id="io.github.protonautogen")
+        super().__init__(application_id="io.github.N3oRay.ProtonAutogen")
 
         base = os.path.dirname(__file__)
         # CSS provider réutilisable
