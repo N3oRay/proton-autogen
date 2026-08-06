@@ -69,11 +69,12 @@ ICON_MAPPING = {
     "bluetooth": "14casque.svg",
     "micro": "14casque.svg",
     "communication": "14casque.svg",
-    "print": "15print.svg",
+    "pixman": "15print.svg",
     "epson": "15print.svg",
     "printer": "15print.svg",
     "print": "15print.svg",
     "canon": "15print.svg",
+    "brother": "15print.svg",
 
     # =================================================
     # Launchers
@@ -311,8 +312,6 @@ SORTED_ICON_MAPPING = sorted(
 )
 
 
-#DEFAULT_ICON = "application-x-executable"
-
 IMAGE_EXTENSIONS = {
     #".png",
     #".jpg",
@@ -433,92 +432,43 @@ def _load_pixbuf(path, size):
 # Création GTK Image
 # -------------------------------------------------
 
-# -------------------------------------------------
-# Création GTK Image
-# -------------------------------------------------
+_ICON_PATH_CACHE = {}  # game_path -> icon_path résolu (ou None)
 
-def load_game_icon(game, size=48):
+def _resolve_icon_path(game):
+    game_path = str(game.get("path"))
 
-    cache_key = (
-        str(game.get("path")),
-        size
-    )
-
+    if game_path in _ICON_PATH_CACHE:
+        return _ICON_PATH_CACHE[game_path]
 
     icon_path = find_game_icon(game)
-
     if icon_path is None:
         icon_path = find_internal_icon(game)
 
-
-    if icon_path:
-
-        cache_key = (
-            str(icon_path),
-            size
-        )
+    _ICON_PATH_CACHE[game_path] = icon_path
+    return icon_path
 
 
+def load_game_icon(game, size=48):
+    icon_path = _resolve_icon_path(game)
+
+    cache_key = (str(icon_path), size) if icon_path else ("__default__", size)
     pixbuf = _ICON_CACHE.get(cache_key)
 
-
     try:
-
         if pixbuf is None:
-
-            if icon_path:
-
-                pixbuf = _load_pixbuf(
-                    icon_path,
-                    size
-                )
-
-
-
-            else:
-
-                pixbuf = _load_pixbuf(
-                    DEFAULT_ICON,
-                    size
-                )
-
-
+            pixbuf = _load_pixbuf(icon_path if icon_path else DEFAULT_ICON, size)
             _ICON_CACHE[cache_key] = pixbuf
 
-
-        image = Gtk.Image.new_from_pixbuf(
-            pixbuf
-        )
+        image = Gtk.Image.new_from_pixbuf(pixbuf)
         image.set_pixel_size(size)
 
-
-
     except Exception:
-
         try:
-
-            pixbuf = _load_pixbuf(
-                DEFAULT_ICON,
-                size
-            )
-
-            image = Gtk.Image.new_from_pixbuf(
-                pixbuf
-            )
-
+            pixbuf = _load_pixbuf(DEFAULT_ICON, size)
+            image = Gtk.Image.new_from_pixbuf(pixbuf)
         except Exception:
+            image = Gtk.Image.new_from_icon_name("application-x-executable")
+            image.set_pixel_size(size)
 
-            image = Gtk.Image.new_from_icon_name(
-                "application-x-executable"
-            )
-
-            image.set_pixel_size(
-                size
-            )
-
-
-    image.add_css_class(
-        "game-icon"
-    )
-
+    image.add_css_class("game-icon")
     return image
