@@ -211,16 +211,11 @@ button.suggested-action:hover {
 .btn-launch {
 
     background: @accent;
-
     color: white;
-
     border: none;
-
     border-radius: 8px;
-
     min-width: 30px;
     min-height: 30px;
-
     padding: 4px 8px;
 
     font-weight: 600;
@@ -492,13 +487,13 @@ entry placeholder,
    ========================================================= */
 
 .badge {
-    padding: 3px 8px;
-    margin-left: 6px;
-    border-radius: 999px;
+    padding: 2px 2px;
+    margin-left: 4px;
+    border-radius: 2px;
     background: rgba(255,255,255,0.02);
     border: 1px solid rgba(255,255,255,0.04);
     color: @text;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 600;
     letter-spacing: 0.2px;
 }

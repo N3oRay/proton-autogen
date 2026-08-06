@@ -464,7 +464,7 @@ label.home-label {
 .badge {
 
     color: @neon-green;
-
+    padding: 2px 2px;
     background:
         linear-gradient(
             180deg,

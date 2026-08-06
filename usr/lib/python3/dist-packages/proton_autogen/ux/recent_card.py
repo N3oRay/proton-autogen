@@ -7,7 +7,7 @@ from proton_autogen.ux.icon_manager import load_game_icon
 
 
 class RecentGameCard(Gtk.Box):
-    ICON_SIZE = 64
+    ICON_SIZE = 48
 
     def __init__(self, game, lang="en",
                  on_launch=None,
@@ -22,7 +22,7 @@ class RecentGameCard(Gtk.Box):
         self.lang = lang
         self.set_size_request(
             220,
-            42
+            76
         )
         self.add_css_class(
             "recent-card"
