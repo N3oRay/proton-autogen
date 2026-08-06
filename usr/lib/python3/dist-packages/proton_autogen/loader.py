@@ -74,7 +74,7 @@ def save_game_config(data: dict):
     config_path, gid = get_game_config_path(exe_path)
     logger.info(f"Saved config : {config_path}")
     # load existing config
-    if os.path.exists(config_path):
+    if config_path.exists():
         with open(config_path, "r") as f:
             base = json.load(f)
     else:
@@ -95,7 +95,11 @@ def save_game_config(data: dict):
 
     config_path.parent.mkdir(parents=True, exist_ok=True)
 
-    with open(config_path, "w") as f:
+    tmp_path = config_path.with_suffix(".json.tmp")
+
+    with open(tmp_path, "w") as f:
         json.dump(merged, f, indent=2)
+
+    tmp_path.replace(config_path)
 
     return merged
