@@ -18,6 +18,7 @@ usr/lib/python3/dist-packages/proton_autogen/ux/assets/*.jpg usr/lib/python3/dis
 
 usr/share/applications/proton-autogen.desktop usr/share/applications/
 usr/share/icons/hicolor/256x256/apps/proton-autogen.png usr/share/icons/hicolor/256x256/apps/
+usr/share/icons/hicolor/256x256/apps/proton-autogen.png usr/share/icons/hicolor/256x256/apps/io.github.N3oRay.ProtonAutogen.png
 
 usr/share/kio/servicemenus/proton-autogen.desktop usr/share/kio/servicemenus/
 usr/share/nemo/actions/proton-autogen.nemo_action usr/share/nemo/actions/
