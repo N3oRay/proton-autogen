@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+
+  <id>io.github.N3oRay.ProtonAutogen</id>
+
+  <name>Proton Autogen</name>
+
+  <summary>
+    Automatically generate optimized Proton launch options for Windows games.
+  </summary>
+
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+
+  <developer id="io.github.N3oRay">
+    <name>N3oRay</name>
+  </developer>
+
+  <launchable type="desktop-id">
+    proton-autogen.desktop
+  </launchable>
+
+  <description>
+    <p>
+      Proton Autogen is a GTK4 desktop application that automatically generates
+      launch parameters and environment variables for Windows games running
+      through Proton.
+    </p>
+
+    <p>
+      It detects the game environment and helps configure Proton, DXVK,
+      VKD3D, Gamescope, MangoHud and other gaming-related options without
+      requiring manual configuration.
+    </p>
+
+    <ul>
+      <li>Automatic Proton launch option generation</li>
+      <li>Graphical GTK4 interface</li>
+      <li>Game profile management</li>
+      <li>Steam integration</li>
+      <li>Gamescope support</li>
+      <li>MangoHud support</li>
+      <li>Multiple optimization profiles</li>
+      <li>Diagnostics and configuration tools</li>
+    </ul>
+  </description>
+
+  <categories>
+    <category>Game</category>
+    <category>Utility</category>
+  </categories>
+
+  <url type="homepage">https://github.com/N3oRay/proton-autogen</url>
+  <url type="bugtracker">https://github.com/N3oRay/proton-autogen/issues</url>
+  <url type="vcs-browser">https://github.com/N3oRay/proton-autogen</url>
+
+  <content_rating type="oars-1.1"/>
+
+  <releases>
+    <release version="3.2.1" date="2026-08-06"/>
+  </releases>
+
+  <provides>
+    <binary>proton-autogen</binary>
+  </provides>
+
+  <screenshots>
+    <screenshot type="default">
+      <caption>Main window</caption>
+      <image>https://raw.githubusercontent.com/N3oRay/proton-autogen/main/docs/screenshots/V3.2.1.jpg</image>
+    </screenshot>
+
+    <screenshot>
+      <caption>Game configuration</caption>
+      <image>https://raw.githubusercontent.com/N3oRay/proton-autogen/main/docs/screenshots/new2.jpg</image>
+    </screenshot>
+  </screenshots>
+
+</component>

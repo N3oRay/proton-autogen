@@ -14,8 +14,8 @@ echo "==> Detected OS: ${ID:-unknown}"
 
 echo "==> Removing user configuration..."
 
-rm -rf \
-    "${HOME}/.config/proton-autogen"
+# rm -rf \
+#    "${HOME}/.config/proton-autogen"
 
 rm -f \
     "${HOME}/.local/share/nemo/actions/proton-autogen.nemo_action"

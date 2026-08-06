@@ -1,0 +1,86 @@
+app-id: io.github.N3oRay.ProtonAutogen
+runtime: org.gnome.Platform
+runtime-version: "49"
+sdk: org.gnome.Sdk
+command: proton-autogen
+finish-args:
+  # Affichage
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  # Accélération graphique
+  - --device=dri
+  # Accès complet nécessaire aux bibliothèques Steam / Proton
+  - --filesystem=host
+  # Nécessaire pour lancer Proton/Wine sur l'hôte réel (GPU, pilotes, /dev)
+  # plutôt que dans le sandbox, où Proton ne fonctionnerait pas correctement
+  - --talk-name=org.freedesktop.Flatpak
+  - --system-talk-name=org.freedesktop.Flatpak
+  # GameMode (optionnel, via D-Bus session)
+  - --talk-name=com.feralinteractive.GameMode
+
+modules:
+  - name: python3-deps
+    buildsystem: simple
+    build-options:
+      env:
+        PIP_NO_INDEX: "1"
+        PIP_FIND_LINKS: "file:///run/build/python3-deps"
+    build-commands:
+      - pip3 install --prefix=/app --find-links="file://${PWD}" mdurl pygments markdown-it-py rich pyyaml
+    sources:
+      - type: file
+        url: https://files.pythonhosted.org/packages/f2/65/b6ba90634c984a4fcc02c7e3afe523fef500c4980fec67cc27536ee50acf/flit_core-3.12.0-py3-none-any.whl
+        sha256: e7a0304069ea895172e3c7bb703292e992c5d1555dd1233ab7b5621b5b69e62c
+
+      - type: file
+        url: https://files.pythonhosted.org/packages/50/36/e0703d73bc9f89b95014173c9c7754816630a3282f2727637de5b076e5e4/poetry_core-2.4.1-py3-none-any.whl
+        sha256: acf06f9537cd2625bdaec926d95d90b557ba15353bc71d27a3a8a441042b5316
+
+      - type: file
+        url: https://files.pythonhosted.org/packages/5d/40/e1e72872c6354b306daef1703549e8e83b4d43cfea356311bf722a043752/setuptools-83.0.0-py3-none-any.whl
+        sha256: 29b23c360f22f414dc7336bb39178cc7bcbf6021ed2733cde173f09dba19abb3
+
+      - type: file
+        url: https://files.pythonhosted.org/packages/f0/0d/a7f094343e5c4925efac60e6dbdcf8602042e7f54c83ae14ccbc8033d2d9/cython-3.2.9-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl
+        sha256: f815cd3387bd88ca9eeabc357ce4bdf884eef0ab2949db0fbd5e0b69fe5ee422
+
+      - type: file
+        url: https://files.pythonhosted.org/packages/05/8e/961c0007c59b8dd7729d542c61a4d537767a59645b82a0b521206e1e25c2/pyyaml-6.0.3.tar.gz
+        sha256: d76623373421df22fb4cf8817020cbb7ef15c725b9d5e45f17e189bfc384190f
+      - type: file
+        url: https://files.pythonhosted.org/packages/c0/8f/0722ca900cc807c13a6a0c696dacf35430f72e0ec571c4275d2371fca3e9/rich-15.0.0.tar.gz
+        sha256: edd07a4824c6b40189fb7ac9bc4c52536e9780fbbfbddf6f1e2502c31b068c36
+      - type: file
+        url: https://files.pythonhosted.org/packages/06/ff/7841249c247aa650a76b9ee4bbaeae59370dc8bfd2f6c01f3630c35eb134/markdown_it_py-4.2.0.tar.gz
+        sha256: 04a21681d6fbb623de53f6f364d352309d4094dd4194040a10fd51833e418d49
+      - type: file
+        url: https://files.pythonhosted.org/packages/c3/b2/bc9c9196916376152d655522fdcebac55e66de6603a76a02bca1b6414f6c/pygments-2.20.0.tar.gz
+        sha256: 6757cd03768053ff99f3039c1a36d6c0aa0b263438fcab17520b30a303a82b5f
+      - type: file
+        url: https://files.pythonhosted.org/packages/d6/54/cfe61301667036ec958cb99bd3efefba235e65cdeb9c84d24a8293ba1d90/mdurl-0.1.2.tar.gz
+        sha256: bb413d29f5eea38f31dd4754dd7377d4465116fb207585f97bf925588687c1ba
+
+  - name: proton-autogen
+    buildsystem: simple
+    build-commands:
+      # Exécutable
+      - install -Dm755 usr/bin/proton-autogen /app/bin/proton-autogen
+      - install -Dm644 io.github.N3oRay.ProtonAutogen.metainfo.xml
+          /app/share/metainfo/io.github.N3oRay.ProtonAutogen.metainfo.xml
+      # Module Python — chemin versionné, Python 3.13 confirmé sur org.gnome.Sdk//49
+      - mkdir -p /app/lib/python3.13/site-packages
+      - cp -a usr/lib/python3/dist-packages/proton_autogen /app/lib/python3.13/site-packages/
+      # Ressources
+      - mkdir -p /app/share
+      - cp -a usr/share/proton-autogen /app/share/
+      # Desktop
+      - install -Dm644 usr/share/applications/proton-autogen.desktop
+          /app/share/applications/io.github.N3oRay.ProtonAutogen.desktop
+      # Icône
+      - install -Dm644 usr/share/icons/hicolor/256x256/apps/proton-autogen.png
+          /app/share/icons/hicolor/256x256/apps/io.github.N3oRay.ProtonAutogen.png
+    sources:
+      - type: git
+        url: https://github.com/N3oRay/proton-autogen.git
+        tag: v3.2.1
