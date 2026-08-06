@@ -21,7 +21,7 @@ jobs:
       - name: Install build dependencies
         run: |
           sudo apt update
-          sudo apt install -y \
+          sudo apt install --no-install-recommends -y \
             build-essential \
             devscripts \
             debhelper \
