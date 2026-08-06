@@ -1,6 +1,7 @@
-proton-autogen (3.2.0) noble; urgency=medium
+proton-autogen (3.2.1) noble; urgency=medium
 
   * Thanks to all users and contributors for their continued support, feedback and bug reports.
+  * Interface improvement and UX performance optimization
   * Added automatic Steam AppID fallback detection using an internal executable database, improving compatibility for standalone, backup and non-Steam installations.
   * Improved Steam integration by exporting SteamOverlayGameId, allowing better Steam Overlay compatibility in more launch scenarios.
   * Improved GoldSrc, Source and other legacy OpenGL engine compatibility through automatic renderer detection and adaptive Mesa/OpenGL compatibility settings.
@@ -14,4 +15,4 @@ proton-autogen (3.2.0) noble; urgency=medium
   * Updated project documentation, roadmap and README.
   * General compatibility improvements, logging enhancements and code cleanup.
 
- -- N3oray <n3oray77@gmail.com>  Tue, 04 Aug 2026 22:00:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Thu, 06 Aug 2026 04:00:00 +0200
