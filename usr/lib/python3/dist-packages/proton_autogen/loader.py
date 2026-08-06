@@ -59,7 +59,7 @@ def load_game_config(exe_path):
         config = normalize_game_config(config)
 
         # Ajout du chemin réel du fichier de config
-        config["config_path"] = path
+        config["config_path"] = str(path)
 
         return config
 
