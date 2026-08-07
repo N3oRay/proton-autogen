@@ -10,9 +10,12 @@ import os
 
 def is_flatpak():
     """Return True when running inside a Flatpak sandbox."""
-    if logger:
+    detected = os.path.exists("/.flatpak-info")
+
+    if detected:
         logger.info("Detect flatpak")
-    return os.path.exists("/.flatpak-info")
+
+    return detected
 
 
 
