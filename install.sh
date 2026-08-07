@@ -96,6 +96,10 @@ sudo install -m644 \
     usr/share/icons/hicolor/256x256/apps/proton-autogen.png \
     /usr/share/icons/hicolor/256x256/apps/
 
+sudo install -m644 \
+    usr/share/icons/hicolor/256x256/apps/proton-autogen.png \
+    /usr/share/icons/hicolor/256x256/apps/io.github.N3oRay.ProtonAutogen.png
+
 echo "==> Installing Python module..."
 
 PYTHON_SITE=$(python3 -c "import sysconfig; print(sysconfig.get_paths()['purelib'])")
