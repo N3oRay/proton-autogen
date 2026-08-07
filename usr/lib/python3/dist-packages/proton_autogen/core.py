@@ -473,6 +473,8 @@ def run_process(
         text=True,
         bufsize=1,
     )
+    if logger:
+        logger.info(f"Spawned PID: {process.pid}")
 
     percent = 85
 
@@ -549,6 +551,9 @@ def run_process(
             100,
             "Game launched"
         )
+
+    if logger:
+        logger.info(f"Process exit code: {returncode}")
 
     return returncode
 
