@@ -12,7 +12,7 @@ from collections import defaultdict
 from pathlib import Path
 
 from proton_autogen.config import VERSION, CONFIG_FILE, CONFIG_DIR, PREFIX_DIR, PREFIX_DIR_PATH
-from proton_autogen.utils.flatpak import wrap_host_command
+from proton_autogen.utils.flatpak import wrap_host_command, prepare_host_env
 from proton_autogen.utils.logger import StructuredLogger
 from proton_autogen.utils.steam_appid import detect_steam_appid
 from proton_autogen.utils.gamescope import build_gamescope_command, init_gamescope_env, clear_gamescope_env, apply_gamescope, LOG_FILTERS
@@ -793,6 +793,7 @@ def run_game_proton(exe_path, exe_type, proton,
         ]
         # Flatpak: execute Proton on the host
         cmd = wrap_host_command(cmd, logger)
+        env = prepare_host_env(env)
 
         # =========================
         # COMMON OPTIONS
