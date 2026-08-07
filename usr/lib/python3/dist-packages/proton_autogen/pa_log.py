@@ -11,6 +11,10 @@ from gi.repository import Gtk, Gio, Gdk, GLib
 VALID_LEVELS = {"info", "warning", "error"}
 
 DEBUG_ENV_VARS = (
+    "DISPLAY",
+    "XAUTHORITY",
+    "DBUS_SESSION_BUS_ADDRESS",
+    "LD_LIBRARY_PATH",
     "WINEESYNC",
     "WINEFSYNC",
     "PROTON_NO_ESYNC",
