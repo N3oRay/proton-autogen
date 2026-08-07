@@ -900,7 +900,7 @@ def run_game_proton(exe_path, exe_type, proton,
 
             returncode = 0
             if VERBOSE or DEBUG:
-                logger.debug(f"FINAL CMD: {' '.join(cmd)}")
+                logger.info(f"FINAL CMD: {' '.join(cmd)}")
                 returncode = run_process(
                     cmd,
                     cwd=cmd_cwd,
