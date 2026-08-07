@@ -22,5 +22,11 @@ def wrap_host_command(cmd, logger=None):
 
     if logger:
         logger.info("Running command on host via flatpak-spawn")
+        logger.info(
+            f"Host DISPLAY={os.environ.get('DISPLAY')}"
+        )
+        logger.info(
+            f"Host DBUS={os.environ.get('DBUS_SESSION_BUS_ADDRESS')}"
+        )
 
     return ["flatpak-spawn", "--host", *cmd]
