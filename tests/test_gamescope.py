@@ -21,7 +21,7 @@ def test_detect_screen_resolution_primary_monitor(monkeypatch):
     fake_output = """
 Screen 0: minimum 320 x 200, current 3600 x 1200
 HDMI-A-0 connected 1920x1200+0+0
-   1920x1200     59.95*+
+   1920x1080     59.95*+
 """
 
     result = subprocess.CompletedProcess(
@@ -37,7 +37,7 @@ HDMI-A-0 connected 1920x1200+0+0
         lambda *a, **kw: result
     )
 
-    assert detect_screen_resolution() == (1920, 1200)
+    assert detect_screen_resolution() == (1920, 1080)
 
 
 def test_detect_screen_resolution_no_xrandr(monkeypatch):
