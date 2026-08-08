@@ -76,11 +76,16 @@ def print_runtime_info(proton, exe_path, mangohud_available):
         f"  {tr('gamemode'):<10}: ",
         tr("available") if has_gamemode() else tr("unavailable")
     )
+    print(
+        f"  {tr('gamescope'):<10}: ",
+        tr("available") if has_gamescope() else tr("unavailable")
+    )
 
     print(
         f"  {tr('mangohud'):<10}: ",
         tr("available") if mangohud_available else tr("unavailable")
     )
+
 
     print("")
 # ---------------------------------------------------------------------------------------------------
