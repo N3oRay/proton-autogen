@@ -1,94 +1,97 @@
 # analyser.py
 
-from pathlib import Path
 from shutil import which
+from functools import lru_cache
 import os
 
 
-# ---------------------------------------------------------------------
-# Flatpak
-# ---------------------------------------------------------------------
-
 def is_flatpak():
-    """Return True when running inside a Flatpak sandbox."""
-    return Path("/.flatpak-info").is_file()
+    return os.path.exists("/.flatpak-info")
 
 
-# ---------------------------------------------------------------------
-# Host executable detection
-# ---------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# Host binary detection
+# ---------------------------------------------------------------------------
 
-# Chemins standards d'exécutables.
+# Emplacements classiques des exécutables sur l'hôte.
 #
-# Dans Flatpak, les chemins de l'hôte sont accessibles sous /run/host.
+# Dans un Flatpak :
+#   /run/host/usr/bin     -> /usr/bin
+#   /run/host/usr/games   -> /usr/games
+#   /run/host/usr/local/bin
+#   /run/host/bin
+#   /run/host/sbin
+#   /run/host/usr/sbin
 #
-# Aucun subprocess n'est utilisé.
+# usr/games est important pour gamescope/gamemoderun sur certaines
+# distributions Debian/Ubuntu/Linux Mint.
 HOST_BIN_DIRS = (
-    "/run/host/usr/local/bin",
     "/run/host/usr/bin",
     "/run/host/usr/games",
-    "/run/host/usr/local/games",
+    "/run/host/usr/local/bin",
     "/run/host/bin",
-    "/run/host/usr/local/sbin",
-    "/run/host/usr/sbin",
     "/run/host/sbin",
+    "/run/host/usr/sbin",
 )
 
 
+@lru_cache(maxsize=None)
 def host_which(binary):
     """
-    Vérifie la présence d'un exécutable.
+    Recherche un binaire sans exécuter quoi que ce soit.
 
     Hors Flatpak :
-        utilise le PATH courant avec shutil.which().
+        utilise le PATH normal.
 
     Dans Flatpak :
-        inspecte directement le filesystem de l'hôte
-        via /run/host.
-
-    Aucun processus n'est lancé.
+        recherche directement dans le système de fichiers hôte
+        monté sous /run/host.
     """
 
-    # -------------------------------------------------------------
-    # Système normal
-    # -------------------------------------------------------------
+    if not binary:
+        return None
+
+    # ------------------------------------------------------------
+    # Exécution normale
+    # ------------------------------------------------------------
     if not is_flatpak():
-        return which(binary) is not None
+        return which(binary)
 
-    # -------------------------------------------------------------
-    # Flatpak → filesystem hôte
-    # -------------------------------------------------------------
+    # ------------------------------------------------------------
+    # Flatpak
+    # ------------------------------------------------------------
     for directory in HOST_BIN_DIRS:
-        path = Path(directory) / binary
+        path = os.path.join(directory, binary)
 
-        try:
-            if path.is_file() and os.access(path, os.X_OK):
-                return True
-        except OSError:
-            continue
+        if os.path.isfile(path) and os.access(path, os.X_OK):
+            return path
 
-    return False
+    return None
 
 
-# ---------------------------------------------------------------------
-# Runtime detection
-# ---------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# Feature detection
+# ---------------------------------------------------------------------------
 
 def has_proton_call():
-    return host_which("proton-call")
+    return host_which("proton-call") is not None
 
 
 def has_wine():
-    return host_which("wine")
+    return host_which("wine") is not None
 
 
 def has_mangohud():
-    return host_which("mangohud")
+    return host_which("mangohud") is not None
 
 
 def has_gamemode():
-    return host_which("gamemoderun")
+    return host_which("gamemoderun") is not None
 
 
 def has_gamescope():
-    return host_which("gamescope")
+    return host_which("gamescope") is not None
+
+
+def has_xrandr():
+    return host_which("xrandr") is not None

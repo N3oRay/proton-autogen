@@ -80,6 +80,7 @@ LANG = {
         "proton_call": "proton-call",
         "gamemode": "GameMode",
         "gamescope": "GameScope",
+        "xrandr": "Xrandr",
         "mangohud": "MangoHud",
         "runtime_information": "Runtime information",
         "executable": "Executable",

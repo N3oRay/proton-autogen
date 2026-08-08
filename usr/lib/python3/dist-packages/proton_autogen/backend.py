@@ -25,6 +25,7 @@ from proton_autogen.core import (
     has_mangohud,
     has_gamemode,
     has_gamescope,
+    has_xrandr,
     has_proton_call,
     has_wine,
 
@@ -79,6 +80,10 @@ def print_runtime_info(proton, exe_path, mangohud_available):
     print(
         f"  {tr('gamescope'):<10}: ",
         tr("available") if has_gamescope() else tr("unavailable")
+    )
+    print(
+        f"  {tr('xrandr'):<10}: ",
+        tr("available") if has_xrandr() else tr("unavailable")
     )
 
     print(

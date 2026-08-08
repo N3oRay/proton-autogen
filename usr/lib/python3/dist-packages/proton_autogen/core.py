@@ -34,7 +34,7 @@ from proton_autogen.profiles.type_profile import env_gtav_compat, env_gtav_x11, 
 from proton_autogen.profiles.dotnet_csharp import env_dotnet_csharp
 from proton_autogen.profiles.dotnet import env_dotnet
 
-from proton_autogen.detection.analyser import has_proton_call, has_wine, has_mangohud, has_gamemode, has_gamescope
+from proton_autogen.detection.analyser import has_proton_call, has_wine, has_mangohud, has_gamemode, has_gamescope, has_xrandr
 from proton_autogen.detection.proton import DEFAULT_PROTON_PATHS
 from proton_autogen.detection.mangohud import find_mangohud_shim, check_mangohud_abi
 from proton_autogen.dector import resolve_game_features, gpu_env
