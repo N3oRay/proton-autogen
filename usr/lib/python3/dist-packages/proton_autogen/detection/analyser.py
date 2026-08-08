@@ -1,77 +1,73 @@
 # analyser.py
 
+from pathlib import Path
 from shutil import which
 import os
 
 
+# ---------------------------------------------------------------------
+# Flatpak
+# ---------------------------------------------------------------------
+
 def is_flatpak():
     """Return True when running inside a Flatpak sandbox."""
-    return os.path.exists("/.flatpak-info")
+    return Path("/.flatpak-info").is_file()
 
 
 # ---------------------------------------------------------------------
-# Detection without subprocess / run
+# Host executable detection
 # ---------------------------------------------------------------------
 
-def host_paths():
-    """
-    Return paths that can contain host-side tools.
-
-    No process is spawned.
-    """
-    paths = []
-
-    # PATH actuel
-    paths.extend(os.environ.get("PATH", "").split(os.pathsep))
-
-    if is_flatpak():
-        home = os.path.expanduser("~")
-
-        # Steam native
-        paths.extend([
-            os.path.join(home, ".steam", "root", "bin"),
-            os.path.join(home, ".steam", "steam", "bin"),
-            os.path.join(home, ".local", "bin"),
-            os.path.join(home, "bin"),
-        ])
-
-        # Steam Flatpak
-        paths.extend([
-            os.path.join(
-                home,
-                ".var", "app",
-                "com.valvesoftware.Steam",
-                ".local", "share", "Steam", "bin"
-            ),
-        ])
-
-        # System
-        paths.extend([
-            "/usr/bin",
-            "/usr/local/bin",
-            "/bin",
-            "/usr/sbin",
-            "/usr/local/sbin",
-            "/sbin",
-        ])
-
-    # Déduplication
-    return list(dict.fromkeys(
-        p for p in paths
-        if p and os.path.isdir(p)
-    ))
-
-
-_HOST_PATH = os.pathsep.join(host_paths())
+# Chemins standards d'exécutables.
+#
+# Dans Flatpak, les chemins de l'hôte sont accessibles sous /run/host.
+#
+# Aucun subprocess n'est utilisé.
+HOST_BIN_DIRS = (
+    "/run/host/usr/local/bin",
+    "/run/host/usr/bin",
+    "/run/host/usr/games",
+    "/run/host/usr/local/games",
+    "/run/host/bin",
+    "/run/host/usr/local/sbin",
+    "/run/host/usr/sbin",
+    "/run/host/sbin",
+)
 
 
 def host_which(binary):
     """
-    Detect an executable without spawning a process.
+    Vérifie la présence d'un exécutable.
 
-    Uses shutil.which() against a predefined host PATH.
+    Hors Flatpak :
+        utilise le PATH courant avec shutil.which().
+
+    Dans Flatpak :
+        inspecte directement le filesystem de l'hôte
+        via /run/host.
+
+    Aucun processus n'est lancé.
     """
-    return which(binary, path=_HOST_PATH) is not None
+
+    # -------------------------------------------------------------
+    # Système normal
+    # -------------------------------------------------------------
+    if not is_flatpak():
+        return which(binary) is not None
+
+    # -------------------------------------------------------------
+    # Flatpak → filesystem hôte
+    # -------------------------------------------------------------
+    for directory in HOST_BIN_DIRS:
+        path = Path(directory) / binary
+
+        try:
+            if path.is_file() and os.access(path, os.X_OK):
+                return True
+        except OSError:
+            continue
+
+    return False
 
 
 # ---------------------------------------------------------------------
