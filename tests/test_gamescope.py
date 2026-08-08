@@ -20,7 +20,7 @@ def test_detect_screen_resolution_primary_monitor(monkeypatch):
 
     fake_output = """
 Screen 0: minimum 320 x 200, current 3600 x 1200
-HDMI-A-0 connected 1920x1200+0+0
+HDMI-A-0 connected 1920x1080+0+0
    1920x1080     59.95*+
 """
 
