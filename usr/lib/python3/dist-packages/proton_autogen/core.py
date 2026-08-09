@@ -10,7 +10,7 @@ import threading
 from collections import defaultdict
 
 from pathlib import Path
-
+from proton_autogen import process_manager
 from proton_autogen.config import VERSION, CONFIG_FILE, CONFIG_DIR, PREFIX_DIR, PREFIX_DIR_PATH
 from proton_autogen.utils.flatpak import wrap_host_command, prepare_host_env
 from proton_autogen.utils.logger import StructuredLogger
@@ -447,6 +447,7 @@ def run_process(
     filters=None,
     merge_stderr=False,
     debug=False,
+    game_id=None,        # process_manager
 ):
     if filters is None:
         filters = []
@@ -472,90 +473,101 @@ def run_process(
         stderr=stderr_pipe,
         text=True,
         bufsize=1,
+        start_new_session=True,   # <-- crée un nouveau pgid, indispensable pour tuer tout l'arbre
     )
-    if logger:
-        logger.info(f"Spawned PID: {process.pid}")
+    if game_id:
+        process_manager.register(game_id, process)
 
-    percent = 85
+    try:
 
-    if progress is not None:
-        progress.stop_spinner()
-        progress.update(85, "Launching Proton")
+        if logger:
+            logger.info(f"Spawned PID: {process.pid}")
 
-    def handle_line(line, stream="stdout"):
-        nonlocal percent
+        percent = 85
 
-        line = line.rstrip()
-        # Ignore les lignes vides
-        if not line:
-            return
+        if progress is not None:
+            progress.stop_spinner()
+            progress.update(85, "Launching Proton")
 
-        # Filtrage uniquement en mode normal
-        if not debug:
-            if any(f in line for f in filters):
+        def handle_line(line, stream="stdout"):
+            nonlocal percent
+
+            line = line.rstrip()
+            # Ignore les lignes vides
+            if not line:
                 return
+
+            # Filtrage uniquement en mode normal
+            if not debug:
+                if any(f in line for f in filters):
+                    return
+
+            if progress is not None:
+                progress.update(
+                    percent,
+                    f"{stream}: {line}"
+                )
+                percent = min(percent + 1, 99)
+
+            if logger:
+                if debug:
+                    logger.debug(f"{stream}: {line}")
+                else:
+                    logger.info(line)
+
+        if merge_stderr:
+
+            for line in process.stdout:
+                handle_line(line)
+
+        else:
+
+            def read_stdout():
+                for line in process.stdout:
+                    handle_line(line, "stdout")
+
+            def read_stderr():
+                for line in process.stderr:
+                    handle_line(line, "stderr")
+
+            t_out = threading.Thread(
+                target=read_stdout,
+                daemon=True
+            )
+
+            t_err = threading.Thread(
+                target=read_stderr,
+                daemon=True
+            )
+
+            t_out.start()
+            t_err.start()
+
+            t_out.join()
+            t_err.join()
+
+        returncode = process.wait()
+
+        if debug and logger:
+            logger.debug(
+                f"Process finished with code: {returncode}"
+            )
 
         if progress is not None:
             progress.update(
-                percent,
-                f"{stream}: {line}"
+                100,
+                "Game launched"
             )
-            percent = min(percent + 1, 99)
 
         if logger:
-            if debug:
-                logger.debug(f"{stream}: {line}")
-            else:
-                logger.info(line)
+            logger.info(f"Process exit code: {returncode}")
 
-    if merge_stderr:
+        return returncode
 
-        for line in process.stdout:
-            handle_line(line)
-
-    else:
-
-        def read_stdout():
-            for line in process.stdout:
-                handle_line(line, "stdout")
-
-        def read_stderr():
-            for line in process.stderr:
-                handle_line(line, "stderr")
-
-        t_out = threading.Thread(
-            target=read_stdout,
-            daemon=True
-        )
-
-        t_err = threading.Thread(
-            target=read_stderr,
-            daemon=True
-        )
-
-        t_out.start()
-        t_err.start()
-
-        t_out.join()
-        t_err.join()
-
-    returncode = process.wait()
-
-    if debug and logger:
-        logger.debug(
-            f"Process finished with code: {returncode}"
-        )
-
-    if progress is not None:
-        progress.update(
-            100,
-            "Game launched"
-        )
-
-    if logger:
-        logger.info(f"Process exit code: {returncode}")
-
-    return returncode
+    finally:
+        # Garantit le nettoyage même en cas de crash/kill pendant la lecture
+        if game_id:
+            process_manager.unregister(game_id)
 
 # -------------------------------------------------------------------------------------------------------------------------------------
 
@@ -724,7 +736,7 @@ def get_exe_arch(path):
 def run_game_proton(exe_path, exe_type, proton,
                     system, features,
                     enable_mangohud=False, enable_gamemode=False, enable_gamescope=False,
-                    prefix_mode="main", progress=None):
+                    prefix_mode="main", progress=None, game_id=None):
 
     if progress is None:
         progress = Progress()
@@ -741,7 +753,7 @@ def run_game_proton(exe_path, exe_type, proton,
             progress.update( 85, f"EXE architecture: {arch}" )
         notifications.notify("info", "INFO", f"EXE architecture: {arch}")
 
-        game_id = hashlib.md5(exe_path.encode()).hexdigest()
+        game_id = game_id or hashlib.md5(exe_path.encode()).hexdigest()   # <-- recalculer si game_id None
 
         # -------------------------
         # Proton Path & Prefix Path
@@ -892,6 +904,7 @@ def run_game_proton(exe_path, exe_type, proton,
                 progress=progress,
                 filters=filters,
                 merge_stderr=False,
+                game_id=game_id,      # <-- process_manager
             )
 
             return returncode
@@ -915,6 +928,7 @@ def run_game_proton(exe_path, exe_type, proton,
                     progress=progress,
                     merge_stderr=True,
                     debug=True,
+                    game_id=game_id,      # <-- process_manager
                 )
             else:
                 filters = LOG_FILTERS
@@ -926,6 +940,7 @@ def run_game_proton(exe_path, exe_type, proton,
                     progress=progress,
                     filters=filters,
                     merge_stderr=True,
+                    game_id=game_id,      # <-- process_manager
                 )
 
                 logger.info(f"CompletedProcess: {returncode!r}")

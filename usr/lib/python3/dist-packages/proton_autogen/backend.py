@@ -107,7 +107,7 @@ def log_game_stats(exe_path):
     )
 # ---------------------------------------------------------------------------------------------------
 
-def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None):
+def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None, game_id=None):
     try:
         start_time = time.time() # Stats
         result_code = 0 # Stats
@@ -234,7 +234,7 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None):
             result_code = -1
             progress.update(80, tr("starting_proton"))
             result_code = run_game_proton(exe_path=exe_path, exe_type=exe_type, proton=proton, system=system, features=rfeatures, enable_mangohud=enable_mangohud,
-             enable_gamemode=enable_gamemode, enable_gamescope=enable_gamescope, prefix_mode=prefix_mode, progress=progress)
+             enable_gamemode=enable_gamemode, enable_gamescope=enable_gamescope, prefix_mode=prefix_mode, progress=progress, game_id=game_id,)
             if DEBUG or VERBOSE:
                 logger.debug("Result type: %s", type(result_code))
                 logger.debug("Result: %s", result_code)

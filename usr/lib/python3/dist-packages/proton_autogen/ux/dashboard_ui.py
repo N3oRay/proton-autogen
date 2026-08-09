@@ -9,6 +9,7 @@ from proton_autogen.ux.widgets.toast import ToastOverlay
 from proton_autogen.ux.recent_carousel import RecentCarousel
 from proton_autogen.ux.favorites_carousel import FavoritesCarousel
 from proton_autogen.ux.game_list import GameList
+from proton_autogen.i18n import tr
 
 
 class DashboardUIMixin:
@@ -192,6 +193,18 @@ class DashboardUIMixin:
         self.game_list.set_size_request(860, -1)
         root.append(self.game_list)
 
+    def _update_stop_button_state(self, is_running: bool, game_name: str = None):
+        """
+        Appelé par DashboardActionsMixin (launch_game / stop_running_game)
+        pour activer/désactiver et relabelliser le bouton Stop global.
+        """
+        self.stop_btn.set_visible(is_running)
+
+        if is_running and game_name:
+            self.stop_btn.set_label(f"■ {tr('stop_game')} — {game_name}")
+        else:
+            self.stop_btn.set_label(f"■ {tr('stop_game')}")
+
     def _build_status_bar(self, root):
         # =========================
         # STATUS BAR
@@ -201,10 +214,17 @@ class DashboardUIMixin:
         self.spinner.set_visible(False)
 
         self.status = Gtk.Label(label="Ready")
-        #--------------------------------------------
         self.status.set_xalign(0)
         self.status.add_css_class("home-label")
+        self.status.set_hexpand(True)
+
+        # Bouton Stop global — visible seulement si un jeu tourne
+        self.stop_btn = Gtk.Button(label="■ " + tr("stop_game"))
+        self.stop_btn.add_css_class("section-toggle") #section-toggle or  btn-stop-global
+        self.stop_btn.set_visible(False)
+        self.stop_btn.connect("clicked", self.on_stop_button_clicked)
 
         status_box.append(self.spinner)
         status_box.append(self.status)
+        status_box.append(self.stop_btn)
         root.append(status_box)

@@ -1,13 +1,17 @@
 #!/usr/bin/env python3
 import re
 import threading
+import hashlib
 from pathlib import Path
-from gi.repository import GLib
+import gi
+gi.require_version("Gtk", "4.0")
+from gi.repository import Gtk, GLib
 
 from proton_autogen.i18n import tr
 from proton_autogen.lutris import export_game_to_lutris_yaml
 from proton_autogen.progress import Progress
 from proton_autogen.backend import run
+from proton_autogen import process_manager
 from proton_autogen.ux.game_editor import GameEditor
 from proton_autogen.ux.dialogs import show_launch_dialog, hide_launch_dialog
 from proton_autogen.ux.dialogs import open_game_file_dialog
@@ -21,6 +25,9 @@ class DashboardActionsMixin:
     Doit être mixé avec une classe qui expose self.toast, self.status, self.spinner,
     self.show_export_dialog (DashboardDialogsMixin), self.refresh_games, self.lang,
     self.get_application().
+    État de suivi du jeu en cours (un seul jeu suivi à la fois) :
+        self._current_game_id
+        self._current_game_name
     """
 
     @staticmethod
@@ -75,13 +82,22 @@ class DashboardActionsMixin:
             GLib.idle_add(self.spinner.set_visible, False)
             return
 
+        game_path = game["path"]
+        game_id = hashlib.md5(game_path.encode()).hexdigest()
         name = game.get("name", tr("unknown_game"))
+
         self.status.set_text(tr("launching_game", name=name))
         self.set_sensitive(False)
         show_launch_dialog(self, name)
 
         # Ferme automatiquement après 3 secondes
         GLib.timeout_add_seconds(3, self._close_launch_dialog)
+
+        # Le jeu devient "en cours" — lu par stop_running_game()
+        # et par le binding du bouton Stop côté UI mixin.
+        self._current_game_id = game_id
+        self._current_game_name = name
+        GLib.idle_add(self._update_stop_button_state, True)
 
         def worker():
             progress = Progress(callback=self.progress_callback)
@@ -93,7 +109,7 @@ class DashboardActionsMixin:
             )
 
             try:
-                run(game["path"], progress=progress)
+                run(game_path, progress=progress, game_id=game_id)
 
                 # Le processus s'est terminé normalement
                 GLib.idle_add(
@@ -115,7 +131,105 @@ class DashboardActionsMixin:
                 GLib.idle_add(self.spinner.stop)
                 GLib.idle_add(self.spinner.set_visible, False)
 
+                # Le jeu n'est plus en cours (fin normale, crash, ou arrêt manuel).
+                # On ne réinitialise que si c'est toujours le même jeu suivi
+                # (protection basique contre une course avec un lancement suivant).
+                if getattr(self, "_current_game_id", None) == game_id:
+                    self._current_game_id = None
+                    self._current_game_name = None
+                    GLib.idle_add(self._update_stop_button_state, False)
+
         threading.Thread(target=worker, daemon=True).start()
+
+    # -------------------------
+    # STOP GAME
+    # -------------------------
+    def confirm_stop_dialog_old(self, game_name, on_confirm):
+        dialog = Gtk.AlertDialog()
+        dialog.set_message(tr("confirm_stop_title"))
+        dialog.set_detail(tr("confirm_stop_detail", name=game_name))
+        dialog.set_buttons([tr("cancel"), tr("stop_game")])
+        dialog.set_default_button(0)
+        dialog.set_cancel_button(0)
+
+        def on_response(source, result):
+            try:
+                choice = source.choose_finish(result)
+            except GLib.Error:
+                return
+            if choice == 1:
+                on_confirm()
+
+        dialog.choose(self, None, on_response)
+
+    def confirm_stop_dialog(self, game_name, on_confirm):
+        dialog = Gtk.Dialog(
+            title=tr("confirm_stop_title"),
+            transient_for=self,
+            modal=True,
+        )
+        dialog.set_default_size(360, -1)
+        dialog.add_css_class("stop-dialog")
+
+        content = dialog.get_content_area()
+        content.set_margin_top(16)
+        content.set_margin_bottom(16)
+        content.set_margin_start(16)
+        content.set_margin_end(16)
+        content.append(Gtk.Label(label=tr("confirm_stop_detail", name=game_name), wrap=True))
+
+        btn_cancel = dialog.add_button(tr("cancel"), Gtk.ResponseType.CANCEL)
+        btn_stop = dialog.add_button(tr("stop_game"), Gtk.ResponseType.ACCEPT)
+
+        # Style global partagé par les deux boutons
+        for btn in (btn_cancel, btn_stop):
+            btn.add_css_class("section-toggle") #section-toggle or  btn-stop-global or dialog-action-btn
+
+        # Variante spécifique au bouton destructif
+        btn_stop.add_css_class("destructive-action")
+
+        dialog.set_default_response(Gtk.ResponseType.CANCEL)
+
+        def on_response(source, response):
+            if response == Gtk.ResponseType.ACCEPT:
+                on_confirm()
+            dialog.destroy()
+
+        dialog.connect("response", on_response)
+        dialog.present()
+
+    def on_stop_button_clicked(self, _btn=None):
+        name = getattr(self, "_current_game_name", None)
+        game_id = getattr(self, "_current_game_id", None)
+
+        if not game_id:
+            self.toast.error(tr("no_active_game"))
+            return
+
+        self.confirm_stop_dialog(
+            name or tr("unknown_game"),
+            on_confirm=lambda: self.stop_running_game(game_id),
+        )
+
+    def stop_running_game(self, game_id=None):
+        game_id = game_id or getattr(self, "_current_game_id", None)
+        name = getattr(self, "_current_game_name", None) or tr("unknown_game")
+
+        if not game_id:
+            self.toast.error(tr("no_active_game"))
+            return
+
+        if process_manager.stop(game_id):
+            logger.info("Stop requested by user", game_id=game_id, name=name)
+            self.status.set_text(tr("stopping_game", name=name))
+            self.toast.success(tr("stopping_game", name=name))
+        else:
+            logger.warning("Stop requested but process already gone", game_id=game_id)
+            self.status.set_text(tr("no_active_game"))
+            self.toast.error(tr("no_active_game"))
+            self._current_game_id = None
+            self._current_game_name = None
+            GLib.idle_add(self._update_stop_button_state, False)
 
 
     # -------------------------

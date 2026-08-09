@@ -34,6 +34,12 @@ def _check_translation_completeness():
 LANG = {
     "en": {
         "ready": "Ready",
+        "confirm_stop_title": "Stop running game?",
+        "confirm_stop_detail": "Unsaved progress may be lost. ({name})",
+        "cancel": "Cancel",
+        "stop_game": "Stop",
+        "stopping_game": "Stopping {name}...",
+        "no_active_game": "No active game",
         "running_game": "Running {name}...",
         "game_finished": "{name} finished",
         "lutris_export_completed": "Lutris export completed",
@@ -116,6 +122,12 @@ LANG = {
 
     "uk": {
         "ready": "Готово",
+        "confirm_stop_title": "Зупинити гру, що виконується?",
+        "confirm_stop_detail": "Незбережений прогрес може бути втрачено. ({name})",
+        "cancel": "Скасувати",
+        "stop_game": "Зупинити",
+        "stopping_game": "Зупинення {name}...",
+        "no_active_game": "Немає активної гри",
         "running_game": "{name} запущено...",
         "game_finished": "{name} завершено",
         "lutris_export_completed": "Експорт до Lutris завершено",
@@ -200,6 +212,12 @@ LANG = {
 
     "pt": {
         "ready": "Pronto",
+        "confirm_stop_title": "Parar o jogo em execução?",
+        "confirm_stop_detail": "O progresso não salvo pode ser perdido. ({name})",
+        "cancel": "Cancelar",
+        "stop_game": "Parar",
+        "stopping_game": "Parando {name}...",
+        "no_active_game": "Nenhum jogo ativo",
         "running_game": "{name} está em execução...",
         "game_finished": "{name} terminou",
         "lutris_export_completed": "Exportação do Lutris concluída",
@@ -284,6 +302,12 @@ LANG = {
 
     "es": {
         "ready": "Listo",
+        "confirm_stop_title": "¿Detener el juego en ejecución?",
+        "confirm_stop_detail": "Se podría perder el progreso no guardado. ({name})",
+        "cancel": "Cancelar",
+        "stop_game": "Detener",
+        "stopping_game": "Deteniendo {name}...",
+        "no_active_game": "Ningún juego activo",
         "running_game": "{name} está en ejecución...",
         "game_finished": "{name} ha terminado",
         "lutris_export_completed": "Exportación de Lutris completada",
@@ -366,6 +390,12 @@ LANG = {
 
     "hi": {
         "ready": "तैयार",
+        "confirm_stop_title": "चल रहे गेम को रोकें?",
+        "confirm_stop_detail": "सहेजी न गई प्रगति खो सकती है। ({name})",
+        "cancel": "रद्द करें",
+        "stop_game": "रोकें",
+        "stopping_game": "{name} रोका जा रहा है...",
+        "no_active_game": "कोई सक्रिय गेम नहीं",
         "running_game": "{name} चल रहा है...",
         "game_finished": "{name} समाप्त हो गया",
         "lutris_export_completed": "Lutris निर्यात पूरा हुआ",
@@ -449,6 +479,12 @@ LANG = {
 
     "de": {
         "ready": "Bereit",
+        "confirm_stop_title": "Laufendes Spiel beenden?",
+        "confirm_stop_detail": "Nicht gespeicherter Fortschritt könnte verloren gehen. ({name})",
+        "cancel": "Abbrechen",
+        "stop_game": "Beenden",
+        "stopping_game": "{name} wird beendet...",
+        "no_active_game": "Kein aktives Spiel",
         "running_game": "{name} wird ausgeführt...",
         "game_finished": "{name} wurde beendet",
         "lutris_export_completed": "Lutris-Export abgeschlossen",
@@ -531,6 +567,12 @@ LANG = {
 
     "fr": {
         "ready": "Prêt",
+        "confirm_stop_title": "Arrêter le jeu ?",
+        "confirm_stop_detail": "La progression non sauvegardée sera perdue. ({name})",
+        "cancel": "Annuler",
+        "stop_game": "Arrêter",
+        "stopping_game": "Arrêt de {name}...",
+        "no_active_game": "Aucun jeu en cours",
         "running_game": "{name} est en cours d'exécution...",
         "game_finished": "{name} est terminé",
         "lutris_export_completed": "Export Lutris terminé",
@@ -613,6 +655,12 @@ LANG = {
 
     "zh": {
         "ready": "就绪",
+        "confirm_stop_title": "停止正在运行的游戏？",
+        "confirm_stop_detail": "未保存的进度可能会丢失。({name})",
+        "cancel": "取消",
+        "stop_game": "停止",
+        "stopping_game": "正在停止 {name}...",
+        "no_active_game": "没有正在运行的游戏",
         "running_game": "正在运行 {name}...",
         "game_finished": "{name} 已结束",
         "lutris_export_completed": "Lutris 导出完成",
