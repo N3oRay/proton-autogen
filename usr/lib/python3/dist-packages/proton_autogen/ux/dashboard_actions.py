@@ -4,6 +4,7 @@ import threading
 from pathlib import Path
 from gi.repository import GLib
 
+from proton_autogen.i18n import tr
 from proton_autogen.lutris import export_game_to_lutris_yaml
 from proton_autogen.progress import Progress
 from proton_autogen.backend import run
@@ -40,15 +41,15 @@ class DashboardActionsMixin:
             file_path = export_dir / f"{game_name}-lutris.yml"
             file_path.write_text(yaml_text, encoding="utf-8")
 
-            print(f"[OK] Export Lutris terminé: {file_path}")
+            print(f"[OK] {tr('lutris_export_completed')}: {file_path}")
             self.show_export_dialog(file_path)
-            self.toast.success("Lutris export completed")
+            self.toast.success(tr("lutris_export_completed"))
 
             return str(file_path)
 
         except Exception as e:
-            print(f"[ERROR] Export Lutris échoué: {e}")
-            self.toast.error("Lutris export failed")
+            print(f"[ERROR] {tr('lutris_export_failed')}: {e}")
+            self.toast.error(tr("lutris_export_failed"))
             return None
 
     # -------------------------
@@ -57,7 +58,7 @@ class DashboardActionsMixin:
     def _close_launch_dialog(self):
         hide_launch_dialog(self)
         self.set_sensitive(True)
-        self.status.set_text("Ready")
+        self.status.set_text(tr("ready"))
         return False  # le timer ne se répète pas
 
     def launch_game(self, game):
@@ -65,10 +66,12 @@ class DashboardActionsMixin:
         GLib.idle_add(self.spinner.set_visible, True)
 
         if not game.get("path"):
+            self.status.set_text(tr("missing_game_path"))
+            self.toast.error(tr("missing_game_path"))
             return
 
-        name = game.get("name", "Unknown")
-        self.status.set_text(f"Launching {name}...")
+        name = game.get("name", tr("unknown_game"))
+        self.status.set_text(tr("launching_game", name=name))
         self.set_sensitive(False)
         show_launch_dialog(self, name)
 
@@ -83,13 +86,15 @@ class DashboardActionsMixin:
             except Exception as e:
                 msg = str(e)
                 GLib.idle_add(
-                    lambda: self.status.set_text(f"Launch failed: {msg}")
+                    lambda: self.status.set_text(
+                        tr("launch_failed", error=msg)
+                    )
                 )
                 print("[UX] Launch error:", e)
             finally:
                 GLib.idle_add(self.spinner.stop)
                 GLib.idle_add(self.spinner.set_visible, False)
-                GLib.idle_add(self.status.set_text, "Ready")
+                GLib.idle_add(self.status.set_text, tr("ready"))
 
         threading.Thread(target=worker, daemon=True).start()
 
@@ -98,13 +103,13 @@ class DashboardActionsMixin:
     # -------------------------
     def edit_game(self, game):
         editor = GameEditor(self.get_application(), game, self.lang)
-        self.status.set_text("Updating...")
+        self.status.set_text(tr("updating"))
 
         def after_save(game):
             self.refresh_games()
 
         def on_close(_editor):
-            self.status.set_text("Ready")
+            self.status.set_text(tr("ready"))
 
         editor.on_saved = after_save
         editor.connect("destroy", lambda *_: on_close(editor))
@@ -114,13 +119,19 @@ class DashboardActionsMixin:
     # DELETE GAME
     # -------------------------
     def delete_game(self, game):
+        game_name = game.get("name", tr("unknown_game"))
+
         if rm_game_ux(game.get("path"), game.get("config_path")):
             self.refresh_games()
-            self.status.set_text(f"{game['name']} removed from library")
-            self.toast.success(f"{game['name']} removed from library")
+            self.status.set_text(
+                tr("game_removed_from_library", name=game_name)
+            )
+            self.toast.success(
+                tr("game_removed_from_library", name=game_name)
+            )
         else:
-            self.status.set_text("Unable to remove game")
-            self.toast.error("Unable to remove game")
+            self.status.set_text(tr("unable_to_remove_game"))
+            self.toast.error(tr("unable_to_remove_game"))
 
     # -------------------------
     # ADD GAME
@@ -134,11 +145,15 @@ class DashboardActionsMixin:
 
         try:
             game = add_game_ux(path)
-            self.status.set_text(f"{game['name']} added ✔")
+            self.status.set_text(
+                tr("game_added", name=game["name"])
+            )
             self.refresh_games()
-            self.toast.success(f"{game['name']} added")
+            self.toast.success(
+                tr("game_added_to_library", name=game["name"])
+            )
 
         except Exception as e:
-            self.status.set_text("Add game failed")
-            self.toast.error("Unable to add game")
+            self.status.set_text(tr("add_game_failed"))
+            self.toast.error(tr("unable_to_add_game"))
             print("[UX] Add game error:", e)
