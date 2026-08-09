@@ -34,6 +34,8 @@ def _check_translation_completeness():
 LANG = {
     "en": {
         "ready": "Ready",
+        "running_game": "Running {name}...",
+        "game_finished": "{name} finished",
         "lutris_export_completed": "Lutris export completed",
         "lutris_export_failed": "Lutris export failed",
         "missing_game_path": "Game path is missing",
@@ -114,6 +116,8 @@ LANG = {
 
     "uk": {
         "ready": "Готово",
+        "running_game": "{name} запущено...",
+        "game_finished": "{name} завершено",
         "lutris_export_completed": "Експорт до Lutris завершено",
         "lutris_export_failed": "Помилка експорту до Lutris",
         "missing_game_path": "Шлях до гри відсутній",
@@ -196,6 +200,8 @@ LANG = {
 
     "pt": {
         "ready": "Pronto",
+        "running_game": "{name} está em execução...",
+        "game_finished": "{name} terminou",
         "lutris_export_completed": "Exportação do Lutris concluída",
         "lutris_export_failed": "Falha na exportação do Lutris",
         "missing_game_path": "Caminho do jogo ausente",
@@ -278,6 +284,8 @@ LANG = {
 
     "es": {
         "ready": "Listo",
+        "running_game": "{name} está en ejecución...",
+        "game_finished": "{name} ha terminado",
         "lutris_export_completed": "Exportación de Lutris completada",
         "lutris_export_failed": "Error en la exportación de Lutris",
         "missing_game_path": "Falta la ruta del juego",
@@ -358,6 +366,8 @@ LANG = {
 
     "hi": {
         "ready": "तैयार",
+        "running_game": "{name} चल रहा है...",
+        "game_finished": "{name} समाप्त हो गया",
         "lutris_export_completed": "Lutris निर्यात पूरा हुआ",
         "lutris_export_failed": "Lutris निर्यात विफल हुआ",
         "missing_game_path": "गेम का पथ उपलब्ध नहीं है",
@@ -439,6 +449,8 @@ LANG = {
 
     "de": {
         "ready": "Bereit",
+        "running_game": "{name} wird ausgeführt...",
+        "game_finished": "{name} wurde beendet",
         "lutris_export_completed": "Lutris-Export abgeschlossen",
         "lutris_export_failed": "Lutris-Export fehlgeschlagen",
         "missing_game_path": "Spielpfad fehlt",
@@ -519,6 +531,8 @@ LANG = {
 
     "fr": {
         "ready": "Prêt",
+        "running_game": "{name} est en cours d'exécution...",
+        "game_finished": "{name} est terminé",
         "lutris_export_completed": "Export Lutris terminé",
         "lutris_export_failed": "Échec de l'export Lutris",
         "missing_game_path": "Chemin du jeu manquant",
@@ -599,6 +613,8 @@ LANG = {
 
     "zh": {
         "ready": "就绪",
+        "running_game": "正在运行 {name}...",
+        "game_finished": "{name} 已结束",
         "lutris_export_completed": "Lutris 导出完成",
         "lutris_export_failed": "Lutris 导出失败",
         "missing_game_path": "缺少游戏路径",

@@ -1,18 +1,12 @@
-proton-autogen (3.2.1) noble; urgency=medium
+proton-autogen (3.2.2) noble; urgency=medium
 
   * Thanks to all users and contributors for their continued support, feedback and bug reports.
-  * Interface improvement and UX performance optimization
-  * Added automatic Steam AppID fallback detection using an internal executable database, improving compatibility for standalone, backup and non-Steam installations.
-  * Improved Steam integration by exporting SteamOverlayGameId, allowing better Steam Overlay compatibility in more launch scenarios.
-  * Improved GoldSrc, Source and other legacy OpenGL engine compatibility through automatic renderer detection and adaptive Mesa/OpenGL compatibility settings.
-  * Improved legacy DirectX/OpenGL detection by refining renderer heuristics and avoiding unnecessary compatibility workarounds on modern OpenGL applications.
-  * Improved Valve engine compatibility and enabled DXVK HUD support for Valve-specific profiles.
-  * Added AMD_VULKAN_ICD environment variable documentation to the built-in environment variable reference.
-  * Replaced console print statements with the structured logging system across profile modules, providing more consistent debugging and cleaner runtime output.
-  * Improved debug logging with additional Steam environment variables and more detailed Wine debugging information.
-  * Removed obsolete experimental GoldSrc test profile and consolidated legacy compatibility profiles.
-  * Reorganized and cleaned profile definitions and internal architecture for easier maintenance.
-  * Updated project documentation, roadmap and README.
-  * General compatibility improvements, logging enhancements and code cleanup.
+  * Expanded UX internationalization with new translations for German, Spanish, Portuguese, Ukrainian, Hindi and Chinese, providing a more accessible and consistent multilingual interface.
+  * Improved user-facing UX messages with clearer launch, execution, completion and error status feedback.
+  * Improved environment loading performance, reducing startup overhead and making runtime initialization faster.
+  * Improved system and environment detection performance, reducing unnecessary checks and speeding up Proton and Wine environment discovery.
+  * Optimized game and runtime detection workflows for faster Dashboard loading and improved responsiveness.
+  * Improved Proton runtime selection and environment initialization for a smoother launch experience.
+  * General UX improvements, performance optimizations and code cleanup.
 
- -- N3oray <n3oray77@gmail.com>  Thu, 06 Aug 2026 04:00:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Sun, 09 Aug 2026 02:29:00 +0200

@@ -12,6 +12,8 @@ from proton_autogen.ux.game_editor import GameEditor
 from proton_autogen.ux.dialogs import show_launch_dialog, hide_launch_dialog
 from proton_autogen.ux.dialogs import open_game_file_dialog
 from proton_autogen.editor import add_game_ux, rm_game_ux
+from proton_autogen.utils.logger import StructuredLogger
+logger = StructuredLogger("proton-autogen.ux.dashboard_actions")
 
 
 class DashboardActionsMixin:
@@ -41,16 +43,17 @@ class DashboardActionsMixin:
             file_path = export_dir / f"{game_name}-lutris.yml"
             file_path.write_text(yaml_text, encoding="utf-8")
 
-            print(f"[OK] {tr('lutris_export_completed')}: {file_path}")
+            logger.info(f"{tr('lutris_export_completed')}: {file_path}")
             self.show_export_dialog(file_path)
             self.toast.success(tr("lutris_export_completed"))
 
             return str(file_path)
 
         except Exception as e:
-            print(f"[ERROR] {tr('lutris_export_failed')}: {e}")
+            logger.error(f"{tr('lutris_export_failed')}: {e}")
             self.toast.error(tr("lutris_export_failed"))
             return None
+
 
     # -------------------------
     # LAUNCH GAME
@@ -68,6 +71,8 @@ class DashboardActionsMixin:
         if not game.get("path"):
             self.status.set_text(tr("missing_game_path"))
             self.toast.error(tr("missing_game_path"))
+            GLib.idle_add(self.spinner.stop)
+            GLib.idle_add(self.spinner.set_visible, False)
             return
 
         name = game.get("name", tr("unknown_game"))
@@ -81,22 +86,37 @@ class DashboardActionsMixin:
         def worker():
             progress = Progress(callback=self.progress_callback)
 
+            # Le jeu est maintenant en cours d'exécution
+            GLib.idle_add(
+                self.status.set_text,
+                tr("running_game", name=name),
+            )
+
             try:
                 run(game["path"], progress=progress)
+
+                # Le processus s'est terminé normalement
+                GLib.idle_add(
+                    self.status.set_text,
+                    tr("game_finished", name=name),
+                )
+
             except Exception as e:
                 msg = str(e)
+
                 GLib.idle_add(
-                    lambda: self.status.set_text(
-                        tr("launch_failed", error=msg)
-                    )
+                    self.status.set_text,
+                    tr("launch_failed", error=msg),
                 )
-                print("[UX] Launch error:", e)
+
+                logger.error(f"Launch error: {e}")
+
             finally:
                 GLib.idle_add(self.spinner.stop)
                 GLib.idle_add(self.spinner.set_visible, False)
-                GLib.idle_add(self.status.set_text, tr("ready"))
 
         threading.Thread(target=worker, daemon=True).start()
+
 
     # -------------------------
     # EDIT GAME
@@ -156,4 +176,4 @@ class DashboardActionsMixin:
         except Exception as e:
             self.status.set_text(tr("add_game_failed"))
             self.toast.error(tr("unable_to_add_game"))
-            print("[UX] Add game error:", e)
+            logger.error(f"Add game error: {e}")
