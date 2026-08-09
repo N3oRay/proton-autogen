@@ -7,52 +7,28 @@ import sys
 def detect_help_env_lang():
     """
     Détecte la langue pour --help-env :
-    priorité = CLI > env LANGUAGE > défaut en
+    priorité = CLI > env LANGUAGE/LANG > défaut en
     """
+    for arg in sys.argv:
+        if arg.startswith("--") and arg[2:] in LANG:
+            return arg[2:]
 
-    # 1. Override CLI
-    if "--en" in sys.argv:
-        return "en"
-    if "--fr" in sys.argv:
-        return "fr"
-    if "--uk" in sys.argv:
-        return "uk"
-    if "--de" in sys.argv:
-        return "de"
-    if "--zh" in sys.argv:
-        return "zh"
-    if "--hi" in sys.argv:
-        return "hi"
-    if "--es" in sys.argv:
-        return "es"
-    if "--pt" in sys.argv:
-        return "pt"
+    lang_env = (os.environ.get("LANGUAGE") or os.environ.get("LANG") or "").lower()
+    for code in LANG:
+        if lang_env.startswith(code):
+            return code
 
-    # 2. Variable d'environnement système
-    lang_env = os.environ.get("LANGUAGE") or os.environ.get("LANG")
-
-    if lang_env:
-        lang_env = lang_env.lower()
-
-        if lang_env.startswith("fr"):
-            return "fr"
-        if lang_env.startswith("en"):
-            return "en"
-        if lang_env.startswith("de"):
-            return "de"
-        if lang_env.startswith("uk"):
-            return "uk"
-        if lang_env.startswith("zh"):
-            return "zh"
-        if lang_env.startswith("hi"):
-            return "hi"
-        if lang_env.startswith("es"):
-            return "es"
-        if lang_env.startswith("pt"):
-            return "pt"
-
-    # 3. défaut
     return "en"
+
+def _check_translation_completeness():
+    """Vérifie que toutes les langues définissent les mêmes clés que 'en'."""
+    reference_keys = set(LANG["en"].keys())
+    for lang_code, table in LANG.items():
+        if lang_code == "en":
+            continue
+        missing = reference_keys - set(table.keys())
+        if missing:
+            print(f"[i18n] WARNING: langue '{lang_code}' — clés manquantes: {sorted(missing)}")
 
 LANG = {
     "en": {
@@ -120,6 +96,336 @@ LANG = {
         """,
     },
 
+    "uk": {
+        "no_proton_installation": "Встановлення Proton не знайдено",
+        "detected_proton_installations": "Виявлені встановлення Proton",
+        "selected": "вибрано",
+        "prefix_name": "Назва префікса (порожньо = автоматично)",
+        "diagnostic": "діагностика proton-autogen",
+        "version": "Версія",
+        "python": "Python",
+        "runtime": "Середовище виконання",
+        "wine": "Wine",
+        "yes": "так",
+        "no": "ні",
+        "none": "немає",
+        "platform": "Платформа",
+        "detected_programs": "Виявлені програми Windows",
+        "no_windows_programs": "Програми Windows не знайдено",
+
+        "search_finished": "Пошук програм завершено за {time:.3f} с",
+
+        "load_config_prefix": "ЗАВАНТАЖЕННЯ ПРЕФІКСА КОНФІГУРАЦІЇ : {prefix}",
+
+        "feature_status": "{key}: {value}",
+        "proton_call": "proton-call",
+        "gamemode": "GameMode",
+        "gamescope": "GameScope",
+        "xrandr": "Xrandr",
+        "mangohud": "MangoHud",
+        "runtime_information": "Інформація про середовище виконання",
+        "executable": "Виконуваний файл",
+        "proton": "Proton",
+        "path": "Шлях",
+        "detected": "Виявлено",
+        "missing": "Відсутнє",
+        "available": "Доступно",
+        "unavailable": "Недоступно",
+        "favorite": "Улюблене",
+        "favorites": "Улюблені",
+        "playtime": "Час гри",
+        "remove_from_library": "Видалити гру з бібліотеки",
+        "export_lutris": "Експортувати до Lutris (.yml)",
+        "edit": "Редагувати",
+        "checking_executable": "Перевірка виконуваного файлу",
+        "loading_game_configuration": "Завантаження конфігурації гри",
+        "detecting_system": "Визначення системи",
+        "starting_proton": "Запуск Proton",
+        "starting_wine": "Запуск Wine",
+        "runtime_selected": "Середовище виконання Proton вибрано",
+        "missing_executable_title": "Виконуваний файл відсутній",
+        "missing_executable_message": "Виконуваний файл не знайдено",
+        "starting_proton_call": "Запуск Proton Call",
+        "run_started": "Запуск розпочато",
+        "config_read_error": "Помилка читання конфігурації {file}: {error}",
+        "proton_not_found": """
+        Встановлення Proton не знайдено.
+
+        Встановіть версію Proton (наприклад, через ProtonUp-Qt)
+        або вкажіть PROTON_PATH.
+
+        Командний рядок:
+          protonup -d ~/.steam/root/compatibilitytools.d
+
+        Перезапустіть Steam і спробуйте ще раз.
+        """,
+    },
+
+
+
+    "pt": {
+        "no_proton_installation": "Nenhuma instalação do Proton encontrada",
+        "detected_proton_installations": "Instalações do Proton detectadas",
+        "selected": "selecionado",
+        "prefix_name": "Nome do prefixo (vazio = automático)",
+        "diagnostic": "diagnóstico do proton-autogen",
+        "version": "Versão",
+        "python": "Python",
+        "runtime": "Ambiente de execução",
+        "wine": "Wine",
+        "yes": "sim",
+        "no": "não",
+        "none": "nenhum",
+        "platform": "Plataforma",
+        "detected_programs": "Programas do Windows detectados",
+        "no_windows_programs": "Nenhum programa do Windows encontrado",
+
+        "search_finished": "A pesquisa de programas terminou em {time:.3f}s",
+
+        "load_config_prefix": "CARREGANDO PREFIXO DE CONFIGURAÇÃO : {prefix}",
+
+        "feature_status": "{key}: {value}",
+        "proton_call": "proton-call",
+        "gamemode": "GameMode",
+        "gamescope": "GameScope",
+        "xrandr": "Xrandr",
+        "mangohud": "MangoHud",
+        "runtime_information": "Informações do ambiente de execução",
+        "executable": "Executável",
+        "proton": "Proton",
+        "path": "Caminho",
+        "detected": "Detectado",
+        "missing": "Ausente",
+        "available": "Disponível",
+        "unavailable": "Indisponível",
+        "favorite": "Favorito",
+        "favorites": "Favoritos",
+        "playtime": "Tempo de jogo",
+        "remove_from_library": "Remover jogo da biblioteca",
+        "export_lutris": "Exportar para Lutris (.yml)",
+        "edit": "Editar",
+        "checking_executable": "Verificando o executável",
+        "loading_game_configuration": "Carregando a configuração do jogo",
+        "detecting_system": "Detectando o sistema",
+        "starting_proton": "Iniciando o Proton",
+        "starting_wine": "Iniciando o Wine",
+        "runtime_selected": "Ambiente de execução do Proton selecionado",
+        "missing_executable_title": "Executável ausente",
+        "missing_executable_message": "Executável não encontrado",
+        "starting_proton_call": "Iniciando o Proton Call",
+        "run_started": "Execução iniciada",
+        "config_read_error": "Erro ao ler a configuração {file}: {error}",
+        "proton_not_found": """
+        Nenhuma instalação do Proton encontrada.
+
+        Instale uma versão do Proton (por exemplo, através do ProtonUp-Qt)
+        ou especifique PROTON_PATH.
+
+        Linha de comando:
+          protonup -d ~/.steam/root/compatibilitytools.d
+
+        Reinicie o Steam e tente novamente.
+        """,
+    },
+
+
+
+    "es": {
+        "no_proton_installation": "No se encontró ninguna instalación de Proton",
+        "detected_proton_installations": "Instalaciones de Proton detectadas",
+        "selected": "seleccionado",
+        "prefix_name": "Nombre del prefijo (vacío = automático)",
+        "diagnostic": "diagnóstico de proton-autogen",
+        "version": "Versión",
+        "python": "Python",
+        "runtime": "Entorno de ejecución",
+        "wine": "Wine",
+        "yes": "sí",
+        "no": "no",
+        "none": "ninguno",
+        "platform": "Plataforma",
+        "detected_programs": "Programas de Windows detectados",
+        "no_windows_programs": "No se encontraron programas de Windows",
+
+        "search_finished": "La búsqueda de programas terminó en {time:.3f}s",
+
+        "load_config_prefix": "CARGANDO PREFIJO DE CONFIGURACIÓN : {prefix}",
+
+        "feature_status": "{key}: {value}",
+        "proton_call": "proton-call",
+        "gamemode": "GameMode",
+        "gamescope": "GameScope",
+        "xrandr": "Xrandr",
+        "mangohud": "MangoHud",
+        "runtime_information": "Información del entorno de ejecución",
+        "executable": "Ejecutable",
+        "proton": "Proton",
+        "path": "Ruta",
+        "detected": "Detectado",
+        "missing": "Faltante",
+        "available": "Disponible",
+        "unavailable": "No disponible",
+        "favorite": "Favorito",
+        "favorites": "Favoritos",
+        "playtime": "Tiempo de juego",
+        "remove_from_library": "Eliminar juego de la biblioteca",
+        "export_lutris": "Exportar a Lutris (.yml)",
+        "edit": "Editar",
+        "checking_executable": "Comprobando el ejecutable",
+        "loading_game_configuration": "Cargando la configuración del juego",
+        "detecting_system": "Detectando el sistema",
+        "starting_proton": "Iniciando Proton",
+        "starting_wine": "Iniciando Wine",
+        "runtime_selected": "Entorno de ejecución de Proton seleccionado",
+        "missing_executable_title": "Falta el ejecutable",
+        "missing_executable_message": "No se encontró el ejecutable",
+        "starting_proton_call": "Iniciando Proton Call",
+        "run_started": "Ejecución iniciada",
+        "config_read_error": "Error al leer la configuración {file}: {error}",
+        "proton_not_found": """
+        No se encontró ninguna instalación de Proton.
+
+        Instala una versión de Proton (por ejemplo, mediante ProtonUp-Qt)
+        o especifica PROTON_PATH.
+
+        Línea de comandos:
+          protonup -d ~/.steam/root/compatibilitytools.d
+
+        Reinicia Steam e inténtalo de nuevo.
+        """,
+    },
+
+    "hi": {
+        "no_proton_installation": "कोई Proton इंस्टॉलेशन नहीं मिला",
+        "detected_proton_installations": "पता लगाए गए Proton इंस्टॉलेशन",
+        "selected": "चयनित",
+        "prefix_name": "प्रिफिक्स का नाम (खाली = स्वचालित)",
+        "diagnostic": "proton-autogen निदान",
+        "version": "संस्करण",
+        "python": "Python",
+        "runtime": "रनटाइम",
+        "wine": "Wine",
+        "yes": "हाँ",
+        "no": "नहीं",
+        "none": "कोई नहीं",
+        "platform": "प्लेटफ़ॉर्म",
+        "detected_programs": "पता लगाए गए Windows प्रोग्राम",
+        "no_windows_programs": "कोई Windows प्रोग्राम नहीं मिला",
+
+        "search_finished": "प्रोग्राम खोज {time:.3f}s में पूरी हुई",
+
+        "load_config_prefix": "कॉन्फ़िगरेशन प्रिफिक्स लोड हो रहा है : {prefix}",
+
+        "feature_status": "{key}: {value}",
+        "proton_call": "proton-call",
+        "gamemode": "GameMode",
+        "gamescope": "GameScope",
+        "xrandr": "Xrandr",
+        "mangohud": "MangoHud",
+        "runtime_information": "रनटाइम जानकारी",
+        "executable": "एक्ज़ीक्यूटेबल",
+        "proton": "Proton",
+        "path": "पथ",
+        "detected": "पता लगाया गया",
+        "missing": "अनुपलब्ध",
+        "available": "उपलब्ध",
+        "unavailable": "उपलब्ध नहीं",
+        "favorite": "पसंदीदा",
+        "favorites": "पसंदीदा",
+        "playtime": "खेलने का समय",
+        "remove_from_library": "गेम को लाइब्रेरी से हटाएँ",
+        "export_lutris": "Lutris में निर्यात करें (.yml)",
+        "edit": "संपादित करें",
+        "checking_executable": "एक्ज़ीक्यूटेबल की जाँच हो रही है",
+        "loading_game_configuration": "गेम कॉन्फ़िगरेशन लोड हो रहा है",
+        "detecting_system": "सिस्टम का पता लगाया जा रहा है",
+        "starting_proton": "Proton शुरू हो रहा है",
+        "starting_wine": "Wine शुरू हो रहा है",
+        "runtime_selected": "Proton रनटाइम चयनित",
+        "missing_executable_title": "एक्ज़ीक्यूटेबल अनुपलब्ध",
+        "missing_executable_message": "एक्ज़ीक्यूटेबल नहीं मिला",
+        "starting_proton_call": "Proton Call शुरू हो रहा है",
+        "run_started": "रन शुरू हो गया",
+        "config_read_error": "कॉन्फ़िगरेशन पढ़ने में त्रुटि {file}: {error}",
+        "proton_not_found": """
+        कोई Proton इंस्टॉलेशन नहीं मिला।
+
+        Proton का कोई संस्करण इंस्टॉल करें (उदाहरण के लिए ProtonUp-Qt के माध्यम से)
+        या PROTON_PATH निर्दिष्ट करें।
+
+        कमांड लाइन:
+          protonup -d ~/.steam/root/compatibilitytools.d
+
+        Steam को पुनः प्रारंभ करें और फिर से प्रयास करें।
+        """,
+    },
+
+
+    "de": {
+        "no_proton_installation": "Keine Proton-Installation gefunden",
+        "detected_proton_installations": "Erkannte Proton-Installationen",
+        "selected": "ausgewählt",
+        "prefix_name": "Prefix-Name (leer = automatisch)",
+        "diagnostic": "proton-autogen-Diagnose",
+        "version": "Version",
+        "python": "Python",
+        "runtime": "Laufzeitumgebung",
+        "wine": "Wine",
+        "yes": "ja",
+        "no": "nein",
+        "none": "keine",
+        "platform": "Plattform",
+        "detected_programs": "Erkannte Windows-Programme",
+        "no_windows_programs": "Keine Windows-Programme gefunden",
+
+        "search_finished": "Die Programmsuche wurde in {time:.3f}s abgeschlossen",
+
+        "load_config_prefix": "KONFIGURATIONSPRÄFIX LADEN : {prefix}",
+
+        "feature_status": "{key}: {value}",
+        "proton_call": "proton-call",
+        "gamemode": "GameMode",
+        "gamescope": "GameScope",
+        "xrandr": "Xrandr",
+        "mangohud": "MangoHud",
+        "runtime_information": "Informationen zur Laufzeitumgebung",
+        "executable": "Ausführbare Datei",
+        "proton": "Proton",
+        "path": "Pfad",
+        "detected": "Erkannt",
+        "missing": "Fehlt",
+        "available": "Verfügbar",
+        "unavailable": "Nicht verfügbar",
+        "favorite": "Favorit",
+        "favorites": "Favoriten",
+        "playtime": "Spielzeit",
+        "remove_from_library": "Spiel aus der Bibliothek entfernen",
+        "export_lutris": "Lutris exportieren (.yml)",
+        "edit": "Bearbeiten",
+        "checking_executable": "Ausführbare Datei wird überprüft",
+        "loading_game_configuration": "Spielkonfiguration wird geladen",
+        "detecting_system": "System wird erkannt",
+        "starting_proton": "Proton wird gestartet",
+        "starting_wine": "Wine wird gestartet",
+        "runtime_selected": "Proton-Laufzeitumgebung ausgewählt",
+        "missing_executable_title": "Ausführbare Datei fehlt",
+        "missing_executable_message": "Ausführbare Datei nicht gefunden",
+        "starting_proton_call": "Proton Call wird gestartet",
+        "run_started": "Ausführung gestartet",
+        "config_read_error": "Fehler beim Lesen der Konfiguration {file}: {error}",
+        "proton_not_found": """
+        Keine Proton-Installation gefunden.
+
+        Installiere eine Proton-Version (z. B. über ProtonUp-Qt)
+        oder gib PROTON_PATH an.
+
+        Befehlszeile:
+          protonup -d ~/.steam/root/compatibilitytools.d
+
+        Starte Steam neu und versuche es erneut.
+        """,
+    },
+
     "fr": {
         "no_proton_installation": "Aucune installation Proton trouvée",
         "detected_proton_installations": "Installations Proton détectées",
@@ -145,6 +451,7 @@ LANG = {
         "proton_call": "proton-call",
         "gamemode": "GameMode",
         "gamescope": "GameScope",
+        "xrandr": "Xrandr",
         "mangohud": "MangoHud",
         "runtime_information": "Informations d'exécution",
         "executable": "Exécutable",
@@ -209,6 +516,7 @@ LANG = {
         "proton_call": "proton-call",
         "gamemode": "GameMode",
         "gamescope": "GameScope",
+        "xrandr": "Xrandr",
         "mangohud": "MangoHud",
         "runtime_information": "运行环境信息",
         "executable": "可执行文件",
