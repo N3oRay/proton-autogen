@@ -325,7 +325,7 @@ Actively maintained and used by Linux users, with regular releases and ongoing i
 👀 Views              ██████                393
 🌍 Unique visitors    ██                    157
 Ubuntu PPA
-📥 Downloads █████████████████████  252
+📥 Downloads █████████████████████  301
 ```
 <sub>
 Launchpad downloads represent PPA package downloads, not unique users.
