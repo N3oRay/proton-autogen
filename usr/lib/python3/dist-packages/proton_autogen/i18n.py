@@ -34,6 +34,8 @@ def _check_translation_completeness():
 LANG = {
     "en": {
         "ready": "Ready",
+        "select_game_to_stop": "Select a game to stop",
+        "select_game_to_stop_detail": "Multiple games are currently running. Select the one you want to stop.",
         "confirm_stop_title": "Stop running game?",
         "confirm_stop_detail": "Unsaved progress may be lost. ({name})",
         "cancel": "Cancel",
@@ -122,6 +124,8 @@ LANG = {
 
     "uk": {
         "ready": "Готово",
+        "select_game_to_stop": "Виберіть гру, яку потрібно зупинити",
+        "select_game_to_stop_detail": "Зараз запущено кілька ігор. Виберіть гру, яку ви хочете зупинити.",
         "confirm_stop_title": "Зупинити гру, що виконується?",
         "confirm_stop_detail": "Незбережений прогрес може бути втрачено. ({name})",
         "cancel": "Скасувати",
@@ -212,6 +216,8 @@ LANG = {
 
     "pt": {
         "ready": "Pronto",
+        "select_game_to_stop": "Selecionar um jogo para parar",
+        "select_game_to_stop_detail": "Estão vários jogos em execução. Selecione o jogo que pretende parar.",
         "confirm_stop_title": "Parar o jogo em execução?",
         "confirm_stop_detail": "O progresso não salvo pode ser perdido. ({name})",
         "cancel": "Cancelar",
@@ -302,6 +308,8 @@ LANG = {
 
     "es": {
         "ready": "Listo",
+        "select_game_to_stop": "Seleccionar un juego para detener",
+        "select_game_to_stop_detail": "Hay varios juegos en ejecución. Selecciona el juego que quieres detener.",
         "confirm_stop_title": "¿Detener el juego en ejecución?",
         "confirm_stop_detail": "Se podría perder el progreso no guardado. ({name})",
         "cancel": "Cancelar",
@@ -390,6 +398,8 @@ LANG = {
 
     "hi": {
         "ready": "तैयार",
+        "select_game_to_stop": "रोकने के लिए गेम चुनें",
+        "select_game_to_stop_detail": "कई गेम अभी चल रहे हैं। वह गेम चुनें जिसे आप रोकना चाहते हैं।",
         "confirm_stop_title": "चल रहे गेम को रोकें?",
         "confirm_stop_detail": "सहेजी न गई प्रगति खो सकती है। ({name})",
         "cancel": "रद्द करें",
@@ -479,6 +489,8 @@ LANG = {
 
     "de": {
         "ready": "Bereit",
+        "select_game_to_stop": "Spiel zum Beenden auswählen",
+        "select_game_to_stop_detail": "Mehrere Spiele laufen derzeit. Wählen Sie das Spiel aus, das Sie beenden möchten.",
         "confirm_stop_title": "Laufendes Spiel beenden?",
         "confirm_stop_detail": "Nicht gespeicherter Fortschritt könnte verloren gehen. ({name})",
         "cancel": "Abbrechen",
@@ -567,6 +579,8 @@ LANG = {
 
     "fr": {
         "ready": "Prêt",
+        "select_game_to_stop" : "Choisir un jeu à arrêter",
+        "select_game_to_stop_detail" : "Plusieurs jeux sont actuellement en cours. Sélectionnez celui que vous souhaitez arrêter.",
         "confirm_stop_title": "Arrêter le jeu ?",
         "confirm_stop_detail": "La progression non sauvegardée sera perdue. ({name})",
         "cancel": "Annuler",
@@ -655,6 +669,8 @@ LANG = {
 
     "zh": {
         "ready": "就绪",
+        "select_game_to_stop": "选择要停止的游戏",
+        "select_game_to_stop_detail": "当前有多个游戏正在运行。请选择您要停止的游戏。",
         "confirm_stop_title": "停止正在运行的游戏？",
         "confirm_stop_detail": "未保存的进度可能会丢失。({name})",
         "cancel": "取消",

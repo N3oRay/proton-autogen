@@ -97,6 +97,12 @@ class DashboardActionsMixin:
         # et par le binding du bouton Stop côté UI mixin.
         self._current_game_id = game_id
         self._current_game_name = name
+        # Prise en charge muli run ---------------------
+        if not hasattr(self, "_running_games"):
+            self._running_games = {}   # game_id -> name
+
+        self._running_games[game_id] = name
+        #-----------------------------------------------
         GLib.idle_add(self._update_stop_button_state, True)
 
         def worker():
@@ -137,9 +143,172 @@ class DashboardActionsMixin:
                 if getattr(self, "_current_game_id", None) == game_id:
                     self._current_game_id = None
                     self._current_game_name = None
-                    GLib.idle_add(self._update_stop_button_state, False)
+                    #GLib.idle_add(self._update_stop_button_state, False)
+                    self._running_games.pop(game_id, None)
+                    GLib.idle_add(
+                        self._update_stop_button_state,
+                        bool(self._running_games)
+                    )
 
         threading.Thread(target=worker, daemon=True).start()
+
+
+    # -------------------------
+    # STOP GAME — SELECTOR
+    # -------------------------
+    def _show_stop_selector(self, running):
+        """
+        Affiche une boîte de dialogue permettant de choisir quel jeu arrêter
+        lorsque plusieurs jeux sont actuellement en cours d'exécution.
+
+        running:
+            dict {game_id: game_name}
+        """
+
+        if not running:
+            self.toast.error(tr("no_active_game"))
+            return
+
+        dialog = Gtk.Dialog(
+            title=tr("select_game_to_stop"),
+            transient_for=self,
+            modal=True,
+        )
+
+        dialog.set_default_size(420, -1)
+        dialog.add_css_class("stop-dialog")
+
+        content = dialog.get_content_area()
+        content.set_margin_top(16)
+        content.set_margin_bottom(16)
+        content.set_margin_start(16)
+        content.set_margin_end(16)
+
+        # Texte explicatif
+        label = Gtk.Label(
+            label=tr("select_game_to_stop_detail"),
+            wrap=True,
+            xalign=0,
+        )
+        label.set_margin_bottom(12)
+        content.append(label)
+
+        # Liste des jeux
+        list_box = Gtk.ListBox()
+        list_box.set_selection_mode(Gtk.SelectionMode.SINGLE)
+        list_box.add_css_class("boxed-list")
+
+        # Conserve le mapping row -> game_id
+        rows = {}
+
+        for game_id, game_name in running.items():
+            row = Gtk.ListBoxRow()
+
+            row_box = Gtk.Box(
+                orientation=Gtk.Orientation.HORIZONTAL,
+                spacing=12,
+            )
+            row_box.set_margin_top(10)
+            row_box.set_margin_bottom(10)
+            row_box.set_margin_start(12)
+            row_box.set_margin_end(12)
+
+            name_label = Gtk.Label(
+                label=game_name,
+                xalign=0,
+                hexpand=True,
+            )
+
+            row_box.append(name_label)
+            row.set_child(row_box)
+
+            list_box.append(row)
+            rows[row] = game_id
+
+        content.append(list_box)
+
+        # Boutons
+        btn_cancel = dialog.add_button(
+            tr("cancel"),
+            Gtk.ResponseType.CANCEL,
+        )
+
+        btn_stop = dialog.add_button(
+            tr("stop_game"),
+            Gtk.ResponseType.ACCEPT,
+        )
+
+        btn_cancel.add_css_class("section-toggle")
+        btn_stop.add_css_class("section-toggle")
+        btn_stop.add_css_class("destructive-action")
+
+        # Désactivé tant qu'aucun jeu n'est sélectionné
+        btn_stop.set_sensitive(False)
+
+        # Active le bouton "Arrêter" lorsqu'un jeu est sélectionné
+        def on_selection_changed(_list_box, _row):
+            selected = list_box.get_selected_row()
+            btn_stop.set_sensitive(selected is not None)
+
+        list_box.connect("row-selected", on_selection_changed)
+
+        def on_response(_dialog, response):
+            if response != Gtk.ResponseType.ACCEPT:
+                dialog.destroy()
+                return
+
+            selected_row = list_box.get_selected_row()
+
+            if selected_row is None:
+                return
+
+            game_id = rows.get(selected_row)
+
+            if not game_id:
+                dialog.destroy()
+                return
+
+            game_name = running.get(
+                game_id,
+                tr("unknown_game"),
+            )
+
+            # Ferme le sélecteur avant d'afficher la confirmation
+            dialog.destroy()
+
+            # Confirmation finale
+            self.confirm_stop_dialog(
+                game_name,
+                on_confirm=lambda: self.stop_running_game(game_id),
+            )
+
+        dialog.connect("response", on_response)
+
+        # Double-clic sur un jeu = sélection + arrêt
+        def on_row_activated(_list_box, row):
+            game_id = rows.get(row)
+
+            if not game_id:
+                return
+
+            game_name = running.get(
+                game_id,
+                tr("unknown_game"),
+            )
+
+            dialog.destroy()
+
+            self.confirm_stop_dialog(
+                game_name,
+                on_confirm=lambda: self.stop_running_game(game_id),
+            )
+
+        list_box.connect("row-activated", on_row_activated)
+
+        dialog.set_default_response(Gtk.ResponseType.CANCEL)
+        dialog.present()
+
+
 
     # -------------------------
     # STOP GAME
@@ -199,25 +368,21 @@ class DashboardActionsMixin:
         dialog.present()
 
     def on_stop_button_clicked(self, _btn=None):
-        name = getattr(self, "_current_game_name", None)
-        game_id = getattr(self, "_current_game_id", None)
+        running = getattr(self, "_running_games", {})
 
-        if not game_id:
+        if not running:
             self.toast.error(tr("no_active_game"))
             return
 
-        self.confirm_stop_dialog(
-            name or tr("unknown_game"),
-            on_confirm=lambda: self.stop_running_game(game_id),
-        )
+        if len(running) == 1:
+            game_id, name = next(iter(running.items()))
+            self.confirm_stop_dialog(name, on_confirm=lambda: self.stop_running_game(game_id))
+        else:
+            # Plusieurs jeux en cours : afficher une liste à choisir, ou tout arrêter
+            self._show_stop_selector(running)
 
-    def stop_running_game(self, game_id=None):
-        game_id = game_id or getattr(self, "_current_game_id", None)
-        name = getattr(self, "_current_game_name", None) or tr("unknown_game")
-
-        if not game_id:
-            self.toast.error(tr("no_active_game"))
-            return
+    def stop_running_game(self, game_id):
+        name = getattr(self, "_running_games", {}).get(game_id, tr("unknown_game"))
 
         if process_manager.stop(game_id):
             logger.info("Stop requested by user", game_id=game_id, name=name)
@@ -225,11 +390,8 @@ class DashboardActionsMixin:
             self.toast.success(tr("stopping_game", name=name))
         else:
             logger.warning("Stop requested but process already gone", game_id=game_id)
-            self.status.set_text(tr("no_active_game"))
-            self.toast.error(tr("no_active_game"))
-            self._current_game_id = None
-            self._current_game_name = None
-            GLib.idle_add(self._update_stop_button_state, False)
+            self._running_games.pop(game_id, None)
+            GLib.idle_add(self._update_stop_button_state, bool(self._running_games))
 
 
     # -------------------------
