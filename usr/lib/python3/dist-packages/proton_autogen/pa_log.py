@@ -12,6 +12,7 @@ VALID_LEVELS = {"info", "warning", "error"}
 
 DEBUG_ENV_VARS = (
     "DISPLAY",
+    "HOST_LC_ALL",
     "XAUTHORITY",
     "DBUS_SESSION_BUS_ADDRESS",
     "LD_LIBRARY_PATH",
