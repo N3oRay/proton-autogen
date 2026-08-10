@@ -32,6 +32,45 @@ LEGACY_RENDERER_RULES = {
     }
 }
 
+def add_dll_override(env, dll, mode="n,b"):
+    current = env.get("WINEDLLOVERRIDES", "")
+
+    entries = []
+    if current:
+        entries = current.split(";")
+
+    # Évite les doublons
+    entries = [
+        entry for entry in entries
+        if not entry.lower().startswith(f"{dll.lower()}=")
+    ]
+
+    entries.append(f"{dll}={mode}")
+    env["WINEDLLOVERRIDES"] = ";".join(entries)
+
+def detect_reshade(exe_path):
+    """
+    Détecte une installation ReShade locale.
+
+    Pour le backend OpenGL, ReShade utilise généralement un
+    opengl32.dll placé à côté de l'exécutable ainsi que ReShade.ini.
+    """
+    if not exe_path:
+        return False
+
+    directory = os.path.dirname(exe_path)
+
+    reshade_dll = os.path.join(directory, "opengl32.dll")
+    reshade_ini = os.path.join(directory, "ReShade.ini")
+
+    if os.path.isfile(reshade_dll) and os.path.isfile(reshade_ini):
+        logger.info(
+            f"[proton-autogen] ReShade detected: {directory}"
+        )
+        return True
+
+    return False
+
 
 def detect_legacy_renderer(exe_path):
     # Note: opengl32.dll est volontairement exclu — c'est la DLL système
@@ -54,6 +93,15 @@ def detect_legacy_renderer(exe_path):
                 return file.lower()
 
     return None
+
+def detect_graphics_mods(exe_path):
+    """
+    Détecte les modifications graphiques installées localement.
+    """
+    return {
+        "reshade": detect_reshade(exe_path),
+        "legacy_renderer": detect_legacy_renderer(exe_path),
+    }
 
 def env_dx9(prefix=None, proton_path=None, exe_path=None):
     env = init_env()
@@ -171,7 +219,12 @@ def env_dx9opengl(prefix=None, proton_path=None, exe_path=None):
     # Legacy OpenGL detection
     # -----------------------------------------
     if exe_path :
-        renderer = detect_legacy_renderer(exe_path)
+        graphics = detect_graphics_mods(exe_path)
+
+        renderer = graphics["legacy_renderer"]
+        # -----------------------------------------
+        # Legacy OpenGL renderer
+        # -----------------------------------------
         if renderer:
             logger.info(f"[proton-autogen] Applying OpenGL compatibility fix: {renderer}")
 
@@ -196,6 +249,18 @@ def env_dx9opengl(prefix=None, proton_path=None, exe_path=None):
                 env["WINEDLLOVERRIDES"] = "dinput=n,b;dinput8=n,b"
                 env["PROTON_OLD_GL_STRING"] = "1"
                 env["MESA_EXTENSION_MAX_YEAR"] = rules["mesa_year"]
+
+            # -----------------------------------------
+            # ReShade detection
+            # -----------------------------------------
+            if graphics["reshade"]:
+                logger.info(
+                    "[proton-autogen] ReShade detected"
+                )
+
+                # Force the local ReShade OpenGL wrapper to load
+                # before Wine's builtin/system OpenGL implementation.
+                add_dll_override(env, "opengl32", "n,b")
 
 
     return env
