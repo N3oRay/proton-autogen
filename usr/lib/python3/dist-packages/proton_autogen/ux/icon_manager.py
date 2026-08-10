@@ -76,6 +76,12 @@ ICON_MAPPING = {
     "canon": "15print.svg",
     "brother": "15print.svg",
 
+    "x-com": "16alien.svg",
+    "street": "17street.svg",
+    "crysis": "18crysis.svg",
+    "fallout3": "19fallout.svg",
+    "falloutnv": "19fallout.svg",
+
     # =================================================
     # Launchers
     # =================================================
