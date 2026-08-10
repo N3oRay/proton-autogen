@@ -29,11 +29,37 @@ KNOWN_APPIDS = {
     "AtelierYumia.exe": "3123410",               # Atelier Yumia
 
     # -----------------------------
-    # ARK
+    # ARK / DIVERS
     # -----------------------------
     "ShooterGame.exe": "346110",                 # ARK: Survival Evolved
     "ArkAscended.exe": "2399830",                # ARK: Survival Ascended
     "ShooterGameSteam.exe": "346110",            # Alias rencontré sur certaines installations
+
+    "DCS.exe": "223750",                              # DCS World Steam Edition
+
+    "Popucom.exe": "2543180",                        # POPUCOM
+    "Renfield.exe": "2354600",                        # Renfield: Bring Your Own Blood
+    "Void Miner.exe": "3772240",                      # Void Miner – Incremental Asteroids Roguelite
+
+    "DangerZone-Win64-Shipping.exe": "604740",       # Danger Zone
+    "farm2012.exe": "273790",                         # Agricultural Simulator 2012: Deluxe Edition
+    "Wreckreation.exe": "1594040",                    # Wreckreation
+
+    "Orlando.exe": "405500",                          # Dangerous Golf
+    "Orlando-Win64-Shipping.exe": "405500",          # Dangerous Golf
+
+    "supermegabaseball.exe": "988910",               # Super Mega Baseball 3
+    "cricket26.exe": "3468650",                       # Cricket 26 - The Official Game of the Ashes
+    "WarAndPeace.exe": "2009780",                    # Napoleon's Eagles: Game of the Napoleonic Wars
+
+    "VeiledExperts-Win64-Shipping_BE.exe": "1934780", # VEILED EXPERTS
+    "Iridion3d.exe": "1132220",                       # Iridion 3D
+
+    "xcom.exe": "7770",                               # X-COM: Enforcer
+
+    "UFO Defense_Patched.exe": "7760",               # X-COM: UFO Defense
+    "runme.exe": "7650",                              # X-COM: Terror From the Deep
+    "Terror From the Deep_patched.exe": "7650",      # X-COM: Terror From the Deep
 
     # -----------------------------
     # Assassin's Creed
