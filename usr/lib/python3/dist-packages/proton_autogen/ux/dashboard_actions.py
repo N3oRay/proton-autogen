@@ -136,6 +136,7 @@ class DashboardActionsMixin:
             finally:
                 GLib.idle_add(self.spinner.stop)
                 GLib.idle_add(self.spinner.set_visible, False)
+                self._running_games.pop(game_id, None)
 
                 # Le jeu n'est plus en cours (fin normale, crash, ou arrêt manuel).
                 # On ne réinitialise que si c'est toujours le même jeu suivi
@@ -143,8 +144,7 @@ class DashboardActionsMixin:
                 if getattr(self, "_current_game_id", None) == game_id:
                     self._current_game_id = None
                     self._current_game_name = None
-                    #GLib.idle_add(self._update_stop_button_state, False)
-                    self._running_games.pop(game_id, None)
+
                     GLib.idle_add(
                         self._update_stop_button_state,
                         bool(self._running_games)

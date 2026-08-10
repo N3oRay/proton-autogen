@@ -448,6 +448,8 @@ def run_process(
     merge_stderr=False,
     debug=False,
     game_id=None,        # process_manager
+    prefix_path=None,
+    proton_dir=None,
 ):
     if filters is None:
         filters = []
@@ -476,7 +478,7 @@ def run_process(
         start_new_session=True,   # <-- crée un nouveau pgid, indispensable pour tuer tout l'arbre
     )
     if game_id:
-        process_manager.register(game_id, process)
+        process_manager.register( game_id, process, prefix_path=prefix_path, proton_dir=proton_dir, env=env, )
 
     try:
 
@@ -567,7 +569,7 @@ def run_process(
     finally:
         # Garantit le nettoyage même en cas de crash/kill pendant la lecture
         if game_id:
-            process_manager.unregister(game_id)
+            process_manager.unregister(game_id, process)
 
 # -------------------------------------------------------------------------------------------------------------------------------------
 
@@ -786,6 +788,7 @@ def run_game_proton(exe_path, exe_type, proton,
         notifications.notify("info", "Prefix path", f"Prefix path : {prefix_path}")
 
         env["STEAM_COMPAT_DATA_PATH"] = prefix_path
+        env["WINEPREFIX"] = prefix_path
         os.makedirs(prefix_path, exist_ok=True)
 
         env["STEAM_COMPAT_CLIENT_INSTALL_PATH"] = os.path.expanduser("~/.steam/steam")
@@ -905,6 +908,8 @@ def run_game_proton(exe_path, exe_type, proton,
                 filters=filters,
                 merge_stderr=False,
                 game_id=game_id,      # <-- process_manager
+                prefix_path=prefix_path,
+                proton_dir=proton_dir,
             )
 
             return returncode
@@ -929,6 +934,8 @@ def run_game_proton(exe_path, exe_type, proton,
                     merge_stderr=True,
                     debug=True,
                     game_id=game_id,      # <-- process_manager
+                    prefix_path=prefix_path,
+                    proton_dir=proton_dir,
                 )
             else:
                 filters = LOG_FILTERS
@@ -941,6 +948,8 @@ def run_game_proton(exe_path, exe_type, proton,
                     filters=filters,
                     merge_stderr=True,
                     game_id=game_id,      # <-- process_manager
+                    prefix_path=prefix_path,
+                    proton_dir=proton_dir,
                 )
 
                 logger.info(f"CompletedProcess: {returncode!r}")
