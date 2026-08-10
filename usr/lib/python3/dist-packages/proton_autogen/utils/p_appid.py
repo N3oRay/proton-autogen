@@ -56,7 +56,7 @@ KNOWN_APPIDS = {
     "Iridion3d.exe": "1132220",                       # Iridion 3D
 
     "xcom.exe": "7770",                               # X-COM: Enforcer
-
+    "Interceptor.exe": "7730",                  # X-COM: Interceptor
     "UFO Defense_Patched.exe": "7760",               # X-COM: UFO Defense
     "runme.exe": "7650",                              # X-COM: Terror From the Deep
     "Terror From the Deep_patched.exe": "7650",      # X-COM: Terror From the Deep
@@ -250,6 +250,9 @@ KNOWN_APPIDS = {
     # -----------------------------
     "MaxPayne.exe": "12140",
     "MaxPayne2.exe": "12150",
+    "MaxPayne3.exe": "204100",                   # Max Payne 3
+    "manhunt.exe": "12130",                      # Manhunt
+    "mc2.exe": "12160",                           # Midnight Club II
 
     # -----------------------------
     # Bethesda
@@ -503,6 +506,9 @@ KNOWN_APPIDS = {
     # Rockstar
     # -----------------------------
     "RDR2.exe": "1174180",
+    "RDR.exe": "2668510",                        # Red Dead Redemption
+    "LANoire.exe": "110800",                     # L.A. Noire
+    "Bully.exe": "12200",                        # Bully: Scholarship Edition
 
     # -----------------------------
     # FromSoftware
