@@ -10,6 +10,7 @@ from proton_autogen.info import get_help_text
 from proton_autogen.sensor import get_sensors_text, get_mangohud_advice
 from proton_autogen.requis import afficher_requirements_label
 from proton_autogen.backend import get_diagnostic_text
+from proton_autogen.i18n import tr
 
 
 class DashboardDialogsMixin:
@@ -78,7 +79,7 @@ class DashboardDialogsMixin:
     def show_about_dialog(self):
         scroll, textview = self._build_text_view()
         insert_about_text(textview.get_buffer(), get_about_text())
-        self.build_dialog("About", scroll, width=700, height=750)
+        self.build_dialog(tr("dialog_title_about"), scroll, width=700, height=750)
 
     # -------------------------
     # DIALOG ABOUT PROTON
@@ -86,7 +87,7 @@ class DashboardDialogsMixin:
     def show_about_proton_dialog(self):
         scroll, textview = self._build_text_view()
         insert_colored_text(textview.get_buffer(), get_about_proton_text())
-        self.build_dialog("About Proton", scroll, width=700, height=750)
+        self.build_dialog(tr("dialog_title_about_proton"), scroll, width=700, height=750)
 
     # -------------------------
     # DIALOG HELP
@@ -96,7 +97,7 @@ class DashboardDialogsMixin:
         textview.set_pixels_above_lines(2)
         textview.set_pixels_below_lines(2)
         insert_colored_text(textview.get_buffer(), get_help_text())
-        self.build_dialog("Help", scroll, width=700, height=800)
+        self.build_dialog(tr("dialog_title_help"), scroll, width=700, height=800)
 
     # -------------------------
     # DIALOG DIAGNOSTIC
@@ -104,7 +105,7 @@ class DashboardDialogsMixin:
     def show_diagnostic_dialog(self):
         scroll, textview = self._build_text_view(left_margin=0, right_margin=0)
         insert_colored_text(textview.get_buffer(), get_diagnostic_text())
-        self.build_dialog("Diagnostic", scroll, width=800, height=750)
+        self.build_dialog(tr("dialog_title_diagnostic"), scroll, width=800, height=750)
 
     # -------------------------
     # DIALOG REQUIS
@@ -112,7 +113,7 @@ class DashboardDialogsMixin:
     def show_requis_dialog(self):
         scroll, textview = self._build_text_view()
         insert_colored_text(textview.get_buffer(), afficher_requirements_label())
-        self.build_dialog("Requis", scroll, width=700, height=650)
+        self.build_dialog(tr("dialog_title_requirements"), scroll, width=700, height=650)
 
     # -------------------------
     # DIALOG SENSORS
@@ -120,7 +121,7 @@ class DashboardDialogsMixin:
     def show_sensors_dialog(self):
         scroll, textview = self._build_text_view(left_margin=0, right_margin=0)
         insert_sensor_text(textview.get_buffer(), get_sensors_text())
-        self.build_dialog("Sensors", scroll, width=750, height=600)
+        self.build_dialog(tr("dialog_title_sensors"), scroll, width=750, height=600)
 
     # -------------------------
     # DIALOG MANGOHUD ADVICE
@@ -128,7 +129,7 @@ class DashboardDialogsMixin:
     def show_mangohud_advice_dialog(self):
         scroll, textview = self._build_text_view(left_margin=0, right_margin=0)
         insert_colored_text(textview.get_buffer(), get_mangohud_advice())
-        self.build_dialog("MangoHud Config Advice", scroll, width=750, height=500)
+        self.build_dialog(tr("dialog_title_mangohud_advice"), scroll, width=750, height=500)
 
     # -------------------------
     # EXPORT LUTRIS - MESSAGE DIALOG
@@ -139,7 +140,7 @@ class DashboardDialogsMixin:
         win = Gtk.Window(
             transient_for=self,
             modal=True,
-            title="Export Lutris terminé"
+            title=tr("export_dialog_title")
         )
         win.set_default_size(520, 180)
         win.set_destroy_with_parent(True)
@@ -154,7 +155,7 @@ class DashboardDialogsMixin:
             margin_end=20
         )
 
-        title = Gtk.Label(label="✔ Export Lutris terminé")
+        title = Gtk.Label(label=f"✔ {tr('export_dialog_title')}")
         title.add_css_class("export-title")
         box.append(title)
 
@@ -170,10 +171,10 @@ class DashboardDialogsMixin:
             clipboard = display.get_clipboard()
             clipboard.set(file_path)
 
-        btn_copy = Gtk.Button(label="Copy path")
+        btn_copy = Gtk.Button(label=tr("copy_path"))
         btn_copy.connect("clicked", copy_to_clipboard)
 
-        btn_close = Gtk.Button(label="OK")
+        btn_close = Gtk.Button(label=tr("ok"))
         btn_close.connect("clicked", lambda *_: win.close())
 
         buttons = Gtk.Box(spacing=8)
