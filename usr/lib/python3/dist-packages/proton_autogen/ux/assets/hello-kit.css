@@ -39,14 +39,18 @@
 /* =========================================================
    Text
    ========================================================= */
+label, entry, text, textview {
+    color: @hk_text;
+}
 
+/*
 label,
 entry,
 text,
 textview {
     color: @kawaii-pink-dark;
 }
-
+*/
 
 .btn-delete,
 .btn-launch,
@@ -304,13 +308,17 @@ button.suggested-action:hover {
 .game-container {
     background-color: @hk_panel;
     border: 1px solid @hk_border;
-    border-radius:14px;
-    padding:10px 12px;
+    border-radius: 14px;
+    padding: 10px 12px;
+    box-shadow: 0 4px 14px rgba(255,105,180,0.08);
+    transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
 }
 
 .game-container:hover {
     background-color: @hk_hover;
     border-color: #ffb9d8;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(255,105,180,0.14);
 }
 
 .game-container:active {
@@ -419,26 +427,20 @@ label.home-label {
 }
 
 .launch-info {
-    color: #bbbbbb;
+    color: @hk_muted;
 }
 
 .dialog-content {
-
-    background:
-        rgba(20,20,20,0.80);
-    border:
-        1px solid rgba(255,255,255,0.06);
-
-    border-radius:16px;
-    padding:12px;
+    background: rgba(255,250,253,0.96);
+    border: 1px solid @hk_border;
+    border-radius: 16px;
+    padding: 12px;
 }
 
-
 .dialog-content textview {
-
-    background:transparent;
-    color:white;
-    font-family:monospace;
+    background: transparent;
+    color: @hk_text;
+    font-family: monospace;
 }
 
 /* =========================================================
@@ -495,12 +497,13 @@ label.home-label {
 
 /* 🐣 Rookie */
 
+/* Correction : ré-inclure l'inset dans chaque variante */
 .badge.rookie {
     background-color: rgba(120,220,255,0.20);
     border-color: rgba(120,220,255,0.70);
     box-shadow:
+        inset 0 1px rgba(255,255,255,0.25),
         0 0 8px rgba(120,220,255,0.45);
-
 }
 
 
@@ -647,7 +650,7 @@ tooltip label {
 .carousel-counter {
     font-size: 0.85em;
     opacity: 0.75;
-    color:black;
+    color: @hk_text;
     margin-top: 4px;
     margin-bottom: 2px;
 }
