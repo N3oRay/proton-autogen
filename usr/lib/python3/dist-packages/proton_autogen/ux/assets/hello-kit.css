@@ -1,38 +1,21 @@
 /* =========================================================
-   Hello-Kitty Theme (adaptation complète des sélecteurs existants)
-   Palette: pastels roses, blanc cassé, accent or pâle
+   Hello-Kitty Theme : Palette: pastels roses, blanc
    ========================================================= */
 
 /* Couleurs */
-
-
-@define-color kawaii-bg #fff7fb;
 @define-color kawaii-surface #fffafc;
-@define-color kawaii-pink #ffb6d9;
 @define-color kawaii-pink-dark #ff8fc4;
-@define-color kawaii-purple #d7c6ff;
-@define-color kawaii-blue #bfe9ff;
-@define-color kawaii-green #c8ffd7;
-@define-color kawaii-yellow #fff2b3;
 @define-color kawaii-text #6a5873;
-@define-color kawaii-border #f3d6ea;
 @define-color hk_bg        #fff5fa;
-
-
 @define-color hk_soft      #ffddec;
 @define-color hk_gold      #ffd17a;
-
-
-@define-color hk_border    rgba(255,105,180,.15);
 
 @define-color hk_panel #fffafb;
 @define-color hk_hover #fff1f7;
 @define-color hk_border #ffd6e8;
 
 /* Text */
-
 @define-color hk_text   #3b2b2b;
-@define-color hk_text2 #d7beff;
 @define-color hk_muted  #7a5b66;
 @define-color hk_accent #ff69b4;
 @define-color hk_dark_pink #c2185b;
@@ -93,7 +76,6 @@ window.background {
 /* =========================================================
    CONTENEUR PRINCIPAL
    ========================================================= */
-
 .style {
     background: @hk_bg;
     border-radius: 16px;
@@ -115,7 +97,6 @@ list,
    HEADER
    ========================================================= */
 
-/* GtkHeaderBar native */
 headerbar .title,
 headerbar windowtitle {
     font-size: 20px;
@@ -135,7 +116,6 @@ headerbar windowtitle {
 
 /* =========================================================
    BOUTONS SYSTEME GTK4
-   NE PAS TOUCHER AUX BOUTONS GLOBALEMENT
    ========================================================= */
 
 windowcontrols button,
@@ -222,11 +202,9 @@ button.suggested-action:hover {
 }
 
 .app-button:focus {
-
-    outline:2px solid @accent;
+    outline:2px solid @hk_accent;
     outline-offset:2px;
 }
-
 .app-button:hover {
     background: rgba(255,250,253,0.95);
 }
@@ -374,7 +352,7 @@ checkbutton.feature-toggle:checked label {
 }
 
 .dim-label {
-    color: @hk-muted;
+    color: @hk_muted;
     font-size:14px;
 }
 
@@ -395,11 +373,6 @@ checkbutton.feature-toggle:checked label {
 
 .dim-label1 {
     color: @hk_text;
-    font-size:12px;
-}
-
-.dim-label2 {
-    color: #ff4fa3;
     font-size:12px;
 }
 
@@ -453,12 +426,10 @@ label.home-label {
 
     background:
         rgba(20,20,20,0.80);
-
     border:
         1px solid rgba(255,255,255,0.06);
 
     border-radius:16px;
-
     padding:12px;
 }
 
@@ -467,7 +438,6 @@ label.home-label {
 
     background:transparent;
     color:white;
-
     font-family:monospace;
 }
 
@@ -513,28 +483,21 @@ label.home-label {
 .badge {
     border-radius: 12px;
     padding: 4px 8px;
-
     border-width: 1px;
     border-style: solid;
-
-    color: #ffffff;
-
+    color: @hk_dark_pink;
     background-color: rgba(255,255,255,0.08);
-
     box-shadow:
         inset 0 1px rgba(255,255,255,0.15),
-        0 2px 8px rgba(0,0,0,0.35);
+        0 2px 8px rgba(0,0,0,0.15);
 }
 
 
 /* 🐣 Rookie */
 
 .badge.rookie {
-
     background-color: rgba(120,220,255,0.20);
-
     border-color: rgba(120,220,255,0.70);
-
     box-shadow:
         0 0 8px rgba(120,220,255,0.45);
 
@@ -544,11 +507,8 @@ label.home-label {
 /* 🙂 Casual */
 
 .badge.casual {
-
     background-color: rgba(255,220,80,0.22);
-
     border-color: rgba(255,220,80,0.75);
-
     box-shadow:
         0 0 8px rgba(255,220,80,0.45);
 
@@ -558,11 +518,8 @@ label.home-label {
 /* 🎮 Gamer */
 
 .badge.gamer {
-
     background-color: rgba(80,220,130,0.22);
-
     border-color: rgba(80,220,130,0.75);
-
     box-shadow:
         0 0 10px rgba(80,220,130,0.45);
 
@@ -572,11 +529,8 @@ label.home-label {
 /* 🏆 Heavy */
 
 .badge.heavy {
-
     background-color: rgba(255,130,50,0.25);
-
     border-color: rgba(255,130,50,0.80);
-
     box-shadow:
         0 0 12px rgba(255,130,50,0.55);
 
@@ -586,11 +540,8 @@ label.home-label {
 /* 💀 Addict */
 
 .badge.addict {
-
     background-color: rgba(255,50,80,0.25);
-
     border-color: rgba(255,50,80,0.85);
-
     box-shadow:
         0 0 15px rgba(255,50,80,0.65);
 
@@ -598,13 +549,9 @@ label.home-label {
 
 
 /* 🌙 Night Owl */
-
 .badge.night_owl {
-
     background-color: rgba(100,90,255,0.25);
-
     border-color: rgba(100,90,255,0.80);
-
     box-shadow:
         0 0 12px rgba(100,90,255,0.55);
 
@@ -612,13 +559,9 @@ label.home-label {
 
 
 /* 🧓 Veteran */
-
 .badge.veteran {
-
     background-color: rgba(220,180,80,0.28);
-
     border-color: rgba(220,180,80,0.90);
-
     box-shadow:
         0 0 15px rgba(220,180,80,0.65);
 
@@ -664,9 +607,7 @@ scrollbar slider {
   outline-style: solid;
   outline-width: 2px;
 }
-/* =========================================================
-   INFO BULLES
-   ========================================================= */
+/* INFO BULLES */
 
 tooltip {
     background-color: @hk_tooltip_bg;
@@ -691,9 +632,7 @@ tooltip label {
 .carousel-button {
     min-width: 36px;
     min-height: 36px;
-
     padding: 0;
-
     border-radius: 18px;
 }
 
@@ -718,8 +657,7 @@ tooltip label {
 
 
 /* =========================================================
- *  CHECKBOX
- *  ========================================================= */
+ *  CHECKBOX*/
 
 checkbutton {
     color: @kawaii-pink-dark;
@@ -775,8 +713,7 @@ popover.menu modelbutton:checked {
 
 
 /* =========================================================
- * SCROLLBAR GTK4
- * ========================================================= */
+ * SCROLLBAR GTK4 */
 
 scrollbar {
     background: transparent;
@@ -784,12 +721,9 @@ scrollbar {
 
 scrollbar slider {
     background: rgba(90, 100, 115, 0.45);
-
     border-radius: 5px;
-
     min-width: 6px;
     min-height: 6px;
-
     margin: 2px;
 }
 
@@ -805,9 +739,7 @@ scrollbar slider:hover {
     background: @kawaii-pink-dark;
 }
 
-/* =========================================================
- * Formulaire:
- * ========================================================= */
+/* Formulaire:*/
 .editor-form {
     background: @kawaii-surface;
     border: 2px solid #f4d4ea;
@@ -823,9 +755,7 @@ scrollbar slider:hover {
     );
 }
 
-/* =========================================================
- *  LISTES DEROULANTES - CONTENU
- *  ========================================================= */
+/* LISTES DEROULANTES - CONTENU */
 
 combobox > button,
 dropdown > button {
@@ -855,13 +785,12 @@ dropdown > button:active {
 combobox > button:focus,
 dropdown > button:focus {
 
-    outline: 2px solid @accent_color;
+    outline: 2px solid @hk_accent;
     outline-offset: 1px;
 }
 
 combobox label,
 dropdown label {
-
     color: @hk_text;
     font-weight: 500;
     background: transparent;
@@ -870,21 +799,14 @@ dropdown label {
 
 /* GAME ICON */
 .game-icon {
-
     min-width:48px;
     min-height:48px;
-
     border-radius:2px;
-
     background:
         rgba(255,255,255,0.35);
-
-    /*padding:2px;*/
 }
 
-/* =========================================================
- *  MENU CONTEXTUEL (clic droit : copier / coller / etc.)
- *  ========================================================= */
+/* MENU CONTEXTUEL (clic droit : copier / coller / etc.) */
 
 popover.menu contents {
     background-color: @hk_panel;
@@ -939,6 +861,3 @@ popover.menu menuitem image {
 popover.menu modelbutton.submenu arrow {
     color: @hk_text;
 }
-
-
-

@@ -463,7 +463,7 @@ label.home-label {
 
 .badge {
 
-    color: @neon-green;
+    color: @kde-text;
     padding: 2px 2px;
     background:
         linear-gradient(
@@ -472,12 +472,12 @@ label.home-label {
             rgba(12,25,18,.90)
         );
 
-    border: 1px solid @neon-green;
+    border: 1px solid rgba(255,255,255,0.04);
     border-radius:6px;
     border-radius: 12px;
 
     box-shadow:
-        0 0 6px @neon-green-soft;
+        0 0 6px @kde-text;
 }
 
 .badge:hover {
