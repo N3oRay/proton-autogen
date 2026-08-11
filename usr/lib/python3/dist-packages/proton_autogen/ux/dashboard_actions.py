@@ -406,7 +406,6 @@ class DashboardActionsMixin:
         if not hasattr(self, "_stopping_games"):
             self._stopping_games = set()
 
-        # Déjà en cours d'arrêt : on ignore le second clic plutôt que de relancer stop()
         if game_id in self._stopping_games:
             self.toast.error(tr("already_stopping", name=name))
             return
@@ -424,14 +423,24 @@ class DashboardActionsMixin:
                     logger.info("Stop requested by user", game_id=game_id, name=name)
                 else:
                     logger.warning("Stop requested but process already gone", game_id=game_id)
-                    GLib.idle_add(self._running_games.pop, game_id, None)
-            finally:
-                # Quel que soit le résultat, ce jeu n'est plus "en cours d'arrêt"
+
+                # Que stop() ait réussi ou trouvé le process déjà mort,
+                # process_manager a fait tout ce qu'il pouvait faire.
+                # On ne dépend plus du Popen original (géré par launch_game)
+                # pour retirer le jeu de la liste : on le fait ici, immédiatement.
+                def _finalize():
+                    self._running_games.pop(game_id, None)
+                    self._stopping_games.discard(game_id)
+                    self._update_stop_button_state(bool(self._running_games))
+
+                GLib.idle_add(_finalize)
+
+            except Exception:
+                # Filet de sécurité : ne jamais laisser _stopping_games bloqué
+                # si process_manager.stop() lève une exception inattendue.
                 GLib.idle_add(self._stopping_games.discard, game_id)
-                GLib.idle_add(
-                    self._update_stop_button_state,
-                    bool(self._running_games),
-                )
+                GLib.idle_add(self._update_stop_button_state, bool(self._running_games))
+                raise
 
         threading.Thread(target=worker, daemon=True).start()
 
