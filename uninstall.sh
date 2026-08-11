@@ -14,6 +14,7 @@ echo "==> Detected OS: ${ID:-unknown}"
 
 echo "==> Removing user configuration..."
 
+# User configuration is intentionally preserved.
 # rm -rf \
 #    "${HOME}/.config/proton-autogen"
 
@@ -43,6 +44,24 @@ echo "==> Removing icons..."
 
 sudo rm -f \
     /usr/share/icons/hicolor/256x256/apps/proton-autogen.png
+
+sudo rm -f \
+    /usr/share/icons/hicolor/256x256/apps/io.github.N3oRay.ProtonAutogen.png
+
+echo "==> Removing KDE service menu..."
+
+sudo rm -f \
+    /usr/share/kio/servicemenus/proton-autogen.desktop
+
+echo "==> Removing Nautilus extension..."
+
+sudo rm -f \
+    /usr/share/nautilus-python/extensions/proton_autogen_nautilus.py
+
+echo "==> Removing Nemo action..."
+
+sudo rm -f \
+    /usr/share/nemo/actions/proton-autogen.nemo_action
 
 
 echo "==> Removing man page..."

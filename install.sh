@@ -100,6 +100,24 @@ sudo install -m644 \
     usr/share/icons/hicolor/256x256/apps/proton-autogen.png \
     /usr/share/icons/hicolor/256x256/apps/io.github.N3oRay.ProtonAutogen.png
 
+echo "==> Installing KDE service menu..."
+
+sudo install -Dm644 \
+    share/kio/servicemenus/proton-autogen.desktop \
+    /usr/share/kio/servicemenus/proton-autogen.desktop
+
+echo "==> Installing Nautilus extension..."
+
+sudo install -Dm644 \
+    share/nautilus-python/extensions/proton_autogen_nautilus.py \
+    /usr/share/nautilus-python/extensions/proton_autogen_nautilus.py
+
+echo "==> Installing Nemo action..."
+
+sudo install -Dm644 \
+    share/nemo/actions/proton-autogen.nemo_action \
+    /usr/share/nemo/actions/proton-autogen.nemo_action
+
 echo "==> Installing Python module..."
 
 PYTHON_SITE=$(python3 -c "import sysconfig; print(sysconfig.get_paths()['purelib'])")
