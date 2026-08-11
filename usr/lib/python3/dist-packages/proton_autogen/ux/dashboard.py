@@ -28,8 +28,8 @@ class Dashboard(DashboardUIMixin, DashboardDialogsMixin, DashboardActionsMixin, 
         super().__init__(application=app)
         self.set_title("Proton-Autogen")
         self.set_icon_name("proton-autogen")
-        self.set_default_size(980, 930)
-        self.set_size_request(980, 930)
+        self.set_default_size(1120, 800)
+        self.set_size_request(1120, 800)
         self.games = []
         self.current_carousel = None
         self.lang = detect_help_env_lang()

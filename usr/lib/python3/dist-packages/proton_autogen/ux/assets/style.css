@@ -615,7 +615,7 @@ scrollbar slider {
     padding: 1px 5px;
     margin: 1px;
     border-radius: 8px;
-    background-color: alpha(@theme_fg_color, 0.05);
+    background-color: alpha(@theme_fg_color, 0.25);
 }
 
 .carousel-button {

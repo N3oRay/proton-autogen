@@ -120,15 +120,10 @@ windowcontrols button:active,
 button {
 
     background: @surface;
-
     color: @text;
-
     border-radius: 8px;
-
     border: 1px solid @border;
-
     padding: 6px 12px;
-
     transition: 150ms ease;
 }
 
@@ -487,9 +482,8 @@ entry placeholder,
    ========================================================= */
 
 .badge {
-    padding: 2px 2px;
-    margin-left: 4px;
-    border-radius: 2px;
+    padding: 1px 2px;
+    border-radius: 1px;
     background: rgba(255,255,255,0.02);
     border: 1px solid rgba(255,255,255,0.04);
     color: @text;
@@ -844,9 +838,9 @@ button,
     border-radius:14px;
 
     background:
-    rgba(255,255,255,0.85);
+        rgba(255,255,255,0.85);
     box-shadow:
-    0 0 10px rgba(90, 100, 115,0.15);
+        0 0 10px rgba(46, 204, 113,0.15);
 
     padding:4px;
 }
@@ -854,8 +848,8 @@ button,
 .game-icon:hover {
 
     background:
-    rgba(255,255,255,0.35);
+        rgba(255,255,255,0.35);
 
     box-shadow:
-    0 0 10px rgba(90, 100, 115,0.35);
+        0 0 10px rgba(46, 204, 113,0.35);
 }
