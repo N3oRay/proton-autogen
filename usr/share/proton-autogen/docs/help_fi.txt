@@ -1,0 +1,106 @@
+# PROTON-AUTOGEN - OHJE
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+KÄYTTÖ
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+proton-autogen <file.exe>
+proton-autogen run <file.exe>
+proton-autogen add <file.exe>
+proton-autogen edit <file.exe>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+TIEDOT
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--ux        GTK4-graafinen käyttöliittymä
+--v         Näytä versio
+--about     Tietoja Proton-Autogenista
+--help      Näytä tämä ohje
+--help-env  Ohje ympäristömuuttujista
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+PREFIX-JÄRJESTELMÄ
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEAM_COMPAT_DATA_PATH
+
+--pc        Mukautettu prefix
+--pa        Automaattinen prefix
+--ps        Jaettu prefix
+default      Pääprefix
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+PROFIILIT
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--json-profile   Vie profiilit JSON-muodossa
+--profile dx11   Käytä määritettyä profiilia
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+TUNNISTUS
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--list-protons   Luettele havaitut Proton-versiot
+--list-programs  Luettele rekisteröidyt ohjelmat
+--proton-paths   Näytä havaitut Proton-polut
+--diag           Suorita diagnostiikka
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+SUORITUS
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+proton-autogen game.exe
+proton-autogen run game.exe
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+ASETUKSET
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--debug       Ota debug-tila käyttöön
+--verbose     Ota yksityiskohtainen tulostus käyttöön
+--mangohud    Näytä FPS- ja suorituskykytiedot
+--gamemode    Optimoi järjestelmän suorituskyky
+--gamescope   Käytä Gamescopea
+--wine        Pakota Winen käyttö
+--proton      Pakota Protonin käyttö
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+ESIMERKIT
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+proton-autogen game.exe
+proton-autogen game.exe --gamemode --mangohud --gamescope
+
+# Sisäänrakennettu Gamescope
+
+proton-autogen game.exe --gamescope
+
+# Manuaalinen Gamescope (edistynyt)
+
+gamescope -f -W 1280 -H 1024 -- proton-autogen game.exe
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+HUOMAUTUKSET
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+* Valitsee automaattisesti parhaan Proton-version
+* Siirtyy automaattisesti Wineen, jos Proton ei ole käytettävissä
+* Yhteensopiva Steamin, Flatpakin ja yhteensopivuustyökalujen kanssa
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+YMPÄRISTÖMUUTTUJAT
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Seuraavat muuttujat ovat valinnaisia ja voivat olla hyödyllisiä ongelmatilanteiden selvittämisessä.
+
+SDL_VIDEODRIVER=x11
+Pakottaa SDL-sovellukset käyttämään X11-taustajärjestelmää.
+
+```
+Esimerkki:
+    SDL_VIDEODRIVER=x11 proton-autogen --ux
+```
+
+SDL_VIDEODRIVER=wayland
+Pakottaa SDL-sovellukset käyttämään natiivia Wayland-taustajärjestelmää.
+
+```
+Esimerkki:
+    SDL_VIDEODRIVER=wayland proton-autogen --ux
+```
+
+Oletuksena SDL valitsee automaattisesti sopivimman taustajärjestelmän.
+Näitä muuttujia käytetään yhteensopivuuden testaamiseen ja ongelmien selvittämiseen.

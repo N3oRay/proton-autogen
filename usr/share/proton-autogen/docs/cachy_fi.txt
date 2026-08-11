@@ -1,0 +1,71 @@
+# Proton-CachyOS:n asennusopas
+
+## EDELLYTYKSET
+
+Varmista ennen aloittamista, että sinulla on seuraavat:
+
+* Yhteensopiva Linux-jakelu (Arch Linux, CachyOS tai muu Arch-pohjainen jakelu).
+* Steam asennettuna.
+* Toimiva Internet-yhteys.
+* Järjestelmänvalvojan oikeudet (`sudo`).
+
+---
+
+## MENETELMÄ 1 – Asennus CachyOS Hellon kautta (suositeltu)
+
+Tämä on helpoin ja suositeltu asennustapa CachyOS-käyttäjille.
+
+### Vaiheet
+
+1. Avaa **CachyOS Hello**.
+2. Siirry kohtaan **Apps / Tweaks**.
+3. Napsauta **Install Gaming Packages**.
+
+Seuraavat komponentit asennetaan automaattisesti:
+
+* Steam
+* Proton-CachyOS
+* MangoHud
+* Gamescope
+* Heroic Games Launcher
+* Lutris
+* Tarvittavat Vulkan-kirjastot
+
+### Tarkistus
+
+1. Sulje Steam kokonaan, jos se on jo käynnissä.
+2. Käynnistä Steam uudelleen.
+3. Siirry kohtaan:
+
+```text
+Steam
+└── Asetukset
+    └── Yhteensopivuus
+```
+
+4. Varmista, että **Proton-CachyOS** näkyy käytettävissä olevien yhteensopivuustyökalujen luettelossa.
+
+---
+
+## MENETELMÄ 2 – Asennus Pacmanilla
+
+Jos haluat asentaa tarvittavat komponentit manuaalisesti, käytä Pacmania.
+
+### Asenna Gaming-pakettiryhmät
+
+```bash
+sudo pacman -S cachyos-gaming-meta
+sudo pacman -S cachyos-gaming-applications
+```
+
+### Asenna vain Proton-CachyOS
+
+```bash
+sudo pacman -S proton-cachyos-slr
+```
+
+### Huomautus
+
+**Proton-CachyOS-SLR**-varianttia (Steam Linux Runtime) suositellaan.
+
+Se tarjoaa paremman yhteensopivuuden pelien kanssa, jotka käyttävät huijaamisenestojärjestelmiä, kuten **Easy Anti-Cheat (EAC)** ja **BattlEye**.
