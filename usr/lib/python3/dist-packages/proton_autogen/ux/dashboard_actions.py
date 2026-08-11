@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+
+#dashboard_actions.py
 import re
 import threading
 import hashlib
@@ -24,10 +26,23 @@ class DashboardActionsMixin:
     """Actions métier du Dashboard (lancement, édition, suppression, export...).
     Doit être mixé avec une classe qui expose self.toast, self.status, self.spinner,
     self.show_export_dialog (DashboardDialogsMixin), self.refresh_games, self.lang,
-    self.get_application().
-    État de suivi du jeu en cours (un seul jeu suivi à la fois) :
-        self._current_game_id
-        self._current_game_name
+    self.get_application(), et self._update_stop_button_state(is_running: bool)
+    (DashboardUIMixin).
+
+    État de suivi des applications en cours :
+        self._running_games : dict[game_id, name]
+            Source de vérité pour le suivi multi-jeux. Peuplé/vidé dans
+            launch_game() ; lu par on_stop_button_clicked(), _show_stop_selector()
+            et stop_running_game(). C'est ce dict (pas les deux attributs
+            ci-dessous) qui pilote l'état du bouton Stop.
+
+        self._current_game_id / self._current_game_name : Optional[str]
+            Références au dernier jeu lancé, à titre indicatif seulement
+            (ex. affichage). Ne pas s'appuyer dessus pour déterminer si un
+            jeu tourne encore : plusieurs jeux peuvent être actifs en
+            parallèle et ces deux attributs sont écrasés à chaque appel de
+            launch_game(), donc ils ne reflètent pas fiablement l'ensemble
+            des jeux en cours.
     """
 
     @staticmethod
@@ -145,10 +160,11 @@ class DashboardActionsMixin:
                     self._current_game_id = None
                     self._current_game_name = None
 
-                    GLib.idle_add(
-                        self._update_stop_button_state,
-                        bool(self._running_games)
-                    )
+                # Toujours recalculer l'état du bouton, peu importe quel jeu vient de finir
+                GLib.idle_add(
+                    self._update_stop_button_state,
+                    bool(self._running_games)
+                )
 
         threading.Thread(target=worker, daemon=True).start()
 
@@ -384,14 +400,26 @@ class DashboardActionsMixin:
     def stop_running_game(self, game_id):
         name = getattr(self, "_running_games", {}).get(game_id, tr("unknown_game"))
 
-        if process_manager.stop(game_id):
-            logger.info("Stop requested by user", game_id=game_id, name=name)
-            self.status.set_text(tr("stopping_game", name=name))
-            self.toast.success(tr("stopping_game", name=name))
-        else:
-            logger.warning("Stop requested but process already gone", game_id=game_id)
-            self._running_games.pop(game_id, None)
-            GLib.idle_add(self._update_stop_button_state, bool(self._running_games))
+        self.status.set_text(tr("stopping_game", name=name))
+        self.toast.success(tr("stopping_game", name=name))
+
+        def worker():
+            stopped = process_manager.stop(game_id)
+
+            if stopped:
+                logger.info("Stop requested by user", game_id=game_id, name=name)
+            else:
+                logger.warning("Stop requested but process already gone", game_id=game_id)
+                GLib.idle_add(self._running_games.pop, game_id, None)
+                GLib.idle_add(
+                    self._update_stop_button_state,
+                    bool(self._running_games),
+                )
+            # Si stopped == True, le nettoyage de _running_games / bouton
+            # est déjà géré par le finally du worker de launch_game(),
+            # une fois que run_process() voit le process se terminer réellement.
+
+        threading.Thread(target=worker, daemon=True).start()
 
 
     # -------------------------

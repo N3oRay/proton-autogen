@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 """
+process_manager
 Proton-Autogen process manager.
 
 Responsabilités :
@@ -12,14 +13,29 @@ Responsabilités :
     - forcer l'arrêt du groupe de processus après timeout
     - éviter qu'un jeu termine accidentellement l'enregistrement d'un autre
     - être sûr vis-à-vis des threads utilisés par core.py
+
+Point important (retour d'expérience) :
+    Le Popen local (celui de la commande proton/gamescope/wine) peut se
+    terminer ou être tué prématurément (ex: reaper de gamescope d'une
+    autre session, wineserver qui se détache) sans que le jeu réel soit
+    mort. os.killpg sur ce seul Popen n'est donc pas suffisant : on
+    complète systématiquement par un `wineserver -k` scopé au préfixe,
+    qui est le mécanisme officiel Wine pour arrêter tout ce qui est
+    rattaché à un WINEPREFIX donné, indépendamment du pgid/session.
 """
 
 import os
+import re
 import signal
+import subprocess
 import threading
 import time
 from dataclasses import dataclass
 from typing import Dict, Optional, Any
+
+from proton_autogen.utils.logger import StructuredLogger
+
+logger = StructuredLogger("proton-autogen.process_manager")
 
 
 # ---------------------------------------------------------------------------
@@ -27,6 +43,8 @@ from typing import Dict, Optional, Any
 # ---------------------------------------------------------------------------
 
 DEFAULT_STOP_TIMEOUT = 5.0
+WINESERVER_KILL_TIMEOUT = 5.0
+PGREP_TIMEOUT = 2.0
 
 
 # ---------------------------------------------------------------------------
@@ -41,6 +59,7 @@ class ProcessRecord:
     prefix_path: Optional[str] = None
     proton_dir: Optional[str] = None
     env: Optional[dict] = None
+    exe_path: Optional[str] = None   # <-- ajouté pour pgrep de secours
 
     registered_at: float = 0.0
 
@@ -59,13 +78,10 @@ _lock = threading.RLock()
 
 
 # ---------------------------------------------------------------------------
-# Internal helpers
+# Internal helpers — Popen local
 # ---------------------------------------------------------------------------
 
 def _safe_pid(process) -> Optional[int]:
-    """
-    Retourne le PID du processus si disponible.
-    """
     try:
         return int(process.pid)
     except (AttributeError, TypeError, ValueError):
@@ -73,9 +89,6 @@ def _safe_pid(process) -> Optional[int]:
 
 
 def _is_running(process) -> bool:
-    """
-    Vérifie si le processus est encore vivant.
-    """
     try:
         return process.poll() is None
     except Exception:
@@ -83,105 +96,125 @@ def _is_running(process) -> bool:
 
 
 def _terminate_process_group(process) -> bool:
-    """
-    Envoie SIGTERM à tout le groupe de processus.
-
-    core.py utilise :
-
-        start_new_session=True
-
-    donc le PID du processus devient également le PGID
-    de sa nouvelle session.
-
-    Cela permet de terminer Proton + Wine + les processus
-    enfants appartenant au même groupe.
-    """
-
     pid = _safe_pid(process)
-
     if pid is None:
         return False
-
     try:
         os.killpg(pid, signal.SIGTERM)
         return True
-
-    except ProcessLookupError:
-        return False
-
-    except PermissionError:
-        return False
-
-    except OSError:
+    except (ProcessLookupError, PermissionError, OSError):
         return False
 
 
 def _kill_process_group(process) -> bool:
-    """
-    Force l'arrêt de tout le groupe avec SIGKILL.
-    """
-
     pid = _safe_pid(process)
-
     if pid is None:
         return False
-
     try:
         os.killpg(pid, signal.SIGKILL)
         return True
-
-    except ProcessLookupError:
-        return False
-
-    except PermissionError:
-        return False
-
-    except OSError:
+    except (ProcessLookupError, PermissionError, OSError):
         return False
 
 
 def _wait_process(process, timeout: float) -> bool:
-    """
-    Attend la fin du processus pendant timeout secondes.
-
-    Retourne True si le processus est terminé.
-    """
-
     timeout = max(0.0, float(timeout))
-
     try:
         process.wait(timeout=timeout)
         return True
-
     except Exception:
         return False
 
 
+# ---------------------------------------------------------------------------
+# Internal helpers — vérification / arrêt indépendants du Popen local
+# ---------------------------------------------------------------------------
+
+def _find_pids_by_exe(exe_path: str) -> list:
+    """
+    Cherche les PID réels d'un exécutable via pgrep, indépendamment
+    de notre Popen local. Fiable même si le Popen tracké est mort
+    prématurément (reaper externe, wineserver détaché, etc.).
+    """
+    if not exe_path:
+        return []
+
+    exe_basename = os.path.basename(exe_path)
+
+    try:
+        out = subprocess.run(
+            ["pgrep", "-if", re.escape(exe_basename)],
+            capture_output=True,
+            text=True,
+            timeout=PGREP_TIMEOUT,
+        )
+        return [int(p) for p in out.stdout.split() if p.strip()]
+    except Exception as e:
+        logger.warning(f"pgrep failed for {exe_basename}: {e}")
+        return []
+
+
+def _kill_wineserver_for_prefix(prefix_path: Optional[str], proton_dir: Optional[str]) -> bool:
+    """
+    Arrête tous les processus rattachés à un préfixe Wine via
+    `wineserver -k`, le mécanisme officiel Wine. Indépendant du
+    pgid/session du Popen local — c'est le filet de sécurité principal.
+    """
+    if not prefix_path or not proton_dir:
+        return False
+
+    wineserver_bin = os.path.join(proton_dir, "files", "bin", "wineserver")
+
+    if not os.path.isfile(wineserver_bin):
+        logger.warning(f"wineserver binary not found: {wineserver_bin}")
+        return False
+
+    env = os.environ.copy()
+    env["WINEPREFIX"] = prefix_path
+
+    try:
+        logger.info(f"Killing wineserver for prefix: {prefix_path}")
+        subprocess.run(
+            [wineserver_bin, "-k"],
+            env=env,
+            timeout=WINESERVER_KILL_TIMEOUT,
+        )
+        return True
+    except subprocess.TimeoutExpired:
+        logger.warning(f"wineserver -k timed out for prefix: {prefix_path}")
+        return False
+    except Exception as e:
+        logger.warning(f"wineserver -k failed for prefix {prefix_path}: {e}")
+        return False
+
+
+def _kill_stray_pids(exe_path: str) -> int:
+    """
+    Filet de sécurité final : tue directement par PID tout process
+    correspondant encore au nom de l'exe, après le passage de
+    wineserver -k. Retourne le nombre de PID tués.
+    """
+    pids = _find_pids_by_exe(exe_path)
+    killed = 0
+
+    for pid in pids:
+        try:
+            os.kill(pid, signal.SIGKILL)
+            killed += 1
+            logger.warning(f"Killed stray PID {pid} for {os.path.basename(exe_path)}")
+        except (ProcessLookupError, PermissionError, OSError):
+            continue
+
+    return killed
+
+
 def _remove_if_same(game_id: str, process) -> bool:
-    """
-    Supprime l'entrée uniquement si elle correspond toujours
-    au même objet Popen.
-
-    Très important lorsque plusieurs jeux sont lancés.
-
-    Exemple :
-
-        game A -> PID 100
-        game B -> PID 200
-
-    Si A termine pendant qu'une opération agit sur B,
-    A ne doit jamais supprimer l'entrée de B.
-    """
-
     with _lock:
         record = _processes.get(game_id)
-
         if record is None:
             return False
-
         if record.process is not process:
             return False
-
         del _processes[game_id]
         return True
 
@@ -196,19 +229,15 @@ def register(
     prefix_path: Optional[str] = None,
     proton_dir: Optional[str] = None,
     env: Optional[dict] = None,
+    exe_path: Optional[str] = None,
 ) -> bool:
     """
     Enregistre un processus Proton.
-
     Plusieurs game_id différents peuvent être actifs simultanément.
-
     Un même game_id ne doit représenter qu'une seule instance.
     """
 
-    if not game_id:
-        return False
-
-    if process is None:
+    if not game_id or process is None:
         return False
 
     game_id = str(game_id)
@@ -219,20 +248,18 @@ def register(
         prefix_path=prefix_path,
         proton_dir=proton_dir,
         env=env,
+        exe_path=exe_path,
     )
 
     with _lock:
-
-        # Une seule instance pour un même game_id.
         existing = _processes.get(game_id)
 
         if existing is not None:
-            existing_process = existing.process
-
-            if _is_running(existing_process):
+            if _is_running(existing.process):
+                logger.warning(
+                    f"register() refused: game_id {game_id} already has a running process"
+                )
                 return False
-
-            # Ancien processus terminé.
             del _processes[game_id]
 
         _processes[game_id] = record
@@ -245,32 +272,18 @@ def register(
 # ---------------------------------------------------------------------------
 
 def unregister(game_id: str, process=None) -> bool:
-    """
-    Retire un processus du registre.
-
-    Si process est fourni, l'entrée est supprimée uniquement si
-    elle correspond au même objet Popen.
-
-    Cette protection évite les race conditions.
-    """
-
     if not game_id:
         return False
 
     game_id = str(game_id)
 
     with _lock:
-
         record = _processes.get(game_id)
-
         if record is None:
             return False
-
         if process is not None and record.process is not process:
             return False
-
         del _processes[game_id]
-
         return True
 
 
@@ -279,81 +292,58 @@ def unregister(game_id: str, process=None) -> bool:
 # ---------------------------------------------------------------------------
 
 def get(game_id: str) -> Optional[ProcessRecord]:
-    """
-    Retourne l'enregistrement d'un jeu.
-    """
-
     if not game_id:
         return None
-
     with _lock:
         return _processes.get(str(game_id))
 
 
 def get_process(game_id: str):
-    """
-    Retourne directement l'objet Popen.
-    """
-
     record = get(game_id)
-
-    if record is None:
-        return None
-
-    return record.process
+    return record.process if record else None
 
 
 def is_running(game_id: str) -> bool:
     """
     Indique si le jeu est actuellement enregistré et vivant.
+    Vérifie d'abord le Popen local ; si celui-ci semble mort mais
+    qu'on a un exe_path, double-vérifie via pgrep avant de conclure
+    que le jeu est réellement terminé.
     """
-
     record = get(game_id)
-
     if record is None:
         return False
 
     if _is_running(record.process):
         return True
 
-    # Nettoyage opportuniste.
-    unregister(game_id, record.process)
+    # Le Popen local semble mort — double vérification indépendante
+    if record.exe_path and _find_pids_by_exe(record.exe_path):
+        logger.warning(
+            f"Popen for game_id {game_id} reports dead, "
+            f"but real process still found via pgrep"
+        )
+        return True
 
+    # Vraiment mort — nettoyage opportuniste
+    unregister(game_id, record.process)
     return False
 
 
 def list_running() -> Dict[str, ProcessRecord]:
-    """
-    Retourne une copie du registre des processus actuellement connus.
-
-    Le dictionnaire retourné peut être utilisé sans conserver le lock.
-    """
-
     running = {}
-
     with _lock:
-
         for game_id, record in list(_processes.items()):
-
             if _is_running(record.process):
                 running[game_id] = record
-
     return running
 
 
 def list_game_ids():
-    """
-    Retourne la liste des game_id actuellement actifs.
-    """
-
     return list(list_running().keys())
 
 
 def count() -> int:
-    """
-    Nombre de jeux actuellement actifs.
-    """
-
     return len(list_running())
 
 
@@ -369,22 +359,19 @@ def stop(
     Arrête un jeu.
 
     Séquence :
-
-        1. retrouver game_id
-        2. SIGTERM au groupe Proton/Wine
+        1. retrouver l'enregistrement (garde prefix_path/proton_dir/exe_path
+           même si le Popen local est déjà mort, pour le filet de sécurité)
+        2. SIGTERM au groupe du Popen local (si vivant)
         3. attendre jusqu'à timeout secondes
-        4. si toujours vivant :
-               SIGKILL au groupe
-        5. attendre la fin
-        6. supprimer l'entrée du registre
+        4. si toujours vivant : SIGKILL au groupe
+        5. dans tous les cas : wineserver -k scopé au préfixe
+           (filet de sécurité principal, indépendant du pgid)
+        6. si le process réel est encore détecté via pgrep : kill direct
+        7. supprimer l'entrée du registre
 
-    Retourne True si un processus correspondant a été trouvé.
-
-    IMPORTANT :
-
-        stop(game_id)
-
-    est volontairement la forme principale utilisée par dashboard_actions.py.
+    Retourne True si un enregistrement correspondant a été trouvé
+    et qu'une tentative d'arrêt a été effectuée (pas nécessairement
+    que le process du Popen local était encore vivant).
     """
 
     if not game_id:
@@ -392,76 +379,64 @@ def stop(
 
     game_id = str(game_id)
 
-    # -------------------------------------------------------
-    # Normalisation du timeout
-    # -------------------------------------------------------
-
     try:
         timeout = float(timeout)
-
     except (TypeError, ValueError):
         timeout = DEFAULT_STOP_TIMEOUT
-
     timeout = max(0.0, timeout)
 
-    # -------------------------------------------------------
-    # Recherche du processus
-    # -------------------------------------------------------
-
     with _lock:
-
         record = _processes.get(game_id)
-
         if record is None:
             return False
-
         process = record.process
+        prefix_path = record.prefix_path
+        proton_dir = record.proton_dir
+        exe_path = record.exe_path
+
+    popen_was_running = _is_running(process)
 
     # -------------------------------------------------------
-    # Process déjà terminé
+    # Phase 1 : arrêt propre du Popen local (si encore vivant)
     # -------------------------------------------------------
+    if popen_was_running:
+        _terminate_process_group(process)
 
-    if not _is_running(process):
-
-        _remove_if_same(game_id, process)
-        return False
-
-    # -------------------------------------------------------
-    # Phase 1 : arrêt propre
-    # -------------------------------------------------------
-
-    _terminate_process_group(process)
+        if not _wait_process(process, timeout):
+            _kill_process_group(process)
+            try:
+                process.wait(timeout=2.0)
+            except Exception:
+                pass
 
     # -------------------------------------------------------
-    # Phase 2 : attente
+    # Phase 2 : filet de sécurité — wineserver -k
+    # Exécuté systématiquement, que le Popen local ait été
+    # vivant ou non : c'est justement le cas où le Popen
+    # local ment sur l'état réel du jeu qu'on veut couvrir.
     # -------------------------------------------------------
-
-    if _wait_process(process, timeout):
-
-        _remove_if_same(game_id, process)
-        return True
-
-    # -------------------------------------------------------
-    # Phase 3 : force kill
-    # -------------------------------------------------------
-
-    _kill_process_group(process)
+    wineserver_killed = _kill_wineserver_for_prefix(prefix_path, proton_dir)
 
     # -------------------------------------------------------
-    # Attente finale
+    # Phase 3 : filet de sécurité final — kill direct par PID
     # -------------------------------------------------------
-
-    try:
-        process.wait(timeout=2.0)
-
-    except Exception:
-        pass
+    stray_killed = 0
+    if exe_path:
+        # Petite pause pour laisser wineserver -k faire effet
+        time.sleep(0.3)
+        stray_killed = _kill_stray_pids(exe_path)
 
     # -------------------------------------------------------
-    # Nettoyage
+    # Nettoyage registre
     # -------------------------------------------------------
-
     _remove_if_same(game_id, process)
+
+    logger.info(
+        f"stop() summary for game_id={game_id}: "
+        f"popen_was_running={popen_was_running}, "
+        f"wineserver_killed={wineserver_killed}, "
+        f"stray_pids_killed={stray_killed}"
+    )
 
     return True
 
@@ -472,10 +447,8 @@ def stop(
 
 def force_stop(game_id: str) -> bool:
     """
-    Arrêt immédiat sans attendre 5 secondes.
-
-    Utile si l'UI veut proposer ultérieurement un bouton
-    "Forcer l'arrêt".
+    Arrêt immédiat sans attendre : SIGKILL direct + wineserver -k +
+    nettoyage stray PID, sans la phase SIGTERM/wait.
     """
 
     if not game_id:
@@ -484,26 +457,26 @@ def force_stop(game_id: str) -> bool:
     game_id = str(game_id)
 
     with _lock:
-
         record = _processes.get(game_id)
-
         if record is None:
             return False
-
         process = record.process
+        prefix_path = record.prefix_path
+        proton_dir = record.proton_dir
+        exe_path = record.exe_path
 
-    if not _is_running(process):
+    if _is_running(process):
+        _kill_process_group(process)
+        try:
+            process.wait(timeout=2.0)
+        except Exception:
+            pass
 
-        _remove_if_same(game_id, process)
-        return False
+    _kill_wineserver_for_prefix(prefix_path, proton_dir)
 
-    _kill_process_group(process)
-
-    try:
-        process.wait(timeout=2.0)
-
-    except Exception:
-        pass
+    if exe_path:
+        time.sleep(0.3)
+        _kill_stray_pids(exe_path)
 
     _remove_if_same(game_id, process)
 
@@ -514,29 +487,15 @@ def force_stop(game_id: str) -> bool:
 # Stop all
 # ---------------------------------------------------------------------------
 
-def stop_all(
-    timeout: float = DEFAULT_STOP_TIMEOUT,
-) -> int:
-    """
-    Arrête tous les jeux actuellement enregistrés.
-
-    Chaque jeu est traité indépendamment.
-
-    Retourne le nombre de jeux pour lesquels un arrêt
-    a été demandé.
-    """
-
+def stop_all(timeout: float = DEFAULT_STOP_TIMEOUT) -> int:
     with _lock:
         game_ids = list(_processes.keys())
 
     stopped = 0
-
     for game_id in game_ids:
-
         try:
             if stop(game_id, timeout=timeout):
                 stopped += 1
-
         except Exception:
             continue
 
@@ -548,23 +507,12 @@ def stop_all(
 # ---------------------------------------------------------------------------
 
 def cleanup_finished() -> int:
-    """
-    Supprime du registre les processus terminés.
-
-    Retourne le nombre d'entrées supprimées.
-    """
-
     removed = 0
-
     with _lock:
-
         for game_id, record in list(_processes.items()):
-
             if not _is_running(record.process):
-
                 del _processes[game_id]
                 removed += 1
-
     return removed
 
 
@@ -573,45 +521,32 @@ def cleanup_finished() -> int:
 # ---------------------------------------------------------------------------
 
 def get_info(game_id: str) -> Optional[dict]:
-    """
-    Retourne des informations simples sur un processus.
-    """
-
     record = get(game_id)
-
     if record is None:
         return None
 
-    pid = _safe_pid(record.process)
-
     return {
         "game_id": record.game_id,
-        "pid": pid,
+        "pid": _safe_pid(record.process),
         "running": _is_running(record.process),
         "prefix_path": record.prefix_path,
         "proton_dir": record.proton_dir,
+        "exe_path": record.exe_path,
         "registered_at": record.registered_at,
     }
 
 
 def get_all_info() -> Dict[str, dict]:
-    """
-    Retourne les informations de tous les processus.
-    """
-
     result = {}
-
     with _lock:
-
         for game_id, record in list(_processes.items()):
-
             result[game_id] = {
                 "game_id": game_id,
                 "pid": _safe_pid(record.process),
                 "running": _is_running(record.process),
                 "prefix_path": record.prefix_path,
                 "proton_dir": record.proton_dir,
+                "exe_path": record.exe_path,
                 "registered_at": record.registered_at,
             }
-
     return result

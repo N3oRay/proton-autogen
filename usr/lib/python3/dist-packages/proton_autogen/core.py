@@ -450,6 +450,7 @@ def run_process(
     game_id=None,        # process_manager
     prefix_path=None,
     proton_dir=None,
+    exe_path=None,
 ):
     if filters is None:
         filters = []
@@ -478,7 +479,7 @@ def run_process(
         start_new_session=True,   # <-- crée un nouveau pgid, indispensable pour tuer tout l'arbre
     )
     if game_id:
-        process_manager.register( game_id, process, prefix_path=prefix_path, proton_dir=proton_dir, env=env, )
+        process_manager.register( game_id, process, prefix_path=prefix_path, proton_dir=proton_dir, env=env, exe_path=exe_path,)
 
     try:
 
@@ -910,6 +911,7 @@ def run_game_proton(exe_path, exe_type, proton,
                 game_id=game_id,      # <-- process_manager
                 prefix_path=prefix_path,
                 proton_dir=proton_dir,
+                exe_path=exe_path,
             )
 
             return returncode
@@ -936,6 +938,7 @@ def run_game_proton(exe_path, exe_type, proton,
                     game_id=game_id,      # <-- process_manager
                     prefix_path=prefix_path,
                     proton_dir=proton_dir,
+                    exe_path=exe_path,
                 )
             else:
                 filters = LOG_FILTERS
@@ -950,6 +953,7 @@ def run_game_proton(exe_path, exe_type, proton,
                     game_id=game_id,      # <-- process_manager
                     prefix_path=prefix_path,
                     proton_dir=proton_dir,
+                    exe_path=exe_path,
                 )
 
                 logger.info(f"CompletedProcess: {returncode!r}")
