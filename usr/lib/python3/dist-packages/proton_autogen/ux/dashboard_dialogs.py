@@ -5,7 +5,7 @@ gi.require_version("Gtk", "4.0")
 from gi.repository import Gtk, Gdk
 
 from proton_autogen.color_label import insert_colored_text, insert_sensor_text, insert_about_text
-from proton_autogen.core import get_about_text
+from proton_autogen.core import get_about_text, get_about_proton_text
 from proton_autogen.info import get_help_text
 from proton_autogen.sensor import get_sensors_text, get_mangohud_advice
 from proton_autogen.requis import afficher_requirements_label
@@ -79,6 +79,14 @@ class DashboardDialogsMixin:
         scroll, textview = self._build_text_view()
         insert_about_text(textview.get_buffer(), get_about_text())
         self.build_dialog("About", scroll, width=700, height=750)
+
+    # -------------------------
+    # DIALOG ABOUT PROTON
+    # -------------------------
+    def show_about_proton_dialog(self):
+        scroll, textview = self._build_text_view()
+        insert_colored_text(textview.get_buffer(), get_about_proton_text())
+        self.build_dialog("About Proton", scroll, width=700, height=750)
 
     # -------------------------
     # DIALOG HELP

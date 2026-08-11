@@ -41,7 +41,7 @@ from proton_autogen.dector import resolve_game_features, gpu_env
 
 from proton_autogen.util_path import proton_path, proton_name
 from proton_autogen.about import afficher_abouts, afficher_abouts_label
-
+from proton_autogen.about_proton import afficher_about_protons, afficher_about_protons_label
 
 import configparser
 
@@ -973,3 +973,11 @@ def print_about():
 
 def get_about_text():
     return f"""{afficher_abouts_label()}"""
+
+
+def print_about_proton():
+    afficher_about_protons()
+
+
+def get_about_proton_text():
+    return f"""{afficher_about_protons_label()}"""

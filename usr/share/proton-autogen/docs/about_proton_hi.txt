@@ -1,0 +1,69 @@
+# Proton पथ
+
+Proton-autogen कई सामान्य स्थानों पर Proton इंस्टॉलेशन को स्वचालित रूप से खोजता है।
+
+## डिफ़ॉल्ट पथ
+
+Proton-autogen निम्नलिखित स्थानों की जाँच करता है:
+
+* `~/.steam/root/compatibilitytools.d`
+* `~/.steam/steam/compatibilitytools.d`
+* `~/.local/share/Steam/compatibilitytools.d`
+* `~/.steam/steam/steamapps/common`
+* `~/.local/share/Steam/steamapps/common`
+* `/usr/share/steam/compatibilitytools.d`
+
+आमतौर पर इन पथों को मैन्युअल रूप से कॉन्फ़िगर करने की आवश्यकता नहीं होती है।
+
+## कस्टम पथ
+
+आप इस फ़ाइल में अपने Proton पथ जोड़ सकते हैं:
+
+`~/.config/proton-autogen.conf`
+
+उदाहरण:
+
+```ini id="0x9v1p"
+[proton]
+paths=~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools.d;~/.var/app/com.valvesoftware.Steam/.steam/root/compatibilitytools.d
+```
+
+कई पथों को अलग करने के लिए आप इनका उपयोग कर सकते हैं:
+
+* सेमीकोलन `;`
+* कोलन `:`
+* नई पंक्ति
+
+उदाहरण:
+
+```ini id="h3e6tx"
+[proton]
+paths=/path/to/proton1;/path/to/proton2
+```
+
+## Flatpak Steam
+
+यदि आप Steam को Flatpak के माध्यम से उपयोग करते हैं, तो Proton-autogen Flatpak के डिफ़ॉल्ट पथों का समर्थन करता है।
+
+आप इन्हें मैन्युअल रूप से भी जोड़ सकते हैं:
+
+```ini id="k6p0d2"
+[proton]
+paths=~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools.d;~/.var/app/com.valvesoftware.Steam/.steam/root/compatibilitytools.d
+```
+
+## Proton-CachyOS
+
+Proton-CachyOS को पूरे सिस्टम के लिए इंस्टॉल किया जा सकता है।
+
+Proton-autogen निम्नलिखित जैसे पथों की जाँच करता है:
+
+`/usr/share/steam/compatibilitytools.d`
+
+## ध्यान दें
+
+Proton-autogen डिफ़ॉल्ट पथों और `proton-autogen.conf` में दिए गए कस्टम पथों को एक साथ उपयोग करता है।
+
+यदि एक ही पथ कई बार दिया गया है, तो Proton-autogen उसे केवल एक बार प्रोसेस करेगा।
+
+Proton की स्वचालित पहचान के लिए `PROTON_PATH` पर्यावरण चर सेट करना आवश्यक नहीं है।

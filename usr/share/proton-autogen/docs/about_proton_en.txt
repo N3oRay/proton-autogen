@@ -1,0 +1,77 @@
+# Proton Paths
+
+Proton-autogen automatically searches for Proton installations in several common directories.
+
+## Automatically searched paths
+
+### Steam
+
+Proton-autogen searches in:
+
+~/.steam/root/compatibilitytools.d
+~/.steam/steam/compatibilitytools.d
+~/.local/share/Steam/compatibilitytools.d
+
+### Steam Runtime
+
+Proton installations in the following Steam directories are also searched:
+
+~/.steam/steam/steamapps/common
+~/.local/share/Steam/steamapps/common
+
+### System installation
+
+Proton-autogen also searches for system-wide installations in:
+
+/usr/share/steam/compatibilitytools.d
+
+This location is commonly used by distributions such as Arch Linux and CachyOS.
+
+### Steam Flatpak
+
+If Steam is installed through Flatpak, Proton-autogen automatically searches in:
+
+~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools.d
+~/.var/app/com.valvesoftware.Steam/.steam/root/compatibilitytools.d
+
+## Adding a custom path
+
+If Proton is installed in another directory, you can add the path to:
+
+~/.config/proton-autogen.conf
+
+Example:
+
+[proton]
+paths=~/Proton
+
+Multiple paths can be added using `;`, `:` or a new line.
+
+Example:
+
+[proton]
+paths=~/Proton;~/Games/Proton;/opt/proton
+
+## Checking detected paths
+
+To display the paths used by Proton-autogen:
+
+proton-autogen --proton-paths
+
+To display the detected Proton versions:
+
+proton-autogen --list-protons
+
+To run a diagnostic:
+
+proton-autogen --diag
+
+## Summary
+
+In most cases, no configuration is required.
+
+Proton-autogen automatically detects Steam, Steam Flatpak, Proton-GE, Proton-CachyOS, and system-wide Proton installations.
+
+If your Proton version is installed in a custom location, simply add its path to:
+
+~/.config/proton-autogen.conf

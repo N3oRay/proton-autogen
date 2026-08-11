@@ -1,0 +1,67 @@
+# Proton-polut
+
+Proton-autogen etsii Proton-asennuksia automaattisesti useista yleisistä sijainneista.
+
+## Oletussijainnit
+
+Proton-autogen tarkistaa esimerkiksi seuraavat sijainnit:
+
+* `~/.steam/root/compatibilitytools.d`
+* `~/.steam/steam/compatibilitytools.d`
+* `~/.local/share/Steam/compatibilitytools.d`
+* `~/.steam/steam/steamapps/common`
+* `~/.local/share/Steam/steamapps/common`
+* `/usr/share/steam/compatibilitytools.d`
+
+Näitä sijainteja ei tarvitse määrittää manuaalisesti.
+
+## Mukautetut sijainnit
+
+Voit lisätä omia Proton-sijainteja tiedostoon:
+
+`~/.config/proton-autogen.conf`
+
+Esimerkiksi:
+
+```ini
+[proton]
+paths=~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools.d;~/.var/app/com.valvesoftware.Steam/.steam/root/compatibilitytools.d
+```
+
+Voit määrittää useita sijainteja käyttämällä:
+
+* puolipistettä `;`
+* kaksoispistettä `:`
+* rivinvaihtoa
+
+Esimerkiksi:
+
+```ini
+[proton]
+paths=/polku/proton1;/polku/proton2
+```
+
+## Flatpak Steam
+
+Jos käytät Steamia Flatpakin kautta, Proton-autogen tukee Flatpakin oletussijainteja.
+
+Voit myös lisätä ne itse:
+
+```ini
+[proton]
+paths=~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools.d;~/.var/app/com.valvesoftware.Steam/.steam/root/compatibilitytools.d
+```
+
+## Proton-CachyOS
+
+Proton-CachyOS voidaan asentaa järjestelmänlaajuisesti. Proton-autogen tarkistaa esimerkiksi:
+
+`/usr/share/steam/compatibilitytools.d`
+
+## Muistiinpano
+
+Proton-autogen yhdistää oletussijainnit ja `proton-autogen.conf`-tiedostossa määritetyt sijainnit.
+
+Jos sama sijainti on määritetty useita kertoja, se käsitellään vain kerran.
+
+Protonin automaattinen tunnistus ei vaadi `PROTON_PATH`-ympäristömuuttujan määrittämistä.

@@ -1,0 +1,69 @@
+# Шляхи Proton
+
+Proton-autogen автоматично шукає встановлення Proton у кількох поширених місцях.
+
+## Шляхи за замовчуванням
+
+Proton-autogen перевіряє такі шляхи:
+
+* `~/.steam/root/compatibilitytools.d`
+* `~/.steam/steam/compatibilitytools.d`
+* `~/.local/share/Steam/compatibilitytools.d`
+* `~/.steam/steam/steamapps/common`
+* `~/.local/share/Steam/steamapps/common`
+* `/usr/share/steam/compatibilitytools.d`
+
+Зазвичай немає потреби налаштовувати ці шляхи вручну.
+
+## Власні шляхи
+
+Ви можете додати власні шляхи до Proton у файлі:
+
+`~/.config/proton-autogen.conf`
+
+Наприклад:
+
+```ini
+[proton]
+paths=~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools.d;~/.var/app/com.valvesoftware.Steam/.steam/root/compatibilitytools.d
+```
+
+Для розділення кількох шляхів можна використовувати:
+
+* крапку з комою `;`
+* двокрапку `:`
+* новий рядок
+
+Наприклад:
+
+```ini
+[proton]
+paths=/path/to/proton1;/path/to/proton2
+```
+
+## Steam Flatpak
+
+Якщо ви використовуєте Steam через Flatpak, Proton-autogen підтримує стандартні шляхи Flatpak.
+
+Ви також можете додати їх вручну:
+
+```ini
+[proton]
+paths=~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools.d;~/.var/app/com.valvesoftware.Steam/.steam/root/compatibilitytools.d
+```
+
+## Proton-CachyOS
+
+Proton-CachyOS може бути встановлений на рівні всієї системи.
+
+Proton-autogen перевіряє, зокрема, такий шлях:
+
+`/usr/share/steam/compatibilitytools.d`
+
+## Примітка
+
+Proton-autogen об'єднує шляхи за замовчуванням із власними шляхами, вказаними у `proton-autogen.conf`.
+
+Якщо один і той самий шлях вказано кілька разів, Proton-autogen обробить його лише один раз.
+
+Для автоматичного пошуку Proton не потрібно встановлювати змінну середовища `PROTON_PATH`.

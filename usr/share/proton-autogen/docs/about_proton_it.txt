@@ -1,0 +1,77 @@
+# Percorsi Proton
+
+Proton-autogen cerca automaticamente le installazioni di Proton in diverse directory comuni.
+
+## Percorsi cercati automaticamente
+
+### Steam
+
+Proton-autogen cerca nei seguenti percorsi:
+
+~/.steam/root/compatibilitytools.d
+~/.steam/steam/compatibilitytools.d
+~/.local/share/Steam/compatibilitytools.d
+
+### Steam Runtime
+
+Vengono cercate anche le installazioni di Proton nelle seguenti directory di Steam:
+
+~/.steam/steam/steamapps/common
+~/.local/share/Steam/steamapps/common
+
+### Installazione di sistema
+
+Proton-autogen cerca anche le installazioni a livello di sistema in:
+
+/usr/share/steam/compatibilitytools.d
+
+Questa posizione è comunemente utilizzata da distribuzioni come Arch Linux e CachyOS.
+
+### Steam Flatpak
+
+Se Steam è installato tramite Flatpak, Proton-autogen cerca automaticamente nelle seguenti directory:
+
+~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools.d
+~/.var/app/com.valvesoftware.Steam/.steam/root/compatibilitytools.d
+
+## Aggiungere un percorso personalizzato
+
+Se Proton è installato in un'altra directory, puoi aggiungere il percorso in:
+
+~/.config/proton-autogen.conf
+
+Esempio:
+
+[proton]
+paths=~/Proton
+
+È possibile aggiungere più percorsi utilizzando `;`, `:` oppure una nuova riga.
+
+Esempio:
+
+[proton]
+paths=~/Proton;~/Games/Proton;/opt/proton
+
+## Verificare i percorsi rilevati
+
+Per visualizzare i percorsi utilizzati da Proton-autogen:
+
+proton-autogen --proton-paths
+
+Per visualizzare le versioni di Proton rilevate:
+
+proton-autogen --list-protons
+
+Per eseguire una diagnostica:
+
+proton-autogen --diag
+
+## In sintesi
+
+Nella maggior parte dei casi non è necessaria alcuna configurazione.
+
+Proton-autogen rileva automaticamente le installazioni di Steam, Steam Flatpak, Proton-GE, Proton-CachyOS e le installazioni di Proton a livello di sistema.
+
+Se la versione di Proton che utilizzi è installata in una posizione personalizzata, aggiungi semplicemente il relativo percorso in:
+
+~/.config/proton-autogen.conf

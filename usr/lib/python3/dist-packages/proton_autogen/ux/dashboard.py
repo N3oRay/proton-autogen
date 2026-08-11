@@ -378,6 +378,17 @@ class ProtonAutogenApp(Gtk.Application):
         about.connect("activate", open_about)
         self.add_action(about)
 
+        # ABOUT PROTON
+        about_proton = Gio.SimpleAction.new("aboutproton", None)
+
+        def open_about_proton(*a):
+            win = self.get_active_window()
+            if win:
+                win.show_about_proton_dialog()
+
+        about_proton.connect("activate", open_about_proton)
+        self.add_action(about_proton)
+
         # Requis
         requis = Gio.SimpleAction.new("requis", None)
 
@@ -398,7 +409,8 @@ class ProtonAutogenApp(Gtk.Application):
         self.set_accels_for_action("app.sensors", ["F2"])
         self.set_accels_for_action("app.mangohud", ["F3"])
         self.set_accels_for_action("app.requis", ["F4"])
-        self.set_accels_for_action("app.about", ["F5"])
+        self.set_accels_for_action("app.aboutproton", ["F5"])
+        self.set_accels_for_action("app.about", ["F6"])
 
 
 def start_dashboard():

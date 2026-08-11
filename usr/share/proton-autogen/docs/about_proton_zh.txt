@@ -1,0 +1,69 @@
+# Proton 路径
+
+Proton-autogen 会自动从多个常见位置查找 Proton 安装。
+
+## 默认路径
+
+Proton-autogen 会检查以下位置：
+
+* `~/.steam/root/compatibilitytools.d`
+* `~/.steam/steam/compatibilitytools.d`
+* `~/.local/share/Steam/compatibilitytools.d`
+* `~/.steam/steam/steamapps/common`
+* `~/.local/share/Steam/steamapps/common`
+* `/usr/share/steam/compatibilitytools.d`
+
+通常不需要手动配置这些路径。
+
+## 自定义路径
+
+你可以在以下文件中添加自定义 Proton 路径：
+
+`~/.config/proton-autogen.conf`
+
+例如：
+
+```ini
+[proton]
+paths=~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools.d;~/.var/app/com.valvesoftware.Steam/.steam/root/compatibilitytools.d
+```
+
+可以使用以下方式分隔多个路径：
+
+* 分号 `;`
+* 冒号 `:`
+* 换行
+
+例如：
+
+```ini
+[proton]
+paths=/path/to/proton1;/path/to/proton2
+```
+
+## Flatpak Steam
+
+如果你通过 Flatpak 使用 Steam，Proton-autogen 支持 Flatpak 的默认路径。
+
+你也可以手动添加这些路径：
+
+```ini
+[proton]
+paths=~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools.d;~/.var/app/com.valvesoftware.Steam/.steam/root/compatibilitytools.d
+```
+
+## Proton-CachyOS
+
+Proton-CachyOS 可以安装到系统范围内。
+
+Proton-autogen 会检查例如以下路径：
+
+`/usr/share/steam/compatibilitytools.d`
+
+## 注意
+
+Proton-autogen 会合并默认路径和 `proton-autogen.conf` 中配置的自定义路径。
+
+如果同一个路径被配置多次，Proton-autogen 只会处理一次。
+
+Proton 自动检测不需要设置 `PROTON_PATH` 环境变量。
