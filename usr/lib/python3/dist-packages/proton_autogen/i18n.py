@@ -34,6 +34,13 @@ def _check_translation_completeness():
 LANG = {
     "en": {
         "ready": "Ready",
+        "menu_diagnostics": "Diagnostics",
+        "menu_sensors": "Sensors",
+        "menu_help_mangohud": "Help MangoHud",
+        "menu_help": "Help",
+        "menu_requirements": "Requirements",
+        "menu_about_proton": "About Proton",
+        "menu_about": "About",
         "already_stopping": "Already stopping {name}",
         "stop_already_in_progress": "All running games are already stopping",
         "select_game_to_stop": "Select a game to stop",
@@ -126,6 +133,13 @@ LANG = {
 
     "it": {
         "ready": "Pronto",
+        "menu_diagnostics": "Diagnostica",
+        "menu_sensors": "Sensori",
+        "menu_help_mangohud": "Guida MangoHud",
+        "menu_help": "Guida",
+        "menu_requirements": "Prerequisiti",
+        "menu_about_proton": "Informazioni su Proton",
+        "menu_about": "Informazioni",
         "already_stopping": "{name} è già in fase di arresto",
         "stop_already_in_progress": "Tutti i giochi in esecuzione sono già in fase di arresto",
         "select_game_to_stop": "Seleziona un gioco da arrestare",
@@ -218,6 +232,13 @@ LANG = {
 
     "fi": {
         "ready": "Valmis",
+        "menu_diagnostics": "Diagnostiikka",
+        "menu_sensors": "Anturit",
+        "menu_help_mangohud": "MangoHud-ohje",
+        "menu_help": "Ohje",
+        "menu_requirements": "Vaatimukset",
+        "menu_about_proton": "Tietoja Protonista",
+        "menu_about": "Tietoja",
         "already_stopping": "{name} on jo pysähtymässä",
         "stop_already_in_progress": "Kaikkien käynnissä olevien pelien pysäyttäminen on jo käynnissä",
         "select_game_to_stop": "Valitse pysäytettävä peli",
@@ -310,6 +331,13 @@ LANG = {
 
     "el": {
         "ready": "Έτοιμο",
+        "menu_diagnostics": "Διαγνωστικά",
+        "menu_sensors": "Αισθητήρες",
+        "menu_help_mangohud": "Βοήθεια MangoHud",
+        "menu_help": "Βοήθεια",
+        "menu_requirements": "Προαπαιτούμενα",
+        "menu_about_proton": "Σχετικά με το Proton",
+        "menu_about": "Σχετικά",
         "already_stopping": "Το {name} βρίσκεται ήδη σε διαδικασία τερματισμού",
         "stop_already_in_progress": "Όλα τα παιχνίδια που εκτελούνται βρίσκονται ήδη σε διαδικασία τερματισμού",
         "select_game_to_stop": "Επιλέξτε ένα παιχνίδι για τερματισμό",
@@ -402,6 +430,13 @@ LANG = {
 
     "uk": {
         "ready": "Готово",
+        "menu_diagnostics": "Діагностика",
+        "menu_sensors": "Датчики",
+        "menu_help_mangohud": "Довідка MangoHud",
+        "menu_help": "Довідка",
+        "menu_requirements": "Вимоги",
+        "menu_about_proton": "Про Proton",
+        "menu_about": "Про програму",
         "already_stopping": "{name} вже зупиняється",
         "stop_already_in_progress": "Усі запущені ігри вже зупиняються",
         "select_game_to_stop": "Виберіть гру, яку потрібно зупинити",
@@ -496,6 +531,13 @@ LANG = {
 
     "pt": {
         "ready": "Pronto",
+        "menu_diagnostics": "Diagnóstico",
+        "menu_sensors": "Sensores",
+        "menu_help_mangohud": "Ajuda do MangoHud",
+        "menu_help": "Ajuda",
+        "menu_requirements": "Requisitos",
+        "menu_about_proton": "Sobre o Proton",
+        "menu_about": "Sobre",
         "already_stopping": "{name} já está sendo interrompido",
         "stop_already_in_progress": "Todos os jogos em execução já estão sendo interrompidos",
         "select_game_to_stop": "Selecionar um jogo para parar",
@@ -590,6 +632,13 @@ LANG = {
 
     "es": {
         "ready": "Listo",
+        "menu_diagnostics": "Diagnóstico",
+        "menu_sensors": "Sensores",
+        "menu_help_mangohud": "Ayuda de MangoHud",
+        "menu_help": "Ayuda",
+        "menu_requirements": "Requisitos",
+        "menu_about_proton": "Acerca de Proton",
+        "menu_about": "Acerca de",
         "already_stopping": "{name} ya se está deteniendo",
         "stop_already_in_progress": "Todos los juegos en ejecución ya se están deteniendo",
         "select_game_to_stop": "Seleccionar un juego para detener",
@@ -682,6 +731,13 @@ LANG = {
 
     "hi": {
         "ready": "तैयार",
+        "menu_diagnostics": "निदान",
+        "menu_sensors": "सेंसर",
+        "menu_help_mangohud": "MangoHud सहायता",
+        "menu_help": "सहायता",
+        "menu_requirements": "आवश्यकताएँ",
+        "menu_about_proton": "Proton के बारे में",
+        "menu_about": "के बारे में",
         "already_stopping": "{name} पहले से बंद हो रहा है",
         "stop_already_in_progress": "सभी चल रहे गेम पहले से बंद हो रहे हैं",
         "select_game_to_stop": "रोकने के लिए गेम चुनें",
@@ -775,6 +831,13 @@ LANG = {
 
     "de": {
         "ready": "Bereit",
+        "menu_diagnostics": "Diagnose",
+        "menu_sensors": "Sensoren",
+        "menu_help_mangohud": "Hilfe zu MangoHud",
+        "menu_help": "Hilfe",
+        "menu_requirements": "Voraussetzungen",
+        "menu_about_proton": "Über Proton",
+        "menu_about": "Über",
         "already_stopping": "{name} wird bereits beendet",
         "stop_already_in_progress": "Alle laufenden Spiele werden bereits beendet",
         "select_game_to_stop": "Spiel zum Beenden auswählen",
@@ -867,6 +930,13 @@ LANG = {
 
     "fr": {
         "ready": "Prêt",
+        "menu_diagnostics": "Diagnostics",
+        "menu_sensors": "Capteurs",
+        "menu_help_mangohud": "Aide MangoHud",
+        "menu_help": "Aide",
+        "menu_requirements": "Prérequis",
+        "menu_about_proton": "À propos de Proton",
+        "menu_about": "À propos",
         "already_stopping": "{name} est déjà en cours d'arrêt",
         "stop_already_in_progress": "Tous les jeux en cours sont déjà en train de s'arrêter",
         "select_game_to_stop" : "Choisir un jeu à arrêter",
@@ -959,6 +1029,13 @@ LANG = {
 
     "zh": {
         "ready": "就绪",
+        "menu_diagnostics": "诊断",
+        "menu_sensors": "传感器",
+        "menu_help_mangohud": "MangoHud 帮助",
+        "menu_help": "帮助",
+        "menu_requirements": "系统要求",
+        "menu_about_proton": "关于 Proton",
+        "menu_about": "关于",
         "already_stopping": "{name} 正在停止中",
         "stop_already_in_progress": "所有正在运行的游戏都已在停止中",
         "select_game_to_stop": "选择要停止的游戏",
