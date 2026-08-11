@@ -151,20 +151,16 @@ class DashboardActionsMixin:
             finally:
                 GLib.idle_add(self.spinner.stop)
                 GLib.idle_add(self.spinner.set_visible, False)
-                self._running_games.pop(game_id, None)
 
-                # Le jeu n'est plus en cours (fin normale, crash, ou arrêt manuel).
-                # On ne réinitialise que si c'est toujours le même jeu suivi
-                # (protection basique contre une course avec un lancement suivant).
                 if getattr(self, "_current_game_id", None) == game_id:
                     self._current_game_id = None
                     self._current_game_name = None
 
+                def _cleanup_running_state():
+                    self._running_games.pop(game_id, None)
+                    self._update_stop_button_state(bool(self._running_games))
                 # Toujours recalculer l'état du bouton, peu importe quel jeu vient de finir
-                GLib.idle_add(
-                    self._update_stop_button_state,
-                    bool(self._running_games)
-                )
+                GLib.idle_add(_cleanup_running_state)
 
         threading.Thread(target=worker, daemon=True).start()
 
@@ -385,39 +381,57 @@ class DashboardActionsMixin:
 
     def on_stop_button_clicked(self, _btn=None):
         running = getattr(self, "_running_games", {})
+        stopping = getattr(self, "_stopping_games", set())
 
-        if not running:
-            self.toast.error(tr("no_active_game"))
+        # On ne propose que les jeux pas déjà en cours d'arrêt
+        stoppable = {gid: name for gid, name in running.items() if gid not in stopping}
+
+        if not stoppable:
+            if running:
+                # Tous les jeux restants sont déjà en cours d'arrêt
+                self.toast.error(tr("stop_already_in_progress"))
+            else:
+                self.toast.error(tr("no_active_game"))
             return
 
-        if len(running) == 1:
-            game_id, name = next(iter(running.items()))
+        if len(stoppable) == 1:
+            game_id, name = next(iter(stoppable.items()))
             self.confirm_stop_dialog(name, on_confirm=lambda: self.stop_running_game(game_id))
         else:
-            # Plusieurs jeux en cours : afficher une liste à choisir, ou tout arrêter
-            self._show_stop_selector(running)
+            self._show_stop_selector(stoppable)
 
     def stop_running_game(self, game_id):
         name = getattr(self, "_running_games", {}).get(game_id, tr("unknown_game"))
+
+        if not hasattr(self, "_stopping_games"):
+            self._stopping_games = set()
+
+        # Déjà en cours d'arrêt : on ignore le second clic plutôt que de relancer stop()
+        if game_id in self._stopping_games:
+            self.toast.error(tr("already_stopping", name=name))
+            return
+
+        self._stopping_games.add(game_id)
 
         self.status.set_text(tr("stopping_game", name=name))
         self.toast.success(tr("stopping_game", name=name))
 
         def worker():
-            stopped = process_manager.stop(game_id)
+            try:
+                stopped = process_manager.stop(game_id)
 
-            if stopped:
-                logger.info("Stop requested by user", game_id=game_id, name=name)
-            else:
-                logger.warning("Stop requested but process already gone", game_id=game_id)
-                GLib.idle_add(self._running_games.pop, game_id, None)
+                if stopped:
+                    logger.info("Stop requested by user", game_id=game_id, name=name)
+                else:
+                    logger.warning("Stop requested but process already gone", game_id=game_id)
+                    GLib.idle_add(self._running_games.pop, game_id, None)
+            finally:
+                # Quel que soit le résultat, ce jeu n'est plus "en cours d'arrêt"
+                GLib.idle_add(self._stopping_games.discard, game_id)
                 GLib.idle_add(
                     self._update_stop_button_state,
                     bool(self._running_games),
                 )
-            # Si stopped == True, le nettoyage de _running_games / bouton
-            # est déjà géré par le finally du worker de launch_game(),
-            # une fois que run_process() voit le process se terminer réellement.
 
         threading.Thread(target=worker, daemon=True).start()
 

@@ -34,6 +34,8 @@ def _check_translation_completeness():
 LANG = {
     "en": {
         "ready": "Ready",
+        "already_stopping": "Already stopping {name}",
+        "stop_already_in_progress": "All running games are already stopping",
         "select_game_to_stop": "Select a game to stop",
         "select_game_to_stop_detail": "Multiple games are currently running. Select the one you want to stop.",
         "confirm_stop_title": "Stop running game?",
@@ -124,6 +126,8 @@ LANG = {
 
     "uk": {
         "ready": "Готово",
+        "already_stopping": "{name} вже зупиняється",
+        "stop_already_in_progress": "Усі запущені ігри вже зупиняються",
         "select_game_to_stop": "Виберіть гру, яку потрібно зупинити",
         "select_game_to_stop_detail": "Зараз запущено кілька ігор. Виберіть гру, яку ви хочете зупинити.",
         "confirm_stop_title": "Зупинити гру, що виконується?",
@@ -216,6 +220,8 @@ LANG = {
 
     "pt": {
         "ready": "Pronto",
+        "already_stopping": "{name} já está sendo interrompido",
+        "stop_already_in_progress": "Todos os jogos em execução já estão sendo interrompidos",
         "select_game_to_stop": "Selecionar um jogo para parar",
         "select_game_to_stop_detail": "Estão vários jogos em execução. Selecione o jogo que pretende parar.",
         "confirm_stop_title": "Parar o jogo em execução?",
@@ -308,6 +314,8 @@ LANG = {
 
     "es": {
         "ready": "Listo",
+        "already_stopping": "{name} ya se está deteniendo",
+        "stop_already_in_progress": "Todos los juegos en ejecución ya se están deteniendo",
         "select_game_to_stop": "Seleccionar un juego para detener",
         "select_game_to_stop_detail": "Hay varios juegos en ejecución. Selecciona el juego que quieres detener.",
         "confirm_stop_title": "¿Detener el juego en ejecución?",
@@ -398,6 +406,8 @@ LANG = {
 
     "hi": {
         "ready": "तैयार",
+        "already_stopping": "{name} पहले से बंद हो रहा है",
+        "stop_already_in_progress": "सभी चल रहे गेम पहले से बंद हो रहे हैं",
         "select_game_to_stop": "रोकने के लिए गेम चुनें",
         "select_game_to_stop_detail": "कई गेम अभी चल रहे हैं। वह गेम चुनें जिसे आप रोकना चाहते हैं।",
         "confirm_stop_title": "चल रहे गेम को रोकें?",
@@ -489,6 +499,8 @@ LANG = {
 
     "de": {
         "ready": "Bereit",
+        "already_stopping": "{name} wird bereits beendet",
+        "stop_already_in_progress": "Alle laufenden Spiele werden bereits beendet",
         "select_game_to_stop": "Spiel zum Beenden auswählen",
         "select_game_to_stop_detail": "Mehrere Spiele laufen derzeit. Wählen Sie das Spiel aus, das Sie beenden möchten.",
         "confirm_stop_title": "Laufendes Spiel beenden?",
@@ -579,6 +591,8 @@ LANG = {
 
     "fr": {
         "ready": "Prêt",
+        "already_stopping": "{name} est déjà en cours d'arrêt",
+        "stop_already_in_progress": "Tous les jeux en cours sont déjà en train de s'arrêter",
         "select_game_to_stop" : "Choisir un jeu à arrêter",
         "select_game_to_stop_detail" : "Plusieurs jeux sont actuellement en cours. Sélectionnez celui que vous souhaitez arrêter.",
         "confirm_stop_title": "Arrêter le jeu ?",
@@ -669,6 +683,8 @@ LANG = {
 
     "zh": {
         "ready": "就绪",
+        "already_stopping": "{name} 正在停止中",
+        "stop_already_in_progress": "所有正在运行的游戏都已在停止中",
         "select_game_to_stop": "选择要停止的游戏",
         "select_game_to_stop_detail": "当前有多个游戏正在运行。请选择您要停止的游戏。",
         "confirm_stop_title": "停止正在运行的游戏？",
