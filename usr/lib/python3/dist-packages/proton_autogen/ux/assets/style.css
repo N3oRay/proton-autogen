@@ -768,7 +768,7 @@ dropdown > button:active {
 combobox > button:focus,
 dropdown > button:focus {
 
-    outline: 2px solid @accent_color;
+    outline: 2px solid @accent;
     outline-offset: 1px;
 }
 

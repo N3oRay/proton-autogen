@@ -43,14 +43,6 @@ label, entry, text, textview {
     color: @hk_text;
 }
 
-/*
-label,
-entry,
-text,
-textview {
-    color: @kawaii-pink-dark;
-}
-*/
 
 .btn-delete,
 .btn-launch,
