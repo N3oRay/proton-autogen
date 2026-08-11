@@ -100,23 +100,51 @@ sudo install -m644 \
     usr/share/icons/hicolor/256x256/apps/proton-autogen.png \
     /usr/share/icons/hicolor/256x256/apps/io.github.N3oRay.ProtonAutogen.png
 
-echo "==> Installing KDE service menu..."
+echo "==> Detecting file managers..."
+install_file_manager_integrations() {
 
-sudo install -Dm644 \
-    share/kio/servicemenus/proton-autogen.desktop \
-    /usr/share/kio/servicemenus/proton-autogen.desktop
+    # KDE / Dolphin / KIO
+    if command -v dolphin >/dev/null 2>&1 || \
+       command -v kioexec >/dev/null 2>&1; then
 
-echo "==> Installing Nautilus extension..."
+        echo "==> KDE/KIO detected."
+        echo "==> Installing KDE service menu..."
 
-sudo install -Dm644 \
-    share/nautilus-python/extensions/proton_autogen_nautilus.py \
-    /usr/share/nautilus-python/extensions/proton_autogen_nautilus.py
+        sudo install -Dm644 \
+            share/kio/servicemenus/proton-autogen.desktop \
+            /usr/share/kio/servicemenus/proton-autogen.desktop
+    else
+        echo "==> KDE/KIO not detected. Skipping KDE service menu."
+    fi
 
-echo "==> Installing Nemo action..."
 
-sudo install -Dm644 \
-    share/nemo/actions/proton-autogen.nemo_action \
-    /usr/share/nemo/actions/proton-autogen.nemo_action
+    # Nautilus
+    if command -v nautilus >/dev/null 2>&1; then
+
+        echo "==> Nautilus detected."
+        echo "==> Installing Nautilus extension..."
+
+        sudo install -Dm644 \
+            share/nautilus-python/extensions/proton_autogen_nautilus.py \
+            /usr/share/nautilus-python/extensions/proton_autogen_nautilus.py
+    else
+        echo "==> Nautilus not detected. Skipping Nautilus extension."
+    fi
+
+
+    # Nemo
+    if command -v nemo >/dev/null 2>&1; then
+
+        echo "==> Nemo detected."
+        echo "==> Installing Nemo action..."
+
+        sudo install -Dm644 \
+            share/nemo/actions/proton-autogen.nemo_action \
+            /usr/share/nemo/actions/proton-autogen.nemo_action
+    else
+        echo "==> Nemo not detected. Skipping Nemo action."
+    fi
+}
 
 echo "==> Installing Python module..."
 
