@@ -12,6 +12,44 @@ Every contribution, regardless of its size, helps keep Proton-Autogen free, open
 
 ---
 
+## ❤️ Why support Proton-Autogen?
+
+Your support directly contributes to the continued development and sustainability of Proton-Autogen.
+
+### 1. Keep the project open source
+
+Donations help ensure that Proton-Autogen remains **free, open source, and accessible to everyone**.
+
+The project is developed independently, and community support helps preserve its open-source nature.
+
+### 2. Improve the project
+
+Your contributions provide more time and resources to develop new features, improve Proton and Wine compatibility, fix bugs, and respond to the needs of Linux users.
+
+### 3. Improve quality and reliability
+
+Financial support makes it possible to dedicate more resources to **testing, debugging, documentation, compatibility, and quality improvements**.
+
+This helps make Proton-Autogen more reliable and easier to use across different Linux environments.
+
+### 4. Fund the resources required for development
+
+Open-source development requires resources.
+
+Your support can help finance:
+
+* Development time
+* Testing hardware
+* Linux systems and virtual machines
+* CI/CD and build infrastructure
+* Hosting and project services
+* Packaging and distribution
+* Compatibility testing
+* Other project-related expenses
+
+**Every contribution helps Proton-Autogen continue to grow while remaining free and open source.**
+
+
 ## 📊 Project activity
 
 Proton-Autogen is actively maintained, with regular releases and ongoing improvements.
