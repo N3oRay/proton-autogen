@@ -2,11 +2,34 @@
 
 ## Support the project
 
-Proton-Autogen is an open-source project designed to make running Windows applications on Linux easier by automatically managing Proton and Wine environments.
+Proton-Autogen is a lightweight, open-source Linux utility designed to make running Windows applications and games easier by automatically managing Proton and Wine environments.
 
-The project is developed and maintained independently, and your support helps keep development active and allows new features, improvements, testing, and documentation to continue.
+It automatically launches Windows `.exe` files using Proton or Wine, with automatic fallback and desktop file-manager integration, including Nautilus and Nemo.
 
-Every contribution, regardless of its size, is appreciated.
+The project is independently developed and maintained. Your support helps make it possible to continue development, improve compatibility, test across different Linux environments, and build new features.
+
+Every contribution, regardless of its size, helps keep Proton-Autogen free, open source, and actively maintained.
+
+---
+
+## 📊 Project activity
+
+Proton-Autogen is actively maintained, with regular releases and ongoing improvements.
+
+### GitHub
+
+* **2,091** repository clones
+* **509** unique cloners
+* **393** repository views
+* **157** unique visitors
+
+### Ubuntu PPA
+
+* **301** package downloads
+
+> Launchpad download figures represent package downloads and do not correspond to unique users.
+
+These figures represent project activity and should not be interpreted as a count of unique users.
 
 ---
 
@@ -17,33 +40,123 @@ The main way to financially support Proton-Autogen is through Open Collective.
 **Open Collective:**
 https://opencollective.com/proton-autogen
 
-Your support can help with:
+Your support can help fund:
 
 * Development and maintenance
-* Testing on different Linux distributions
-* Proton compatibility improvements
-* Documentation and translations
+* Proton and Wine compatibility improvements
+* Testing across Linux distributions
 * Bug fixing
+* Documentation and translations
 * New integrations and features
-* Infrastructure and project-related expenses
+* CI/CD and project infrastructure
+* Hardware and compatibility testing
+* Other project-related expenses
 
 Open Collective also provides transparency regarding contributions and project expenses.
 
 ---
 
-## GitHub Sponsors
+## ⭐ Sponsorship tiers
 
-GitHub Sponsors is planned for Proton-Autogen, but the GitHub Sponsors page is currently not available.
+You can support Proton-Autogen through a monthly contribution or choose a custom contribution.
 
-Once GitHub Sponsors is fully configured, it will be added here as an additional way to support the project.
+### 💙 Supporter — €2/month
 
-For now, please use Open Collective.
+Help keep Proton-Autogen maintained and actively developed.
+
+Your contribution helps with bug fixes, maintenance, compatibility improvements, and ongoing development.
+
+**Recognition:**
+
+* Name listed among project supporters
+* My sincere thanks for supporting the project
 
 ---
 
-## 🤝 Sponsorship opportunities
+### 🚀 Backer — €10/month
 
-If you are a company, organization, Linux distribution, gaming project, or developer interested in supporting Proton-Autogen, sponsorship and collaboration opportunities are welcome.
+Help take Proton-Autogen further.
+
+Your support contributes directly to active development, testing, new features, Proton/Wine improvements, and Linux distribution support.
+
+**Recognition:**
+
+* Name listed among project backers
+* Supporter recognition in the project
+* My sincere thanks for helping the project grow
+
+---
+
+### ⭐ Sponsor — €25/month
+
+Become a Proton-Autogen Sponsor and help fund continued development.
+
+Your contribution helps dedicate more time to development, compatibility testing, Ubuntu/Linux integration, documentation, and new features.
+
+**Recognition:**
+
+* Name listed among project sponsors
+* Sponsor recognition in project materials
+* Recognition in major project releases when appropriate
+
+---
+
+### 🏆 Project Sponsor — €50/month
+
+Provide stronger support for the long-term development of Proton-Autogen.
+
+This level helps fund larger development and testing efforts, including compatibility work, hardware testing, distribution support, and infrastructure.
+
+**Recognition:**
+
+* Prominent sponsor recognition
+* Name or organization listed on the project sponsor page
+* Recognition in major releases when appropriate
+
+---
+
+### 🤝 Corporate / Open Source Partner — €100+/month
+
+For companies, organizations, Linux distributions, hardware manufacturers, and other projects interested in supporting Proton-Autogen at a larger scale.
+
+Support can help fund specific areas such as:
+
+* Ubuntu/Debian integration
+* Proton/Wine compatibility
+* Hardware testing
+* Linux gaming compatibility
+* Distribution packaging
+* Development infrastructure
+* Long-term maintenance
+
+Corporate sponsorships and partnerships can also include technical collaboration, hardware, infrastructure, or other resources.
+
+For this type of sponsorship, please contact the project maintainer to discuss the appropriate arrangement.
+
+---
+
+## 💝 Custom donation
+
+You don't need to choose a sponsorship tier.
+
+You can make a **one-time or recurring contribution of any amount**.
+
+You can also support Proton-Autogen by providing:
+
+* Financial contributions
+* Development resources
+* CI/CD or hosting infrastructure
+* Testing hardware
+* Linux systems for compatibility testing
+* Other resources useful for open-source development
+
+Every contribution is valuable.
+
+---
+
+## 🤝 Sponsorship and partnership opportunities
+
+If you are a company, organization, Linux distribution, gaming project, hardware manufacturer, or developer interested in supporting Proton-Autogen, sponsorship and collaboration opportunities are welcome.
 
 Possible forms of support include:
 
@@ -53,19 +166,21 @@ Possible forms of support include:
 * Testing hardware
 * Linux gaming partnerships
 * Distribution integration
+* Compatibility testing
 * Promotion and visibility
+* Technical collaboration
 
-For larger sponsorships or partnerships, please open a GitHub issue or contact the project maintainer.
+Larger sponsorships and partnerships can be discussed directly with the project maintainer.
 
 ---
 
 ## What sponsorship makes possible
 
-Proton-Autogen is intended to remain lightweight, open source, and accessible to Linux users.
+Proton-Autogen is intended to remain **lightweight, free, open source, and accessible to Linux users**.
 
-Sponsorship can help make it possible to continue working on areas such as:
+Sponsorship helps make it possible to dedicate more time and resources to areas such as:
 
-### Proton compatibility
+### Proton & Wine compatibility
 
 * Better Proton detection
 * Support for additional Proton distributions
@@ -73,6 +188,7 @@ Sponsorship can help make it possible to continue working on areas such as:
 * GE-Proton support
 * Custom Proton installations
 * Improved Wine fallback
+* Compatibility testing
 
 ### User experience
 
@@ -81,6 +197,7 @@ Sponsorship can help make it possible to continue working on areas such as:
 * Easier configuration
 * File manager integration
 * Per-application profiles
+* Improved error handling
 
 ### Linux ecosystem
 
@@ -88,7 +205,15 @@ Sponsorship can help make it possible to continue working on areas such as:
 * Flatpak compatibility
 * Arch / CachyOS support
 * Ubuntu / Debian support
-* Additional distribution support
+* Additional Linux distribution support
+
+### Testing & infrastructure
+
+* Hardware compatibility testing
+* GPU and driver testing
+* CI/CD infrastructure
+* Testing across different Linux environments
+* Packaging and release infrastructure
 
 ### Documentation
 
@@ -102,20 +227,22 @@ Sponsorship can help make it possible to continue working on areas such as:
 
 ## Open Source
 
-Proton-Autogen is released under the MIT License.
+Proton-Autogen is released under the **MIT License**.
 
 The source code is publicly available on GitHub:
 
 https://github.com/N3oRay/proton-autogen
 
-Contributions, bug reports, feature requests, translations, and documentation improvements are also very welcome.
+Contributions, bug reports, feature requests, translations, documentation improvements, and testing are also very welcome.
 
 ---
 
 ## Thank you ❤️
 
-Whether you contribute code, documentation, testing, translations, bug reports, or financial support, you are helping make Linux gaming and Windows application compatibility easier for everyone.
+Whether you contribute **code, documentation, testing, translations, bug reports, hardware, infrastructure, or financial support**, you are helping make Linux gaming and Windows application compatibility easier for everyone.
 
-Thank you for supporting Proton-Autogen.
+Every contribution helps Proton-Autogen continue to grow while remaining free and open source.
 
-**Proton easy for all.**
+**Thank you for supporting Proton-Autogen.**
+
+### Proton easy for all.
