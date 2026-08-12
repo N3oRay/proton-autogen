@@ -177,7 +177,6 @@ class GameEditor(Gtk.Window):
         label = Gtk.Label(label=label_text, xalign=0)
         label.set_width_chars(12)
         label.add_css_class("form-label")
-        #label.add_css_class("dim-label")
 
         row.append(label)
         row.append(widget)

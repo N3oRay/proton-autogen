@@ -49,52 +49,99 @@ _DESCRIPTIONS = {
             "优化系统性能",
     },
 
-    "es": {
-
+    "hi": {
         "profile":
-            "Define el modo de ejecución y las optimizaciones aplicadas al juego (DX11, DX12, "
-            "compatibilidad, juegos antiguos o configuraciones específicas).",
+            "गेम पर लागू किए जाने वाले निष्पादन प्रोफ़ाइल और अनुकूलन को परिभाषित करता है (DX11, DX12, "
+            "संगतता मोड, पुराने गेम या विशिष्ट कॉन्फ़िगरेशन)।",
+
+        "proton":
+            "Linux पर गेम चलाने के लिए उपयोग किया जाने वाला Proton संस्करण। "
+            "अलग-अलग संस्करण संगतता और प्रदर्शन को बेहतर कर सकते हैं या विशिष्ट समस्याओं को ठीक कर सकते हैं।",
+
+        "show_performance":
+            "गेम के अंदर एक ओवरले दिखाता है जिसमें FPS, CPU उपयोग, GPU उपयोग, "
+            "मेमोरी की खपत और प्रदर्शन से संबंधित अन्य उपयोगी आँकड़े दिखाई देते हैं।",
+
+        "optimize_performance":
+            "गेम चलने के दौरान प्राथमिकताओं और सिस्टम सेटिंग्स को समायोजित करके "
+            "सिस्टम के प्रदर्शन को स्वचालित रूप से अनुकूलित करता है।",
+
+        "mangohud":
+            "MangoHud गेम के अंदर एक ओवरले है जो रीयल-टाइम में FPS, CPU/GPU उपयोग, "
+            "तापमान, मेमोरी उपयोग और प्रदर्शन से संबंधित अन्य आँकड़े दिखाता है।",
+
+        "gamemode":
+            "GameMode एक सिस्टम सेवा है जो गेम चलने के दौरान कंप्यूटर को अस्थायी रूप से अनुकूलित करती है "
+            "ताकि प्रदर्शन बेहतर हो और रुकावटें कम हों।",
+
+        "gamescope":
+            "Gamescope एक माइक्रो-कंपोज़िटर है जिसका उपयोग गेम को नियंत्रित ग्राफ़िकल वातावरण में चलाने के लिए किया जाता है। "
+            "यह रिज़ॉल्यूशन, फ़ुलस्क्रीन मोड और रिफ्रेश रेट को प्रबंधित करने की अनुमति देता है "
+            "और कुछ गेम या ग्राफ़िक्स कॉन्फ़िगरेशन के साथ संगतता में सुधार कर सकता है।",
+
+        "gpu":
+            "गेम द्वारा उपयोग किए जाने वाले GPU अनुकूलन मोड को परिभाषित करता है: "
+            "auto (स्वचालित पहचान), safe (अधिकतम संगतता), "
+            "balanced (संतुलित सेटिंग्स) या performance (अधिकतम FPS)।",
+
+        "prefix":
+            "एक अलग वातावरण जिसमें Windows कॉन्फ़िगरेशन, इंस्टॉल की गई लाइब्रेरी और "
+            "इस प्रोग्राम द्वारा उपयोग किए जाने वाले एप्लिकेशन शामिल होते हैं। गेम्स के बीच टकराव से बचने के लिए प्रत्येक वातावरण अलग रखा जाता है।",
+
+        "prefix_short":
+            "इस एप्लिकेशन के लिए एक अलग वातावरण बनाएँ।",
+
+        "performance_overlay":
+            "प्रदर्शन दिखाएँ (FPS, CPU, GPU)",
+
+        "system_optimization":
+            "सिस्टम के प्रदर्शन को अनुकूलित करें",
+    },
+
+    "es": {
+        "profile":
+            "Define el perfil de ejecución y las optimizaciones aplicadas al juego (DX11, DX12, "
+            "modos de compatibilidad, juegos antiguos o configuraciones específicas).",
 
         "proton":
             "Versión de Proton utilizada para ejecutar el juego en Linux. "
-            "Diferentes versiones pueden mejorar la compatibilidad, el rendimiento o corregir errores.",
+            "Diferentes versiones pueden mejorar la compatibilidad, el rendimiento o solucionar problemas específicos.",
 
         "show_performance":
-            "Muestra una superposición en el juego con FPS, uso de CPU, uso de GPU, "
-            "memoria y otras estadísticas de rendimiento.",
+            "Muestra una superposición dentro del juego con los FPS, el uso de la CPU, el uso de la GPU, "
+            "el consumo de memoria y otras estadísticas útiles de rendimiento.",
 
         "optimize_performance":
-            "Optimiza automáticamente el rendimiento del sistema durante el juego ajustando "
-            "prioridades y parámetros del sistema.",
+            "Optimiza automáticamente el rendimiento del sistema mientras se ejecuta el juego, ajustando "
+            "las prioridades y la configuración del sistema.",
 
         "mangohud":
-            "MangoHud es una superposición que muestra en tiempo real FPS, uso de CPU/GPU, "
-            "temperaturas, uso de memoria y otra información útil.",
+            "MangoHud es una superposición dentro del juego que muestra en tiempo real los FPS, el uso de la CPU/GPU, "
+            "las temperaturas, el uso de la memoria y otras estadísticas de rendimiento.",
+
+        "gamemode":
+            "GameMode es un servicio del sistema que optimiza temporalmente el ordenador mientras se ejecuta un juego "
+            "para mejorar el rendimiento y reducir los tirones.",
 
         "gamescope":
             "Gamescope es un microcompositor utilizado para ejecutar juegos en un entorno gráfico controlado. "
-            "Permite gestionar la resolución, el modo de pantalla completa, la frecuencia de actualización "
-            "y puede mejorar la compatibilidad con algunos juegos o configuraciones gráficas.",
-
-        "gamescope":
-            "Gamescope es un microcompositor utilizado para ejecutar juegos en un entorno gráfico controlado. "
-            "Permite gestionar la resolución, el modo de pantalla completa, la frecuencia de actualización "
+            "Permite gestionar la resolución, el modo de pantalla completa y la frecuencia de actualización, "
             "y puede mejorar la compatibilidad con algunos juegos o configuraciones gráficas.",
 
         "gpu":
-            "Define el modo de optimización de la GPU del juego: "
+            "Define el modo de optimización de la GPU utilizado por el juego: "
             "auto (detección automática), safe (máxima compatibilidad), "
-            "balanced (equilibrado) o performance (máximo rendimiento/FPS).",
+            "balanced (configuración equilibrada) o performance (máximos FPS).",
 
         "prefix":
-            "Un entorno aislado que contiene la configuración de Windows, bibliotecas y software "
-            "instalado para esta aplicación. Cada entorno es independiente para evitar conflictos entre juegos.",
+            "Un entorno independiente que contiene la configuración de Windows, las bibliotecas instaladas y "
+            "las aplicaciones utilizadas por este programa. Cada entorno está aislado para evitar conflictos entre juegos.",
 
         "prefix_short":
-            "Crear un entorno separado para esta aplicación.",
+            "Crear un entorno independiente para esta aplicación.",
 
         "performance_overlay":
-            "Mostrar rendimiento (FPS, CPU, GPU)",
+            "Mostrar el rendimiento (FPS, CPU, GPU)",
 
         "system_optimization":
             "Optimizar el rendimiento del sistema",
@@ -298,6 +345,154 @@ _DESCRIPTIONS = {
 
         "system_optimization":
             "Otimizar o desempenho do sistema",
+    },
+
+    "fi": {
+        "profile":
+            "Määrittää pelin suoritusprofiilin ja siihen sovellettavat optimoinnit (DX11, DX12, "
+            "yhteensopivuustilat, vanhat pelit tai tietyt kokoonpanot).",
+
+        "proton":
+            "Pelien Linuxissa suorittamiseen käytettävä Proton-versio. "
+            "Eri versiot voivat parantaa yhteensopivuutta ja suorituskykyä tai korjata tiettyjä ongelmia.",
+
+        "show_performance":
+            "Näyttää pelin sisäisen peittokuvan, jossa näkyvät FPS, suorittimen käyttö, näytönohjaimen käyttö, "
+            "muistin kulutus ja muita hyödyllisiä suorituskykytietoja.",
+
+        "optimize_performance":
+            "Optimoi järjestelmän suorituskyvyn automaattisesti pelin ollessa käynnissä säätämällä "
+            "prosessien prioriteetteja ja järjestelmäasetuksia.",
+
+        "mangohud":
+            "MangoHud on pelin sisäinen peittokuva, joka näyttää reaaliaikaisesti FPS:n, suorittimen ja näytönohjaimen käytön, "
+            "lämpötilat, muistin käytön ja muita suorituskykytietoja.",
+
+        "gamemode":
+            "GameMode on järjestelmäpalvelu, joka optimoi tietokonetta tilapäisesti pelin ollessa käynnissä "
+            "suorituskyvyn parantamiseksi ja nykimisen vähentämiseksi.",
+
+        "gamescope":
+            "Gamescope on mikrosommitin, jolla pelejä voidaan suorittaa hallitussa graafisessa ympäristössä. "
+            "Sen avulla voidaan hallita resoluutiota, koko näytön tilaa ja virkistystaajuutta, "
+            "ja se voi parantaa yhteensopivuutta joidenkin pelien tai grafiikka-asetusten kanssa.",
+
+        "gpu":
+            "Määrittää pelissä käytettävän näytönohjaimen optimointitilan: "
+            "auto (automaattinen tunnistus), safe (paras yhteensopivuus), "
+            "balanced (tasapainotetut asetukset) tai performance (maksimaalinen FPS).",
+
+        "prefix":
+            "Erillinen ympäristö, joka sisältää Windows-asetukset, asennetut kirjastot ja "
+            "tämän ohjelman käyttämät sovellukset. Jokainen ympäristö on eristetty pelien välisten ristiriitojen välttämiseksi.",
+
+        "prefix_short":
+            "Luo tälle sovellukselle erillinen ympäristö.",
+
+        "performance_overlay":
+            "Näytä suorituskyky (FPS, CPU, GPU)",
+
+        "system_optimization":
+            "Optimoi järjestelmän suorituskyky",
+    },
+
+
+    "el": {
+        "profile":
+            "Καθορίζει το προφίλ εκτέλεσης και τις βελτιστοποιήσεις που εφαρμόζονται στο παιχνίδι (DX11, DX12, "
+            "λειτουργίες συμβατότητας, παλαιότερα παιχνίδια ή συγκεκριμένες ρυθμίσεις).",
+
+        "proton":
+            "Η έκδοση του Proton που χρησιμοποιείται για την εκτέλεση του παιχνιδιού σε Linux. "
+            "Διαφορετικές εκδόσεις μπορούν να βελτιώσουν τη συμβατότητα και την απόδοση ή να διορθώσουν συγκεκριμένα προβλήματα.",
+
+        "show_performance":
+            "Εμφανίζει μια επικάλυψη μέσα στο παιχνίδι με τα FPS, τη χρήση της CPU, τη χρήση της GPU, "
+            "την κατανάλωση μνήμης και άλλα χρήσιμα στατιστικά απόδοσης.",
+
+        "optimize_performance":
+            "Βελτιστοποιεί αυτόματα την απόδοση του συστήματος κατά την εκτέλεση του παιχνιδιού, προσαρμόζοντας "
+            "τις προτεραιότητες και τις ρυθμίσεις του συστήματος.",
+
+        "mangohud":
+            "Το MangoHud είναι μια επικάλυψη μέσα στο παιχνίδι που εμφανίζει σε πραγματικό χρόνο τα FPS, τη χρήση της CPU/GPU, "
+            "τις θερμοκρασίες, τη χρήση μνήμης και άλλα στατιστικά απόδοσης.",
+
+        "gamemode":
+            "Το GameMode είναι μια υπηρεσία συστήματος που βελτιστοποιεί προσωρινά τον υπολογιστή κατά την εκτέλεση ενός παιχνιδιού "
+            "για τη βελτίωση της απόδοσης και τη μείωση των κολλημάτων.",
+
+        "gamescope":
+            "Το Gamescope είναι ένας μικροσυνθέτης που χρησιμοποιείται για την εκτέλεση παιχνιδιών σε ένα ελεγχόμενο γραφικό περιβάλλον. "
+            "Επιτρέπει τη διαχείριση της ανάλυσης, της λειτουργίας πλήρους οθόνης και του ρυθμού ανανέωσης, "
+            "και μπορεί να βελτιώσει τη συμβατότητα με ορισμένα παιχνίδια ή ρυθμίσεις γραφικών.",
+
+        "gpu":
+            "Καθορίζει τη λειτουργία βελτιστοποίησης της GPU που χρησιμοποιείται από το παιχνίδι: "
+            "auto (αυτόματη ανίχνευση), safe (μέγιστη συμβατότητα), "
+            "balanced (ισορροπημένες ρυθμίσεις) ή performance (μέγιστα FPS).",
+
+        "prefix":
+            "Ένα ξεχωριστό περιβάλλον που περιέχει τη διαμόρφωση των Windows, τις εγκατεστημένες βιβλιοθήκες και "
+            "τις εφαρμογές που χρησιμοποιούνται από αυτό το πρόγραμμα. Κάθε περιβάλλον είναι απομονωμένο για την αποφυγή συγκρούσεων μεταξύ παιχνιδιών.",
+
+        "prefix_short":
+            "Δημιουργία ξεχωριστού περιβάλλοντος για αυτή την εφαρμογή.",
+
+        "performance_overlay":
+            "Εμφάνιση απόδοσης (FPS, CPU, GPU)",
+
+        "system_optimization":
+            "Βελτιστοποίηση της απόδοσης του συστήματος",
+    },
+
+    "it": {
+        "profile":
+            "Definisce il profilo di esecuzione e le ottimizzazioni applicate al gioco (DX11, DX12, "
+            "modalità di compatibilità, giochi legacy o configurazioni specifiche).",
+
+        "proton":
+            "Versione di Proton utilizzata per eseguire il gioco su Linux. "
+            "Versioni diverse possono migliorare la compatibilità, le prestazioni o risolvere problemi specifici.",
+
+        "show_performance":
+            "Mostra una sovrapposizione (overlay) all'interno del gioco con FPS, utilizzo della CPU, utilizzo della GPU, "
+            "consumo di memoria e altre utili statistiche sulle prestazioni.",
+
+        "optimize_performance":
+            "Ottimizza automaticamente le prestazioni del sistema durante l'esecuzione del gioco, modificando "
+            "le priorità e le impostazioni di sistema.",
+
+        "mangohud":
+            "MangoHud è un overlay all'interno del gioco che mostra in tempo reale FPS, utilizzo di CPU/GPU, "
+            "temperature, utilizzo della memoria e altre statistiche sulle prestazioni.",
+
+        "gamemode":
+            "GameMode è un servizio di sistema che ottimizza temporaneamente il computer durante l'esecuzione di un gioco "
+            "per migliorare le prestazioni e ridurre gli scatti.",
+
+        "gamescope":
+            "Gamescope è un micro-compositore utilizzato per eseguire i giochi in un ambiente grafico controllato. "
+            "Consente di gestire la risoluzione, la modalità a schermo intero e la frequenza di aggiornamento, "
+            "e può migliorare la compatibilità con alcuni giochi o configurazioni grafiche.",
+
+        "gpu":
+            "Definisce la modalità di ottimizzazione della GPU utilizzata dal gioco: "
+            "auto (rilevamento automatico), safe (massima compatibilità), "
+            "balanced (impostazioni bilanciate) o performance (FPS massimi).",
+
+        "prefix":
+            "Un ambiente separato contenente la configurazione di Windows, le librerie installate e "
+            "le applicazioni utilizzate da questo programma. Ogni ambiente è isolato per evitare conflitti tra i giochi.",
+
+        "prefix_short":
+            "Crea un ambiente separato per questa applicazione.",
+
+        "performance_overlay":
+            "Mostra le prestazioni (FPS, CPU, GPU)",
+
+        "system_optimization":
+            "Ottimizza le prestazioni del sistema",
     },
 
     "en": {

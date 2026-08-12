@@ -487,11 +487,6 @@ KNOWN_APPIDS = {
     "StreetFighter30th.exe": "586200",
 
     # -----------------------------
-    # Far Cry
-    # -----------------------------
-    "FarCry.exe": "13520",
-
-    # -----------------------------
     # ARMA
     # -----------------------------
     "arma3.exe": "107410",
@@ -595,7 +590,7 @@ KNOWN_APPIDS = {
     "MassEffect2.exe": "24980",
     "MassEffect3.exe": "1238020",
     "MassEffectLauncher.exe": "1328670",
-    "DeadSpace.exe": "1693980",
+    "DeadSpaceRemake.exe": "1693980",
     "JediSurvivor.exe": "1774580",
     "JediFallenOrder.exe": "1172380",
     # -----------------------------
@@ -978,7 +973,6 @@ KNOWN_APPIDS = {
     # -----------------------------
     "PrinceOfPersia.exe": "19980",               # Prince of Persia (2008)
     "PrinceOfPersiaTheForgottenSands.exe": "33320",
-    "PrinceOfPersia.exe": "13500",               # Prince of Persia: The Sands of Time
     "POP2.exe": "13510",                         # Warrior Within
     "POP3.exe": "13520",                         # The Two Thrones
     "PrinceOfPersiaWW.exe": "13510",
@@ -989,10 +983,8 @@ KNOWN_APPIDS = {
     # -----------------------------
     "WatchDogs.exe": "243470",                   # Watch Dogs
     "Watch_Dogs.exe": "243470",
-
     "WatchDogs2.exe": "447040",                  # Watch Dogs 2
     "Watch_Dogs_2.exe": "447040",
-
     "WatchDogsLegion.exe": "2231380",            # Watch Dogs: Legion
     "WatchDogsLegion_BE.exe": "2231380",
 

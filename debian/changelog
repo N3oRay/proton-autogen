@@ -1,4 +1,4 @@
-proton-autogen (3.2.3) noble; urgency=medium
+proton-autogen (3.2.4) noble; urgency=medium
 
   * Thanks to all users and contributors for their continued support, feedback and bug reports.
   * Added ReShade shader support for dx9opengl profiles, allowing ReShade shaders and textures to be properly integrated and managed within these environments. (https://github.com/crosire/reshade-shaders)
@@ -14,4 +14,4 @@ proton-autogen (3.2.3) noble; urgency=medium
   * Improved Proton runtime selection and environment initialization for a smoother launch experience.
   * General UX improvements, performance optimizations and code cleanup.
 
- -- N3oray <n3oray77@gmail.com>  Tue, 11 Aug 2026 03:15:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Thu, 13 Aug 2026 00:30:00 +0200
