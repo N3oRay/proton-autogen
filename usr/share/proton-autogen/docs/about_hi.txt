@@ -16,7 +16,7 @@ Proton का उपयोग करके Windows अनुप्रयोग �
 ✓ GE-Proton और Proton-CachyOS का समर्थन
 ✓ आवश्यकता पड़ने पर Wine पर स्वचालित स्विच
 ✓ प्रति-एप्लिकेशन प्रोफ़ाइल
-✓ GameMode और MangoHud एकीकरण
+✓ GameScope, GameMode और MangoHud एकीकरण
 ✓ Steam, Flatpak और मूल (Native) इंस्टॉलेशन के साथ संगत
 ✓ हल्का और न्यूनतम निर्भरताओं के साथ
 

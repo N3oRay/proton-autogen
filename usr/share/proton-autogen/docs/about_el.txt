@@ -13,7 +13,7 @@ PROTON-AUTOGEN
 ✓ Υποστήριξη GE-Proton και Proton-CachyOS
 ✓ Έξυπνη εναλλακτική χρήση του Wine
 ✓ Προφίλ ανά εφαρμογή
-✓ Ενσωμάτωση με GameMode και MangoHud
+✓ Ενσωμάτωση με GameScope, GameMode και MangoHud
 ✓ Συμβατότητα με Steam, Flatpak και εγγενείς εφαρμογές
 ✓ Ελαφρύ και με ελάχιστες εξαρτήσεις
 ────────────────────────

@@ -16,7 +16,7 @@ HIGHLIGHTS
 ✓ Unterstützung für GE-Proton und Proton-CachyOS
 ✓ Intelligenter Wine-Fallback
 ✓ Anwendungsprofile
-✓ GameMode- und MangoHud-Integration
+✓ GameScope, GameMode- und MangoHud-Integration
 ✓ Kompatibel mit Steam, Flatpak und nativen Installationen
 ✓ Schlank und mit minimalen Abhängigkeiten
 

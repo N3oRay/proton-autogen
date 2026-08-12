@@ -13,7 +13,7 @@ CARATTERISTICHE
 ✓ Supporto per GE-Proton e Proton-CachyOS
 ✓ Fallback intelligente a Wine
 ✓ Profili specifici per applicazione
-✓ Integrazione con GameMode e MangoHud
+✓ Integrazione con GameScope, GameMode e MangoHud
 ✓ Compatibilità con Steam, Flatpak e applicazioni native
 ✓ Leggero e con un numero minimo di dipendenze
 ────────────────────────

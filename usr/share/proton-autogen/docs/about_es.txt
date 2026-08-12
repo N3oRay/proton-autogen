@@ -16,7 +16,7 @@ DESTACADOS
 ✓ Compatibilidad con GE-Proton y Proton-CachyOS
 ✓ Fallback inteligente a Wine
 ✓ Perfiles por aplicación
-✓ Integración con GameMode y MangoHud
+✓ Integración con GameScope, GameMode y MangoHud
 ✓ Compatible con Steam, Flatpak e instalaciones nativas
 ✓ Ligero y con mínimas dependencias
 

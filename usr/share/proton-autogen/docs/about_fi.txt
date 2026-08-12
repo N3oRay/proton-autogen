@@ -13,7 +13,7 @@ OMINAISUUDET
 ✓ GE-Proton- ja Proton-CachyOS-tuki
 ✓ Älykäs Wine-vararatkaisu
 ✓ Sovelluskohtaiset profiilit
-✓ GameMode- ja MangoHud-integraatio
+✓ GameScope, GameMode- ja MangoHud-integraatio
 ✓ Steam-, Flatpak- ja natiivisovellusten yhteensopivuus
 ✓ Kevyt ja vähäriippuvainen
 ────────────────────────

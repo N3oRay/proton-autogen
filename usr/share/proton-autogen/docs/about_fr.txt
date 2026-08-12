@@ -16,7 +16,7 @@ POINTS FORTS
 ✓ Prise en charge de GE-Proton et Proton-CachyOS
 ✓ Basculement intelligent vers Wine
 ✓ Profils par application
-✓ Intégration de GameMode et MangoHud
+✓ Intégration de GameScope, GameMode et MangoHud
 ✓ Compatible Steam, Flatpak et installations natives
 ✓ Léger et avec un minimum de dépendances
 
