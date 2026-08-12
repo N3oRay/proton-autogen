@@ -24,7 +24,7 @@ ICON_MAPPING = {
     # =================================================
     # Divers
     # =================================================
-
+    "proton": "proton.svg",
     "shop": "1shop.svg",
     "new": "2renew.svg",
     "scan": "2renew.svg",
