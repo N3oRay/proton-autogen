@@ -4,24 +4,28 @@ import configparser
 
 CONFIG_PATH = Path.home() / ".config" / "proton-autogen-ux.conf"
 DEFAULT_THEME = "fluent"
-AVAILABLE_THEMES = ["fluent", "adwaita", "hellokit", "cute", "dark", "Breeze"]
+AVAILABLE_THEMES = ["fluent", "gta", "adwaita", "hellokit", "cute", "dark", "sky", "Breeze"]
 
 BACKGROUND_THEMES = {
             "fluent": "logo-pa.jpg",
+            "gta": "logo-gta.jpg",
             "adwaita": "logo-adwaita.jpg",
             "hellokit": "logo-hellokit.jpg",
             "cute": "logo-cute.jpg",
             "dark": "logo-dark.jpg",
+            "sky": "logo-sky.jpg",
             "Breeze": "logo-kde.jpg",
         }
 base = os.path.dirname(__file__)
 
 STYLE_CSS = {
             "fluent": os.path.join(base, "assets", "style.css"),
+            "gta": os.path.join(base, "assets", "style.css"),
             "adwaita": os.path.join(base, "assets", "style_adwaita.css"),
             "hellokit": os.path.join(base, "assets", "hello-kit.css"),
             "cute": os.path.join(base, "assets", "style-cute.css"),
             "dark": os.path.join(base, "assets", "style-dark.css"),
+            "sky": os.path.join(base, "assets", "style-dark.css"),
             "Breeze": os.path.join(base, "assets", "style-kde.css"),
         }
 
