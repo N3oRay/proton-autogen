@@ -14,7 +14,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      PKGVER: 3.1.3
+      PKGVER: 3.2.4
 
     container:
       image: archlinux:latest

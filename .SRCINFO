@@ -1,6 +1,6 @@
 pkgbase = proton-autogen
 	pkgdesc = Automatic Proton/Wine launcher for Windows executables
-	pkgver = 3.1.4
+	pkgver = 3.2.4
 	pkgrel = 1
 	url = https://github.com/N3oRay/proton-autogen
 	arch = any
@@ -15,7 +15,7 @@ pkgbase = proton-autogen
 	depends = python-rich
 	depends = gtk4
 	depends = gdk-pixbuf2
-	source = https://github.com/N3oRay/proton-autogen/archive/refs/tags/v3.1.4.tar.gz
-	sha256sums = 44092d6104fe7e67e3decd81d9e571df7db14eec66fe2a7417f16115f2f859e0
+	source = https://github.com/N3oRay/proton-autogen/archive/refs/tags/v3.2.4.tar.gz
+	sha256sums = 11bf97cee2975aa75da0044c175dbee749c16351b679d6913c2dadbbca368bd5
 
 pkgname = proton-autogen
