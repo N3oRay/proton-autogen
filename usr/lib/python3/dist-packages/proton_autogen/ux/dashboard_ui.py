@@ -21,7 +21,7 @@ class DashboardUIMixin:
     # UI
     # -------------------------
     def build_ui(self):
-        overlay = self._build_overlay_and_background()
+        overlay = self._build_root_overlay()
         root = self._build_root_container(overlay)
 
         self._build_header()
@@ -30,11 +30,18 @@ class DashboardUIMixin:
         self._build_search(root)
         self._build_game_list(root)
         self._build_status_bar(root)
+
+        # Le toast est ajouté EN DERNIER : dans un Gtk.Overlay, les enfants
+        # ajoutés via add_overlay() s'empilent dans leur ordre d'ajout, le
+        # dernier étant peint par-dessus les autres. En l'ajoutant après le
+        # wrapper (qui contient tout le contenu principal), on garantit que
+        # le toast reste toujours au premier plan, quoi qu'on ajoute avant lui.
+        self._build_toast(overlay)
         # themes
         self.update_background(self.get_application().current_style)
 
     # -------------------------
-    def _build_overlay_and_background(self):
+    def _build_root_overlay(self):
         # =========================
         # OVERLAY
         # =========================
@@ -52,13 +59,15 @@ class DashboardUIMixin:
         self.background.set_hexpand(True)
         self.background.set_vexpand(True)
         overlay.set_child(self.background)
+
+        return overlay
+
+    def _build_toast(self, overlay):
         # =========================
-        # TOAST OVERLAY
+        # TOAST OVERLAY (doit rester le dernier enfant ajouté à l'overlay)
         # =========================
         self.toast = ToastOverlay()
         overlay.add_overlay(self.toast)
-
-        return overlay
     # =========================
     # ROOT CONTAINER
     # =========================
