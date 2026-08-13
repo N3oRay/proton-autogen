@@ -1,0 +1,16 @@
+{
+  "favorite": "お気に入り",
+  "recent": "最近プレイしたゲーム",
+  "gamemode": "GameMode 有効",
+  "gamescope": "GameScope 有効",
+  "mangohud": "MangoHud 有効",
+  "rookie": "初心者（始めたばかり）",
+  "casual": "カジュアルゲーマー",
+  "gamer": "経験豊富なゲーマー",
+  "heavy": "やり込み勢を検出",
+  "addict": "助けを呼んで",
+  "night_owl": "最近アクティブ（夜型？）",
+  "veteran": "伝説のベテラン",
+  "_error_title": "警告",
+  "_error_message": "バッジの更新"
+}

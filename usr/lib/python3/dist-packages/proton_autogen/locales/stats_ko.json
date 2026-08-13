@@ -1,0 +1,16 @@
+{
+  "favorite": "즐겨찾기",
+  "recent": "최근 플레이한 게임",
+  "gamemode": "GameMode 활성화됨",
+  "gamescope": "GameScope 활성화됨",
+  "mangohud": "MangoHud 활성화됨",
+  "rookie": "초보자 (이제 막 시작함)",
+  "casual": "캐주얼 게이머",
+  "gamer": "숙련된 게이머",
+  "heavy": "하드코어 게이머 감지",
+  "addict": "도움이 필요해요",
+  "night_owl": "최근 활동함 (올빼미형 게이머?)",
+  "veteran": "전설적인 베테랑",
+  "_error_title": "경고",
+  "_error_message": "배지 업데이트"
+}

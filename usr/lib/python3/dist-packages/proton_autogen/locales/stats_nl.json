@@ -1,0 +1,16 @@
+{
+  "favorite": "Favoriet",
+  "recent": "Recent gespeeld",
+  "gamemode": "GameMode ingeschakeld",
+  "gamescope": "GameScope ingeschakeld",
+  "mangohud": "MangoHud ingeschakeld",
+  "rookie": "Beginner (net begonnen)",
+  "casual": "Casual gamer",
+  "gamer": "Ervaren gamer",
+  "heavy": "Tryhard gedetecteerd",
+  "addict": "Stuur hulp",
+  "night_owl": "Recent actief (nachtuil?)",
+  "veteran": "Legendarische veteraan",
+  "_error_title": "WAARSCHUWING",
+  "_error_message": "Badge-updates"
+}

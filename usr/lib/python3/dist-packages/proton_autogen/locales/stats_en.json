@@ -1,0 +1,16 @@
+{
+  "favorite": "Favorite",
+  "recent": "Recently played",
+  "gamemode": "GameMode enabled",
+  "gamescope": "GameScope enabled",
+  "mangohud": "MangoHud enabled",
+  "rookie": "Beginner (just getting started)",
+  "casual": "Casual gamer",
+  "gamer": "Experienced gamer",
+  "heavy": "Tryhard detected",
+  "addict": "Send help",
+  "night_owl": "Recently active (night owl?)",
+  "veteran": "Legendary veteran",
+  "_error_title": "WARNING",
+  "_error_message": "Badge Updates"
+}

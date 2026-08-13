@@ -1,0 +1,16 @@
+{
+  "favorite": "Favorito",
+  "recent": "Jugado recientemente",
+  "gamemode": "GameMode activado",
+  "gamescope": "GameScope activado",
+  "mangohud": "MangoHud activado",
+  "rookie": "Principiante (acaba de empezar)",
+  "casual": "Jugador ocasional",
+  "gamer": "Jugador experimentado",
+  "heavy": "Modo hardcore activado",
+  "addict": "Necesita ayuda",
+  "night_owl": "Activo recientemente (¿noctámbulo?)",
+  "veteran": "Veterano legendario",
+  "_error_title": "WARNING",
+  "_error_message": "Actualizaciones de insignias"
+}

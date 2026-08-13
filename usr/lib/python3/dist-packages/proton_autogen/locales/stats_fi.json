@@ -1,0 +1,16 @@
+{
+  "favorite": "Suosikit",
+  "recent": "Viimeksi pelatut",
+  "gamemode": "GameMode käytössä",
+  "gamescope": "GameScope käytössä",
+  "mangohud": "MangoHud käytössä",
+  "rookie": "Aloittelija (vasta aloittelemassa)",
+  "casual": "Satunnaispelaaja",
+  "gamer": "Kokenut pelaaja",
+  "heavy": "Tryhard havaittu",
+  "addict": "Lähettäkää apua",
+  "night_owl": "Äskettäin aktiivinen (yökyöpeli?)",
+  "veteran": "Legendaarinen veteraani",
+  "_error_title": "VAROITUS",
+  "_error_message": "Ansiomerkkien päivitykset"
+}

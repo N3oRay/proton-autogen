@@ -1,0 +1,16 @@
+{
+  "favorite": "Ulubione",
+  "recent": "Ostatnio grane",
+  "gamemode": "GameMode włączony",
+  "gamescope": "GameScope włączony",
+  "mangohud": "MangoHud włączony",
+  "rookie": "Nowicjusz (dopiero zaczyna)",
+  "casual": "Gracz okazjonalny",
+  "gamer": "Doświadczony gracz",
+  "heavy": "Wykryto tryharda",
+  "addict": "Potrzebna pomoc",
+  "night_owl": "Ostatnio aktywny (nocny marek?)",
+  "veteran": "Legendarny weteran",
+  "_error_title": "OSTRZEŻENIE",
+  "_error_message": "Aktualizacje odznak"
+}

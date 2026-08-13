@@ -1,0 +1,16 @@
+{
+  "favorite": "Favorit",
+  "recent": "Kürzlich gespielt",
+  "gamemode": "GameMode aktiviert",
+  "gamescope": "GameScope aktiviert",
+  "mangohud": "MangoHud aktiviert",
+  "rookie": "Anfänger (gerade erst gestartet)",
+  "casual": "Gelegenheitsspieler",
+  "gamer": "Erfahrener Spieler",
+  "heavy": "Tryhard erkannt",
+  "addict": "Bitte Hilfe senden",
+  "night_owl": "Kürzlich aktiv (Nachteule?)",
+  "veteran": "Legendärer Veteran",
+  "_error_title": "WARNUNG",
+  "_error_message": "Aktualisierung der Benachrichtigungs-Badges"
+}

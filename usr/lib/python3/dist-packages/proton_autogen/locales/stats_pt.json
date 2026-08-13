@@ -1,0 +1,16 @@
+{
+  "favorite": "Favorito",
+  "recent": "Jogado recentemente",
+  "gamemode": "GameMode ativado",
+  "gamescope": "GameScope ativado",
+  "mangohud": "MangoHud ativado",
+  "rookie": "Iniciante (começando devagar)",
+  "casual": "Jogador casual",
+  "gamer": "Jogador experiente",
+  "heavy": "Tryhard detectado",
+  "addict": "Mandem ajuda",
+  "night_owl": "Ativo recentemente (coruja da noite?)",
+  "veteran": "Veterano lendário",
+  "_error_title": "WARNING",
+  "_error_message": "Atualização dos emblemas"
+}

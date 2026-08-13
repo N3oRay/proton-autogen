@@ -1,0 +1,16 @@
+{
+  "favorite": "收藏",
+  "recent": "最近游玩",
+  "gamemode": "已启用 GameMode",
+  "gamescope": "已启用 GameScope",
+  "mangohud": "已启用 MangoHud",
+  "rookie": "新手（刚刚开始）",
+  "casual": "休闲玩家",
+  "gamer": "经验丰富的玩家",
+  "heavy": "硬核玩家",
+  "addict": "需要救援",
+  "night_owl": "最近活跃（夜猫子？）",
+  "veteran": "传奇老玩家",
+  "_error_title": "WARNING",
+  "_error_message": "徽章更新"
+}

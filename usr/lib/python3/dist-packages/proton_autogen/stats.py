@@ -1,5 +1,8 @@
 #stats.py
 
+import os
+import json
+
 from proton_autogen.utils.logger import StructuredLogger
 from datetime import datetime, timedelta
 
@@ -225,7 +228,21 @@ BADGE_TYPE_GAME = [
 ]
 
 
-BADGE_DEFINITIONS_FR = [
+# ------------------------------------------
+# BADGES JOUEUR (traduits)
+#
+# Une seule définition canonique par type — plus de duplication d'un bloc
+# BADGE_DEFINITIONS_XX entier par langue. label/css/condition sont
+# strictement identiques quelle que soit la langue (vérifié à l'extraction) ;
+# seul le texte affiché change, et il est chargé à la demande depuis
+# locales/stats_<code>.json (voir plus bas).
+#
+# "time" est un cas particulier : son texte est calculé dynamiquement
+# (format_playtime) et n'a jamais été traduit — il garde donc son lambda
+# "text" ici plutôt que de passer par les fichiers de traduction.
+# ------------------------------------------
+
+BADGE_PLAYER_RULES = [
     # -------------------------
     # CLASSIQUES
     # -------------------------
@@ -234,21 +251,19 @@ BADGE_DEFINITIONS_FR = [
         "label": "⭐",
         "css": "favorite",
         "condition": lambda g: g.get("favorite"),
-        "text": lambda g: "Favori"
     },
     {
         "type": "recent",
         "label": "🔥",
         "css": "favorite",
         "condition": lambda g: is_recent_launch(g.get("playtime", {}), 7),
-        "text": lambda g: "Récemment joué"
     },
     {
         "type": "time",
         "label": "⏱",
         "css": "favorite",
         "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 3600,
-        "text": lambda g: format_playtime(g.get("playtime", {}).get("seconds", 0))
+        "text": lambda g: format_playtime(g.get("playtime", {}).get("seconds", 0)),
     },
 
     # -------------------------
@@ -259,822 +274,151 @@ BADGE_DEFINITIONS_FR = [
         "label": "🚀",
         "css": "feature",
         "condition": lambda g: g.get("features", {}).get("gamemode", False),
-        "text": lambda g: "GameMode activé"
     },
     {
         "type": "gamescope",
         "label": "🖥️",
         "css": "feature",
         "condition": lambda g: g.get("features", {}).get("gamescope", False),
-        "text": lambda g: "GameScope activé"
     },
     {
         "type": "mangohud",
         "label": "📊",
         "css": "feature",
         "condition": lambda g: g.get("features", {}).get("mangohud", False),
-        "text": lambda g: "MangoHud activé"
     },
-
-
 
     # -------------------------
     # HUMOUR / RANGS JOUEUR
     # -------------------------
-
-    # 👶 Débutant total
     {
         "type": "rookie",
         "label": "🐣",
         "css": "rookie",
         "condition": lambda g: 0 < g.get("playtime", {}).get("seconds", 0) < 3600,
-        "text": lambda g: "Débutant (on commence doucement)"
     },
-
-    # 🧑 joueur occasionnel
     {
         "type": "casual",
         "label": "🙂",
         "css": "casual",
         "condition": lambda g: 3600 <= g.get("playtime", {}).get("seconds", 0) < 10 * 3600,
-        "text": lambda g: "Casual gamer"
     },
-
-    # 🎮 vrai joueur
     {
         "type": "gamer",
         "label": "🎮",
         "css": "gamer",
         "condition": lambda g: 10 * 3600 <= g.get("playtime", {}).get("seconds", 0) < 50 * 3600,
-        "text": lambda g: "Gamer confirmé"
     },
-
-    # 🏆 tryhard
     {
         "type": "heavy",
         "label": "🏆",
         "css": "heavy",
         "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 50 * 3600,
-        "text": lambda g: "Tryhard détecté"
     },
-
-    # 💀 addiction douce (humour)
     {
         "type": "addict",
         "label": "💀",
         "css": "addict",
         "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 150 * 3600,
-        "text": lambda g: "Send help"
     },
-
-    # 🌙 session récente
     {
         "type": "night_owl",
         "label": "🌙",
         "css": "night_owl",
         "condition": lambda g: is_recent_launch(g.get("playtime", {}), 1),
-        "text": lambda g: "Actif récemment (nocturne ?)"
     },
-
-    # 💾 old school / nostalgie
     {
         "type": "veteran",
         "label": "🧓",
         "css": "veteran",
         "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 300 * 3600,
-        "text": lambda g: "Vétéran légendaire"
     },
 ]
 
-BADGE_DEFINITIONS_PT = [
-    # -------------------------
-    # CLÁSSICOS
-    # -------------------------
-    {
-        "type": "favorite",
-        "label": "⭐",
-        "css": "favorite",
-        "condition": lambda g: g.get("favorite"),
-        "text": lambda g: "Favorito"
-    },
-    {
-        "type": "recent",
-        "label": "🔥",
-        "css": "favorite",
-        "condition": lambda g: is_recent_launch(g.get("playtime", {}), 7),
-        "text": lambda g: "Jogado recentemente"
-    },
-    {
-        "type": "time",
-        "label": "⏱",
-        "css": "favorite",
-        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 3600,
-        "text": lambda g: format_playtime(g.get("playtime", {}).get("seconds", 0))
-    },
-
-    # -------------------------
-    # MODO DE JOGO
-    # -------------------------
-    {
-        "type": "gamemode",
-        "label": "🚀",
-        "css": "feature",
-        "condition": lambda g: g.get("features", {}).get("gamemode", False),
-        "text": lambda g: "GameMode ativado"
-    },
-    {
-        "type": "gamescope",
-        "label": "🖥️",
-        "css": "feature",
-        "condition": lambda g: g.get("features", {}).get("gamescope", False),
-        "text": lambda g: "GameScope ativado"
-    },
-    {
-        "type": "mangohud",
-        "label": "📊",
-        "css": "feature",
-        "condition": lambda g: g.get("features", {}).get("mangohud", False),
-        "text": lambda g: "MangoHud ativado"
-    },
-
-    # -------------------------
-    # HUMOR / NÍVEIS DO JOGADOR
-    # -------------------------
-
-    # 👶 Iniciante
-    {
-        "type": "rookie",
-        "label": "🐣",
-        "css": "rookie",
-        "condition": lambda g: 0 < g.get("playtime", {}).get("seconds", 0) < 3600,
-        "text": lambda g: "Iniciante (começando devagar)"
-    },
-
-    # 🧑 Jogador casual
-    {
-        "type": "casual",
-        "label": "🙂",
-        "css": "casual",
-        "condition": lambda g: 3600 <= g.get("playtime", {}).get("seconds", 0) < 10 * 3600,
-        "text": lambda g: "Jogador casual"
-    },
-
-    # 🎮 Jogador experiente
-    {
-        "type": "gamer",
-        "label": "🎮",
-        "css": "gamer",
-        "condition": lambda g: 10 * 3600 <= g.get("playtime", {}).get("seconds", 0) < 50 * 3600,
-        "text": lambda g: "Jogador experiente"
-    },
-
-    # 🏆 Tryhard
-    {
-        "type": "heavy",
-        "label": "🏆",
-        "css": "heavy",
-        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 50 * 3600,
-        "text": lambda g: "Tryhard detectado"
-    },
-
-    # 💀 Vraiment accro (humour)
-    {
-        "type": "addict",
-        "label": "💀",
-        "css": "addict",
-        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 150 * 3600,
-        "text": lambda g: "Mandem ajuda"
-    },
-
-    # 🌙 Session récente
-    {
-        "type": "night_owl",
-        "label": "🌙",
-        "css": "night_owl",
-        "condition": lambda g: is_recent_launch(g.get("playtime", {}), 1),
-        "text": lambda g: "Ativo recentemente (coruja da noite?)"
-    },
-
-    # 💾 Vétéran
-    {
-        "type": "veteran",
-        "label": "🧓",
-        "css": "veteran",
-        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 300 * 3600,
-        "text": lambda g: "Veterano lendário"
-    },
-]
-
-BADGE_DEFINITIONS_UK = [
-    # -------------------------
-    # CLASSIC
-    # -------------------------
-    {
-        "type": "favorite",
-        "label": "⭐",
-        "css": "favorite",
-        "condition": lambda g: g.get("favorite"),
-        "text": lambda g: "Улюблене"
-    },
-    {
-        "type": "recent",
-        "label": "🔥",
-        "css": "favorite",
-        "condition": lambda g: is_recent_launch(g.get("playtime", {}), 7),
-        "text": lambda g: "Нещодавно зіграно"
-    },
-    {
-        "type": "time",
-        "label": "⏱",
-        "css": "favorite",
-        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 3600,
-        "text": lambda g: format_playtime(g.get("playtime", {}).get("seconds", 0))
-    },
-
-    # -------------------------
-    # PLAYER MODE
-    # -------------------------
-    {
-        "type": "gamemode",
-        "label": "🚀",
-        "css": "feature",
-        "condition": lambda g: g.get("features", {}).get("gamemode", False),
-        "text": lambda g: "GameMode увімкнено"
-    },
-    {
-        "type": "gamescope",
-        "label": "🖥️",
-        "css": "feature",
-        "condition": lambda g: g.get("features", {}).get("gamescope", False),
-        "text": lambda g: "GameScope увімкнено"
-    },
-    {
-        "type": "mangohud",
-        "label": "📊",
-        "css": "feature",
-        "condition": lambda g: g.get("features", {}).get("mangohud", False),
-        "text": lambda g: "MangoHud увімкнено"
-    },
-
-    # -------------------------
-    # PLAYER RANKS / HUMOR
-    # -------------------------
-
-    {
-        "type": "rookie",
-        "label": "🐣",
-        "css": "rookie",
-        "condition": lambda g: 0 < g.get("playtime", {}).get("seconds", 0) < 3600,
-        "text": lambda g: "Початківець (тільки починає)"
-    },
-
-    {
-        "type": "casual",
-        "label": "🙂",
-        "css": "casual",
-        "condition": lambda g: 3600 <= g.get("playtime", {}).get("seconds", 0) < 10 * 3600,
-        "text": lambda g: "Казуальний гравець"
-    },
-
-    {
-        "type": "gamer",
-        "label": "🎮",
-        "css": "gamer",
-        "condition": lambda g: 10 * 3600 <= g.get("playtime", {}).get("seconds", 0) < 50 * 3600,
-        "text": lambda g: "Досвідчений гравець"
-    },
-
-    {
-        "type": "heavy",
-        "label": "🏆",
-        "css": "heavy",
-        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 50 * 3600,
-        "text": lambda g: "Виявлено хардкорного гравця"
-    },
-
-    {
-        "type": "addict",
-        "label": "💀",
-        "css": "addict",
-        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 150 * 3600,
-        "text": lambda g: "Потрібна допомога 😅"
-    },
-
-    {
-        "type": "night_owl",
-        "label": "🌙",
-        "css": "night_owl",
-        "condition": lambda g: is_recent_launch(g.get("playtime", {}), 1),
-        "text": lambda g: "Нещодавно активний (нічний гравець?)"
-    },
-
-    {
-        "type": "veteran",
-        "label": "🧓",
-        "css": "veteran",
-        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 300 * 3600,
-        "text": lambda g: "Легендарний ветеран"
-    },
-]
+_ALL_BADGE_RULES = BADGE_TYPE_PROFILE + BADGE_TYPE_GAME + BADGE_PLAYER_RULES
 
 
-BADGE_DEFINITIONS_EN = [
-    # -------------------------
-    # CLASSIC
-    # -------------------------
-    {
-        "type": "favorite",
-        "label": "⭐",
-        "css": "favorite",
-        "condition": lambda g: g.get("favorite"),
-        "text": lambda g: "Favorite"
-    },
-    {
-        "type": "recent",
-        "label": "🔥",
-        "css": "favorite",
-        "condition": lambda g: is_recent_launch(g.get("playtime", {}), 7),
-        "text": lambda g: "Recently played"
-    },
-    {
-        "type": "time",
-        "label": "⏱",
-        "css": "favorite",
-        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 3600,
-        "text": lambda g: format_playtime(g.get("playtime", {}).get("seconds", 0))
-    },
+# ------------------------------------------------------------------------------------
+# TEXTES DE BADGES : chargement paresseux
+#
+# Même stratégie que i18n.py / desc.py : un fichier locales/stats_<code>.json
+# par langue, chargé et mis en cache uniquement à la première utilisation.
+# Préfixe "stats_" pour cohabiter dans locales/ avec les fichiers de i18n.py
+# (fr.json, en.json...) et de desc.py (desc_fr.json...).
+# ------------------------------------------------------------------------------------
 
-    # -------------------------
-    # PLAYER MODE
-    # -------------------------
-    {
-        "type": "gamemode",
-        "label": "🚀",
-        "css": "feature",
-        "condition": lambda g: g.get("features", {}).get("gamemode", False),
-        "text": lambda g: "GameMode enabled"
-    },
-    {
-        "type": "gamescope",
-        "label": "🖥️",
-        "css": "feature",
-        "condition": lambda g: g.get("features", {}).get("gamescope", False),
-        "text": lambda g: "GameScope enabled"
-    },
-    {
-        "type": "mangohud",
-        "label": "📊",
-        "css": "feature",
-        "condition": lambda g: g.get("features", {}).get("mangohud", False),
-        "text": lambda g: "MangoHud enabled"
-    },
+_LOCALES_DIR = os.path.join(os.path.dirname(__file__), "locales")
+_STATS_PREFIX = "stats_"
 
-    # -------------------------
-    # PLAYER RANKS / HUMOR
-    # -------------------------
-
-    # 👶 Beginner
-    {
-        "type": "rookie",
-        "label": "🐣",
-        "css": "rookie",
-        "condition": lambda g: 0 < g.get("playtime", {}).get("seconds", 0) < 3600,
-        "text": lambda g: "Beginner (just getting started)"
-    },
-
-    # 🧑 Casual player
-    {
-        "type": "casual",
-        "label": "🙂",
-        "css": "casual",
-        "condition": lambda g: 3600 <= g.get("playtime", {}).get("seconds", 0) < 10 * 3600,
-        "text": lambda g: "Casual gamer"
-    },
-
-    # 🎮 Regular gamer
-    {
-        "type": "gamer",
-        "label": "🎮",
-        "css": "gamer",
-        "condition": lambda g: 10 * 3600 <= g.get("playtime", {}).get("seconds", 0) < 50 * 3600,
-        "text": lambda g: "Experienced gamer"
-    },
-
-    # 🏆 Hardcore
-    {
-        "type": "heavy",
-        "label": "🏆",
-        "css": "heavy",
-        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 50 * 3600,
-        "text": lambda g: "Tryhard detected"
-    },
-
-    # 💀 Addiction joke
-    {
-        "type": "addict",
-        "label": "💀",
-        "css": "addict",
-        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 150 * 3600,
-        "text": lambda g: "Send help"
-    },
-
-    # 🌙 Night activity
-    {
-        "type": "night_owl",
-        "label": "🌙",
-        "css": "night_owl",
-        "condition": lambda g: is_recent_launch(g.get("playtime", {}), 1),
-        "text": lambda g: "Recently active (night owl?)"
-    },
-
-    # 🧓 Veteran
-    {
-        "type": "veteran",
-        "label": "🧓",
-        "css": "veteran",
-        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 300 * 3600,
-        "text": lambda g: "Legendary veteran"
-    },
-]
-
-BADGE_DEFINITIONS_DE = [
-    # -------------------------
-    # KLASSIK
-    # -------------------------
-    {
-        "type": "favorite",
-        "label": "⭐",
-        "css": "favorite",
-        "condition": lambda g: g.get("favorite"),
-        "text": lambda g: "Favorit"
-    },
-    {
-        "type": "recent",
-        "label": "🔥",
-        "css": "favorite",
-        "condition": lambda g: is_recent_launch(g.get("playtime", {}), 7),
-        "text": lambda g: "Kürzlich gespielt"
-    },
-    {
-        "type": "time",
-        "label": "⏱",
-        "css": "favorite",
-        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 3600,
-        "text": lambda g: format_playtime(g.get("playtime", {}).get("seconds", 0))
-    },
-
-    # -------------------------
-    # SPIELERMODUS
-    # -------------------------
-    {
-        "type": "gamemode",
-        "label": "🚀",
-        "css": "feature",
-        "condition": lambda g: g.get("features", {}).get("gamemode", False),
-        "text": lambda g: "GameMode aktiviert"
-    },
-    {
-        "type": "gamescope",
-        "label": "🖥️",
-        "css": "feature",
-        "condition": lambda g: g.get("features", {}).get("gamescope", False),
-        "text": lambda g: "GameScope aktiviert"
-    },
-    {
-        "type": "mangohud",
-        "label": "📊",
-        "css": "feature",
-        "condition": lambda g: g.get("features", {}).get("mangohud", False),
-        "text": lambda g: "MangoHud aktiviert"
-    },
-
-    # -------------------------
-    # SPIELER-RANKS / HUMOR
-    # -------------------------
-
-    # 👶 Anfänger
-    {
-        "type": "rookie",
-        "label": "🐣",
-        "css": "rookie",
-        "condition": lambda g: 0 < g.get("playtime", {}).get("seconds", 0) < 3600,
-        "text": lambda g: "Anfänger (gerade erst gestartet)"
-    },
-
-    # 🧑 Gelegenheitsspieler
-    {
-        "type": "casual",
-        "label": "🙂",
-        "css": "casual",
-        "condition": lambda g: 3600 <= g.get("playtime", {}).get("seconds", 0) < 10 * 3600,
-        "text": lambda g: "Gelegenheitsspieler"
-    },
-
-    # 🎮 Erfahrener Spieler
-    {
-        "type": "gamer",
-        "label": "🎮",
-        "css": "gamer",
-        "condition": lambda g: 10 * 3600 <= g.get("playtime", {}).get("seconds", 0) < 50 * 3600,
-        "text": lambda g: "Erfahrener Spieler"
-    },
-
-    # 🏆 Hardcore
-    {
-        "type": "heavy",
-        "label": "🏆",
-        "css": "heavy",
-        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 50 * 3600,
-        "text": lambda g: "Tryhard erkannt"
-    },
-
-    # 💀 Sucht-Witz
-    {
-        "type": "addict",
-        "label": "💀",
-        "css": "addict",
-        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 150 * 3600,
-        "text": lambda g: "Bitte Hilfe senden"
-    },
-
-    # 🌙 Nachtaktiv
-    {
-        "type": "night_owl",
-        "label": "🌙",
-        "css": "night_owl",
-        "condition": lambda g: is_recent_launch(g.get("playtime", {}), 1),
-        "text": lambda g: "Kürzlich aktiv (Nachteule?)"
-    },
-
-    # 🧓 Veteran
-    {
-        "type": "veteran",
-        "label": "🧓",
-        "css": "veteran",
-        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 300 * 3600,
-        "text": lambda g: "Legendärer Veteran"
-    },
-]
-
-BADGE_DEFINITIONS_ES = [
-    # -------------------------
-    # CLÁSICOS
-    # -------------------------
-    {
-        "type": "favorite",
-        "label": "⭐",
-        "css": "favorite",
-        "condition": lambda g: g.get("favorite"),
-        "text": lambda g: "Favorito"
-    },
-    {
-        "type": "recent",
-        "label": "🔥",
-        "css": "favorite",
-        "condition": lambda g: is_recent_launch(g.get("playtime", {}), 7),
-        "text": lambda g: "Jugado recientemente"
-    },
-    {
-        "type": "time",
-        "label": "⏱",
-        "css": "favorite",
-        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 3600,
-        "text": lambda g: format_playtime(g.get("playtime", {}).get("seconds", 0))
-    },
-
-    # -------------------------
-    # MODO JUGADOR
-    # -------------------------
-    {
-        "type": "gamemode",
-        "label": "🚀",
-        "css": "feature",
-        "condition": lambda g: g.get("features", {}).get("gamemode", False),
-        "text": lambda g: "GameMode activado"
-    },
-    {
-        "type": "gamescope",
-        "label": "🖥️",
-        "css": "feature",
-        "condition": lambda g: g.get("features", {}).get("gamescope", False),
-        "text": lambda g: "GameScope activado"
-    },
-    {
-        "type": "mangohud",
-        "label": "📊",
-        "css": "feature",
-        "condition": lambda g: g.get("features", {}).get("mangohud", False),
-        "text": lambda g: "MangoHud activado"
-    },
-
-    # -------------------------
-    # RANGOS / HUMOR
-    # -------------------------
-
-    # 👶 Principiante
-    {
-        "type": "rookie",
-        "label": "🐣",
-        "css": "rookie",
-        "condition": lambda g: 0 < g.get("playtime", {}).get("seconds", 0) < 3600,
-        "text": lambda g: "Principiante (acaba de empezar)"
-    },
-
-    # 🧑 Casual
-    {
-        "type": "casual",
-        "label": "🙂",
-        "css": "casual",
-        "condition": lambda g: 3600 <= g.get("playtime", {}).get("seconds", 0) < 10 * 3600,
-        "text": lambda g: "Jugador ocasional"
-    },
-
-    # 🎮 Experimentado
-    {
-        "type": "gamer",
-        "label": "🎮",
-        "css": "gamer",
-        "condition": lambda g: 10 * 3600 <= g.get("playtime", {}).get("seconds", 0) < 50 * 3600,
-        "text": lambda g: "Jugador experimentado"
-    },
-
-    # 🏆 Hardcore
-    {
-        "type": "heavy",
-        "label": "🏆",
-        "css": "heavy",
-        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 50 * 3600,
-        "text": lambda g: "Modo hardcore activado"
-    },
-
-    # 💀 Broma
-    {
-        "type": "addict",
-        "label": "💀",
-        "css": "addict",
-        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 150 * 3600,
-        "text": lambda g: "Necesita ayuda"
-    },
-
-    # 🌙 Noctámbulo
-    {
-        "type": "night_owl",
-        "label": "🌙",
-        "css": "night_owl",
-        "condition": lambda g: is_recent_launch(g.get("playtime", {}), 1),
-        "text": lambda g: "Activo recientemente (¿noctámbulo?)"
-    },
-
-    # 🧓 Veterano
-    {
-        "type": "veteran",
-        "label": "🧓",
-        "css": "veteran",
-        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 300 * 3600,
-        "text": lambda g: "Veterano legendario"
-    },
-]
-
-BADGE_DEFINITIONS_ZH = [
-    # -------------------------
-    # 经典
-    # -------------------------
-    {
-        "type": "favorite",
-        "label": "⭐",
-        "css": "favorite",
-        "condition": lambda g: g.get("favorite"),
-        "text": lambda g: "收藏"
-    },
-    {
-        "type": "recent",
-        "label": "🔥",
-        "css": "favorite",
-        "condition": lambda g: is_recent_launch(g.get("playtime", {}), 7),
-        "text": lambda g: "最近游玩"
-    },
-    {
-        "type": "time",
-        "label": "⏱",
-        "css": "favorite",
-        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 3600,
-        "text": lambda g: format_playtime(g.get("playtime", {}).get("seconds", 0))
-    },
-
-    # -------------------------
-    # 玩家模式
-    # -------------------------
-    {
-        "type": "gamemode",
-        "label": "🚀",
-        "css": "feature",
-        "condition": lambda g: g.get("features", {}).get("gamemode", False),
-        "text": lambda g: "已启用 GameMode"
-    },
-    {
-        "type": "gamescope",
-        "label": "🖥️",
-        "css": "feature",
-        "condition": lambda g: g.get("features", {}).get("gamescope", False),
-        "text": lambda g: "已启用 GameScope"
-    },
-    {
-        "type": "mangohud",
-        "label": "📊",
-        "css": "feature",
-        "condition": lambda g: g.get("features", {}).get("mangohud", False),
-        "text": lambda g: "已启用 MangoHud"
-    },
-
-    # -------------------------
-    # 玩家等级 / 幽默
-    # -------------------------
-
-    # 👶 新手
-    {
-        "type": "rookie",
-        "label": "🐣",
-        "css": "rookie",
-        "condition": lambda g: 0 < g.get("playtime", {}).get("seconds", 0) < 3600,
-        "text": lambda g: "新手（刚刚开始）"
-    },
-
-    # 🧑 休闲玩家
-    {
-        "type": "casual",
-        "label": "🙂",
-        "css": "casual",
-        "condition": lambda g: 3600 <= g.get("playtime", {}).get("seconds", 0) < 10 * 3600,
-        "text": lambda g: "休闲玩家"
-    },
-
-    # 🎮 资深玩家
-    {
-        "type": "gamer",
-        "label": "🎮",
-        "css": "gamer",
-        "condition": lambda g: 10 * 3600 <= g.get("playtime", {}).get("seconds", 0) < 50 * 3600,
-        "text": lambda g: "经验丰富的玩家"
-    },
-
-    # 🏆 硬核玩家
-    {
-        "type": "heavy",
-        "label": "🏆",
-        "css": "heavy",
-        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 50 * 3600,
-        "text": lambda g: "硬核玩家"
-    },
-
-    # 💀 上瘾（玩笑）
-    {
-        "type": "addict",
-        "label": "💀",
-        "css": "addict",
-        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 150 * 3600,
-        "text": lambda g: "需要救援"
-    },
-
-    # 🌙 夜猫子
-    {
-        "type": "night_owl",
-        "label": "🌙",
-        "css": "night_owl",
-        "condition": lambda g: is_recent_launch(g.get("playtime", {}), 1),
-        "text": lambda g: "最近活跃（夜猫子？）"
-    },
-
-    # 🧓 老玩家
-    {
-        "type": "veteran",
-        "label": "🧓",
-        "css": "veteran",
-        "condition": lambda g: g.get("playtime", {}).get("seconds", 0) >= 300 * 3600,
-        "text": lambda g: "传奇老玩家"
-    },
-]
+# Cache des langues déjà chargées : {code: {type_or_key: text}}
+_STATS_CACHE: dict[str, dict] = {}
 
 
+def _discover_available_stats_langs() -> set[str]:
+    try:
+        return {
+            fname[len(_STATS_PREFIX):-5]  # retire "stats_" et ".json"
+            for fname in os.listdir(_LOCALES_DIR)
+            if fname.startswith(_STATS_PREFIX) and fname.endswith(".json")
+        }
+    except OSError:
+        return {"en"}
 
-BADGE_DEFINITIONS = {
-    "fr": BADGE_TYPE_PROFILE + BADGE_TYPE_GAME + BADGE_DEFINITIONS_FR,
-    "pt": BADGE_TYPE_PROFILE + BADGE_TYPE_GAME + BADGE_DEFINITIONS_PT,
-    "en": BADGE_TYPE_PROFILE + BADGE_TYPE_GAME + BADGE_DEFINITIONS_EN,
-    "zh": BADGE_TYPE_PROFILE + BADGE_TYPE_GAME + BADGE_DEFINITIONS_ZH,
-    "uk": BADGE_TYPE_PROFILE + BADGE_TYPE_GAME + BADGE_DEFINITIONS_UK,
-    "de": BADGE_TYPE_PROFILE + BADGE_TYPE_GAME + BADGE_DEFINITIONS_DE,
-    "es": BADGE_TYPE_PROFILE + BADGE_TYPE_GAME + BADGE_DEFINITIONS_ES,
-}
+
+AVAILABLE_STATS_LANGS = _discover_available_stats_langs()
+
+
+def _load_stats_file(code: str) -> dict:
+    path = os.path.join(_LOCALES_DIR, f"{_STATS_PREFIX}{code}.json")
+    with open(path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def _get_stats_table(code: str) -> dict:
+    """Retourne la table de textes de badges d'une langue, en la chargeant et
+    la mettant en cache au besoin."""
+    if code in _STATS_CACHE:
+        return _STATS_CACHE[code]
+
+    try:
+        table = _load_stats_file(code)
+    except (OSError, json.JSONDecodeError) as e:
+        print(f"[stats] WARNING: échec du chargement de '{code}' ({e}), repli sur 'en'")
+        if code == "en":
+            table = {}
+        else:
+            return _get_stats_table("en")
+
+    _STATS_CACHE[code] = table
+    return table
+
+
+def _get_badge_text(lang: str, badge_type: str) -> str:
+    """Texte traduit d'un badge, avec repli par clé sur 'en' si absent
+    (ex: 'hi' n'a pas de textes de badges traduits -> repli sur 'en' pour
+    chaque type, comme avant ce refacto)."""
+    table = _get_stats_table(lang) if lang in AVAILABLE_STATS_LANGS else {}
+    text = table.get(badge_type)
+    if text is None:
+        text = _get_stats_table("en").get(badge_type, badge_type)
+    return text
+
+
+def _get_badge_error_strings(lang: str) -> tuple:
+    """Titre/message de la notification d'erreur d'actualisation des badges,
+    avec repli sur 'en'."""
+    table = _get_stats_table(lang) if lang in AVAILABLE_STATS_LANGS else {}
+    en_table = _get_stats_table("en")
+    title = table.get("_error_title", en_table.get("_error_title", "WARNING"))
+    message = table.get("_error_message", en_table.get("_error_message", "Badge Updates"))
+    return title, message
 
 
 def get_game_badges(game: dict, lang: str = "en"):
 
-
     badges = []
 
-    definitions = BADGE_DEFINITIONS.get(lang, BADGE_DEFINITIONS_EN)
-
-    for badge in definitions:
+    for badge in _ALL_BADGE_RULES:
         try:
             if badge["condition"](game):
                 b = {
@@ -1086,29 +430,17 @@ def get_game_badges(game: dict, lang: str = "en"):
                 b["css"] = badge.get("css", badge["type"])
 
                 if "text" in badge:
+                    # Cas non traduits (profil/plateforme) ou dynamiques (time)
                     val = badge["text"]
                     b["text"] = val(game) if callable(val) else val
+                else:
+                    b["text"] = _get_badge_text(lang, badge["type"])
 
                 badges.append(b)
 
         except Exception as e:
-
-            if lang == "en":
-                notifications.notify("error", "WARNING", "Badge Updates")
-            elif lang == "fr":
-                notifications.notify("error", "WARNING", "Actualisation des Badges")
-            elif lang == "pt":
-                notifications.notify("error", "WARNING", "Atualização dos emblemas")
-            elif lang == "uk":
-                notifications.notify("error", "УВАГА", "Оновлення значків")
-            elif lang == "de":
-                notifications.notify("error", "WARNUNG", "Aktualisierung der Benachrichtigungs-Badges")
-            elif lang == "zh":
-                notifications.notify("error", "WARNING", "徽章更新")
-            elif lang == "hi":
-                notifications.notify("error", "चेतावनी", "बैज अपडेट")
-            elif lang == "es":
-                notifications.notify("error", "WARNING", "Actualizaciones de insignias")
+            title, message = _get_badge_error_strings(lang)
+            notifications.notify("error", title, message)
             logger.error(f"[badges] error in {badge.get('type')}: {e}")
 
     return badges
@@ -1143,14 +475,9 @@ def format_hours(seconds: int):
 
 
 def is_recent(last_launch, days=3):
-    if not last_launch:
+    dt = _parse_date(last_launch)
+    if not dt:
         return False
-
-    try:
-        dt = datetime.fromisoformat(last_launch)
-    except Exception:
-        return False
-
     return datetime.now() - dt <= timedelta(days=days)
 
 
