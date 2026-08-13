@@ -1,4 +1,16 @@
 {
+  "favorite": "पसंदीदा",
+  "recent": "हाल ही में खेले गए",
+  "gamemode": "GameMode सक्षम",
+  "gamescope": "GameScope सक्षम",
+  "mangohud": "MangoHud सक्षम",
+  "rookie": "शुरुआती (अभी शुरुआत की है)",
+  "casual": "कैज़ुअल गेमर",
+  "gamer": "अनुभवी गेमर",
+  "heavy": "Tryhard का पता चला",
+  "addict": "मदद भेजें",
+  "night_owl": "हाल ही में सक्रिय (रात में खेलने वाले?)",
+  "veteran": "महान अनुभवी खिलाड़ी",
   "_error_title": "चेतावनी",
   "_error_message": "बैज अपडेट"
 }
