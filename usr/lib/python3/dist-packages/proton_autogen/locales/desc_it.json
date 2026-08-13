@@ -1,0 +1,14 @@
+{
+  "profile": "Definisce il profilo di esecuzione e le ottimizzazioni applicate al gioco (DX11, DX12, modalità di compatibilità, giochi legacy o configurazioni specifiche).",
+  "proton": "Versione di Proton utilizzata per eseguire il gioco su Linux. Versioni diverse possono migliorare la compatibilità, le prestazioni o risolvere problemi specifici.",
+  "show_performance": "Mostra una sovrapposizione (overlay) all'interno del gioco con FPS, utilizzo della CPU, utilizzo della GPU, consumo di memoria e altre utili statistiche sulle prestazioni.",
+  "optimize_performance": "Ottimizza automaticamente le prestazioni del sistema durante l'esecuzione del gioco, modificando le priorità e le impostazioni di sistema.",
+  "mangohud": "MangoHud è un overlay all'interno del gioco che mostra in tempo reale FPS, utilizzo di CPU/GPU, temperature, utilizzo della memoria e altre statistiche sulle prestazioni.",
+  "gamemode": "GameMode è un servizio di sistema che ottimizza temporaneamente il computer durante l'esecuzione di un gioco per migliorare le prestazioni e ridurre gli scatti.",
+  "gamescope": "Gamescope è un micro-compositore utilizzato per eseguire i giochi in un ambiente grafico controllato. Consente di gestire la risoluzione, la modalità a schermo intero e la frequenza di aggiornamento, e può migliorare la compatibilità con alcuni giochi o configurazioni grafiche.",
+  "gpu": "Definisce la modalità di ottimizzazione della GPU utilizzata dal gioco: auto (rilevamento automatico), safe (massima compatibilità), balanced (impostazioni bilanciate) o performance (FPS massimi).",
+  "prefix": "Un ambiente separato contenente la configurazione di Windows, le librerie installate e le applicazioni utilizzate da questo programma. Ogni ambiente è isolato per evitare conflitti tra i giochi.",
+  "prefix_short": "Crea un ambiente separato per questa applicazione.",
+  "performance_overlay": "Mostra le prestazioni (FPS, CPU, GPU)",
+  "system_optimization": "Ottimizza le prestazioni del sistema"
+}

@@ -1,0 +1,14 @@
+{
+  "profile": "定义游戏的运行模式和优化设置（DX11、DX12、兼容模式、旧游戏或特定配置）。",
+  "proton": "用于在 Linux 上运行游戏的 Proton 版本。不同版本可以提高兼容性、性能或修复错误。",
+  "show_performance": "在游戏中显示 FPS、CPU 使用率、GPU 使用率、内存等性能信息的叠加层。",
+  "optimize_performance": "在游戏运行时自动优化系统性能，调整优先级和系统参数。",
+  "mangohud": "MangoHud 是一个实时显示 FPS、CPU/GPU 使用率、温度、内存等信息的叠加层。",
+  "gamemode": "GameMode 是一个系统服务，在游戏运行期间临时优化系统性能以减少卡顿并提升性能。",
+  "gamescope": "Gamescope 是一个用于在受控图形环境中运行游戏的微型合成器。 它可以管理分辨率、全屏模式和刷新率，并提高某些游戏或图形配置的兼容性。",
+  "gpu": "定义游戏的 GPU 优化模式：auto（自动检测）、safe（最大兼容性）、balanced（平衡模式）或 performance（最高性能/FPS）。",
+  "prefix": "一个独立的环境，包含 Windows 配置、库和应用程序。每个环境彼此隔离以避免游戏之间的冲突。",
+  "prefix_short": "为此应用创建一个独立环境。",
+  "performance_overlay": "显示性能信息（FPS、CPU、GPU）",
+  "system_optimization": "优化系统性能"
+}

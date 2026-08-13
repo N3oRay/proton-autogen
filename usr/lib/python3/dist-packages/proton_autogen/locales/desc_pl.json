@@ -1,0 +1,14 @@
+{
+  "profile": "Definiuje profil uruchamiania i optymalizacje stosowane w grze (DX11, DX12, tryby zgodności, starsze gry lub określone konfiguracje).",
+  "proton": "Wersja Proton używana do uruchamiania gry w systemie Linux. Różne wersje mogą poprawić zgodność i wydajność lub naprawić określone problemy.",
+  "show_performance": "Wyświetla w grze nakładkę pokazującą liczbę klatek na sekundę (FPS), użycie CPU, użycie GPU, zużycie pamięci oraz inne przydatne statystyki wydajności.",
+  "optimize_performance": "Automatycznie optymalizuje wydajność systemu podczas działania gry, dostosowując priorytety i ustawienia systemowe.",
+  "mangohud": "MangoHud to nakładka w grze wyświetlająca w czasie rzeczywistym FPS, użycie CPU/GPU, temperatury, zużycie pamięci oraz inne statystyki wydajności.",
+  "gamemode": "GameMode to usługa systemowa, która tymczasowo optymalizuje komputer podczas działania gry, aby poprawić wydajność i ograniczyć zacinanie się obrazu.",
+  "gamescope": "Gamescope to mikrokompozytor używany do uruchamiania gier w kontrolowanym środowisku graficznym. Umożliwia zarządzanie rozdzielczością, trybem pełnoekranowym i częstotliwością odświeżania oraz może poprawić zgodność z niektórymi grami lub konfiguracjami graficznymi.",
+  "gpu": "Definiuje tryb optymalizacji GPU używany przez grę: auto (automatyczne wykrywanie), safe (maksymalna zgodność), balanced (zrównoważone ustawienia) lub performance (maksymalna liczba FPS).",
+  "prefix": "Oddzielne środowisko zawierające konfigurację systemu Windows, zainstalowane biblioteki i aplikacje używane przez ten program. Każde środowisko jest izolowane, aby uniknąć konfliktów między grami.",
+  "prefix_short": "Utwórz oddzielne środowisko dla tej aplikacji.",
+  "performance_overlay": "Pokaż wydajność (FPS, CPU, GPU)",
+  "system_optimization": "Optymalizuj wydajność systemu"
+}

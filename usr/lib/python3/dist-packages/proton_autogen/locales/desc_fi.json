@@ -1,0 +1,14 @@
+{
+  "profile": "Määrittää pelin suoritusprofiilin ja siihen sovellettavat optimoinnit (DX11, DX12, yhteensopivuustilat, vanhat pelit tai tietyt kokoonpanot).",
+  "proton": "Pelien Linuxissa suorittamiseen käytettävä Proton-versio. Eri versiot voivat parantaa yhteensopivuutta ja suorituskykyä tai korjata tiettyjä ongelmia.",
+  "show_performance": "Näyttää pelin sisäisen peittokuvan, jossa näkyvät FPS, suorittimen käyttö, näytönohjaimen käyttö, muistin kulutus ja muita hyödyllisiä suorituskykytietoja.",
+  "optimize_performance": "Optimoi järjestelmän suorituskyvyn automaattisesti pelin ollessa käynnissä säätämällä prosessien prioriteetteja ja järjestelmäasetuksia.",
+  "mangohud": "MangoHud on pelin sisäinen peittokuva, joka näyttää reaaliaikaisesti FPS:n, suorittimen ja näytönohjaimen käytön, lämpötilat, muistin käytön ja muita suorituskykytietoja.",
+  "gamemode": "GameMode on järjestelmäpalvelu, joka optimoi tietokonetta tilapäisesti pelin ollessa käynnissä suorituskyvyn parantamiseksi ja nykimisen vähentämiseksi.",
+  "gamescope": "Gamescope on mikrosommitin, jolla pelejä voidaan suorittaa hallitussa graafisessa ympäristössä. Sen avulla voidaan hallita resoluutiota, koko näytön tilaa ja virkistystaajuutta, ja se voi parantaa yhteensopivuutta joidenkin pelien tai grafiikka-asetusten kanssa.",
+  "gpu": "Määrittää pelissä käytettävän näytönohjaimen optimointitilan: auto (automaattinen tunnistus), safe (paras yhteensopivuus), balanced (tasapainotetut asetukset) tai performance (maksimaalinen FPS).",
+  "prefix": "Erillinen ympäristö, joka sisältää Windows-asetukset, asennetut kirjastot ja tämän ohjelman käyttämät sovellukset. Jokainen ympäristö on eristetty pelien välisten ristiriitojen välttämiseksi.",
+  "prefix_short": "Luo tälle sovellukselle erillinen ympäristö.",
+  "performance_overlay": "Näytä suorituskyky (FPS, CPU, GPU)",
+  "system_optimization": "Optimoi järjestelmän suorituskyky"
+}

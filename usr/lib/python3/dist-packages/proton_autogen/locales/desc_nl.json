@@ -1,0 +1,14 @@
+{
+  "profile": "Definieert het uitvoeringsprofiel en de optimalisaties die op de game worden toegepast (DX11, DX12, compatibiliteitsmodi, oudere games of specifieke configuraties).",
+  "proton": "Proton-versie die wordt gebruikt om de game op Linux uit te voeren. Verschillende versies kunnen de compatibiliteit en prestaties verbeteren of specifieke problemen oplossen.",
+  "show_performance": "Toont een overlay in de game met FPS, CPU-gebruik, GPU-gebruik, geheugengebruik en andere nuttige prestatiestatistieken.",
+  "optimize_performance": "Optimaliseert automatisch de systeemprestaties tijdens het spelen door prioriteiten en systeeminstellingen aan te passen.",
+  "mangohud": "MangoHud is een in-game overlay die realtime FPS, CPU/GPU-gebruik, temperaturen, geheugengebruik en andere prestatiestatistieken weergeeft.",
+  "gamemode": "GameMode is een systeemservice die je computer tijdelijk optimaliseert wanneer een game actief is om de prestaties te verbeteren en haperingen te verminderen.",
+  "gamescope": "Gamescope is een microcompositor waarmee games in een gecontroleerde grafische omgeving kunnen worden uitgevoerd. Hiermee kun je de resolutie, volledig scherm en verversingssnelheid beheren. Het kan ook de compatibiliteit met bepaalde games of grafische configuraties verbeteren.",
+  "gpu": "Definieert de GPU-optimalisatiemodus die door de game wordt gebruikt: auto (automatische detectie), safe (maximale compatibiliteit), balanced (gebalanceerde instellingen) of performance (maximale FPS).",
+  "prefix": "Een afzonderlijke omgeving met de Windows-configuratie, geïnstalleerde bibliotheken en applicaties die door dit programma worden gebruikt. Elke omgeving is geïsoleerd om conflicten tussen games te voorkomen.",
+  "prefix_short": "Maak een afzonderlijke omgeving voor deze applicatie.",
+  "performance_overlay": "Prestaties weergeven (FPS, CPU, GPU)",
+  "system_optimization": "Systeemprestaties optimaliseren"
+}
