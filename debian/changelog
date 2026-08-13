@@ -1,12 +1,13 @@
-proton-autogen (3.2.4) noble; urgency=medium
+proton-autogen (3.2.5) noble; urgency=medium
 
   * Thanks to all users and contributors for their continued support, feedback and bug reports.
+  * Improved Dashboard responsiveness and overall application navigation.
   * Added ReShade shader support for dx9opengl profiles, allowing ReShade shaders and textures to be properly integrated and managed within these environments. (https://github.com/crosire/reshade-shaders)
   * Added a process manager to Proton-Autogen, providing improved process tracking and allowing applications launched through Proton-Autogen to be properly stopped and cleaned up.
   * Improved application lifecycle management, ensuring related processes are handled correctly when stopping applications.
   * Improved compatibility and environment handling for dx9opengl profiles.
   * Improved process cleanup and termination handling for a more reliable application shutdown experience.
-  * Expanded UX internationalization with new translations for German, Spanish, Portuguese, Ukrainian, Hindi and Chinese, providing a more accessible and consistent multilingual interface.
+  * Expanded UX internationalization with new translations for German, Spanish, Portuguese, Ukrainian, Hindi, Chinese, Korean, Japanese, Russian, Polish, Dutch, Greek, Finnish and Italian.
   * Improved user-facing UX messages with clearer launch, execution, completion and error status feedback.
   * Improved environment loading performance, reducing startup overhead and making runtime initialization faster.
   * Improved system and environment detection performance, reducing unnecessary checks and speeding up Proton and Wine environment discovery.
@@ -14,4 +15,4 @@ proton-autogen (3.2.4) noble; urgency=medium
   * Improved Proton runtime selection and environment initialization for a smoother launch experience.
   * General UX improvements, performance optimizations and code cleanup.
 
- -- N3oray <n3oray77@gmail.com>  Thu, 13 Aug 2026 00:30:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Fri, 14 Aug 2026 00:34:00 +0200
