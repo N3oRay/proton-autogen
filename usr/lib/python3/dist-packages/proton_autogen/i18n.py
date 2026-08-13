@@ -66,25 +66,94 @@ def _get_lang_table(code: str) -> dict:
     return table
 
 
-def _check_translation_completeness(lang_codes: Optional[list] = None) -> None:
-    """Vérifie que toutes les langues définissent les mêmes clés que 'en'.
+def _check_translation_completeness(lang_codes: Optional[list] = None) -> bool:
+    """Vérifie que chaque groupe de traductions possède les mêmes clés
+    que sa langue de référence 'en'.
 
-    Charge toutes les langues demandées en mémoire (donc plus coûteux que le
-    fonctionnement normal) — à utiliser en dev/CI, pas au démarrage de l'app.
+    Les fichiers peuvent être organisés par domaine, par exemple :
+        desc_en.json / desc_fr.json / desc_de.json
+        stats_en.json / stats_fr.json / stats_de.json
+
+    Retourne True si toutes les traductions sont complètes, sinon False.
     """
-    reference_keys = set(_get_lang_table("en").keys())
-    codes = lang_codes if lang_codes is not None else sorted(AVAILABLE_LANGS)
 
-    for lang_code in codes:
-        if lang_code == "en":
+    valid = True
+
+    print("[i18n] Checking translation completeness...")
+
+    # Regroupe les fichiers par préfixe :
+    # desc_en -> desc
+    # stats_en -> stats
+    # en -> ""
+    groups: dict[str, set[str]] = {}
+
+    for code in AVAILABLE_LANGS:
+        if "_" in code:
+            prefix, lang = code.rsplit("_", 1)
+        else:
+            prefix, lang = "", code
+
+        groups.setdefault(prefix, set()).add(lang)
+
+    # Si une liste de langues est explicitement fournie,
+    # on filtre les langues demandées.
+    requested_langs = set(lang_codes) if lang_codes is not None else None
+
+    for prefix, langs in sorted(groups.items()):
+        reference_code = f"{prefix}_en" if prefix else "en"
+
+        if "en" not in langs:
+            print(
+                f"[i18n] WARNING: groupe '{prefix or 'default'}' "
+                f"— langue de référence '{reference_code}' absente"
+            )
+            valid = False
             continue
-        table = _get_lang_table(lang_code)
-        missing = reference_keys - set(table.keys())
-        extra = set(table.keys()) - reference_keys
-        if missing:
-            print(f"[i18n] WARNING: langue '{lang_code}' — clés manquantes: {sorted(missing)}")
-        if extra:
-            print(f"[i18n] WARNING: langue '{lang_code}' — clés en trop: {sorted(extra)}")
+
+        reference_keys = set(_get_lang_table(reference_code).keys())
+
+        for lang in sorted(langs):
+            if lang == "en":
+                continue
+
+            code = f"{prefix}_{lang}" if prefix else lang
+
+            if requested_langs is not None and lang not in requested_langs:
+                continue
+
+            table = _get_lang_table(code)
+            keys = set(table.keys())
+
+            missing = reference_keys - keys
+            extra = keys - reference_keys
+
+            if missing:
+                valid = False
+                print(
+                    f"[i18n] WARNING: langue '{code}' — "
+                    f"clés manquantes: {sorted(missing)}"
+                )
+
+            if extra:
+                valid = False
+                print(
+                    f"[i18n] WARNING: langue '{code}' — "
+                    f"clés en trop: {sorted(extra)}"
+                )
+
+    if valid:
+        print("[i18n] OK: toutes les traductions sont complètes.")
+    else:
+        print("[i18n] ERROR: des problèmes de traduction ont été détectés.")
+
+    return valid
+
+def check_translations_cli() -> int:
+    """Exécute la validation des traductions depuis la CLI.
+
+    Retourne 0 si tout est valide, 1 en cas d'erreur.
+    """
+    return 0 if _check_translation_completeness() else 1
 
 
 # ------------------------------------------------------------------------------------

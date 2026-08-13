@@ -20,7 +20,7 @@ from proton_autogen.core import (
 )
 
 from proton_autogen.editor import add_game, edit_game_ui
-from proton_autogen.i18n import detect_help_env_lang
+from proton_autogen.i18n import detect_help_env_lang, check_translations_cli
 from proton_autogen.info import print_help
 from proton_autogen.diag import print_diagnostic
 from proton_autogen.ux.dashboard import start_dashboard
@@ -35,6 +35,10 @@ def main():
     # Launcher UX
     if "--ux" in sys.argv:
         start_dashboard()
+        return
+
+    if "--check-translations" in sys.argv:
+        check_translations_cli()
         return
 
     # About project
