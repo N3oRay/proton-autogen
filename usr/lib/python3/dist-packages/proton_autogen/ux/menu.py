@@ -5,8 +5,8 @@ gi.require_version("Gtk", "4.0")
 gi.require_version("Gio", "2.0")
 
 from gi.repository import Gtk, Gio
-
 from proton_autogen.i18n import tr
+
 
 
 # =========================================================
