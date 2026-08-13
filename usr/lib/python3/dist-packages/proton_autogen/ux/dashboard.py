@@ -4,6 +4,7 @@
 import os
 import gi
 import threading
+from datetime import datetime
 gi.require_version("Gtk", "4.0")
 from gi.repository import Gtk, Gio, Gdk, GLib
 from proton_autogen.ux.dashboard_ui import DashboardUIMixin
@@ -138,11 +139,23 @@ class Dashboard(DashboardUIMixin, DashboardDialogsMixin, DashboardActionsMixin, 
     # SEARCH Recent games for Caroussel
     # ---------------------------------
     def get_recent_games(self, games, limit=6):
-        return sorted(
-            games,
-            key=self.activity_score,
-            reverse=True
-        )[:limit]
+        def last_launch_dt(g):
+            raw = g.get("playtime", {}).get("last_launch")
+            if not raw:
+                return None
+            try:
+                return datetime.fromisoformat(raw)
+            except Exception:
+                return None
+
+        played = [
+            (g, last_launch_dt(g))
+            for g in games
+        ]
+        played = [(g, dt) for g, dt in played if dt is not None]
+        played.sort(key=lambda pair: pair[1], reverse=True)
+
+        return [g for g, _ in played][:limit]
 
 
     def get_favorite_games(self, games, limit=6):
