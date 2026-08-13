@@ -1,5 +1,5 @@
 pkgname=proton-autogen
-pkgver=3.2.4
+pkgver=3.2.5
 pkgrel=1
 pkgdesc="Automatic Proton/Wine launcher for Windows executables"
 arch=('any')
@@ -26,7 +26,7 @@ source=(
     "https://github.com/N3oRay/proton-autogen/archive/refs/tags/v${pkgver}.tar.gz"
 )
 
-sha256sums=('11bf97cee2975aa75da0044c175dbee749c16351b679d6913c2dadbbca368bd5')
+sha256sums=('e467eb181481204c955886a0ae706129b3bff3926bef7c3b56dbb55f2abe1988')
 
 build() {
     cd "$srcdir/$pkgname-$pkgver"
@@ -65,6 +65,10 @@ package() {
     install -Dm644 \
         usr/share/icons/hicolor/256x256/apps/proton-autogen.png \
         "$pkgdir/usr/share/icons/hicolor/256x256/apps/proton-autogen.png"
+
+    install -Dm644 \
+        usr/share/icons/hicolor/256x256/apps/proton-autogen.png \
+        "$pkgdir/usr/share/icons/hicolor/256x256/apps/io.github.N3oRay.ProtonAutogen.png"
 
     # Page de manuel
     install -Dm644 \
