@@ -325,24 +325,6 @@ class DashboardActionsMixin:
     # -------------------------
     # STOP GAME
     # -------------------------
-    def confirm_stop_dialog_old(self, game_name, on_confirm):
-        dialog = Gtk.AlertDialog()
-        dialog.set_message(tr("confirm_stop_title"))
-        dialog.set_detail(tr("confirm_stop_detail", name=game_name))
-        dialog.set_buttons([tr("cancel"), tr("stop_game")])
-        dialog.set_default_button(0)
-        dialog.set_cancel_button(0)
-
-        def on_response(source, result):
-            try:
-                choice = source.choose_finish(result)
-            except GLib.Error:
-                return
-            if choice == 1:
-                on_confirm()
-
-        dialog.choose(self, None, on_response)
-
     def confirm_stop_dialog(self, game_name, on_confirm):
         dialog = Gtk.Dialog(
             title=tr("confirm_stop_title"),

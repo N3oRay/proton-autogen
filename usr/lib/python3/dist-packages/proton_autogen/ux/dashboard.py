@@ -14,7 +14,6 @@ from proton_autogen.ux.themes import load_saved_theme, save_theme, AVAILABLE_THE
 from proton_autogen.ux.search import filter_games
 from proton_autogen.notify import notifications
 from proton_autogen.backend import list_programs_ux
-# from proton_autogen.stats import is_recent_launch
 from proton_autogen.i18n import detect_help_env_lang
 
 
@@ -124,16 +123,6 @@ class Dashboard(DashboardUIMixin, DashboardDialogsMixin, DashboardActionsMixin, 
             os.path.join(base, "assets", filename)
         )
 
-    # -------------------------
-    # STATS
-    # -------------------------
-    # def activity_score(self, g):
-    #     p = g.get("playtime", {})
-    #     return (
-    #         p.get("seconds", 0) * 0.3 +
-    #         (1 if g.get("favorite") else 0) * 1000 +
-    #         (is_recent_launch(p, 7) * 500)
-    #     )
 
     # ---------------------------------
     # SEARCH Recent games for Caroussel
