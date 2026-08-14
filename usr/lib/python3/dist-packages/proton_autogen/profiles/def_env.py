@@ -158,6 +158,58 @@ DXVK_ENV_VARS = [
         "description_hi": "FPS सीमा निर्धारित करता है।",
         "description_es": "Limita los FPS.",
         "description_pt": "Limita os FPS."
+    },
+    {
+        "name": "DXVK_DEBUG",
+        "type": "dxvk",
+        "category": "debug",
+        "description_fr": "Active les options de débogage de DXVK.",
+        "description_en": "Enables DXVK debugging options.",
+        "description_de": "Aktiviert die Debugging-Optionen von DXVK.",
+        "description_uk": "Вмикає параметри налагодження DXVK.",
+        "description_zh": "启用 DXVK 调试选项。",
+        "description_hi": "DXVK डीबग विकल्पों को सक्षम करता है।",
+        "description_es": "Activa las opciones de depuración de DXVK.",
+        "description_pt": "Ativa as opções de depuração do DXVK."
+    },
+    {
+        "name": "DXVK_CONFIG_FILE",
+        "type": "dxvk",
+        "category": "configuration",
+        "description_fr": "Définit le chemin du fichier de configuration DXVK.",
+        "description_en": "Sets the path to the DXVK configuration file.",
+        "description_de": "Legt den Pfad zur DXVK-Konfigurationsdatei fest.",
+        "description_uk": "Визначає шлях до файлу конфігурації DXVK.",
+        "description_zh": "设置 DXVK 配置文件的路径。",
+        "description_hi": "DXVK कॉन्फ़िगरेशन फ़ाइल का पथ निर्धारित करता है।",
+        "description_es": "Establece la ruta del archivo de configuración de DXVK.",
+        "description_pt": "Define o caminho para o ficheiro de configuração do DXVK."
+    },
+    {
+        "name": "DXVK_SHADER_CACHE",
+        "type": "dxvk",
+        "category": "performance",
+        "description_fr": "Active ou désactive le cache des shaders de DXVK.",
+        "description_en": "Enables or disables the DXVK shader cache.",
+        "description_de": "Aktiviert oder deaktiviert den Shader-Cache von DXVK.",
+        "description_uk": "Вмикає або вимикає кеш шейдерів DXVK.",
+        "description_zh": "启用或禁用 DXVK 着色器缓存。",
+        "description_hi": "DXVK शेडर कैश को सक्षम या अक्षम करता है।",
+        "description_es": "Activa o desactiva la caché de sombreadores de DXVK.",
+        "description_pt": "Ativa ou desativa o cache de shaders do DXVK."
+    },
+    {
+        "name": "DXVK_SHADER_CACHE_PATH",
+        "type": "dxvk",
+        "category": "performance",
+        "description_fr": "Définit le chemin du cache des shaders de DXVK.",
+        "description_en": "Sets the path to the DXVK shader cache.",
+        "description_de": "Legt den Pfad zum Shader-Cache von DXVK fest.",
+        "description_uk": "Визначає шлях до кешу шейдерів DXVK.",
+        "description_zh": "设置 DXVK 着色器缓存的路径。",
+        "description_hi": "DXVK शेडर कैश का पथ निर्धारित करता है।",
+        "description_es": "Establece la ruta de la caché de sombreadores de DXVK.",
+        "description_pt": "Define o caminho para o cache de shaders do DXVK."
     }
 ]
 VKD3D_ENV_VARS = [
