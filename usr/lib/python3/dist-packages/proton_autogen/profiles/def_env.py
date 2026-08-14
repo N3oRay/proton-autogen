@@ -968,14 +968,14 @@ SYSTEM_ENV_VARS = [
         "name": "LD_PRELOAD",
         "type": "system",
         "category": "linux",
-        "description_fr": "Préchargement libs.",
-        "description_en": "Preload libraries.",
-        "description_de": "Lädt Bibliotheken vor.",
-        "description_uk": "Попереднє завантаження бібліотек.",
-        "description_zh": "预加载库。",
-        "description_hi": "लाइब्रेरी प्रीलोड।",
-        "description_es": "Precarga de bibliotecas.",
-        "description_pt": "Pré-carregamento de bibliotecas."
+        "description_fr": "Charge des bibliothèques partagées avant celles utilisées normalement par l’application.",
+        "description_en": "Loads shared libraries before those normally used by the application.",
+        "description_de": "Lädt gemeinsam genutzte Bibliotheken vor den normalerweise von der Anwendung verwendeten Bibliotheken.",
+        "description_uk": "Завантажує спільні бібліотеки перед тими, які зазвичай використовує програма.",
+        "description_zh": "在应用程序通常使用的库之前加载共享库。",
+        "description_hi": "ऐप्लिकेशन द्वारा सामान्य रूप से उपयोग की जाने वाली लाइब्रेरी से पहले साझा लाइब्रेरी लोड करता है।",
+        "description_es": "Carga bibliotecas compartidas antes de las que normalmente utiliza la aplicación.",
+        "description_pt": "Carrega bibliotecas partilhadas antes das normalmente utilizadas pela aplicação."
     },
     {
         "name": "MALLOC_ARENA_MAX",
@@ -1012,14 +1012,14 @@ STEAM_ENV_VARS = [
         "name": "STEAM_COMPAT_APP_ID",
         "type": "steam",
         "category": "internal",
-        "description_fr": "App Steam ID.",
-        "description_en": "Steam app ID.",
-        "description_de": "Steam-App-ID.",
-        "description_uk": "Ідентифікатор програми Steam.",
-        "description_zh": "Steam 应用程序 ID。",
-        "description_hi": "Steam ऐप ID।",
-        "description_es": "ID de aplicación de Steam.",
-        "description_pt": "ID do aplicativo Steam."
+        "description_fr": "Définit l’identifiant de l’application Steam utilisée pour la compatibilité.",
+        "description_en": "Sets the Steam app ID used for compatibility.",
+        "description_de": "Legt die Steam-App-ID für die Kompatibilität fest.",
+        "description_uk": "Визначає ідентифікатор програми Steam, який використовується для сумісності.",
+        "description_zh": "设置用于兼容性的 Steam 应用程序 ID。",
+        "description_hi": "संगतता के लिए उपयोग की जाने वाली Steam ऐप ID निर्धारित करता है।",
+        "description_es": "Establece el ID de la aplicación de Steam utilizado para la compatibilidad.",
+        "description_pt": "Define o ID da aplicação Steam utilizado para a compatibilidade."
     },
     {
         "name": "STEAM_COMPAT_CLIENT_INSTALL_PATH",
@@ -1077,14 +1077,14 @@ STEAM_ENV_VARS = [
         "name": "STEAM_COMPAT_SHADER_PATH",
         "type": "steam",
         "category": "performance",
-        "description_fr": "Cache shaders Steam.",
-        "description_en": "Steam shader cache.",
-        "description_de": "Steam-Shader-Cache.",
-        "description_uk": "Кеш шейдерів Steam.",
-        "description_zh": "Steam 着色器缓存。",
-        "description_hi": "Steam शेडर कैश।",
-        "description_es": "Caché de sombreadores de Steam.",
-        "description_pt": "Cache de shaders do Steam."
+        "description_fr": "Définit le chemin du cache des shaders Steam.",
+        "description_en": "Sets the path to the Steam shader cache.",
+        "description_de": "Legt den Pfad zum Steam-Shader-Cache fest.",
+        "description_uk": "Визначає шлях до кешу шейдерів Steam.",
+        "description_zh": "设置 Steam 着色器缓存的路径。",
+        "description_hi": "Steam शेडर कैश का पथ निर्धारित करता है।",
+        "description_es": "Establece la ruta de la caché de sombreadores de Steam.",
+        "description_pt": "Define o caminho para o cache de shaders do Steam."
     }
 ]
 HUD_ENV_VARS = [
@@ -1173,14 +1173,14 @@ HUD_ENV_VARS = [
         "name": "vblank_mode",
         "type": "hud",
         "category": "graphics",
-        "description_fr": "VSync Mesa.",
-        "description_en": "Mesa vsync mode.",
-        "description_de": "Mesa-VSync-Modus.",
-        "description_uk": "Режим вертикальної синхронізації (VSync) Mesa.",
-        "description_zh": "Mesa 垂直同步（VSync）模式。",
-        "description_hi": "Mesa VSync मोड।",
-        "description_es": "Modo VSync de Mesa.",
-        "description_pt": "Modo VSync do Mesa."
+        "description_fr": "Contrôle le VSync de Mesa : 0 = désactivé, 1 = activé, 2 = activé sauf pour les applications contrôlées par l'utilisateur, 3 = activé.",
+        "description_en": "Controls Mesa VSync: 0 = off, 1 = on, 2 = on except for user-controlled apps, 3 = on.",
+        "description_de": "Steuert Mesa VSync: 0 = aus, 1 = ein, 2 = ein außer bei benutzergesteuerten Anwendungen, 3 = ein.",
+        "description_uk": "Керує VSync Mesa: 0 = вимкнено, 1 = увімкнено, 2 = увімкнено, крім програм під керуванням користувача, 3 = увімкнено.",
+        "description_zh": "控制 Mesa VSync：0 = 关闭，1 = 开启，2 = 开启但允许应用程序控制，3 = 开启。",
+        "description_hi": "Mesa VSync को नियंत्रित करता है: 0 = बंद, 1 = चालू, 2 = चालू लेकिन उपयोगकर्ता-नियंत्रित ऐप्स को छोड़कर, 3 = चालू।",
+        "description_es": "Controla el VSync de Mesa: 0 = desactivado, 1 = activado, 2 = activado excepto en aplicaciones controladas por el usuario, 3 = activado.",
+        "description_pt": "Controla o VSync do Mesa: 0 = desativado, 1 = ativado, 2 = ativado exceto em aplicações controladas pelo utilizador, 3 = ativado."
     }
 ]
 GSTREAMER_ENV_VARS = [
