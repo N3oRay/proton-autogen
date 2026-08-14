@@ -608,3 +608,15 @@ def is_favorite(exe_path):
         return False
 
     return config.get("favorite", False)
+
+# ---------------------------------------------------------------------------------------------------
+def log_game_stats(exe_path):
+    playtime = get_playtime_stats(exe_path) or {}
+
+    logger.info(
+        "Statistics:"
+        "\n  launches : %d"
+        "\n  playtime : %s",
+        playtime.get("launch_count", 0),
+        format_playtime(playtime.get("seconds", 0)),
+    )

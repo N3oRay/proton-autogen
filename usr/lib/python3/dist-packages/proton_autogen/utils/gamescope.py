@@ -46,6 +46,9 @@ DEFAULT_LOG_FILTERS = [
     # Vulkan noise
     "ATTENTION: default value of option",
     "[Gamescope WSI] No application info given",
+    # GStreamer
+    "GStreamer-WARNING",
+    "i386-linux-gnu"
 
     # ProtonFixes inutile
     "ProtonFixes",

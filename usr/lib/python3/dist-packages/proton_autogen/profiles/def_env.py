@@ -301,6 +301,19 @@ PROTON_ENV_VARS = [
         "description_pt": "Usa WineD3D em vez do DXVK."
     },
     {
+        "name": "PROTON_USE_D7VK",
+        "type": "proton",
+        "category": "compatibility",
+        "description_fr": "Direct3D 7 - Utilise D7VK au lieu de DXVK/D3D9.",
+        "description_en": "Direct3D 7 - Uses D7VK instead of DXVK/D3D9.",
+        "description_de": "Direct3D 7 - Verwendet D7VK anstelle von DXVK/D3D9.",
+        "description_uk": "Direct3D 7 - Використовує D7VK замість DXVK/D3D9.",
+        "description_zh": "Direct3D 7 - 使用 D7VK 替代 DXVK/D3D9。",
+        "description_hi": "Direct3D 7 - DXVK/D3D9 के बजाय D7VK का उपयोग करता है।",
+        "description_es": "Direct3D 7 - Utiliza D7VK en lugar de DXVK/D3D9.",
+        "description_pt": "Direct3D 7 - Usa D7VK em vez do DXVK/D3D9."
+    },
+    {
         "name": "PROTON_ENABLE_NVAPI",
         "type": "proton",
         "category": "graphics",
@@ -353,6 +366,71 @@ PROTON_ENV_VARS = [
         "description_pt": "Força Large Address Awareness para aplicações de 32 bits."
     },
     {
+        "name": "PROTON_DISCORD_BRIDGE",
+        "type": "proton",
+        "category": "compatibility",
+        "description_fr": "Active le Discord Rich Presence bridge intégré à Proton. Permet à certains jeux de communiquer leur présence à Discord. ",
+        "description_en": "Enables Discord Rich Presence bridge.",
+        "description_de": "Aktiviert Discord Rich Presence bridge.",
+        "description_uk": "Вмикає Discord Rich Presence bridge у Proton.",
+        "description_zh": "启用 Proton Discord Rich Presence bridge。",
+        "description_hi": "Proton Discord Rich Presence bridge सक्षम करता है।",
+        "description_es": "Activa Discord Rich Presence bridge en Proton.",
+        "description_pt": "Ativa o Discord Rich Presence bridge no Proton."
+    },
+    {
+        "name": "PROTON_USE_OPTISCALER",
+        "type": "proton",
+        "category": "compatibility",
+        "description_fr": "Active l'intégration OptiScaler de GE-Proton. Peut permettre l'utilisation de techniques/upscalers modernes selon le jeu et la configuration.",
+        "description_en": "Enables OptiScaler.",
+        "description_de": "Aktiviert OptiScaler.",
+        "description_uk": "Вмикає OptiScaler у Proton.",
+        "description_zh": "启用 Proton OptiScaler。",
+        "description_hi": "Proton OptiScaler सक्षम करता है।",
+        "description_es": "Activa OptiScaler en Proton.",
+        "description_pt": "Ativa o OptiScaler no Proton."
+    },
+    {
+        "name": "PROTON_SONY_DUALSENSE_AS_DUALSHOCK4",
+        "type": "proton",
+        "category": "compatibility",
+        "description_fr": "Fait passer une DualSense/DualSense Edge pour une DualShock 4 auprès du jeu. Utile pour les jeux qui gèrent correctement la DS4 mais pas la DS5.",
+        "description_en": "Enables DualShock 4.",
+        "description_de": "Aktiviert DualShock 4.",
+        "description_uk": "Вмикає DualShock 4 у Proton.",
+        "description_zh": "启用 Proton DualShock 4。",
+        "description_hi": "Proton DualShock 4 सक्षम करता है।",
+        "description_es": "Activa DualShock 4 en Proton.",
+        "description_pt": "Ativa o DualShock 4 no Proton."
+    },
+    {
+        "name": "PROTON_SONY_HIDRAW_XINPUT",
+        "type": "proton",
+        "category": "compatibility",
+        "description_fr": "Convertit les contrôleurs Sony DS4/DualSense/DualSense Edge en XInput. Utile quand le jeu détecte mal les contrôleurs PlayStation ou possède des mappings incorrects.",
+        "description_en": "Enables Sony DS4/DualSense/DualSense Edge -> XInput.",
+        "description_de": "Aktiviert Sony DS4/DualSense/DualSense Edge -> XInput.",
+        "description_uk": "Вмикає Sony DS4/DualSense/DualSense Edge -> XInput у Proton.",
+        "description_zh": "启用 Proton Sony DS4/DualSense/DualSense Edge -> XInput。",
+        "description_hi": "Proton Sony DS4/DualSense/DualSense Edge -> XInput सक्षम करता है।",
+        "description_es": "Activa Sony DS4/DualSense/DualSense Edge -> XInput en Proton.",
+        "description_pt": "Ativa o Sony DS4/DualSense/DualSense Edge -> XInput no Proton."
+    },
+    {
+        "name": "PROTON_STEAMINPUT_XINPUT_FALLBACK",
+        "type": "proton",
+        "category": "compatibility",
+        "description_fr": "Crée un périphérique Steam Input et y transmet les contrôleurs XInput. Particulièrement utile pour les jeux qui exigent Steam Input, notamment avec Wine-Wayland. ",
+        "description_en": "Enables XInput-> Wine-Wayland.",
+        "description_de": "Aktiviert XInput-> Wine-Wayland.",
+        "description_uk": "Вмикає XInput-> Wine-Wayland у Proton.",
+        "description_zh": "启用 Proton XInput-> Wine-Wayland。",
+        "description_hi": "Proton XInput-> Wine-Wayland सक्षम करता है।",
+        "description_es": "Activa XInput-> Wine-Wayland en Proton.",
+        "description_pt": "Ativa o XInput-> Wine-Wayland no Proton."
+    },
+    {
         "name": "PROTON_ENABLE_FSYNC",
         "type": "proton",
         "category": "performance",
@@ -364,6 +442,19 @@ PROTON_ENV_VARS = [
         "description_hi": "Proton Fsync सक्षम करता है।",
         "description_es": "Activa Fsync en Proton.",
         "description_pt": "Ativa o Fsync no Proton."
+    },
+    {
+        "name": "PROTON_WAYLAND_MONITOR",
+        "type": "proton",
+        "category": "performance",
+        "description_fr": "Force WAYLAND_MONITOR Proton. PROTON_WAYLAND_MONITOR=HDMI-A-1 %command%",
+        "description_en": "Enables WAYLAND_MONITOR. PROTON_WAYLAND_MONITOR=HDMI-A-1 %command%",
+        "description_de": "Aktiviert WAYLAND_MONITOR. PROTON_WAYLAND_MONITOR=HDMI-A-1 %command%",
+        "description_uk": "Вмикає WAYLAND_MONITOR у Proton. PROTON_WAYLAND_MONITOR=HDMI-A-1 %command%",
+        "description_zh": "启用 Proton WAYLAND_MONITOR。PROTON_WAYLAND_MONITOR=HDMI-A-1 %command%",
+        "description_hi": "Proton WAYLAND_MONITOR सक्षम करता है। PROTON_WAYLAND_MONITOR=HDMI-A-1 %command%",
+        "description_es": "Activa WAYLAND_MONITOR en Proton. PROTON_WAYLAND_MONITOR=HDMI-A-1 %command%",
+        "description_pt": "Ativa o WAYLAND_MONITOR no Proton. PROTON_WAYLAND_MONITOR=HDMI-A-1 %command%"
     },
     {
         "name": "PROTON_USE_NTSYNC",
@@ -435,6 +526,32 @@ WINE_ENV_VARS = [
         "description_hi": "DLL ओवरराइड नियम।",
         "description_es": "Reglas de reemplazo de DLL.",
         "description_pt": "Regras de substituição de DLL."
+    },
+    {
+        "name": "WINEALSA_CHANNELS",
+        "type": "wine",
+        "category": "compatibility",
+        "description_fr": "Force le nombre de canaux audio exposés par WineALSA : 2 = stéréo, 4 = 4 canaux, 6 = 5.1, 8 = 7.1. Très intéressant pour les problèmes de son/spatial audio. ",
+        "description_en": "Wine ALSA.",
+        "description_de": "Wine ALSA.",
+        "description_uk": "Wine ALSA.",
+        "description_zh": "Wine ALSA.",
+        "description_hi": "Wine ALSA.",
+        "description_es": "Wine ALSA.",
+        "description_pt": "Wine ALSA."
+    },
+    {
+        "name": "WINEALSA_SPATIAL",
+        "type": "wine",
+        "category": "compatibility",
+        "description_fr": "Active le downmix spatial de WineALSA.",
+        "description_en": "downmix spatial Wine ALSA.",
+        "description_de": "downmix spatial Wine ALSA.",
+        "description_uk": "downmix spatial Wine ALSA.",
+        "description_zh": "downmix spatial Wine ALSA.",
+        "description_hi": "downmix spatial Wine ALSA.",
+        "description_es": "downmix spatial Wine ALSA.",
+        "description_pt": "downmix spatial Wine ALSA."
     },
     {
         "name": "WINEESYNC",

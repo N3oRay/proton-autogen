@@ -706,16 +706,14 @@ def base_env(enable_mangohud=False, enable_gamemode=False, enable_gamescope=Fals
 
     if DEBUG:
         env["PROTON_LOG"] = "1"
-        #env["WINEDEBUG"] = "-all" #WINEDEBUG=+err,+warn
-        #env["WINEDEBUG"] = "+err,+warn"
-        #env["WINEDEBUG"] = "+seh,+tid"
-        env["WINEDEBUG"] = "+loaddll,+module,+seh,+tid,+relay"
+        env["WINEDEBUG"] = "-all"
     elif VERBOSE:
         env["PROTON_LOG"] = "1"
-        #env["WINEDEBUG"] = "-all,-trace,-relay,-seh"
-        env["WINEDEBUG"] = "+seh,+loaddll,+tid"
+        #env["WINEDEBUG"] = "+seh,+loaddll,+tid"
+        env["WINEDEBUG"] = "+loaddll,+module,+seh,+tid,+relay"
     else:
         env["PROTON_LOG"] = "0"
+        env.pop("WINEDEBUG", None)
     return env
 
 def get_exe_arch(path):
