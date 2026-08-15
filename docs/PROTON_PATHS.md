@@ -57,7 +57,7 @@ If your Proton installation is located somewhere else, you can add a custom path
 The configuration file is:
 
 ```text
-~/.config/proton-autogen.conf
+~/.config//proton-autogen/proton-autogen.conf
 ```
 
 Example:
@@ -148,7 +148,7 @@ proton-autogen --proton-paths
 4. If the path is not listed, add it to:
 
 ```text
-~/.config/proton-autogen.conf
+~/.config/proton-autogen/proton-autogen.conf
 ```
 
 For example:
@@ -181,5 +181,5 @@ You normally do not need to configure anything manually.
 If Proton is installed in a non-standard location, simply add its directory to:
 
 ```text
-~/.config/proton-autogen.conf
+~/.config/proton-autogen/proton-autogen.conf
 ```

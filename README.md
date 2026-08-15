@@ -87,7 +87,7 @@ If an application does not launch, generate a diagnostic report:
 ```bash
 proton-autogen --diag
 ```
-### Example Output: 
+### Example Output:
 See the full example output here: [Example Output](docs/examples.md)
 
 
@@ -154,7 +154,7 @@ chmod +x install.sh
 ### Config
 The configuration is fully automatic.
 ```bash
-cat ~/.config/proton-autogen.conf
+cat ~/.config/proton-autogen/proton-autogen.conf
 ls ~/.config/proton-autogen/games
 ```
 
