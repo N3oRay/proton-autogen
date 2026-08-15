@@ -31,7 +31,6 @@ KNOWN_APPIDS = {
     "Sindrel Song.exe": "1191860",                   # Memody: Sindrel Song
     "projectssshooter.exe": "3247350",               # Operation REMODE
     "Brain Hotel Remodeled.exe": "2648510",           # Brain Hotel: Remodeled
-
     "HouseFlipper.exe": "613100",                    # House Flipper
 
     "FINAL FANTASY.exe": "1173770",                  # FINAL FANTASY
@@ -50,6 +49,14 @@ KNOWN_APPIDS = {
     "HomeDesignVR.exe": "2589880",                   # Home Design 3D VR
     "Little Merchant Legend.exe": "1939740",         # Little Merchant Legend
     "Real.exe": "2727700",                            # Real
+    "Keystones.exe": "1027930",                       # Keystones
+    "7 Wonders - Treasures of Seven.exe": "16030",   # 7 Wonders: Treasures of Seven
+    "Everfall 2 Idle Dungeon RPG.exe": "4245410",   # Everfall 2: Idle Dungeon RPG
+    "CatchTheThief.exe": "717760",                   # Catch the Thief, If you can!
+    "Everfall Idle Dungeon RPG.exe": "4112810",      # Everfall: Idle Dungeon RPG
+    "JunkyardTruck.exe": "1697880",                 # Junkyard Truck
+    "SurvivalGame.exe": "1032120",                   # Stellar Survivor
+    "Lorne.exe": "2172970",                          # Lorne
 
     # -----------------------------
     # Jeux
