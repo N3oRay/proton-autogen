@@ -48,6 +48,51 @@ def detect_legacy_renderer(exe_path):
 
     return None
 # ---------------------------------------------------
+# 2. DETECT VN ENGINE
+# ---------------------------------------------------
+def detect_vn_engine(exe_path):
+    """
+    Detect whether the game directory contains
+    known Visual Novel engine signatures.
+
+    Returns:
+        True if detected, otherwise False.
+    """
+
+    if not exe_path:
+        return False
+
+    directory = os.path.dirname(exe_path)
+
+    signatures = (
+        "renpy",
+        "krkr",
+        "krkrz",
+        "xp3",
+        "tyrano",
+        "rgss",
+        "rpgmaker",
+        "wolf",
+    )
+
+    try:
+        for root, dirs, files in os.walk(directory):
+            for entry in dirs + files:
+                entry = entry.lower()
+
+                if any(signature in entry for signature in signatures):
+                    logger.info(
+                        f"[proton-autogen] Visual Novel detected: {entry}"
+                    )
+                    return True
+
+    except OSError as e:
+        logger.warning(
+            f"[proton-autogen] VN detection failed: {e}"
+        )
+
+    return False
+# ---------------------------------------------------
 # 2. DX11 PROFILE (most games)
 # ---------------------------------------------------
 def env_dx11(prefix=None, proton_path=None, exe_path=None):
@@ -87,6 +132,17 @@ def env_dx11(prefix=None, proton_path=None, exe_path=None):
                 env["WINE_MOUSE_WARP"] = "0"
                 env["PROTON_OLD_GL_STRING"] = "1"
                 env["MESA_EXTENSION_MAX_YEAR"] = rules["mesa_year"]
+
+    if exe_path and detect_vn_engine(exe_path):
+        logger.info(
+            "[proton-autogen] Visual Novel detected"
+        )
+
+        # Visual Novel settings here
+        # Japanese locale / encoding compatibility
+        # env["LC_ALL"] = "ja_JP.UTF-8"
+        # Japanese locale / encoding compatibility
+        # env["LANG"] = "ja_JP.UTF-8"
 
     return env
 
