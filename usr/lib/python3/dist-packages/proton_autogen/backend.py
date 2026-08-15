@@ -8,7 +8,7 @@ import time
 from pathlib import Path
 from proton_autogen.exceptions import ExecutableNotFoundError, ProtonNotFoundError, GameConfigError, PrefixError
 from time import perf_counter
-from proton_autogen.config import VERSION
+from proton_autogen.config import VERSION, load_proton_paths
 from proton_autogen.utils.logger import StructuredLogger
 from proton_autogen.progress import Progress
 
@@ -31,8 +31,6 @@ from proton_autogen.core import (
 
     proton_name,
     proton_path,
-
-    load_proton_paths,
 )
 from proton_autogen.profiles.init import detect_exe_type
 from proton_autogen.i18n import tr, init_language
