@@ -8,6 +8,55 @@
 KNOWN_APPIDS = {
 
     # -----------------------------
+    # Applications / Launchers / divers
+    # -----------------------------
+    "KTSYSVIEW.exe": "363110",          # NOBUNAGA'S AMBITION: Tendou with Power Up Kit
+    "GRYPHLINK.exe": "4732690",         # Arknights: Endfield - Steam (à venir)
+    "mimi_setup_en_prod_1.5_20250417.exe": "480",
+    "GLOBAL_sg.exe": "480",             # À identifier
+    "Vortex.exe": "1868050",    # Vortex — Endless Void Studios
+    "UbisoftConnect.exe": "480",        # Ubisoft Connect
+    "EAppInstaller.exe": "480",         # EA app installer
+    "POWERCOLOR_KEYTONE.exe": "480",    # Utilitaire PowerColor
+    "WeMod.exe": "480",                              # WeMod
+
+    "Launcher.exe": "442080",                        # Riders of Icarus
+    "Mir4S.exe": "1623660",                          # MIR4
+    "lswebbroker.exe": "1934850",                    # 王牌对决 / LostSaga CN
+    "icarus-101xp-micro-launcher.exe": "921940",     # Icarus Online
+    "Launcher.exe": "1711430",                       # Riders of Icarus: SEA
+    "YmirSteam-Win64-Shipping.exe": "4172530",       # Legend of YMIR
+
+    "BlackVultures.exe": "3622280",                  # Black Vultures: Prey of Greed
+    "Sindrel Song.exe": "1191860",                   # Memody: Sindrel Song
+    "projectssshooter.exe": "3247350",               # Operation REMODE
+    "Brain Hotel Remodeled.exe": "2648510",           # Brain Hotel: Remodeled
+
+    "HouseFlipper.exe": "613100",                    # House Flipper
+
+    "FINAL FANTASY.exe": "1173770",                  # FINAL FANTASY
+    "FINAL FANTASY II.exe": "1173780",               # FINAL FANTASY II
+    "FINAL FANTASY III.exe": "1173790",              # FINAL FANTASY III
+    "FINAL FANTASY IV.exe": "1173800",               # FINAL FANTASY IV
+    "FINAL FANTASY V.exe": "1173810",                # FINAL FANTASY V
+    "FINAL FANTASY VI.exe": "1173820",               # FINAL FANTASY VI
+
+    "ReviveAndProsper.exe": "2497310",                # R & P: Prologue
+    "KILLlaKILL_IF.exe": "922500",                   # KILL la KILL -IF
+    "Manhole.exe": "63630",                           # The Manhole: Masterpiece Edition
+    "Game.exe": "1534590",                            # Farm Dungeons
+    "SimShock2025Windows.exe": "3704810",             # SimShock2025
+    "CricketCaptain.exe": "1975570",                 # Cricket Captain 2022
+    "HomeDesignVR.exe": "2589880",                   # Home Design 3D VR
+    "Little Merchant Legend.exe": "1939740",         # Little Merchant Legend
+    "Real.exe": "2727700",                            # Real
+
+    # -----------------------------
+    # Jeux
+    # -----------------------------
+    "World_of_warship.exe": "552990",   # World of Warships
+
+    # -----------------------------
     # Atelier
     # -----------------------------
     "AtelierRorona.exe": "936180",               # Atelier Rorona DX
