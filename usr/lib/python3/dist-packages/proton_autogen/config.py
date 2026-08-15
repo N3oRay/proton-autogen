@@ -24,8 +24,11 @@ def load_proton_paths():
 # Flatpak Steam in ~/.config/proton-autogen.conf by default
 # Add custom Proton locations here
 # You can separate paths with newlines, ":" or ";"
-
 paths = ~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools.d;~/.var/app/com.valvesoftware.Steam/.steam/root/compatibilitytools.d
+
+# Directory where Proton/Wine prefixes are stored.
+# Defaults to ~/Documents/Proton/env if left empty or removed.
+prefix_dir = ~/Documents/Proton/env
 """
 
         try:
@@ -87,3 +90,36 @@ paths = ~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools
         cleaned.append(p)
 
     return cleaned
+
+
+def load_prefix_dir() -> str:
+    """
+    Retourne le dossier racine des préfixes Proton/Wine (~expanded, normalisé).
+
+    Priorité :
+      1. clé `prefix_dir` de la section [proton] du fichier de config
+      2. valeur par défaut PREFIX_DIR_PATH (~/Documents/Proton/env)
+
+    Ne crée jamais le fichier de config elle-même (c'est le rôle de
+    load_proton_paths()) — si le fichier n'existe pas encore, ou si la clé
+    est absente/vide/invalide, on replie silencieusement sur la valeur par
+    défaut, comme pour load_proton_paths().
+    """
+    if not os.path.isfile(CONFIG_FILE):
+        return PREFIX_DIR_PATH
+
+    config = configparser.ConfigParser()
+
+    try:
+        config.read(CONFIG_FILE)
+
+        if config.has_section("proton") and config.has_option("proton", "prefix_dir"):
+            raw = config["proton"]["prefix_dir"].strip()
+            if raw:
+                return os.path.normpath(os.path.expanduser(raw))
+
+    except Exception:
+        # fail-safe: ne jamais casser la résolution du dossier de préfixes
+        return PREFIX_DIR_PATH
+
+    return PREFIX_DIR_PATH

@@ -10,7 +10,7 @@ from collections import defaultdict
 
 from pathlib import Path
 from proton_autogen import process_manager
-from proton_autogen.config import VERSION, CONFIG_FILE, CONFIG_DIR, PREFIX_DIR, PREFIX_DIR_PATH, load_proton_paths
+from proton_autogen.config import VERSION, CONFIG_FILE, CONFIG_DIR, PREFIX_DIR, PREFIX_DIR_PATH, load_proton_paths, load_prefix_dir
 from proton_autogen.utils.flatpak import wrap_host_command, prepare_host_env
 from proton_autogen.utils.logger import StructuredLogger
 from proton_autogen.utils.steam_appid import detect_steam_appid
@@ -323,7 +323,7 @@ def make_output_path(exe_path: str, root: str) -> tuple[str, str]:
 # Return the Wine/Proton prefix path for the selected prefix mode.
 def get_prefix_path(prefix_mode: str, exe_path: str) -> str:
 
-    root = PREFIX_DIR_PATH
+    root = load_prefix_dir()
 
     if prefix_mode != "auto":
         # déjà résolu → on le traite comme prefix direct

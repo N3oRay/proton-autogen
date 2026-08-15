@@ -3,7 +3,7 @@ import os
 import json
 from pathlib import Path
 from proton_autogen.utils.logger import StructuredLogger
-from proton_autogen.config import VERSION, CONFIG_FILE, CONFIG_DIR, PREFIX_DIR, PREFIX_DIR_PATH
+from proton_autogen.config import VERSION, CONFIG_FILE, CONFIG_DIR, PREFIX_DIR, PREFIX_DIR_PATH, load_prefix_dir
 from proton_autogen.loader import get_game_config_path
 from proton_autogen.profiles.init import detect_exe_type, choose_profile
 from proton_autogen.loader import load_game_config
@@ -78,7 +78,7 @@ def choose_proton():
 
 
 def list_prefixes():
-    root = os.path.expanduser(PREFIX_DIR)
+    root = load_prefix_dir()
 
     if not os.path.isdir(root):
         return []
@@ -101,7 +101,7 @@ def list_prefixes():
 
 #Liste prefixes for UX:
 def list_prefixes_ux():
-    root = os.path.expanduser(PREFIX_DIR)
+    root = load_prefix_dir()
 
     prefixes = list(SYSTEM_PREFIXES)
 
@@ -117,7 +117,7 @@ def list_prefixes_ux():
 
 def choose_prefix(exe_path: str):
     prefixes = list_prefixes()
-    root = os.path.expanduser(PREFIX_DIR)
+    root = load_prefix_dir()
 
     print("\nAvailable prefixes:\n")
 
@@ -138,7 +138,7 @@ def choose_prefix(exe_path: str):
             if not name:
                 #name = f"auto-{uuid.uuid4().hex[:8]}"
                 # choix automatique pour UI
-                root = PREFIX_DIR_PATH
+                root = load_prefix_dir()
                 path, name = make_output_path(exe_path, root)
 
             path = os.path.join(root, name)
@@ -186,7 +186,7 @@ def find_existing_prefix_for_game(exe_path: str):
     # Compatibilité anciens fichiers
     if "path" not in prefix:
         prefix["path"] = os.path.join(
-            os.path.expanduser(PREFIX_DIR),
+            load_prefix_dir(),
             prefix["name"]
         )
 
@@ -228,7 +228,7 @@ def add_game_ux(exe_path: str, prefix=None):
 
         else:
             # choix automatique pour UI
-            root = PREFIX_DIR_PATH
+            root = load_prefix_dir()
             path, name = make_output_path(exe_path, root)
             prefix = {
                 "name": name,
