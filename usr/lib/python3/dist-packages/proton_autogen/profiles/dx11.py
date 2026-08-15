@@ -143,6 +143,13 @@ def env_dx11(prefix=None, proton_path=None, exe_path=None):
         # env["LC_ALL"] = "ja_JP.UTF-8"
         # Japanese locale / encoding compatibility
         # env["LANG"] = "ja_JP.UTF-8"
+        # Explicitly disable FSR4 for VN
+        env["PROTON_FSR4_UPGRADE"] = "0"
+        env["PROTON_FSR4_RDNA3_UPGRADE"] = "0"
+        env["PROTON_FSR4_INDICATOR"] = "0"
+        logger.info(
+            "[proton-autogen] FSR4 disabled for Visual Novel"
+        )
 
     return env
 
