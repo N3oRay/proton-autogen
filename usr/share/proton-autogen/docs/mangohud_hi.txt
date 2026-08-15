@@ -1,0 +1,37 @@
+legacy_layout=0
+
+### न्यूनतम प्रदर्शन ###
+
+fps                 # FPS
+frame_timing        # Frametime / सुचारूता
+frametime_color=00FF00
+vsync=0
+gpu_stats           # GPU आँकड़े
+cpu_stats           # CPU आँकड़े
+cpu_temp=1          # CPU तापमान
+cpu_temp_color=00FF00,FFFF00,FF0000
+ram                 # RAM उपयोग
+gamemode            # GameMode स्थिति
+hud_compact         # कॉम्पैक्ट प्रदर्शन
+
+fps_limit_method=early
+toggle_fps_limit=Shift_L+F1  # FPS सीमा चालू/बंद करें
+
+network=enp4s0      # Ethernet नेटवर्क
+vram                # VRAM उपयोग
+
+vram_color=AD64C1
+gpu_color=55AAFF
+cpu_color=FFAA33
+ram_color=66DD66
+
+position=top-left
+toggle_hud=Shift_L+F12       # HUD दिखाएँ/छिपाएँ
+background_alpha=0.15        # बैकग्राउंड पारदर्शिता
+font_size=12
+
+gpu_temp=1                   # GPU तापमान
+gpu_temp_color=00FF00,FFFF00,FF0000
+
+# HUD से बाहर रखे गए एप्लिकेशन
+blacklist=protonplus,lsfg-vk-ui,bazzar,gnome-calculator,pamac-manager,lact,ghb,bitwig-studio,ptyxis,yumex

@@ -1,0 +1,37 @@
+legacy_layout=0
+
+### 最小显示 ###
+
+fps                 # FPS
+frame_timing        # 帧时间 / 流畅度
+frametime_color=00FF00
+vsync=0
+gpu_stats           # GPU 统计
+cpu_stats           # CPU 统计
+cpu_temp=1          # CPU 温度
+cpu_temp_color=00FF00,FFFF00,FF0000
+ram                 # RAM 使用率
+gamemode            # GameMode 状态
+hud_compact         # 紧凑显示
+
+fps_limit_method=early
+toggle_fps_limit=Shift_L+F1  # 开启/关闭 FPS 限制
+
+network=enp4s0      # 以太网
+vram                # VRAM 使用率
+
+vram_color=AD64C1
+gpu_color=55AAFF
+cpu_color=FFAA33
+ram_color=66DD66
+
+position=top-left
+toggle_hud=Shift_L+F12       # 显示/隐藏 HUD
+background_alpha=0.15        # 背景透明度
+font_size=12
+
+gpu_temp=1                   # GPU 温度
+gpu_temp_color=00FF00,FFFF00,FF0000
+
+# 不显示 HUD 的应用程序
+blacklist=protonplus,lsfg-vk-ui,bazzar,gnome-calculator,pamac-manager,lact,ghb,bitwig-studio,ptyxis,yumex

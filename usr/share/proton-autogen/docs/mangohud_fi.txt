@@ -1,0 +1,37 @@
+legacy_layout=0
+
+### MINIMAALINEN NÄYTTÖ ###
+
+fps                 # FPS
+frame_timing        # Frametime / sulavuus
+frametime_color=00FF00
+vsync=0
+gpu_stats           # GPU-tilastot
+cpu_stats           # CPU-tilastot
+cpu_temp=1          # CPU-lämpötila
+cpu_temp_color=00FF00,FFFF00,FF0000
+ram                 # RAM-muistin käyttö
+gamemode            # GameModen tila
+hud_compact         # Tiivis näyttö
+
+fps_limit_method=early
+toggle_fps_limit=Shift_L+F1  # FPS-rajoituksen käyttöön/pois
+
+network=enp4s0      # Ethernet-verkko
+vram                # VRAM-muistin käyttö
+
+vram_color=AD64C1
+gpu_color=55AAFF
+cpu_color=FFAA33
+ram_color=66DD66
+
+position=top-left
+toggle_hud=Shift_L+F12       # Näytä/piilota HUD
+background_alpha=0.15        # Taustan läpinäkyvyys
+font_size=12
+
+gpu_temp=1                   # GPU-lämpötila
+gpu_temp_color=00FF00,FFFF00,FF0000
+
+# HUD-näytöstä poissuljetut sovellukset
+blacklist=protonplus,lsfg-vk-ui,bazzar,gnome-calculator,pamac-manager,lact,ghb,bitwig-studio,ptyxis,yumex

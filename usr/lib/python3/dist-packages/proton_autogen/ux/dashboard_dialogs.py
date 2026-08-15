@@ -6,7 +6,7 @@ from gi.repository import Gtk, Gdk
 
 from proton_autogen.color_label import insert_colored_text, insert_sensor_text, insert_about_text
 from proton_autogen.core import get_about_text, get_about_proton_text
-from proton_autogen.info import get_help_text
+from proton_autogen.info import get_help_text, get_mangohud_model_text
 from proton_autogen.sensor import get_sensors_text, get_mangohud_advice
 from proton_autogen.requis import afficher_requirements_label
 from proton_autogen.backend import get_diagnostic_text
@@ -128,7 +128,9 @@ class DashboardDialogsMixin:
     # -------------------------
     def show_mangohud_advice_dialog(self):
         scroll, textview = self._build_text_view(left_margin=0, right_margin=0)
-        insert_colored_text(textview.get_buffer(), get_mangohud_advice())
+        texteinter = "========================================================================"
+        textmango = "\n\n".join([get_mangohud_advice(), texteinter, get_mangohud_model_text()])
+        insert_colored_text(textview.get_buffer(), textmango)
         self.build_dialog(tr("dialog_title_mangohud_advice"), scroll, width=750, height=500)
 
     # -------------------------

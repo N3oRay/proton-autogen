@@ -1,0 +1,37 @@
+legacy_layout=0
+
+### МІНІМАЛЬНЕ ВІДОБРАЖЕННЯ ###
+
+fps                 # FPS
+frame_timing        # Frametime / плавність
+frametime_color=00FF00
+vsync=0
+gpu_stats           # Статистика GPU
+cpu_stats           # Статистика CPU
+cpu_temp=1          # Температура CPU
+cpu_temp_color=00FF00,FFFF00,FF0000
+ram                 # Використання RAM
+gamemode            # Стан GameMode
+hud_compact         # Компактне відображення
+
+fps_limit_method=early
+toggle_fps_limit=Shift_L+F1  # Увімк./вимк. обмеження FPS
+
+network=enp4s0      # Ethernet-мережа
+vram                # Використання VRAM
+
+vram_color=AD64C1
+gpu_color=55AAFF
+cpu_color=FFAA33
+ram_color=66DD66
+
+position=top-left
+toggle_hud=Shift_L+F12       # Показати/сховати HUD
+background_alpha=0.15        # Прозорість фону
+font_size=12
+
+gpu_temp=1                   # Температура GPU
+gpu_temp_color=00FF00,FFFF00,FF0000
+
+# Програми, виключені з HUD
+blacklist=protonplus,lsfg-vk-ui,bazzar,gnome-calculator,pamac-manager,lact,ghb,bitwig-studio,ptyxis,yumex

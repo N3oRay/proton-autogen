@@ -1,0 +1,37 @@
+legacy_layout=0
+
+### MINIMALE ANZEIGE ###
+
+fps                 # FPS
+frame_timing        # Frametime / Flüssigkeit
+frametime_color=00FF00
+vsync=0
+gpu_stats           # GPU-Statistiken
+cpu_stats           # CPU-Statistiken
+cpu_temp=1          # CPU-Temperatur
+cpu_temp_color=00FF00,FFFF00,FF0000
+ram                 # RAM-Auslastung
+gamemode            # GameMode-Status
+hud_compact         # Kompakte Anzeige
+
+fps_limit_method=early
+toggle_fps_limit=Shift_L+F1  # FPS-Limit umschalten
+
+network=enp4s0      # Ethernet-Netzwerk
+vram                # VRAM-Auslastung
+
+vram_color=AD64C1
+gpu_color=55AAFF
+cpu_color=FFAA33
+ram_color=66DD66
+
+position=top-left
+toggle_hud=Shift_L+F12       # HUD ein-/ausblenden
+background_alpha=0.15        # Hintergrundtransparenz
+font_size=12
+
+gpu_temp=1                   # GPU-Temperatur
+gpu_temp_color=00FF00,FFFF00,FF0000
+
+# Anwendungen vom HUD ausschließen
+blacklist=protonplus,lsfg-vk-ui,bazzar,gnome-calculator,pamac-manager,lact,ghb,bitwig-studio,ptyxis,yumex
