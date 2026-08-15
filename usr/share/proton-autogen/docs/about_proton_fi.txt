@@ -19,7 +19,7 @@ Näitä sijainteja ei tarvitse määrittää manuaalisesti.
 
 Voit lisätä omia Proton-sijainteja tiedostoon:
 
-`~/.config/proton-autogen.conf`
+`~/.config/proton-autogen/proton-autogen.conf`
 
 Esimerkiksi:
 

@@ -1,6 +1,7 @@
 #core.py proton-autogen
 import os
 import re
+import shutil
 import configparser
 from pathlib import Path
 
@@ -9,11 +10,36 @@ from proton_autogen.detection.proton import DEFAULT_PROTON_PATHS
 
 VERSION = "3.2.5"
 
-CONFIG_FILE = os.path.expanduser("~/.config/proton-autogen.conf")
+CONFIG_FILE = os.path.expanduser("~/.config/proton-autogen/proton-autogen.conf")
 CONFIG_DIR = os.path.expanduser("~/.config/proton-autogen/games")
 
 PREFIX_DIR = "~/Documents/Proton/env"
 PREFIX_DIR_PATH = os.path.expanduser(PREFIX_DIR)
+
+# Ancien emplacement (avant regroupement sous ~/.config/proton-autogen/).
+# Conservé uniquement pour la migration automatique ci-dessous.
+_LEGACY_CONFIG_FILE = os.path.expanduser("~/.config/proton-autogen.conf")
+
+
+def _migrate_legacy_config():
+    """Déplace l'ancien ~/.config/proton-autogen.conf vers le nouvel
+    emplacement ~/.config/proton-autogen/proton-autogen.conf, une seule
+    fois, sans jamais écraser un fichier déjà présent au nouvel endroit.
+    Échec silencieux : ne doit jamais empêcher le démarrage de l'appli."""
+    if os.path.isfile(CONFIG_FILE):
+        return  # déjà migré, ou déjà (re)créé au nouvel emplacement
+
+    if not os.path.isfile(_LEGACY_CONFIG_FILE):
+        return  # rien à migrer (nouvelle installation)
+
+    try:
+        os.makedirs(os.path.dirname(CONFIG_FILE), exist_ok=True)
+        shutil.move(_LEGACY_CONFIG_FILE, CONFIG_FILE)
+    except Exception:
+        pass
+
+
+_migrate_legacy_config()
 
 
 def load_proton_paths():

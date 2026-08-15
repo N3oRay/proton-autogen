@@ -38,7 +38,7 @@ Se Steam è installato tramite Flatpak, Proton-autogen cerca automaticamente nel
 
 Se Proton è installato in un'altra directory, puoi aggiungere il percorso in:
 
-~/.config/proton-autogen.conf
+~/.config/proton-autogen/proton-autogen.conf
 
 Esempio:
 
@@ -74,4 +74,4 @@ Proton-autogen rileva automaticamente le installazioni di Steam, Steam Flatpak, 
 
 Se la versione di Proton che utilizzi è installata in una posizione personalizzata, aggiungi semplicemente il relativo percorso in:
 
-~/.config/proton-autogen.conf
+~/.config/proton-autogen/proton-autogen.conf

@@ -19,7 +19,7 @@ Proton-autogen निम्नलिखित स्थानों की ज�
 
 आप इस फ़ाइल में अपने Proton पथ जोड़ सकते हैं:
 
-`~/.config/proton-autogen.conf`
+`~/.config/proton-autogen/proton-autogen.conf`
 
 उदाहरण:
 

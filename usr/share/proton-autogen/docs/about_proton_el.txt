@@ -38,7 +38,7 @@
 
 Εάν το Proton είναι εγκατεστημένο σε διαφορετικό φάκελο, μπορείτε να προσθέσετε τη διαδρομή στο:
 
-~/.config/proton-autogen.conf
+~/.config/proton-autogen/proton-autogen.conf
 
 Παράδειγμα:
 
@@ -74,4 +74,4 @@ proton-autogen --diag
 
 Εάν η έκδοση Proton που χρησιμοποιείτε είναι εγκατεστημένη σε προσαρμοσμένη τοποθεσία, προσθέστε απλώς τη διαδρομή της στο:
 
-~/.config/proton-autogen.conf
+~/.config/proton-autogen/proton-autogen.conf

@@ -19,7 +19,7 @@ Proton-autogen 会检查以下位置：
 
 你可以在以下文件中添加自定义 Proton 路径：
 
-`~/.config/proton-autogen.conf`
+`~/.config/proton-autogen/proton-autogen.conf`
 
 例如：
 

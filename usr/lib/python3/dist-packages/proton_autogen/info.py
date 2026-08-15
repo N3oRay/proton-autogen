@@ -313,7 +313,9 @@ Notes:
   - Falls back to Wine if Proton is unavailable
   - Supports Steam, Flatpak, and compatibilitytools installs
   - Configure custom Proton locations with
-    ~/.config/proton-autogen.conf
+    ~/.config//proton-autogen/proton-autogen.conf
+  - Config UX:
+    ~/.config//proton-autogen/proton-autogen-ux.conf
 """,
 
 ###############################################################################
@@ -375,7 +377,9 @@ Notes :
   - Utilise Wine si Proton n'est pas disponible
   - Compatible avec Steam, Flatpak et compatibilitytools
   - Configurer des emplacements Proton personnalisés avec
-    ~/.config/proton-autogen.conf
+    ~/.config//proton-autogen/proton-autogen.conf
+  - Config UX:
+    ~/.config//proton-autogen/proton-autogen-ux.conf
 """,
 
 ###############################################################################
@@ -435,7 +439,9 @@ Notes :
   - 自动选择最佳 Proton 版本
   - 如果 Proton 不可用则回退到 Wine
   - 支持 Steam、Flatpak 和 compatibilitytools 安装
-  - 可在 ~/.config/proton-autogen.conf 配置自定义 Proton 路径
+  - 可在 ~/.config/proton-autogen/proton-autogen.conf 配置自定义 Proton 路径
+  - Config UX:
+    ~/.config//proton-autogen/proton-autogen-ux.conf
 """
 }
 

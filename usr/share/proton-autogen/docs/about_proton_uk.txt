@@ -19,7 +19,7 @@ Proton-autogen перевіряє такі шляхи:
 
 Ви можете додати власні шляхи до Proton у файлі:
 
-`~/.config/proton-autogen.conf`
+`~/.config/proton-autogen/proton-autogen.conf`
 
 Наприклад:
 
