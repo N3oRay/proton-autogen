@@ -100,6 +100,8 @@
   "mangohud_restore_failed": "MangoHud-määrityksen palauttaminen epäonnistui",
   "mangohud_no_backup": "Palautettavaa varmuuskopiota ei löytynyt",
   "mangohud_config_not_found": "Määritystiedostoa ei ole saatavilla tälle kielelle",
-  "mangohud_config": "Suositeltu asetustiedosto:"
+  "mangohud_config": "Suositeltu asetustiedosto:",
+  "mangohud_samplecpu": "📊 Esimerkki MangoHudin CPU-kokoonpanosta:",
+  "mangohud_note": "✔ Pääytimen anturi valittu (vakaa valinta) — MangoHud ei välttämättä tunnista CPU:ta oikein joissakin tapauksissa. Katso yllä oleva kokoonpano."
 
 }

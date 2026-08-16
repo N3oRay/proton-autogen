@@ -130,7 +130,7 @@ class DashboardDialogsMixin:
         scroll, textview = self._build_text_view(left_margin=0, right_margin=0)
         texteinter = "~/.config/MangoHud/MangoHud.conf"
         texteinter2 = "=========================================================================================================="
-        textmango = "\n\n".join([get_mangohud_advice(),texteinter2,tr("mangohud_config"), texteinter,texteinter2,get_mangohud_model_text()])
+        textmango = "\n".join([tr("mangohud_samplecpu"), get_mangohud_advice(),tr("mangohud_note"),texteinter2,tr("mangohud_config"), texteinter,texteinter2,get_mangohud_model_text()])
         insert_colored_text(textview.get_buffer(), textmango)
 
         # Boutons Appliquer / Revenir en arrière — logique et widgets

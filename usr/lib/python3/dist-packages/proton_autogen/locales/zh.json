@@ -100,5 +100,7 @@
   "mangohud_restore_failed": "恢复 MangoHud 配置失败",
   "mangohud_no_backup": "未找到可恢复的备份",
   "mangohud_config_not_found": "此语言没有可用的配置文件",
-  "mangohud_config": "推荐的配置文件:"
+  "mangohud_config": "推荐的配置文件:",
+  "mangohud_samplecpu": "📊 MangoHud CPU 配置示例：",
+  "mangohud_note": "✔ 已选择主核心传感器（稳定选择）— MangoHud 有时可能无法正确检测 CPU。请参阅上方的配置。"
 }

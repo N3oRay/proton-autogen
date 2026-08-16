@@ -100,5 +100,7 @@
   "mangohud_restore_failed": "Impossibile ripristinare la configurazione MangoHud",
   "mangohud_no_backup": "Nessun backup trovato da ripristinare",
   "mangohud_config_not_found": "File di configurazione non disponibile per questa lingua",
-  "mangohud_config": "File di configurazione consigliato:"
+  "mangohud_config": "File di configurazione consigliato:",
+  "mangohud_samplecpu": "📊 Esempio di configurazione MangoHud per la CPU:",
+  "mangohud_note": "✔ Sensore del core principale selezionato (scelta stabile) — MangoHud potrebbe non rilevare correttamente la CPU in alcuni casi. Consulta la configurazione sopra."
 }

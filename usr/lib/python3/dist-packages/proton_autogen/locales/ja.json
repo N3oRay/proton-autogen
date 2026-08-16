@@ -100,5 +100,7 @@
   "mangohud_restore_failed": "MangoHudの設定の復元に失敗しました",
   "mangohud_no_backup": "復元可能なバックアップはありません",
   "mangohud_config_not_found": "この言語では設定ファイルを利用できません",
-  "mangohud_config": "推奨設定ファイル:"
+  "mangohud_config": "推奨設定ファイル:",
+  "mangohud_samplecpu": "📊 CPU向けMangoHud設定の例：",
+  "mangohud_note": "✔ メインコアのセンサーを選択（安定した選択）— MangoHudがCPUを正しく検出できない場合があります。上記の設定を参照してください。"
 }

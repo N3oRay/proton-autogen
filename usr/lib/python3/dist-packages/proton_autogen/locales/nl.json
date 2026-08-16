@@ -100,5 +100,7 @@
   "mangohud_restore_failed": "Herstellen van de MangoHud-configuratie mislukt",
   "mangohud_no_backup": "Geen back-up beschikbaar om te herstellen",
   "mangohud_config_not_found": "Configuratiebestand niet beschikbaar voor deze taal",
-  "mangohud_config": "Aanbevolen configuratiebestand:"
+  "mangohud_config": "Aanbevolen configuratiebestand:",
+  "mangohud_samplecpu": "📊 Voorbeeld van een MangoHud-configuratie voor de CPU:",
+  "mangohud_note": "✔ Sensor van de hoofdcore geselecteerd (stabiele keuze) — MangoHud detecteert de CPU soms mogelijk niet correct. Zie de bovenstaande configuratie."
 }
