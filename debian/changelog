@@ -1,6 +1,15 @@
-proton-autogen (3.2.5) noble; urgency=medium
+proton-autogen (3.2.6) noble; urgency=medium
 
   * Thanks to all users and contributors for their continued support, feedback and bug reports.
+  * Add support for Visual Novels using DirectX 11.
+  * Improve Dolphin integration.
+  * Fix the display of applications in the "Recently Used" section of the graphical interface.
+  * Document the available options in proton-autogen.conf.
+  * Centralize configuration management.
+  * Simplify Proton path resolution.
+  * Move Proton-Autogen configuration files to ~/.config/proton-autogen/.
+  * Improve MangoHud documentation and configuration guidance.
+  * Improve post-installation autonomy and provide advanced control over Proton prefixes, runtime environment, logging and process management.
   * Improved Dashboard responsiveness and overall application navigation.
   * Added ReShade shader support for dx9opengl profiles, allowing ReShade shaders and textures to be properly integrated and managed within these environments. (https://github.com/crosire/reshade-shaders)
   * Added a process manager to Proton-Autogen, providing improved process tracking and allowing applications launched through Proton-Autogen to be properly stopped and cleaned up.
@@ -15,4 +24,4 @@ proton-autogen (3.2.5) noble; urgency=medium
   * Improved Proton runtime selection and environment initialization for a smoother launch experience.
   * General UX improvements, performance optimizations and code cleanup.
 
- -- N3oray <n3oray77@gmail.com>  Fri, 14 Aug 2026 00:34:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Sun, 16 Aug 2026 03:17:00 +0200
