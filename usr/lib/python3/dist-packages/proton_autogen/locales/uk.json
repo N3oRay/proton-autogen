@@ -91,5 +91,14 @@
   "starting_proton_call": "Запуск Proton Call",
   "run_started": "Запуск розпочато",
   "config_read_error": "Помилка читання конфігурації {file}: {error}",
-  "proton_not_found": "\n        Встановлення Proton не знайдено.\n\n        Встановіть версію Proton (наприклад, через ProtonUp-Qt)\n        або вкажіть PROTON_PATH.\n\n        Командний рядок:\n          protonup -d ~/.steam/root/compatibilitytools.d\n\n        Перезапустіть Steam і спробуйте ще раз.\n        "
+  "proton_not_found": "\n        Встановлення Proton не знайдено.\n\n        Встановіть версію Proton (наприклад, через ProtonUp-Qt)\n        або вкажіть PROTON_PATH.\n\n        Командний рядок:\n          protonup -d ~/.steam/root/compatibilitytools.d\n\n        Перезапустіть Steam і спробуйте ще раз.\n        ",
+  "mangohud_apply_button": "Застосувати цю конфігурацію",
+  "mangohud_restore_button": "Повернутися до попередньої версії",
+  "mangohud_apply_success": "Конфігурацію MangoHud успішно застосовано",
+  "mangohud_apply_failed": "Не вдалося застосувати конфігурацію MangoHud",
+  "mangohud_restore_success": "Попередню конфігурацію MangoHud відновлено",
+  "mangohud_restore_failed": "Не вдалося відновити конфігурацію MangoHud",
+  "mangohud_no_backup": "Резервну копію для відновлення не знайдено",
+  "mangohud_config_not_found": "Файл конфігурації недоступний для цієї мови",
+  "mangohud_config": "Рекомендований файл конфігурації:"
 }

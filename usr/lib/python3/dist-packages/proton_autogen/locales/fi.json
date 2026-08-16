@@ -91,5 +91,15 @@
   "starting_proton_call": "Käynnistetään Proton Call",
   "run_started": "Suoritus aloitettu",
   "config_read_error": "Virhe asetusten lukemisessa {file}: {error}",
-  "proton_not_found": "\n        Proton-asennusta ei löytynyt.\n\n        Asenna Proton-versio (esimerkiksi ProtonUp-Qt:n avulla)\n        tai määritä PROTON_PATH.\n\n        Komentorivi:\n          protonup -d ~/.steam/root/compatibilitytools.d\n\n        Käynnistä Steam uudelleen ja yritä uudelleen.\n        "
+  "proton_not_found": "\n        Proton-asennusta ei löytynyt.\n\n        Asenna Proton-versio (esimerkiksi ProtonUp-Qt:n avulla)\n        tai määritä PROTON_PATH.\n\n        Komentorivi:\n          protonup -d ~/.steam/root/compatibilitytools.d\n\n        Käynnistä Steam uudelleen ja yritä uudelleen.\n        ",
+  "mangohud_apply_button": "Käytä tätä määritystä",
+  "mangohud_restore_button": "Palauta edellinen versio",
+  "mangohud_apply_success": "MangoHud-määritys otettu käyttöön onnistuneesti",
+  "mangohud_apply_failed": "MangoHud-määrityksen käyttöönotto epäonnistui",
+  "mangohud_restore_success": "Edellinen MangoHud-määritys palautettu",
+  "mangohud_restore_failed": "MangoHud-määrityksen palauttaminen epäonnistui",
+  "mangohud_no_backup": "Palautettavaa varmuuskopiota ei löytynyt",
+  "mangohud_config_not_found": "Määritystiedostoa ei ole saatavilla tälle kielelle",
+  "mangohud_config": "Suositeltu asetustiedosto:"
+
 }

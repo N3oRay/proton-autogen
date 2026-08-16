@@ -91,5 +91,14 @@
   "starting_proton_call": "正在启动 Proton Call",
   "run_started": "启动完成",
   "config_read_error": "读取配置错误 {file}: {error}",
-  "proton_not_found": "\n                        未找到 Proton 安装。\n\n                        请安装 Proton 版本（例如使用 ProtonUp-Qt）\n                        或设置 PROTON_PATH。\n\n                        命令：\n                          protonup -d ~/.steam/root/compatibilitytools.d\n\n                        请重启 Steam 后重试。\n                        "
+  "proton_not_found": "\n                        未找到 Proton 安装。\n\n                        请安装 Proton 版本（例如使用 ProtonUp-Qt）\n                        或设置 PROTON_PATH。\n\n                        命令：\n                          protonup -d ~/.steam/root/compatibilitytools.d\n\n                        请重启 Steam 后重试。\n                        ",
+  "mangohud_apply_button": "应用此配置",
+  "mangohud_restore_button": "恢复以前的版本",
+  "mangohud_apply_success": "MangoHud 配置已成功应用",
+  "mangohud_apply_failed": "应用 MangoHud 配置失败",
+  "mangohud_restore_success": "已恢复以前的 MangoHud 配置",
+  "mangohud_restore_failed": "恢复 MangoHud 配置失败",
+  "mangohud_no_backup": "未找到可恢复的备份",
+  "mangohud_config_not_found": "此语言没有可用的配置文件",
+  "mangohud_config": "推荐的配置文件:"
 }

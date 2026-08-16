@@ -200,7 +200,7 @@ def get_mangohud_advice():
             break
 
     return (
-        "📊 MangoHud recommended config:\n\n"
+        "📊 MangoHud config sample:\n\n"
         "cpu_stats\n"
         "cpu_temp\n"
         f"cpu_custom_temp_sensor={cpu_sensor},{cpu_input}\n\n"

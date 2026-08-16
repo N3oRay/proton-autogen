@@ -91,5 +91,14 @@
   "starting_proton_call": "Proton Call を起動中",
   "run_started": "実行を開始しました",
   "config_read_error": "設定の読み込みエラー {file}: {error}",
-  "proton_not_found": "\n        Proton のインストールが見つかりません。\n\n        Proton のバージョンをインストールしてください（例: ProtonUp-Qt を使用）。\n        または PROTON_PATH を指定してください。\n\n        コマンドライン:\n          protonup -d ~/.steam/root/compatibilitytools.d\n\n        Steam を再起動して、もう一度お試しください。\n        "
+  "proton_not_found": "\n        Proton のインストールが見つかりません。\n\n        Proton のバージョンをインストールしてください（例: ProtonUp-Qt を使用）。\n        または PROTON_PATH を指定してください。\n\n        コマンドライン:\n          protonup -d ~/.steam/root/compatibilitytools.d\n\n        Steam を再起動して、もう一度お試しください。\n        ",
+  "mangohud_apply_button": "この設定を適用",
+  "mangohud_restore_button": "以前のバージョンに戻す",
+  "mangohud_apply_success": "MangoHudの設定が正常に適用されました",
+  "mangohud_apply_failed": "MangoHudの設定の適用に失敗しました",
+  "mangohud_restore_success": "以前のMangoHudの設定が復元されました",
+  "mangohud_restore_failed": "MangoHudの設定の復元に失敗しました",
+  "mangohud_no_backup": "復元可能なバックアップはありません",
+  "mangohud_config_not_found": "この言語では設定ファイルを利用できません",
+  "mangohud_config": "推奨設定ファイル:"
 }

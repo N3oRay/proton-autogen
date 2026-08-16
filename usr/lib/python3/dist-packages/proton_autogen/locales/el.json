@@ -91,5 +91,14 @@
   "starting_proton_call": "Εκκίνηση Proton Call",
   "run_started": "Η εκτέλεση ξεκίνησε",
   "config_read_error": "Σφάλμα ανάγνωσης ρυθμίσεων {file}: {error}",
-  "proton_not_found": "\n        Δεν βρέθηκε εγκατάσταση Proton.\n\n        Εγκαταστήστε μια έκδοση του Proton (π.χ. μέσω του ProtonUp-Qt)\n        ή καθορίστε το PROTON_PATH.\n\n        Γραμμή εντολών:\n          protonup -d ~/.steam/root/compatibilitytools.d\n\n        Επανεκκινήστε το Steam και δοκιμάστε ξανά.\n        "
+  "proton_not_found": "\n        Δεν βρέθηκε εγκατάσταση Proton.\n\n        Εγκαταστήστε μια έκδοση του Proton (π.χ. μέσω του ProtonUp-Qt)\n        ή καθορίστε το PROTON_PATH.\n\n        Γραμμή εντολών:\n          protonup -d ~/.steam/root/compatibilitytools.d\n\n        Επανεκκινήστε το Steam και δοκιμάστε ξανά.\n        ",
+  "mangohud_apply_button": "Εφαρμογή αυτής της διαμόρφωσης",
+  "mangohud_restore_button": "Επαναφορά προηγούμενης έκδοσης",
+  "mangohud_apply_success": "Η διαμόρφωση MangoHud εφαρμόστηκε με επιτυχία",
+  "mangohud_apply_failed": "Αποτυχία εφαρμογής της διαμόρφωσης MangoHud",
+  "mangohud_restore_success": "Η προηγούμενη διαμόρφωση MangoHud επαναφέρθηκε",
+  "mangohud_restore_failed": "Αποτυχία επαναφοράς της διαμόρφωσης MangoHud",
+  "mangohud_no_backup": "Δεν βρέθηκε αντίγραφο ασφαλείας για επαναφορά",
+  "mangohud_config_not_found": "Το αρχείο διαμόρφωσης δεν είναι διαθέσιμο για αυτήν τη γλώσσα",
+  "mangohud_config": "Προτεινόμενο αρχείο διαμόρφωσης:"
 }

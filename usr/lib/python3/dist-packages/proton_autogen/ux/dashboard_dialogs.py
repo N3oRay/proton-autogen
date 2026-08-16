@@ -128,10 +128,19 @@ class DashboardDialogsMixin:
     # -------------------------
     def show_mangohud_advice_dialog(self):
         scroll, textview = self._build_text_view(left_margin=0, right_margin=0)
-        texteinter = "========================================================================"
-        textmango = "\n\n".join([get_mangohud_advice(), texteinter, get_mangohud_model_text()])
+        texteinter = "~/.config/MangoHud/MangoHud.conf"
+        texteinter2 = "=========================================================================================================="
+        textmango = "\n\n".join([get_mangohud_advice(),texteinter2,tr("mangohud_config"), texteinter,texteinter2,get_mangohud_model_text()])
         insert_colored_text(textview.get_buffer(), textmango)
-        self.build_dialog(tr("dialog_title_mangohud_advice"), scroll, width=750, height=500)
+
+        # Boutons Appliquer / Revenir en arrière — logique et widgets
+        # fournis par DashboardMangoHudMixin (dashboard_mangohud.py),
+        # mixé sur Dashboard.
+        container = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
+        container.append(scroll)
+        container.append(self._build_mangohud_action_buttons())
+
+        self.build_dialog(tr("dialog_title_mangohud_advice"), container, width=900, height=700)
 
     # -------------------------
     # EXPORT LUTRIS - MESSAGE DIALOG
