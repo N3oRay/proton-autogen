@@ -125,8 +125,8 @@ class DashboardUIMixin:
 
     def _build_carousels(self, root):
         carousel_buttons = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
-        self.favorites_btn = Gtk.Button(label="⭐ Favorites")
-        self.recent_btn = Gtk.Button(label="🕘 Recently played")
+        self.favorites_btn = Gtk.Button(label=f"⭐ {tr('favorites')}")
+        self.recent_btn = Gtk.Button(label=f"🕘 {tr('recently_played')}")
         self.favorites_btn.add_css_class("section-toggle")
         self.recent_btn.add_css_class("section-toggle")
         carousel_buttons.append(self.favorites_btn)
@@ -222,7 +222,7 @@ class DashboardUIMixin:
         self.spinner = Gtk.Spinner()
         self.spinner.set_visible(False)
 
-        self.status = Gtk.Label(label="Ready")
+        self.status = Gtk.Label(label=tr("ready"))
         self.status.set_xalign(0)
         self.status.add_css_class("home-label")
         self.status.set_hexpand(True)

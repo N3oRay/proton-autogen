@@ -76,6 +76,7 @@
   "unavailable": "Niet beschikbaar",
   "favorite": "Favoriet",
   "favorites": "Favorieten",
+  "recently_played": "Onlangs gespeeld",
   "playtime": "Speeltijd",
   "remove_from_library": "Game uit bibliotheek verwijderen",
   "export_lutris": "Exporteren naar Lutris (.yml)",

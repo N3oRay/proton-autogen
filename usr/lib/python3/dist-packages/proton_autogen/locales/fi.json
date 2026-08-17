@@ -76,6 +76,7 @@
   "unavailable": "Ei saatavilla",
   "favorite": "Suosikki",
   "favorites": "Suosikit",
+  "recently_played": "Äskettäin pelatut",
   "playtime": "Pelien peliaika",
   "remove_from_library": "Poista peli kirjastosta",
   "export_lutris": "Vie Lutris (.yml)",
@@ -103,5 +104,4 @@
   "mangohud_config": "Suositeltu asetustiedosto:",
   "mangohud_samplecpu": "📊 Esimerkki MangoHudin CPU-kokoonpanosta:",
   "mangohud_note": "✔ Pääytimen anturi valittu (vakaa valinta) — MangoHud ei välttämättä tunnista CPU:ta oikein joissakin tapauksissa. Katso yllä oleva kokoonpano."
-
 }

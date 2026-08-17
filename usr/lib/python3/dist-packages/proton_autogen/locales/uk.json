@@ -76,6 +76,7 @@
   "unavailable": "Недоступно",
   "favorite": "Улюблене",
   "favorites": "Улюблені",
+  "recently_played": "Нещодавно зіграні",
   "playtime": "Час гри",
   "remove_from_library": "Видалити гру з бібліотеки",
   "export_lutris": "Експортувати до Lutris (.yml)",

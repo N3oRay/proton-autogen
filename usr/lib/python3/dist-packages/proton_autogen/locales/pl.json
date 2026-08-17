@@ -76,6 +76,7 @@
   "unavailable": "Niedostępne",
   "favorite": "Ulubiona",
   "favorites": "Ulubione",
+  "recently_played": "Ostatnio grane",
   "playtime": "Czas gry",
   "remove_from_library": "Usuń grę z biblioteki",
   "export_lutris": "Eksportuj do Lutris (.yml)",

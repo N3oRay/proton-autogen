@@ -76,6 +76,7 @@
   "unavailable": "Μη διαθέσιμο",
   "favorite": "Αγαπημένο",
   "favorites": "Αγαπημένα",
+  "recently_played": "Πρόσφατα παιγμένα",
   "playtime": "Χρόνος παιχνιδιού",
   "remove_from_library": "Αφαίρεση παιχνιδιού από τη βιβλιοθήκη",
   "export_lutris": "Εξαγωγή Lutris (.yml)",

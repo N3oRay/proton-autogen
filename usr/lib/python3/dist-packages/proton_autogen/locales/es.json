@@ -76,6 +76,7 @@
   "unavailable": "No disponible",
   "favorite": "Favorito",
   "favorites": "Favoritos",
+  "recently_played": "Jugados recientemente",
   "playtime": "Tiempo de juego",
   "remove_from_library": "Eliminar juego de la biblioteca",
   "export_lutris": "Exportar a Lutris (.yml)",
@@ -103,5 +104,4 @@
   "mangohud_config": "Archivo de configuración recomendado:",
   "mangohud_samplecpu": "📊 Ejemplo de configuración de MangoHud para la CPU:",
   "mangohud_note": "✔ Sensor del núcleo principal seleccionado (opción estable) — MangoHud puede no detectar correctamente la CPU en algunos casos. Consulta la configuración anterior."
-
 }

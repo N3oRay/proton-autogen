@@ -76,6 +76,7 @@
   "unavailable": "उपलब्ध नहीं",
   "favorite": "पसंदीदा",
   "favorites": "पसंदीदा",
+  "recently_played": "हाल ही में खेला गया",
   "playtime": "खेलने का समय",
   "remove_from_library": "गेम को लाइब्रेरी से हटाएँ",
   "export_lutris": "Lutris में निर्यात करें (.yml)",

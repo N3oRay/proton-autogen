@@ -76,6 +76,7 @@
   "unavailable": "利用不可",
   "favorite": "お気に入り",
   "favorites": "お気に入り",
+  "recently_played": "最近プレイしたゲーム",
   "playtime": "プレイ時間",
   "remove_from_library": "ライブラリからゲームを削除",
   "export_lutris": "Lutris をエクスポート（.yml）",

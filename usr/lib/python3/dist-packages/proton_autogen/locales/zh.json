@@ -76,6 +76,7 @@
   "unavailable": "不可用",
   "favorite": "收藏",
   "favorites": "收藏夹",
+  "recently_played": "最近玩过",
   "playtime": "游戏时间",
   "remove_from_library": "从库中移除游戏",
   "export_lutris": "导出到 Lutris (.yml)",
