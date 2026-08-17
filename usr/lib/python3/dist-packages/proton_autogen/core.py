@@ -35,7 +35,7 @@ from proton_autogen.profiles.dotnet import env_dotnet
 
 from proton_autogen.detection.analyser import has_proton_call, has_wine, has_mangohud, has_gamemode, has_gamescope, has_xrandr
 from proton_autogen.detection.proton import DEFAULT_PROTON_PATHS
-from proton_autogen.detection.mangohud import find_mangohud_shim, check_mangohud_abi
+from proton_autogen.detection.mangohud import configure_mangohud_env
 from proton_autogen.dector import resolve_game_features, gpu_env
 
 from proton_autogen.util_path import proton_path, proton_name
@@ -333,30 +333,6 @@ def get_prefix_path(prefix_mode: str, exe_path: str) -> str:
         output, short_hash = make_output_path(exe_path, root)
 
         return output
-
-
-def add_ld_preload(env, library):
-    """
-    Ajoute une bibliothèque à LD_PRELOAD sans écraser
-    les bibliothèques déjà présentes.
-    """
-    if not os.path.exists(library):
-        logger.warn(f"Missing library: {library}")
-        return env
-
-    current = env.get("LD_PRELOAD", "")
-
-    if current:
-        if library not in current.split(":"):
-            env["LD_PRELOAD"] = f"{library}:{current}"
-    else:
-        env["LD_PRELOAD"] = library
-
-    return env
-
-
-def is_32bit_exe(path):
-    return get_exe_arch(path) == "32bit"
 
 # -------------------------------------------------------------------------------------------------------------------------------------
 # Two independent threads handle the simultaneous reading of standard and error outputs to ensure smooth display and prevent deadlocks.
@@ -746,43 +722,10 @@ def run_game_proton(exe_path, exe_type, proton,
             # clean env var !
             clear_gamescope_env(env)
 
-        if enable_mangohud and has_mangohud():
-            env["MANGOHUD"] = "1"
-            env["MANGOHUD_DLSYM"] = "1"
-            env["DXVK_HUD"] = "0"
-
-            # FPS cap only if needed
-            if "fps_limit" not in env.get("MANGOHUD_CONFIG", ""):
-                env["MANGOHUD_CONFIG"] = "fps_limit=60"
-
-            is_32bit = is_32bit_exe(exe_path)
-
-            # OpenGL only for legacy DX9 / old games
-            if exe_type in ["dx9", "dx9opengl", "oldgame", "ut99", "ut3", "valve"]:
-                env["MANGOHUD_OPENGL"] = "1"
-            else:
-                env.pop("MANGOHUD_OPENGL", None)
-
-            # 32-bit shim only when needed
-            if is_32bit:
-                logger.info("32-bit legacy game detected")
-
-                mangohud_shim = find_mangohud_shim()
-
-                if mangohud_shim and os.path.exists(mangohud_shim):
-                    if not check_mangohud_abi(mangohud_shim):
-                        logger.info("MangoHud ABI mismatch detected - skipping")
-                    else:
-                        env = add_ld_preload(env, mangohud_shim)
-                        logger.info("Loaded MangoHud 32-bit shim")
-                else:
-                    logger.info("No MangoHud 32-bit shim found, relying on Proton runtime")
-
-            # optional: Vulkan explicit toggle
-            if exe_type in ["vulkan", "dxvk"]:
-                env["MANGOHUD"] = "1"
-        else:
-            env.pop("MANGOHUD", None)
+        # =========================
+        # MANGOHUD OPTIONS
+        # =========================
+        env = configure_mangohud_env( env, exe_path, exe_type, mangohud_available, arch )
 
         if gamemode_available:
             env["GAMEMODE"] = "1"
@@ -807,7 +750,7 @@ def run_game_proton(exe_path, exe_type, proton,
         logger.info(f"Launch mode: Proton ")
 
 
-        if enable_mangohud and has_mangohud():
+        if mangohud_available:
             # DEBUG ENVIRONMENT
             log_mangohud_env(logger, env)
 
