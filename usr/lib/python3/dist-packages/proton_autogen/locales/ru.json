@@ -66,6 +66,7 @@
   "gamescope": "GameScope",
   "xrandr": "Xrandr",
   "mangohud": "MangoHud",
+  "env_vars": "Переменные окружения",
   "runtime_information": "Информация о среде выполнения",
   "executable": "Исполняемый файл",
   "proton": "Proton",

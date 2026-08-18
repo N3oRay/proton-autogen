@@ -356,6 +356,12 @@ checkbutton.feature-toggle:checked label {
     font-size:14px;
 }
 
+.form-label {
+    color: @hk_text;
+    font-weight: 600;
+    font-size: 13px;
+}
+
 .label-bottom {
     color: @hk_text;
     font-size: 16px;

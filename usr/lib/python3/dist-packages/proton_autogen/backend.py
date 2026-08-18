@@ -146,6 +146,8 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None, 
             cfg_mangohud = normalize_flag(features.get("mangohud"), False)
             cfg_gamemode = normalize_flag(features.get("gamemode"), False)
             cfg_gamescope = normalize_flag(features.get("gamescope"), False)
+            cfg_fps_limit = features.get("fps_limit", 60) or 60
+            cfg_custom_env = config.get("env", {}) or {}
             # Load features -----------------------------------------------
             rfeatures = resolve_game_features(
                 {"features": features},
@@ -171,6 +173,8 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None, 
             cfg_mangohud = False
             cfg_gamemode = False
             cfg_gamescope = False
+            cfg_fps_limit = 60
+            cfg_custom_env = {}
             rfeatures = None
             proton = find_proton()
 
@@ -223,7 +227,8 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None, 
             result_code = -1
             progress.update(80, tr("starting_proton"))
             result_code = run_game_proton(exe_path=exe_path, exe_type=exe_type, proton=proton, system=system, features=rfeatures, enable_mangohud=enable_mangohud,
-             enable_gamemode=enable_gamemode, enable_gamescope=enable_gamescope, prefix_mode=prefix_mode, progress=progress, game_id=game_id,)
+             enable_gamemode=enable_gamemode, enable_gamescope=enable_gamescope, fps_limit=cfg_fps_limit, custom_env=cfg_custom_env,
+             prefix_mode=prefix_mode, progress=progress, game_id=game_id,)
             if DEBUG or VERBOSE:
                 logger.debug("Result type: %s", type(result_code))
                 logger.debug("Result: %s", result_code)
@@ -620,9 +625,11 @@ def list_programs_ux(lang: str = "en"):
             "prefix": config.get("prefix", {"name": "main"}),
             "features": config.get("features", {
                 "mangohud": False,
+                "fps_limit": 60,
                 "gamemode": False,
                 "gamescope": False,
             }),
+            "env": config.get("env", {}),
 
             "favorite": config.get("favorite", False),
             "playtime": config.get("playtime", {

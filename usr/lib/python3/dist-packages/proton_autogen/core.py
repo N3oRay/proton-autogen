@@ -638,6 +638,7 @@ def get_exe_arch(path):
 def run_game_proton(exe_path, exe_type, proton,
                     system, features,
                     enable_mangohud=False, enable_gamemode=False, enable_gamescope=False,
+                    fps_limit=60, custom_env=None,
                     prefix_mode="main", progress=None, game_id=None):
 
     if progress is None:
@@ -698,6 +699,15 @@ def run_game_proton(exe_path, exe_type, proton,
         # -------------------------
         env.update(gpu_env(system, features))
 
+        # -------------------------
+        # Custom per-game environment variables (user-defined in the editor)
+        # Priorité haute : appliquées après tout le reste, l'utilisateur
+        # peut donc volontairement surcharger une valeur calculée plus haut.
+        # -------------------------
+        if custom_env:
+            logger.info(f"Applying {len(custom_env)} custom environment variable(s)")
+            env.update(custom_env)
+
         cmd = []
 
         if gamescope_available:
@@ -725,7 +735,7 @@ def run_game_proton(exe_path, exe_type, proton,
         # =========================
         # MANGOHUD OPTIONS
         # =========================
-        env = configure_mangohud_env( env, exe_path, exe_type, mangohud_available, arch )
+        env = configure_mangohud_env( env, exe_path, exe_type, mangohud_available, arch, fps_limit=fps_limit )
 
         if gamemode_available:
             env["GAMEMODE"] = "1"

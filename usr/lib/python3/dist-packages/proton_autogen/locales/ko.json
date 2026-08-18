@@ -66,6 +66,7 @@
   "gamescope": "GameScope",
   "xrandr": "Xrandr",
   "mangohud": "MangoHud",
+  "env_vars": "환경 변수",
   "runtime_information": "런타임 정보",
   "executable": "실행 파일",
   "proton": "Proton",

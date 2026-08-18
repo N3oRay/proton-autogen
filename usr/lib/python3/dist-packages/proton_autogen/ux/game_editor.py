@@ -12,6 +12,14 @@ from proton_autogen.desc import set_tooltip
 from proton_autogen.editor import list_prefixes_ux
 from proton_autogen.profiles.init import VALID_PROFILES
 
+# Valeur par défaut appliquée quand MangoHud est activé sans fps_limit défini
+DEFAULT_FPS_LIMIT = 60
+
+# Clés déjà gérées ailleurs dans l'éditeur : on ne les propose pas dans le
+# champ "variables d'environnement personnalisées" pour éviter les doublons
+# / conflits avec la logique interne (prefix, mangohud, gpu...).
+RESERVED_ENV_KEYS = set()
+
 # -----------------------------
 # GAME EDITOR WINDOW
 # -----------------------------
@@ -127,6 +135,25 @@ class GameEditor(Gtk.Window):
         self.mangohud.add_css_class("feature-toggle")
         self.mangohud.set_active(features.get("mangohud", False))
         set_tooltip(self.mangohud, "mangohud", self.lang)  #new code
+        self.mangohud.connect("toggled", self.on_mangohud_toggled)
+
+        # FPS LIMIT (visible seulement si MangoHud est actif)
+        fps_limit = features.get("fps_limit", DEFAULT_FPS_LIMIT)
+        fps_adjustment = Gtk.Adjustment(
+            value=fps_limit,
+            lower=0,
+            upper=1000,
+            step_increment=1,
+            page_increment=10,
+        )
+        self.fps_limit = Gtk.SpinButton()
+        self.fps_limit.add_css_class("fps-spinbutton")
+        self.fps_limit.set_adjustment(fps_adjustment)
+        self.fps_limit.set_numeric(True)
+        set_tooltip(self.fps_limit, "fps_limit", self.lang)
+
+        self.fps_limit_row = self._row("FPS limit", self.fps_limit)
+        self.fps_limit_row.set_sensitive(self.mangohud.get_active())
         # GAMEMODE
         self.gamemode = Gtk.CheckButton(label="Enable GameMode")
         self.gamemode.add_css_class("feature-toggle")
@@ -155,8 +182,38 @@ class GameEditor(Gtk.Window):
 
         root.append(self.favorite)
         root.append(self.mangohud)
+        root.append(self.fps_limit_row)
         root.append(self.gamemode)
         root.append(self.gamescope)
+
+        # -------------------------
+        # CUSTOM ENVIRONMENT VARIABLES
+        # -------------------------
+        env_label = Gtk.Label(label="Custom environment variables (KEY=VALUE, one per line)", xalign=0)
+        env_label.add_css_class("form-label")
+        root.append(env_label)
+
+        custom_env = self._existing_custom_env()
+        env_text = "\n".join(f"{k}={v}" for k, v in custom_env.items())
+
+        self.env_buffer = Gtk.TextBuffer()
+        self.env_buffer.set_text(env_text)
+
+        self.env_view = Gtk.TextView(buffer=self.env_buffer)
+        self.env_view.add_css_class("editor-env-view")
+        self.env_view.set_monospace(True)
+        set_tooltip(self.env_view, "custom_env", self.lang)
+
+        env_scroll = Gtk.ScrolledWindow()
+        env_scroll.set_min_content_height(90)
+        env_scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+        env_scroll.set_child(self.env_view)
+        root.append(env_scroll)
+
+        self.env_error_label = Gtk.Label(xalign=0)
+        self.env_error_label.add_css_class("error-label")
+        self.env_error_label.set_visible(False)
+        root.append(self.env_error_label)
 
         # -------------------------
         # SAVE BUTTON
@@ -166,6 +223,71 @@ class GameEditor(Gtk.Window):
         save_btn.connect("clicked", self.on_save)
 
         root.append(save_btn)
+
+    # -------------------------
+    # MANGOHUD / FPS LIMIT
+    # -------------------------
+    def on_mangohud_toggled(self, checkbutton):
+        self.fps_limit_row.set_sensitive(checkbutton.get_active())
+
+    # -------------------------
+    # CUSTOM ENV HELPERS
+    # -------------------------
+    def _existing_custom_env(self) -> dict:
+        """Variables d'environnement déjà enregistrées pour ce jeu,
+        hors clés réservées."""
+        env = self.game.get("env", {}) or {}
+        return {
+            k: v for k, v in env.items()
+            if k not in RESERVED_ENV_KEYS
+        }
+
+    def _parse_custom_env(self) -> tuple[dict, list[str]]:
+        """
+        Parse le contenu du champ "variables d'environnement personnalisées".
+
+        Format attendu : une variable par ligne, "KEY=VALUE".
+        Les lignes vides et celles commençant par '#' sont ignorées.
+
+        Returns:
+            (env_dict, errors) où errors contient un message par ligne invalide.
+        """
+        start = self.env_buffer.get_start_iter()
+        end = self.env_buffer.get_end_iter()
+        raw_text = self.env_buffer.get_text(start, end, False)
+
+        env = {}
+        errors = []
+
+        for line_no, raw_line in enumerate(raw_text.splitlines(), start=1):
+            line = raw_line.strip()
+
+            if not line or line.startswith("#"):
+                continue
+
+            if "=" not in line:
+                errors.append(f"Line {line_no}: expected KEY=VALUE, got '{line}'")
+                continue
+
+            key, _, value = line.partition("=")
+            key = key.strip()
+            value = value.strip()
+
+            if not key:
+                errors.append(f"Line {line_no}: empty variable name")
+                continue
+
+            if not key.replace("_", "").isalnum() or key[0].isdigit():
+                errors.append(f"Line {line_no}: invalid variable name '{key}'")
+                continue
+
+            if key in RESERVED_ENV_KEYS:
+                errors.append(f"Line {line_no}: '{key}' is a reserved variable")
+                continue
+
+            env[key] = value
+
+        return env, errors
 
     # -------------------------
     # UI HELPERS
@@ -189,6 +311,19 @@ class GameEditor(Gtk.Window):
 
     def on_save(self, _btn):
 
+        # Valider les variables d'environnement personnalisées AVANT de
+        # toucher quoi que ce soit : en cas d'erreur, on affiche le
+        # problème et on annule la sauvegarde plutôt que d'écrire une
+        # config à moitié invalide.
+        custom_env, env_errors = self._parse_custom_env()
+
+        if env_errors:
+            self.env_error_label.set_text("⚠ " + " | ".join(env_errors))
+            self.env_error_label.set_visible(True)
+            return
+
+        self.env_error_label.set_visible(False)
+
         proton = ""
         if self.protons and self.proton.get_selected() >= 0:
             proton = self.protons[self.proton.get_selected()]
@@ -207,10 +342,17 @@ class GameEditor(Gtk.Window):
 
         features.update({
             "mangohud": self.mangohud.get_active(),
+            "fps_limit": int(self.fps_limit.get_value()),
             "gamemode": self.gamemode.get_active(),
             "gamescope": self.gamescope.get_active(),
             "gpu": gpu
         })
+
+        # Le champ "variables d'environnement" affiché à l'utilisateur est
+        # la source de vérité : ce qui est écrit dedans (déjà validé et
+        # filtré des clés réservées par _parse_custom_env) devient le
+        # contenu final de data["env"].
+        env = dict(custom_env)
 
         data.update({
             "path": self.game["path"],
@@ -221,7 +363,8 @@ class GameEditor(Gtk.Window):
             "prefix": {
                 "name": prefix
             },
-            "features": features
+            "features": features,
+            "env": env,
         })
 
         save_game_config(data)

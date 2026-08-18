@@ -86,6 +86,12 @@ def save_game_config(data: dict):
     # merge safely
     merged = deep_merge(base, data)
 
+    # ENV est une configuration complète :
+    # ce qui est présent dans data["env"] devient la vérité.
+    # Cela permet notamment de supprimer une variable existante.
+    if "env" in data:
+        merged["env"] = dict(data["env"])
+
     # IMPORTANT: ensure required fields exist
     merged.setdefault("features", {})
     merged.setdefault("prefix", {"name": "main", "path": ""})

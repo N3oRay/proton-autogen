@@ -117,11 +117,13 @@ class GameList(Gtk.Box):
         subtitle = self._make_label("", "dim-label1")
         subtitle1 = self._make_label("", "dim-label1")
         subtitle2 = self._make_label("", "dim-label2", wrap=True)
+        subtitle3 = self._make_label("", "dim-label2", wrap=True)
 
         info_box.append(header_box)
         info_box.append(subtitle)
         info_box.append(subtitle1)
         info_box.append(subtitle2)
+        info_box.append(subtitle3)
 
         left_box.append(icon_holder)
         left_box.append(info_box)
@@ -167,6 +169,7 @@ class GameList(Gtk.Box):
         container.subtitle_label = subtitle
         container.subtitle1_label = subtitle1
         container.subtitle2_label = subtitle2
+        container.subtitle3_label = subtitle3
         container.btn_delete = btn_delete
         container.btn_export = btn_export
         container.btn_launch = btn_launch
@@ -198,6 +201,7 @@ class GameList(Gtk.Box):
         container.subtitle_label.set_text(self._format_subtitle(game))
         container.subtitle1_label.set_text(self._format_subtitle_options(game))
         container.subtitle2_label.set_text(self._format_subtitle_path(game))
+        container.subtitle3_label.set_text(self._format_subtitle_env(game))
 
         # BADGES
         child = container.badges_box.get_first_child()
@@ -292,7 +296,11 @@ class GameList(Gtk.Box):
         features = game.get("features", {})
         options = []
         if features.get("mangohud"):
-            options.append("MangoHud")
+            fps_limit = features.get("fps_limit")
+            if fps_limit:
+                options.append(f"MangoHud ({fps_limit} fps)")
+            else:
+                options.append("MangoHud")
         if features.get("gamemode"):
             options.append("GameMode")
         if features.get("gamescope"):
@@ -303,6 +311,14 @@ class GameList(Gtk.Box):
 
     def _format_subtitle_path(self, game):
         return game.get("path", "")
+
+    def _format_subtitle_env(self, game):
+        env = game.get("env", {}) or {}
+        if not env:
+            return ""
+
+        pairs = ", ".join(f"{k}={v}" for k, v in env.items())
+        return f"{tr('env_vars')}: {pairs}"
 
     # -------------------------
     # CALLBACKS

@@ -359,6 +359,27 @@ checkbutton.feature-toggle:checked label {
     font-size:14px;
 }
 
+.form-label {
+    color:
+        rgba(255,255,255,0.70);
+    font-weight: 600;
+    font-size: 13px;
+    background:
+        rgba(20,20,20,0.80);
+}
+
+.editor-env-view {
+    color:
+        rgba(255,255,255,0.70);
+    font-weight: 600;
+    font-size: 13px;
+    background:
+        rgba(20,20,20,0.80);
+
+    border:
+        1px solid rgba(255,255,255,0.06);
+}
+
 .label-bottom {
     color: white;
     font-size: 16px;
@@ -855,4 +876,44 @@ searchentry:disabled {
 
     box-shadow:
         0 0 10px rgba(46, 204, 113,0.35);
+}
+
+
+/* -------------------------------------------------
+   FPS limit SpinButton : texte blanc / fond noir transparent
+   ------------------------------------------------- */
+
+/* Conteneur global du spinbutton */
+.fps-spinbutton {
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 6px;
+    border: none;
+}
+
+/* Zone de saisie du nombre (nœud "text" en GTK4) */
+.fps-spinbutton text {
+    background-color: transparent;
+    color: #ffffff;
+    caret-color: #ffffff;
+}
+
+.fps-spinbutton text selection {
+    background-color: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+}
+
+/* Boutons flèches haut/bas */
+.fps-spinbutton button {
+    background-color: transparent;
+    color: #ffffff;
+    border: none;
+    box-shadow: none;
+}
+
+.fps-spinbutton button:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+.fps-spinbutton button:active {
+    background-color: rgba(255, 255, 255, 0.2);
 }

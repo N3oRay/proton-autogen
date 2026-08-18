@@ -66,6 +66,7 @@
   "gamescope": "GameScope",
   "xrandr": "Xrandr",
   "mangohud": "MangoHud",
+  "env_vars": "Variáveis de ambiente",
   "runtime_information": "Informações do ambiente de execução",
   "executable": "Executável",
   "proton": "Proton",

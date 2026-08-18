@@ -26,6 +26,12 @@ textview {
     color: @kde-text2;
 }
 
+.form-label {
+    color: @kde-text2;
+    font-weight: 600;
+    font-size: 13px;
+}
+
 
 /* =========================================================
    FENETRE

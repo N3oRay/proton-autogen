@@ -66,6 +66,7 @@
   "gamescope": "GameScope",
   "xrandr": "Xrandr",
   "mangohud": "MangoHud",
+  "env_vars": "Μεταβλητές περιβάλλοντος",
   "runtime_information": "Πληροφορίες runtime",
   "executable": "Εκτελέσιμο",
   "proton": "Proton",

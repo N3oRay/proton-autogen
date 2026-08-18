@@ -273,6 +273,7 @@ def add_game_ux(exe_path: str, prefix=None):
 
         "features": {
             "mangohud": False,
+            "fps_limit": 60,
             "gamemode": False,
             "gamescope": False,
             "xalia": None,
@@ -437,6 +438,7 @@ def add_game(exe_path: str):
 
         "features": {
             "mangohud": False,
+            "fps_limit": 60,
             "gamemode": False,
             "gamescope": False,
             "xalia": None,
@@ -489,6 +491,7 @@ def edit_game_ui(exe_path: str):
     while True:
         print("\n=== Edit Game ===")
         current_env_profile = config.get("env_profile") or config.get("exe_type")
+        custom_env_count = len(config.get("env", {}) or {})
         print(f"1) Profile    : {current_env_profile}")
         print(f"2) Proton     : {os.path.basename(config['proton'])}")
         print(f"3) Prefix     : {config['prefix']['name']}")
@@ -496,7 +499,9 @@ def edit_game_ui(exe_path: str):
         print(f"5) GameMode   : {config['features'].get('gamemode', False)}")
         print(f"6) Gamescope  : {config['features'].get('gamescope', False)}")
         print(f"7) GPU Mode   : {config['features'].get('gpu', 'auto')}")
-        print("8) Save & Quit")
+        print(f"8) FPS limit  : {config['features'].get('fps_limit', 60)}")
+        print(f"9) Env vars   : {custom_env_count} defined")
+        print("10) Save & Quit")
         print("0) Cancel")
 
         choice = input("\nSelection: ").strip()
@@ -557,6 +562,12 @@ def edit_game_ui(exe_path: str):
                 config["features"]["gpu"] = GPU_MODES[int(sel) - 1]
 
         elif choice == "8":
+            _edit_fps_limit(config)
+
+        elif choice == "9":
+            _edit_custom_env(config)
+
+        elif choice == "10":
             with open(config_path, "w") as f:
                 json.dump(config, f, indent=2)
 
@@ -565,6 +576,102 @@ def edit_game_ui(exe_path: str):
 
         elif choice == "0":
             print("[proton-autogen] Cancelled.")
+            return
+
+        else:
+            print("Invalid selection.")
+
+
+# -----------------------------
+# FPS LIMIT (CLI)
+# -----------------------------
+def _edit_fps_limit(config: dict) -> None:
+    """
+    Prompt for a new MangoHud fps_limit value (used only when MangoHud is
+    enabled, but stored regardless so it's ready as soon as it's turned on).
+    """
+    current = config["features"].get("fps_limit", 60)
+
+    if not config["features"].get("mangohud", False):
+        print("\n(Note: MangoHud is currently disabled, this value will be ignored until it's enabled)")
+
+    raw = input(f"\nFPS limit [{current}] (empty = keep current, 0 = unlimited): ").strip()
+
+    if not raw:
+        return
+
+    try:
+        value = int(raw)
+    except ValueError:
+        print("Invalid number, keeping current value.")
+        return
+
+    if value < 0:
+        print("FPS limit cannot be negative, keeping current value.")
+        return
+
+    config["features"]["fps_limit"] = value
+    print(f"FPS limit set to {value}.")
+
+
+# -----------------------------
+# CUSTOM ENVIRONMENT VARIABLES (CLI)
+# -----------------------------
+def _edit_custom_env(config: dict) -> None:
+    """
+    Small submenu to list / add / remove custom environment variables
+    stored under config["env"] (applied at launch, see core.run_game_proton).
+    """
+    config.setdefault("env", {})
+
+    while True:
+        env = config["env"]
+
+        print("\n--- Custom environment variables ---")
+        if env:
+            for key, value in env.items():
+                print(f"  {key}={value}")
+        else:
+            print("  (none defined)")
+
+        print("\n[a] Add / update a variable")
+        print("[r] Remove a variable")
+        print("[b] Back")
+
+        choice = input("\nSelection: ").strip().lower()
+
+        if choice == "a":
+            raw = input("Enter as KEY=VALUE: ").strip()
+
+            if "=" not in raw:
+                print("Invalid format, expected KEY=VALUE.")
+                continue
+
+            key, _, value = raw.partition("=")
+            key = key.strip()
+            value = value.strip()
+
+            if not key or not key.replace("_", "").isalnum() or key[0].isdigit():
+                print(f"Invalid variable name: '{key}'")
+                continue
+
+            env[key] = value
+            print(f"Set {key}={value}")
+
+        elif choice == "r":
+            if not env:
+                print("Nothing to remove.")
+                continue
+
+            key = input("Variable name to remove: ").strip()
+
+            if key in env:
+                del env[key]
+                print(f"Removed {key}.")
+            else:
+                print(f"'{key}' not found.")
+
+        elif choice == "b":
             return
 
         else:

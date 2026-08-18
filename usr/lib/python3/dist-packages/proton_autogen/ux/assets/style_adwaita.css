@@ -367,6 +367,12 @@ list row:selected,
     font-size: 13px;
 }
 
+.form-label {
+    color: @text-muted;
+    font-weight: 600;
+    font-size: 13px;
+}
+
 .label-bottom {
     color: @text;
     font-size: 14px;
