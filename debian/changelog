@@ -1,27 +1,13 @@
-proton-autogen (3.2.6) noble; urgency=medium
+proton-autogen (3.2.7) noble; urgency=medium
 
   * Thanks to all users and contributors for their continued support, feedback and bug reports.
-  * Add support for Visual Novels using DirectX 11.
-  * Improve Dolphin integration.
-  * Fix the display of applications in the "Recently Used" section of the graphical interface.
-  * Document the available options in proton-autogen.conf.
-  * Centralize configuration management.
-  * Simplify Proton path resolution.
-  * Move Proton-Autogen configuration files to ~/.config/proton-autogen/.
-  * Improve MangoHud documentation and configuration guidance.
-  * Improve post-installation autonomy and provide advanced control over Proton prefixes, runtime environment, logging and process management.
-  * Improved Dashboard responsiveness and overall application navigation.
-  * Added ReShade shader support for dx9opengl profiles, allowing ReShade shaders and textures to be properly integrated and managed within these environments. (https://github.com/crosire/reshade-shaders)
-  * Added a process manager to Proton-Autogen, providing improved process tracking and allowing applications launched through Proton-Autogen to be properly stopped and cleaned up.
-  * Improved application lifecycle management, ensuring related processes are handled correctly when stopping applications.
-  * Improved compatibility and environment handling for dx9opengl profiles.
-  * Improved process cleanup and termination handling for a more reliable application shutdown experience.
-  * Expanded UX internationalization with new translations for German, Spanish, Portuguese, Ukrainian, Hindi, Chinese, Korean, Japanese, Russian, Polish, Dutch, Greek, Finnish and Italian.
-  * Improved user-facing UX messages with clearer launch, execution, completion and error status feedback.
-  * Improved environment loading performance, reducing startup overhead and making runtime initialization faster.
-  * Improved system and environment detection performance, reducing unnecessary checks and speeding up Proton and Wine environment discovery.
-  * Optimized game and runtime detection workflows for faster Dashboard loading and improved responsiveness.
-  * Improved Proton runtime selection and environment initialization for a smoother launch experience.
-  * General UX improvements, performance optimizations and code cleanup.
+  * Thanks to all users and contributors for their continued support, feedback and bug reports.
+  * Add support for custom environment variables on a per-application basis, allowing users to define and manage application-specific runtime environment settings directly from the graphical editor.
+  * Add configurable FPS limits for MangoHud on a per-application basis.
+  * Improve application configuration management by correctly persisting, updating and removing custom environment variables.
+  * Improve the graphical application editor with dedicated controls for custom environment variables and MangoHud FPS limits.
+  * Improve environment configuration handling to ensure removed custom variables are properly deleted from application profiles.
+  * Improve MangoHud configuration flexibility with customizable FPS limits instead of relying solely on the default limit.
+  * General UX improvements, configuration handling improvements and code cleanup.
 
- -- N3oray <n3oray77@gmail.com>  Sun, 16 Aug 2026 03:17:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Tue, 18 Aug 2026 03:00:00 +0200
