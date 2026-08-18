@@ -13,6 +13,10 @@ MANGOHUD_OPENGL_EXE_TYPES = {
     "valve",
 }
 
+MANGOHUD_EXTRA_TYPES = {
+    "dx11Bnet",
+}
+
 MANGOHUD_VULKAN_EXE_TYPES = {
     "vulkan",
     "dxvk",
@@ -113,19 +117,22 @@ def configure_mangohud_env(env, exe_path, exe_type, mangohud_available, arch, fp
         env.pop("MANGOHUD", None)
         return env
 
-    env["MANGOHUD"] = "1"
-    env["MANGOHUD_DLSYM"] = "1"
-    env["DXVK_HUD"] = "0"
-
     # FPS cap only if needed
     if "fps_limit" not in env.get("MANGOHUD_CONFIG", ""):
         env["MANGOHUD_CONFIG"] =  f"fps_limit={fps_limit}"
+
+    env["MANGOHUD"] = "1"
+    env["MANGOHUD_DLSYM"] = "1"
+    env["DXVK_HUD"] = "0"
+    if exe_type in MANGOHUD_EXTRA_TYPES:
+       return env
 
     is_32bit = is_32bit_exe(arch)
 
     # OpenGL only for legacy DX9 / old games
     if exe_type in MANGOHUD_OPENGL_EXE_TYPES:
         env["MANGOHUD_OPENGL"] = "1"
+        env["MANGOHUD_DLSYM"] = "0"
     else:
         env.pop("MANGOHUD_OPENGL", None)
 

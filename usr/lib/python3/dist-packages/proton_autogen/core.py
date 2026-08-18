@@ -577,10 +577,10 @@ def base_env(enable_mangohud=False, enable_gamemode=False, enable_gamescope=Fals
     # -----------------------------
     if enable_mangohud:
         env["MANGOHUD"] = "1"
-        env["MANGOHUD_DLSYM"] = "1"
+        #env["MANGOHUD_DLSYM"] = "1"
     else:
         env.pop("MANGOHUD", None)
-        env.pop("MANGOHUD_DLSYM", None)
+        #env.pop("MANGOHUD_DLSYM", None)
     # -----------------------------
     # GameScope
     # -----------------------------
