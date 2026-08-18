@@ -47,6 +47,9 @@ def find_mangohud_shim():
         # Debian / Ubuntu / Linux Mint
         "/usr/lib/i386-linux-gnu/mangohud/libMangoHud_shim.so",
 
+        # MangoHud official installer
+        "/usr/lib/mangohud/i386-linux-gnu/libMangoHud_shim.so",
+
         # Installations locales
         "/usr/local/lib32/mangohud/libMangoHud_shim.so",
         "/usr/local/lib/i386-linux-gnu/mangohud/libMangoHud_shim.so",
