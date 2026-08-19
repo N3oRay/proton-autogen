@@ -104,5 +104,15 @@
   "mangohud_config_not_found": "Configuratiebestand niet beschikbaar voor deze taal",
   "mangohud_config": "Aanbevolen configuratiebestand:",
   "mangohud_samplecpu": "📊 Voorbeeld van een MangoHud-configuratie voor de CPU:",
-  "mangohud_note": "✔ Sensor van de hoofdcore geselecteerd (stabiele keuze) — MangoHud detecteert de CPU soms mogelijk niet correct. Zie de bovenstaande configuratie."
+  "mangohud_note": "✔ Sensor van de hoofdcore geselecteerd (stabiele keuze) — MangoHud detecteert de CPU soms mogelijk niet correct. Zie de bovenstaande configuratie.",
+  "install_shortcut": "Snelkoppeling maken",
+  "shortcut_dialog_title": "Snelkoppeling maken",
+  "shortcut_create_app": "Applicatiesnelkoppeling maken?",
+  "shortcut_create_desktop": "Bureaubladsnelkoppeling maken?",
+  "shortcut_create_button": "Maken",
+  "shortcut_app_success": "Applicatiesnelkoppeling gemaakt",
+  "shortcut_app_failed": "Maken van applicatiesnelkoppeling mislukt",
+  "shortcut_desktop_success": "Bureaubladsnelkoppeling gemaakt",
+  "shortcut_desktop_failed": "Maken van bureaubladsnelkoppeling mislukt",
+  "shortcut_nothing_selected": "Geen optie geselecteerd"
 }

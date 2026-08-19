@@ -21,13 +21,14 @@ class GameItem(GObject.GObject):
 class GameList(Gtk.Box):
 
     def __init__(self, on_launch=None, on_edit=None, on_delete=None,
-                 on_export_lutris=None, on_refresh=None, lang="en"):
+                 on_export_lutris=None, on_refresh=None, on_install=None, lang="en"):
         super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=6)
 
         self.on_launch = on_launch
         self.on_edit = on_edit
         self.on_delete = on_delete
         self.on_export_lutris = on_export_lutris
+        self.on_install = on_install   # <-- nouveau
         self.refresh_games = on_refresh
         self.lang = lang
         set_language(self.lang)
@@ -143,11 +144,21 @@ class GameList(Gtk.Box):
             btn_export.set_size_request(18, 18)
             btn_export.set_tooltip_text(tr("export_lutris"))
 
+        # bouton creation de raccourci bureau:
+        btn_install = Gtk.Button()
+        btn_install.set_icon_name("system-run-symbolic")
+        btn_install.add_css_class("btn-install")
+        btn_install.set_valign(Gtk.Align.CENTER)
+        btn_install.set_size_request(24, 18)
+        btn_install.set_tooltip_text(tr("install_shortcut"))
+
+        # bouton launch:
         btn_launch = Gtk.Button(label="▶")
         btn_launch.add_css_class("btn-launch")
         btn_launch.set_valign(Gtk.Align.CENTER)
         btn_launch.set_size_request(24, 18)
 
+        # bouton edit:
         btn_edit = Gtk.Button(label=tr("edit"))
         btn_edit.add_css_class("btn-edit")
         btn_edit.set_valign(Gtk.Align.CENTER)
@@ -159,6 +170,7 @@ class GameList(Gtk.Box):
             container.append(Gtk.Label(label=""))
             container.append(btn_export)
             container.append(Gtk.Label(label=""))
+        container.append(btn_install)      # <-- nouveau
         container.append(btn_edit)
         container.append(btn_launch)
 
@@ -173,6 +185,7 @@ class GameList(Gtk.Box):
         container.btn_delete = btn_delete
         container.btn_export = btn_export
         container.btn_launch = btn_launch
+        container.btn_install = btn_install     # <-- nouveau
         container.btn_edit = btn_edit
         container.handler_ids = {}  # signal handlers connectés au bind, à retirer à l'unbind
 
@@ -227,6 +240,10 @@ class GameList(Gtk.Box):
         container.handler_ids["edit"] = container.btn_edit.connect(
             "clicked", lambda _b: self._edit(item.data)
         )
+        #nouveau bouton create shortcut install
+        container.handler_ids["install"] = container.btn_install.connect(
+            "clicked", lambda _b: self._install(item.data)
+        )
 
     # -------------------------
     # FACTORY: UNBIND (nettoyage avant recyclage de la ligne)
@@ -239,6 +256,7 @@ class GameList(Gtk.Box):
         for name, btn in (
             ("delete", container.btn_delete),
             ("export", container.btn_export),
+            ("install", container.btn_install),   # <-- nouveau
             ("launch", container.btn_launch),
             ("edit", container.btn_edit),
         ):
@@ -338,3 +356,7 @@ class GameList(Gtk.Box):
     def _edit(self, game):
         if self.on_edit:
             self.on_edit(game)
+
+    def _install(self, game):
+        if self.on_install:
+            self.on_install(game)

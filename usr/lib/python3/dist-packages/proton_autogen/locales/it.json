@@ -104,5 +104,15 @@
   "mangohud_config_not_found": "File di configurazione non disponibile per questa lingua",
   "mangohud_config": "File di configurazione consigliato:",
   "mangohud_samplecpu": "📊 Esempio di configurazione MangoHud per la CPU:",
-  "mangohud_note": "✔ Sensore del core principale selezionato (scelta stabile) — MangoHud potrebbe non rilevare correttamente la CPU in alcuni casi. Consulta la configurazione sopra."
+  "mangohud_note": "✔ Sensore del core principale selezionato (scelta stabile) — MangoHud potrebbe non rilevare correttamente la CPU in alcuni casi. Consulta la configurazione sopra.",
+  "install_shortcut": "Crea collegamento",
+  "shortcut_dialog_title": "Crea collegamento",
+  "shortcut_create_app": "Creare un collegamento all'applicazione?",
+  "shortcut_create_desktop": "Creare un collegamento sul desktop?",
+  "shortcut_create_button": "Crea",
+  "shortcut_app_success": "Collegamento all'applicazione creato",
+  "shortcut_app_failed": "Creazione del collegamento all'applicazione non riuscita",
+  "shortcut_desktop_success": "Collegamento sul desktop creato",
+  "shortcut_desktop_failed": "Creazione del collegamento sul desktop non riuscita",
+  "shortcut_nothing_selected": "Nessuna opzione selezionata"
 }

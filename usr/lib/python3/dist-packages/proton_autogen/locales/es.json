@@ -104,5 +104,15 @@
   "mangohud_config_not_found": "Archivo de configuración no disponible para este idioma",
   "mangohud_config": "Archivo de configuración recomendado:",
   "mangohud_samplecpu": "📊 Ejemplo de configuración de MangoHud para la CPU:",
-  "mangohud_note": "✔ Sensor del núcleo principal seleccionado (opción estable) — MangoHud puede no detectar correctamente la CPU en algunos casos. Consulta la configuración anterior."
+  "mangohud_note": "✔ Sensor del núcleo principal seleccionado (opción estable) — MangoHud puede no detectar correctamente la CPU en algunos casos. Consulta la configuración anterior.",
+  "install_shortcut": "Crear acceso directo",
+  "shortcut_dialog_title": "Crear acceso directo",
+  "shortcut_create_app": "¿Crear acceso directo de aplicación?",
+  "shortcut_create_desktop": "¿Crear acceso directo de escritorio?",
+  "shortcut_create_button": "Crear",
+  "shortcut_app_success": "Acceso directo de aplicación creado",
+  "shortcut_app_failed": "Error al crear el acceso directo de aplicación",
+  "shortcut_desktop_success": "Acceso directo de escritorio creado",
+  "shortcut_desktop_failed": "Error al crear el acceso directo de escritorio",
+  "shortcut_nothing_selected": "Ninguna opción seleccionada"
 }

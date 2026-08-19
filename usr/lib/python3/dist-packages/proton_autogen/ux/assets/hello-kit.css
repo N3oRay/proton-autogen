@@ -54,6 +54,42 @@ button.suggested-action {
     color: @kawaii-pink-dark;
 }
 
+
+/*
+button.suggested-action {
+    background: #4caf50;
+    color: white;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+button.suggested-action:hover {
+    background: #43a047;
+}
+*/
+
+button.alternative-action {
+    background: #7e57c2;
+    color: @kawaii-pink-dark;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+button.alternative-action:hover {
+    background: #6a46b1;
+}
+
+button.destructive-action {
+    background: #f44336;
+    color: @kawaii-pink-dark;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+button.destructive-action:hover {
+    background: #e53935;
+}
+
 /* =========================================================
    FENETRE
    ========================================================= */

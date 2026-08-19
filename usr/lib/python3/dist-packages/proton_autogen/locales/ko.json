@@ -104,5 +104,15 @@
   "mangohud_config_not_found": "이 언어에서는 설정 파일을 사용할 수 없습니다",
   "mangohud_config": "권장 설정 파일:",
   "mangohud_samplecpu": "📊 CPU용 MangoHud 구성 예시:",
-  "mangohud_note": "✔ 기본 코어 센서 선택됨 (안정적인 선택) — MangoHud가 가끔 CPU를 올바르게 감지하지 못할 수 있습니다. 위의 구성을 참조하세요."
+  "mangohud_note": "✔ 기본 코어 센서 선택됨 (안정적인 선택) — MangoHud가 가끔 CPU를 올바르게 감지하지 못할 수 있습니다. 위의 구성을 참조하세요.",
+  "install_shortcut": "바로가기 만들기",
+  "shortcut_dialog_title": "바로가기 만들기",
+  "shortcut_create_app": "애플리케이션 바로가기를 만드시겠습니까?",
+  "shortcut_create_desktop": "바탕화면 바로가기를 만드시겠습니까?",
+  "shortcut_create_button": "만들기",
+  "shortcut_app_success": "애플리케이션 바로가기가 생성되었습니다",
+  "shortcut_app_failed": "애플리케이션 바로가기 생성에 실패했습니다",
+  "shortcut_desktop_success": "바탕화면 바로가기가 생성되었습니다",
+  "shortcut_desktop_failed": "바탕화면 바로가기 생성에 실패했습니다",
+  "shortcut_nothing_selected": "선택된 옵션이 없습니다"
 }

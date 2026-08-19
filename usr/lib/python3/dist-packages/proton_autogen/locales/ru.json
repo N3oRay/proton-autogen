@@ -104,5 +104,15 @@
   "mangohud_config_not_found": "Файл конфигурации недоступен для этого языка",
   "mangohud_config": "Рекомендуемый файл конфигурации:",
   "mangohud_samplecpu": "📊 Пример конфигурации MangoHud для CPU:",
-  "mangohud_note": "✔ Выбран датчик основного ядра (стабильный вариант) — MangoHud иногда может неправильно определять CPU. См. конфигурацию выше."
+  "mangohud_note": "✔ Выбран датчик основного ядра (стабильный вариант) — MangoHud иногда может неправильно определять CPU. См. конфигурацию выше.",
+  "install_shortcut": "Создать ярлык",
+  "shortcut_dialog_title": "Создать ярлык",
+  "shortcut_create_app": "Создать ярлык приложения?",
+  "shortcut_create_desktop": "Создать ярлык на рабочем столе?",
+  "shortcut_create_button": "Создать",
+  "shortcut_app_success": "Ярлык приложения создан",
+  "shortcut_app_failed": "Не удалось создать ярлык приложения",
+  "shortcut_desktop_success": "Ярлык на рабочем столе создан",
+  "shortcut_desktop_failed": "Не удалось создать ярлык на рабочем столе",
+  "shortcut_nothing_selected": "Ни один вариант не выбран"
 }

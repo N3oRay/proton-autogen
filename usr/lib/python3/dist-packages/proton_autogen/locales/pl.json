@@ -104,5 +104,15 @@
   "mangohud_config_not_found": "Plik konfiguracyjny jest niedostępny dla tego języka",
   "mangohud_config": "Zalecany plik konfiguracyjny:",
   "mangohud_samplecpu": "📊 Przykładowa konfiguracja MangoHud dla CPU:",
-  "mangohud_note": "✔ Wybrano czujnik głównego rdzenia (stabilny wybór) — MangoHud może czasami nieprawidłowo wykrywać CPU. Zobacz konfigurację powyżej."
+  "mangohud_note": "✔ Wybrano czujnik głównego rdzenia (stabilny wybór) — MangoHud może czasami nieprawidłowo wykrywać CPU. Zobacz konfigurację powyżej.",
+  "install_shortcut": "Utwórz skrót",
+  "shortcut_dialog_title": "Utwórz skrót",
+  "shortcut_create_app": "Utworzyć skrót aplikacji?",
+  "shortcut_create_desktop": "Utworzyć skrót na pulpicie?",
+  "shortcut_create_button": "Utwórz",
+  "shortcut_app_success": "Utworzono skrót aplikacji",
+  "shortcut_app_failed": "Nie udało się utworzyć skrótu aplikacji",
+  "shortcut_desktop_success": "Utworzono skrót na pulpicie",
+  "shortcut_desktop_failed": "Nie udało się utworzyć skrótu na pulpicie",
+  "shortcut_nothing_selected": "Nie wybrano żadnej opcji"
 }

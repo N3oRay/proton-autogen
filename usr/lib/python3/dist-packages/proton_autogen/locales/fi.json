@@ -104,5 +104,15 @@
   "mangohud_config_not_found": "Määritystiedostoa ei ole saatavilla tälle kielelle",
   "mangohud_config": "Suositeltu asetustiedosto:",
   "mangohud_samplecpu": "📊 Esimerkki MangoHudin CPU-kokoonpanosta:",
-  "mangohud_note": "✔ Pääytimen anturi valittu (vakaa valinta) — MangoHud ei välttämättä tunnista CPU:ta oikein joissakin tapauksissa. Katso yllä oleva kokoonpano."
+  "mangohud_note": "✔ Pääytimen anturi valittu (vakaa valinta) — MangoHud ei välttämättä tunnista CPU:ta oikein joissakin tapauksissa. Katso yllä oleva kokoonpano.",
+  "install_shortcut": "Luo pikakuvake",
+  "shortcut_dialog_title": "Luo pikakuvake",
+  "shortcut_create_app": "Luodaanko sovelluksen pikakuvake?",
+  "shortcut_create_desktop": "Luodaanko työpöydän pikakuvake?",
+  "shortcut_create_button": "Luo",
+  "shortcut_app_success": "Sovelluksen pikakuvake luotu",
+  "shortcut_app_failed": "Sovelluksen pikakuvakkeen luonti epäonnistui",
+  "shortcut_desktop_success": "Työpöydän pikakuvake luotu",
+  "shortcut_desktop_failed": "Työpöydän pikakuvakkeen luonti epäonnistui",
+  "shortcut_nothing_selected": "Ei valintaa"
 }

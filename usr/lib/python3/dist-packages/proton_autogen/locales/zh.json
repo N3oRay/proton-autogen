@@ -104,5 +104,15 @@
   "mangohud_config_not_found": "此语言没有可用的配置文件",
   "mangohud_config": "推荐的配置文件:",
   "mangohud_samplecpu": "📊 MangoHud CPU 配置示例：",
-  "mangohud_note": "✔ 已选择主核心传感器（稳定选择）— MangoHud 有时可能无法正确检测 CPU。请参阅上方的配置。"
+  "mangohud_note": "✔ 已选择主核心传感器（稳定选择）— MangoHud 有时可能无法正确检测 CPU。请参阅上方的配置。",
+  "install_shortcut": "创建快捷方式",
+  "shortcut_dialog_title": "创建快捷方式",
+  "shortcut_create_app": "创建应用程序快捷方式？",
+  "shortcut_create_desktop": "创建桌面快捷方式？",
+  "shortcut_create_button": "创建",
+  "shortcut_app_success": "应用程序快捷方式已创建",
+  "shortcut_app_failed": "创建应用程序快捷方式失败",
+  "shortcut_desktop_success": "桌面快捷方式已创建",
+  "shortcut_desktop_failed": "创建桌面快捷方式失败",
+  "shortcut_nothing_selected": "未选择任何选项"
 }

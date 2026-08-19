@@ -196,6 +196,28 @@ button.suggested-action:hover {
     background: #43a047;
 }
 
+button.alternative-action {
+    background: #7e57c2;
+    color: white;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+button.alternative-action:hover {
+    background: #6a46b1;
+}
+
+button.destructive-action {
+    background: #f44336;
+    color: white;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+button.destructive-action:hover {
+    background: #e53935;
+}
+
 .app-button {
 
     background:
@@ -328,7 +350,7 @@ button.suggested-action:hover {
 
     border-radius:22px;
     border:2px solid #f6dced;
-    padding:14px;
+    padding:8px;
     box-shadow:
         0 8px 24px rgba(255,170,210,0.18);
 }
@@ -486,7 +508,7 @@ label.home-label {
 
 .badge {
     border-radius:999px;
-    padding:4px 10px;
+    padding:4px 6px;
     background:#ffe1f2;
     color:#9b5d81;
     border:2px solid #ffc4df;

@@ -104,5 +104,15 @@
   "mangohud_config_not_found": "इस भाषा के लिए कॉन्फ़िगरेशन फ़ाइल उपलब्ध नहीं है",
   "mangohud_config": "अनुशंसित कॉन्फ़िगरेशन फ़ाइल:",
   "mangohud_samplecpu": "📊 CPU के लिए MangoHud कॉन्फ़िगरेशन का उदाहरण:",
-  "mangohud_note": "✔ मुख्य कोर सेंसर चयनित (स्थिर विकल्प) — MangoHud कभी-कभी CPU का सही ढंग से पता लगाने में विफल हो सकता है। ऊपर दी गई कॉन्फ़िगरेशन देखें।"
+  "mangohud_note": "✔ मुख्य कोर सेंसर चयनित (स्थिर विकल्प) — MangoHud कभी-कभी CPU का सही ढंग से पता लगाने में विफल हो सकता है। ऊपर दी गई कॉन्फ़िगरेशन देखें।",
+  "install_shortcut": "शॉर्टकट बनाएं",
+  "shortcut_dialog_title": "शॉर्टकट बनाएं",
+  "shortcut_create_app": "एप्लिकेशन शॉर्टकट बनाएं?",
+  "shortcut_create_desktop": "डेस्कटॉप शॉर्टकट बनाएं?",
+  "shortcut_create_button": "बनाएं",
+  "shortcut_app_success": "एप्लिकेशन शॉर्टकट बनाया गया",
+  "shortcut_app_failed": "एप्लिकेशन शॉर्टकट बनाने में विफल",
+  "shortcut_desktop_success": "डेस्कटॉप शॉर्टकट बनाया गया",
+  "shortcut_desktop_failed": "डेस्कटॉप शॉर्टकट बनाने में विफल",
+  "shortcut_nothing_selected": "कोई विकल्प चयनित नहीं"
 }

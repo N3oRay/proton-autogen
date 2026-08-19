@@ -13,12 +13,10 @@ versions = defaultdict(int)
 for binary in ppa.getPublishedBinaries():
     version = Version(binary.binary_package_version)
 
-    if version < MIN_VERSION:
-        break
-
-    versions[(binary.binary_package_name, str(version))] += (
-        binary.getDownloadCount()
-    )
+    if version >= MIN_VERSION:
+        versions[(binary.binary_package_name, str(version))] += (
+            binary.getDownloadCount()
+        )
 
 total = sum(versions.values())
 

@@ -104,5 +104,15 @@
   "mangohud_config_not_found": "Arquivo de configuração indisponível para este idioma",
   "mangohud_config": "Ficheiro de configuração recomendado:",
   "mangohud_samplecpu": "📊 Exemplo de configuração do MangoHud para a CPU:",
-  "mangohud_note": "✔ Sensor do núcleo principal selecionado (escolha estável) — O MangoHud pode, por vezes, não detetar corretamente a CPU. Consulte a configuração acima."
+  "mangohud_note": "✔ Sensor do núcleo principal selecionado (escolha estável) — O MangoHud pode, por vezes, não detetar corretamente a CPU. Consulte a configuração acima.",
+  "install_shortcut": "Criar atalho",
+  "shortcut_dialog_title": "Criar atalho",
+  "shortcut_create_app": "Criar atalho da aplicação?",
+  "shortcut_create_desktop": "Criar atalho na área de trabalho?",
+  "shortcut_create_button": "Criar",
+  "shortcut_app_success": "Atalho da aplicação criado",
+  "shortcut_app_failed": "Falha ao criar o atalho da aplicação",
+  "shortcut_desktop_success": "Atalho na área de trabalho criado",
+  "shortcut_desktop_failed": "Falha ao criar o atalho na área de trabalho",
+  "shortcut_nothing_selected": "Nenhuma opção selecionada"
 }

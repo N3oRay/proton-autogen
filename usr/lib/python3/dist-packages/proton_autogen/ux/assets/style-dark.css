@@ -173,6 +173,28 @@ button.suggested-action:hover {
     background: #43a047;
 }
 
+button.alternative-action {
+    background: #7e57c2;
+    color: white;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+button.alternative-action:hover {
+    background: #6a46b1;
+}
+
+button.destructive-action {
+    background: #f44336;
+    color: white;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+button.destructive-action:hover {
+    background: #e53935;
+}
+
 .app-button {
 
     background:rgba(255,255,255,0.12);

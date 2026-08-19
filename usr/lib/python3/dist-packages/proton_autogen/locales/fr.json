@@ -104,5 +104,15 @@
   "mangohud_config_not_found": "Fichier de configuration indisponible pour cette langue",
   "mangohud_config": "Fichier de configuration recommandé:",
   "mangohud_samplecpu": "📊 Exemple de configuration MangoHud pour le CPU :",
-  "mangohud_note": "✔ Capteur du cœur principal sélectionné (choix stable) — MangoHud peut parfois ne pas détecter correctement le CPU. Consultez la configuration ci-dessus."
+  "mangohud_note": "✔ Capteur du cœur principal sélectionné (choix stable) — MangoHud peut parfois ne pas détecter correctement le CPU. Consultez la configuration ci-dessus.",
+  "install_shortcut": "Créer un raccourci",
+  "shortcut_dialog_title": "Créer un raccourci",
+  "shortcut_create_app": "Créer un raccourci d'application ?",
+  "shortcut_create_desktop": "Créer un raccourci bureau ?",
+  "shortcut_create_button": "Créer",
+  "shortcut_app_success": "Raccourci d'application créé",
+  "shortcut_app_failed": "Échec du raccourci d'application",
+  "shortcut_desktop_success": "Raccourci bureau créé",
+  "shortcut_desktop_failed": "Échec du raccourci bureau",
+  "shortcut_nothing_selected": "Aucune option sélectionnée"
 }

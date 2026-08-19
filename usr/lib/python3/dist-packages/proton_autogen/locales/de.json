@@ -104,5 +104,15 @@
   "mangohud_config_not_found": "Konfigurationsdatei für diese Sprache nicht verfügbar",
   "mangohud_config": "Empfohlene Konfigurationsdatei:",
   "mangohud_samplecpu": "📊 Beispiel für eine MangoHud-Konfiguration für die CPU:",
-  "mangohud_note": "✔ Hauptkernsensor ausgewählt (stabile Auswahl) — MangoHud erkennt die CPU möglicherweise nicht immer korrekt. Siehe die obige Konfiguration."
+  "mangohud_note": "✔ Hauptkernsensor ausgewählt (stabile Auswahl) — MangoHud erkennt die CPU möglicherweise nicht immer korrekt. Siehe die obige Konfiguration.",
+  "install_shortcut": "Verknüpfung erstellen",
+  "shortcut_dialog_title": "Verknüpfung erstellen",
+  "shortcut_create_app": "Anwendungsverknüpfung erstellen?",
+  "shortcut_create_desktop": "Desktop-Verknüpfung erstellen?",
+  "shortcut_create_button": "Erstellen",
+  "shortcut_app_success": "Anwendungsverknüpfung erstellt",
+  "shortcut_app_failed": "Anwendungsverknüpfung fehlgeschlagen",
+  "shortcut_desktop_success": "Desktop-Verknüpfung erstellt",
+  "shortcut_desktop_failed": "Desktop-Verknüpfung fehlgeschlagen",
+  "shortcut_nothing_selected": "Keine Option ausgewählt"
 }

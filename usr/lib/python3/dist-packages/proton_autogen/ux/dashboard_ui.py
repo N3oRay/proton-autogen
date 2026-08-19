@@ -194,6 +194,7 @@ class DashboardUIMixin:
             on_delete=self.delete_game,
             on_refresh=self.refresh_games,
             on_export_lutris=self.export_lutris_handler,
+            on_install=self.show_create_shortcut_dialog,   # <-- nouveau
             lang=self.lang,
         )
         self.game_list.set_vexpand(True)
