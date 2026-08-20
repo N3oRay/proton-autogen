@@ -114,5 +114,13 @@
   "shortcut_app_failed": "Не удалось создать ярлык приложения",
   "shortcut_desktop_success": "Ярлык на рабочем столе создан",
   "shortcut_desktop_failed": "Не удалось создать ярлык на рабочем столе",
-  "shortcut_nothing_selected": "Ни один вариант не выбран"
+  "shortcut_nothing_selected": "Ни один вариант не выбран",
+  "loading_apps": "Загрузка приложений...",
+  "loading_failed": "Ошибка загрузки",
+  "loading_failed_detail": "Не удалось загрузить приложения: {error}",
+  "apps_count": "{count} приложение(й)",
+  "apps_installed": "Установлено приложений: {count}",
+  "no_apps_found": "Приложения не найдены",
+  "style_label": "Стиль: {style}",
+  "search_placeholder": "Поиск приложений..."
 }

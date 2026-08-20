@@ -114,5 +114,13 @@
   "shortcut_app_failed": "Application shortcut failed",
   "shortcut_desktop_success": "Desktop shortcut created",
   "shortcut_desktop_failed": "Desktop shortcut failed",
-  "shortcut_nothing_selected": "Nothing selected"
+  "shortcut_nothing_selected": "Nothing selected",
+  "loading_apps": "Loading applications...",
+  "loading_failed": "Loading failed",
+  "loading_failed_detail": "Failed to load applications: {error}",
+  "apps_count": "{count} application(s)",
+  "apps_installed": "{count} applications installed",
+  "no_apps_found": "No applications found",
+  "style_label": "Style: {style}",
+  "search_placeholder": "Search applications..."
 }

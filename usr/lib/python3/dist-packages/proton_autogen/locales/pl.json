@@ -114,5 +114,13 @@
   "shortcut_app_failed": "Nie udało się utworzyć skrótu aplikacji",
   "shortcut_desktop_success": "Utworzono skrót na pulpicie",
   "shortcut_desktop_failed": "Nie udało się utworzyć skrótu na pulpicie",
-  "shortcut_nothing_selected": "Nie wybrano żadnej opcji"
+  "shortcut_nothing_selected": "Nie wybrano żadnej opcji",
+  "loading_apps": "Ładowanie aplikacji...",
+  "loading_failed": "Ładowanie nie powiodło się",
+  "loading_failed_detail": "Nie udało się załadować aplikacji: {error}",
+  "apps_count": "{count} aplikacja(e)",
+  "apps_installed": "Zainstalowano {count} aplikacji",
+  "no_apps_found": "Nie znaleziono aplikacji",
+  "style_label": "Styl: {style}",
+  "search_placeholder": "Szukaj aplikacji..."
 }

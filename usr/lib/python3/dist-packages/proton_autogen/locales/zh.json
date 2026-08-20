@@ -114,5 +114,13 @@
   "shortcut_app_failed": "创建应用程序快捷方式失败",
   "shortcut_desktop_success": "桌面快捷方式已创建",
   "shortcut_desktop_failed": "创建桌面快捷方式失败",
-  "shortcut_nothing_selected": "未选择任何选项"
+  "shortcut_nothing_selected": "未选择任何选项",
+  "loading_apps": "正在加载应用程序...",
+  "loading_failed": "加载失败",
+  "loading_failed_detail": "加载应用程序失败：{error}",
+  "apps_count": "{count} 个应用程序",
+  "apps_installed": "已安装 {count} 个应用程序",
+  "no_apps_found": "未找到应用程序",
+  "style_label": "样式：{style}",
+  "search_placeholder": "搜索应用程序..."
 }

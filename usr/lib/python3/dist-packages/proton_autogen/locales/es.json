@@ -114,5 +114,13 @@
   "shortcut_app_failed": "Error al crear el acceso directo de aplicación",
   "shortcut_desktop_success": "Acceso directo de escritorio creado",
   "shortcut_desktop_failed": "Error al crear el acceso directo de escritorio",
-  "shortcut_nothing_selected": "Ninguna opción seleccionada"
+  "shortcut_nothing_selected": "Ninguna opción seleccionada",
+  "loading_apps": "Cargando aplicaciones...",
+  "loading_failed": "Error al cargar",
+  "loading_failed_detail": "Error al cargar las aplicaciones: {error}",
+  "apps_count": "{count} aplicación(es)",
+  "apps_installed": "{count} aplicaciones instaladas",
+  "no_apps_found": "No se encontraron aplicaciones",
+  "style_label": "Estilo: {style}",
+  "search_placeholder": "Buscar aplicaciones..."
 }

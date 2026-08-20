@@ -114,5 +114,13 @@
   "shortcut_app_failed": "Creazione del collegamento all'applicazione non riuscita",
   "shortcut_desktop_success": "Collegamento sul desktop creato",
   "shortcut_desktop_failed": "Creazione del collegamento sul desktop non riuscita",
-  "shortcut_nothing_selected": "Nessuna opzione selezionata"
+  "shortcut_nothing_selected": "Nessuna opzione selezionata",
+  "loading_apps": "Caricamento delle applicazioni...",
+  "loading_failed": "Caricamento non riuscito",
+  "loading_failed_detail": "Impossibile caricare le applicazioni: {error}",
+  "apps_count": "{count} applicazione/i",
+  "apps_installed": "{count} applicazioni installate",
+  "no_apps_found": "Nessuna applicazione trovata",
+  "style_label": "Stile: {style}",
+  "search_placeholder": "Cerca applicazioni..."
 }

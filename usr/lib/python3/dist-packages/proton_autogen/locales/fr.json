@@ -114,5 +114,13 @@
   "shortcut_app_failed": "Échec du raccourci d'application",
   "shortcut_desktop_success": "Raccourci bureau créé",
   "shortcut_desktop_failed": "Échec du raccourci bureau",
-  "shortcut_nothing_selected": "Aucune option sélectionnée"
+  "shortcut_nothing_selected": "Aucune option sélectionnée",
+  "loading_apps": "Chargement des applications...",
+  "loading_failed": "Erreur de chargement",
+  "loading_failed_detail": "Échec du chargement des applications : {error}",
+  "apps_count": "{count} application(s)",
+  "apps_installed": "{count} applications installées",
+  "no_apps_found": "Aucune application trouvée",
+  "style_label": "Style : {style}",
+  "search_placeholder": "Rechercher des applications..."
 }

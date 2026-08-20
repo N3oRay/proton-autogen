@@ -114,5 +114,13 @@
   "shortcut_app_failed": "एप्लिकेशन शॉर्टकट बनाने में विफल",
   "shortcut_desktop_success": "डेस्कटॉप शॉर्टकट बनाया गया",
   "shortcut_desktop_failed": "डेस्कटॉप शॉर्टकट बनाने में विफल",
-  "shortcut_nothing_selected": "कोई विकल्प चयनित नहीं"
+  "shortcut_nothing_selected": "कोई विकल्प चयनित नहीं",
+  "loading_apps": "एप्लिकेशन लोड हो रहे हैं...",
+  "loading_failed": "लोड करने में विफल",
+  "loading_failed_detail": "एप्लिकेशन लोड करने में विफल: {error}",
+  "apps_count": "{count} एप्लिकेशन",
+  "apps_installed": "{count} एप्लिकेशन इंस्टॉल किए गए",
+  "no_apps_found": "कोई एप्लिकेशन नहीं मिला",
+  "style_label": "स्टाइल: {style}",
+  "search_placeholder": "एप्लिकेशन खोजें..."
 }

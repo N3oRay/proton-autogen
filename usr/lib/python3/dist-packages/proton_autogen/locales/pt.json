@@ -114,5 +114,13 @@
   "shortcut_app_failed": "Falha ao criar o atalho da aplicação",
   "shortcut_desktop_success": "Atalho na área de trabalho criado",
   "shortcut_desktop_failed": "Falha ao criar o atalho na área de trabalho",
-  "shortcut_nothing_selected": "Nenhuma opção selecionada"
+  "shortcut_nothing_selected": "Nenhuma opção selecionada",
+  "loading_apps": "Carregando aplicativos...",
+  "loading_failed": "Falha ao carregar",
+  "loading_failed_detail": "Falha ao carregar os aplicativos: {error}",
+  "apps_count": "{count} aplicativo(s)",
+  "apps_installed": "{count} aplicativos instalados",
+  "no_apps_found": "Nenhum aplicativo encontrado",
+  "style_label": "Estilo: {style}",
+  "search_placeholder": "Pesquisar aplicativos..."
 }

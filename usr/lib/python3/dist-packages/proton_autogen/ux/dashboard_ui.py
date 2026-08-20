@@ -180,7 +180,7 @@ class DashboardUIMixin:
         # GAME SEARCH
         # =========================
         self.search = Gtk.SearchEntry()
-        self.search.set_placeholder_text("Search games...")
+        self.search.set_placeholder_text(tr("search_placeholder"))
         self.search.connect("search-changed", self.on_search_changed)
         root.append(self.search)
 

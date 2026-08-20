@@ -114,5 +114,13 @@
   "shortcut_app_failed": "Не вдалося створити ярлик застосунку",
   "shortcut_desktop_success": "Ярлик на робочому столі створено",
   "shortcut_desktop_failed": "Не вдалося створити ярлик на робочому столі",
-  "shortcut_nothing_selected": "Жодного варіанту не вибрано"
+  "shortcut_nothing_selected": "Жодного варіанту не вибрано",
+  "loading_apps": "Завантаження застосунків...",
+  "loading_failed": "Помилка завантаження",
+  "loading_failed_detail": "Не вдалося завантажити застосунки: {error}",
+  "apps_count": "{count} застосунок(ів)",
+  "apps_installed": "Встановлено застосунків: {count}",
+  "no_apps_found": "Застосунки не знайдено",
+  "style_label": "Стиль: {style}",
+  "search_placeholder": "Пошук застосунків..."
 }

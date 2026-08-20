@@ -114,5 +114,13 @@
   "shortcut_app_failed": "アプリケーションのショートカットの作成に失敗しました",
   "shortcut_desktop_success": "デスクトップのショートカットを作成しました",
   "shortcut_desktop_failed": "デスクトップのショートカットの作成に失敗しました",
-  "shortcut_nothing_selected": "オプションが選択されていません"
+  "shortcut_nothing_selected": "オプションが選択されていません",
+  "loading_apps": "アプリケーションを読み込み中...",
+  "loading_failed": "読み込みに失敗しました",
+  "loading_failed_detail": "アプリケーションの読み込みに失敗しました: {error}",
+  "apps_count": "{count} 件のアプリケーション",
+  "apps_installed": "{count} 個のアプリケーションがインストールされています",
+  "no_apps_found": "アプリケーションが見つかりません",
+  "style_label": "スタイル: {style}",
+  "search_placeholder": "アプリケーションを検索..."
 }

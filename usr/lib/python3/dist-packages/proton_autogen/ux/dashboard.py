@@ -13,6 +13,7 @@ from proton_autogen.ux.dashboard_actions import DashboardActionsMixin
 from proton_autogen.ux.dashboard_mangohud import DashboardMangoHudMixin
 from proton_autogen.ux.dashboard_creatshortcut import DashboardCreateShortcutMixin
 from proton_autogen.ux.themes import load_saved_theme, save_theme, AVAILABLE_THEMES, DEFAULT_THEME, BACKGROUND_THEMES, STYLE_CSS
+from proton_autogen.i18n import tr, detect_help_env_lang
 from proton_autogen.ux.search import filter_games
 from proton_autogen.notify import notifications
 from proton_autogen.backend import list_programs_ux
@@ -71,15 +72,14 @@ class Dashboard(DashboardUIMixin, DashboardDialogsMixin, DashboardActionsMixin, 
             # Changement du background
             self.update_background(app.current_style)
             # feedback rapide
-            self.status.set_text(f"Style: {app.current_style}")
+            self.status.set_text(tr("style_label").format(style=app.current_style))
         else:
             # fallback ancien comportement
             if app.current_style == "fluent":
                 app.apply_style("adwaita")
-                self.status.set_text("Style: Adwaita")
             else:
                 app.apply_style("fluent")
-                self.status.set_text("Style: Proton Autogen")
+            self.status.set_text(tr("style_label").format(style=app.current_style))
             self.update_background(app.current_style)
 
     # update css carousel
@@ -172,9 +172,7 @@ class Dashboard(DashboardUIMixin, DashboardDialogsMixin, DashboardActionsMixin, 
                     6
                 )
             )
-        self.status.set_text(
-            f"{len(games)} game(s)"
-        )
+        self.status.set_text(tr("apps_count").format(count=len(games)))
         self.update_stats(games)
 
 
@@ -182,8 +180,8 @@ class Dashboard(DashboardUIMixin, DashboardDialogsMixin, DashboardActionsMixin, 
     # DATA
     # -------------------------
     def refresh_games(self):
-        self.status.set_text("Loading games...")
-        self.toast.info("Loading games...")
+        self.status.set_text(tr("loading_apps"))
+        self.toast.info(tr("loading_apps"))
         self.spinner.set_visible(True)
         self.spinner.start()
 
@@ -201,8 +199,8 @@ class Dashboard(DashboardUIMixin, DashboardDialogsMixin, DashboardActionsMixin, 
     def _on_refresh_error(self, error_msg):
         self.spinner.stop()
         self.spinner.set_visible(False)
-        self.status.set_text("Erreur de chargement")
-        self.toast.error(f"Échec du chargement des jeux : {error_msg}")
+        self.status.set_text(tr("loading_failed"))
+        self.toast.error(tr("loading_failed_detail").format(error=error_msg))
         return False
 
 
@@ -243,7 +241,8 @@ class Dashboard(DashboardUIMixin, DashboardDialogsMixin, DashboardActionsMixin, 
                 self.favorites_carousel.set_games(self.get_favorite_games(self.games, 20))
 
         self.status.set_text(
-            f"{len(self.games)} games installed" if self.games else "No games found"
+            tr("apps_installed").format(count=len(self.games))
+            if self.games else tr("no_apps_found")
         )
         self.status.add_css_class("label-bottom")
         return False

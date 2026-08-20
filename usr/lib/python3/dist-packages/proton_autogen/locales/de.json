@@ -114,5 +114,13 @@
   "shortcut_app_failed": "Anwendungsverknüpfung fehlgeschlagen",
   "shortcut_desktop_success": "Desktop-Verknüpfung erstellt",
   "shortcut_desktop_failed": "Desktop-Verknüpfung fehlgeschlagen",
-  "shortcut_nothing_selected": "Keine Option ausgewählt"
+  "shortcut_nothing_selected": "Keine Option ausgewählt",
+  "loading_apps": "Anwendungen werden geladen...",
+  "loading_failed": "Fehler beim Laden",
+  "loading_failed_detail": "Fehler beim Laden der Anwendungen: {error}",
+  "apps_count": "{count} Anwendung(en)",
+  "apps_installed": "{count} Anwendungen installiert",
+  "no_apps_found": "Keine Anwendungen gefunden",
+  "style_label": "Stil: {style}",
+  "search_placeholder": "Anwendungen suchen..."
 }

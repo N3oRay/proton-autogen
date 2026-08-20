@@ -114,5 +114,13 @@
   "shortcut_app_failed": "Sovelluksen pikakuvakkeen luonti epäonnistui",
   "shortcut_desktop_success": "Työpöydän pikakuvake luotu",
   "shortcut_desktop_failed": "Työpöydän pikakuvakkeen luonti epäonnistui",
-  "shortcut_nothing_selected": "Ei valintaa"
+  "shortcut_nothing_selected": "Ei valintaa",
+  "loading_apps": "Ladataan sovelluksia...",
+  "loading_failed": "Lataus epäonnistui",
+  "loading_failed_detail": "Sovellusten lataaminen epäonnistui: {error}",
+  "apps_count": "{count} sovellus(ta)",
+  "apps_installed": "{count} sovellusta asennettu",
+  "no_apps_found": "Sovelluksia ei löytynyt",
+  "style_label": "Tyyli: {style}",
+  "search_placeholder": "Hae sovelluksia..."
 }

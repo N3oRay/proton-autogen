@@ -114,5 +114,13 @@
   "shortcut_app_failed": "애플리케이션 바로가기 생성에 실패했습니다",
   "shortcut_desktop_success": "바탕화면 바로가기가 생성되었습니다",
   "shortcut_desktop_failed": "바탕화면 바로가기 생성에 실패했습니다",
-  "shortcut_nothing_selected": "선택된 옵션이 없습니다"
+  "shortcut_nothing_selected": "선택된 옵션이 없습니다",
+  "loading_apps": "애플리케이션 불러오는 중...",
+  "loading_failed": "불러오기 실패",
+  "loading_failed_detail": "애플리케이션을 불러오지 못했습니다: {error}",
+  "apps_count": "애플리케이션 {count}개",
+  "apps_installed": "애플리케이션 {count}개 설치됨",
+  "no_apps_found": "애플리케이션을 찾을 수 없습니다",
+  "style_label": "스타일: {style}",
+  "search_placeholder": "애플리케이션 검색..."
 }

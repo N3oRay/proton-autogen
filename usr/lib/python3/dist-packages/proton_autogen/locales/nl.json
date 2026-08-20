@@ -114,5 +114,13 @@
   "shortcut_app_failed": "Maken van applicatiesnelkoppeling mislukt",
   "shortcut_desktop_success": "Bureaubladsnelkoppeling gemaakt",
   "shortcut_desktop_failed": "Maken van bureaubladsnelkoppeling mislukt",
-  "shortcut_nothing_selected": "Geen optie geselecteerd"
+  "shortcut_nothing_selected": "Geen optie geselecteerd",
+  "loading_apps": "Toepassingen laden...",
+  "loading_failed": "Laden mislukt",
+  "loading_failed_detail": "Kan toepassingen niet laden: {error}",
+  "apps_count": "{count} toepassing(en)",
+  "apps_installed": "{count} toepassingen geïnstalleerd",
+  "no_apps_found": "Geen toepassingen gevonden",
+  "style_label": "Stijl: {style}",
+  "search_placeholder": "Toepassingen zoeken..."
 }

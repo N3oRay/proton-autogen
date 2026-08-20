@@ -114,5 +114,13 @@
   "shortcut_app_failed": "Αποτυχία δημιουργίας συντόμευσης εφαρμογής",
   "shortcut_desktop_success": "Η συντόμευση επιφάνειας εργασίας δημιουργήθηκε",
   "shortcut_desktop_failed": "Αποτυχία δημιουργίας συντόμευσης επιφάνειας εργασίας",
-  "shortcut_nothing_selected": "Δεν επιλέχθηκε καμία επιλογή"
+  "shortcut_nothing_selected": "Δεν επιλέχθηκε καμία επιλογή",
+  "loading_apps": "Φόρτωση εφαρμογών...",
+  "loading_failed": "Η φόρτωση απέτυχε",
+  "loading_failed_detail": "Αποτυχία φόρτωσης εφαρμογών: {error}",
+  "apps_count": "{count} εφαρμογή(ές)",
+  "apps_installed": "{count} εγκατεστημένες εφαρμογές",
+  "no_apps_found": "Δεν βρέθηκαν εφαρμογές",
+  "style_label": "Στιλ: {style}",
+  "search_placeholder": "Αναζήτηση εφαρμογών..."
 }
