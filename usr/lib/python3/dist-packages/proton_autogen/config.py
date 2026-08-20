@@ -16,11 +16,18 @@ CONFIG_DIR = os.path.expanduser("~/.config/proton-autogen/games")
 PREFIX_DIR = "~/Documents/Proton/env"
 PREFIX_DIR_PATH = os.path.expanduser(PREFIX_DIR)
 
+# Old location (before consolidation under ~/.config/proton-autogen/).
+# Retained solely for the automatic migration below.
+
 # Ancien emplacement (avant regroupement sous ~/.config/proton-autogen/).
 # Conservé uniquement pour la migration automatique ci-dessous.
 _LEGACY_CONFIG_FILE = os.path.expanduser("~/.config/proton-autogen.conf")
 
 
+# Moves the old ~/.config/proton-autogen.conf to the new
+# location ~/.config/proton-autogen/proton-autogen.conf—once only—
+# without ever overwriting a file already present at the new location.
+# Silent failure: must never prevent the app from starting.
 def _migrate_legacy_config():
     """Déplace l'ancien ~/.config/proton-autogen.conf vers le nouvel
     emplacement ~/.config/proton-autogen/proton-autogen.conf, une seule
