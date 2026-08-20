@@ -31,7 +31,10 @@ ICON_MAPPING = {
     "girl": "tlou.svg",
 
     "spiderman": "spiderman.svg",
-    "Spider-Man": "spiderman.svg",
+    "spider-man": "spiderman.svg",
+
+    "bat-Man": "batman.svg",
+    "batman": "batman.svg",
 
     "proton": "proton.svg",
     "shop": "1shop.svg",

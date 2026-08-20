@@ -32,6 +32,19 @@ KNOWN_APPIDS = {
     "tlou-i-l.exe": "1888930",           # The Last of Us Part I
     "tlou-ii.exe": "2531310",           # The Last of Us Part II Remastered
     "tlou2.exe": "2531310",             # The Last of Us Part II Remastered
+
+    "Helldivers2.exe": "553850",             # HELLDIVERS 2
+    "Helldivers.exe": "394360",              # HELLDIVERS™ Dive Harder Edition
+
+    "Predator.exe": "1556200",               # Predator: Hunting Grounds
+    "Concord.exe": "2443720",                # Concord
+    "Marathon.exe": "3065800",               # Marathon
+    "Kena.exe": "1954200",                   # Kena: Bridge of Spirits
+    "UntilDawn.exe": "2172010",              # Until Dawn
+    "TheLastOfUsPartI.exe": "1888930",       # The Last of Us Part I
+    "TheLastOfUsPartII.exe": "2531310",      # The Last of Us Part II Remastered
+
+    "StellarBlade.exe": "3486920",           # Stellar Blade
     # -----------------------------
     # Applications / Launchers / divers
     # -----------------------------
@@ -716,7 +729,7 @@ KNOWN_APPIDS = {
     "DaysGone.exe": "1259420",
     "GhostOfTsushima.exe": "2215430",
     "Returnal.exe": "1649240",
-    "Helldivers2.exe": "553850",
+
 
     # -----------------------------
     # Remedy
