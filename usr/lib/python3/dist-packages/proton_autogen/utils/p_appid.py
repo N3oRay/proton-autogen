@@ -7,6 +7,31 @@
 # -----------------------------------------------------------------
 KNOWN_APPIDS = {
 
+    # ----------------------------------
+    # PlayStation Publishing LLC -
+    # ----------------------------------
+    "GoW.exe": "1593500",                    # God of War
+    "GoWR.exe": "2322010",                   # God of War Ragnarök
+    "HorizonZeroDawn.exe": "1151640",        # Horizon Zero Dawn Complete Edition
+    "HorizonZeroDawnRemastered.exe": "2561580", # Horizon Zero Dawn Remastered
+    "HorizonForbiddenWest.exe": "2420110",   # Horizon Forbidden West Complete Edition
+    "GhostOfTsushima.exe": "2215430",        # Ghost of Tsushima DIRECTOR'S CUT
+
+    "Spider-Man.exe": "1817070",             # Marvel's Spider-Man Remastered
+    "MilesMorales.exe": "1817190",           # Marvel's Spider-Man: Miles Morales
+    "SpiderMan2.exe": "2651280",             # Marvel's Spider-Man 2
+
+    "Ratchet.exe": "1895880",                # Ratchet & Clank: Rift Apart
+    "Sackboy.exe": "1599660",                # Sackboy: A Big Adventure
+    "Returnal.exe": "1649240",               # Returnal
+    "DaysGone.exe": "1259420",               # Days Gone
+
+    "tll.exe": "4198780",                # Uncharted: The Lost Legacy
+    "u4.exe": "1659420",                # Uncharted: Legacy of Thieves Collection
+    "tlou-i.exe": "1888930",           # The Last of Us Part I
+    "tlou-i-l.exe": "1888930",           # The Last of Us Part I
+    "tlou-ii.exe": "2531310",           # The Last of Us Part II Remastered
+    "tlou2.exe": "2531310",             # The Last of Us Part II Remastered
     # -----------------------------
     # Applications / Launchers / divers
     # -----------------------------

@@ -24,6 +24,15 @@ ICON_MAPPING = {
     # =================================================
     # Divers
     # =================================================
+    "u4": "u4.svg", # Uncharted
+    "killer": "u4.svg", # Uncharted
+    "tll": "tlou.svg", # The Last of Us
+    "tlou": "tlou.svg",
+    "girl": "tlou.svg",
+
+    "spiderman": "spiderman.svg",
+    "Spider-Man": "spiderman.svg",
+
     "proton": "proton.svg",
     "shop": "1shop.svg",
     "new": "2renew.svg",
