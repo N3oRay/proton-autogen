@@ -1,15 +1,15 @@
-proton-autogen (3.2.8) noble; urgency=medium
+proton-autogen (3.2.9) noble; urgency=medium
 
   * Thanks to all users and contributors for their continued support, feedback and bug reports.
-  * Add a new shortcut creation feature, allowing users to easily create application shortcuts on the desktop and in the system application menu.
-  * Improve application accessibility by integrating installed applications directly into the desktop environment.
-  * Improve the graphical user experience with simplified shortcut management.
-  * Add support for custom environment variables on a per-application basis, allowing users to define and manage application-specific runtime environment settings directly from the graphical editor.
-  * Add configurable FPS limits for MangoHud on a per-application basis.
-  * Improve application configuration management by correctly persisting, updating and removing custom environment variables.
-  * Improve the graphical application editor with dedicated controls for custom environment variables and MangoHud FPS limits.
-  * Improve environment configuration handling to ensure removed custom variables are properly deleted from application profiles.
-  * Improve MangoHud configuration flexibility with customizable FPS limits instead of relying solely on the default limit.
-  * General UX improvements, configuration handling improvements and code cleanup.
+  * Add a status bar message history panel, allowing users to review all status messages since startup with timestamps and a clear action.
+  * Add a dedicated status message widget with support for expandable details, allowing truncated messages to be viewed and copied in full.
+  * Improve status bar readability by limiting long multi-line messages to 6 lines and indicating when additional lines are available in the history.
+  * Fix broken raw ANSI escape sequences being displayed in the status bar when applications emit colored console output.
+  * Improve application terminology throughout the interface, replacing game-specific wording with application-specific terminology to better reflect support for generic Windows programs.
+  * Localize the application search entry placeholder instead of using hardcoded text.
+  * Add 14 new internationalization strings across all 16 supported locale files while preserving locale key parity.
+  * Improve graphical user experience with clearer status reporting and easier access to detailed application launch information.
+  * Internal UX improvements with the introduction of dedicated status bar and status history handling.
+  * General UX improvements, localization improvements, configuration handling improvements and code cleanup.
 
- -- N3oray <n3oray77@gmail.com>  Wed, 19 Aug 2026 22:40:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Fri, 21 Aug 2026 14:10:00 +0200
