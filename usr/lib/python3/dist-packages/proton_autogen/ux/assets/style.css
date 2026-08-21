@@ -939,3 +939,20 @@ searchentry:disabled {
 .fps-spinbutton button:active {
     background-color: rgba(255, 255, 255, 0.2);
 }
+
+.status-history-panel {
+    padding: 6px;
+    border-radius: 6px;
+}
+
+.status-history-entry {
+    font-size: 0.9em;
+}
+
+.status-history-error {
+    color: #e05252;
+}
+
+.status-history-success {
+    color: #4caf78;
+}

@@ -122,5 +122,9 @@
   "apps_installed": "{count} toepassingen geïnstalleerd",
   "no_apps_found": "Geen toepassingen gevonden",
   "style_label": "Stijl: {style}",
-  "search_placeholder": "Toepassingen zoeken..."
+  "search_placeholder": "Toepassingen zoeken...",
+  "status_history_toggle": "Berichtgeschiedenis weergeven",
+  "status_history_title": "Berichtgeschiedenis",
+  "status_history_empty": "Nog geen berichten",
+  "status_history_clear": "Wissen"
 }

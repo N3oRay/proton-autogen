@@ -122,5 +122,9 @@
   "apps_installed": "Установлено приложений: {count}",
   "no_apps_found": "Приложения не найдены",
   "style_label": "Стиль: {style}",
-  "search_placeholder": "Поиск приложений..."
+  "search_placeholder": "Поиск приложений...",
+  "status_history_toggle": "Показать историю сообщений",
+  "status_history_title": "История сообщений",
+  "status_history_empty": "Пока нет сообщений",
+  "status_history_clear": "Очистить"
 }

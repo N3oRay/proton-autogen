@@ -853,3 +853,20 @@ scrollbar slider:hover {
     box-shadow:
         0 0 10px rgba(61,255,138,0.45);
 }
+
+.status-history-panel {
+    padding: 6px;
+    border-radius: 6px;
+}
+
+.status-history-entry {
+    font-size: 0.9em;
+}
+
+.status-history-error {
+    color: #e05252;
+}
+
+.status-history-success {
+    color: #4caf78;
+}

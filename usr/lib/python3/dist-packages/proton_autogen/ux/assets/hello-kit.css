@@ -898,3 +898,21 @@ popover.menu menuitem image {
 popover.menu modelbutton.submenu arrow {
     color: @hk_text;
 }
+
+
+.status-history-panel {
+    padding: 6px;
+    border-radius: 6px;
+}
+
+.status-history-entry {
+    font-size: 0.9em;
+}
+
+.status-history-error {
+    color: #e05252;
+}
+
+.status-history-success {
+    color: #4caf78;
+}

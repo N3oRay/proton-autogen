@@ -122,5 +122,9 @@
   "apps_installed": "{count} applicazioni installate",
   "no_apps_found": "Nessuna applicazione trovata",
   "style_label": "Stile: {style}",
-  "search_placeholder": "Cerca applicazioni..."
+  "search_placeholder": "Cerca applicazioni...",
+  "status_history_toggle": "Mostra cronologia messaggi",
+  "status_history_title": "Cronologia messaggi",
+  "status_history_empty": "Nessun messaggio per ora",
+  "status_history_clear": "Cancella"
 }

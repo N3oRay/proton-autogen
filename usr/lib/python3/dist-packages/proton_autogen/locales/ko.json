@@ -122,5 +122,9 @@
   "apps_installed": "애플리케이션 {count}개 설치됨",
   "no_apps_found": "애플리케이션을 찾을 수 없습니다",
   "style_label": "스타일: {style}",
-  "search_placeholder": "애플리케이션 검색..."
+  "search_placeholder": "애플리케이션 검색...",
+  "status_history_toggle": "메시지 기록 표시",
+  "status_history_title": "메시지 기록",
+  "status_history_empty": "아직 메시지가 없습니다",
+  "status_history_clear": "지우기"
 }

@@ -859,3 +859,20 @@ button,
     box-shadow:
         0 0 10px rgba(46, 204, 113,0.35);
 }
+
+.status-history-panel {
+    padding: 6px;
+    border-radius: 6px;
+}
+
+.status-history-entry {
+    font-size: 0.9em;
+}
+
+.status-history-error {
+    color: #e05252;
+}
+
+.status-history-success {
+    color: #4caf78;
+}

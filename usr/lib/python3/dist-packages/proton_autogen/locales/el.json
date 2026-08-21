@@ -122,5 +122,9 @@
   "apps_installed": "{count} εγκατεστημένες εφαρμογές",
   "no_apps_found": "Δεν βρέθηκαν εφαρμογές",
   "style_label": "Στιλ: {style}",
-  "search_placeholder": "Αναζήτηση εφαρμογών..."
+  "search_placeholder": "Αναζήτηση εφαρμογών...",
+  "status_history_toggle": "Εμφάνιση ιστορικού μηνυμάτων",
+  "status_history_title": "Ιστορικό μηνυμάτων",
+  "status_history_empty": "Δεν υπάρχουν ακόμα μηνύματα",
+  "status_history_clear": "Εκκαθάριση"
 }

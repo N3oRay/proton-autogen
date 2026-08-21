@@ -122,5 +122,9 @@
   "apps_installed": "{count} एप्लिकेशन इंस्टॉल किए गए",
   "no_apps_found": "कोई एप्लिकेशन नहीं मिला",
   "style_label": "स्टाइल: {style}",
-  "search_placeholder": "एप्लिकेशन खोजें..."
+  "search_placeholder": "एप्लिकेशन खोजें...",
+  "status_history_toggle": "संदेश इतिहास दिखाएं",
+  "status_history_title": "संदेश इतिहास",
+  "status_history_empty": "अभी तक कोई संदेश नहीं",
+  "status_history_clear": "साफ़ करें"
 }

@@ -122,5 +122,9 @@
   "apps_installed": "{count} sovellusta asennettu",
   "no_apps_found": "Sovelluksia ei löytynyt",
   "style_label": "Tyyli: {style}",
-  "search_placeholder": "Hae sovelluksia..."
+  "search_placeholder": "Hae sovelluksia...",
+  "status_history_toggle": "Näytä viestihistoria",
+  "status_history_title": "Viestihistoria",
+  "status_history_empty": "Ei vielä viestejä",
+  "status_history_clear": "Tyhjennä"
 }

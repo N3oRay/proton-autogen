@@ -122,5 +122,9 @@
   "apps_installed": "{count} Anwendungen installiert",
   "no_apps_found": "Keine Anwendungen gefunden",
   "style_label": "Stil: {style}",
-  "search_placeholder": "Anwendungen suchen..."
+  "search_placeholder": "Anwendungen suchen...",
+  "status_history_toggle": "Nachrichtenverlauf anzeigen",
+  "status_history_title": "Nachrichtenverlauf",
+  "status_history_empty": "Noch keine Nachrichten",
+  "status_history_clear": "Löschen"
 }
