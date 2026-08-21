@@ -187,17 +187,22 @@ button.suggested-action:hover {
     border-color: @kde-blue;
 }
 
+.status-box {
+    background: alpha(@theme_fg_color,0.12);
+}
+
 .section-toggle {
-    background: transparent;
+    background: alpha(@theme_fg_color,0.12);
     color: white;
-    border-radius: 8px;
-    padding: 6px 12px;
+    border-radius: 6px;
+    padding: 3px 6px;
     font-size: 11px;
 }
 
 .section-toggle:hover {
-    background: alpha(@theme_fg_color,0.12);
+    background: alpha(@theme_fg_color,0.24);
 }
+
 
 .btn-launch {
     background: #2ecc71;
@@ -324,6 +329,8 @@ label.home-label {
     padding: 6px;
     color: @kde-text;
     font-weight: 600;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.04);
 }
 
 
@@ -717,6 +724,13 @@ popover label {
 
 .status-history-panel {
     padding: 6px;
+    border: 1px solid rgba(255,255,255,0.04);
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,0.85),
+            rgba(128,128,128,0.75)
+        );
     border-radius: 6px;
 }
 

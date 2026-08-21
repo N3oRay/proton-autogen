@@ -207,16 +207,20 @@ button.destructive-action:hover {
     background:rgba(255,255,255,0.20);
 }
 
+.status-box {
+    background: alpha(@theme_fg_color,0.12);
+}
+
 .section-toggle {
-    background: transparent;
+    background: alpha(@theme_fg_color,0.12);
     color: white;
-    border-radius: 8px;
-    padding: 6px 12px;
+    border-radius: 6px;
+    padding: 3px 6px;
     font-size: 11px;
 }
 
 .section-toggle:hover {
-    background: alpha(@theme_fg_color,0.12);
+    background: alpha(@theme_fg_color,0.24);
 }
 
 .btn-launch {
@@ -422,6 +426,8 @@ label.home-label {
     color: rgba(255,255,255,0.70);
     font-size: 14px;
     padding: 4px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.04);
 }
 
 
@@ -910,6 +916,13 @@ searchentry:disabled {
 
 .status-history-panel {
     padding: 6px;
+    border: 1px solid rgba(255,255,255,0.04);
+    background:
+        linear-gradient(
+            180deg,
+            rgba(55,55,55,0.85),
+            rgba(30,30,30,0.75)
+        );
     border-radius: 6px;
 }
 

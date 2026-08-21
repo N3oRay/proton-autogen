@@ -221,6 +221,7 @@ class DashboardUIMixin:
     # =========================
     def _build_status_bar(self, root):
         status_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
+        status_box.add_css_class("status-box")
         self.spinner = Gtk.Spinner()
         self.spinner.set_visible(False)
 
