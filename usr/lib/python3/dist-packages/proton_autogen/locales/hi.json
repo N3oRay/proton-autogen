@@ -126,5 +126,7 @@
   "status_history_toggle": "संदेश इतिहास दिखाएं",
   "status_history_title": "संदेश इतिहास",
   "status_history_empty": "अभी तक कोई संदेश नहीं",
-  "status_history_clear": "साफ़ करें"
+  "status_history_clear": "साफ़ करें",
+  "status_more_lines": "… (+{count} और पंक्तियाँ, इतिहास देखें)",
+  "status_history_details": "विवरण"
 }

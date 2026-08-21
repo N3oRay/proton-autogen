@@ -126,5 +126,7 @@
   "status_history_toggle": "메시지 기록 표시",
   "status_history_title": "메시지 기록",
   "status_history_empty": "아직 메시지가 없습니다",
-  "status_history_clear": "지우기"
+  "status_history_clear": "지우기",
+  "status_more_lines": "… (+{count}줄, 기록 참조)",
+  "status_history_details": "세부정보"
 }

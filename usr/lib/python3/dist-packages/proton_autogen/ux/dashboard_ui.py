@@ -335,11 +335,13 @@ class DashboardUIMixin:
             self.status_history_list.append(self._build_status_history_row(entry))
 
     def _build_status_history_row(self, entry):
-        row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
+        row = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=2)
         row.set_margin_top(2)
         row.set_margin_bottom(2)
         row.set_margin_start(4)
         row.set_margin_end(4)
+
+        header = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
 
         time_label = Gtk.Label(label=entry.timestamp.strftime("%H:%M:%S"))
         time_label.add_css_class("dim-label2")
@@ -357,6 +359,24 @@ class DashboardUIMixin:
         elif entry.level == "success":
             text_label.add_css_class("status-history-success")
 
-        row.append(time_label)
-        row.append(text_label)
+        header.append(time_label)
+        header.append(text_label)
+        row.append(header)
+
+        # Message tronqué dans la barre (dump multi-lignes) : le texte
+        # complet reste consultable derrière un "Détails" dépliable.
+        if entry.has_more:
+            expander = Gtk.Expander(label=tr("status_history_details"))
+            expander.add_css_class("status-history-expander")
+
+            detail_label = Gtk.Label(label=entry.full_text, xalign=0)
+            detail_label.set_wrap(True)
+            detail_label.set_selectable(True)
+            detail_label.add_css_class("status-history-detail")
+            detail_label.set_margin_top(4)
+            detail_label.set_margin_start(16)
+
+            expander.set_child(detail_label)
+            row.append(expander)
+
         return row

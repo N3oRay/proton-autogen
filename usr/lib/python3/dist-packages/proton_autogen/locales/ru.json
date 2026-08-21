@@ -126,5 +126,7 @@
   "status_history_toggle": "Показать историю сообщений",
   "status_history_title": "История сообщений",
   "status_history_empty": "Пока нет сообщений",
-  "status_history_clear": "Очистить"
+  "status_history_clear": "Очистить",
+  "status_more_lines": "… (+{count} строк, см. историю)",
+  "status_history_details": "Подробности"
 }

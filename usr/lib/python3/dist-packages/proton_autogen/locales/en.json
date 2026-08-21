@@ -126,5 +126,7 @@
   "status_history_toggle": "Show message history",
   "status_history_title": "Message history",
   "status_history_empty": "No messages yet",
-  "status_history_clear": "Clear"
+  "status_history_clear": "Clear",
+  "status_more_lines": "… (+{count} lines, see history)",
+  "status_history_details": "Details"
 }

@@ -126,5 +126,7 @@
   "status_history_toggle": "显示消息历史记录",
   "status_history_title": "消息历史记录",
   "status_history_empty": "暂无消息",
-  "status_history_clear": "清除"
+  "status_history_clear": "清除",
+  "status_more_lines": "…（还有 {count} 行，见历史记录）",
+  "status_history_details": "详情"
 }

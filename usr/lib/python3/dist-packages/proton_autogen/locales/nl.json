@@ -126,5 +126,7 @@
   "status_history_toggle": "Berichtgeschiedenis weergeven",
   "status_history_title": "Berichtgeschiedenis",
   "status_history_empty": "Nog geen berichten",
-  "status_history_clear": "Wissen"
+  "status_history_clear": "Wissen",
+  "status_more_lines": "… (+{count} regels, zie geschiedenis)",
+  "status_history_details": "Details"
 }

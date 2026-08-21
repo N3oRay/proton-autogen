@@ -126,5 +126,7 @@
   "status_history_toggle": "Mostrar histórico de mensagens",
   "status_history_title": "Histórico de mensagens",
   "status_history_empty": "Ainda não há mensagens",
-  "status_history_clear": "Limpar"
+  "status_history_clear": "Limpar",
+  "status_more_lines": "… (+{count} linhas, veja o histórico)",
+  "status_history_details": "Detalhes"
 }

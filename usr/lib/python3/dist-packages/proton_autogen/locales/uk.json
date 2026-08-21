@@ -126,5 +126,7 @@
   "status_history_toggle": "Показати історію повідомлень",
   "status_history_title": "Історія повідомлень",
   "status_history_empty": "Повідомлень поки немає",
-  "status_history_clear": "Очистити"
+  "status_history_clear": "Очистити",
+  "status_more_lines": "… (+{count} рядків, див. історію)",
+  "status_history_details": "Подробиці"
 }

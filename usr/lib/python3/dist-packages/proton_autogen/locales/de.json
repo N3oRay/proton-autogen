@@ -126,5 +126,7 @@
   "status_history_toggle": "Nachrichtenverlauf anzeigen",
   "status_history_title": "Nachrichtenverlauf",
   "status_history_empty": "Noch keine Nachrichten",
-  "status_history_clear": "Löschen"
+  "status_history_clear": "Löschen",
+  "status_more_lines": "… (+{count} weitere Zeilen, siehe Verlauf)",
+  "status_history_details": "Details"
 }

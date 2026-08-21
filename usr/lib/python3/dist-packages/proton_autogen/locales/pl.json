@@ -126,5 +126,7 @@
   "status_history_toggle": "Pokaż historię komunikatów",
   "status_history_title": "Historia komunikatów",
   "status_history_empty": "Brak komunikatów",
-  "status_history_clear": "Wyczyść"
+  "status_history_clear": "Wyczyść",
+  "status_more_lines": "… (+{count} wierszy, zobacz historię)",
+  "status_history_details": "Szczegóły"
 }

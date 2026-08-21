@@ -126,5 +126,7 @@
   "status_history_toggle": "Afficher l'historique des messages",
   "status_history_title": "Historique des messages",
   "status_history_empty": "Aucun message pour le moment",
-  "status_history_clear": "Effacer"
+  "status_history_clear": "Effacer",
+  "status_more_lines": "… (+{count} lignes, voir l'historique)",
+  "status_history_details": "Détails"
 }

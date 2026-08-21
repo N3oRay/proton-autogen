@@ -126,5 +126,7 @@
   "status_history_toggle": "Εμφάνιση ιστορικού μηνυμάτων",
   "status_history_title": "Ιστορικό μηνυμάτων",
   "status_history_empty": "Δεν υπάρχουν ακόμα μηνύματα",
-  "status_history_clear": "Εκκαθάριση"
+  "status_history_clear": "Εκκαθάριση",
+  "status_more_lines": "… (+{count} γραμμές, δείτε το ιστορικό)",
+  "status_history_details": "Λεπτομέρειες"
 }

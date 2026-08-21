@@ -126,5 +126,7 @@
   "status_history_toggle": "メッセージ履歴を表示",
   "status_history_title": "メッセージ履歴",
   "status_history_empty": "まだメッセージはありません",
-  "status_history_clear": "消去"
+  "status_history_clear": "消去",
+  "status_more_lines": "…（他 {count} 行、履歴を参照）",
+  "status_history_details": "詳細"
 }

@@ -126,5 +126,7 @@
   "status_history_toggle": "Mostra cronologia messaggi",
   "status_history_title": "Cronologia messaggi",
   "status_history_empty": "Nessun messaggio per ora",
-  "status_history_clear": "Cancella"
+  "status_history_clear": "Cancella",
+  "status_more_lines": "… (+{count} righe, vedi cronologia)",
+  "status_history_details": "Dettagli"
 }

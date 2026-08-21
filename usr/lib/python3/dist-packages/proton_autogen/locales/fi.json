@@ -126,5 +126,7 @@
   "status_history_toggle": "Näytä viestihistoria",
   "status_history_title": "Viestihistoria",
   "status_history_empty": "Ei vielä viestejä",
-  "status_history_clear": "Tyhjennä"
+  "status_history_clear": "Tyhjennä",
+  "status_more_lines": "… (+{count} riviä, katso historia)",
+  "status_history_details": "Tiedot"
 }
