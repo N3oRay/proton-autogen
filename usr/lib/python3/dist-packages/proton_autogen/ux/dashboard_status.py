@@ -48,25 +48,52 @@ MAX_DISPLAY_LINES = 6
 # NETTOYAGE COULEUR / CONTRÔLE (pure, sans GTK)
 # ------------------------------------------------------------------------------------
 
-# Séquences CSI classiques (couleurs, style, déplacement du curseur) :
-# ex. "\x1b[38;5;208m", "\x1b[0m", "\x1b[2K"
-_ANSI_CSI_RE = re.compile(r"\x1b\[[0-9;?]*[a-zA-Z]")
-
-# Séquences OSC (titre de fenêtre, hyperliens terminal...) :
-# ex. "\x1b]0;mon titre\x07"
-_ANSI_OSC_RE = re.compile(r"\x1b\][^\x07\x1b]*(\x07|\x1b\\)")
-
-# Autres caractères de contrôle non imprimables (hors \n / \t déjà
-# gérés par ailleurs).
-_CONTROL_CHARS_RE = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f]")
+# Un seul regex combiné (OSC + CSI + autres caractères de contrôle) au
+# lieu de 3 regex distincts : une seule passe sur le texte et une seule
+# allocation de chaîne, au lieu de 3 passes chaînées.
+#   - OSC : "\x1b]0;titre\x07"          (titre de fenêtre, hyperliens)
+#   - CSI : "\x1b[38;5;208m", "\x1b[0m"  (couleurs, curseur)
+#   - autres caractères de contrôle non imprimables (hors \n / \t)
+_ANSI_RE = re.compile(
+    r"\x1b\][^\x07\x1b]*(?:\x07|\x1b\\)"
+    r"|\x1b\[[0-9;?]*[a-zA-Z]"
+    r"|[\x00-\x08\x0b\x0c\x0e-\x1f]"
+)
 
 
 def strip_ansi(text: str) -> str:
-    """Supprime les séquences ANSI (couleur, curseur, OSC) et les
-    caractères de contrôle non imprimables d'un texte."""
-    text = _ANSI_OSC_RE.sub("", text)
-    text = _ANSI_CSI_RE.sub("", text)
-    text = _CONTROL_CHARS_RE.sub("", text)
+    """Supprime en une seule passe les séquences ANSI (couleur, curseur,
+    OSC) et les caractères de contrôle non imprimables d'un texte."""
+    return _ANSI_RE.sub("", text)
+
+
+# Détection du niveau "error" : un seul regex combiné plutôt qu'une
+# boucle sur 8 regex séparés. Motifs redondants supprimés :
+#   - "error\s*:" est un cas particulier de "error\b" (\b matche déjà
+#     avant ":") -> un seul suffit.
+#   - "traceback\s*\(most recent call last\)" est un cas particulier de
+#     "traceback\s*\(" -> un seul suffit.
+# Pas de re.MULTILINE : comme avant, seul le tout début du message est
+# vérifié (un message qui commence par une trace d'erreur), pas chaque
+# ligne individuellement.
+_ERROR_HINT_RE = re.compile(
+    r"^\s*(?:stderr\s*:|error\b|fatal\b|failed\b|failure\b|traceback\s*\()",
+    re.IGNORECASE,
+)
+
+# Préfixe "stderr:" en tête de message : simple comparaison de chaîne
+# (moins coûteux qu'un regex pour un test aussi ciblé, pas de moteur
+# regex à invoquer).
+_STDERR_PREFIX = "stderr"
+
+
+def _strip_stderr_prefix(text: str) -> str:
+    stripped = text.lstrip()
+    lower = stripped.lower()
+    if lower.startswith(_STDERR_PREFIX):
+        rest = stripped[len(_STDERR_PREFIX):].lstrip()
+        if rest.startswith(":"):
+            return rest[1:].lstrip()
     return text
 
 
@@ -137,60 +164,32 @@ class StatusLabel(Gtk.Label):
 
         # Supprime couleurs / séquences de contrôle AVANT toute autre
         # étape : sinon les codes ANSI polluent la détection de motifs
-        # et le split par lignes.
+        # et le split par lignes. Une seule passe regex (voir strip_ansi).
         text = strip_ansi(text)
 
         # Normalisation des fins de lignes.
         text = text.replace("\r\n", "\n")
         text = text.replace("\r", "\n")
 
-        # Nettoyage des espaces en fin de ligne.
-        lines = [
-            line.rstrip()
-            for line in text.splitlines()
-        ]
+        # Nettoyage des espaces en fin de ligne + suppression des lignes
+        # vides au début et à la fin.
+        lines = [line.rstrip() for line in text.splitlines()]
 
-        # Suppression des lignes vides au début et à la fin.
-        while lines and not lines[0].strip():
+        while lines and not lines[0]:
             lines.pop(0)
 
-        while lines and not lines[-1].strip():
+        while lines and not lines[-1]:
             lines.pop()
 
         text = "\n".join(lines)
 
-        # --------------------------------------------------------------
-        # Détection des erreurs
-        # --------------------------------------------------------------
+        # Détection d'erreur : un seul regex combiné (voir _ERROR_HINT_RE).
+        if level == "info" and _ERROR_HINT_RE.match(text):
+            level = "error"
 
-        error_patterns = (
-            r"^\s*stderr\s*:",
-            r"^\s*error\s*:",
-            r"^\s*error\b",
-            r"^\s*fatal\b",
-            r"^\s*failed\b",
-            r"^\s*failure\b",
-            r"^\s*traceback\s*\(",
-            r"^\s*traceback\s*\(most recent call last\)",
-        )
-
-        if level == "info":
-            for pattern in error_patterns:
-                if re.search(pattern, text, re.IGNORECASE):
-                    level = "error"
-                    break
-
-        # --------------------------------------------------------------
-        # Suppression du préfixe "stderr:"
-        # --------------------------------------------------------------
-
-        text = re.sub(
-            r"^\s*stderr\s*:\s*",
-            "",
-            text,
-            count=1,
-            flags=re.IGNORECASE,
-        )
+        # Suppression du préfixe "stderr:" : comparaison de chaîne, pas
+        # de regex (voir _strip_stderr_prefix).
+        text = _strip_stderr_prefix(text)
 
         return text, level
 
@@ -213,7 +212,7 @@ class StatusLabel(Gtk.Label):
     # API Gtk.Label
     # ------------------------------------------------------------------
 
-    def set_text(self, text, level: str = "info"):
+    def set_text(self, text, level: str = "info", record_history: bool = True):
         """
         Compatible avec Gtk.Label.set_text().
 
@@ -224,7 +223,22 @@ class StatusLabel(Gtk.Label):
         ou :
 
             self.status.set_text(stderr, level="error")
+
+        record_history : mettre à False pour les mises à jour éphémères
+            à haute fréquence (ex. frames d'un spinner d'attente, ~10x/s
+            pendant tout un lancement de jeu). Dans ce cas, seul le texte
+            affiché est mis à jour : pas de nettoyage ANSI, pas d'entrée
+            d'historique, pas de signal "history-changed" — donc pas de
+            reconstruction du panneau déroulant à chaque frame. Sans ce
+            court-circuit, un spinner à 10 Hz reconstruit l'intégralité
+            du Gtk.ListBox de l'historique (jusqu'à 200 lignes) dix fois
+            par seconde, ce qui suffit à expliquer une surconsommation
+            CPU pendant tout lancement de jeu.
         """
+
+        if not record_history:
+            super().set_text(str(text) if text is not None else "")
+            return
 
         full_text, level = self._format_message(text, level)
         display_text = self._cap_lines(full_text)

@@ -33,11 +33,23 @@ class Progress:
         y compris le thread interne du spinner. Si le callback touche une
         UI (GTK, Qt...), l'appelant DOIT relayer l'appel vers le thread
         principal (ex. `GLib.idle_add`) — `Progress` ne le fait pas lui-même.
+
+    Note importante (performance) :
+        Le callback est aussi invoqué à chaque frame du spinner (par
+        défaut 10x/seconde). Il reçoit maintenant un troisième argument,
+        `is_spinner_tick`, qui vaut True pour ces frames internes et False
+        pour les appels externes réels. Un callback qui répercute chaque
+        update sur un widget "lourd" (ex. reconstruction d'une liste
+        d'historique) DOIT utiliser ce flag pour éviter ce traitement
+        coûteux sur les simples frames d'animation — sans quoi un
+        spinner de 10-40 secondes peut suffire à saturer un cœur CPU.
+        Rétrocompatible : les callbacks à 2 arguments existants
+        continuent de fonctionner sans modification.
     """
 
     _spinner = ("⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏")
 
-    def __init__(self, callback: Optional[Callable[[int, str], None]] = None):
+    def __init__(self, callback: Optional[Callable[..., None]] = None):
         self.callback = callback
         self._lock = threading.Lock()
         self.current = {"percent": 0, "message": ""}
@@ -59,6 +71,7 @@ class Progress:
             message: texte de statut associé.
             _internal: usage réservé au spinner lui-même — ne pas utiliser
                 depuis du code appelant (n'actualise pas les watchdogs).
+                Répercuté au callback comme `is_spinner_tick`.
         """
         percent = max(0, min(100, percent))
 
@@ -75,7 +88,13 @@ class Progress:
                     self._last_message_change = now
 
         if self.callback:
-            self.callback(percent, message)
+            try:
+                # Signature étendue : (percent, message, is_spinner_tick)
+                self.callback(percent, message, _internal)
+            except TypeError:
+                # Rétrocompatibilité avec un callback à 2 arguments
+                # (percent, message) qui ne connaît pas encore le flag.
+                self.callback(percent, message)
 
     def get_current(self) -> dict:
         """Retourne une copie thread-safe de l'état courant."""
@@ -86,8 +105,8 @@ class Progress:
         self,
         percent: int = 90,
         message: str = "Launching",
-        interval: float = 0.1,
-        watchdog_timeout: Optional[float] = 40.0,
+        interval: float = 2.0,
+        watchdog_timeout: Optional[float] = 30.0,
         stale_message_timeout: Optional[float] = 10.0,
     ) -> None:
         """Démarre un spinner animé en arrière-plan.

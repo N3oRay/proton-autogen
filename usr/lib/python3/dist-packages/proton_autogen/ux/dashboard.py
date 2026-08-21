@@ -51,10 +51,11 @@ class Dashboard(DashboardUIMixin, DashboardDialogsMixin, DashboardActionsMixin, 
         )
 
     # Progres Barre
-    def progress_callback(self, percent, message):
+    def progress_callback(self, percent, message, is_spinner_tick=False):
         def update():
             self.status.set_text(
-                f"{message} ({percent}%)"
+                f"{message} ({percent}%)",
+                record_history=not is_spinner_tick,
             )
             return False
 
