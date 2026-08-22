@@ -1,10 +1,13 @@
-proton-autogen (3.2.9) noble; urgency=medium
+proton-autogen (3.3.0) noble; urgency=medium
 
   * Thanks to all users and contributors for their continued support, feedback and bug reports.
   * Add a status bar message history panel, allowing users to review all status messages since startup with timestamps and a clear action.
   * Add a dedicated status message widget with support for expandable details, allowing truncated messages to be viewed and copied in full.
   * Improve status bar readability by limiting long multi-line messages to 6 lines and indicating when additional lines are available in the history.
   * Fix broken raw ANSI escape sequences being displayed in the status bar when applications emit colored console output.
+  * Fix excessive CPU usage during application launches caused by the status bar rebuilding its entire message history on every spinner animation frame.
+  * Fix a significant CPU usage issue during application execution where every line of process output (stdout/stderr) triggered an immediate status bar update.
+  * Reduce CPU overhead of status message processing by consolidating multiple regular expressions into single combined patterns, without changing observable behavior.
   * Improve application terminology throughout the interface, replacing game-specific wording with application-specific terminology to better reflect support for generic Windows programs.
   * Localize the application search entry placeholder instead of using hardcoded text.
   * Add 14 new internationalization strings across all 16 supported locale files while preserving locale key parity.
@@ -12,4 +15,4 @@ proton-autogen (3.2.9) noble; urgency=medium
   * Internal UX improvements with the introduction of dedicated status bar and status history handling.
   * General UX improvements, localization improvements, configuration handling improvements and code cleanup.
 
- -- N3oray <n3oray77@gmail.com>  Fri, 21 Aug 2026 14:10:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Sat, 22 Aug 2026 13:38:00 +0200
