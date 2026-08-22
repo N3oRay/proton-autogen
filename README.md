@@ -142,7 +142,7 @@ Review the installer before running it
 ```bash
 less install.sh
 ```
-### (install manual)
+### Install manual  (ARCH and CachyOS)
 ```bash
 git clone https://github.com/N3oRay/proton-autogen.git
 cd proton-autogen
