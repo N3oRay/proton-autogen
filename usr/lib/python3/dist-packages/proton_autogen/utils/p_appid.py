@@ -101,6 +101,18 @@ KNOWN_APPIDS = {
     # -----------------------------
     "World_of_warship.exe": "552990",   # World of Warships
 
+    "Ra2.exe": "2229850",              # Command & Conquer: Red Alert 2
+    "RA2MD.exe": "2229850",            # Command & Conquer: Yuri's Revenge
+    "runme.exe": "17480",               # Command & Conquer: Red Alert 3
+    "RA3EP1.exe": "24800",              # Command & Conquer: Red Alert 3 - Uprising
+    "RA95.EXE": "2229840",              # Command & Conquer: Red Alert
+    "setup-00974-C&C_Alerte_Rouge-PCWin.exe": "2229840",              # Command & Conquer: Red Alert
+    "ClientLauncherG.exe": "1213210",   # Command & Conquer Remastered Collection
+    "OMGZ.exe": "259870",               # OMG Zombies!
+    "The Red Exile.exe": "1751890",     # The Red Exile: Survival Horror
+    "Darkest Dungeon II.exe": "1940340",# Darkest Dungeon II
+    "Stratside.exe": "604990",          # Stratside
+    "Catmaze.exe": "620220",            # Catmaze
     # -----------------------------
     # Atelier
     # -----------------------------

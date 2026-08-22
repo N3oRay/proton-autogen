@@ -6,6 +6,7 @@ import subprocess
 import hashlib
 import json
 import threading
+import time
 from collections import defaultdict
 
 from pathlib import Path
@@ -339,6 +340,20 @@ def get_prefix_path(prefix_mode: str, exe_path: str) -> str:
 # -------------------------------------------------------------------------------------------------------------------------------------
 
 
+# Fréquence maximale à laquelle une ligne de sortie du process (stdout/
+# stderr) est remontée vers l'UI via progress.update(). Un jeu verbeux
+# (logs FPS, debug wine, télémétrie...) peut émettre des centaines de
+# lignes par seconde PENDANT TOUTE LA PARTIE, pas seulement au
+# lancement : sans ce plafond, chaque ligne déclenche un aller-retour
+# GTK complet (callback -> GLib.idle_add -> StatusLabel.set_text())
+# pour toute la durée de vie du process, ce qui suffit à expliquer une
+# consommation CPU continue en GUI, absente en CLI (où progress=None
+# par défaut, donc aucun callback à invoquer). Le logger, lui, reçoit
+# toujours CHAQUE ligne sans exception : seule la remontée UI est
+# limitée en fréquence, jamais le diagnostic/logging.
+MIN_PROGRESS_UPDATE_INTERVAL = 0.5  # secondes
+
+
 def run_process(
     cmd,
     env=None,
@@ -393,8 +408,13 @@ def run_process(
             progress.stop_spinner()
             progress.update(85, "Launching Proton")
 
+        # Initialisé à 0.0 pour que la toute première ligne passe
+        # immédiatement le throttle (pas d'attente artificielle avant le
+        # premier retour visible côté UI).
+        last_progress_update = 0.0
+
         def handle_line(line, stream="stdout"):
-            nonlocal percent
+            nonlocal percent, last_progress_update
 
             line = line.rstrip()
             # Ignore les lignes vides
@@ -406,18 +426,21 @@ def run_process(
                 if any(f in line for f in filters):
                     return
 
-            if progress is not None:
-                progress.update(
-                    percent,
-                    f"{stream}: {line}"
-                )
-                percent = min(percent + 1, 99)
-
+            # Le logger reçoit TOUJOURS la ligne, quelle que soit la
+            # fréquence — c'est le throttle ci-dessous (remontée UI
+            # uniquement) qui absorbe le volume, jamais le logging.
             if logger:
                 if debug:
                     logger.debug(f"{stream}: {line}")
                 else:
                     logger.info(line)
+
+            if progress is not None:
+                now = time.monotonic()
+                if now - last_progress_update >= MIN_PROGRESS_UPDATE_INTERVAL:
+                    progress.update(percent, f"{stream}: {line}")
+                    percent = min(percent + 1, 99)
+                    last_progress_update = now
 
         if merge_stderr:
 
