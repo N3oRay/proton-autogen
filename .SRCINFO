@@ -15,7 +15,7 @@ pkgbase = proton-autogen
 	depends = python-rich
 	depends = gtk4
 	depends = gdk-pixbuf2
-	source = https://github.com/N3oRay/proton-autogen/archive/refs/tags/v3.2.9.tar.gz
+	source = https://github.com/N3oRay/proton-autogen/archive/refs/tags/v3.3.0.tar.gz
 	sha256sums = 0dab5db12791968512f2c4fa02bc4aa7fad065115b437bf0e8b99a2117bb1766
 
 pkgname = proton-autogen
