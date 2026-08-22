@@ -1,5 +1,8 @@
 {
   "ready": "तैयार",
+  "mini_notification_title": "Proton-Autogen",
+  "mini_notification_body": "{name} चल रहा है",
+  "mini_running_generic": "एक गेम चल रहा है",
   "menu_diagnostics": "निदान",
   "menu_sensors": "सेंसर",
   "menu_help_mangohud": "MangoHud सहायता",

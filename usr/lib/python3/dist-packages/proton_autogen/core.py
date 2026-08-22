@@ -351,7 +351,7 @@ def get_prefix_path(prefix_mode: str, exe_path: str) -> str:
 # par défaut, donc aucun callback à invoquer). Le logger, lui, reçoit
 # toujours CHAQUE ligne sans exception : seule la remontée UI est
 # limitée en fréquence, jamais le diagnostic/logging.
-MIN_PROGRESS_UPDATE_INTERVAL = 0.5  # secondes
+MIN_PROGRESS_UPDATE_INTERVAL = 1.0  # secondes
 
 
 def run_process(

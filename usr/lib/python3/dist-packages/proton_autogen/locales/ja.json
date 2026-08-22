@@ -1,5 +1,8 @@
 {
   "ready": "準備完了",
+  "mini_notification_title": "Proton-Autogen",
+  "mini_notification_body": "{name} が実行中です",
+  "mini_running_generic": "ゲームが実行中です",
   "menu_diagnostics": "診断",
   "menu_sensors": "センサー",
   "menu_help_mangohud": "MangoHud ヘルプ",

@@ -1,5 +1,8 @@
 {
   "ready": "준비 완료",
+  "mini_notification_title": "Proton-Autogen",
+  "mini_notification_body": "{name} 실행 중",
+  "mini_running_generic": "게임 실행 중",
   "menu_diagnostics": "진단",
   "menu_sensors": "센서",
   "menu_help_mangohud": "MangoHud 도움말",

@@ -1,5 +1,8 @@
 {
   "ready": "Готово",
+  "mini_notification_title": "Proton-Autogen",
+  "mini_notification_body": "{name} запущено",
+  "mini_running_generic": "Запущено гру",
   "menu_diagnostics": "Діагностика",
   "menu_sensors": "Датчики",
   "menu_help_mangohud": "Довідка MangoHud",

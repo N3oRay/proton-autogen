@@ -1,5 +1,8 @@
 {
   "ready": "就绪",
+  "mini_notification_title": "Proton-Autogen",
+  "mini_notification_body": "{name} 正在运行",
+  "mini_running_generic": "游戏正在运行",
   "menu_diagnostics": "诊断",
   "menu_sensors": "传感器",
   "menu_help_mangohud": "MangoHud 帮助",

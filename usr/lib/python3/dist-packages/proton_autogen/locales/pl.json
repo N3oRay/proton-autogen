@@ -1,5 +1,8 @@
 {
   "ready": "Gotowe",
+  "mini_notification_title": "Proton-Autogen",
+  "mini_notification_body": "{name} jest uruchomiona",
+  "mini_running_generic": "Gra jest uruchomiona",
   "menu_diagnostics": "Diagnostyka",
   "menu_sensors": "Czujniki",
   "menu_help_mangohud": "Pomoc MangoHud",

@@ -7,6 +7,7 @@ import threading
 from datetime import datetime
 gi.require_version("Gtk", "4.0")
 from gi.repository import Gtk, Gio, Gdk, GLib
+from proton_autogen.ux.dashboard_mini import DashboardMiniMixin
 from proton_autogen.ux.dashboard_ui import DashboardUIMixin
 from proton_autogen.ux.dashboard_dialogs import DashboardDialogsMixin
 from proton_autogen.ux.dashboard_actions import DashboardActionsMixin
@@ -23,7 +24,7 @@ from proton_autogen.i18n import detect_help_env_lang
 # -----------------------------
 # MAIN WINDOW
 # -----------------------------
-class Dashboard(DashboardUIMixin, DashboardDialogsMixin, DashboardActionsMixin, DashboardMangoHudMixin, DashboardCreateShortcutMixin, Gtk.ApplicationWindow):
+class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, DashboardActionsMixin, DashboardMangoHudMixin, DashboardCreateShortcutMixin, Gtk.ApplicationWindow):
     SHOW_ADD_BUTTON = True
     SHOW_REFRESH_BUTTON = True
 

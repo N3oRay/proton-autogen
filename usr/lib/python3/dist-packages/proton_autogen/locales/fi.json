@@ -1,5 +1,8 @@
 {
   "ready": "Valmis",
+  "mini_notification_title": "Proton-Autogen",
+  "mini_notification_body": "{name} on käynnissä",
+  "mini_running_generic": "Peli on käynnissä",
   "menu_diagnostics": "Diagnostiikka",
   "menu_sensors": "Anturit",
   "menu_help_mangohud": "MangoHud-ohje",
