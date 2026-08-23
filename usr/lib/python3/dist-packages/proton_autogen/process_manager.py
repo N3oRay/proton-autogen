@@ -130,16 +130,22 @@ def _wait_process(process, timeout: float) -> bool:
 # Internal helpers — vérification / arrêt indépendants du Popen local
 # ---------------------------------------------------------------------------
 
-def _find_pids_by_exe(exe_path: str) -> list:
-    """
-    Cherche les PID réels d'un exécutable via pgrep, indépendamment
-    de notre Popen local. Fiable même si le Popen tracké est mort
-    prématurément (reaper externe, wineserver détaché, etc.).
-    """
+# Ajouter un cache avec TTL court (0.5-1 sec)
+_pgrep_cache: Dict[str, tuple[float, list]] = {}
+_pgrep_cache_lock = threading.Lock()
+
+def _find_pids_by_exe(exe_path: str, use_cache=True) -> list:
     if not exe_path:
         return []
 
     exe_basename = os.path.basename(exe_path)
+
+    # Vérifier cache
+    if use_cache:
+        with _pgrep_cache_lock:
+            cached_time, cached_pids = _pgrep_cache.get(exe_basename, (0, None))
+            if cached_pids is not None and (time.monotonic() - cached_time) < 1.0:
+                return cached_pids
 
     try:
         out = subprocess.run(
@@ -148,7 +154,13 @@ def _find_pids_by_exe(exe_path: str) -> list:
             text=True,
             timeout=PGREP_TIMEOUT,
         )
-        return [int(p) for p in out.stdout.split() if p.strip()]
+        pids = [int(p) for p in out.stdout.split() if p.strip()]
+
+        # Mettre en cache
+        with _pgrep_cache_lock:
+            _pgrep_cache[exe_basename] = (time.monotonic(), pids)
+
+        return pids
     except Exception as e:
         logger.warning(f"pgrep failed for {exe_basename}: {e}")
         return []
