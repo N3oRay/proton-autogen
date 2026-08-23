@@ -32,6 +32,38 @@ _migrate_legacy_config()
 DEFAULT_THEME = "fluent"
 AVAILABLE_THEMES = ["fluent", "gta", "adwaita", "hellokit", "cute", "dark", "sky", "Breeze"]
 
+
+def _ensure_default_config():
+    """Crée le fichier de configuration et ajoute les valeurs par défaut
+    manquantes, sans écraser les préférences existantes."""
+    cfg = configparser.ConfigParser()
+
+    if CONFIG_PATH.exists():
+        try:
+            cfg.read(CONFIG_PATH)
+        except Exception:
+            pass
+
+    if "ui" not in cfg:
+        cfg["ui"] = {}
+
+    if "theme" not in cfg["ui"]:
+        cfg["ui"]["theme"] = DEFAULT_THEME
+
+    if "mini" not in cfg:
+        cfg["mini"] = {}
+
+    if "mini_mode" not in cfg["mini"]:
+        cfg["mini"]["mini_mode"] = "true"
+
+    CONFIG_PATH.parent.mkdir(parents=True, exist_ok=True)
+
+    with open(CONFIG_PATH, "w", encoding="utf-8") as f:
+        cfg.write(f)
+
+
+_ensure_default_config()
+
 BACKGROUND_THEMES = {
             "fluent": "logo-pa.jpg",
             "gta": "logo-gta.jpg",
