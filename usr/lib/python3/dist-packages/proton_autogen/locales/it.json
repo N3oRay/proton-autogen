@@ -1,5 +1,7 @@
 {
   "ready": "Pronto",
+  "game_crashed": "{name} si è arrestato inaspettatamente: {code}",
+  "mini_crash_notification_title": "Proton-Autogen — Errore",
   "mini_notification_title": "Proton-Autogen",
   "mini_notification_body": "{name} è in esecuzione",
   "mini_running_generic": "Un gioco è in esecuzione",

@@ -1,5 +1,7 @@
 {
   "ready": "Valmis",
+  "game_crashed": "{name} se pysähtyi odottamatta: {code}",
+  "mini_crash_notification_title": "Proton-Autogen — Virhe",
   "mini_notification_title": "Proton-Autogen",
   "mini_notification_body": "{name} on käynnissä",
   "mini_running_generic": "Peli on käynnissä",

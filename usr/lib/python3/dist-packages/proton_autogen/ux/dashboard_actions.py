@@ -118,7 +118,7 @@ class DashboardActionsMixin:
 
         self._running_games[game_id] = name
         #-----------------------------------------------
-        GLib.idle_add(self._update_stop_button_state, True)
+        GLib.idle_add(self._update_stop_button_state, True, name)
 
         def worker():
             progress = Progress(callback=self.progress_callback)
@@ -130,13 +130,29 @@ class DashboardActionsMixin:
             )
 
             try:
-                run(game_path, progress=progress, game_id=game_id)
+                returncode = run(game_path, progress=progress, game_id=game_id)
 
-                # Le processus s'est terminé normalement
-                GLib.idle_add(
-                    self.status.set_text,
-                    tr("game_finished", name=name),
-                )
+                # run_game_proton()/run_process() retournent un code de
+                # sortie entier plutôt que de lever une exception : un
+                # crash (code non nul) passait donc jusqu'ici totalement
+                # inaperçu ici, traité comme un succès silencieux.
+                if returncode:
+                    GLib.idle_add(
+                        self.status.set_text,
+                        tr("game_crashed", name=name, code=returncode),
+                        "error",
+                    )
+                    GLib.idle_add(self.toast.error, tr("game_crashed", name=name, code=returncode))
+                    logger.error(f"Game exited with non-zero code: {name} ({returncode})")
+
+                    if hasattr(self, "notify_game_crashed"):
+                        GLib.idle_add(self.notify_game_crashed, name, returncode)
+                else:
+                    # Le processus s'est terminé normalement
+                    GLib.idle_add(
+                        self.status.set_text,
+                        tr("game_finished", name=name),
+                    )
 
             except Exception as e:
                 msg = str(e)
@@ -147,6 +163,9 @@ class DashboardActionsMixin:
                 )
 
                 logger.error(f"Launch error: {e}")
+
+                if hasattr(self, "notify_game_crashed"):
+                    GLib.idle_add(self.notify_game_crashed, name, msg)
 
             finally:
                 GLib.idle_add(self.spinner.stop)

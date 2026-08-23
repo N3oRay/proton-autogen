@@ -1,5 +1,7 @@
 {
   "ready": "Gereed",
+  "game_crashed": "{name} is onverwacht gestopt: {code}",
+  "mini_crash_notification_title": "Proton-Autogen — Fout",
   "mini_notification_title": "Proton-Autogen",
   "mini_notification_body": "{name} wordt uitgevoerd",
   "mini_running_generic": "Er wordt een game uitgevoerd",

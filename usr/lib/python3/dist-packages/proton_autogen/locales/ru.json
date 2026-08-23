@@ -1,5 +1,7 @@
 {
   "ready": "Готово",
+  "game_crashed": "{name} неожиданно завершил работу: {code}",
+  "mini_crash_notification_title": "Proton-Autogen — Ошибка",
   "mini_notification_title": "Proton-Autogen",
   "mini_notification_body": "{name} запущен",
   "mini_running_generic": "Запущена игра",

@@ -1,5 +1,7 @@
 {
   "ready": "就绪",
+  "game_crashed": "{name} 意外停止运行：{code}",
+  "mini_crash_notification_title": "Proton-Autogen — 错误",
   "mini_notification_title": "Proton-Autogen",
   "mini_notification_body": "{name} 正在运行",
   "mini_running_generic": "游戏正在运行",

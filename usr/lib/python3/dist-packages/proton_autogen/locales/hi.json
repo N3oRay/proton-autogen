@@ -1,5 +1,7 @@
 {
   "ready": "तैयार",
+  "game_crashed": "{name} अप्रत्याशित रूप से बंद हो गया: {code}",
+  "mini_crash_notification_title": "Proton-Autogen — त्रुटि",
   "mini_notification_title": "Proton-Autogen",
   "mini_notification_body": "{name} चल रहा है",
   "mini_running_generic": "एक गेम चल रहा है",

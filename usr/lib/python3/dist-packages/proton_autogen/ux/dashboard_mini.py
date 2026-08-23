@@ -71,6 +71,13 @@ logger = StructuredLogger("proton-autogen.ux.dashboard_mini")
 # et de la retirer proprement via withdraw_notification().
 MINI_NOTIFICATION_ID = "proton-autogen-running"
 
+# ID distinct de MINI_NOTIFICATION_ID : une notification de crash ne
+# doit PAS disparaître quand _exit_mini_mode() retire la notification
+# "en cours" juste après (ce qui arrive systématiquement à la fin d'un
+# jeu, crash ou non — les deux notifications ont un cycle de vie
+# indépendant).
+MINI_CRASH_NOTIFICATION_ID = "proton-autogen-crashed"
+
 # Nom de l'action GAction enregistrée sur l'application, déclenchée par
 # un clic sur la notification (voir set_default_action ci-dessous).
 RESTORE_ACTION_NAME = "restore-window"
@@ -381,6 +388,54 @@ class DashboardMiniMixin:
         app = self.get_application()
         if app is not None:
             app.withdraw_notification(MINI_NOTIFICATION_ID)
+
+    # -------------------------
+    # Notification de crash
+    # -------------------------
+    def notify_game_crashed(self, game_name: str, detail):
+        """Affiche une notification d'erreur distincte de la
+        notification "en cours" — indépendante de son cycle de vie
+        (voir MINI_CRASH_NOTIFICATION_ID) et de priorité plus élevée,
+        pour rester visible même si l'utilisateur n'a pas vu passer la
+        notification "en cours" pendant que la fenêtre était minimisée.
+
+        game_name : nom du jeu concerné.
+        detail    : code de sortie non nul (int) OU message d'exception
+            (str) — les deux cas sont mis en forme via la même clé
+            i18n, aucune distinction nécessaire côté appelant.
+
+        Appelé depuis dashboard_actions.py::launch_game() (via
+        hasattr(self, "notify_game_crashed"), donc sans dépendance dure
+        à ce mixin) chaque fois que le jeu se termine avec un code de
+        sortie non nul ou qu'une exception a empêché son lancement.
+
+        Respecte le même interrupteur global que le reste du mode
+        réduit ([mini] mini_mode) : si l'utilisateur a désactivé la
+        réduction automatique, aucune notification n'est envoyée par ce
+        module, y compris celle-ci — un seul réglage, un seul mental
+        model.
+        """
+        if not getattr(self, "_mini_mode_enabled", None):
+            self._mini_mode_enabled = load_mini_mode_enabled()
+
+        if not self._mini_mode_enabled:
+            return
+
+        app = self.get_application()
+        if app is None:
+            return
+
+        self._ensure_restore_action_registered()
+
+        notif = Gio.Notification.new(tr("mini_crash_notification_title"))
+        notif.set_body(tr("game_crashed", name=game_name, code=detail))
+        notif.set_icon(Gio.ThemedIcon.new("dialog-error-symbolic"))
+        notif.set_priority(Gio.NotificationPriority.HIGH)
+        notif.set_default_action(f"app.{RESTORE_ACTION_NAME}")
+
+        app.send_notification(MINI_CRASH_NOTIFICATION_ID, notif)
+
+        logger.info(f"Crash notification shown for {game_name}: {detail}")
 
     # -------------------------
     # Action "restaurer la fenêtre" (clic sur la notification)

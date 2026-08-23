@@ -1,5 +1,7 @@
 {
   "ready": "Έτοιμο",
+  "game_crashed": "{name} σταμάτησε απροσδόκητα: {code}",
+  "mini_crash_notification_title": "Proton-Autogen — Σφάλμα",
   "mini_notification_title": "Proton-Autogen",
   "mini_notification_body": "Το {name} εκτελείται",
   "mini_running_generic": "Ένα παιχνίδι εκτελείται",
