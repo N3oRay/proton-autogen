@@ -32,6 +32,18 @@ _migrate_legacy_config()
 DEFAULT_THEME = "fluent"
 AVAILABLE_THEMES = ["fluent", "gta", "adwaita", "hellokit", "cute", "dark", "sky", "Breeze"]
 
+# Taille par défaut de la fenêtre principale au tout premier lancement
+# (avant toute sauvegarde), ou quand remember_window_size = false.
+DEFAULT_WINDOW_WIDTH = 1120
+DEFAULT_WINDOW_HEIGHT = 800
+
+# Taille minimale absolue, appliquée quel que soit remember_window_size :
+# protège contre une valeur corrompue ou aberrante dans le fichier de
+# config (ex. édition manuelle malheureuse, largeur négative ou nulle)
+# qui rendrait sinon la fenêtre inutilisable au prochain lancement.
+MIN_WINDOW_WIDTH = 800
+MIN_WINDOW_HEIGHT = 600
+
 
 def _ensure_default_config():
     """Crée le fichier de configuration et ajoute les valeurs par défaut
@@ -55,6 +67,18 @@ def _ensure_default_config():
 
     if "mini_mode" not in cfg["mini"]:
         cfg["mini"]["mini_mode"] = "true"
+
+    if "window" not in cfg:
+        cfg["window"] = {}
+
+    if "remember_window_size" not in cfg["window"]:
+        cfg["window"]["remember_window_size"] = "true"
+
+    if "width" not in cfg["window"]:
+        cfg["window"]["width"] = str(DEFAULT_WINDOW_WIDTH)
+
+    if "height" not in cfg["window"]:
+        cfg["window"]["height"] = str(DEFAULT_WINDOW_HEIGHT)
 
     CONFIG_PATH.parent.mkdir(parents=True, exist_ok=True)
 
@@ -107,6 +131,82 @@ def save_theme(theme: str):
     if "ui" not in cfg:
         cfg["ui"] = {}
     cfg["ui"]["theme"] = theme
+    CONFIG_PATH.parent.mkdir(parents=True, exist_ok=True)
+    with open(CONFIG_PATH, "w", encoding="utf-8") as f:
+        cfg.write(f)
+
+
+# ------------------------------------------------------------------------------------
+# TAILLE DE FENÊTRE
+# ------------------------------------------------------------------------------------
+
+def load_remember_window_size(default: bool = True) -> bool:
+    cfg = configparser.ConfigParser()
+    if CONFIG_PATH.exists():
+        try:
+            cfg.read(CONFIG_PATH)
+            return cfg.getboolean("window", "remember_window_size", fallback=default)
+        except Exception:
+            return default
+    return default
+
+
+def save_remember_window_size(enabled: bool):
+    cfg = configparser.ConfigParser()
+    if CONFIG_PATH.exists():
+        try:
+            cfg.read(CONFIG_PATH)
+        except Exception:
+            pass
+    if "window" not in cfg:
+        cfg["window"] = {}
+    cfg["window"]["remember_window_size"] = "true" if enabled else "false"
+    CONFIG_PATH.parent.mkdir(parents=True, exist_ok=True)
+    with open(CONFIG_PATH, "w", encoding="utf-8") as f:
+        cfg.write(f)
+
+
+def load_window_size() -> tuple[int, int]:
+    """Retourne (largeur, hauteur) sauvegardées, avec repli sur
+    DEFAULT_WINDOW_WIDTH/HEIGHT si absentes ou illisibles. Les valeurs
+    lues sont toujours bornées à MIN_WINDOW_WIDTH/MIN_WINDOW_HEIGHT :
+    protège contre un fichier de config corrompu ou édité à la main
+    avec des valeurs aberrantes (0, négatives...), qui rendrait sinon
+    la fenêtre inutilisable au prochain lancement plutôt que de simplement
+    ignorer la préférence invalide."""
+    cfg = configparser.ConfigParser()
+    width, height = DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT
+
+    if CONFIG_PATH.exists():
+        try:
+            cfg.read(CONFIG_PATH)
+            width = cfg.getint("window", "width", fallback=DEFAULT_WINDOW_WIDTH)
+            height = cfg.getint("window", "height", fallback=DEFAULT_WINDOW_HEIGHT)
+        except Exception:
+            width, height = DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT
+
+    width = max(width, MIN_WINDOW_WIDTH)
+    height = max(height, MIN_WINDOW_HEIGHT)
+
+    return width, height
+
+
+def save_window_size(width: int, height: int):
+    # Ne jamais persister une taille invalide (ex. lue pendant un état
+    # transitoire de la fenêtre, avant sa première allocation réelle).
+    if width <= 0 or height <= 0:
+        return
+
+    cfg = configparser.ConfigParser()
+    if CONFIG_PATH.exists():
+        try:
+            cfg.read(CONFIG_PATH)
+        except Exception:
+            pass
+    if "window" not in cfg:
+        cfg["window"] = {}
+    cfg["window"]["width"] = str(width)
+    cfg["window"]["height"] = str(height)
     CONFIG_PATH.parent.mkdir(parents=True, exist_ok=True)
     with open(CONFIG_PATH, "w", encoding="utf-8") as f:
         cfg.write(f)

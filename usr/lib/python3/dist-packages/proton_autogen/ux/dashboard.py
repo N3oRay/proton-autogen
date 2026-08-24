@@ -13,7 +13,14 @@ from proton_autogen.ux.dashboard_dialogs import DashboardDialogsMixin
 from proton_autogen.ux.dashboard_actions import DashboardActionsMixin
 from proton_autogen.ux.dashboard_mangohud import DashboardMangoHudMixin
 from proton_autogen.ux.dashboard_creatshortcut import DashboardCreateShortcutMixin
-from proton_autogen.ux.themes import load_saved_theme, save_theme, AVAILABLE_THEMES, DEFAULT_THEME, BACKGROUND_THEMES, STYLE_CSS
+from proton_autogen.ux.themes import (
+    load_saved_theme, save_theme, AVAILABLE_THEMES, DEFAULT_THEME,
+    BACKGROUND_THEMES, STYLE_CSS,
+    load_remember_window_size, save_remember_window_size,
+    load_window_size, save_window_size,
+    DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT,
+    MIN_WINDOW_WIDTH, MIN_WINDOW_HEIGHT,
+)
 from proton_autogen.i18n import tr, detect_help_env_lang
 from proton_autogen.ux.search import filter_games
 from proton_autogen.notify import notifications
@@ -32,8 +39,28 @@ class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, Das
         super().__init__(application=app)
         self.set_title("Proton-Autogen")
         self.set_icon_name("proton-autogen")
-        self.set_default_size(1120, 800)
-        self.set_size_request(1120, 800)
+
+        # Taille de fenêtre : reprend la dernière taille sauvegardée si
+        # remember_window_size est activé (par défaut), sinon retombe
+        # sur DEFAULT_WINDOW_WIDTH/HEIGHT. set_size_request() reste fixé
+        # à un minimum absolu indépendant (MIN_WINDOW_*), pour ne jamais
+        # empêcher l'utilisateur de redimensionner en dessous de la
+        # taille mémorisée si besoin.
+        if load_remember_window_size():
+            width, height = load_window_size()
+        else:
+            width, height = DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT
+
+        self.set_default_size(width, height)
+        self.set_size_request(MIN_WINDOW_WIDTH, MIN_WINDOW_HEIGHT)
+
+        # Sauvegarde la taille courante juste avant la fermeture
+        # (close-request est émis avant que la fenêtre ne soit détruite,
+        # get_width()/get_height() reflètent donc encore la taille
+        # réelle affichée à l'écran). Retourne False pour ne jamais
+        # bloquer la fermeture, quel que soit le résultat de la sauvegarde.
+        self.connect("close-request", self._on_close_request)
+
         self.games = []
         self.current_carousel = None
         self.lang = detect_help_env_lang()
@@ -41,6 +68,22 @@ class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, Das
 
         self.build_ui()   # vient du mixin
         self.refresh_games()
+
+    def _on_close_request(self, *_):
+        if load_remember_window_size():
+            save_window_size(self.get_width(), self.get_height())
+        return False  # ne jamais empêcher la fermeture
+
+    # -------------------------
+    # Réglage utilisateur (extension point pour une future case à cocher
+    # dans les préférences ; fonctionne dès maintenant tel quel)
+    # -------------------------
+    def set_remember_window_size(self, enabled: bool):
+        save_remember_window_size(enabled)
+        if enabled:
+            # Mémorise immédiatement la taille actuelle plutôt que
+            # d'attendre la fermeture, pour un effet visible tout de suite.
+            save_window_size(self.get_width(), self.get_height())
 
     # Notify Toast
     def notify_toast(self, status, timeout=3):
