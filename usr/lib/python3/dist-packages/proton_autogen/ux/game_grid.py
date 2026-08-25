@@ -16,14 +16,14 @@ LUTRIS_EXPORT_ENABLED = True
 
 # Bornes et pas du zoom clavier (Ctrl + / Ctrl -). DEFAULT_ICON_SIZE
 # reprend la taille fixe d'origine (160px) comme point de départ.
-MIN_ICON_SIZE = 128
+MIN_ICON_SIZE = 64
 MAX_ICON_SIZE = 208
 ICON_SIZE_STEP = 16
 DEFAULT_ICON_SIZE = 160
 
 # Espacement pour les contrôles de la grille
 GRID_CARD_SPACING = 12  # Espacement entre les cartes
-GRID_HORIZONTAL_PADDING = 20
+GRID_HORIZONTAL_PADDING = 10
 GRID_CARD_EXTRA_WIDTH = 10
 GRID_HORIZONTAL_MARGIN = 10
 GRID_MIN_COLUMNS = 1
@@ -385,13 +385,18 @@ class GameGrid(Gtk.Box):
         # BADGES
         # ---------------------------------------------------------
 
-        badges_box = Gtk.Box(
-            orientation=Gtk.Orientation.HORIZONTAL,
-            spacing=2,
-        )
-
+        badges_box = Gtk.FlowBox()
+        badges_box.set_orientation(Gtk.Orientation.HORIZONTAL)
         badges_box.set_halign(Gtk.Align.CENTER)
-        badges_box.set_hexpand(False)
+        badges_box.set_valign(Gtk.Align.CENTER)
+        # Espacement entre les badges
+        badges_box.set_row_spacing(2)
+        badges_box.set_column_spacing(2)
+        # Nombre maximum de badges par ligne
+        badges_box.set_max_children_per_line(4)
+        # Évite que FlowBox essaie de faire une seule ligne
+        badges_box.set_min_children_per_line(1)
+        badges_box.set_selection_mode(Gtk.SelectionMode.NONE)
         badges_box.add_css_class("game-grid-badges")
 
         # ---------------------------------------------------------
@@ -443,9 +448,9 @@ class GameGrid(Gtk.Box):
         card.game = game
 
         size = self.icon_size
-
         # Taille du conteneur d'icône (responsive)
         card.icon_holder.set_size_request(size, size)
+        card.badges_box.set_size_request(size, -1)
 
         # Icône
         icon = load_game_icon(game, size=size)
