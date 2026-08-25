@@ -1,6 +1,9 @@
-proton-autogen (3.3.0) noble; urgency=medium
+proton-autogen (3.3.1) noble; urgency=medium
 
   * Thanks to all users and contributors for their continued support, feedback and bug reports.
+  * Improve application responsiveness and adaptive layout behavior.
+  * Add a dedicated GRID menu with zoom controls for adjusting game icon sizes.
+  * Automatically save and restore the application window size between sessions.
   * Add a status bar message history panel, allowing users to review all status messages since startup with timestamps and a clear action.
   * Add a dedicated status message widget with support for expandable details, allowing truncated messages to be viewed and copied in full.
   * Improve status bar readability by limiting long multi-line messages to 6 lines and indicating when additional lines are available in the history.
@@ -15,4 +18,4 @@ proton-autogen (3.3.0) noble; urgency=medium
   * Internal UX improvements with the introduction of dedicated status bar and status history handling.
   * General UX improvements, localization improvements, configuration handling improvements and code cleanup.
 
- -- N3oray <n3oray77@gmail.com>  Sat, 22 Aug 2026 13:38:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Tue, 25 Aug 2026 20:48:00 +0200
