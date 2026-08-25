@@ -326,7 +326,7 @@ Community baseline — August 2026
 👀 Views              ██████                393
 🌍 Unique visitors    ██                    157
 Ubuntu PPA
-📥 Downloads █████████████████████  392 package downloads (28 versions)
+📥 Downloads █████████████████████  483 package downloads (31 versions)
 ```
 <sub>
 Launchpad downloads represent PPA package downloads, not unique users.
