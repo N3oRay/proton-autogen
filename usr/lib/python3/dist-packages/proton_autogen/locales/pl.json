@@ -1,5 +1,7 @@
 {
   "ready": "Gotowe",
+  "zoom_out": "🔍-",
+  "zoom_in": "🔍+",
   "game_crashed": "{name} został nieoczekiwanie zamknięty: {code}",
   "mini_crash_notification_title": "Proton-Autogen — Błąd",
   "mini_notification_title": "Proton-Autogen",

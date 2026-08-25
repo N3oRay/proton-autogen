@@ -1,5 +1,7 @@
 {
   "ready": "준비 완료",
+  "zoom_out": "🔍-",
+  "zoom_in": "🔍+",
   "game_crashed": "{name}이(가) 예기치 않게 종료되었습니다: {code}",
   "mini_crash_notification_title": "Proton-Autogen — 오류",
   "mini_notification_title": "Proton-Autogen",

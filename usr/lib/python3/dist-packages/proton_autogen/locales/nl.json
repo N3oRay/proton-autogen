@@ -1,5 +1,7 @@
 {
   "ready": "Gereed",
+  "zoom_out": "🔍-",
+  "zoom_in": "🔍+",
   "game_crashed": "{name} is onverwacht gestopt: {code}",
   "mini_crash_notification_title": "Proton-Autogen — Fout",
   "mini_notification_title": "Proton-Autogen",

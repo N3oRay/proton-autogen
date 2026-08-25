@@ -962,7 +962,7 @@ popover.menu modelbutton.submenu arrow {
 }
 
 .game-grid-icon {
-    border-radius: 8px;
+    border-radius: 6px;
 }
 
 .game-grid-title {
@@ -974,7 +974,7 @@ popover.menu modelbutton.submenu arrow {
 }
 
 .game-grid-badges {
-    min-height: 18px;
+    min-height: 10px;
 }
 
 /* =========================================================

@@ -1,5 +1,7 @@
 {
   "ready": "Valmis",
+  "zoom_out": "🔍-",
+  "zoom_in": "🔍+",
   "game_crashed": "{name} se pysähtyi odottamatta: {code}",
   "mini_crash_notification_title": "Proton-Autogen — Virhe",
   "mini_notification_title": "Proton-Autogen",

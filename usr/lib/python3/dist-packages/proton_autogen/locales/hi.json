@@ -1,5 +1,7 @@
 {
   "ready": "तैयार",
+  "zoom_out": "🔍-",
+  "zoom_in": "🔍+",
   "game_crashed": "{name} अप्रत्याशित रूप से बंद हो गया: {code}",
   "mini_crash_notification_title": "Proton-Autogen — त्रुटि",
   "mini_notification_title": "Proton-Autogen",

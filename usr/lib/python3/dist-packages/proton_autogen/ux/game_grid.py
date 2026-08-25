@@ -19,9 +19,12 @@ LUTRIS_EXPORT_ENABLED = True
 MIN_ICON_SIZE = 64
 MAX_ICON_SIZE = 256
 ICON_SIZE_STEP = 16
-DEFAULT_ICON_SIZE = 192
+DEFAULT_ICON_SIZE = 160
 
-GRID_CARD_EXTRA_WIDTH = 20
+# Espacement pour les contrôles de la grille
+GRID_CARD_SPACING = 12  # Espacement entre les cartes
+GRID_HORIZONTAL_PADDING = 20
+GRID_CARD_EXTRA_WIDTH = 10
 GRID_HORIZONTAL_MARGIN = 10
 GRID_MIN_COLUMNS = 1
 GRID_MAX_COLUMNS = 20
@@ -86,6 +89,36 @@ class GameGrid(Gtk.Box):
         # Instance (pas classe) : chaque GameGrid a son propre zoom.
         self.icon_size = DEFAULT_ICON_SIZE
 
+        # Cache pour éviter les recalculs inutiles
+        self._last_grid_width = 0
+        self._resize_timeout_id = None
+
+        # ---------------------------------------------------------
+        # TOOLBAR (ZOOM CONTROLS)
+        # ---------------------------------------------------------
+
+        toolbar = Gtk.Box(spacing=6)
+        toolbar.set_halign(Gtk.Align.START)
+        toolbar.add_css_class("game-grid-toolbar")
+
+        # Bouton Zoom -
+        zoom_out_btn = Gtk.Button(label=tr("zoom_out") or "−")
+        zoom_out_btn.connect("clicked", lambda _: self.zoom_out())
+        toolbar.append(zoom_out_btn)
+
+        # Bouton Zoom +
+        zoom_in_btn = Gtk.Button(label=tr("zoom_in") or "+")
+        zoom_in_btn.connect("clicked", lambda _: self.zoom_in())
+        toolbar.append(zoom_in_btn)
+
+        # Label info taille
+        self.size_label = Gtk.Label()
+        self.size_label.set_margin_start(12)
+        self._update_size_label()
+        toolbar.append(self.size_label)
+
+        self.append(toolbar)
+
         # ---------------------------------------------------------
         # MODEL
         # ---------------------------------------------------------
@@ -115,10 +148,7 @@ class GameGrid(Gtk.Box):
 
         self.grid_view.add_css_class("game-grid")
 
-        # Taille minimale d'une carte.
-        #
-        # GridView adapte automatiquement le nombre de colonnes
-        # en fonction de la largeur disponible.
+        # Min/max colonnes
         self.grid_view.set_min_columns(GRID_MIN_COLUMNS)
         self.grid_view.set_max_columns(GRID_MAX_COLUMNS)
         self._last_grid_width = 0
@@ -148,6 +178,12 @@ class GameGrid(Gtk.Box):
         GLib.idle_add(self._update_grid_columns)
 
 
+    def _update_size_label(self):
+        """Met à jour le label affichant la taille actuelle."""
+        if hasattr(self, "size_label"):
+            self.size_label.set_text(f"{self.icon_size}px")
+
+
     def _update_grid_columns(self):
         """Adapte le nombre de colonnes à la largeur disponible."""
 
@@ -161,6 +197,7 @@ class GameGrid(Gtk.Box):
             GRID_CARD_EXTRA_WIDTH
         )
 
+        # Espace disponible après les marges
         available_width = max(
             1,
             width - GRID_HORIZONTAL_MARGIN
@@ -249,6 +286,7 @@ class GameGrid(Gtk.Box):
             return
 
         self.icon_size = size
+        self._update_size_label()
         self._refresh_after_zoom()
 
 
@@ -325,7 +363,7 @@ class GameGrid(Gtk.Box):
         title = Gtk.Label()
         title.set_halign(Gtk.Align.CENTER)
         title.set_hexpand(True)
-        title.set_max_width_chars(22)
+        title.set_max_width_chars(20)
         title.set_wrap(True)
         title.add_css_class("game-grid-title")
 
@@ -393,16 +431,7 @@ class GameGrid(Gtk.Box):
 
         size = self.icon_size
 
-        # IMPORTANT :
-        # cette largeur sert de largeur minimale à GridView
-        #card.set_size_request(size + 20, size + 50)
-
-        #card_width = size + GRID_CARD_EXTRA_WIDTH
-        #card_height = size + GRID_CARD_EXTRA_HEIGHT
-        #card.set_size_request(card_width, card_height)
-        card.icon_holder.set_size_request(size, size)
-
-        # Conteneur de l'icône
+        # Taille du conteneur d'icône (responsive)
         card.icon_holder.set_size_request(size, size)
 
         # Icône

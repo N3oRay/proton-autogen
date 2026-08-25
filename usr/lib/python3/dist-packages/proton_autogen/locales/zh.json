@@ -1,5 +1,7 @@
 {
   "ready": "就绪",
+  "zoom_out": "🔍-",
+  "zoom_in": "🔍+",
   "game_crashed": "{name} 意外停止运行：{code}",
   "mini_crash_notification_title": "Proton-Autogen — 错误",
   "mini_notification_title": "Proton-Autogen",

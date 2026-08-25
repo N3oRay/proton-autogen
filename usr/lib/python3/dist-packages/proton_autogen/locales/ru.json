@@ -1,5 +1,7 @@
 {
   "ready": "Готово",
+  "zoom_out": "🔍-",
+  "zoom_in": "🔍+",
   "game_crashed": "{name} неожиданно завершил работу: {code}",
   "mini_crash_notification_title": "Proton-Autogen — Ошибка",
   "mini_notification_title": "Proton-Autogen",
