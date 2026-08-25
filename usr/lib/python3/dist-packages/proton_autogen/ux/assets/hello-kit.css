@@ -928,3 +928,104 @@ popover.menu modelbutton.submenu arrow {
 .status-history-success {
     color: #4caf78;
 }
+
+/* -------------------------------------------------
+   GAME GRID
+   ------------------------------------------------- */
+
+.game-grid {
+    padding: 8px;
+    background-color: transparent;
+}
+
+.game-grid scrolledwindow {
+    background-color: transparent;
+}
+
+.game-grid flowbox {
+    background-color: transparent;
+}
+
+.game-grid-card {
+    min-width: 150px;
+    min-height: 195px;
+
+    margin: 5px;
+    padding: 6px;
+
+    border-radius: 10px;
+}
+
+.game-grid-card:hover {
+    background-color: alpha(@theme_fg_color, 0.07);
+}
+
+.game-grid-icon-holder {
+    min-width: 140px;
+    min-height: 140px;
+}
+
+.game-grid-icon {
+    border-radius: 8px;
+}
+
+.game-grid-title {
+    font-weight: 600;
+    font-size: 1em;
+
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.game-grid-badges {
+    min-height: 18px;
+}
+
+/* =========================================================
+ * GAME GRID — CONTEXT MENU
+ * ========================================================= */
+
+.game-grid-context-menu {
+    padding: 3px;
+    border-radius: 8px;
+}
+
+/* Boutons */
+.game-grid-context-menu button {
+    min-height: 32px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    box-shadow: none;
+
+    color: @theme_fg_color;
+    background: transparent;
+}
+
+/* Hover */
+.game-grid-context-menu button:hover {
+    background: alpha(@theme_fg_color, 0.10);
+}
+
+/* Press */
+.game-grid-context-menu button:active {
+    background: alpha(@theme_fg_color, 0.16);
+}
+
+/* Suppression */
+.game-grid-context-menu .game-grid-menu-delete {
+    color: #ff6b6b;
+}
+
+.game-grid-context-menu .game-grid-menu-delete:hover {
+    color: #ffffff;
+    background: alpha(#ff0000, 0.20);
+}
+
+/* Séparateur */
+
+.game-grid-context-menu separator {
+    margin: 3px 2px;
+    min-height: 1px;
+    background: alpha(@theme_fg_color, 0.12);
+}

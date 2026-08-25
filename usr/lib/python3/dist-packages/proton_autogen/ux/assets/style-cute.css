@@ -884,3 +884,169 @@ scrollbar slider:hover {
 .status-history-success {
     color: #4caf78;
 }
+
+/* -------------------------------------------------
+   GAME GRID
+   ------------------------------------------------- */
+
+.game-grid {
+    padding: 8px;
+    background-color: transparent;
+}
+
+.game-grid scrolledwindow {
+    background-color: transparent;
+}
+
+.game-grid flowbox {
+    background-color: transparent;
+}
+
+.game-grid-card {
+    min-width: 150px;
+    min-height: 195px;
+
+    margin: 5px;
+    padding: 6px;
+
+    border-radius: 10px;
+}
+
+.game-grid-card:hover {
+    background-color: alpha(@kawaii-pink, 0.25);
+}
+
+.game-grid-icon-holder {
+    min-width: 140px;
+    min-height: 140px;
+}
+
+.game-grid-icon {
+    border-radius: 8px;
+}
+
+.game-grid-title {
+    font-weight: 600;
+    font-size: 1em;
+
+    margin-left: 3px;
+    margin-right: 3px;
+
+    color: @kawaii-text;
+}
+
+.game-grid-badges {
+    min-height: 18px;
+}
+
+
+/* =========================================================
+ * GAME GRID — CONTEXT MENU — Theme cute
+ * ========================================================= */
+
+.game-grid-context-menu {
+    padding: 3px;
+    border-radius: 8px;
+
+    background-color: @kawaii-surface;
+    color: @kawaii-text;
+}
+
+
+/* =========================================================
+ * POPover
+ * ========================================================= */
+
+popover.game-grid-context-menu {
+    background-color: @kawaii-surface;
+    color: @kawaii-text;
+}
+
+popover.game-grid-context-menu contents {
+    background-color: @kawaii-surface;
+    color: @kawaii-text;
+}
+
+
+/* =========================================================
+ * Boutons
+ * ========================================================= */
+
+.game-grid-context-menu button {
+    min-height: 26px;
+    padding: 4px 9px;
+
+    border: none;
+    border-radius: 5px;
+    box-shadow: none;
+
+    color: @kawaii-text;
+    background-color: transparent;
+}
+
+.game-grid-context-menu button:hover {
+    color: @kawaii-text;
+    background-color: @hk_hover;
+}
+
+.game-grid-context-menu button:active {
+    color: @kawaii-text;
+    background-color: @kawaii-pink;
+}
+
+.game-grid-context-menu button:focus-visible {
+    color: @kawaii-text;
+    outline: 2px solid @kawaii-pink-dark;
+    outline-offset: -2px;
+}
+
+
+/* =========================================================
+ * Suppression
+ * ========================================================= */
+
+.game-grid-context-menu .game-grid-menu-delete {
+    color: @hk_dark_pink;
+}
+
+.game-grid-context-menu .game-grid-menu-delete:hover {
+    color: @hk_dark_pink;
+    background-color: alpha(@hk_dark_pink, 0.15);
+}
+
+.game-grid-context-menu .game-grid-menu-delete:active {
+    color: @hk_dark_pink;
+    background-color: alpha(@hk_dark_pink, 0.25);
+}
+
+
+/* =========================================================
+ * Séparateur
+ * ========================================================= */
+
+
+.game-grid-context-menu separator {
+    margin: 3px 2px;
+    min-height: 1px;
+    background-color: @kawaii-border;
+}
+
+.game-grid-context-menu button,
+.game-grid-context-menu button label {
+    color: @kawaii-text;
+}
+
+.game-grid-context-menu button:hover,
+.game-grid-context-menu button:hover label {
+    color: @kawaii-text;
+}
+
+.game-grid-context-menu button:active,
+.game-grid-context-menu button:active label {
+    color: @kawaii-text;
+}
+
+.game-grid-context-menu .game-grid-menu-delete,
+.game-grid-context-menu .game-grid-menu-delete label {
+    color: @hk_dark_pink;
+}

@@ -883,3 +883,129 @@ button,
 .status-history-success {
     color: #4caf78;
 }
+
+/* -------------------------------------------------
+   GAME GRID
+   ------------------------------------------------- */
+
+.game-grid {
+    padding: 8px;
+    background-color: transparent;
+}
+
+.game-grid scrolledwindow {
+    background-color: transparent;
+}
+
+.game-grid flowbox {
+    background-color: transparent;
+}
+
+.game-grid-card {
+    min-width: 150px;
+    min-height: 195px;
+
+    margin: 5px;
+    padding: 6px;
+
+    border-radius: 10px;
+}
+
+.game-grid-card:hover {
+    background-color: alpha(@theme_fg_color, 0.07);
+}
+
+.game-grid-icon-holder {
+    min-width: 140px;
+    min-height: 140px;
+}
+
+.game-grid-icon {
+    border-radius: 8px;
+}
+
+.game-grid-title {
+    font-weight: 600;
+    font-size: 1em;
+
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.game-grid-badges {
+    min-height: 18px;
+}
+
+/* =========================================================
+ * GAME GRID — CONTEXT MENU — ADWAITA
+ * ========================================================= */
+
+.game-grid-context-menu {
+    padding: 3px;
+    background: @surface;
+    color: @text;
+}
+
+/* ---------------------------------------------------------
+ * Boutons
+ * --------------------------------------------------------- */
+
+.game-grid-context-menu button {
+    min-height: 32px;
+    padding: 6px 12px;
+
+    border: none;
+    border-radius: 6px;
+    box-shadow: none;
+
+    color: @text;
+    background: transparent;
+}
+
+/* Hover */
+.game-grid-context-menu button:hover {
+    color: @text;
+    background: @surface-hover;
+}
+
+/* Press */
+.game-grid-context-menu button:active {
+    color: @text;
+    background: @bg-hover;
+}
+
+/* Focus clavier */
+.game-grid-context-menu button:focus-visible {
+    color: @text;
+    outline: 2px solid @accent;
+    outline-offset: -2px;
+}
+
+/* ---------------------------------------------------------
+ * Suppression
+ * --------------------------------------------------------- */
+
+.game-grid-context-menu .game-grid-menu-delete {
+    color: @error;
+}
+
+.game-grid-context-menu .game-grid-menu-delete:hover {
+    color: @error;
+    background: alpha(@error, 0.10);
+}
+
+.game-grid-context-menu .game-grid-menu-delete:active {
+    color: @error;
+    background: alpha(@error, 0.16);
+}
+
+/* ---------------------------------------------------------
+ * Séparateur
+ * --------------------------------------------------------- */
+
+
+.game-grid-context-menu separator {
+    margin: 3px 2px;
+    min-height: 1px;
+    background: alpha(@text, 0.12);
+}

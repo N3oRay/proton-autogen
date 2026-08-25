@@ -9,6 +9,7 @@ from proton_autogen.ux.widgets.toast import ToastOverlay
 from proton_autogen.ux.recent_carousel import RecentCarousel
 from proton_autogen.ux.favorites_carousel import FavoritesCarousel
 from proton_autogen.ux.game_list import GameList
+from proton_autogen.ux.game_grid import GameGrid
 from proton_autogen.ux.dashboard_status import StatusLabel
 from proton_autogen.i18n import tr
 
@@ -125,40 +126,91 @@ class DashboardUIMixin:
     # =========================
 
     def _build_carousels(self, root):
-        carousel_buttons = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
+        buttons = Gtk.Box(
+            orientation=Gtk.Orientation.HORIZONTAL,
+            spacing=8,
+            hexpand=True,
+        )
+
+        # Favorites / Recent
         self.favorites_btn = Gtk.Button(label=f"⭐ {tr('favorites')}")
         self.recent_btn = Gtk.Button(label=f"🕘 {tr('recently_played')}")
-        self.favorites_btn.add_css_class("section-toggle")
-        self.recent_btn.add_css_class("section-toggle")
-        carousel_buttons.append(self.favorites_btn)
-        carousel_buttons.append(self.recent_btn)
-        root.append(carousel_buttons)
 
+        for btn in (self.favorites_btn, self.recent_btn):
+            btn.add_css_class("section-toggle")
+            buttons.append(btn)
+
+        # Spacer
+        buttons.append(Gtk.Box(hexpand=True))
+
+        # Liste / Grille
+        self.game_list_view_btn = Gtk.ToggleButton(
+            icon_name="view-list-symbolic"
+        )
+        self.game_grid_view_btn = Gtk.ToggleButton(
+            icon_name="view-grid-symbolic"
+        )
+
+        self.game_list_view_btn.set_tooltip_text("Liste")
+        self.game_grid_view_btn.set_tooltip_text("Icônes")
+
+        self.game_grid_view_btn.set_group(self.game_list_view_btn)
+        self.game_list_view_btn.set_active(True)
+
+        self.game_list_view_btn.connect(
+            "toggled", self._on_game_view_list_toggled
+        )
+        self.game_grid_view_btn.connect(
+            "toggled", self._on_game_view_grid_toggled
+        )
+
+        buttons.append(self.game_list_view_btn)
+        buttons.append(self.game_grid_view_btn)
+
+        root.append(buttons)
+
+        # Carrousels
         self.carousel_revealer = Gtk.Revealer()
-        self.carousel_revealer.set_transition_type(Gtk.RevealerTransitionType.SLIDE_DOWN)
+        self.carousel_revealer.set_transition_type(
+            Gtk.RevealerTransitionType.SLIDE_DOWN
+        )
         self.carousel_revealer.set_transition_duration(250)
 
         self.carousel_stack = Gtk.Stack()
-        self.carousel_stack.set_transition_type(Gtk.StackTransitionType.SLIDE_LEFT)
+        self.carousel_stack.set_transition_type(
+            Gtk.StackTransitionType.SLIDE_LEFT
+        )
 
-        # Favorites
         self.favorites_carousel = FavoritesCarousel(
-            on_launch=self.launch_game, on_edit=self.edit_game, lang=self.lang
-        )
-        # Recent
-        self.recent_carousel = RecentCarousel(
-            on_launch=self.launch_game, on_edit=self.edit_game, lang=self.lang
+            on_launch=self.launch_game,
+            on_edit=self.edit_game,
+            lang=self.lang,
         )
 
-        self.carousel_stack.add_named(self.favorites_carousel, "favorites")
-        self.carousel_stack.add_named(self.recent_carousel, "recent")
+        self.recent_carousel = RecentCarousel(
+            on_launch=self.launch_game,
+            on_edit=self.edit_game,
+            lang=self.lang,
+        )
+
+        self.carousel_stack.add_named(
+            self.favorites_carousel, "favorites"
+        )
+        self.carousel_stack.add_named(
+            self.recent_carousel, "recent"
+        )
+
         self.carousel_revealer.set_child(self.carousel_stack)
-        root.append(self.carousel_revealer)
-        # état initial fermé
         self.carousel_revealer.set_reveal_child(False)
 
-        self.favorites_btn.connect("clicked", self._on_show_favorites)
-        self.recent_btn.connect("clicked", self._on_show_recent)
+        root.append(self.carousel_revealer)
+
+        self.favorites_btn.connect(
+            "clicked", self._on_show_favorites
+        )
+        self.recent_btn.connect(
+            "clicked", self._on_show_recent
+        )
 
     def _on_show_favorites(self, _btn):
         self._toggle_carousel("favorites")
@@ -185,24 +237,58 @@ class DashboardUIMixin:
         self.search.connect("search-changed", self.on_search_changed)
         root.append(self.search)
 
+    def _on_game_view_list_toggled(self, button):
+        if button.get_active():
+            self.game_view_stack.set_visible_child_name("list")
+
+
+    def _on_game_view_grid_toggled(self, button):
+        if button.get_active():
+            self.game_view_stack.set_visible_child_name("grid")
+
+
     def _build_game_list(self, root):
-        # =========================
-        # GAME LIST
-        # =========================
         self.game_list = GameList(
             on_launch=self.launch_game,
             on_edit=self.edit_game,
             on_delete=self.delete_game,
             on_refresh=self.refresh_games,
             on_export_lutris=self.export_lutris_handler,
-            on_install=self.show_create_shortcut_dialog,   # <-- nouveau
+            on_install=self.show_create_shortcut_dialog,
             lang=self.lang,
         )
-        self.game_list.set_vexpand(True)
-        self.game_list.set_hexpand(True)
-        self.game_list.set_halign(Gtk.Align.FILL)
-        self.game_list.set_size_request(860, -1)
-        root.append(self.game_list)
+
+        self.game_grid = GameGrid(
+            on_launch=self.launch_game,
+            on_edit=self.edit_game,
+            on_delete=self.delete_game,
+            on_refresh=self.refresh_games,
+            on_export_lutris=self.export_lutris_handler,
+            on_install=self.show_create_shortcut_dialog,
+            lang=self.lang,
+        )
+
+        for view in (self.game_list, self.game_grid):
+            view.set_hexpand(True)
+            view.set_vexpand(True)
+
+        self.game_view_stack = Gtk.Stack(
+            hexpand=True,
+            vexpand=True,
+        )
+
+        self.game_view_stack.add_named(
+            self.game_list, "list"
+        )
+        self.game_view_stack.add_named(
+            self.game_grid, "grid"
+        )
+
+        self.game_view_stack.set_visible_child_name("list")
+
+        root.append(self.game_view_stack)
+
+        self._set_game_views(self.games)
 
     def _update_stop_button_state(self, is_running: bool, game_name: str = None):
         """

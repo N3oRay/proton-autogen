@@ -201,6 +201,14 @@ class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, Das
             if g.get("favorite", False)
         ][:limit]
 
+    def _set_game_views(self, games):
+        """Met à jour simultanément les vues liste et grille."""
+        if hasattr(self, "game_list"):
+            self.game_list.set_games(games)
+
+        if hasattr(self, "game_grid"):
+            self.game_grid.set_games(games)
+
     # -------------------------
     # SEARCH
     # -------------------------
@@ -208,7 +216,9 @@ class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, Das
 
         text = entry.get_text()
         games = filter_games(self.games, text)
-        self.game_list.set_games(games)
+        # Liste + grille
+        self._set_game_views(games)
+
         # Caroussel
         if hasattr(self, "recent_carousel"):
             self.recent_carousel.set_games(
@@ -277,7 +287,8 @@ class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, Das
                 if hasattr(self, "search")
                 else self.games
             )
-            self.game_list.set_games(filtered)
+            #self.game_list.set_games(filtered)
+            self._set_game_views(filtered)
             self.update_stats(filtered)
 
             if hasattr(self, "recent_carousel"):
