@@ -934,7 +934,7 @@ popover.menu modelbutton.submenu arrow {
    ------------------------------------------------- */
 
 .game-grid {
-    padding: 8px;
+    padding: 4px;
     background-color: transparent;
 }
 
@@ -942,16 +942,12 @@ popover.menu modelbutton.submenu arrow {
     background-color: transparent;
 }
 
-.game-grid flowbox {
-    background-color: transparent;
-}
-
 .game-grid-card {
-    min-width: 150px;
-    min-height: 195px;
+    min-width: 0;
+    min-height: 0;
 
-    margin: 5px;
-    padding: 6px;
+    margin: 2px;
+    padding: 4px;
 
     border-radius: 10px;
 }
@@ -961,8 +957,8 @@ popover.menu modelbutton.submenu arrow {
 }
 
 .game-grid-icon-holder {
-    min-width: 140px;
-    min-height: 140px;
+    min-width: 0;
+    min-height: 0;
 }
 
 .game-grid-icon {
@@ -992,8 +988,8 @@ popover.menu modelbutton.submenu arrow {
 
 /* Boutons */
 .game-grid-context-menu button {
-    min-height: 32px;
-    padding: 6px 12px;
+    min-height: 24px;
+    padding: 4px 9px;
     border-radius: 6px;
     border: none;
     box-shadow: none;

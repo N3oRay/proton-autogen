@@ -5,7 +5,7 @@ import gi
 
 gi.require_version("Gtk", "4.0")
 
-from gi.repository import Gtk, Gdk, Gio, GObject
+from gi.repository import Gtk, Gdk, Gio, GObject, GLib
 
 from proton_autogen.stats import get_game_badges
 from proton_autogen.i18n import tr, set_language
@@ -13,6 +13,18 @@ from proton_autogen.ux.icon_manager import load_game_icon
 
 
 LUTRIS_EXPORT_ENABLED = True
+
+# Bornes et pas du zoom clavier (Ctrl + / Ctrl -). DEFAULT_ICON_SIZE
+# reprend la taille fixe d'origine (160px) comme point de départ.
+MIN_ICON_SIZE = 64
+MAX_ICON_SIZE = 256
+ICON_SIZE_STEP = 16
+DEFAULT_ICON_SIZE = 192
+
+GRID_CARD_EXTRA_WIDTH = 20
+GRID_HORIZONTAL_MARGIN = 10
+GRID_MIN_COLUMNS = 1
+GRID_MAX_COLUMNS = 20
 
 
 class GridGameItem(GObject.GObject):
@@ -69,6 +81,10 @@ class GameGrid(Gtk.Box):
         self.games = []
         self.path_index = {}
 
+        # Taille d'icône courante, modifiable via zoom_in()/zoom_out().
+        # Instance (pas classe) : chaque GameGrid a son propre zoom.
+        self.icon_size = DEFAULT_ICON_SIZE
+
         # ---------------------------------------------------------
         # MODEL
         # ---------------------------------------------------------
@@ -102,9 +118,14 @@ class GameGrid(Gtk.Box):
         #
         # GridView adapte automatiquement le nombre de colonnes
         # en fonction de la largeur disponible.
-        self.grid_view.set_min_columns(2)
-        self.grid_view.set_max_columns(8)
+        self.grid_view.set_min_columns(GRID_MIN_COLUMNS)
+        self.grid_view.set_max_columns(GRID_MAX_COLUMNS)
+        self._last_grid_width = 0
+
         self.grid_view.set_single_click_activate(False)
+        # Recalcule le nombre de colonnes lorsque la largeur
+        # de la vue change.
+        self.connect("notify::width", self._on_grid_width_changed)
 
         scroll = Gtk.ScrolledWindow()
         scroll.add_css_class("game-scroll")
@@ -113,6 +134,44 @@ class GameGrid(Gtk.Box):
         scroll.set_child(self.grid_view)
 
         self.append(scroll)
+
+
+    def _update_grid_columns(self):
+        """Calcule le nombre de colonnes en fonction de la largeur
+        disponible et de la taille actuelle des cartes."""
+
+        width = self.grid_view.get_width()
+
+        if width <= 0:
+            return
+
+        card_width = self.icon_size + GRID_CARD_EXTRA_WIDTH
+
+        available_width = max(
+            1,
+            width - GRID_HORIZONTAL_MARGIN
+        )
+
+        columns = available_width // card_width
+
+        columns = max(
+            GRID_MIN_COLUMNS,
+            min(GRID_MAX_COLUMNS, columns)
+        )
+
+        if columns == self._last_grid_width:
+            return
+
+        self._last_grid_width = columns
+
+        self.grid_view.set_min_columns(columns)
+        self.grid_view.set_max_columns(columns)
+
+        self.grid_view.queue_resize()
+
+
+    def _on_grid_width_changed(self, *_):
+        self._update_grid_columns()
 
     # =============================================================
     # PUBLIC API
@@ -158,6 +217,52 @@ class GameGrid(Gtk.Box):
         self.store.items_changed(index, 1, 1)
 
     # =============================================================
+    # ZOOM (raccourcis clavier Ctrl + / Ctrl -, voir dashboard.py)
+    # =============================================================
+
+    def zoom_in(self):
+        self.set_icon_size(self.icon_size + ICON_SIZE_STEP)
+
+    def zoom_out(self):
+        self.set_icon_size(self.icon_size - ICON_SIZE_STEP)
+
+    def set_icon_size(self, size):
+        size = max(MIN_ICON_SIZE, min(MAX_ICON_SIZE, size))
+
+        if size == self.icon_size:
+            return
+
+        self.icon_size = size
+        self._refresh_after_zoom()
+
+
+    def _refresh_after_zoom(self):
+        scroll = self.grid_view.get_parent()
+        vadj = scroll.get_vadjustment() if scroll else None
+
+        old_value = vadj.get_value() if vadj else 0
+
+        self.refresh()
+
+        # Le zoom change la largeur minimale des cartes,
+        # donc le nombre de colonnes doit être recalculé.
+        self._update_grid_columns()
+
+        self.grid_view.queue_resize()
+
+        def restore_scroll():
+            if vadj:
+                upper = vadj.get_upper()
+                page_size = vadj.get_page_size()
+                maximum = max(0, upper - page_size)
+
+                vadj.set_value(min(old_value, maximum))
+
+            return False
+
+        GLib.idle_add(restore_scroll)
+
+    # =============================================================
     # FACTORY - SETUP
     # =============================================================
 
@@ -176,11 +281,15 @@ class GameGrid(Gtk.Box):
 
         card.add_css_class("game-grid-card")
 
-        card.set_halign(Gtk.Align.CENTER)
+        card.set_halign(Gtk.Align.FILL)
         card.set_valign(Gtk.Align.START)
+        card.set_hexpand(True)
+        card.set_vexpand(False)
 
-        # Largeur souhaitée de la carte.
-        card.set_size_request(170, 215)
+        # Taille de la carte : appliquée dynamiquement à chaque bind
+        # (voir _apply_size), pas ici — _on_setup ne s'exécute qu'une
+        # fois par ligne recyclée, alors que le zoom doit s'appliquer à
+        # toutes les cartes déjà construites au moment du zoom.
 
         # ---------------------------------------------------------
         # ICON
@@ -191,8 +300,6 @@ class GameGrid(Gtk.Box):
         icon_holder.set_halign(Gtk.Align.CENTER)
         icon_holder.set_valign(Gtk.Align.CENTER)
 
-        icon_holder.set_size_request(160, 160)
-
         icon_holder.add_css_class("game-grid-icon-holder")
 
         # ---------------------------------------------------------
@@ -200,13 +307,10 @@ class GameGrid(Gtk.Box):
         # ---------------------------------------------------------
 
         title = Gtk.Label()
-
         title.set_halign(Gtk.Align.CENTER)
         title.set_hexpand(True)
-
         title.set_max_width_chars(22)
         title.set_wrap(True)
-
         title.add_css_class("game-grid-title")
 
         # ---------------------------------------------------------
@@ -269,19 +373,23 @@ class GameGrid(Gtk.Box):
             return
 
         game = item.data
-
         card.game = game
 
-        # ---------------------------------------------------------
-        # ICON
-        # ---------------------------------------------------------
+        size = self.icon_size
 
-        icon = load_game_icon(game, size=160)
+        # IMPORTANT :
+        # cette largeur sert de largeur minimale à GridView
+        #card.set_size_request(size + 20, size + 50)
 
-        icon.set_size_request(160, 160)
+        # Conteneur de l'icône
+        card.icon_holder.set_size_request(size, size)
+
+        # Icône
+        icon = load_game_icon(game, size=size)
+
+        icon.set_size_request(size, size)
         icon.set_halign(Gtk.Align.CENTER)
         icon.set_valign(Gtk.Align.CENTER)
-
         icon.add_css_class("game-grid-icon")
 
         old_icon = card.icon_holder.get_first_child()
@@ -291,27 +399,13 @@ class GameGrid(Gtk.Box):
 
         card.icon_holder.append(icon)
 
-        # ---------------------------------------------------------
-        # NAME
-        # ---------------------------------------------------------
+        # Nom
+        card.title_label.set_text(game.get("name", "Unknown"))
 
-        card.title_label.set_text(
-            game.get("name", "Unknown")
-        )
-
-        # ---------------------------------------------------------
-        # BADGES
-        # ---------------------------------------------------------
-
+        # Badges
         self._clear_box(card.badges_box)
 
-        # On évite volontairement de reproduire toutes les informations
-        # de GameList : la grille doit rester visuellement simple.
-        #
-        # Si get_game_badges() est disponible, on peut afficher
-        # les badges existants sans dupliquer leur logique.
         try:
-
             badges = get_game_badges(game, self.lang)
 
             for badge in badges:
@@ -320,8 +414,6 @@ class GameGrid(Gtk.Box):
                 )
 
         except Exception:
-            # Les badges ne doivent jamais empêcher l'affichage
-            # d'un jeu.
             pass
 
     # =============================================================

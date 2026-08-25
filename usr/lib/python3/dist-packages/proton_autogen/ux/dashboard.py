@@ -460,6 +460,29 @@ class ProtonAutogenApp(Gtk.Application):
         requis.connect("activate", open_requis)
         self.add_action(requis)
 
+        # -------------------------
+        # ZOOM VUE GRILLE (icônes)
+        # -------------------------
+        grid_zoom_in = Gio.SimpleAction.new("grid-zoom-in", None)
+
+        def on_grid_zoom_in(*a):
+            win = self.get_active_window()
+            if win and hasattr(win, "game_grid"):
+                win.game_grid.zoom_in()
+
+        grid_zoom_in.connect("activate", on_grid_zoom_in)
+        self.add_action(grid_zoom_in)
+
+        grid_zoom_out = Gio.SimpleAction.new("grid-zoom-out", None)
+
+        def on_grid_zoom_out(*a):
+            win = self.get_active_window()
+            if win and hasattr(win, "game_grid"):
+                win.game_grid.zoom_out()
+
+        grid_zoom_out.connect("activate", on_grid_zoom_out)
+        self.add_action(grid_zoom_out)
+
 
         # -------------------------
         # SHORTCUTS
@@ -471,6 +494,17 @@ class ProtonAutogenApp(Gtk.Application):
         self.set_accels_for_action("app.requis", ["F4"])
         self.set_accels_for_action("app.aboutproton", ["F5"])
         self.set_accels_for_action("app.about", ["F6"])
+
+        # <Ctrl>plus nécessite Shift sur la plupart des dispositions
+        # clavier (le "+" partage sa touche avec "="); <Ctrl>equal et le
+        # pavé numérique (<Ctrl>KP_Add) sont ajoutés pour que le
+        # raccourci fonctionne sans avoir à jongler avec Shift.
+        self.set_accels_for_action(
+            "app.grid-zoom-in", ["<Ctrl>plus", "<Ctrl>equal", "<Ctrl>KP_Add"]
+        )
+        self.set_accels_for_action(
+            "app.grid-zoom-out", ["<Ctrl>minus", "<Ctrl>KP_Subtract"]
+        )
 
 
 def start_dashboard():

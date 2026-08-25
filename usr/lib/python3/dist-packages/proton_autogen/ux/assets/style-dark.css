@@ -943,7 +943,7 @@ searchentry:disabled {
    ------------------------------------------------- */
 
 .game-grid {
-    padding: 8px;
+    padding: 4px;
     background-color: transparent;
 }
 
@@ -951,16 +951,12 @@ searchentry:disabled {
     background-color: transparent;
 }
 
-.game-grid flowbox {
-    background-color: transparent;
-}
-
 .game-grid-card {
-    min-width: 150px;
-    min-height: 195px;
+    min-width: 0;
+    min-height: 0;
 
-    margin: 5px;
-    padding: 6px;
+    margin: 2px;
+    padding: 4px;
 
     border-radius: 10px;
 }
@@ -970,8 +966,8 @@ searchentry:disabled {
 }
 
 .game-grid-icon-holder {
-    min-width: 140px;
-    min-height: 140px;
+    min-width: 0;
+    min-height: 0;
 }
 
 .game-grid-icon {
@@ -1001,9 +997,8 @@ searchentry:disabled {
 
 /* Boutons */
 .game-grid-context-menu button {
-    min-height: 32px;
-    padding: 6px 12px;
-    border-radius: 6px;
+    min-height: 24px;
+    padding: 4px 9px;
     border: none;
     box-shadow: none;
 
