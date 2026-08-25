@@ -116,6 +116,7 @@ class GameGrid(Gtk.Box):
         # Label info taille
         self.size_label = Gtk.Label()
         self.size_label.set_margin_start(12)
+        self.size_label.set_visible(False)
         self._update_size_label()
         toolbar.append(self.size_label)
 
