@@ -25,6 +25,7 @@ GRID_CARD_EXTRA_WIDTH = 20
 GRID_HORIZONTAL_MARGIN = 10
 GRID_MIN_COLUMNS = 1
 GRID_MAX_COLUMNS = 20
+GRID_CARD_EXTRA_HEIGHT = 50
 
 
 class GridGameItem(GObject.GObject):
@@ -125,34 +126,49 @@ class GameGrid(Gtk.Box):
         self.grid_view.set_single_click_activate(False)
         # Recalcule le nombre de colonnes lorsque la largeur
         # de la vue change.
-        self.connect("notify::width", self._on_grid_width_changed)
+        #self.connect("notify::width", self._on_grid_width_changed)
+        self.grid_view.connect(
+            "notify::width",
+            self._on_grid_width_changed,
+        )
 
         scroll = Gtk.ScrolledWindow()
         scroll.add_css_class("game-scroll")
+        #scroll.set_policy(
+        #    Gtk.PolicyType.NEVER,
+        #    Gtk.PolicyType.AUTOMATIC,
+        #)
         scroll.set_vexpand(True)
         scroll.set_hexpand(True)
         scroll.set_child(self.grid_view)
 
         self.append(scroll)
 
+        # Le GridView n'a sa largeur réelle qu'après le premier layout GTK.
+        GLib.idle_add(self._update_grid_columns)
+
 
     def _update_grid_columns(self):
-        """Calcule le nombre de colonnes en fonction de la largeur
-        disponible et de la taille actuelle des cartes."""
+        """Adapte le nombre de colonnes à la largeur disponible."""
 
         width = self.grid_view.get_width()
 
         if width <= 0:
             return
 
-        card_width = self.icon_size + GRID_CARD_EXTRA_WIDTH
+        card_width = (
+            self.icon_size +
+            GRID_CARD_EXTRA_WIDTH
+        )
 
         available_width = max(
             1,
             width - GRID_HORIZONTAL_MARGIN
         )
 
-        columns = available_width // card_width
+        columns = int(
+            available_width // card_width
+        )
 
         columns = max(
             GRID_MIN_COLUMNS,
@@ -281,9 +297,9 @@ class GameGrid(Gtk.Box):
 
         card.add_css_class("game-grid-card")
 
-        card.set_halign(Gtk.Align.FILL)
+        card.set_halign(Gtk.Align.CENTER)
         card.set_valign(Gtk.Align.START)
-        card.set_hexpand(True)
+        card.set_hexpand(False)
         card.set_vexpand(False)
 
         # Taille de la carte : appliquée dynamiquement à chaque bind
@@ -380,6 +396,11 @@ class GameGrid(Gtk.Box):
         # IMPORTANT :
         # cette largeur sert de largeur minimale à GridView
         #card.set_size_request(size + 20, size + 50)
+
+        #card_width = size + GRID_CARD_EXTRA_WIDTH
+        #card_height = size + GRID_CARD_EXTRA_HEIGHT
+        #card.set_size_request(card_width, card_height)
+        card.icon_holder.set_size_request(size, size)
 
         # Conteneur de l'icône
         card.icon_holder.set_size_request(size, size)
