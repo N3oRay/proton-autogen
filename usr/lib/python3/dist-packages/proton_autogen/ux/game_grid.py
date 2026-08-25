@@ -5,7 +5,7 @@ import gi
 
 gi.require_version("Gtk", "4.0")
 
-from gi.repository import Gtk, Gdk, Gio, GObject, GLib
+from gi.repository import Gtk, Gdk, Gio, GObject, GLib, Pango
 
 from proton_autogen.stats import get_game_badges
 from proton_autogen.i18n import tr, set_language
@@ -22,12 +22,12 @@ ICON_SIZE_STEP = 16
 DEFAULT_ICON_SIZE = 160
 
 # Espacement pour les contrôles de la grille
-GRID_CARD_SPACING = 12  # Espacement entre les cartes
+GRID_CARD_SPACING = 64  # Espacement entre les cartes
 GRID_HORIZONTAL_PADDING = 10
 GRID_CARD_EXTRA_WIDTH = 10
 GRID_HORIZONTAL_MARGIN = 10
 GRID_MIN_COLUMNS = 1
-GRID_MAX_COLUMNS = 3
+GRID_MAX_COLUMNS = 5
 GRID_CARD_EXTRA_HEIGHT = 50
 
 
@@ -377,8 +377,9 @@ class GameGrid(Gtk.Box):
         title = Gtk.Label()
         title.set_halign(Gtk.Align.CENTER)
         title.set_hexpand(False)
-        title.set_max_width_chars(20)
         title.set_wrap(True)
+        title.set_wrap_mode(Pango.WrapMode.WORD_CHAR)
+        title.set_justify(Gtk.Justification.CENTER)
         title.add_css_class("game-grid-title")
 
         # ---------------------------------------------------------
@@ -450,6 +451,8 @@ class GameGrid(Gtk.Box):
         size = self.icon_size
         # Taille du conteneur d'icône (responsive)
         card.icon_holder.set_size_request(size, size)
+        # Titre : exactement la largeur de l'icône
+        card.title_label.set_size_request(size, -1)
         card.badges_box.set_size_request(size, -1)
 
         # Icône

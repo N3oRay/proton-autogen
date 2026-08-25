@@ -786,8 +786,8 @@ popover label {
     font-weight: 600;
     font-size: 1em;
 
-    margin-left: 3px;
-    margin-right: 3px;
+    margin-left: 1px;
+    margin-right: 1px;
 }
 
 .game-grid-badges {
