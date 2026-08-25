@@ -16,10 +16,10 @@ LUTRIS_EXPORT_ENABLED = True
 
 # Bornes et pas du zoom clavier (Ctrl + / Ctrl -). DEFAULT_ICON_SIZE
 # reprend la taille fixe d'origine (160px) comme point de départ.
-MIN_ICON_SIZE = 64
+MIN_ICON_SIZE = 48
 MAX_ICON_SIZE = 208
 ICON_SIZE_STEP = 16
-DEFAULT_ICON_SIZE = 160
+DEFAULT_ICON_SIZE = 128
 
 # Espacement pour les contrôles de la grille
 GRID_CARD_SPACING = 64  # Espacement entre les cartes
@@ -27,7 +27,7 @@ GRID_HORIZONTAL_PADDING = 10
 GRID_CARD_EXTRA_WIDTH = 10
 GRID_HORIZONTAL_MARGIN = 10
 GRID_MIN_COLUMNS = 1
-GRID_MAX_COLUMNS = 5
+GRID_MAX_COLUMNS = 7
 GRID_CARD_EXTRA_HEIGHT = 50
 
 
@@ -394,9 +394,9 @@ class GameGrid(Gtk.Box):
         badges_box.set_row_spacing(2)
         badges_box.set_column_spacing(2)
         # Nombre maximum de badges par ligne
-        badges_box.set_max_children_per_line(4)
+        badges_box.set_max_children_per_line(6)
         # Évite que FlowBox essaie de faire une seule ligne
-        badges_box.set_min_children_per_line(1)
+        badges_box.set_min_children_per_line(2)
         badges_box.set_selection_mode(Gtk.SelectionMode.NONE)
         badges_box.add_css_class("game-grid-badges")
 
