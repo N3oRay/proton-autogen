@@ -16,8 +16,8 @@ LUTRIS_EXPORT_ENABLED = True
 
 # Bornes et pas du zoom clavier (Ctrl + / Ctrl -). DEFAULT_ICON_SIZE
 # reprend la taille fixe d'origine (160px) comme point de départ.
-MIN_ICON_SIZE = 64
-MAX_ICON_SIZE = 256
+MIN_ICON_SIZE = 128
+MAX_ICON_SIZE = 208
 ICON_SIZE_STEP = 16
 DEFAULT_ICON_SIZE = 160
 
@@ -27,7 +27,7 @@ GRID_HORIZONTAL_PADDING = 20
 GRID_CARD_EXTRA_WIDTH = 10
 GRID_HORIZONTAL_MARGIN = 10
 GRID_MIN_COLUMNS = 1
-GRID_MAX_COLUMNS = 20
+GRID_MAX_COLUMNS = 3
 GRID_CARD_EXTRA_HEIGHT = 50
 
 
@@ -104,11 +104,13 @@ class GameGrid(Gtk.Box):
         # Bouton Zoom -
         zoom_out_btn = Gtk.Button(label=tr("zoom_out") or "−")
         zoom_out_btn.connect("clicked", lambda _: self.zoom_out())
+        zoom_out_btn.add_css_class("section-toggle")
         toolbar.append(zoom_out_btn)
 
         # Bouton Zoom +
         zoom_in_btn = Gtk.Button(label=tr("zoom_in") or "+")
         zoom_in_btn.connect("clicked", lambda _: self.zoom_in())
+        zoom_in_btn.add_css_class("section-toggle")
         toolbar.append(zoom_in_btn)
 
         # Label info taille
@@ -192,26 +194,24 @@ class GameGrid(Gtk.Box):
         if width <= 0:
             return
 
-        card_width = (
-            self.icon_size +
-            GRID_CARD_EXTRA_WIDTH
-        )
+        # Taille réelle d'une carte = icône + spacing
+        card_width = self.icon_size + GRID_CARD_SPACING
 
         # Espace disponible après les marges
         available_width = max(
             1,
-            width - GRID_HORIZONTAL_MARGIN
+            width - (2 * GRID_HORIZONTAL_PADDING)
         )
 
-        columns = int(
-            available_width // card_width
-        )
-
+        # Nombre de colonnes : remplit l'espace au maximum
         columns = max(
             GRID_MIN_COLUMNS,
-            min(GRID_MAX_COLUMNS, columns)
+            int(available_width / card_width)
         )
 
+        columns = min(GRID_MAX_COLUMNS, columns)
+
+        # N'actualise que si nécessaire
         if columns == self._last_grid_width:
             return
 
@@ -220,11 +220,25 @@ class GameGrid(Gtk.Box):
         self.grid_view.set_min_columns(columns)
         self.grid_view.set_max_columns(columns)
 
+        # Force la relayout
         self.grid_view.queue_resize()
 
 
     def _on_grid_width_changed(self, *_):
-        self._update_grid_columns()
+        """
+        Gère le redimensionnement de la fenêtre avec débouncing.
+        """
+
+        # Annule le timeout précédent si actif
+        if self._resize_timeout_id is not None:
+            GLib.source_remove(self._resize_timeout_id)
+
+        # Débounce : recalcule après 100ms sans changement
+        self._resize_timeout_id = GLib.timeout_add(
+            100,
+            self._update_grid_columns
+        )
+
 
     # =============================================================
     # PUBLIC API
@@ -362,7 +376,7 @@ class GameGrid(Gtk.Box):
 
         title = Gtk.Label()
         title.set_halign(Gtk.Align.CENTER)
-        title.set_hexpand(True)
+        title.set_hexpand(False)
         title.set_max_width_chars(20)
         title.set_wrap(True)
         title.add_css_class("game-grid-title")
@@ -373,12 +387,11 @@ class GameGrid(Gtk.Box):
 
         badges_box = Gtk.Box(
             orientation=Gtk.Orientation.HORIZONTAL,
-            spacing=3,
+            spacing=2,
         )
 
         badges_box.set_halign(Gtk.Align.CENTER)
-        badges_box.set_hexpand(True)
-
+        badges_box.set_hexpand(False)
         badges_box.add_css_class("game-grid-badges")
 
         # ---------------------------------------------------------
