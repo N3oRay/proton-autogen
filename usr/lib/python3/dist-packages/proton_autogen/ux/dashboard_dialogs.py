@@ -11,6 +11,8 @@ from proton_autogen.sensor import get_sensors_text, get_mangohud_advice
 from proton_autogen.requis import afficher_requirements_label
 from proton_autogen.backend import get_diagnostic_text
 from proton_autogen.i18n import tr
+from proton_autogen.protondb.model import ProtonDBInfo
+from proton_autogen.protondb.recommendations import TIER_RECOMMENDATIONS
 
 
 class DashboardDialogsMixin:
@@ -141,6 +143,37 @@ class DashboardDialogsMixin:
         container.append(self._build_mangohud_action_buttons())
 
         self.build_dialog(tr("dialog_title_mangohud_advice"), container, width=900, height=700)
+
+    # -------------------------
+    # DIALOG PROTON DB - Nouvelles clés i18n à ajouter dans les 16 locales (dialog_title_protondb, protondb_confidence, protondb_votes, protondb_recommendations, no_protondb_data
+    # -------------------------
+
+    def show_protondb_dialog(self, game):
+        """Affiche rapport ProtonDB + recommandations"""
+        protondb = game.get("protondb")
+
+        if not protondb:
+            self.toast.warning(tr("no_protondb_data"))
+            return
+
+        scroll, textview = self._build_text_view(left_margin=8, right_margin=8)
+        insert_colored_text(textview.get_buffer(), self._build_protondb_text(protondb))
+        self.build_dialog(
+            tr("dialog_title_protondb", name=game.get("name", "")),
+            scroll, width=650, height=550
+        )
+
+    def _build_protondb_text(self, info: ProtonDBInfo) -> str:
+        lines = self._get_tier_recommendations(info.tier)
+        return (
+            f"{info.emoji} {info.tier.upper()}\n"
+            f"{tr('protondb_confidence')}: {info.confidence}\n"
+            f"{tr('protondb_votes')}: {info.total_votes}\n\n"
+            f"{tr('protondb_recommendations')}:\n" + "\n".join(lines)
+        )
+
+    def _get_tier_recommendations(self, tier: str) -> list[str]:
+        return TIER_RECOMMENDATIONS.get(tier, TIER_RECOMMENDATIONS["pending"])
 
     # -------------------------
     # EXPORT LUTRIS - MESSAGE DIALOG

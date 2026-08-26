@@ -265,6 +265,23 @@ class GameList(Gtk.Box):
                 btn.disconnect(handler_id)
 
     # -------------------------
+    # BADGES  protondb
+    # -------------------------
+    def _format_badges(self, game):
+        badges = list(get_game_badges(game, self.lang))
+        protondb_info = game.get("protondb")
+
+        if protondb_info:
+            badges.insert(0, {
+                "type": "protondb",
+                "label": f"{protondb_info.emoji} {protondb_info.tier.upper()}",
+                "text": f"ProtonDB — confiance : {protondb_info.confidence} ({protondb_info.total_votes} rapports)",
+                "css": ["badge-protondb"],
+            })
+
+        return badges
+
+    # -------------------------
     # BADGES
     # -------------------------
     def _create_badge(self, b):

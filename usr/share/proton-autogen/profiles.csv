@@ -131,6 +131,108 @@ hoi4.exe,Hearts of Iron IV,dx11,Clausewitz Engine
 stellaris.exe,Stellaris,dx11,Clausewitz Engine
 victoria3.exe,Victoria 3,dx12,Clausewitz Engine
 Terraria.exe,Terraria,dx11,XNA/MonoGame
+cnc95.exe,Command and Conquer Gold,dx8dg,DirectDraw
+cc95.exe,Command and Conquer Gold,dx8dg,DirectDraw
+ra95.exe,Command and Conquer Alerte Rouge,dx8dg,ddraw_n_b recommanded Game-Scope
+RASETUP.exe,Command and Conquer Alerte Rouge,dx8dg,ddraw_n_b
+SUN.exe,Command and Conquer Tiberian Sun,dx8dg,DirectDraw
+game.exe,Command and Conquer Tiberian Sun,dx8dg,DirectDraw
+ra2.exe,Command and Conquer Red Alert 2,dx8dg,DirectDraw
+game.exe,Command and Conquer Red Alert 2,dx8dg,DirectDraw
+yuri.exe,Command and Conquer Yuri's Revenge,dx8dg,DirectDraw
+game.exe,Command and Conquer Yuri's Revenge,dx8dg,DirectDraw
+survivor.exe,Command and Conquer Sole Survivor,dx8dg,DirectDraw
+war2.exe,Warcraft II,dx8dg,DirectDraw
+war2bne.exe,Warcraft II Battle.net Edition,dx8dg,DirectDraw
+starcraft.exe,StarCraft,dx8dg,DirectDraw
+BroodWar.exe,StarCraft Brood War,dx8dg,DirectDraw
+Diablo.exe,Diablo,dx8dg,DirectDraw
+diablo.exe,Diablo,dx8dg,DirectDraw
+Diablo II.exe,Diablo II,dx8dg,DirectDraw
+Game.exe,Diablo II,dx8dg,DirectDraw
+heroes2.exe,Heroes of Might and Magic II,dx8dg,DirectDraw
+heroes3.exe,Heroes of Might and Magic III,dx8dg,DirectDraw
+h3blade.exe,Heroes of Might and Magic III Armageddon's Blade,dx8dg,DirectDraw
+h4.exe,Heroes of Might and Magic IV,dx8dg,DirectDraw
+age2.exe,Age of Empires II,dx8dg,DirectDraw
+age2_x1.exe,Age of Empires II The Conquerors,dx8dg,DirectDraw
+empires2.exe,Age of Empires II,dx8dg,DirectDraw
+ageofempires.exe,Age of Empires,dx8dg,DirectDraw
+Caesar3.exe,Caesar III,dx8dg,DirectDraw
+Pharaoh.exe,Pharaoh,dx8dg,DirectDraw
+SierraApp.exe,Pharaoh,dx8dg,DirectDraw
+Zeus.exe,Zeus Master of Olympus,dx8dg,DirectDraw
+Poseidon.exe,Zeus Poseidon,dx8dg,DirectDraw
+simcity.exe,SimCity 3000,dx8dg,DirectDraw
+civ2.exe,Civilization II,dx8dg,DirectDraw
+civ3.exe,Civilization III,dx8dg,DirectDraw
+SMAC.exe,Sid Meier's Alpha Centauri,dx8dg,DirectDraw
+CallToPower2.exe,Call to Power II,dx8dg,DirectDraw
+Stronghold.exe,Stronghold,dx8dg,DirectDraw
+StrongholdCrusader.exe,Stronghold Crusader,dx8dg,DirectDraw
+StrongholdCrusaderExtreme.exe,Stronghold Crusader Extreme,dx8dg,DirectDraw
+StrongholdHD.exe,Stronghold HD,dx8dg,DirectDraw
+Commandos.exe,Commandos Behind Enemy Lines,dx8dg,DirectDraw
+Commandos2.exe,Commandos 2 Men of Courage,dx8dg,DirectDraw
+Commandos2Game.exe,Commandos 2 Men of Courage,dx8dg,DirectDraw
+DarkReign.exe,Dark Reign,dx8dg,DirectDraw
+TA.exe,Total Annihilation,dx8dg,DirectDraw
+TotalA.exe,Total Annihilation,dx8dg,DirectDraw
+WarWind.exe,War Wind,dx8dg,DirectDraw
+WarWind2.exe,War Wind II,dx8dg,DirectDraw
+JA2.exe,Jagged Alliance 2,dx8dg,DirectDraw
+JA2UB.exe,Jagged Alliance 2 Unfinished Business,dx8dg,DirectDraw
+Jazz2.exe,Jazz Jackrabbit 2,dx8dg,DirectDraw
+AbeWin.exe,Abe's Oddysee,dx8dg,DirectDraw
+Oddworld.exe,Abe's Oddysee,dx8dg,DirectDraw
+worms2.exe,Worms 2,dx8dg,DirectDraw
+wa.exe,Worms Armageddon,dx8dg,DirectDraw
+wormkit.exe,Worms Armageddon,dx8dg,DirectDraw
+Carmageddon.exe,Carmageddon,dx8dg,DirectDraw
+Carmageddon2.exe,Carmageddon 2,dx8dg,DirectDraw
+moto.exe,Moto Racer,dx8dg,DirectDraw
+moto2.exe,Moto Racer 2,dx8dg,DirectDraw
+DethKarz.exe,DethKarz,dx8dg,DirectDraw
+Outlaws.exe,Outlaws,dx8dg,DirectDraw
+Shogo.exe,Shogo Mobile Armor Division,dx8dg,DirectDraw
+JediKnight.exe,Star Wars Jedi Knight Dark Forces II,dx8dg,DirectDraw
+JK.exe,Star Wars Jedi Knight Dark Forces II,dx8dg,DirectDraw
+MotS.exe,Star Wars Jedi Knight Mysteries of the Sith,dx8dg,DirectDraw
+swgb.exe,Star Wars Galactic Battlegrounds,dx8dg,DirectDraw
+MetalGearSolid.exe,Metal Gear Solid,dx8dg,DirectDraw
+ThroneOfDarkness.exe,Throne of Darkness,dx8dg,DirectDraw
+RageOfMages.exe,Rage of Mages,dx8dg,DirectDraw
+RageOfMages2.exe,Rage of Mages II,dx8dg,DirectDraw
+Septerra.exe,Septerra Core,dx8dg,DirectDraw
+Patrician3.exe,Patrician III,dx8dg,DirectDraw
+Anno1602.exe,Anno 1602,dx8dg,DirectDraw
+Locomotion.exe,Chris Sawyer's Locomotion,dx8dg,DirectDraw
+Majesty.exe,Majesty Gold,dx8dg,DirectDraw
+SimCopter.exe,SimCopter,dx8dg,DirectDraw
+Geneforge.exe,Geneforge,dx8dg,DirectDraw
+Geneforge1.exe,Geneforge,dx8dg,DirectDraw
+Geneforge2.exe,Geneforge 2,dx8dg,DirectDraw
+Geneforge3.exe,Geneforge 3,dx8dg,DirectDraw
+Geneforge4.exe,Geneforge 4,dx8dg,DirectDraw
+CloseCombat2.exe,Close Combat 2,dx8dg,DirectDraw
+CloseCombat3.exe,Close Combat 3,dx8dg,DirectDraw
+CloseCombat4.exe,Close Combat 4,dx8dg,DirectDraw
+CloseCombat5.exe,Close Combat 5,dx8dg,DirectDraw
+Wargames.exe,WarGames,dx8dg,DirectDraw
+FinalLiberation.exe,Warhammer 40K Final Liberation,dx8dg,DirectDraw
+RitesOfWar.exe,Warhammer 40K Rites of War,dx8dg,DirectDraw
+WarlordsBattlecry.exe,Warlords Battlecry,dx8dg,DirectDraw
+WarlordsBattlecry2.exe,Warlords Battlecry II,dx8dg,DirectDraw
+WinQuake.exe,Quake,dx8dg,DirectDraw
+winquake.exe,Quake,dx8dg,DirectDraw
+Doom95.exe,Doom 95,dx8dg,DirectDraw
+Doom95.exe,Ultimate Doom 95,dx8dg,DirectDraw
+Populous.exe,Populous The Beginning,dx8dg,DirectDraw
+DungeonKeeper.exe,Dungeon Keeper,dx8dg,DirectDraw
+DK2.exe,Dungeon Keeper 2,dx8dg,DirectDraw
+ProPinball.exe,Pro Pinball,dx8dg,DirectDraw
+ProPinballBigRace.exe,Pro Pinball Big Race USA,dx8dg,DirectDraw
+ProPinballFantasticJourney.exe,Pro Pinball Fantastic Journey,dx8dg,DirectDraw
 Factorio.exe,Factorio,dx9opengl,OpenGL
 Stardew Valley.exe,Stardew Valley,dx11,MonoGame
 osu!.exe,osu!,desktop,Rhythm Game

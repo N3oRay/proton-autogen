@@ -276,6 +276,8 @@ class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, Das
                 "favorite": g.get("favorite", False),
                 "playtime": g.get("playtime", {}),
                 "badges": g.get("badges", []),
+                "app_id": g.get("app_id"),        # 👈 ajouté, Steam APP ID en mémoire
+                "protondb": g.get("protondb"),    # 👈 ajouté, ProtonDB en mémoire
             }
             for g in games
             if isinstance(g, dict)

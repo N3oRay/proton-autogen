@@ -3,7 +3,7 @@
 import gi
 import os
 gi.require_version("Gtk", "4.0")
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 
 
 from proton_autogen.backend import save_game_config
@@ -118,6 +118,36 @@ class GameEditor(Gtk.Window):
         root.append(self._row("Prefix", self.prefix))
 
         # -------------------------
+        # STEAM APP ID + PROTONDB (même ligne)
+        # -------------------------
+        self.app_id_entry = Gtk.Entry()
+        self.app_id_entry.set_placeholder_text("Steam AppID (optionnel)")
+        self.app_id_entry.set_max_length(10)
+        self.app_id_entry.set_width_chars(10)
+        #self.app_id_entry.set_hexpand(True)
+        self.app_id_entry.set_text(str(self.game.get("app_id", "") or ""))
+        set_tooltip(self.app_id_entry, "app_id", self.lang)
+        self.app_id_entry.connect("changed", self._on_app_id_changed)
+
+        self.protondb_btn = Gtk.Button(label="📊 ProtonDB")
+        #self.protondb_btn.add_css_class("suggested-action")
+        self.protondb_btn.add_css_class("section-toggle")
+        self.protondb_btn.connect("clicked", self.on_show_protondb)
+
+        app_id_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        app_id_label = Gtk.Label(label="Steam AppID", xalign=0)
+        app_id_label.set_width_chars(12)
+        app_id_label.add_css_class("form-label")
+
+        app_id_row.append(app_id_label)
+        app_id_row.append(self.app_id_entry)
+        app_id_row.append(self.protondb_btn)
+        root.append(app_id_row)
+
+        # État initial : bouton visible seulement si un AppID est déjà renseigné
+        self._on_app_id_changed(self.app_id_entry)
+
+        # -------------------------
         # TOGGLES
         # -------------------------
         features = self.game.get("features", {})
@@ -215,6 +245,9 @@ class GameEditor(Gtk.Window):
         self.env_error_label.set_visible(False)
         root.append(self.env_error_label)
 
+
+
+
         # -------------------------
         # SAVE BUTTON
         # -------------------------
@@ -225,10 +258,23 @@ class GameEditor(Gtk.Window):
         root.append(save_btn)
 
     # -------------------------
+    # SHOW PROTONDB
+    # -------------------------
+    def on_show_protondb(self, btn):
+        app_id = self.app_id_entry.get_text().strip() or self.game.get("app_id")
+        if app_id:
+            Gtk.UriLauncher(uri=f"https://www.protondb.com/app/{app_id}").launch(self, None, None)
+
+    # -------------------------
     # MANGOHUD / FPS LIMIT
     # -------------------------
     def on_mangohud_toggled(self, checkbutton):
         self.fps_limit_row.set_sensitive(checkbutton.get_active())
+    # -------------------------
+    # PROTONDB BOUTON VISIBLE
+    # -------------------------
+    def _on_app_id_changed(self, entry):
+        self.protondb_btn.set_visible(bool(entry.get_text().strip()))
 
     # -------------------------
     # CUSTOM ENV HELPERS
@@ -363,6 +409,7 @@ class GameEditor(Gtk.Window):
             "prefix": {
                 "name": prefix
             },
+            "app_id": self.app_id_entry.get_text().strip() or None,
             "features": features,
             "env": env,
         })

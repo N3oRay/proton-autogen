@@ -11,6 +11,7 @@ from time import perf_counter
 from proton_autogen.config import VERSION, load_proton_paths
 from proton_autogen.utils.logger import StructuredLogger
 from proton_autogen.progress import Progress
+from proton_autogen.utils.steam_appid import detect_steam_appid
 
 from proton_autogen.loader import save_game_config, load_game_config
 from proton_autogen.core import (
@@ -42,6 +43,11 @@ from proton_autogen.dector import resolve_game_features
 from proton_autogen.system import detect_system_info
 from proton_autogen.session import finalize_session, notifications
 from proton_autogen.proton_call import launch_proton_call
+
+
+from proton_autogen.protondb.cache import ProtonDBCache
+from proton_autogen.protondb.api import ProtonDBAPI
+from proton_autogen.protondb.model import ProtonDBInfo
 
 #-------------------------- Init Log -------------------
 logger = StructuredLogger("proton-autogen.backend")
@@ -600,6 +606,24 @@ def list_programs():
     for exe in sorted(programs):
         print(exe)
 
+
+def fetch_protondb_info(app_id: str) -> ProtonDBInfo | None:
+    """Version synchrone, à appeler depuis un thread worker (pas le thread GTK)."""
+    cached = ProtonDBCache.get_cached(app_id)
+    data = cached or ProtonDBAPI.get_app_info(app_id)
+
+    if not cached:
+        ProtonDBCache.save(app_id, data)
+
+    # timestamp ne fait pas partie du dataclass
+    data = {k: v for k, v in data.items() if k != "timestamp"}
+
+    try:
+        return ProtonDBInfo(**data)
+    except TypeError as e:
+        logger.debug("ProtonDB schema mismatch for %s: %s", app_id, e)
+        return None
+
 def list_programs_ux(lang: str = "en"):
     programs = find_windows_programs_ux()
 
@@ -610,7 +634,7 @@ def list_programs_ux(lang: str = "en"):
 
     for exe in sorted(programs):
         config = load_game_config(exe) or {}
-
+        app_id = config.get("app_id") or detect_steam_appid(exe, fallback=False) # 👈 NEW
         badges = get_game_badges({
             "favorite": config.get("favorite", False),
             "playtime": config.get("playtime", {}),
@@ -639,6 +663,7 @@ def list_programs_ux(lang: str = "en"):
                 "last_launch": None,
             }),
             "badges": badges,   # 👈 NEW
+            "app_id": app_id,   # 👈 NEW
         })
 
     return result

@@ -108,49 +108,32 @@ def _from_known_appids(exe_path: Path) -> Optional[str]:
     """
     return _KNOWN_APPIDS_LOWER.get(exe_path.name.lower())
 
-
-def detect_steam_appid(exe_path: str) -> str:
-    """
-    Détecte l'AppID Steam associé à un exécutable.
-    """
-
+def detect_steam_appid(exe_path: str, fallback: bool = True) -> Optional[str]:
     path = Path(exe_path).resolve()
 
     appid = _from_environment()
     if appid:
-        logger.info(
-            f"Steam AppID detected: {appid} "
-            f"(environment)"
-        )
+        logger.info(f"Steam AppID detected: {appid} (environment)")
         return appid
 
     appid = _from_appmanifest(path)
     if appid:
-        logger.info(
-            f"Steam AppID detected: {appid} "
-            f"(appmanifest)"
-        )
+        logger.info(f"Steam AppID detected: {appid} (appmanifest)")
         return appid
 
     appid = _from_local_txt(path)
     if appid:
-        logger.info(
-            f"Steam AppID detected: {appid} "
-            f"(steam_appid.txt)"
-        )
+        logger.info(f"Steam AppID detected: {appid} (steam_appid.txt)")
         return appid
 
     appid = _from_known_appids(path)
     if appid:
-        logger.info(
-            f"Steam AppID detected: {appid} "
-            f"(known executable: {path.name})"
-        )
+        logger.info(f"Steam AppID detected: {appid} (known executable: {path.name})")
         return appid
 
-    logger.info(
-        f"Steam AppID fallback: {_FALLBACK_APPID} "
-        f"(unknown executable: {path.name})"
-    )
+    if not fallback:
+        logger.debug(f"No Steam AppID detected for {path.name} (fallback désactivé)")
+        return None
 
+    logger.info(f"Steam AppID fallback: {_FALLBACK_APPID} (unknown executable: {path.name})")
     return _FALLBACK_APPID

@@ -12,13 +12,14 @@ from gi.repository import Gtk, GLib
 from proton_autogen.i18n import tr
 from proton_autogen.lutris import export_game_to_lutris_yaml
 from proton_autogen.progress import Progress
-from proton_autogen.backend import run
+from proton_autogen.backend import run, fetch_protondb_info
 from proton_autogen import process_manager
 from proton_autogen.ux.game_editor import GameEditor
 from proton_autogen.ux.dialogs import show_launch_dialog, hide_launch_dialog
 from proton_autogen.ux.dialogs import open_game_file_dialog
 from proton_autogen.editor import add_game_ux, rm_game_ux
 from proton_autogen.utils.logger import StructuredLogger
+
 logger = StructuredLogger("proton-autogen.ux.dashboard_actions")
 
 
@@ -75,6 +76,29 @@ class DashboardActionsMixin:
             logger.error(f"{tr('lutris_export_failed')}: {e}")
             self.toast.error(tr("lutris_export_failed"))
             return None
+
+    # -------------------------
+    # PROTONDB REQUEST
+    # -------------------------
+    def _on_protondb_requested(self, game):
+        app_id = game.get("app_id")
+        if not app_id:
+            self.toast.warning(tr("no_app_id_configured"))
+            return
+
+        def worker():
+            info = fetch_protondb_info(app_id)
+            GLib.idle_add(self._apply_protondb_result, game, info)
+
+        threading.Thread(target=worker, daemon=True).start()
+
+    def _apply_protondb_result(self, game, info):
+        if info:
+            game["protondb"] = info
+            self.game_list.update_game(game)   # méthode déjà existante dans game_list.py
+        else:
+            self.toast.warning(tr("protondb_fetch_failed"))
+        return False  # important pour GLib.idle_add
 
 
     # -------------------------

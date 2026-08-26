@@ -765,7 +765,7 @@ def run_game_proton(exe_path, exe_type, proton,
 
         # Set Default env:
 
-        appid = detect_steam_appid(exe_path)
+        appid = detect_steam_appid(exe_path, fallback=True)
 
         env["STEAM_COMPAT_APP_ID"] = appid
         env["SteamAppId"] = appid

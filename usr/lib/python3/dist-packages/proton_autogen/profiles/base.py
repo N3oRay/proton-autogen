@@ -36,7 +36,7 @@ def init_env():
         env.pop(k, None)
 
 
-    env["STEAM_COMPAT_APP_ID"] = "0"
+    #env["STEAM_COMPAT_APP_ID"] = "0"
 
 
     return env

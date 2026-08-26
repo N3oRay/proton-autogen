@@ -105,8 +105,7 @@ def detect_exe_type(exe_path):
         )
 
         if profile:
-            #notifications.notify( "info", "proton-autogen", f"Profile executable: {os.path.basename(exe_path)} from database: {profile}", ui=True )
-            logger.info(f"Profile executable: {os.path.basename(exe_path)} from database: {profile}")
+            logger.debug(f"Profile executable: {os.path.basename(exe_path)} from database: {profile}")
             return profile
 
     return detect_exe_type_legacy(exe_path)

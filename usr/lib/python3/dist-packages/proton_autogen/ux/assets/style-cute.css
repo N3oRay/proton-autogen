@@ -42,7 +42,10 @@
    Text
    ========================================================= */
 label{
-    color: white;
+    color: @kawaii-green;
+    font-size: 12px;
+    font-weight: bold;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
 }
 
 
@@ -54,6 +57,7 @@ entry {
 text,
 textview {
     color: @kawaii-pink-dark;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6);
 }
 
 /* =========================================================
@@ -414,6 +418,7 @@ button.destructive-action:hover {
 .label-bottom label {
     color: @kawaii-pink-dark;
     font-size:16px;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6);
 }
 
 .game-container label {
@@ -508,6 +513,7 @@ label.home-label {
     background:transparent;
     color: @kawaii-pink-dark;
     font-family:monospace;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6);
 }
 
 
@@ -715,6 +721,7 @@ scrollbar.vertical slider {
 
 checkbutton {
     color: @kawaii-pink-dark;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6);
 }
 
 checkbutton check {
@@ -726,6 +733,7 @@ checkbutton check {
 checkbutton check:checked {
     background: @kde-blue;
     border-color: @kawaii-pink-dark;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6);
 }
 
 checkbutton check:checked image {
@@ -734,6 +742,7 @@ checkbutton check:checked image {
 
 checkbutton label {
     color: @kawaii-pink-dark;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6);
 }
 
 

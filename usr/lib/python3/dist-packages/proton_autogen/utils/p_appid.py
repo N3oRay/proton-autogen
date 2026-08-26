@@ -106,6 +106,7 @@ KNOWN_APPIDS = {
     "runme.exe": "17480",               # Command & Conquer: Red Alert 3
     "RA3EP1.exe": "24800",              # Command & Conquer: Red Alert 3 - Uprising
     "RA95.EXE": "2229840",              # Command & Conquer: Red Alert
+    "RASETUP.EXE": "2229840",              # Command & Conquer: Red Alert
     "setup-00974-C&C_Alerte_Rouge-PCWin.exe": "2229840",              # Command & Conquer: Red Alert
     "ClientLauncherG.exe": "1213210",   # Command & Conquer Remastered Collection
     "OMGZ.exe": "259870",               # OMG Zombies!
