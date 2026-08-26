@@ -29,6 +29,7 @@ jobs:
             python-gobject \
             python-pyyaml \
             python-rich \
+            python-requests \
             gtk4 \
             glib2 \
             cairo \

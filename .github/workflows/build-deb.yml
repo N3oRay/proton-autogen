@@ -30,6 +30,7 @@ jobs:
             python3-gi \
             python3-yaml \
             python3-rich \
+            python3-requests \
             gir1.2-gtk-4.0 \
             libglib2.0-dev \
             gobject-introspection

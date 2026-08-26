@@ -41,6 +41,7 @@ install_deps() {
                 python-gobject \
                 python-pyyaml \
                 python-rich \
+                python3-requests \
                 gtk4 \
                 gdk-pixbuf2 \
             ;;
@@ -52,6 +53,7 @@ install_deps() {
                 python3-yaml \
                 python3-cairo \
                 python3-rich \
+                python-requests \
                 gir1.2-gtk-4.0 \
                 gir1.2-gdkpixbuf-2.0 \
                 gir1.2-pango-1.0 \
@@ -64,6 +66,7 @@ install_deps() {
                 python3-gobject \
                 python3-pyyaml \
                 python3-rich \
+                python3-requests \
                 gtk4 \
                 gdk-pixbuf2
             ;;

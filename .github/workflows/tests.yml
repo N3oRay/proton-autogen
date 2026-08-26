@@ -30,6 +30,7 @@ jobs:
             python3-gi-cairo \
             python3-yaml \
             python3-rich \
+            python3-requests \
             gir1.2-gtk-4.0 \
             gir1.2-glib-2.0 \
             libgtk-4-1 \
@@ -76,6 +77,7 @@ jobs:
             python-gobject \
             python-yaml \
             python-rich \
+            python-requests \
             gtk4 \
             glib2 \
             pango \
@@ -122,6 +124,7 @@ jobs:
             python3-gobject \
             python3-pyyaml \
             python3-rich \
+            python3-requests \
             pango \
             cairo \
             gtk4 \

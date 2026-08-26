@@ -12,6 +12,7 @@ Depends: python3,
          python3-gi,
          python3-gi-cairo,
          python3-rich,
+         python3-requests,
          libgtk-4-1,
          gir1.2-gtk-4.0
 Recommends: wine, gamemode
