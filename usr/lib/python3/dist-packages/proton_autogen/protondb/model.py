@@ -20,8 +20,8 @@ class ProtonDBInfo:
     @property
     def emoji(self) -> str:
         tiers = {
-            "native": "✅", "platinum": "🟪", "gold": "🟨",
-            "silver": "⚪", "bronze": "🟫", "borked": "❌", "pending": "❓",
+            "native": "✅", "platinum": "🟣", "gold": "🟡",
+            "silver": "⚪", "bronze": "🟤", "borked": "❌", "pending": "❓",
         }
         return tiers.get(self.tier, "❓")
 

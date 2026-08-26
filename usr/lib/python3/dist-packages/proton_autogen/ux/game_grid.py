@@ -476,15 +476,31 @@ class GameGrid(Gtk.Box):
         self._clear_box(card.badges_box)
 
         try:
-            badges = get_game_badges(game, self.lang)
-
-            for badge in badges:
+            for badge in self._format_badges(game):
                 card.badges_box.append(
                     self._create_badge(badge)
                 )
 
         except Exception:
             pass
+
+
+    # -------------------------
+    # BADGES  protondb
+    # -------------------------
+    def _format_badges(self, game):
+        badges = list(get_game_badges(game, self.lang))
+        protondb_info = game.get("protondb")
+
+        if protondb_info:
+            badges.insert(0, {
+                "type": "protondb",
+                "label": f"{protondb_info.emoji}",
+                "text": f"ProtonDB — confiance : {protondb_info.tier.upper()} - {protondb_info.confidence} ({protondb_info.total_votes} rapports)",
+                "css": ["badge-protondb"],
+            })
+
+        return badges
 
     # =============================================================
     # FACTORY - UNBIND

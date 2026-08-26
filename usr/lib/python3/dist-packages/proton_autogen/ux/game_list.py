@@ -277,8 +277,8 @@ class GameList(Gtk.Box):
         if protondb_info:
             badges.insert(0, {
                 "type": "protondb",
-                "label": f"{protondb_info.emoji} {protondb_info.tier.upper()}",
-                "text": f"ProtonDB — confiance : {protondb_info.confidence} ({protondb_info.total_votes} rapports)",
+                "label": f"{protondb_info.emoji}",
+                "text": f"ProtonDB — confiance : {protondb_info.tier.upper()} - {protondb_info.confidence} ({protondb_info.total_votes} rapports)",
                 "css": ["badge-protondb"],
             })
 

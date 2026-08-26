@@ -6,7 +6,7 @@ TIER_RECOMMENDATIONS = {
         "→ Essayez un titre alternatif ou attendez une amélioration de compatibilité"
     ],
     "bronze": [
-        "🟫 Crashes, significant bugs, or doesn't run",
+        "🟤 Crashes, significant bugs, or doesn't run",
         "→ Manual tweaking may be required",
         "→ Check ProtonDB reports for workarounds"
     ],
@@ -16,12 +16,12 @@ TIER_RECOMMENDATIONS = {
         "→ See ProtonDB notes for profile suggestions"
     ],
     "gold": [
-        "🟨 Runs with minor issues or needs configuration",
+        "🟡 Runs with minor issues or needs configuration",
         "→ Recommended profile already applied",
         "→ Check ProtonDB for specific tweaks"
     ],
     "platinum": [
-        "🟪 Runs perfectly with only minor issues",
+        "🟣 Runs perfectly with only minor issues",
         "→ Should work out of the box"
     ],
     "native": [
