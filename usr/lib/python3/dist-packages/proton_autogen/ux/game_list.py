@@ -223,7 +223,10 @@ class GameList(Gtk.Box):
             container.badges_box.remove(child)
             child = next_child
 
-        for b in get_game_badges(game, self.lang):
+        #for b in get_game_badges(game, self.lang):
+        #    container.badges_box.append(self._create_badge(b))
+
+        for b in self._format_badges(game):
             container.badges_box.append(self._create_badge(b))
 
         # CALLBACKS (connectés au bind, retirés à l'unbind pour éviter les doublons)

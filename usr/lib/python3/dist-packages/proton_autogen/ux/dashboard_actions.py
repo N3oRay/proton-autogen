@@ -484,6 +484,7 @@ class DashboardActionsMixin:
             self.status.set_text(tr("ready"))
 
         editor.on_saved = after_save
+        editor.on_protondb_requested = self._on_protondb_requested   # 👈 nouveau
         editor.connect("destroy", lambda *_: on_close(editor))
         editor.present()
 

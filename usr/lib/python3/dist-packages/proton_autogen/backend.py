@@ -634,11 +634,20 @@ def list_programs_ux(lang: str = "en"):
 
     for exe in sorted(programs):
         config = load_game_config(exe) or {}
-        app_id = config.get("app_id") or detect_steam_appid(exe, fallback=False) # 👈 NEW
+        app_id = config.get("app_id") or detect_steam_appid(exe, fallback=False)
+
+        protondb_data = config.get("protondb")
+        protondb = None
+        if isinstance(protondb_data, dict):
+            try:
+                protondb = ProtonDBInfo(**protondb_data)
+            except TypeError as e:
+                logger.debug("ProtonDB config schema mismatch for %s: %s", exe, e)
+
         badges = get_game_badges({
             "favorite": config.get("favorite", False),
             "playtime": config.get("playtime", {}),
-        },lang)
+        }, lang)
 
         result.append({
             "name": config.get("name", exe.split("/")[-1]),
@@ -654,7 +663,6 @@ def list_programs_ux(lang: str = "en"):
                 "gamescope": False,
             }),
             "env": config.get("env", {}),
-
             "favorite": config.get("favorite", False),
             "playtime": config.get("playtime", {
                 "seconds": 0,
@@ -662,8 +670,9 @@ def list_programs_ux(lang: str = "en"):
                 "last_session": 0,
                 "last_launch": None,
             }),
-            "badges": badges,   # 👈 NEW
-            "app_id": app_id,   # 👈 NEW
+            "badges": badges,
+            "app_id": app_id,
+            "protondb": protondb,   # 👈 reconstruit depuis la config
         })
 
     return result

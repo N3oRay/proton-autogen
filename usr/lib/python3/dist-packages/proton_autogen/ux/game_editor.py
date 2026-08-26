@@ -31,6 +31,7 @@ class GameEditor(Gtk.Window):
         self.set_default_size(520, 420)
         #self.set_resizable(True)
         self.on_saved = None
+        self.on_protondb_requested = None   # 👈 nouveau
         self.set_size_request(520, 420)
         self.add_css_class("editor-window")
         self.profile_model = VALID_PROFILES
@@ -262,8 +263,15 @@ class GameEditor(Gtk.Window):
     # -------------------------
     def on_show_protondb(self, btn):
         app_id = self.app_id_entry.get_text().strip() or self.game.get("app_id")
-        if app_id:
-            Gtk.UriLauncher(uri=f"https://www.protondb.com/app/{app_id}").launch(self, None, None)
+        if not app_id:
+            return
+
+        # Peuple game["protondb"] (thread + cache, côté Dashboard) pour
+        # que le badge apparaisse dans la liste au prochain refresh.
+        if self.on_protondb_requested:
+            self.on_protondb_requested(self.game)
+
+        Gtk.UriLauncher(uri=f"https://www.protondb.com/app/{app_id}").launch(self, None, None)
 
     # -------------------------
     # MANGOHUD / FPS LIMIT
@@ -413,6 +421,13 @@ class GameEditor(Gtk.Window):
             "features": features,
             "env": env,
         })
+        # "protondb" contient un objet ProtonDBInfo : converti en dict
+        # simple (JSON-sérialisable) avant sauvegarde. list_programs_ux()
+        # le reconstruit en ProtonDBInfo au chargement suivant.
+        protondb = data.get("protondb")
+        if protondb is not None:
+            data["protondb"] = protondb.to_dict() if hasattr(protondb, "to_dict") else protondb
+
 
         save_game_config(data)
 

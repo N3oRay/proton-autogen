@@ -1,6 +1,6 @@
 # proton_autogen/protondb/model.py
 
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 from typing import Optional
 
 @dataclass
@@ -11,6 +11,11 @@ class ProtonDBInfo:
     total_votes: int
     score: Optional[float] = None
     notes: Optional[str] = None
+
+    def to_dict(self) -> dict:
+        """Représentation JSON-sérialisable, pour la config du jeu et
+        le cache ProtonDB."""
+        return asdict(self)
 
     @property
     def emoji(self) -> str:
