@@ -989,94 +989,432 @@ searchentry:disabled {
 }
 
 
-/* -------------------------------------------------
-   GAME GRID
-   ------------------------------------------------- */
+/* =========================================================
+ * GAME GRID
+ * ========================================================= */
 
 .game-grid {
-    padding: 4px;
-    background-color: transparent;
+    padding: 10px;
+    background: transparent;
 }
 
+/* Zone de scroll */
 .game-grid scrolledwindow {
-    background-color: transparent;
+    background: transparent;
 }
+
+
+/* =========================================================
+ * TOOLBAR
+ * ========================================================= */
+
+.game-grid-toolbar {
+    padding: 6px 8px;
+    margin-bottom: 4px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(35,35,40,0.85),
+            rgba(20,20,24,0.75)
+        );
+
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+
+    box-shadow:
+        0 4px 14px rgba(0,0,0,0.25);
+}
+
+
+/* =========================================================
+ * CARTE
+ * ========================================================= */
 
 .game-grid-card {
     min-width: 0;
     min-height: 0;
-    margin: 2px;
-    padding: 4px;
-    border-radius: 10px;
+
+    margin: 5px;
+    padding: 7px;
+
+    border-radius: 14px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(45,45,48,0.78),
+            rgba(22,22,26,0.72)
+        );
+
+    border: 1px solid rgba(255,255,255,0.055);
+
+    box-shadow:
+        0 4px 12px rgba(0,0,0,0.28);
 }
 
+
+/* =========================================================
+ * HOVER
+ * ========================================================= */
+
 .game-grid-card:hover {
-    background-color: alpha(@theme_fg_color, 0.07);
+    background:
+        linear-gradient(
+            145deg,
+            rgba(65,57,88,0.90),
+            rgba(28,25,36,0.88)
+        );
+
+    border-color:
+        rgba(124,92,255,0.45);
+
+    box-shadow:
+        0 7px 18px rgba(0,0,0,0.40),
+        0 0 16px rgba(124,92,255,0.16);
 }
+
+
+/* =========================================================
+ * ACTIVE / CLIC
+ * ========================================================= */
+
+.game-grid-card:active {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(124,92,255,0.38),
+            rgba(35,25,50,0.92)
+        );
+
+    border-color:
+        rgba(146,117,255,0.90);
+
+    box-shadow:
+        inset 0 2px 8px rgba(0,0,0,0.45),
+        0 0 18px rgba(124,92,255,0.38);
+
+    outline:
+        1px solid rgba(124,92,255,0.25);
+}
+
+
+/* =========================================================
+ * ICON HOLDER
+ * ========================================================= */
 
 .game-grid-icon-holder {
     min-width: 0;
     min-height: 0;
+
+    padding: 3px;
+
+    border-radius: 12px;
+
+    background:
+        rgba(0,0,0,0.20);
 }
 
+
+/* =========================================================
+ * ICON
+ * ========================================================= */
+
 .game-grid-icon {
-    border-radius: 4px;
+    border-radius: 10px;
+
+    background:
+        rgba(255,255,255,0.75);
+
+    box-shadow:
+        0 4px 12px rgba(0,0,0,0.40);
 }
+
+
+/* Hover de l'icône */
+
+.game-grid-card:hover .game-grid-icon {
+    box-shadow:
+        0 5px 16px rgba(0,0,0,0.50),
+        0 0 14px rgba(124,92,255,0.18);
+}
+
+
+/* =========================================================
+ * TITRE
+ * ========================================================= */
 
 .game-grid-title {
     font-weight: 600;
-    font-size: 1em;
-    margin-left: 1px;
-    margin-right: 1px;
+    font-size: 0.95em;
+
+    color:
+        rgba(255,255,255,0.88);
+
+    margin-top: 3px;
+    margin-left: 2px;
+    margin-right: 2px;
+
+    text-shadow:
+        0 1px 2px rgba(0,0,0,0.70);
 }
+
+
+/* Titre plus lumineux au survol */
+
+.game-grid-card:hover .game-grid-title {
+    color: #ffffff;
+
+    text-shadow:
+        0 0 8px rgba(124,92,255,0.25);
+}
+
+
+/* =========================================================
+ * BADGES
+ * ========================================================= */
 
 .game-grid-badges {
     min-height: 8px;
-}
 
-/* =========================================================
- * GAME GRID — CONTEXT MENU
- * ========================================================= */
+    margin-top: 2px;
 
-.game-grid-context-menu {
-    padding: 3px;
-    border-radius: 8px;
-}
+    padding: 1px;
 
-/* Boutons */
-.game-grid-context-menu button {
-    min-height: 24px;
-    padding: 4px 9px;
-    border-radius: 6px;
-    border: none;
-    box-shadow: none;
-    color: @theme_fg_color;
     background: transparent;
 }
 
-/* Hover */
-.game-grid-context-menu button:hover {
-    background: alpha(@theme_fg_color, 0.10);
+
+/* =========================================================
+ * BADGES INDIVIDUELS DANS LA GRILLE
+ * ========================================================= */
+
+.game-grid-card .badge {
+    padding: 2px 5px;
+
+    min-height: 16px;
+
+    border-radius: 6px;
+
+    font-size: 0.72em;
+
+    background:
+        rgba(255,255,255,0.07);
+
+    border:
+        1px solid rgba(255,255,255,0.08);
+
+    box-shadow:
+        0 2px 5px rgba(0,0,0,0.20);
 }
 
-/* Press */
-.game-grid-context-menu button:active {
-    background: alpha(@theme_fg_color, 0.16);
+
+/* =========================================================
+ * BADGES AU SURVOL DE LA CARTE
+ * ========================================================= */
+
+.game-grid-card:hover .badge {
+    border-color:
+        rgba(124,92,255,0.22);
 }
 
-/* Suppression */
+
+/* =========================================================
+ * PROTONDB
+ * ========================================================= */
+
+.game-grid-card .badge-protondb {
+    background:
+        rgba(80,140,255,0.18);
+
+    border-color:
+        rgba(80,140,255,0.40);
+
+    color:
+        rgba(205,225,255,0.98);
+
+    box-shadow:
+        0 0 7px rgba(80,140,255,0.10);
+}
+
+
+/* =========================================================
+ * FAVORITE
+ * ========================================================= */
+
+.game-grid-card .badge.favorite {
+    background:
+        rgba(255,60,120,0.18);
+
+    border-color:
+        rgba(255,60,120,0.38);
+
+    color:
+        rgba(255,205,220,1);
+
+    box-shadow:
+        0 0 8px rgba(255,60,120,0.14);
+}
+
+
+/* =========================================================
+ * CONTEXT MENU
+ * ========================================================= */
+
+.game-grid-context-popover {
+    background: rgba(25,25,30,0.98);
+
+    border: 1px solid rgba(255,255,255,0.08);
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 12px 35px rgba(0,0,0,0.55),
+        0 0 20px rgba(124,92,255,0.08);
+}
+
+
+.game-grid-context-menu {
+    padding: 5px;
+
+    background: transparent;
+}
+
+
+/* =========================================================
+ * MENU BUTTONS
+ * ========================================================= */
+
+.game-grid-context-menu .game-grid-menu-button,
 .game-grid-context-menu .game-grid-menu-delete {
-    color: #ff6b6b;
+
+    min-height: 30px;
+
+    padding: 5px 10px;
+
+    border-radius: 7px;
+
+    border: 1px solid transparent;
+
+    background: transparent;
+
+    color:
+        rgba(255,255,255,0.85);
+
+    box-shadow: none;
+}
+
+
+/* Hover */
+
+.game-grid-context-menu .game-grid-menu-button:hover {
+    background:
+        rgba(124,92,255,0.18);
+
+    border-color:
+        rgba(124,92,255,0.25);
+
+    color: #ffffff;
+}
+
+
+/* Active */
+
+.game-grid-context-menu .game-grid-menu-button:active {
+    background:
+        rgba(124,92,255,0.32);
+
+    border-color:
+        rgba(124,92,255,0.50);
+}
+
+
+/* =========================================================
+ * DELETE
+ * ========================================================= */
+
+.game-grid-context-menu .game-grid-menu-delete {
+    color:
+        #ff7070;
 }
 
 .game-grid-context-menu .game-grid-menu-delete:hover {
     color: #ffffff;
-    background: alpha(#ff0000, 0.20);
+
+    background:
+        rgba(255,60,60,0.20);
+
+    border-color:
+        rgba(255,80,80,0.30);
 }
 
-/* Séparateur */
+.game-grid-context-menu .game-grid-menu-delete:active {
+    background:
+        rgba(255,60,60,0.35);
+
+    border-color:
+        rgba(255,80,80,0.55);
+}
+
+
+/* =========================================================
+ * SEPARATOR
+ * ========================================================= */
+
 .game-grid-context-menu separator {
-    margin: 3px 2px;
+    margin: 4px 3px;
+
     min-height: 1px;
-    background: alpha(@theme_fg_color, 0.12);
+
+    background:
+        rgba(255,255,255,0.08);
+}
+
+
+/* =========================================================
+ * ZOOM BUTTONS
+ * ========================================================= */
+
+.game-grid-toolbar .section-toggle {
+    min-width: 30px;
+    min-height: 28px;
+
+    padding: 3px 9px;
+
+    border-radius: 7px;
+
+    background:
+        rgba(255,255,255,0.08);
+
+    border:
+        1px solid rgba(255,255,255,0.07);
+
+    color:
+        rgba(255,255,255,0.85);
+}
+
+
+.game-grid-toolbar .section-toggle:hover {
+    background:
+        rgba(124,92,255,0.20);
+
+    border-color:
+        rgba(124,92,255,0.35);
+
+    color: #ffffff;
+
+    box-shadow:
+        0 0 10px rgba(124,92,255,0.15);
+}
+
+
+.game-grid-toolbar .section-toggle:active {
+    background:
+        rgba(124,92,255,0.35);
+
+    border-color:
+        rgba(146,117,255,0.65);
+
+    box-shadow:
+        inset 0 2px 5px rgba(0,0,0,0.35);
 }

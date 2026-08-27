@@ -22,8 +22,8 @@ ICON_SIZE_STEP = 16
 DEFAULT_ICON_SIZE = 128
 
 # Espacement pour les contrôles de la grille
-GRID_CARD_SPACING = 64  # Espacement entre les cartes
-GRID_HORIZONTAL_PADDING = 10
+GRID_CARD_SPACING = 64  # Espacement entre les cartes (64)
+GRID_HORIZONTAL_PADDING = 12
 GRID_MIN_COLUMNS = 1
 GRID_MAX_COLUMNS = 7
 GRID_CARD_EXTRA_HEIGHT = 50
