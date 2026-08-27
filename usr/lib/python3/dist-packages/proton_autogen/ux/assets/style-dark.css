@@ -505,7 +505,7 @@ label.home-label {
     border-color: rgba(255, 255, 255, 0.20);
 }
 
-.badge.profile {
+.badge-protondb, .badge.profile {
     background: rgba(80, 140, 255, 0.18);
     border-color: rgba(80, 140, 255, 0.35);
     border-left-color: rgba(80, 140, 255, 0.90);

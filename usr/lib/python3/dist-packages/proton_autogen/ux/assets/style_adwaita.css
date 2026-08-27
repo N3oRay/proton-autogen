@@ -505,7 +505,7 @@ entry placeholder,
 }
 
 /* badge variants */
-.badge.profile {
+.badge-protondb, .badge.profile {
     background: rgba(80,140,255,0.12);
     border-color: rgba(80,140,255,0.20);
     color: rgba(200,220,255,0.98);

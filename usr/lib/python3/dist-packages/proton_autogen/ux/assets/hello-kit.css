@@ -491,7 +491,7 @@ label.home-label {
     border-color: rgba(255,105,180,0.12);
 }
 
-.badge.profile {
+.badge-protondb, .badge.profile {
     background: linear-gradient(180deg, #ffeef8, #ffddec);
     border-color: rgba(80,140,255,0.20);
     color: @hk_text;

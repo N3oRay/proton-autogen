@@ -553,7 +553,7 @@ label.home-label {
     border-color:#ffe27f;
 }
 
-.badge.profile {
+.badge-protondb, .badge.profile {
 
     background:#dff2ff;
     color:#5f82b0;
