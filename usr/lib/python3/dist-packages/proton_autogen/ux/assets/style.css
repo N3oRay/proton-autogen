@@ -204,11 +204,14 @@ button.destructive-action:hover {
 }
 
 .app-button {
+    background: rgba(255,255,255,0.10);
+    color: white;
 
-    background:rgba(255,255,255,0.12);
-    color:white;
-    border-radius:8px;
-    transition: background 180ms ease, border-color 180ms ease;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 8px;
+
+    box-shadow:
+        0 2px 6px rgba(0,0,0,0.25);
 }
 
 .app-button:focus {
@@ -219,7 +222,21 @@ button.destructive-action:hover {
 
 
 .app-button:hover {
-    background:rgba(255,255,255,0.20);
+    background: rgba(124,92,255,0.22);
+
+    border-color: rgba(124,92,255,0.50);
+
+    box-shadow:
+        0 4px 12px rgba(0,0,0,0.35),
+        0 0 12px rgba(124,92,255,0.20);
+}
+
+.app-button:active {
+    background: rgba(124,92,255,0.35);
+
+    box-shadow:
+        0 1px 4px rgba(0,0,0,0.40),
+        0 0 18px rgba(124,92,255,0.30);
 }
 
 .status-box {
@@ -307,41 +324,46 @@ button.destructive-action:hover {
    ========================================================= */
 
 .game-container {
-
     background:
         linear-gradient(
-            180deg,
-            rgba(40,40,40,0.75),
-            rgba(25,25,25,0.65)
+            145deg,
+            rgba(45,45,45,0.82),
+            rgba(20,20,20,0.72)
         );
 
-    border-radius:14px;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 14px;
 
-    padding:10px 12px;
+    padding: 10px 12px;
 
-    border:
-        1px solid rgba(255,255,255,0.06);
+    box-shadow:
+        0 4px 12px rgba(0,0,0,0.30);
 }
-
 
 .game-container:hover {
-
     background:
         linear-gradient(
-            180deg,
-            rgba(55,55,55,0.85),
-            rgba(30,30,30,0.75)
+            145deg,
+            rgba(65,55,90,0.90),
+            rgba(30,25,40,0.85)
         );
 
-    border-color:
-        rgba(255,255,255,0.12);
+    border-color: rgba(124,92,255,0.45);
+
+    box-shadow:
+        0 6px 18px rgba(0,0,0,0.45),
+        0 0 18px rgba(124,92,255,0.18);
 }
 
-
 .game-container:active {
-
     background:
-        rgba(20,20,20,0.85);
+        rgba(25,20,35,0.95);
+
+    border-color: rgba(124,92,255,0.70);
+
+    box-shadow:
+        0 2px 8px rgba(0,0,0,0.50),
+        0 0 25px rgba(124,92,255,0.30);
 }
 
 
@@ -417,26 +439,21 @@ checkbutton.feature-toggle:checked label {
 }
 
 .game-container label {
-
     color:white;
     font-size:16px;
 }
 
 
 .dim-label1 {
-
     color:
         rgba(255,255,255,0.70);
-
     font-size:12px;
 }
 
 
 .dim-label2 {
-
     color:
         rgba(0,255,0,0.70);
-
     font-size:10px;
 }
 
@@ -522,7 +539,6 @@ label.home-label {
         );
 
     border: 1px solid rgba(255,255,255,0.04);
-    border-radius:6px;
     border-radius: 12px;
 
     box-shadow:
@@ -561,14 +577,26 @@ label.home-label {
 }
 
 .badge.favorite {
-    background: rgba(255, 60, 120, 0.20);
-    border-color: rgba(255, 60, 120, 0.40);
-    border-left-color: rgba(255, 60, 120, 1.0);
-    color: rgba(255, 200, 215, 1.0);
+    background: rgba(255,60,120,0.20);
+    border: 1px solid rgba(255,60,120,0.40);
+    border-left: 3px solid rgba(255,60,120,1);
+
+    color: rgba(255,200,215,1);
 
     box-shadow:
-        0 0 10px rgba(255, 60, 120, 0.15);
+        0 0 10px rgba(255,60,120,0.15);
 }
+
+.badge.favorite:hover {
+    background: rgba(255,60,120,0.30);
+
+    border-color: rgba(255,100,150,0.70);
+
+    box-shadow:
+        0 0 10px rgba(255,60,120,0.30),
+        0 0 24px rgba(255,60,120,0.18);
+}
+
 
 .badge {
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
@@ -636,7 +664,6 @@ textview {
 
     background:transparent;
     color:white;
-
     font-family:monospace;
 }
 
@@ -654,7 +681,6 @@ textview text {
 
 scrollbar,
 scrollbar slider {
-
     min-width:8px;
     min-height:8px;
 }
@@ -741,12 +767,9 @@ scrollbar {
 
 scrollbar slider {
     background: rgba(90, 100, 115, 0.45);
-
     border-radius: 5px;
-
     min-width: 6px;
     min-height: 6px;
-
     margin: 2px;
 }
 
@@ -884,12 +907,9 @@ searchentry:disabled {
 
 /* GAME ICON */
 .game-icon {
-
     min-width:64px;
     min-height:64px;
-
     border-radius:14px;
-
     background:
         rgba(255,255,255,0.85);
     box-shadow:
@@ -899,10 +919,8 @@ searchentry:disabled {
 }
 
 .game-icon:hover {
-
     background:
         rgba(255,255,255,0.35);
-
     box-shadow:
         0 0 10px rgba(46, 204, 113,0.35);
 }
@@ -911,7 +929,6 @@ searchentry:disabled {
 /* -------------------------------------------------
    FPS limit SpinButton : texte blanc / fond noir transparent
    ------------------------------------------------- */
-
 /* Conteneur global du spinbutton */
 .fps-spinbutton {
     background-color: rgba(0, 0, 0, 0.6);
@@ -988,10 +1005,8 @@ searchentry:disabled {
 .game-grid-card {
     min-width: 0;
     min-height: 0;
-
     margin: 2px;
     padding: 4px;
-
     border-radius: 10px;
 }
 
@@ -1035,7 +1050,6 @@ searchentry:disabled {
     border-radius: 6px;
     border: none;
     box-shadow: none;
-
     color: @theme_fg_color;
     background: transparent;
 }
@@ -1061,7 +1075,6 @@ searchentry:disabled {
 }
 
 /* Séparateur */
-
 .game-grid-context-menu separator {
     margin: 3px 2px;
     min-height: 1px;
