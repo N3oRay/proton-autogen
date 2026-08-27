@@ -80,17 +80,40 @@ class DashboardActionsMixin:
     # -------------------------
     # PROTONDB REQUEST
     # -------------------------
-    def _on_protondb_requested(self, game):
+    def _on_protondb_requested(self, game, callback=None):
         app_id = game.get("app_id")
+
         if not app_id:
             self.toast.warning(tr("no_app_id_configured"))
+
+            if callback:
+                GLib.idle_add(callback, app_id, None)
+
             return
 
         def worker():
             info = fetch_protondb_info(app_id)
-            GLib.idle_add(self._apply_protondb_result, game, info)
 
-        threading.Thread(target=worker, daemon=True).start()
+            # Mise à jour du Dashboard existant
+            GLib.idle_add(
+                self._apply_protondb_result,
+                game,
+                info
+            )
+
+            # Retour vers GameEditor pour la validation de l'AppID
+            if callback:
+                GLib.idle_add(
+                    callback,
+                    app_id,
+                    info
+                )
+
+        threading.Thread(
+            target=worker,
+            daemon=True
+        ).start()
+
 
     def _apply_protondb_result(self, game, info):
         if info:
