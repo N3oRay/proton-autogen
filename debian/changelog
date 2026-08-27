@@ -1,8 +1,13 @@
-proton-autogen (3.3.1) noble; urgency=medium
+proton-autogen (3.3.2) noble; urgency=medium
 
   * Thanks to all users and contributors for their continued support, feedback and bug reports.
+  * Add ProtonDB integration with game compatibility ratings, confidence levels and report counts.
+  * Add support for displaying ProtonDB compatibility information directly in the game list and grid.
+  * Add support for editing the Steam App ID from the application editor.
   * Improve application responsiveness and adaptive layout behavior.
   * Add a dedicated GRID menu with zoom controls for adjusting game icon sizes.
+  * Improve the GRID layout with adaptive column handling and responsive game cards.
+  * Add visual feedback for game card interactions and improve the overall GRID user experience.
   * Automatically save and restore the application window size between sessions.
   * Add a status bar message history panel, allowing users to review all status messages since startup with timestamps and a clear action.
   * Add a dedicated status message widget with support for expandable details, allowing truncated messages to be viewed and copied in full.
@@ -13,9 +18,9 @@ proton-autogen (3.3.1) noble; urgency=medium
   * Reduce CPU overhead of status message processing by consolidating multiple regular expressions into single combined patterns, without changing observable behavior.
   * Improve application terminology throughout the interface, replacing game-specific wording with application-specific terminology to better reflect support for generic Windows programs.
   * Localize the application search entry placeholder instead of using hardcoded text.
-  * Add 14 new internationalization strings across all 16 supported locale files while preserving locale key parity.
+  * Update all 16 supported locale files.
   * Improve graphical user experience with clearer status reporting and easier access to detailed application launch information.
   * Internal UX improvements with the introduction of dedicated status bar and status history handling.
   * General UX improvements, localization improvements, configuration handling improvements and code cleanup.
 
- -- N3oray <n3oray77@gmail.com>  Tue, 25 Aug 2026 20:48:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Thu, 27 Aug 2026 15:52:00 +0200

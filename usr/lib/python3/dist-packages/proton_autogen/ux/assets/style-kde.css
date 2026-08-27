@@ -747,11 +747,11 @@ popover label {
 }
 
 /* -------------------------------------------------
-   GAME GRID
+   GAME GRID — KDE STYLE
    ------------------------------------------------- */
 
 .game-grid {
-    padding: 4px;
+    padding: 8px;
     background-color: transparent;
 }
 
@@ -759,86 +759,279 @@ popover label {
     background-color: transparent;
 }
 
+
+/* =================================================
+   CARTE
+   ================================================= */
+
 .game-grid-card {
     min-width: 0;
     min-height: 0;
 
-    margin: 2px;
-    padding: 4px;
+    margin: 4px;
+    padding: 8px;
 
-    border-radius: 10px;
+    border-radius: 8px;
+
+    background-color: @kde-surface;
+
+    border: 1px solid @kde-border;
+
+    box-shadow:
+        0 1px 3px rgba(35, 38, 41, 0.08);
+
+    transition:
+        background-color 120ms ease,
+        border-color 120ms ease,
+        box-shadow 120ms ease;
 }
+
+
+/* =================================================
+   SURVOL
+   ================================================= */
 
 .game-grid-card:hover {
-    background-color: alpha(@theme_fg_color, 0.07);
+    background-color: #ffffff;
+
+    border-color: @kde-blue;
+
+    box-shadow:
+        0 3px 8px rgba(35, 38, 41, 0.12);
 }
+
+
+/* =================================================
+   CLIC / ACTIVE
+   ================================================= */
+
+/*
+ * État volontairement plus marqué que le hover.
+ * La carte donne visuellement l'impression d'être
+ * pressée.
+ */
+
+.game-grid-card:active {
+    background-color: #dce8f3;
+
+    border-color: @kde-blue-dark;
+
+    box-shadow:
+        inset 0 2px 4px rgba(35, 38, 41, 0.12),
+        0 1px 2px rgba(35, 38, 41, 0.08);
+}
+
+
+/* =================================================
+   FOCUS
+   ================================================= */
+
+.game-grid-card:focus,
+.game-grid-card:focus-visible {
+    outline: 2px solid alpha(@kde-blue, 0.55);
+    outline-offset: 2px;
+}
+
+
+/* =================================================
+   ICÔNE
+   ================================================= */
 
 .game-grid-icon-holder {
     min-width: 0;
     min-height: 0;
+
+    border-radius: 7px;
+
+    background-color: rgba(255,255,255,0.65);
+
+    box-shadow:
+        inset 0 1px 2px rgba(35, 38, 41, 0.05);
 }
 
 .game-grid-icon {
     border-radius: 6px;
+
+    box-shadow:
+        0 2px 6px rgba(35, 38, 41, 0.12);
 }
 
+
+/* =================================================
+   TITRE
+   ================================================= */
+
 .game-grid-title {
+    color: @kde-text;
+
     font-weight: 600;
     font-size: 1em;
 
-    margin-left: 1px;
-    margin-right: 1px;
+    margin-left: 2px;
+    margin-right: 2px;
 }
+
+
+/* =================================================
+   BADGES
+   ================================================= */
 
 .game-grid-badges {
     min-height: 8px;
+    margin-top: 2px;
+}
+
+
+/* =================================================
+   TOOLBAR GRID
+   ================================================= */
+
+.game-grid-toolbar {
+    padding: 4px 8px;
+}
+
+
+/*
+ * Boutons Zoom
+ */
+
+.game-grid-toolbar .section-toggle {
+    background: @kde-surface;
+
+    color: @kde-text;
+
+    border: 1px solid @kde-border;
+    border-radius: 6px;
+
+    padding: 4px 10px;
+
+    box-shadow:
+        0 1px 2px rgba(35, 38, 41, 0.06);
+}
+
+.game-grid-toolbar .section-toggle:hover {
+    background: #ffffff;
+
+    border-color: @kde-blue;
+
+    color: @kde-blue-dark;
+}
+
+.game-grid-toolbar .section-toggle:active {
+    background: #dce8f3;
+
+    border-color: @kde-blue-dark;
+
+    color: @kde-blue-dark;
+
+    box-shadow:
+        inset 0 2px 3px rgba(35, 38, 41, 0.10);
+}
+
+
+/* =================================================
+   INDICATEUR DE TAILLE
+   ================================================= */
+
+.game-grid-toolbar label {
+    color: @kde-text2;
 }
 
 /* =========================================================
- * GAME GRID — CONTEXT MENU
+ * GAME GRID — CONTEXT MENU — KDE STYLE
  * ========================================================= */
 
 .game-grid-context-menu {
-    padding: 3px;
-    border-radius: 8px;
+    padding: 4px;
+
+    border-radius: 7px;
+
+    background: @kde-surface;
+
+    border: 1px solid @kde-border;
+
+    box-shadow:
+        0 5px 16px rgba(35, 38, 41, 0.16);
 }
 
-/* Boutons */
+
+/* ---------------------------------------------------------
+   Boutons
+   --------------------------------------------------------- */
+
 .game-grid-context-menu button {
-    min-height: 24px;
-    padding: 4px 9px;
-    border-radius: 6px;
-    border: none;
+    min-height: 26px;
+
+    padding: 5px 10px;
+
+    border-radius: 5px;
+    border: 1px solid transparent;
+
     box-shadow: none;
 
-    color: @theme_fg_color;
+    color: @kde-text;
     background: transparent;
 }
 
-/* Hover */
+
+/* ---------------------------------------------------------
+   Hover
+   --------------------------------------------------------- */
+
 .game-grid-context-menu button:hover {
-    background: alpha(@theme_fg_color, 0.10);
+    background: #e8f4ff;
+
+    border-color: alpha(@kde-blue, 0.20);
+
+    color: @kde-text;
 }
 
-/* Press */
+
+/* ---------------------------------------------------------
+   Active
+   --------------------------------------------------------- */
+
 .game-grid-context-menu button:active {
-    background: alpha(@theme_fg_color, 0.16);
+    background: #dce8f3;
+
+    border-color: alpha(@kde-blue, 0.35);
+
+    box-shadow:
+        inset 0 1px 3px rgba(35, 38, 41, 0.10);
 }
 
-/* Suppression */
+
+/* ---------------------------------------------------------
+   Suppression
+   --------------------------------------------------------- */
+
 .game-grid-context-menu .game-grid-menu-delete {
-    color: #ff6b6b;
+    color: #c0392b;
 }
 
 .game-grid-context-menu .game-grid-menu-delete:hover {
-    color: #ffffff;
-    background: alpha(#ff0000, 0.20);
+    background: #fdecec;
+
+    border-color: #e6a5a0;
+
+    color: #b52b20;
 }
 
-/* Séparateur */
+.game-grid-context-menu .game-grid-menu-delete:active {
+    background: #f5d6d3;
+
+    border-color: #d9534f;
+}
+
+
+/* ---------------------------------------------------------
+   Séparateur
+   --------------------------------------------------------- */
 
 .game-grid-context-menu separator {
-    margin: 3px 2px;
+    margin: 4px 2px;
+
     min-height: 1px;
-    background: alpha(@theme_fg_color, 0.12);
+
+    background: @kde-border;
 }
