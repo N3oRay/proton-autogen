@@ -1,5 +1,11 @@
 {
   "ready": "Готово",
+  "dialog_title_mangohud_advice": "Поради з налаштування MangoHud",
+  "dialog_title_protondb": "ProtonDB — {name}",
+  "protondb_confidence": "Рівень довіри",
+  "protondb_votes": "Звіти спільноти",
+  "protondb_recommendations": "Рекомендації",
+  "no_protondb_data": "Дані ProtonDB недоступні",
   "zoom_out": "🔍-",
   "zoom_in": "🔍+",
   "game_crashed": "{name} несподівано завершив роботу: {code}",

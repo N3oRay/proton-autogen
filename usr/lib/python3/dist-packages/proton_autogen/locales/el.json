@@ -1,5 +1,11 @@
 {
   "ready": "Έτοιμο",
+  "dialog_title_mangohud_advice": "Συμβουλές διαμόρφωσης MangoHud",
+  "dialog_title_protondb": "ProtonDB — {name}",
+  "protondb_confidence": "Επίπεδο εμπιστοσύνης",
+  "protondb_votes": "Αναφορές κοινότητας",
+  "protondb_recommendations": "Συστάσεις",
+  "no_protondb_data": "Δεν υπάρχουν διαθέσιμα δεδομένα ProtonDB",
   "zoom_out": "🔍-",
   "zoom_in": "🔍+",
   "game_crashed": "{name} σταμάτησε απροσδόκητα: {code}",

@@ -1,5 +1,11 @@
 {
   "ready": "तैयार",
+  "dialog_title_mangohud_advice": "MangoHud कॉन्फ़िगरेशन सलाह",
+  "dialog_title_protondb": "ProtonDB — {name}",
+  "protondb_confidence": "विश्वसनीयता",
+  "protondb_votes": "सामुदायिक रिपोर्ट",
+  "protondb_recommendations": "सिफारिशें",
+  "no_protondb_data": "कोई ProtonDB डेटा उपलब्ध नहीं है",
   "zoom_out": "🔍-",
   "zoom_in": "🔍+",
   "game_crashed": "{name} अप्रत्याशित रूप से बंद हो गया: {code}",

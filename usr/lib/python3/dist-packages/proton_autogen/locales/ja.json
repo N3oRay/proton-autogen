@@ -1,5 +1,11 @@
 {
   "ready": "準備完了",
+  "dialog_title_mangohud_advice": "MangoHud 設定のアドバイス",
+  "dialog_title_protondb": "ProtonDB — {name}",
+  "protondb_confidence": "信頼度",
+  "protondb_votes": "コミュニティレポート",
+  "protondb_recommendations": "推奨事項",
+  "no_protondb_data": "ProtonDB のデータがありません",
   "zoom_out": "🔍-",
   "zoom_in": "🔍+",
   "game_crashed": "{name} が予期せず終了しました: {code}",

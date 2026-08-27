@@ -1,5 +1,11 @@
 {
   "ready": "就绪",
+  "dialog_title_mangohud_advice": "MangoHud 配置建议",
+  "dialog_title_protondb": "ProtonDB — {name}",
+  "protondb_confidence": "置信度",
+  "protondb_votes": "社区报告",
+  "protondb_recommendations": "建议",
+  "no_protondb_data": "没有可用的 ProtonDB 数据",
   "zoom_out": "🔍-",
   "zoom_in": "🔍+",
   "game_crashed": "{name} 意外停止运行：{code}",

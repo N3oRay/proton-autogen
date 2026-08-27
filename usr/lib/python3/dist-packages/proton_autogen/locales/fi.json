@@ -1,5 +1,11 @@
 {
   "ready": "Valmis",
+  "dialog_title_mangohud_advice": "MangoHudin määritysohjeet",
+  "dialog_title_protondb": "ProtonDB — {name}",
+  "protondb_confidence": "Luotettavuus",
+  "protondb_votes": "Yhteisön raportit",
+  "protondb_recommendations": "Suositukset",
+  "no_protondb_data": "ProtonDB-tietoja ei ole saatavilla",
   "zoom_out": "🔍-",
   "zoom_in": "🔍+",
   "game_crashed": "{name} se pysähtyi odottamatta: {code}",
