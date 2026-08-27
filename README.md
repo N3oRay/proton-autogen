@@ -261,6 +261,12 @@ nautilus -q
 - [x] Game / Installer auto-detection
 - [x] GUI frontend
 
+### Automation
+
+- [x] ProtonDB integration
+- [ ] Automatic dependency installation (.NET, VC++, DirectX...)
+- [ ] Silent mode
+
 ### Gaming integrations
 
 - [x] Lutris profile export
@@ -268,12 +274,6 @@ nautilus -q
 - [ ] Bottles profile import/export
 - [x] Sensors and MangoHud support
 - [x] Gamescope integration
-
-### Automation
-
-- [ ] ProtonDB integration
-- [ ] Automatic dependency installation (.NET, VC++, DirectX...)
-- [ ] Silent mode
 
 ---
 
