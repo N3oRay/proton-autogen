@@ -11,6 +11,7 @@ from proton_autogen.backend import find_all_protons
 from proton_autogen.desc import set_tooltip
 from proton_autogen.editor import list_prefixes_ux
 from proton_autogen.profiles.init import VALID_PROFILES
+from proton_autogen.i18n import tr
 
 # Valeur par défaut appliquée quand MangoHud est activé sans fps_limit défini
 DEFAULT_FPS_LIMIT = 60
@@ -122,7 +123,7 @@ class GameEditor(Gtk.Window):
         # STEAM APP ID + PROTONDB (même ligne)
         # -------------------------
         self.app_id_entry = Gtk.Entry()
-        self.app_id_entry.set_placeholder_text("Steam AppID (optionnel)")
+        self.app_id_entry.set_placeholder_text(tr("app_id_placeholder"))
         self.app_id_entry.set_max_length(10)
         self.app_id_entry.set_width_chars(10)
         #self.app_id_entry.set_hexpand(True)
@@ -154,7 +155,7 @@ class GameEditor(Gtk.Window):
         features = self.game.get("features", {})
 
         # FAVORITE
-        self.favorite = Gtk.CheckButton(label="Add to favorites")
+        self.favorite = Gtk.CheckButton(label=tr("add_to_favorites"))
         self.favorite.add_css_class("feature-toggle")
         self.favorite.set_active(
             self.game.get("favorite", False)
@@ -162,7 +163,7 @@ class GameEditor(Gtk.Window):
 
         set_tooltip(self.favorite, "favorite", self.lang)
         # MANGO
-        self.mangohud = Gtk.CheckButton(label="Enable MangoHud")
+        self.mangohud = Gtk.CheckButton(label=tr("enable_mangohud"))
         self.mangohud.add_css_class("feature-toggle")
         self.mangohud.set_active(features.get("mangohud", False))
         set_tooltip(self.mangohud, "mangohud", self.lang)  #new code
@@ -186,12 +187,12 @@ class GameEditor(Gtk.Window):
         self.fps_limit_row = self._row("FPS limit", self.fps_limit)
         self.fps_limit_row.set_sensitive(self.mangohud.get_active())
         # GAMEMODE
-        self.gamemode = Gtk.CheckButton(label="Enable GameMode")
+        self.gamemode = Gtk.CheckButton(label=tr("enable_gamemode"))
         self.gamemode.add_css_class("feature-toggle")
         self.gamemode.set_active(features.get("gamemode", False))
         set_tooltip(self.gamemode, "gamemode", self.lang) #new code
         # GAMESCOPE
-        self.gamescope = Gtk.CheckButton(label="Enable GameScope")
+        self.gamescope = Gtk.CheckButton(label=tr("enable_gamescope"))
         self.gamescope.add_css_class("feature-toggle")
         self.gamescope.set_active(features.get("gamescope", False))
         set_tooltip(self.gamescope, "gamescope", self.lang)
@@ -220,7 +221,7 @@ class GameEditor(Gtk.Window):
         # -------------------------
         # CUSTOM ENVIRONMENT VARIABLES
         # -------------------------
-        env_label = Gtk.Label(label="Custom environment variables (KEY=VALUE, one per line)", xalign=0)
+        env_label = Gtk.Label(label=tr("custom_env_label"), xalign=0)
         env_label.add_css_class("form-label")
         root.append(env_label)
 
@@ -246,13 +247,10 @@ class GameEditor(Gtk.Window):
         self.env_error_label.set_visible(False)
         root.append(self.env_error_label)
 
-
-
-
         # -------------------------
         # SAVE BUTTON
         # -------------------------
-        save_btn = Gtk.Button(label="Save configuration")
+        save_btn = Gtk.Button(label=tr("save_configuration"))
         save_btn.add_css_class("suggested-action")
         save_btn.connect("clicked", self.on_save)
 
@@ -421,6 +419,7 @@ class GameEditor(Gtk.Window):
             "features": features,
             "env": env,
         })
+
         # "protondb" contient un objet ProtonDBInfo : converti en dict
         # simple (JSON-sérialisable) avant sauvegarde. list_programs_ux()
         # le reconstruit en ProtonDBInfo au chargement suivant.

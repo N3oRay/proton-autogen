@@ -1,5 +1,12 @@
 {
   "ready": "준비 완료",
+  "app_id_placeholder": "Steam AppID (선택 사항)",
+  "add_to_favorites": "즐겨찾기에 추가",
+  "enable_mangohud": "MangoHud 사용",
+  "enable_gamemode": "GameMode 사용",
+  "enable_gamescope": "GameScope 사용",
+  "custom_env_label": "사용자 지정 환경 변수 (KEY=VALUE, 줄당 하나)",
+  "save_configuration": "구성 저장",
   "dialog_title_mangohud_advice": "MangoHud 설정 안내",
   "dialog_title_protondb": "ProtonDB — {name}",
   "protondb_confidence": "신뢰도",

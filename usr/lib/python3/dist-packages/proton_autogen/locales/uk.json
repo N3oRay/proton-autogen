@@ -1,5 +1,12 @@
 {
   "ready": "Готово",
+  "app_id_placeholder": "Steam AppID (необов'язково)",
+  "add_to_favorites": "Додати до улюблених",
+  "enable_mangohud": "Увімкнути MangoHud",
+  "enable_gamemode": "Увімкнути GameMode",
+  "enable_gamescope": "Увімкнути GameScope",
+  "custom_env_label": "Власні змінні середовища (КЛЮЧ=ЗНАЧЕННЯ, по одному на рядок)",
+  "save_configuration": "Зберегти конфігурацію",
   "dialog_title_mangohud_advice": "Поради з налаштування MangoHud",
   "dialog_title_protondb": "ProtonDB — {name}",
   "protondb_confidence": "Рівень довіри",

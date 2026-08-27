@@ -1,5 +1,12 @@
 {
   "ready": "Valmis",
+  "app_id_placeholder": "Steam AppID (valinnainen)",
+  "add_to_favorites": "Lisää suosikkeihin",
+  "enable_mangohud": "Ota MangoHud käyttöön",
+  "enable_gamemode": "Ota GameMode käyttöön",
+  "enable_gamescope": "Ota GameScope käyttöön",
+  "custom_env_label": "Mukautetut ympäristömuuttujat (AVAIN=ARVO, yksi per rivi)",
+  "save_configuration": "Tallenna asetukset",
   "dialog_title_mangohud_advice": "MangoHudin määritysohjeet",
   "dialog_title_protondb": "ProtonDB — {name}",
   "protondb_confidence": "Luotettavuus",

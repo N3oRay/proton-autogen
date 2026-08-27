@@ -1,5 +1,12 @@
 {
   "ready": "तैयार",
+  "app_id_placeholder": "Steam AppID (वैकल्पिक)",
+  "add_to_favorites": "पसंदीदा में जोड़ें",
+  "enable_mangohud": "MangoHud सक्षम करें",
+  "enable_gamemode": "GameMode सक्षम करें",
+  "enable_gamescope": "GameScope सक्षम करें",
+  "custom_env_label": "कस्टम एनवी वेरिएबल (KEY=VALUE, प्रति पंक्ति एक)",
+  "save_configuration": "कॉन्फ़िगरेशन सहेजें",
   "dialog_title_mangohud_advice": "MangoHud कॉन्फ़िगरेशन सलाह",
   "dialog_title_protondb": "ProtonDB — {name}",
   "protondb_confidence": "विश्वसनीयता",

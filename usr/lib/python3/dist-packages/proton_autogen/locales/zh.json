@@ -1,5 +1,12 @@
 {
   "ready": "就绪",
+  "app_id_placeholder": "Steam AppID（可选）",
+  "add_to_favorites": "添加到收藏夹",
+  "enable_mangohud": "启用 MangoHud",
+  "enable_gamemode": "启用 GameMode",
+  "enable_gamescope": "启用 GameScope",
+  "custom_env_label": "自定义环境变量（KEY=VALUE，每行一个）",
+  "save_configuration": "保存配置",
   "dialog_title_mangohud_advice": "MangoHud 配置建议",
   "dialog_title_protondb": "ProtonDB — {name}",
   "protondb_confidence": "置信度",

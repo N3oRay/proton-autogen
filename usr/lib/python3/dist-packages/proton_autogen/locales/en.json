@@ -1,5 +1,12 @@
 {
   "ready": "Ready",
+  "app_id_placeholder": "Steam AppID (optional)",
+  "add_to_favorites": "Add to favorites",
+  "enable_mangohud": "Enable MangoHud",
+  "enable_gamemode": "Enable GameMode",
+  "enable_gamescope": "Enable GameScope",
+  "custom_env_label": "Custom environment variables (KEY=VALUE, one per line)",
+  "save_configuration": "Save configuration",
   "dialog_title_mangohud_advice": "MangoHud Config Advice",
   "dialog_title_protondb": "ProtonDB — {name}",
   "protondb_confidence": "Confidence",

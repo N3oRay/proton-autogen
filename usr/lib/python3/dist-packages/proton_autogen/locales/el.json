@@ -1,5 +1,12 @@
 {
   "ready": "Έτοιμο",
+  "app_id_placeholder": "Steam AppID (προαιρετικό)",
+  "add_to_favorites": "Προσθήκη στα αγαπημένα",
+  "enable_mangohud": "Ενεργοποίηση MangoHud",
+  "enable_gamemode": "Ενεργοποίηση GameMode",
+  "enable_gamescope": "Ενεργοποίηση GameScope",
+  "custom_env_label": "Προσαρμοσμένες μεταβλητές περιβάλλοντος (ΚΛΕΙΔΙ=ΤΙΜΗ, μία ανά γραμμή)",
+  "save_configuration": "Αποθήκευση διαμόρφωσης",
   "dialog_title_mangohud_advice": "Συμβουλές διαμόρφωσης MangoHud",
   "dialog_title_protondb": "ProtonDB — {name}",
   "protondb_confidence": "Επίπεδο εμπιστοσύνης",

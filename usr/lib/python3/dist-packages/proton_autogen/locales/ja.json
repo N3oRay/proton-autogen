@@ -1,5 +1,12 @@
 {
   "ready": "準備完了",
+  "app_id_placeholder": "Steam AppID（任意）",
+  "add_to_favorites": "お気に入りに追加",
+  "enable_mangohud": "MangoHud を有効にする",
+  "enable_gamemode": "GameMode を有効にする",
+  "enable_gamescope": "GameScope を有効にする",
+  "custom_env_label": "カスタム環境変数（キー=値、1行に1つ）",
+  "save_configuration": "設定を保存",
   "dialog_title_mangohud_advice": "MangoHud 設定のアドバイス",
   "dialog_title_protondb": "ProtonDB — {name}",
   "protondb_confidence": "信頼度",
