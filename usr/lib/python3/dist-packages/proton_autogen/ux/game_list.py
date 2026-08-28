@@ -2,7 +2,7 @@
 # game_list.py
 import gi
 gi.require_version("Gtk", "4.0")
-from gi.repository import Gtk, Pango, GObject, Gio
+from gi.repository import Gtk, Gdk, Pango, GObject, Gio
 from proton_autogen.stats import get_game_badges
 from proton_autogen.i18n import tr, set_language
 from proton_autogen.ux.icon_manager import load_game_icon
@@ -21,7 +21,8 @@ class GameItem(GObject.GObject):
 class GameList(Gtk.Box):
 
     def __init__(self, on_launch=None, on_edit=None, on_delete=None,
-                 on_export_lutris=None, on_refresh=None, on_install=None, lang="en"):
+                 on_export_lutris=None, on_refresh=None, on_install=None,
+                 on_protondb=None, lang="en"):
         super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=6)
 
         self.on_launch = on_launch
@@ -29,6 +30,7 @@ class GameList(Gtk.Box):
         self.on_delete = on_delete
         self.on_export_lutris = on_export_lutris
         self.on_install = on_install   # <-- nouveau
+        self.on_protondb = on_protondb   # <-- nouveau
         self.refresh_games = on_refresh
         self.lang = lang
         set_language(self.lang)
@@ -223,11 +225,8 @@ class GameList(Gtk.Box):
             container.badges_box.remove(child)
             child = next_child
 
-        #for b in get_game_badges(game, self.lang):
-        #    container.badges_box.append(self._create_badge(b))
-
         for b in self._format_badges(game):
-            container.badges_box.append(self._create_badge(b))
+            container.badges_box.append(self._create_badge(b, game))
 
         # CALLBACKS (connectés au bind, retirés à l'unbind pour éviter les doublons)
         container.handler_ids["delete"] = container.btn_delete.connect(
@@ -287,7 +286,7 @@ class GameList(Gtk.Box):
     # -------------------------
     # BADGES
     # -------------------------
-    def _create_badge(self, b):
+    def _create_badge(self, b, game=None):
         label_text = b.get("label", "")
         label = Gtk.Label(label=label_text)
         label.add_css_class("badge")
@@ -306,6 +305,16 @@ class GameList(Gtk.Box):
             label.set_tooltip_text(tooltip.strip())
 
         label.set_name(f"badge-{b.get('type', 'unknown')}")
+
+        # Badge ProtonDB : cliquable, ouvre le dialogue de détail
+        # (show_protondb_dialog côté Dashboard, via self.on_protondb).
+        if b.get("type") == "protondb" and game is not None:
+            label.add_css_class("badge-clickable")
+            label.set_cursor(Gdk.Cursor.new_from_name("pointer"))
+            click = Gtk.GestureClick()
+            click.connect("released", lambda *_: self._on_protondb_clicked(game))
+            label.add_controller(click)
+
         return label
 
     def _make_label(self, text, css_class, wrap=False):
@@ -380,3 +389,7 @@ class GameList(Gtk.Box):
     def _install(self, game):
         if self.on_install:
             self.on_install(game)
+
+    def _on_protondb_clicked(self, game):
+        if self.on_protondb:
+            self.on_protondb(game)

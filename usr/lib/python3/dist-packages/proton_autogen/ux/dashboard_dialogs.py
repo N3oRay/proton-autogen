@@ -12,7 +12,7 @@ from proton_autogen.requis import afficher_requirements_label
 from proton_autogen.backend import get_diagnostic_text
 from proton_autogen.i18n import tr
 from proton_autogen.protondb.model import ProtonDBInfo
-from proton_autogen.protondb.recommendations import TIER_RECOMMENDATIONS
+from proton_autogen.protondb.recommendations import get_tier_recommendations
 
 
 class DashboardDialogsMixin:
@@ -173,7 +173,7 @@ class DashboardDialogsMixin:
         )
 
     def _get_tier_recommendations(self, tier: str) -> list[str]:
-        return TIER_RECOMMENDATIONS.get(tier, TIER_RECOMMENDATIONS["pending"])
+        return get_tier_recommendations(tier)
 
     # -------------------------
     # EXPORT LUTRIS - MESSAGE DIALOG

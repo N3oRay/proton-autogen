@@ -255,6 +255,7 @@ class DashboardUIMixin:
             on_refresh=self.refresh_games,
             on_export_lutris=self.export_lutris_handler,
             on_install=self.show_create_shortcut_dialog,
+            on_protondb=self.show_protondb_dialog,
             lang=self.lang,
         )
 
@@ -265,6 +266,7 @@ class DashboardUIMixin:
             on_refresh=self.refresh_games,
             on_export_lutris=self.export_lutris_handler,
             on_install=self.show_create_shortcut_dialog,
+            on_protondb=self.show_protondb_dialog,
             lang=self.lang,
         )
 

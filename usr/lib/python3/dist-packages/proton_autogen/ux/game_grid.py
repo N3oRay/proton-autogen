@@ -63,6 +63,7 @@ class GameGrid(Gtk.Box):
         on_export_lutris=None,
         on_refresh=None,
         on_install=None,
+        on_protondb=None,
         lang="en",
     ):
         super().__init__(
@@ -75,6 +76,7 @@ class GameGrid(Gtk.Box):
         self.on_delete = on_delete
         self.on_export_lutris = on_export_lutris
         self.on_install = on_install
+        self.on_protondb = on_protondb
         self.refresh_games = on_refresh
 
         self.lang = lang
@@ -478,7 +480,7 @@ class GameGrid(Gtk.Box):
         try:
             for badge in self._format_badges(game):
                 card.badges_box.append(
-                    self._create_badge(badge)
+                    self._create_badge(badge, game)
                 )
 
         except Exception:
@@ -633,6 +635,28 @@ class GameGrid(Gtk.Box):
         menu_box.append(install_button)
 
         # ---------------------------------------------------------
+        # PROTONDB
+        # ---------------------------------------------------------
+
+        protondb_button = Gtk.Button(
+            label="📊 ProtonDB"
+        )
+
+        protondb_button.set_halign(Gtk.Align.FILL)
+        protondb_button.add_css_class("game-grid-menu-button")
+        protondb_button.set_sensitive(False) # deactiver pour le moment
+        protondb_button.connect(
+            "clicked",
+            lambda _button: self._menu_action(
+                popover,
+                self._show_protondb,
+                game,
+            ),
+        )
+
+        menu_box.append(protondb_button)
+
+        # ---------------------------------------------------------
         # LUTRIS
         # ---------------------------------------------------------
 
@@ -716,7 +740,7 @@ class GameGrid(Gtk.Box):
     # BADGES
     # =============================================================
 
-    def _create_badge(self, badge):
+    def _create_badge(self, badge, game=None):
         label = Gtk.Label(
             label=badge.get("label", "")
         )
@@ -744,6 +768,15 @@ class GameGrid(Gtk.Box):
         label.set_name(
             f"badge-{badge.get('type', 'unknown')}"
         )
+
+        # Badge ProtonDB : cliquable, ouvre le dialogue de détail
+        # (show_protondb_dialog côté Dashboard, via self.on_protondb).
+        if badge.get("type") == "protondb" and game is not None:
+            label.add_css_class("badge-clickable")
+            label.set_cursor(Gdk.Cursor.new_from_name("pointer"))
+            click = Gtk.GestureClick()
+            click.connect("released", lambda *_: self._show_protondb(game))
+            label.add_controller(click)
 
         return label
 
@@ -783,3 +816,7 @@ class GameGrid(Gtk.Box):
     def _install(self, game):
         if self.on_install:
             self.on_install(game)
+
+    def _show_protondb(self, game):
+        if self.on_protondb:
+            self.on_protondb(game)
