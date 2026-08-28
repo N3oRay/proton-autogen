@@ -13,6 +13,7 @@ from proton_autogen.ux.dashboard_dialogs import DashboardDialogsMixin
 from proton_autogen.ux.dashboard_actions import DashboardActionsMixin
 from proton_autogen.ux.dashboard_mangohud import DashboardMangoHudMixin
 from proton_autogen.ux.dashboard_creatshortcut import DashboardCreateShortcutMixin
+from proton_autogen.ux.dashboard_settings import DashboardSettingsMixin
 from proton_autogen.ux.themes import (
     load_saved_theme, save_theme, AVAILABLE_THEMES, DEFAULT_THEME,
     BACKGROUND_THEMES, STYLE_CSS,
@@ -20,6 +21,7 @@ from proton_autogen.ux.themes import (
     load_window_size, save_window_size,
     DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT,
     MIN_WINDOW_WIDTH, MIN_WINDOW_HEIGHT,
+    load_saved_language,
 )
 from proton_autogen.i18n import tr, detect_help_env_lang
 from proton_autogen.ux.search import filter_games
@@ -31,7 +33,7 @@ from proton_autogen.i18n import detect_help_env_lang
 # -----------------------------
 # MAIN WINDOW
 # -----------------------------
-class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, DashboardActionsMixin, DashboardMangoHudMixin, DashboardCreateShortcutMixin, Gtk.ApplicationWindow):
+class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, DashboardActionsMixin, DashboardMangoHudMixin, DashboardCreateShortcutMixin, DashboardSettingsMixin, Gtk.ApplicationWindow):
     SHOW_ADD_BUTTON = True
     SHOW_REFRESH_BUTTON = True
 
@@ -63,7 +65,9 @@ class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, Das
 
         self.games = []
         self.current_carousel = None
-        self.lang = detect_help_env_lang()
+        # Priorité : préférence explicite sauvegardée via le panneau de
+        # réglages, sinon détection CLI/environnement habituelle.
+        self.lang = load_saved_language() or detect_help_env_lang()
         notifications.set_callback(self.notify_toast)
 
         self.build_ui()   # vient du mixin
@@ -462,6 +466,17 @@ class ProtonAutogenApp(Gtk.Application):
         requis.connect("activate", open_requis)
         self.add_action(requis)
 
+        # SETTINGS
+        settings = Gio.SimpleAction.new("settings", None)
+
+        def open_settings(*a):
+            win = self.get_active_window()
+            if win:
+                win.show_settings_dialog()
+
+        settings.connect("activate", open_settings)
+        self.add_action(settings)
+
         # -------------------------
         # ZOOM VUE GRILLE (icônes)
         # -------------------------
@@ -496,6 +511,7 @@ class ProtonAutogenApp(Gtk.Application):
         self.set_accels_for_action("app.requis", ["F4"])
         self.set_accels_for_action("app.aboutproton", ["F5"])
         self.set_accels_for_action("app.about", ["F6"])
+        self.set_accels_for_action("app.settings", ["<Ctrl>comma"])
 
         # <Ctrl>plus nécessite Shift sur la plupart des dispositions
         # clavier (le "+" partage sa touche avec "="); <Ctrl>equal et le

@@ -1,6 +1,7 @@
 import os
 import shutil
 from pathlib import Path
+from typing import Optional
 import configparser
 
 CONFIG_PATH = Path.home() / ".config" / "proton-autogen" / "proton-autogen-ux.conf"
@@ -131,6 +132,41 @@ def save_theme(theme: str):
     if "ui" not in cfg:
         cfg["ui"] = {}
     cfg["ui"]["theme"] = theme
+    CONFIG_PATH.parent.mkdir(parents=True, exist_ok=True)
+    with open(CONFIG_PATH, "w", encoding="utf-8") as f:
+        cfg.write(f)
+
+
+# ------------------------------------------------------------------------------------
+# LANGUE
+# ------------------------------------------------------------------------------------
+
+def load_saved_language() -> Optional[str]:
+    """Retourne la langue explicitement choisie via le panneau de
+    réglages, ou None si l'utilisateur n'a jamais rien sauvegardé — dans
+    ce cas l'appelant doit retomber sur la détection CLI/environnement
+    habituelle (detect_help_env_lang() dans i18n.py)."""
+    cfg = configparser.ConfigParser()
+    if CONFIG_PATH.exists():
+        try:
+            cfg.read(CONFIG_PATH)
+            value = cfg.get("ui", "language", fallback="").strip()
+            return value or None
+        except Exception:
+            return None
+    return None
+
+
+def save_language(lang: str):
+    cfg = configparser.ConfigParser()
+    if CONFIG_PATH.exists():
+        try:
+            cfg.read(CONFIG_PATH)
+        except Exception:
+            pass
+    if "ui" not in cfg:
+        cfg["ui"] = {}
+    cfg["ui"]["language"] = lang
     CONFIG_PATH.parent.mkdir(parents=True, exist_ok=True)
     with open(CONFIG_PATH, "w", encoding="utf-8") as f:
         cfg.write(f)

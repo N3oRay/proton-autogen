@@ -20,6 +20,7 @@ def build_app_menu(app):
 
     menu = Gio.Menu()
 
+    menu.append(tr("menu_settings"), "app.settings")
     menu.append(tr("menu_diagnostics"), "app.diag")
     menu.append(tr("menu_sensors"), "app.sensors")
     menu.append(tr("menu_help_mangohud"), "app.mangohud")
@@ -53,6 +54,7 @@ def create_popover_menu(parent, actions=None):
     if actions is None:
         actions = {}
 
+    box.append(make_btn(tr("menu_settings"), actions.get("settings", lambda: None)))
     box.append(make_btn(tr("menu_diagnostics"), actions.get("diag", lambda: None)))
     box.append(make_btn(tr("menu_help"), actions.get("help", lambda: None)))
     box.append(make_btn(tr("menu_sensors"), actions.get("sensors", lambda: None)))

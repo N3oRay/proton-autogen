@@ -125,6 +125,80 @@ prefix_dir = ~/Documents/Proton/env
     return cleaned
 
 
+def load_proton_paths_raw() -> list:
+    """Retourne uniquement les chemins Proton personnalisés déclarés par
+    l'utilisateur (clé `paths` de la section [proton]), SANS les chemins
+    par défaut (DEFAULT_PROTON_PATHS). Destiné à l'édition dans l'UI de
+    réglages : load_proton_paths() mélange défauts + config pour la
+    détection, ce qui n'est pas ce qu'on veut réafficher/résauvegarder
+    dans un champ éditable (on dupliquerait les défauts à chaque save)."""
+    if not os.path.isfile(CONFIG_FILE):
+        return []
+
+    config = configparser.ConfigParser()
+
+    try:
+        config.read(CONFIG_FILE)
+
+        if config.has_section("proton") and config.has_option("proton", "paths"):
+            raw = config["proton"]["paths"]
+            return [p.strip() for p in re.split(r"[;:\n]", raw) if p.strip()]
+
+    except Exception:
+        pass
+
+    return []
+
+
+def save_proton_paths(paths: list):
+    """Sauvegarde la liste de chemins Proton personnalisés (une entrée
+    par ligne côté UI), sans toucher aux autres clés existantes du
+    fichier de config (ex. prefix_dir)."""
+    config = configparser.ConfigParser()
+
+    if os.path.isfile(CONFIG_FILE):
+        try:
+            config.read(CONFIG_FILE)
+        except Exception:
+            pass
+
+    if "proton" not in config:
+        config["proton"] = {}
+
+    cleaned = [p.strip() for p in paths if p and p.strip()]
+    config["proton"]["paths"] = ";".join(cleaned)
+
+    os.makedirs(os.path.dirname(CONFIG_FILE), exist_ok=True)
+
+    with open(CONFIG_FILE, "w") as f:
+        config.write(f)
+
+
+def save_prefix_dir(path: str):
+    """Sauvegarde le dossier racine des préfixes Proton/Wine. Une valeur
+    vide retombe sur PREFIX_DIR (~/Documents/Proton/env) plutôt que
+    d'écrire une clé vide, pour rester cohérent avec le repli de
+    load_prefix_dir()."""
+    config = configparser.ConfigParser()
+
+    if os.path.isfile(CONFIG_FILE):
+        try:
+            config.read(CONFIG_FILE)
+        except Exception:
+            pass
+
+    if "proton" not in config:
+        config["proton"] = {}
+
+    path = (path or "").strip()
+    config["proton"]["prefix_dir"] = path or PREFIX_DIR
+
+    os.makedirs(os.path.dirname(CONFIG_FILE), exist_ok=True)
+
+    with open(CONFIG_FILE, "w") as f:
+        config.write(f)
+
+
 def load_prefix_dir() -> str:
     """
     Retourne le dossier racine des préfixes Proton/Wine (~expanded, normalisé).
