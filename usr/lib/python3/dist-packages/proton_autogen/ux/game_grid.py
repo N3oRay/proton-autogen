@@ -370,6 +370,10 @@ class GameGrid(Gtk.Box):
         icon_holder.set_valign(Gtk.Align.CENTER)
 
         icon_holder.add_css_class("game-grid-icon-holder")
+        # Curseur main sur la zone cliquable.
+        icon_holder.set_cursor(
+            Gdk.Cursor.new_from_name("pointer")
+        )
 
         # ---------------------------------------------------------
         # NAME
@@ -408,9 +412,10 @@ class GameGrid(Gtk.Box):
         card.append(icon_holder)
         card.append(title)
         card.append(badges_box)
+        card.icon_holder = icon_holder # Données conservées sur la carte.
 
-        # Données conservées sur la carte.
-        card.icon_holder = icon_holder
+        icon_holder.card = card
+
         card.title_label = title
         card.badges_box = badges_box
 
@@ -425,7 +430,7 @@ class GameGrid(Gtk.Box):
         # Bouton gauche.
         click.set_button(1)
         click.connect("pressed", self._on_left_click)
-        card.add_controller(click)
+        icon_holder.add_controller(click) # click uniquement sur l'image
 
         # Bouton droit.
         right_click = Gtk.GestureClick()
@@ -521,7 +526,12 @@ class GameGrid(Gtk.Box):
     # =============================================================
 
     def _on_left_click(self, gesture, n_press, x, y):
-        card = gesture.get_widget()
+        icon_holder = gesture.get_widget()
+
+        if icon_holder is None:
+            return
+
+        card = getattr(icon_holder, "card", None)
 
         if card is None:
             return
@@ -531,8 +541,9 @@ class GameGrid(Gtk.Box):
         if not game:
             return
 
-        # Un seul clic gauche = lancement.
+        # Un seul clic gauche sur l'icône = lancement.
         self._launch(game)
+
 
     def _on_right_click(self, gesture, n_press, x, y):
         card = gesture.get_widget()
@@ -644,7 +655,7 @@ class GameGrid(Gtk.Box):
 
         protondb_button.set_halign(Gtk.Align.FILL)
         protondb_button.add_css_class("game-grid-menu-button")
-        protondb_button.set_sensitive(False) # deactiver pour le moment
+        #protondb_button.set_sensitive(False) # deactiver pour le moment
         protondb_button.connect(
             "clicked",
             lambda _button: self._menu_action(
