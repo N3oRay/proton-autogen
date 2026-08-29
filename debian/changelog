@@ -1,6 +1,8 @@
-proton-autogen (3.3.2) noble; urgency=medium
+proton-autogen (3.3.3) noble; urgency=medium
 
   * Thanks to all users and contributors for their continued support, feedback and bug reports.
+  * Added settings menu with all application options.
+  * Advanced ProtonDB evolution. Integrated menu.
   * Add ProtonDB integration with game compatibility ratings, confidence levels and report counts.
   * Add support for displaying ProtonDB compatibility information directly in the game list and grid.
   * Add support for editing the Steam App ID from the application editor.
@@ -23,4 +25,4 @@ proton-autogen (3.3.2) noble; urgency=medium
   * Internal UX improvements with the introduction of dedicated status bar and status history handling.
   * General UX improvements, localization improvements, configuration handling improvements and code cleanup.
 
- -- N3oray <n3oray77@gmail.com>  Thu, 27 Aug 2026 15:52:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Sat, 29 Aug 2026 15:52:00 +0200
