@@ -59,7 +59,9 @@ _LANG_LABELS = {
     "fi": "Suomi",
     "vi": "Tiếng Việt",
     "bg": "Български",
+    "th": "ไทย",
 }
+
 
 
 class DashboardSettingsMixin:
