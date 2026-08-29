@@ -36,6 +36,8 @@
   "settings_theme": "Teema",
   "settings_language": "Kieli",
   "settings_remember_window_size": "Muista ikkunan koko",
+  "settings_section_behavior": "Käyttäytyminen",
+  "settings_minimize_on_launch": "Pienennä ikkuna pelin käynnistyessä",
   "settings_section_proton": "Proton",
   "settings_proton_paths": "Mukautetut Proton-polut (yksi riviä kohden)",
   "settings_prefix_dir": "Prefix-hakemisto",

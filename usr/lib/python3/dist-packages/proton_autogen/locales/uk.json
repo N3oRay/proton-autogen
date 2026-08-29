@@ -36,6 +36,8 @@
   "settings_theme": "Тема",
   "settings_language": "Мова",
   "settings_remember_window_size": "Запам'ятовувати розмір вікна",
+  "settings_section_behavior": "Поведінка",
+  "settings_minimize_on_launch": "Згортати вікно під час запуску гри",
   "settings_section_proton": "Proton",
   "settings_proton_paths": "Користувацькі шляхи Proton (по одному в рядку)",
   "settings_prefix_dir": "Каталог префіксів",

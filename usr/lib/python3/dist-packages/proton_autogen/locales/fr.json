@@ -36,6 +36,8 @@
   "settings_theme": "Thème",
   "settings_language": "Langue",
   "settings_remember_window_size": "Mémoriser la taille de la fenêtre",
+  "settings_section_behavior": "Comportement",
+  "settings_minimize_on_launch": "Réduire la fenêtre au lancement d'un jeu",
   "settings_section_proton": "Proton",
   "settings_proton_paths": "Chemins Proton personnalisés (un par ligne)",
   "settings_prefix_dir": "Dossier de prefix",

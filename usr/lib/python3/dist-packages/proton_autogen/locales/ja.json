@@ -36,6 +36,8 @@
   "settings_theme": "テーマ",
   "settings_language": "言語",
   "settings_remember_window_size": "ウィンドウサイズを記憶する",
+  "settings_section_behavior": "動作",
+  "settings_minimize_on_launch": "ゲーム起動時にウィンドウを最小化する",
   "settings_section_proton": "Proton",
   "settings_proton_paths": "カスタムProtonパス（1行に1つ）",
   "settings_prefix_dir": "Prefixディレクトリ",

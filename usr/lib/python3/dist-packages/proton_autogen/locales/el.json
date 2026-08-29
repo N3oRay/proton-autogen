@@ -37,6 +37,8 @@
   "settings_language": "Γλώσσα",
   "settings_remember_window_size": "Απομνημόνευση μεγέθους παραθύρου",
   "settings_section_proton": "Proton",
+  "settings_section_behavior": "Συμπεριφορά",
+  "settings_minimize_on_launch": "Ελαχιστοποίηση του παραθύρου κατά την εκκίνηση ενός παιχνιδιού",
   "settings_proton_paths": "Προσαρμοσμένες διαδρομές Proton (μία ανά γραμμή)",
   "settings_prefix_dir": "Κατάλογος prefix",
   "settings_saved": "Οι ρυθμίσεις αποθηκεύτηκαν",

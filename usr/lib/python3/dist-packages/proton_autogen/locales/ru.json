@@ -36,6 +36,8 @@
   "settings_theme": "Тема",
   "settings_language": "Язык",
   "settings_remember_window_size": "Запоминать размер окна",
+  "settings_section_behavior": "Поведение",
+  "settings_minimize_on_launch": "Сворачивать окно при запуске игры",
   "settings_section_proton": "Proton",
   "settings_proton_paths": "Пользовательские пути Proton (по одному в строке)",
   "settings_prefix_dir": "Каталог префиксов",

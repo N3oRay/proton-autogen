@@ -35,6 +35,7 @@ from proton_autogen.config import (
     load_prefix_dir,
     save_prefix_dir,
 )
+from proton_autogen.ux.dashboard_mini import load_mini_mode_enabled
 
 
 # Noms affichés pour les langues disponibles (repli sur le code brut
@@ -123,6 +124,16 @@ class DashboardSettingsMixin:
         root.append(remember_size_check)
 
         # -------------------------
+        # COMPORTEMENT
+        # -------------------------
+        root.append(self._settings_section_title(tr("settings_section_behavior")))
+
+        minimize_check = Gtk.CheckButton(label=tr("settings_minimize_on_launch"))
+        minimize_check.add_css_class("feature-toggle")
+        minimize_check.set_active(load_mini_mode_enabled())
+        root.append(minimize_check)
+
+        # -------------------------
         # PROTON
         # -------------------------
         root.append(self._settings_section_title(tr("settings_section_proton")))
@@ -169,6 +180,7 @@ class DashboardSettingsMixin:
                 AVAILABLE_THEMES[theme_dropdown.get_selected()],
                 lang_codes[lang_dropdown.get_selected()],
                 remember_size_check.get_active(),
+                minimize_check.get_active(),
                 paths_buffer.get_text(
                     paths_buffer.get_start_iter(),
                     paths_buffer.get_end_iter(),
@@ -208,7 +220,7 @@ class DashboardSettingsMixin:
     # -------------------------
     # SAVE
     # -------------------------
-    def _on_settings_save(self, win, theme, lang, remember_size, raw_paths, prefix_dir):
+    def _on_settings_save(self, win, theme, lang, remember_size, minimize_on_launch, raw_paths, prefix_dir):
         # Thème : application immédiate (CSS + fond), même mécanisme que
         # ProtonAutogenApp.cycle_style() déjà existant.
         app = self.get_application()
@@ -216,6 +228,12 @@ class DashboardSettingsMixin:
             app.apply_style(theme)
         if hasattr(self, "update_background"):
             self.update_background(theme)
+
+        # Réduction automatique au lancement d'un jeu : sauvegarde +
+        # application immédiate via DashboardMiniMixin (déjà mixé sur
+        # Dashboard), pas besoin de redémarrer l'application.
+        if hasattr(self, "set_mini_mode_enabled"):
+            self.set_mini_mode_enabled(minimize_on_launch)
 
         # Langue : sauvegardée, mais appliquée seulement au prochain
         # lancement de l'application — retraduire à chaud l'ensemble des

@@ -36,6 +36,8 @@
   "settings_theme": "Thema",
   "settings_language": "Taal",
   "settings_remember_window_size": "Venstergrootte onthouden",
+  "settings_section_behavior": "Gedrag",
+  "settings_minimize_on_launch": "Venster minimaliseren bij het starten van een game",
   "settings_section_proton": "Proton",
   "settings_proton_paths": "Aangepaste Proton-paden (één per regel)",
   "settings_prefix_dir": "Prefixmap",

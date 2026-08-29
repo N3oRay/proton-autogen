@@ -36,6 +36,8 @@
   "settings_theme": "Chủ đề",
   "settings_language": "Ngôn ngữ",
   "settings_remember_window_size": "Ghi nhớ kích thước cửa sổ",
+  "settings_section_behavior": "Hành vi",
+  "settings_minimize_on_launch": "Thu nhỏ cửa sổ khi khởi chạy trò chơi",
   "settings_section_proton": "Proton",
   "settings_proton_paths": "Đường dẫn Proton tùy chỉnh (mỗi dòng một đường dẫn)",
   "settings_prefix_dir": "Thư mục prefix",

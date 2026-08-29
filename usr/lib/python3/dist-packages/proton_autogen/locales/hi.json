@@ -36,6 +36,8 @@
   "settings_theme": "थीम",
   "settings_language": "भाषा",
   "settings_remember_window_size": "विंडो का आकार याद रखें",
+  "settings_section_behavior": "व्यवहार",
+  "settings_minimize_on_launch": "गेम शुरू करते समय विंडो को छोटा करें",
   "settings_section_proton": "Proton",
   "settings_proton_paths": "कस्टम Proton पथ (प्रति पंक्ति एक)",
   "settings_prefix_dir": "Prefix निर्देशिका",

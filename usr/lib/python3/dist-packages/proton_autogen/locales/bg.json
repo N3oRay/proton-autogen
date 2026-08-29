@@ -36,6 +36,8 @@
   "settings_theme": "Тема",
   "settings_language": "Език",
   "settings_remember_window_size": "Запомняне на размера на прозореца",
+  "settings_section_behavior": "Поведение",
+  "settings_minimize_on_launch": "Минимизирай прозореца при стартиране на игра",
   "settings_section_proton": "Proton",
   "settings_proton_paths": "Персонализирани пътища на Proton (по един на ред)",
   "settings_prefix_dir": "Директория за префикси",

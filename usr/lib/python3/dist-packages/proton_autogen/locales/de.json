@@ -36,6 +36,8 @@
   "settings_theme": "Design",
   "settings_language": "Sprache",
   "settings_remember_window_size": "Fenstergröße merken",
+  "settings_section_behavior": "Verhalten",
+  "settings_minimize_on_launch": "Fenster beim Start eines Spiels minimieren",
   "settings_section_proton": "Proton",
   "settings_proton_paths": "Benutzerdefinierte Proton-Pfade (einer pro Zeile)",
   "settings_prefix_dir": "Prefix-Verzeichnis",
