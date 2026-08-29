@@ -14,7 +14,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      PKGVER: 3.2.4
+      PKGVER: 3.3.2
 
     container:
       image: archlinux:latest
@@ -46,6 +46,7 @@ jobs:
             python-gobject \
             python-pyyaml \
             python-rich \
+            python-requests \
             gtk4 \
             gdk-pixbuf2 \
             glib2 \
