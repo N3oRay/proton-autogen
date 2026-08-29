@@ -48,6 +48,52 @@ KNOWN_APPIDS = {
     # -----------------------------
     # Applications / Launchers / divers
     # -----------------------------
+    "Heatwarped.exe": "4846360",                    # Heatwarped
+    "Niche.exe": "440650",                          # Niche - a genetics survival game
+    "KeepItRunning_win.exe": "2863530",             # Keep It Running
+    "Ecto.exe": "2256970",                          # Ecto
+    "GAME.exe": "3400310",                          # GAME
+    "Content.exe": "1622470",                       # Content
+    "Glass Wing [Eager Passion LLC].exe": "382570", # Glass Wing
+    "XV83.exe": "1059220",                          # '83
+    "Crawl.exe": "293780",                          # Crawl
+    "Software Inc.exe": "362620",                   # Software Inc.
+    "Viewfinder.exe": "1382070",                    # Viewfinder
+    "after_the_stream_went_dark.exe": "4342150",    # After the Stream Went Dark
+    "Nested.exe": "3752780",                        # Nested
+    "FREM Sprite32!.exe": "2065990",                # FREM Sprite32!
+    "HISTORY TORCHKA 2.exe": "732000",              # H.I.S.T.O.R.Y T.O.R.C.H.K.A 2
+    "VehiCraft32.exe": "1022170",                   # VehiCraft
+    "VehiCraft64.exe": "1022170",                   # VehiCraft
+    "EXE_win64.exe": "471640",                      # .EXE
+    "EXE_win32.exe": "471640",                      # .EXE
+    "AtomRPG_x64.exe": "552620",                    # ATOM RPG
+    "Lilith's Syndrome.exe": "3007210",             # Lilith's Syndrome
+    "-256.exe": "2381340",                          # -256
+    "tis100.exe": "370360",                         # TIS-100
+    "911.exe": "503560",                            # 911 Operator
+    "CallEditor.exe": "503560",                     # 911 Operator
+    "game.exe": "1859290",                          # Crypto Miner Tycoon Simulator
+    "game32.exe": "1859290",                        # Crypto Miner Tycoon Simulator
+    "Seema250.exe": "4257200",                      # Seema's Pogo 2: Top Of The World
+    "StandaloneWindows64.exe": "3947980",           # Looking Up
+    "AsYouWishOtome.exe": "4970250",                # As You Wish
+    "AsYouWishOtome-32.exe": "4970250",             # As You Wish
+    "InSanity-Win32-Shipping.exe": "224420",        # Afterfall InSanity Extended Edition
+    "MII.exe": "357900",                            # Make it indie!
+    "winsetup.exe": "1622470",                      # Content - configuration
+    "duamo.exe": "1690290",                         # duamo
+    "ending.exe": "3072310",                        # Missing
+    "vera.exe": "833440",                           # Vera Swings
+    "abstractismlauncher.exe": "781600",            # Abstractism
+    "Discrepant2.exe": "491180",                    # Discrepant
+    "BASED.exe": "4015070",                         # BASED
+    "SET_CONTROLS.exe": "382570",                   # Glass Wing - configuration
+    "QUALIA3.exe": "290440",                        # QUALIA 3: Multi Agent
+    "Config.exe": "290440",                         # QUALIA 3 - configuration
+    "bin/Mari2.6.exe": "289550",                     # MARI indie
+
+
     "KTSYSVIEW.exe": "363110",          # NOBUNAGA'S AMBITION: Tendou with Power Up Kit
     "GRYPHLINK.exe": "4732690",         # Arknights: Endfield - Steam (à venir)
     "mimi_setup_en_prod_1.5_20250417.exe": "480",
