@@ -48,6 +48,7 @@ jobs:
             python-rich \
             python-requests \
             gtk4 \
+            graphene \
             gdk-pixbuf2 \
             glib2 \
             cairo \

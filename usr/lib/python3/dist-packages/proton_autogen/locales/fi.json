@@ -31,6 +31,7 @@
   "protondb_tier_pending_summary": "Yhteisöltä ei ole vielä tarpeeksi raportteja",
   "protondb_tier_pending_tip1": "→ Kokeile peliä ja julkaise oma palautteesi ProtonDB:ssä",
   "menu_settings": "Asetukset",
+  "menu_shortcuts": "Pikanäppäimet",
   "settings_title": "Asetukset",
   "settings_section_appearance": "Ulkoasu",
   "settings_theme": "Teema",
@@ -177,5 +178,17 @@
   "status_history_empty": "Ei vielä viestejä",
   "status_history_clear": "Tyhjennä",
   "status_more_lines": "… (+{count} riviä, katso historia)",
-  "status_history_details": "Tiedot"
+  "status_history_details": "Tiedot",
+  "shortcuts_title": "Pikanäppäimet",
+  "shortcuts_group_general": "Yleiset",
+  "shortcuts_group_grid": "Ruudukkonäkymä",
+  "shortcuts_group_carousel": "Karusellit (äskettäin pelatut / suosikit)",
+  "shortcuts_grid_zoom_in": "Suurenna kuvakkeet",
+  "shortcuts_grid_zoom_out": "Pienennä kuvakkeet",
+  "shortcuts_grid_tab": "Siirry seuraavaan/edelliseen peliin",
+  "shortcuts_grid_launch": "Käynnistä valittu peli",
+  "shortcuts_grid_menu": "Avaa pelin valikko (Muokkaa, ProtonDB, Poista…)",
+  "shortcuts_carousel_move": "Edellinen / seuraava sivu",
+  "shortcuts_carousel_first_last": "Ensimmäinen / viimeinen sivu",
+  "shortcuts_carousel_page": "Siirry usean kortin verran taakse/eteen"
 }

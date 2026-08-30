@@ -14,6 +14,7 @@ depends=(
     python-requests
     gtk4
     gdk-pixbuf2
+    graphene
 )
 
 makedepends=(

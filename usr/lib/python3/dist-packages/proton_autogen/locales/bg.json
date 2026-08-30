@@ -31,6 +31,7 @@
   "protondb_tier_pending_summary": "Все още няма достатъчно доклади от общността",
   "protondb_tier_pending_tip1": "→ Опитайте играта и публикувайте собствената си обратна връзка в ProtonDB",
   "menu_settings": "Настройки",
+  "menu_shortcuts": "Клавишни комбинации",
   "settings_title": "Настройки",
   "settings_section_appearance": "Външен вид",
   "settings_theme": "Тема",
@@ -177,5 +178,17 @@
   "status_history_empty": "Все още няма съобщения",
   "status_history_clear": "Изчисти",
   "status_more_lines": "… (+{count} реда, вижте историята)",
-  "status_history_details": "Подробности"
+  "status_history_details": "Подробности",
+  "shortcuts_title": "Клавишни комбинации",
+  "shortcuts_group_general": "Общи",
+  "shortcuts_group_grid": "Изглед на мрежа",
+  "shortcuts_group_carousel": "Карусели (последно играни / любими)",
+  "shortcuts_grid_zoom_in": "Увеличаване на иконите",
+  "shortcuts_grid_zoom_out": "Намаляване на иконите",
+  "shortcuts_grid_tab": "Преминаване към следващата/предишната игра",
+  "shortcuts_grid_launch": "Стартиране на избраната игра",
+  "shortcuts_grid_menu": "Отваряне на менюто на играта (Редактирай, ProtonDB, Изтрий…)",
+  "shortcuts_carousel_move": "Предишна / следваща страница",
+  "shortcuts_carousel_first_last": "Първа / последна страница",
+  "shortcuts_carousel_page": "Придвижване назад/напред с няколко карти"
 }

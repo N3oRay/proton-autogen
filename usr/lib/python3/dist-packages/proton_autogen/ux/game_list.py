@@ -308,12 +308,30 @@ class GameList(Gtk.Box):
 
         # Badge ProtonDB : cliquable, ouvre le dialogue de détail
         # (show_protondb_dialog côté Dashboard, via self.on_protondb).
+        #
+        # Gtk.Button plutôt que Gtk.Label + GestureClick : focusable au
+        # Tab, activable au clavier (Entrée/Espace), et annoncé comme
+        # "bouton" avec un nom accessible complet par les lecteurs
+        # d'écran (Orca) — un Label cliqué à la souris n'offre aucun de
+        # ces trois points.
         if b.get("type") == "protondb" and game is not None:
-            label.add_css_class("badge-clickable")
-            label.set_cursor(Gdk.Cursor.new_from_name("pointer"))
-            click = Gtk.GestureClick()
-            click.connect("released", lambda *_: self._on_protondb_clicked(game))
-            label.add_controller(click)
+            button = Gtk.Button()
+            button.set_has_frame(False)
+            button.add_css_class("flat")
+            button.add_css_class("badge-clickable")
+            button.set_cursor(Gdk.Cursor.new_from_name("pointer"))
+            button.set_child(label)
+
+            accessible_name = tooltip.strip() if isinstance(tooltip, str) and tooltip.strip() else "ProtonDB"
+            button.set_tooltip_text(accessible_name)
+            button.update_property(
+                [Gtk.AccessibleProperty.LABEL],
+                [accessible_name],
+            )
+
+            button.connect("clicked", lambda *_: self._on_protondb_clicked(game))
+
+            return button
 
         return label
 

@@ -33,6 +33,7 @@ jobs:
             python3-requests \
             gir1.2-gtk-4.0 \
             gir1.2-glib-2.0 \
+            gir1.2-graphene-1.0 \
             libgtk-4-1 \
             gobject-introspection \
             python3-pytest
@@ -79,6 +80,7 @@ jobs:
             python-rich \
             python-requests \
             gtk4 \
+            graphene \
             glib2 \
             pango \
             cairo \
@@ -128,6 +130,7 @@ jobs:
             pango \
             cairo \
             gtk4 \
+            graphene \
             glib2 \
             gobject-introspection \
             python3-pytest

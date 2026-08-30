@@ -14,6 +14,7 @@ from proton_autogen.ux.dashboard_actions import DashboardActionsMixin
 from proton_autogen.ux.dashboard_mangohud import DashboardMangoHudMixin
 from proton_autogen.ux.dashboard_creatshortcut import DashboardCreateShortcutMixin
 from proton_autogen.ux.dashboard_settings import DashboardSettingsMixin
+from proton_autogen.ux.dashboard_shortcuts import DashboardShortcutsMixin
 from proton_autogen.ux.themes import (
     load_saved_theme, save_theme, AVAILABLE_THEMES, DEFAULT_THEME,
     BACKGROUND_THEMES, STYLE_CSS,
@@ -33,7 +34,7 @@ from proton_autogen.i18n import detect_help_env_lang
 # -----------------------------
 # MAIN WINDOW
 # -----------------------------
-class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, DashboardActionsMixin, DashboardMangoHudMixin, DashboardCreateShortcutMixin, DashboardSettingsMixin, Gtk.ApplicationWindow):
+class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, DashboardActionsMixin, DashboardMangoHudMixin, DashboardCreateShortcutMixin, DashboardSettingsMixin, DashboardShortcutsMixin, Gtk.ApplicationWindow):
     SHOW_ADD_BUTTON = True
     SHOW_REFRESH_BUTTON = True
 
@@ -500,6 +501,19 @@ class ProtonAutogenApp(Gtk.Application):
         grid_zoom_out.connect("activate", on_grid_zoom_out)
         self.add_action(grid_zoom_out)
 
+        # -------------------------
+        # RACCOURCIS CLAVIER (fenêtre récapitulative)
+        # -------------------------
+        shortcuts = Gio.SimpleAction.new("shortcuts", None)
+
+        def open_shortcuts(*a):
+            win = self.get_active_window()
+            if win and hasattr(win, "show_shortcuts_window"):
+                win.show_shortcuts_window()
+
+        shortcuts.connect("activate", open_shortcuts)
+        self.add_action(shortcuts)
+
 
         # -------------------------
         # SHORTCUTS
@@ -522,6 +536,14 @@ class ProtonAutogenApp(Gtk.Application):
         )
         self.set_accels_for_action(
             "app.grid-zoom-out", ["<Ctrl>minus", "<Ctrl>KP_Subtract"]
+        )
+
+        # Convention GNOME standard pour "afficher les raccourcis
+        # clavier" : Ctrl+? (Ctrl+Maj+/ sur la plupart des dispositions)
+        # et Ctrl+/ directement pour les dispositions où le point
+        # d'interrogation n'est pas accessible sans modificateur en plus.
+        self.set_accels_for_action(
+            "app.shortcuts", ["<Ctrl>question", "<Ctrl>slash"]
         )
 
 

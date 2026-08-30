@@ -31,6 +31,7 @@
   "protondb_tier_pending_summary": "Pas encore assez de rapports communautaires",
   "protondb_tier_pending_tip1": "→ Essayez le jeu et publiez votre propre retour sur ProtonDB",
   "menu_settings": "Réglages",
+  "menu_shortcuts": "Raccourcis clavier",
   "settings_title": "Réglages",
   "settings_section_appearance": "Apparence",
   "settings_theme": "Thème",
@@ -177,5 +178,17 @@
   "status_history_empty": "Aucun message pour le moment",
   "status_history_clear": "Effacer",
   "status_more_lines": "… (+{count} lignes, voir l'historique)",
-  "status_history_details": "Détails"
+  "status_history_details": "Détails",
+  "shortcuts_title": "Raccourcis clavier",
+  "shortcuts_group_general": "Général",
+  "shortcuts_group_grid": "Vue grille",
+  "shortcuts_group_carousel": "Carrousels (récents / favoris)",
+  "shortcuts_grid_zoom_in": "Agrandir les icônes",
+  "shortcuts_grid_zoom_out": "Réduire les icônes",
+  "shortcuts_grid_tab": "Passer d'un jeu au suivant/précédent",
+  "shortcuts_grid_launch": "Lancer le jeu sélectionné",
+  "shortcuts_grid_menu": "Ouvrir le menu du jeu (Modifier, ProtonDB, Supprimer…)",
+  "shortcuts_carousel_move": "Page précédente / suivante",
+  "shortcuts_carousel_first_last": "Première / dernière page",
+  "shortcuts_carousel_page": "Reculer / avancer de plusieurs cartes"
 }

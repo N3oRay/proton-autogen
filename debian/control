@@ -14,7 +14,8 @@ Depends: python3,
          python3-rich,
          python3-requests,
          libgtk-4-1,
-         gir1.2-gtk-4.0
+         gir1.2-gtk-4.0,
+         gir1.2-graphene-1.0
 Recommends: wine, gamemode
 Description: Automatic Proton launcher for Windows executables
  Proton-Autogen automatically launches Windows executables using Proton

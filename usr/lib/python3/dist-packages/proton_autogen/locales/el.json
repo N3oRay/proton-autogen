@@ -31,6 +31,7 @@
   "protondb_tier_pending_summary": "Δεν υπάρχουν ακόμη αρκετές αναφορές από την κοινότητα",
   "protondb_tier_pending_tip1": "→ Δοκιμάστε το παιχνίδι και δημοσιεύστε τα σχόλιά σας στο ProtonDB",
   "menu_settings": "Ρυθμίσεις",
+  "menu_shortcuts": "Συντομεύσεις πληκτρολογίου",
   "settings_title": "Ρυθμίσεις",
   "settings_section_appearance": "Εμφάνιση",
   "settings_theme": "Θέμα",
@@ -177,5 +178,17 @@
   "status_history_empty": "Δεν υπάρχουν ακόμα μηνύματα",
   "status_history_clear": "Εκκαθάριση",
   "status_more_lines": "… (+{count} γραμμές, δείτε το ιστορικό)",
-  "status_history_details": "Λεπτομέρειες"
+  "status_history_details": "Λεπτομέρειες",
+  "shortcuts_title": "Συντομεύσεις πληκτρολογίου",
+  "shortcuts_group_general": "Γενικά",
+  "shortcuts_group_grid": "Προβολή πλέγματος",
+  "shortcuts_group_carousel": "Καρουζέλ (πρόσφατα / αγαπημένα)",
+  "shortcuts_grid_zoom_in": "Μεγέθυνση εικονιδίων",
+  "shortcuts_grid_zoom_out": "Σμίκρυνση εικονιδίων",
+  "shortcuts_grid_tab": "Μετάβαση στο επόμενο/προηγούμενο παιχνίδι",
+  "shortcuts_grid_launch": "Εκκίνηση του επιλεγμένου παιχνιδιού",
+  "shortcuts_grid_menu": "Άνοιγμα μενού παιχνιδιού (Επεξεργασία, ProtonDB, Διαγραφή…)",
+  "shortcuts_carousel_move": "Προηγούμενη / επόμενη σελίδα",
+  "shortcuts_carousel_first_last": "Πρώτη / τελευταία σελίδα",
+  "shortcuts_carousel_page": "Μετάβαση πίσω/μπροστά κατά αρκετές κάρτες"
 }

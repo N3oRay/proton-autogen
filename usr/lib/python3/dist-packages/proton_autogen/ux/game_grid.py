@@ -5,7 +5,7 @@ import gi
 
 gi.require_version("Gtk", "4.0")
 
-from gi.repository import Gtk, Gdk, Gio, GObject, GLib, Pango
+from gi.repository import Gtk, Gdk, Gio, GObject, GLib, Pango, Graphene
 
 from proton_autogen.stats import get_game_badges
 from proton_autogen.i18n import tr, set_language
@@ -364,7 +364,14 @@ class GameGrid(Gtk.Box):
         # ICON
         # ---------------------------------------------------------
 
-        icon_holder = Gtk.Box()
+        # Accessibilité : Gtk.Button plutôt que Gtk.Box + GestureClick.
+        # Un Gtk.Button est nativement focusable (Tab), activable au
+        # clavier (Entrée/Espace) et exposé avec le rôle accessible
+        # "button" aux lecteurs d'écran (Orca) — une simple Box cliquée
+        # à la souris n'offre rien de tout ça.
+        icon_holder = Gtk.Button()
+        icon_holder.set_has_frame(False)
+        icon_holder.add_css_class("flat")
 
         icon_holder.set_halign(Gtk.Align.CENTER)
         icon_holder.set_valign(Gtk.Align.CENTER)
@@ -374,6 +381,13 @@ class GameGrid(Gtk.Box):
         icon_holder.set_cursor(
             Gdk.Cursor.new_from_name("pointer")
         )
+
+        # Menu contextuel accessible au clavier : touche Menu ou
+        # Shift+F10 (raccourci standard), en plus du clic droit souris
+        # déjà géré sur `card` plus bas.
+        icon_key_controller = Gtk.EventControllerKey()
+        icon_key_controller.connect("key-pressed", self._on_icon_key_pressed)
+        icon_holder.add_controller(icon_key_controller)
 
         # ---------------------------------------------------------
         # NAME
@@ -425,14 +439,12 @@ class GameGrid(Gtk.Box):
         # MOUSE - LEFT / RIGHT
         # ---------------------------------------------------------
 
-        click = Gtk.GestureClick()
+        # Clic gauche = lancement. Géré via le signal natif "clicked" du
+        # bouton, qui répond aussi bien au clic souris qu'à Entrée/Espace
+        # une fois le bouton focusé.
+        icon_holder.connect("clicked", self._on_icon_activated)
 
-        # Bouton gauche.
-        click.set_button(1)
-        click.connect("pressed", self._on_left_click)
-        icon_holder.add_controller(click) # click uniquement sur l'image
-
-        # Bouton droit.
+        # Bouton droit (menu contextuel souris).
         right_click = Gtk.GestureClick()
         right_click.set_button(3)
         right_click.connect("released", self._on_right_click)
@@ -469,15 +481,31 @@ class GameGrid(Gtk.Box):
         icon.set_valign(Gtk.Align.CENTER)
         icon.add_css_class("game-grid-icon")
 
-        old_icon = card.icon_holder.get_first_child()
-
-        if old_icon:
-            card.icon_holder.remove(old_icon)
-
-        card.icon_holder.append(icon)
+        # icon_holder est un Gtk.Button : un seul enfant, remplacé via
+        # set_child() (pas append()/remove() comme pour une Gtk.Box).
+        card.icon_holder.set_child(icon)
 
         # Nom
-        card.title_label.set_text(game.get("name", "Unknown"))
+        game_name = game.get("name", "Unknown")
+        card.title_label.set_text(game_name)
+
+        # Nom accessible du bouton icône, pour Orca et cie (sinon un
+        # lecteur d'écran n'annoncerait qu'un "bouton" sans contexte).
+        card.icon_holder.update_property(
+            [Gtk.AccessibleProperty.LABEL],
+            [game_name],
+        )
+
+        # Tooltip visible (survol souris ET focus clavier) rappelant les
+        # raccourcis disponibles sur cette carte : sans ça, rien
+        # n'indique à l'utilisateur qu'Entrée/Espace lance le jeu ou que
+        # la touche Menu/Maj+F10 ouvre les options. Détail complet dans
+        # la fenêtre "Raccourcis clavier" (Ctrl+?).
+        card.icon_holder.set_tooltip_text(
+            f"{game_name}\n"
+            f"{tr('shortcuts_grid_launch') or 'Entrée / Espace : lancer'}\n"
+            f"{tr('shortcuts_grid_menu') or 'Menu ou Maj+F10 : options'}"
+        )
 
         # Badges
         self._clear_box(card.badges_box)
@@ -525,13 +553,11 @@ class GameGrid(Gtk.Box):
     # MOUSE
     # =============================================================
 
-    def _on_left_click(self, gesture, n_press, x, y):
-        icon_holder = gesture.get_widget()
-
-        if icon_holder is None:
-            return
-
-        card = getattr(icon_holder, "card", None)
+    def _on_icon_activated(self, button):
+        """Appelé par le signal "clicked" du bouton icône — déclenché
+        aussi bien par un clic souris que par Entrée/Espace au clavier
+        une fois le bouton focusé."""
+        card = getattr(button, "card", None)
 
         if card is None:
             return
@@ -541,9 +567,50 @@ class GameGrid(Gtk.Box):
         if not game:
             return
 
-        # Un seul clic gauche sur l'icône = lancement.
         self._launch(game)
 
+    def _on_icon_key_pressed(self, controller, keyval, keycode, state):
+        """Ouvre le menu contextuel au clavier : touche Menu, ou
+        Shift+F10 (raccourci standard GTK/Windows pour le clic droit)."""
+        is_menu_key = keyval == Gdk.KEY_Menu
+        is_shift_f10 = (
+            keyval == Gdk.KEY_F10
+            and bool(state & Gdk.ModifierType.SHIFT_MASK)
+        )
+
+        if not (is_menu_key or is_shift_f10):
+            return False
+
+        button = controller.get_widget()
+        card = getattr(button, "card", None)
+        game = getattr(card, "game", None) if card else None
+
+        if not card or not game:
+            return False
+
+        # Positionne le popover au centre du bouton icône plutôt qu'à
+        # une position de souris (inconnue dans ce contexte clavier).
+        # _show_context_menu attend des coordonnées dans le référentiel
+        # de `card` (c'est sur card que le popover est parenté), donc on
+        # convertit le centre du bouton vers ce référentiel.
+        width = button.get_width()
+        height = button.get_height()
+
+        center = Graphene.Point()
+        center.init(width / 2, height / 2)
+
+        success, point = button.compute_point(card, center)
+
+        if success and point is not None:
+            self._show_context_menu(card, game, point.x, point.y)
+        else:
+            # Repli simple si compute_point n'est pas disponible :
+            # centre approximatif de la carte.
+            self._show_context_menu(
+                card, game, card.get_width() / 2, card.get_height() / 2
+            )
+
+        return True
 
     def _on_right_click(self, gesture, n_press, x, y):
         card = gesture.get_widget()
@@ -782,12 +849,30 @@ class GameGrid(Gtk.Box):
 
         # Badge ProtonDB : cliquable, ouvre le dialogue de détail
         # (show_protondb_dialog côté Dashboard, via self.on_protondb).
+        #
+        # Gtk.Button plutôt que Gtk.Label + GestureClick : focusable au
+        # Tab, activable au clavier (Entrée/Espace), et annoncé comme
+        # "bouton" avec un nom accessible complet par les lecteurs
+        # d'écran — un Label cliqué à la souris n'offre aucun de ces
+        # trois points.
         if badge.get("type") == "protondb" and game is not None:
-            label.add_css_class("badge-clickable")
-            label.set_cursor(Gdk.Cursor.new_from_name("pointer"))
-            click = Gtk.GestureClick()
-            click.connect("released", lambda *_: self._show_protondb(game))
-            label.add_controller(click)
+            button = Gtk.Button()
+            button.set_has_frame(False)
+            button.add_css_class("flat")
+            button.add_css_class("badge-clickable")
+            button.set_cursor(Gdk.Cursor.new_from_name("pointer"))
+            button.set_child(label)
+
+            accessible_name = tooltip.strip() if isinstance(tooltip, str) and tooltip.strip() else "ProtonDB"
+            button.set_tooltip_text(accessible_name)
+            button.update_property(
+                [Gtk.AccessibleProperty.LABEL],
+                [accessible_name],
+            )
+
+            button.connect("clicked", lambda *_: self._show_protondb(game))
+
+            return button
 
         return label
 

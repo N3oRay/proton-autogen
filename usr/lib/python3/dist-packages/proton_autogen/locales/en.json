@@ -31,6 +31,7 @@
   "protondb_tier_pending_summary": "Not enough community reports yet",
   "protondb_tier_pending_tip1": "→ Try the game and share your own feedback on ProtonDB",
   "menu_settings": "Settings",
+  "menu_shortcuts": "Keyboard Shortcuts",
   "settings_title": "Settings",
   "settings_section_appearance": "Appearance",
   "settings_theme": "Theme",
@@ -177,5 +178,17 @@
   "status_history_empty": "No messages yet",
   "status_history_clear": "Clear",
   "status_more_lines": "… (+{count} lines, see history)",
-  "status_history_details": "Details"
+  "status_history_details": "Details",
+  "shortcuts_title": "Keyboard Shortcuts",
+  "shortcuts_group_general": "General",
+  "shortcuts_group_grid": "Grid view",
+  "shortcuts_group_carousel": "Carousels (recent / favorites)",
+  "shortcuts_grid_zoom_in": "Enlarge icons",
+  "shortcuts_grid_zoom_out": "Shrink icons",
+  "shortcuts_grid_tab": "Move to next/previous game",
+  "shortcuts_grid_launch": "Launch selected game",
+  "shortcuts_grid_menu": "Open game menu (Edit, ProtonDB, Delete…)",
+  "shortcuts_carousel_move": "Previous / next page",
+  "shortcuts_carousel_first_last": "First / last page",
+  "shortcuts_carousel_page": "Jump back / forward several cards"
 }

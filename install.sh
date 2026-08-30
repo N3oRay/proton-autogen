@@ -44,6 +44,7 @@ install_deps() {
                 python-requests \
                 gtk4 \
                 gdk-pixbuf2 \
+                graphene
             ;;
         apt)
             sudo apt update
@@ -55,6 +56,7 @@ install_deps() {
                 python3-rich \
                 python3-requests \
                 gir1.2-gtk-4.0 \
+                gir1.2-graphene-1.0 \
                 gir1.2-gdkpixbuf-2.0 \
                 gir1.2-pango-1.0 \
                 libglib2.0-0 \
@@ -68,6 +70,7 @@ install_deps() {
                 python3-rich \
                 python3-requests \
                 gtk4 \
+                graphene \
                 gdk-pixbuf2
             ;;
     esac

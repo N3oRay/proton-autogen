@@ -1053,3 +1053,78 @@ popover.game-grid-context-menu contents {
 .game-grid-context-menu .game-grid-menu-delete label {
     color: @hk_dark_pink;
 }
+
+/* =========================================================
+ * NAVIGATION CLAVIER / FOCUS
+ * ========================================================= */
+.btn-delete:focus-visible,
+.btn-export:focus-visible,
+.btn-install:focus-visible,
+.btn-edit:focus-visible,
+.btn-launch:focus-visible,
+.badge-clickable:focus-visible {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+popover modelbutton:focus-visible,
+popover menuitem:focus-visible {
+    background: rgba(124, 92, 255, 0.25);
+    color: #ffffff;
+    outline: 2px solid @accent;
+    outline-offset: -2px;
+}
+
+/* Boutons */
+button:focus {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+/* Focus clavier plus discret pour les boutons d'action */
+.btn-delete:focus,
+.btn-export:focus,
+.btn-install:focus,
+.btn-edit:focus,
+.btn-launch:focus {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+/* Badge ProtonDB cliquable */
+.badge-clickable:focus {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+/* Entrées texte */
+entry:focus,
+searchentry:focus {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+/* ListView */
+.game-list:focus {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+/* Éléments de menu / popover */
+popover modelbutton:focus,
+popover menuitem:focus {
+    background: rgba(124, 92, 255, 0.25);
+    color: #ffffff;
+
+    outline: 2px solid @accent;
+    outline-offset: -2px;
+}
+
+/* Boutons de popover */
+popover button:focus {
+    background: rgba(124, 92, 255, 0.25);
+    color: #ffffff;
+
+    outline: 2px solid @accent;
+    outline-offset: 1px;
+}

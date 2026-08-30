@@ -31,6 +31,7 @@
   "protondb_tier_pending_summary": "Noch nicht genügend Community-Berichte vorhanden",
   "protondb_tier_pending_tip1": "→ Probieren Sie das Spiel aus und veröffentlichen Sie Ihr eigenes Feedback auf ProtonDB",
   "menu_settings": "Einstellungen",
+  "menu_shortcuts": "Tastenkombinationen",
   "settings_title": "Einstellungen",
   "settings_section_appearance": "Erscheinungsbild",
   "settings_theme": "Design",
@@ -177,5 +178,17 @@
   "status_history_empty": "Noch keine Nachrichten",
   "status_history_clear": "Löschen",
   "status_more_lines": "… (+{count} weitere Zeilen, siehe Verlauf)",
-  "status_history_details": "Details"
+  "status_history_details": "Details",
+  "shortcuts_title": "Tastenkombinationen",
+  "shortcuts_group_general": "Allgemein",
+  "shortcuts_group_grid": "Rasteransicht",
+  "shortcuts_group_carousel": "Karussells (zuletzt gespielt / Favoriten)",
+  "shortcuts_grid_zoom_in": "Symbole vergrößern",
+  "shortcuts_grid_zoom_out": "Symbole verkleinern",
+  "shortcuts_grid_tab": "Zum nächsten/vorherigen Spiel wechseln",
+  "shortcuts_grid_launch": "Ausgewähltes Spiel starten",
+  "shortcuts_grid_menu": "Spielmenü öffnen (Bearbeiten, ProtonDB, Löschen…)",
+  "shortcuts_carousel_move": "Vorherige / nächste Seite",
+  "shortcuts_carousel_first_last": "Erste / letzte Seite",
+  "shortcuts_carousel_page": "Mehrere Karten zurück-/vorspringen"
 }

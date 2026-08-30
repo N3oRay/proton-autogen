@@ -32,6 +32,7 @@ jobs:
             python-requests \
             gtk4 \
             glib2 \
+            graphene \
             cairo \
             pango
 
