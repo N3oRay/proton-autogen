@@ -264,7 +264,8 @@ nautilus -q
 ### Automation
 
 - [x] ProtonDB integration
-- [ ] Automatic dependency installation (.NET, VC++, DirectX...)
+- [x] Automatic dependency installation (.NET, .NET C#)
+- [ ] Automatic dependency installation (VC++, VB, ...)
 - [ ] Silent mode
 
 ### Gaming integrations
@@ -277,7 +278,7 @@ nautilus -q
 
 ### Accessibility
 
-- [ ] Accessibility improvements
+- [x] Accessibility improvements
 
 
 ---
