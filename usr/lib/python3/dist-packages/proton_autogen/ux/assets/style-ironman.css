@@ -1,19 +1,40 @@
 /* =========================================================
-   New Style dark
+   New Style Iron Man
+   Rouge armure + or/bronze, accent = bleu réacteur ARC.
+   Structure calquée sur style-dark.css (mêmes sélecteurs) —
+   seules les couleurs décoratives changent. Les couleurs
+   sémantiques communes à tous les thèmes (badges de statut,
+   vert succès, rouge suppression...) sont conservées à
+   l'identique pour rester cohérentes avec le reste de l'appli.
    ========================================================= */
-@define-color pa_fg #ffffff;
-@define-color hk_text2 #d7beff;
-@define-color pa_bg rgba(20,20,20,0.75);
-@define-color pa_blue #3daee9;
+@define-color pa_fg #fff3d6;
+@define-color hk_text #ffe9b0;
+@define-color hk_text2 #ffe9b0;
+@define-color pa_bg rgba(24,10,8,0.82);
+@define-color pa_blue #4fd8ff;
 @define-color pa_green #4caf50;
-@define-color kde-blue      #3daee9;
-@define-color kde-text      #232629;
-@define-color kde-border    #cfd5de;
-@define-color kde-blue-dark #1d99f3;
 
-/* Alias requis par les règles de focus clavier (:focus/:focus-visible)
-   plus bas dans ce fichier, qui référencent @accent. */
-@define-color accent @pa_blue;
+@define-color im_red        #9e1414;
+@define-color im_red_bright #e21f1f;
+@define-color im_gold       #ffcc33;
+@define-color im_gold_dark  #c68a12;
+@define-color im_arc        #4fd8ff;
+@define-color im_arc_dark   #2fb8e0;
+@define-color im_text       #fff3d6;
+@define-color im_text_dim   rgba(255,243,214,0.72);
+
+/* Alias conservés (mêmes noms que style-dark.css, utilisés par
+   checkbutton / scrollbar / dropdown / focus plus bas) : */
+@define-color kde-surface   rgba(46,18,14,0.92);
+@define-color kde-blue      @im_arc;
+@define-color kde-blue-dark @im_arc_dark;
+@define-color kde-text      #2a1210;
+@define-color kde-border    rgba(255,204,51,0.30);
+
+/* Accent global (focus clavier, éléments actifs) : bleu réacteur
+   ARC — contraste maximal sur fond rouge/or, et évoque le
+   "powering up" de l'armure quand un élément est actif. */
+@define-color accent @im_arc;
 
 
 /* =========================================================
@@ -38,7 +59,7 @@ window {
 }
 
 window.background {
-    background: rgba(20,20,20,0.75);
+    background: rgba(24,10,8,0.82);
     border-radius: 16px;
 }
 
@@ -48,7 +69,7 @@ window.background {
    ========================================================= */
 
 .style {
-    background: rgba(20,20,20,0.75);
+    background: rgba(24,10,8,0.82);
     border-radius: 16px;
 }
 
@@ -72,16 +93,20 @@ list,
 
 /* GtkHeaderBar native */
 headerbar {
-    background: rgba(20,20,20,0.60);
-    color: white;
+    background: rgba(22,9,7,0.70);
+    color: @im_text;
 }
 
 
 /* Header personnalisé */
 .main-header {
-    background: rgba(15,15,15,0.92);
-    color:white;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+    background: linear-gradient(
+        90deg,
+        rgba(18,6,5,0.94),
+        rgba(40,12,10,0.92)
+    );
+    color: @im_text;
+    border-bottom: 1px solid rgba(255,204,51,0.16);
 }
 
 
@@ -95,7 +120,7 @@ windowcontrols button,
 .titlebar .titlebutton {
 
     background: transparent;
-    color:white;
+    color: @im_text;
 
     min-width:24px;
     min-height:24px;
@@ -106,7 +131,7 @@ windowcontrols button,
 
 
 windowcontrols image {
-    color:white;
+    color: @im_text;
     opacity:1;
 }
 
@@ -115,36 +140,36 @@ windowcontrols button:hover,
 .titlebar button:hover,
 .titlebar .titlebutton:hover {
 
-    background:rgba(255,255,255,0.15);
+    background: rgba(255,204,51,0.16);
 }
 /* =========================================================
    TOAST APPLICATION
    ========================================================= */
 
 .toast-container {
-    background: rgba(20, 20, 28, 0.92);
+    background: rgba(30, 10, 8, 0.94);
 
     border-radius: 12px;
 
     padding: 10px 14px;
 
-    border-left: 3px solid #7c5cff;
+    border-left: 3px solid @im_gold;
 
     box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
 
-    outline: 1px solid rgba(255, 255, 255, 0.05);
+    outline: 1px solid rgba(255, 204, 51, 0.08);
 }
 
 .toast-container:hover {
     background: linear-gradient(
         135deg,
-        rgba(40, 40, 55, 0.92),
-        rgba(15, 15, 20, 0.85)
+        rgba(58, 20, 16, 0.94),
+        rgba(20, 8, 7, 0.90)
     );
 }
 
 .toast {
-    color: #eaeaff;
+    color: @im_text;
     font-size: 13px;
 }
 
@@ -164,6 +189,8 @@ windowcontrols button:hover,
 /* =========================================================
    BOUTONS APPLICATION
    Ajouter .app-button dans le code GTK
+   Couleurs sémantiques (succès/alternative/destructif)
+   conservées identiques à tous les autres thèmes.
    ========================================================= */
 
 button.suggested-action {
@@ -201,14 +228,14 @@ button.destructive-action:hover {
 
 .app-button {
 
-    background:rgba(255,255,255,0.12);
-    color:white;
+    background: rgba(255,204,51,0.14);
+    color: @im_text;
     border-radius:8px;
 }
 
 
 .app-button:hover {
-    background:rgba(255,255,255,0.20);
+    background: rgba(255,204,51,0.24);
 }
 
 .status-box {
@@ -216,15 +243,15 @@ button.destructive-action:hover {
 }
 
 .section-toggle {
-    background: alpha(@theme_fg_color,0.12);
-    color: white;
+    background: rgba(255,204,51,0.14);
+    color: @im_text;
     border-radius: 6px;
     padding: 3px 6px;
     font-size: 11px;
 }
 
 .section-toggle:hover {
-    background: alpha(@theme_fg_color,0.24);
+    background: rgba(255,204,51,0.26);
 }
 
 .btn-launch {
@@ -275,18 +302,18 @@ button.destructive-action:hover {
 
 
 .export-dialog {
-    background: #1e1e1e;
+    background: #1a0908;
 }
 
 .export-title {
-    color: white;
+    color: @im_text;
     font-weight: bold;
     font-size: 14px;
 }
 
 .export-path {
-    background: #2a2a2a;
-    color: white;
+    background: rgba(46,18,14,0.90);
+    color: @im_text;
     padding: 8px;
     border-radius: 6px;
 }
@@ -300,8 +327,8 @@ button.destructive-action:hover {
     background:
         linear-gradient(
             180deg,
-            rgba(40,40,40,0.75),
-            rgba(25,25,25,0.65)
+            rgba(58,20,16,0.80),
+            rgba(24,10,8,0.70)
         );
 
     border-radius:14px;
@@ -309,7 +336,7 @@ button.destructive-action:hover {
     padding:10px 12px;
 
     border:
-        1px solid rgba(255,255,255,0.06);
+        1px solid rgba(255,204,51,0.10);
 }
 
 
@@ -318,19 +345,22 @@ button.destructive-action:hover {
     background:
         linear-gradient(
             180deg,
-            rgba(55,55,55,0.85),
-            rgba(30,30,30,0.75)
+            rgba(90,26,20,0.88),
+            rgba(30,12,10,0.80)
         );
 
     border-color:
-        rgba(255,255,255,0.12);
+        @im_red_bright;
+
+    box-shadow:
+        0 0 14px rgba(226,31,31,0.25);
 }
 
 
 .game-container:active {
 
     background:
-        rgba(20,20,20,0.85);
+        @im_red;
 }
 
 
@@ -346,7 +376,7 @@ button.destructive-action:hover {
 */
 
 checkbutton.feature-toggle label {
-    color: white;
+    color: @im_text;
 }
 
 checkbutton.feature-toggle:checked label {
@@ -354,54 +384,49 @@ checkbutton.feature-toggle:checked label {
 }
 
 .title-1 {
-    color:
-        rgba(255,255,255,0.70);
+    color: @im_text_dim;
     font-size: 20px;
     font-weight: bold;
 }
 
 .title-4 {
-    color:
-        rgba(255,255,255,0.70);
+    color: @im_text_dim;
     font-size: 14px;
     font-weight: bold;
     opacity: 0.9;
 }
 
 .dim-label {
-    color:
-        rgba(255,255,255,0.70);
+    color: @im_text_dim;
     font-size:14px;
 }
 
 .form-label {
-    color:
-        rgba(255,255,255,0.70);
+    color: @im_text_dim;
     font-weight: 600;
     font-size: 13px;
 }
 
 .label-bottom {
-    color: white;
+    color: @im_text;
     font-size: 16px;
 }
 
 .label-bottom label {
-    color:white;
+    color: @im_text;
     font-size:16px;
 }
 
 .game-container label {
 
-    color:white;
+    color: @im_text;
     font-size:16px;
 }
 
 
 .dim-label1 {
 
-    color:
-        rgba(255,255,255,0.70);
+    color: @im_text_dim;
 
     font-size:12px;
 }
@@ -417,7 +442,7 @@ checkbutton.feature-toggle:checked label {
 
 
 label.dim-label1 {
-    color: rgba(255,255,255,0.70);
+    color: @im_text_dim;
     font-size: 12px;
 }
 
@@ -427,11 +452,11 @@ label.dim-label2 {
 }
 
 label.home-label {
-    color: rgba(255,255,255,0.70);
+    color: @im_text_dim;
     font-size: 14px;
     padding: 4px;
     border-radius: 8px;
-    border: 1px solid rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,204,51,0.10);
 }
 
 
@@ -440,34 +465,35 @@ label.home-label {
    ========================================================= */
 
 .launch-dialog {
-    background: rgba(25, 25, 25, 0.95);
+    background: rgba(28, 10, 8, 0.96);
     border-radius: 16px;
     padding: 24px;
+    border: 1px solid rgba(255,204,51,0.14);
 }
 
 .launch-title {
     font-size: 20px;
     font-weight: bold;
-    color: #ffffff;
+    color: @im_text;
 }
 
 .launch-game {
     font-size: 16px;
     font-weight: bold;
-    color: #7db8ff;
+    color: @im_gold;
 }
 
 .launch-info {
-    color: #bbbbbb;
+    color: rgba(255,243,214,0.55);
 }
 
 .dialog-content {
 
     background:
-        rgba(20,20,20,0.80);
+        rgba(28,10,8,0.85);
 
     border:
-        1px solid rgba(255,255,255,0.06);
+        1px solid rgba(255,204,51,0.12);
 
     border-radius:16px;
 
@@ -478,7 +504,7 @@ label.home-label {
 .dialog-content textview {
 
     background:transparent;
-    color:white;
+    color: @im_text;
 
     font-family:monospace;
 }
@@ -493,22 +519,25 @@ label.home-label {
     font-weight: 700;
     letter-spacing: 0.25px;
 
-    color: rgba(255, 255, 255, 0.90);
+    color: rgba(255, 243, 214, 0.92);
 
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.10);
+    background: rgba(255, 204, 51, 0.07);
+    border: 1px solid rgba(255, 204, 51, 0.16);
 
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
 
     box-shadow:
-        inset 2px 0 0 rgba(255, 255, 255, 0.08);
+        inset 2px 0 0 rgba(255, 204, 51, 0.12);
 }
 
 .badge:hover {
-    background: rgba(255, 255, 255, 0.10);
-    border-color: rgba(255, 255, 255, 0.20);
+    background: rgba(255, 204, 51, 0.14);
+    border-color: rgba(255, 204, 51, 0.30);
 }
 
+/* Badges sémantiques (ProtonDB, plateforme, feature, favori) :
+   couleurs identiques à tous les autres thèmes, pour garder le
+   même code couleur de statut dans toute l'appli. */
 .badge-protondb, .badge.profile {
     background: rgba(80, 140, 255, 0.18);
     border-color: rgba(80, 140, 255, 0.35);
@@ -545,7 +574,7 @@ label.home-label {
 }
 
 /* =========================================================
-   NEW
+   NEW — badges de progression, identiques à tous les thèmes
    ========================================================= */
 
 .badge.rookie {
@@ -605,7 +634,7 @@ label.home-label {
 textview {
 
     background:transparent;
-    color:white;
+    color: @im_text;
 
     font-family:monospace;
 }
@@ -614,7 +643,7 @@ textview {
 textview text {
 
     background:transparent;
-    color:white;
+    color: @im_text;
 }
 
 
@@ -641,7 +670,7 @@ scrollbar slider {
 .carousel-button {
     min-width: 36px;
     min-height: 36px;
-    color:white;
+    color: @im_text;
     padding: 0;
 
     border-radius: 18px;
@@ -659,7 +688,7 @@ scrollbar slider {
 .carousel-counter {
     font-size: 0.85em;
     opacity: 0.75;
-    color:white;
+    color: @im_text;
     margin-top: 4px;
     margin-bottom: 2px;
 }
@@ -677,8 +706,8 @@ scrollbar slider {
 
 
 popover {
-    background: rgba(35,35,35,0.98);
-    color: white;
+    background: rgba(32,12,10,0.97);
+    color: @im_text;
 }
 
 popover contents {
@@ -686,19 +715,19 @@ popover contents {
 }
 
 popover menuitem {
-    color: white;
+    color: @im_text;
 }
 
 popover menuitem:hover {
-    background: rgba(255,255,255,0.10);
+    background: rgba(255,204,51,0.12);
 }
 
 popover modelbutton {
-    color: white;
+    color: @im_text;
 }
 
 popover modelbutton:hover {
-    background: rgba(255,255,255,0.10);
+    background: rgba(255,204,51,0.12);
 }
 
 /* =========================================================
@@ -710,7 +739,7 @@ scrollbar {
 }
 
 scrollbar slider {
-    background: rgba(90, 100, 115, 0.45);
+    background: rgba(255,204,51,0.35);
 
     border-radius: 5px;
 
@@ -752,7 +781,7 @@ checkbutton check:checked {
 }
 
 checkbutton check:checked image {
-    color: @kde-text;
+    color: @im_text;
 }
 
 
@@ -763,11 +792,11 @@ checkbutton check:checked image {
 combobox > button,
 dropdown > button {
 
-    background: rgba(255,255,255,0.18);
-    color: #f0f0f0;
+    background: rgba(255,204,51,0.12);
+    color: @im_text;
 
     border-radius: 6px;
-    border: 1px solid rgba(255,255,255,0.20);
+    border: 1px solid rgba(255,204,51,0.20);
 
     padding: 6px 12px;
 }
@@ -775,14 +804,14 @@ dropdown > button {
 combobox > button:hover,
 dropdown > button:hover {
 
-    background: rgba(255,255,255,0.26);
-    border-color: rgba(255,255,255,0.35);
+    background: rgba(255,204,51,0.20);
+    border-color: rgba(255,204,51,0.32);
 }
 
 combobox > button:active,
 dropdown > button:active {
 
-    background: rgba(255,255,255,0.32);
+    background: rgba(255,204,51,0.28);
 }
 
 combobox > button:focus,
@@ -795,7 +824,7 @@ dropdown > button:focus {
 combobox label,
 dropdown label {
 
-    color: #f0f0f0;
+    color: @im_text;
     font-weight: 500;
     background: transparent;
 }
@@ -805,10 +834,10 @@ dropdown label {
 /* Entrées de texte */
 entry,
 searchentry {
-    background: #111111;
-    color: white;
+    background: #170807;
+    color: @im_text;
 
-    border: 1px solid rgba(255,255,255,0.35);
+    border: 1px solid rgba(255,204,51,0.28);
     border-radius: 8px;
 
     padding: 6px 10px;
@@ -818,25 +847,25 @@ searchentry {
 entry text,
 searchentry text {
     background: transparent;
-    color: white;
+    color: @im_text;
 }
 
 /* Icônes (loupe, effacer, etc.) */
 entry image,
 searchentry image {
-    color: rgba(255,255,255,0.80);
+    color: rgba(255,243,214,0.80);
 }
 
 /* Texte d'indication (placeholder) */
 entry placeholder,
 searchentry placeholder {
-    color: rgba(255,255,255,0.45);
+    color: rgba(255,243,214,0.45);
 }
 
 /* Survol */
 entry:hover,
 searchentry:hover {
-    border-color: rgba(255,255,255,0.50);
+    border-color: rgba(255,204,51,0.45);
 }
 
 /* Focus */
@@ -861,9 +890,9 @@ searchentry:disabled {
 
     border-radius:4px;
 
-    background: rgba(255,255,255,0.15);
+    background: rgba(255,204,51,0.14);
     box-shadow:
-        0 0 10px rgba(255,255,255,0.15);
+        0 0 10px rgba(255,204,51,0.14);
 
     padding:2px;
 }
@@ -871,20 +900,20 @@ searchentry:disabled {
 .game-icon:hover {
 
     background:
-        rgba(61,255,138,0.05);
+        rgba(79,216,255,0.08);
 
     box-shadow:
-        0 0 10px rgba(61,255,138,0.15);
+        0 0 12px rgba(79,216,255,0.22);
 }
 
 
 /* -------------------------------------------------
-   FPS limit SpinButton : texte blanc / fond noir transparent
+   FPS limit SpinButton : texte crème / fond noir transparent
    ------------------------------------------------- */
 
 /* Conteneur global du spinbutton */
 .fps-spinbutton {
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(20, 8, 6, 0.65);
     border-radius: 6px;
     border: none;
 }
@@ -892,40 +921,40 @@ searchentry:disabled {
 /* Zone de saisie du nombre (nœud "text" en GTK4) */
 .fps-spinbutton text {
     background-color: transparent;
-    color: #ffffff;
-    caret-color: #ffffff;
+    color: @im_text;
+    caret-color: @im_text;
 }
 
 .fps-spinbutton text selection {
-    background-color: rgba(255, 255, 255, 0.25);
-    color: #ffffff;
+    background-color: rgba(255, 204, 51, 0.25);
+    color: @im_text;
 }
 
 /* Boutons flèches haut/bas */
 .fps-spinbutton button {
     background-color: transparent;
-    color: #ffffff;
+    color: @im_text;
     border: none;
     box-shadow: none;
 }
 
 .fps-spinbutton button:hover {
-    background-color: rgba(255, 255, 255, 0.12);
+    background-color: rgba(255, 204, 51, 0.14);
 }
 
 .fps-spinbutton button:active {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 204, 51, 0.22);
 }
 
 
 .status-history-panel {
     padding: 6px;
-    border: 1px solid rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,204,51,0.10);
     background:
         linear-gradient(
             180deg,
-            rgba(55,55,55,0.85),
-            rgba(30,30,30,0.75)
+            rgba(58,20,16,0.80),
+            rgba(24,10,8,0.70)
         );
     border-radius: 6px;
 }
@@ -972,6 +1001,15 @@ searchentry:disabled {
 .game-grid-icon-holder {
     min-width: 0;
     min-height: 0;
+
+    border-radius: 10px;
+}
+
+/* L'icône est maintenant un Gtk.Button (navigation clavier) : un
+   léger halo doré au survol/hover donne un retour visuel qui
+   n'existait pas du tout dans le thème dark d'origine. */
+.game-grid-icon-holder:hover {
+    background: rgba(255,204,51,0.12);
 }
 
 .game-grid-icon {
@@ -1052,7 +1090,7 @@ searchentry:disabled {
 
 popover modelbutton:focus-visible,
 popover menuitem:focus-visible {
-    background: rgba(124, 92, 255, 0.25);
+    background: alpha(@accent, 0.25);
     color: #ffffff;
     outline: 2px solid @accent;
     outline-offset: -2px;
@@ -1096,7 +1134,7 @@ searchentry:focus {
 /* Éléments de menu / popover */
 popover modelbutton:focus,
 popover menuitem:focus {
-    background: rgba(124, 92, 255, 0.25);
+    background: alpha(@accent, 0.25);
     color: #ffffff;
 
     outline: 2px solid @accent;
@@ -1105,35 +1143,34 @@ popover menuitem:focus {
 
 /* Boutons de popover */
 popover button:focus {
-    background: rgba(124, 92, 255, 0.25);
+    background: alpha(@accent, 0.25);
     color: #ffffff;
 
     outline: 2px solid @accent;
     outline-offset: 1px;
 }
 
-
-/* =========================================================
- * ACCESSIBILITÉ CLAVIER (complément)
- * - Icône de jeu (grille) : Gtk.Button focusable au Tab, activable
- *   à Entrée/Espace -> anneau de focus manquant du bloc précédent.
- * - Fenêtre "Raccourcis clavier" (menu, ou Ctrl+? / Ctrl+/).
- * ========================================================= */
-
+/* Icône de jeu (grille) : Gtk.Button focusable au Tab, activable à
+   Entrée/Espace. */
 .game-grid-icon-holder:focus,
 .game-grid-icon-holder:focus-visible {
     outline: 2px solid @accent;
     outline-offset: 2px;
 }
 
+/* Menu contextuel de la grille, activable au clavier (Menu / Maj+F10). */
 .game-grid-context-menu button:focus,
 .game-grid-context-menu button:focus-visible {
     outline: 2px solid @accent;
     outline-offset: -2px;
 }
 
+/* =========================================================
+ * FENÊTRE "RACCOURCIS CLAVIER" (Ctrl+? / Ctrl+/)
+ * ========================================================= */
+
 .shortcuts-window {
-    background: rgba(25, 25, 25, 0.95);
+    background: rgba(28, 10, 8, 0.96);
     border-radius: 16px;
 }
 
@@ -1147,7 +1184,7 @@ popover button:focus {
 }
 
 .shortcuts-list row:hover {
-    background: rgba(255,255,255,0.06);
+    background: rgba(255,204,51,0.08);
 }
 
 .shortcuts-list row:focus,
@@ -1163,7 +1200,7 @@ popover button:focus {
     font-weight: 600;
     padding: 2px 8px;
     border-radius: 6px;
-    background: rgba(255,255,255,0.10);
-    border: 1px solid rgba(255,255,255,0.18);
-    color: #ffffff;
+    background: rgba(255,204,51,0.12);
+    border: 1px solid rgba(255,204,51,0.28);
+    color: @im_gold;
 }

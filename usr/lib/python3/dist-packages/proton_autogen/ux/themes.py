@@ -31,7 +31,7 @@ def _migrate_legacy_config():
 _migrate_legacy_config()
 
 DEFAULT_THEME = "fluent"
-AVAILABLE_THEMES = ["fluent", "gta", "adwaita", "hellokit", "cute", "dark", "sky", "Breeze"]
+AVAILABLE_THEMES = ["fluent", "gta", "adwaita", "hellokit", "cute", "dark", "sky", "Breeze", "ironman"]
 
 # Taille par défaut de la fenêtre principale au tout premier lancement
 # (avant toute sauvegarde), ou quand remember_window_size = false.
@@ -98,6 +98,7 @@ BACKGROUND_THEMES = {
             "dark": "logo-dark.jpg",
             "sky": "logo-sky.jpg",
             "Breeze": "logo-kde.jpg",
+            "ironman": "logo-ironman.jpg",
         }
 base = os.path.dirname(__file__)
 
@@ -110,6 +111,7 @@ STYLE_CSS = {
             "dark": os.path.join(base, "assets", "style-dark.css"),
             "sky": os.path.join(base, "assets", "style-dark.css"),
             "Breeze": os.path.join(base, "assets", "style-kde.css"),
+            "ironman": os.path.join(base, "assets", "style-ironman.css"),
         }
 
 def load_saved_theme() -> str:

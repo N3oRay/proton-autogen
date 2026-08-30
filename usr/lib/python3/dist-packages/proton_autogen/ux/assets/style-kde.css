@@ -12,6 +12,10 @@
 @define-color kde-surface2 #1e1e1e;
 @define-color kde-dark-text #eeeeee;
 
+/* Alias requis par les règles de focus clavier (:focus/:focus-visible)
+   plus bas dans ce fichier, qui référencent @accent. */
+@define-color accent @kde-blue-dark;
+
 /* =========================================================
    Text
    ========================================================= */
@@ -1039,10 +1043,6 @@ popover label {
 /* =========================================================
  * NAVIGATION CLAVIER / FOCUS
  * ========================================================= */
-
-/* =========================================================
- * NAVIGATION CLAVIER — FOCUS CIBLE
- * ========================================================= */
 .btn-delete:focus-visible,
 .btn-export:focus-visible,
 .btn-install:focus-visible,
@@ -1059,16 +1059,6 @@ popover menuitem:focus-visible {
     color: #ffffff;
     outline: 2px solid @accent;
     outline-offset: -2px;
-}
-
-/* Boutons d'action */
-.btn-delete:focus,
-.btn-export:focus,
-.btn-install:focus,
-.btn-edit:focus,
-.btn-launch:focus {
-    outline: 2px solid @accent;
-    outline-offset: 2px;
 }
 
 /* Boutons */
@@ -1123,4 +1113,60 @@ popover button:focus {
 
     outline: 2px solid @accent;
     outline-offset: 1px;
+}
+
+
+/* =========================================================
+ * ACCESSIBILITÉ CLAVIER (complément)
+ * - Icône de jeu (grille) : Gtk.Button focusable au Tab, activable
+ *   à Entrée/Espace -> anneau de focus manquant du bloc précédent.
+ * - Fenêtre "Raccourcis clavier" (menu, ou Ctrl+? / Ctrl+/).
+ * ========================================================= */
+
+.game-grid-icon-holder:focus,
+.game-grid-icon-holder:focus-visible {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+.game-grid-context-menu button:focus,
+.game-grid-context-menu button:focus-visible {
+    outline: 2px solid @accent;
+    outline-offset: -2px;
+}
+
+.shortcuts-window {
+    background: @kde-surface;
+    border-radius: 16px;
+}
+
+.shortcuts-list {
+    background: transparent;
+}
+
+.shortcuts-list row {
+    background: transparent;
+    border-radius: 8px;
+}
+
+.shortcuts-list row:hover {
+    background: alpha(@kde-blue, 0.10);
+}
+
+.shortcuts-list row:focus,
+.shortcuts-list row:focus-visible {
+    outline: 2px solid @accent;
+    outline-offset: -2px;
+    border-radius: 8px;
+}
+
+.shortcut-key {
+    font-family: monospace;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: @kde-bg;
+    border: 1px solid @kde-border;
+    color: @kde-text;
 }

@@ -34,6 +34,10 @@
 @define-color kde-surface2 #1e1e1e;
 @define-color kde-dark-text #eeeeee;
 
+/* Alias requis par les règles de focus clavier (:focus/:focus-visible)
+   plus bas dans ce fichier, qui référencent @accent. */
+@define-color accent @hk_accent;
+
 
 
 /* =========================================================
@@ -1182,4 +1186,60 @@ popover button:focus {
 
     outline: 2px solid @accent;
     outline-offset: 1px;
+}
+
+
+/* =========================================================
+ * ACCESSIBILITÉ CLAVIER (complément)
+ * - Icône de jeu (grille) : Gtk.Button focusable au Tab, activable
+ *   à Entrée/Espace -> anneau de focus manquant du bloc précédent.
+ * - Fenêtre "Raccourcis clavier" (menu, ou Ctrl+? / Ctrl+/).
+ * ========================================================= */
+
+.game-grid-icon-holder:focus,
+.game-grid-icon-holder:focus-visible {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+.game-grid-context-menu button:focus,
+.game-grid-context-menu button:focus-visible {
+    outline: 2px solid @accent;
+    outline-offset: -2px;
+}
+
+.shortcuts-window {
+    background: @hk_panel;
+    border-radius: 16px;
+}
+
+.shortcuts-list {
+    background: transparent;
+}
+
+.shortcuts-list row {
+    background: transparent;
+    border-radius: 8px;
+}
+
+.shortcuts-list row:hover {
+    background: @hk_hover;
+}
+
+.shortcuts-list row:focus,
+.shortcuts-list row:focus-visible {
+    outline: 2px solid @accent;
+    outline-offset: -2px;
+    border-radius: 8px;
+}
+
+.shortcut-key {
+    font-family: monospace;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: @hk_soft;
+    border: 1px solid @hk_border;
+    color: @hk_text;
 }
