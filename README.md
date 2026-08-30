@@ -275,6 +275,11 @@ nautilus -q
 - [x] Sensors and MangoHud support
 - [x] Gamescope integration
 
+### Accessibility
+
+- [ ] Accessibility improvements
+
+
 ---
 
 ## 🤝 Contributing
