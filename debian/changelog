@@ -1,6 +1,7 @@
-proton-autogen (3.3.3) noble; urgency=medium
+proton-autogen (3.3.4) noble; urgency=medium
 
   * Thanks to all users and contributors for their continued support, feedback and bug reports.
+  * Add system sleep inhibition while games are running
   * Added settings menu with all application options.
   * Advanced ProtonDB evolution. Integrated menu.
   * Add ProtonDB integration with game compatibility ratings, confidence levels and report counts.
@@ -25,4 +26,4 @@ proton-autogen (3.3.3) noble; urgency=medium
   * Internal UX improvements with the introduction of dedicated status bar and status history handling.
   * General UX improvements, localization improvements, configuration handling improvements and code cleanup.
 
- -- N3oray <n3oray77@gmail.com>  Sat, 29 Aug 2026 15:52:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Sun, 30 Aug 2026 19:00:00 +0200
