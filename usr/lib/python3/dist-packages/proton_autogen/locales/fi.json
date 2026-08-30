@@ -5,6 +5,7 @@
   "enable_mangohud": "Ota MangoHud käyttöön",
   "enable_gamemode": "Ota GameMode käyttöön",
   "enable_gamescope": "Ota GameScope käyttöön",
+  "enable_inhibit_sleep": "Estä lepotila",
   "custom_env_label": "Mukautetut ympäristömuuttujat (AVAIN=ARVO, yksi per rivi)",
   "save_configuration": "Tallenna asetukset",
   "dialog_title_mangohud_advice": "MangoHudin määritysohjeet",
@@ -190,5 +191,6 @@
   "shortcuts_grid_menu": "Avaa pelin valikko (Muokkaa, ProtonDB, Poista…)",
   "shortcuts_carousel_move": "Edellinen / seuraava sivu",
   "shortcuts_carousel_first_last": "Ensimmäinen / viimeinen sivu",
-  "shortcuts_carousel_page": "Siirry usean kortin verran taakse/eteen"
+  "shortcuts_carousel_page": "Siirry usean kortin verran taakse/eteen",
+  "inhibit_sleep_tooltip": "Estää näytön sammumisen ja järjestelmän siirtymisen lepotilaan tämän pelin ollessa käynnissä. Vaikuttaa vain, jos yleinen tila (Asetukset > Käyttäytyminen) on asetettu tilaan \"Peli kerrallaan\"."
 }

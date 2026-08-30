@@ -197,6 +197,21 @@ class GameEditor(Gtk.Window):
         self.gamescope.set_active(features.get("gamescope", False))
         set_tooltip(self.gamescope, "gamescope", self.lang)
 
+        # INHIBIT SLEEP (verrou anti-veille) — n'a d'effet que si le
+        # mode global (Réglages > Comportement) est réglé sur
+        # "Par jeu" ; sinon "Jamais"/"Toujours" prime sur ce toggle.
+        self.inhibit_sleep = Gtk.CheckButton(
+            label=tr("enable_inhibit_sleep") or "Empêcher la mise en veille"
+        )
+        self.inhibit_sleep.add_css_class("feature-toggle")
+        self.inhibit_sleep.set_active(features.get("inhibit_sleep", False))
+        self.inhibit_sleep.set_tooltip_text(
+            tr("inhibit_sleep_tooltip")
+            or "Empêche l'écran de s'éteindre et la mise en veille pendant "
+               "que ce jeu tourne. N'a d'effet que si le mode global "
+               "(Réglages > Comportement) est réglé sur « Par jeu »."
+        )
+
 
         # -------------------------
         # GPU MODE
@@ -217,6 +232,7 @@ class GameEditor(Gtk.Window):
         root.append(self.fps_limit_row)
         root.append(self.gamemode)
         root.append(self.gamescope)
+        root.append(self.inhibit_sleep)
 
         # -------------------------
         # CUSTOM ENVIRONMENT VARIABLES
@@ -397,6 +413,7 @@ class GameEditor(Gtk.Window):
             "fps_limit": int(self.fps_limit.get_value()),
             "gamemode": self.gamemode.get_active(),
             "gamescope": self.gamescope.get_active(),
+            "inhibit_sleep": self.inhibit_sleep.get_active(),
             "gpu": gpu
         })
 

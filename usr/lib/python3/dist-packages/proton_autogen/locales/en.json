@@ -5,6 +5,7 @@
   "enable_mangohud": "Enable MangoHud",
   "enable_gamemode": "Enable GameMode",
   "enable_gamescope": "Enable GameScope",
+  "enable_inhibit_sleep": "Prevent system sleep",
   "custom_env_label": "Custom environment variables (KEY=VALUE, one per line)",
   "save_configuration": "Save configuration",
   "dialog_title_mangohud_advice": "MangoHud Config Advice",
@@ -190,5 +191,6 @@
   "shortcuts_grid_menu": "Open game menu (Edit, ProtonDB, Delete…)",
   "shortcuts_carousel_move": "Previous / next page",
   "shortcuts_carousel_first_last": "First / last page",
-  "shortcuts_carousel_page": "Jump back / forward several cards"
+  "shortcuts_carousel_page": "Jump back / forward several cards",
+  "inhibit_sleep_tooltip": "Prevents the screen from turning off and the system from sleeping while this game is running. Only takes effect if the global mode (Settings > Behavior) is set to \"Per game\"."
 }

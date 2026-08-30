@@ -5,6 +5,7 @@
   "enable_mangohud": "Activer MangoHud",
   "enable_gamemode": "Activer GameMode",
   "enable_gamescope": "Activer GameScope",
+  "enable_inhibit_sleep": "Empêcher la mise en veille",
   "custom_env_label": "Variables d'environnement personnalisées (CLÉ=VALEUR, une par ligne)",
   "save_configuration": "Enregistrer la configuration",
   "dialog_title_mangohud_advice": "Conseils de configuration MangoHud",
@@ -190,5 +191,6 @@
   "shortcuts_grid_menu": "Ouvrir le menu du jeu (Modifier, ProtonDB, Supprimer…)",
   "shortcuts_carousel_move": "Page précédente / suivante",
   "shortcuts_carousel_first_last": "Première / dernière page",
-  "shortcuts_carousel_page": "Reculer / avancer de plusieurs cartes"
+  "shortcuts_carousel_page": "Reculer / avancer de plusieurs cartes",
+  "inhibit_sleep_tooltip": "Empêche l'écran de s'éteindre et la mise en veille pendant que ce jeu tourne. N'a d'effet que si le mode global (Réglages > Comportement) est réglé sur « Par jeu »."
 }

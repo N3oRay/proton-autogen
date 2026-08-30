@@ -5,6 +5,7 @@
   "enable_mangohud": "Активирай MangoHud",
   "enable_gamemode": "Активирай GameMode",
   "enable_gamescope": "Активирай GameScope",
+  "enable_inhibit_sleep": "Предотвратяване на приспиването",
   "custom_env_label": "Персонализирани променливи на средата (KEY=VALUE, по една на ред)",
   "save_configuration": "Запази конфигурацията",
   "dialog_title_mangohud_advice": "Съвети за конфигурацията на MangoHud",
@@ -190,5 +191,6 @@
   "shortcuts_grid_menu": "Отваряне на менюто на играта (Редактирай, ProtonDB, Изтрий…)",
   "shortcuts_carousel_move": "Предишна / следваща страница",
   "shortcuts_carousel_first_last": "Първа / последна страница",
-  "shortcuts_carousel_page": "Придвижване назад/напред с няколко карти"
+  "shortcuts_carousel_page": "Придвижване назад/напред с няколко карти",
+  "inhibit_sleep_tooltip": "Предотвратява изключването на екрана и приспиването на системата, докато тази игра работи. Има ефект само ако глобалният режим (Настройки > Поведение) е зададен на „По игра“."
 }

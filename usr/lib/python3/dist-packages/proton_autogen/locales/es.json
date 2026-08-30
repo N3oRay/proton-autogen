@@ -5,6 +5,7 @@
   "enable_mangohud": "Activar MangoHud",
   "enable_gamemode": "Activar GameMode",
   "enable_gamescope": "Activar GameScope",
+  "enable_inhibit_sleep": "Impedir la suspensión del sistema",
   "custom_env_label": "Variables de entorno personalizadas (CLAVE=VALOR, una por línea)",
   "save_configuration": "Guardar configuración",
   "dialog_title_mangohud_advice": "Consejos de configuración de MangoHud",
@@ -190,5 +191,6 @@
   "shortcuts_grid_menu": "Abrir el menú del juego (Editar, ProtonDB, Eliminar…)",
   "shortcuts_carousel_move": "Página anterior / siguiente",
   "shortcuts_carousel_first_last": "Primera / última página",
-  "shortcuts_carousel_page": "Retroceder / avanzar varias tarjetas"
+  "shortcuts_carousel_page": "Retroceder / avanzar varias tarjetas",
+  "inhibit_sleep_tooltip": "Impide que la pantalla se apague y que el sistema entre en suspensión mientras este juego está en ejecución. Solo tiene efecto si el modo global (Configuración > Comportamiento) está establecido en «Por juego»."
 }

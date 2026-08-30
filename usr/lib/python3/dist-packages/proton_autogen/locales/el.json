@@ -5,6 +5,7 @@
   "enable_mangohud": "Ενεργοποίηση MangoHud",
   "enable_gamemode": "Ενεργοποίηση GameMode",
   "enable_gamescope": "Ενεργοποίηση GameScope",
+  "enable_inhibit_sleep": "Αποτροπή αναστολής λειτουργίας",
   "custom_env_label": "Προσαρμοσμένες μεταβλητές περιβάλλοντος (ΚΛΕΙΔΙ=ΤΙΜΗ, μία ανά γραμμή)",
   "save_configuration": "Αποθήκευση διαμόρφωσης",
   "dialog_title_mangohud_advice": "Συμβουλές διαμόρφωσης MangoHud",
@@ -190,5 +191,6 @@
   "shortcuts_grid_menu": "Άνοιγμα μενού παιχνιδιού (Επεξεργασία, ProtonDB, Διαγραφή…)",
   "shortcuts_carousel_move": "Προηγούμενη / επόμενη σελίδα",
   "shortcuts_carousel_first_last": "Πρώτη / τελευταία σελίδα",
-  "shortcuts_carousel_page": "Μετάβαση πίσω/μπροστά κατά αρκετές κάρτες"
+  "shortcuts_carousel_page": "Μετάβαση πίσω/μπροστά κατά αρκετές κάρτες",
+  "inhibit_sleep_tooltip": "Αποτρέπει το σβήσιμο της οθόνης και την αναστολή λειτουργίας του συστήματος όσο εκτελείται αυτό το παιχνίδι. Ισχύει μόνο αν η γενική λειτουργία (Ρυθμίσεις > Συμπεριφορά) έχει οριστεί σε «Ανά παιχνίδι»."
 }
