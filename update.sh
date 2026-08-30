@@ -24,7 +24,7 @@ fi
 PM=""
 
 case "${ID:-}" in
-    arch|cachyos)
+    arch|cachyos|endeavouros)
         PM="pacman"
         ;;
     debian|ubuntu|linuxmint|pop)
