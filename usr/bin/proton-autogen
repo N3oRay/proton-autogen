@@ -24,11 +24,90 @@ from proton_autogen.i18n import detect_help_env_lang, check_translations_cli
 from proton_autogen.info import print_help
 from proton_autogen.diag import print_diagnostic
 from proton_autogen.ux.dashboard import start_dashboard
+from proton_autogen.import_scan import scan_all, scan_wine_prefixes, any_source_available, total_count, import_selected
 
 # For install dependance:
 #sudo apt update
 #sudo apt install libgtk-4-1 libgtk-4-dev gtk-4-examples
 #sudo apt install python3-gi python3-gi-cairo gir1.2-gtk-4.0
+
+
+_IMPORT_LABELS = {
+    "lutris": "Lutris",
+    "bottles": "Bottles",
+    "heroic": "Heroic",
+    "wine": "Wine prefixes",
+}
+
+
+def run_import_cli():
+    print("Import existing applications\n")
+
+    results = scan_all()
+
+    # Scan par défaut infructueux -> on demande un chemin à parcourir
+    if not any_source_available(results):
+        path = input(
+            "No existing installation detected automatically.\n"
+            "Folder to scan (leave empty to cancel): "
+        ).strip()
+
+        if not path:
+            print("Cancelled.")
+            return
+
+        results["wine"] = scan_wine_prefixes(extra_paths=[path])
+
+        if not any_source_available(results):
+            print("Nothing to import.")
+            return
+
+    enabled = set()
+    for source, data in results.items():
+        items = data.get("items", [])
+        if not items:
+            continue
+
+        enabled.add(source)
+        label = _IMPORT_LABELS.get(source, source)
+        count = len(items)
+        unit = "application" if count == 1 else "applications"
+
+        print(f"  [x] {label:<14} {count} {unit}")
+
+        for item in sorted(items, key=lambda i: (i.get("name") or "").lower()):
+            name = item.get("name") or "(unknown)"
+            if item.get("needs_manual_exe"):
+                print(f"        - {name}  (exe not detected, will be skipped)")
+            else:
+                print(f"        - {name}")
+
+        print("")
+
+    total = total_count(results)
+
+    if total == 0:
+        print("Nothing to import.")
+        return
+
+    unit = "application" if total == 1 else "applications"
+    confirm = input(f"Import {total} {unit}? [y/N]: ").strip().lower()
+
+    if confirm not in ("y", "yes", "o", "oui"):
+        print("Cancelled.")
+        return
+
+    summary = import_selected(results, enabled)
+
+    print(
+        f"\n{summary['imported']} imported, {summary['skipped']} skipped "
+        f"(already present), {len(summary['errors'])} errors."
+    )
+
+    if summary["errors"]:
+        print("\nErrors:")
+        for err in summary["errors"]:
+            print(f"  - {err['exe']}: {err['error']}")
 
 
 def main():
@@ -60,6 +139,10 @@ def main():
 
     if "--diag" in sys.argv:
         print_diagnostic()
+        return
+
+    if "--import" in sys.argv:
+        run_import_cli()
         return
 
     if "--list-programs" in sys.argv:

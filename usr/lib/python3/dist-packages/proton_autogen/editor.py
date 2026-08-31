@@ -194,10 +194,15 @@ def find_existing_prefix_for_game(exe_path: str):
 
 # add game for UX
 
-def add_game_ux(exe_path: str, prefix=None):
+def add_game_ux(exe_path: str, prefix=None, proton=None):
     """
     Add game from GTK UI.
     No terminal interaction.
+
+    proton: résultat déjà résolu de find_proton() (dict ou str), à passer
+    lors d'un import en masse pour éviter de rescanner le disque à chaque
+    jeu. Si None (comportement par défaut, inchangé), find_proton() est
+    appelé comme avant.
     """
 
     exe_path = os.path.abspath(exe_path)
@@ -211,7 +216,9 @@ def add_game_ux(exe_path: str, prefix=None):
 
     config_path, gid = get_game_config_path(exe_path)
 
-    proton = find_proton()
+    if proton is None:
+        proton = find_proton()
+
     exe_type = detect_exe_type(exe_path)
 
 
