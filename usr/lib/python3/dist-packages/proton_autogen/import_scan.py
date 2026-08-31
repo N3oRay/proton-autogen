@@ -4,7 +4,12 @@ Import global des installations Wine/Proton existantes.
 
 Sources couvertes : Lutris, Bottles, Heroic, préfixes Wine "nus".
 Steam est volontairement exclu (déjà géré par Steam + son propre Proton).
-Installations natives uniquement — pas de support Flatpak pour le moment.
+
+Chaque lanceur est scanné à la fois côté natif (~/.config, ~/.local/share)
+et côté Flatpak (~/.var/app/<app-id>/config, ~/.var/app/<app-id>/data).
+Si les deux installations coexistent sur la machine, les deux sont
+scannées et fusionnées. Les préfixes Wine "nus" restent natifs
+uniquement pour le moment (pas d'équivalent Flatpak standard).
 
 Philosophie : chaque scanner est indépendant et silencieux à l'échec
 (un lanceur absent ne doit jamais faire planter le scan global), et
@@ -18,6 +23,7 @@ restent inchangés pour tous les appels hors import).
 import os
 import json
 import sqlite3
+import inspect
 
 try:
     import yaml
@@ -28,6 +34,46 @@ except ImportError:
 
 def _expand(p: str) -> str:
     return os.path.expanduser(os.path.expandvars(p))
+
+
+# IDs Flatpak (Flathub) des lanceurs pris en charge. Une app Flatpak
+# redirige XDG_CONFIG_HOME/XDG_DATA_HOME vers ~/.var/app/<id>/config et
+# ~/.var/app/<id>/data à l'intérieur du bac à sable — donc un chemin
+# "natif" ~/.config/xxx devient ~/.var/app/<id>/config/xxx, et
+# ~/.local/share/xxx devient ~/.var/app/<id>/data/xxx.
+_FLATPAK_IDS = {
+    "lutris": "net.lutris.Lutris",
+    "bottles": "com.usebottles.bottles",
+    "heroic": "com.heroicgameslauncher.hgl",
+}
+
+
+def _launcher_environments(launcher: str, config_subpath: str = None, data_subpath: str = None):
+    """
+    Retourne la liste des environnements (natif + Flatpak) présents sur
+    la machine pour un lanceur donné, sous forme de dicts
+    {"config": .../ or None, "data": .../ or None}. Ne renvoie que les
+    environnements dont AU MOINS un des deux répertoires existe. Les
+    deux peuvent coexister (installation native ET Flatpak en parallèle).
+    """
+    envs = []
+    flatpak_id = _FLATPAK_IDS.get(launcher)
+
+    def build(config_root, data_root):
+        cfg = os.path.join(config_root, config_subpath) if config_subpath else None
+        data = os.path.join(data_root, data_subpath) if data_subpath else None
+        if (cfg and os.path.exists(cfg)) or (data and os.path.exists(data)):
+            envs.append({"config": cfg, "data": data})
+
+    # natif
+    build(os.path.expanduser("~/.config"), os.path.expanduser("~/.local/share"))
+
+    # flatpak
+    if flatpak_id:
+        var_app = os.path.expanduser(f"~/.var/app/{flatpak_id}")
+        build(os.path.join(var_app, "config"), os.path.join(var_app, "data"))
+
+    return envs
 
 
 # Exécutables présents par défaut dans (quasi) tout préfixe Wine, jamais
@@ -78,24 +124,10 @@ def _is_real_exe(name: str) -> bool:
 # ----------------------------------------------------------------------
 # LUTRIS (natif : ~/.config/lutris + ~/.local/share/lutris)
 # ----------------------------------------------------------------------
-def scan_lutris() -> dict:
-    """
-    Les métadonnées (nom, slug, configpath, runner) vivent en sqlite
-    (pga.db), la config technique par jeu (exe, prefix) en YAML dans
-    games/*.yml. Le nom de fichier YAML n'est PAS "{slug}.yml" : Lutris
-    lui ajoute un suffixe numérique unique ("{slug}-{id}.yml"), stocké
-    dans la colonne configpath de la table games. On retombe sur
-    "{slug}.yml" seulement si configpath est absent (anciennes bases).
-    Seuls les jeux runner='wine' et installed=1 sont retenus.
-    """
-    if not HAS_YAML:
-        return {"available": False, "count": 0, "items": [], "reason": "PyYAML absent"}
-
-    db_path = os.path.expanduser("~/.local/share/lutris/pga.db")
-    yml_dir = os.path.expanduser("~/.config/lutris/games")
-
-    if not os.path.isfile(db_path) or not os.path.isdir(yml_dir):
-        return {"available": False, "count": 0, "items": []}
+def _scan_lutris_env(yml_dir: str, db_path: str) -> list:
+    """Scan d'un seul environnement Lutris (natif OU flatpak)."""
+    if not db_path or not yml_dir or not os.path.isfile(db_path) or not os.path.isdir(yml_dir):
+        return []
 
     try:
         con = sqlite3.connect(db_path)
@@ -107,7 +139,7 @@ def scan_lutris() -> dict:
         rows = cur.fetchall()
         con.close()
     except Exception:
-        return {"available": False, "count": 0, "items": []}
+        return []
 
     items = []
     for slug, name, configpath in rows:
@@ -136,27 +168,50 @@ def scan_lutris() -> dict:
             "raw_id": slug,
         })
 
+    return items
+
+
+def scan_lutris() -> dict:
+    """
+    Les métadonnées (nom, slug, configpath, runner) vivent en sqlite
+    (pga.db), la config technique par jeu (exe, prefix) en YAML dans
+    games/*.yml. Le nom de fichier YAML n'est PAS "{slug}.yml" : Lutris
+    lui ajoute un suffixe numérique unique ("{slug}-{id}.yml"), stocké
+    dans la colonne configpath de la table games. On retombe sur
+    "{slug}.yml" seulement si configpath est absent (anciennes bases).
+    Seuls les jeux runner='wine' et installed=1 sont retenus.
+
+    Scanne l'installation native (~/.config/lutris, ~/.local/share/lutris)
+    et l'installation Flatpak (~/.var/app/net.lutris.Lutris/...) si l'une
+    ou l'autre est présente.
+    """
+    if not HAS_YAML:
+        return {"available": False, "count": 0, "items": [], "reason": "PyYAML absent"}
+
+    envs = _launcher_environments("lutris", config_subpath="lutris/games", data_subpath="lutris/pga.db")
+    if not envs:
+        return {"available": False, "count": 0, "items": []}
+
+    items = []
+    for env in envs:
+        items += _scan_lutris_env(yml_dir=env["config"], db_path=env["data"])
+
     return {"available": True, "count": len(items), "items": items}
 
 
 # ----------------------------------------------------------------------
 # BOTTLES (natif : ~/.local/share/bottles/bottles)
 # ----------------------------------------------------------------------
-def scan_bottles() -> dict:
-    """
-    Chaque "bottle" = un préfixe. On lit bottle.yml pour la liste des
-    programmes déclarés (External_Programs / Programs selon version).
-    À défaut, repli sur un scan borné des .exe dans drive_c.
-    """
-    base = os.path.expanduser("~/.local/share/bottles/bottles")
-    if not os.path.isdir(base) or not HAS_YAML:
-        return {"available": False, "count": 0, "items": []}
+def _scan_bottles_env(base: str) -> list:
+    """Scan d'un seul environnement Bottles (natif OU flatpak)."""
+    if not base or not os.path.isdir(base):
+        return []
 
     items = []
     try:
         bottle_names = [d for d in os.listdir(base) if os.path.isdir(os.path.join(base, d))]
     except OSError:
-        return {"available": False, "count": 0, "items": []}
+        return []
 
     for bottle_name in bottle_names:
         bottle_dir = os.path.join(base, bottle_name)
@@ -203,16 +258,40 @@ def scan_bottles() -> dict:
                                 "raw_id": f"{bottle_name}:{f}",
                             })
 
+    return items
+
+
+def scan_bottles() -> dict:
+    """
+    Chaque "bottle" = un préfixe. On lit bottle.yml pour la liste des
+    programmes déclarés (External_Programs / Programs selon version).
+    À défaut, repli sur un scan borné des .exe dans drive_c.
+
+    Scanne l'installation native (~/.local/share/bottles/bottles) et
+    l'installation Flatpak (~/.var/app/com.usebottles.bottles/...) si
+    l'une ou l'autre est présente.
+    """
+    if not HAS_YAML:
+        return {"available": False, "count": 0, "items": [], "reason": "PyYAML absent"}
+
+    envs = _launcher_environments("bottles", data_subpath="bottles/bottles")
+    if not envs:
+        return {"available": False, "count": 0, "items": []}
+
+    items = []
+    for env in envs:
+        items += _scan_bottles_env(env["data"])
+
     return {"available": True, "count": len(items), "items": items}
 
 
 # ----------------------------------------------------------------------
 # HEROIC (natif : ~/.config/heroic — Epic via legendary + GOG)
 # ----------------------------------------------------------------------
-def scan_heroic() -> dict:
-    base = os.path.expanduser("~/.config/heroic")
-    if not os.path.isdir(base):
-        return {"available": False, "count": 0, "items": []}
+def _scan_heroic_env(base: str) -> list:
+    """Scan d'un seul environnement Heroic (natif OU flatpak)."""
+    if not base or not os.path.isdir(base):
+        return []
 
     items = []
     sources = [
@@ -259,6 +338,23 @@ def scan_heroic() -> dict:
                 "needs_manual_exe": exe_path is None,
                 "raw_id": app_name,
             })
+
+    return items
+
+
+def scan_heroic() -> dict:
+    """
+    Scanne l'installation native (~/.config/heroic) et l'installation
+    Flatpak (~/.var/app/com.heroicgameslauncher.hgl/config/heroic) si
+    l'une ou l'autre est présente.
+    """
+    envs = _launcher_environments("heroic", config_subpath="heroic")
+    if not envs:
+        return {"available": False, "count": 0, "items": []}
+
+    items = []
+    for env in envs:
+        items += _scan_heroic_env(env["config"])
 
     return {"available": bool(items), "count": len(items), "items": items}
 
@@ -335,13 +431,61 @@ def scan_wine_prefixes(extra_paths: list = None) -> dict:
 # ----------------------------------------------------------------------
 # AGRÉGATEUR
 # ----------------------------------------------------------------------
-def scan_all(extra_wine_paths: list = None) -> dict:
-    return {
-        "lutris": scan_lutris(),
-        "bottles": scan_bottles(),
-        "heroic": scan_heroic(),
-        "wine": scan_wine_prefixes(extra_wine_paths),
-    }
+
+# Registre des scanners disponibles. Ajouter un nouveau lanceur =
+# écrire sa fonction scan_xxx() (même contrat de retour que les autres :
+# {"available": bool, "count": int, "items": [...]}) et l'ajouter ici.
+# Rien d'autre à toucher : scan_all(), le CLI --import et le futur
+# dialog GTK itèrent tous sur ce registre.
+#
+# Prochaines sources prévues : PortProton, PlayOnLinux, CrossOver,
+# gestionnaires Wine personnalisés.
+SCANNERS = (
+    scan_lutris,
+    scan_bottles,
+    scan_heroic,
+    scan_wine_prefixes,
+)
+
+# La clé exposée dans les résultats (results["lutris"], results["wine"], ...)
+# est dérivée automatiquement du nom de la fonction (scan_xxx -> "xxx").
+# Seule exception : scan_wine_prefixes garde la clé historique "wine"
+# (utilisée par le CLI et le futur dialog GTK) plutôt que "wine_prefixes".
+_SCANNER_KEY_OVERRIDES = {
+    "scan_wine_prefixes": "wine",
+}
+
+
+def _scanner_key(scanner) -> str:
+    name = scanner.__name__
+    if name in _SCANNER_KEY_OVERRIDES:
+        return _SCANNER_KEY_OVERRIDES[name]
+    return name[len("scan_"):] if name.startswith("scan_") else name
+
+
+def scan_all(extra_paths: dict = None) -> dict:
+    """
+    Exécute tous les scanners du registre SCANNERS.
+
+    extra_paths : dict optionnel {source_key: [chemins...]} pour les
+    scanners qui acceptent un paramètre extra_paths (actuellement
+    seulement "wine", cf. repli manuel en cas d'échec du scan par
+    défaut). Les scanners qui n'acceptent pas ce paramètre sont
+    simplement appelés sans argument.
+    """
+    extra_paths = extra_paths or {}
+    results = {}
+
+    for scanner in SCANNERS:
+        key = _scanner_key(scanner)
+        params = inspect.signature(scanner).parameters
+
+        if "extra_paths" in params:
+            results[key] = scanner(extra_paths.get(key))
+        else:
+            results[key] = scanner()
+
+    return results
 
 
 def any_source_available(results: dict) -> bool:
