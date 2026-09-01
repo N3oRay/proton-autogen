@@ -6,6 +6,7 @@
   "enable_gamemode": "Włącz GameMode",
   "enable_gamescope": "Włącz GameScope",
   "enable_inhibit_sleep": "Zapobiegaj usypianiu systemu",
+  "enable_save_backup_prompt": "Proponuj kopię zapasową zapisów po grze",
   "custom_env_label": "Niestandardowe zmienne środowiskowe (KLUCZ=WARTOŚĆ, jedna na linię)",
   "save_configuration": "Zapisz konfigurację",
   "dialog_title_mangohud_advice": "Porady dotyczące konfiguracji MangoHud",
@@ -192,5 +193,19 @@
   "shortcuts_carousel_move": "Poprzednia / następna strona",
   "shortcuts_carousel_first_last": "Pierwsza / ostatnia strona",
   "shortcuts_carousel_page": "Przejdź o kilka kart wstecz / naprzód",
-  "inhibit_sleep_tooltip": "Zapobiega wygaszaniu ekranu i usypianiu systemu, gdy ta gra jest uruchomiona. Działa tylko wtedy, gdy tryb globalny (Ustawienia > Zachowanie) jest ustawiony na „Dla każdej gry osobno”."
+  "inhibit_sleep_tooltip": "Zapobiega wygaszaniu ekranu i usypianiu systemu, gdy ta gra jest uruchomiona. Działa tylko wtedy, gdy tryb globalny (Ustawienia > Zachowanie) jest ustawiony na „Dla każdej gry osobno”.",
+  "save_backup_title": "💾 Zapisać postęp?",
+  "save_backup_body": "Pliki zapisu zostały zmodyfikowane podczas tej sesji.",
+  "save_backup_multi_title": "💾 Wykryto pliki zapisu",
+  "save_backup_multi_body": "Znaleźliśmy dane zapisu w:",
+  "save_memories_title": "💾 Zachowaj swoje wspomnienia",
+  "save_memories_body": "Znaleźliśmy dane zapisu dla {game}.\nTwój postęp może być wart zachowania.",
+  "backup_saves": "Utwórz kopię zapasową",
+  "backup_all": "Kopia zapasowa wszystkiego",
+  "not_now": "Nie teraz",
+  "save_backup_done_title": "Kopia zapasowa zakończona",
+  "save_backup_done_message": "Dane zapisu zapisano w kopii zapasowej w {path}",
+  "save_backup_failed_title": "Nie udało się utworzyć kopii zapasowej",
+  "save_backup_failed_message": "Nie można było utworzyć kopii zapasowej danych zapisu. Sprawdź dzienniki, aby uzyskać więcej informacji.",
+  "save_backup_prompt_tooltip": "Gdy ta gra zostanie zamknięta, proton-autogen sprawdza, czy pliki zapisu uległy zmianie, i proponuje wykonanie ich kopii zapasowej. Wyłącz tę opcję, jeśli ta gra nie zapisuje w wykrywalny sposób lub jeśli nie chcesz otrzymywać powiadomień."
 }

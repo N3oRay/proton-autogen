@@ -6,6 +6,7 @@
   "enable_gamemode": "Activar GameMode",
   "enable_gamescope": "Activar GameScope",
   "enable_inhibit_sleep": "Impedir la suspensión del sistema",
+  "enable_save_backup_prompt": "Proponer una copia de seguridad al terminar de jugar",
   "custom_env_label": "Variables de entorno personalizadas (CLAVE=VALOR, una por línea)",
   "save_configuration": "Guardar configuración",
   "dialog_title_mangohud_advice": "Consejos de configuración de MangoHud",
@@ -192,5 +193,19 @@
   "shortcuts_carousel_move": "Página anterior / siguiente",
   "shortcuts_carousel_first_last": "Primera / última página",
   "shortcuts_carousel_page": "Retroceder / avanzar varias tarjetas",
-  "inhibit_sleep_tooltip": "Impide que la pantalla se apague y que el sistema entre en suspensión mientras este juego está en ejecución. Solo tiene efecto si el modo global (Configuración > Comportamiento) está establecido en «Por juego»."
+  "inhibit_sleep_tooltip": "Impide que la pantalla se apague y que el sistema entre en suspensión mientras este juego está en ejecución. Solo tiene efecto si el modo global (Configuración > Comportamiento) está establecido en «Por juego».",
+  "save_backup_title": "💾 ¿Guardar tu progreso?",
+  "save_backup_body": "Tus archivos de guardado se modificaron durante esta sesión.",
+  "save_backup_multi_title": "💾 Archivos de guardado detectados",
+  "save_backup_multi_body": "Encontramos datos de guardado en:",
+  "save_memories_title": "💾 Guarda tus recuerdos",
+  "save_memories_body": "Encontramos datos de guardado para {game}.\nTu progreso podría merecer la pena conservarlo.",
+  "backup_saves": "Hacer copia de seguridad",
+  "backup_all": "Copiar todo",
+  "not_now": "Ahora no",
+  "save_backup_done_title": "Copia de seguridad completada",
+  "save_backup_done_message": "Datos de guardado copiados en {path}",
+  "save_backup_failed_title": "Error en la copia de seguridad",
+  "save_backup_failed_message": "No se pudieron copiar los datos de guardado. Consulta los registros para más detalles.",
+  "save_backup_prompt_tooltip": "Al cerrar este juego, proton-autogen comprueba si los archivos de guardado han cambiado y ofrece hacer una copia de seguridad. Desactívalo si este juego no guarda de forma detectable, o si no quieres que se te pregunte."
 }

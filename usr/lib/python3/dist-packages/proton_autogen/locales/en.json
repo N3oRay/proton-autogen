@@ -6,6 +6,7 @@
   "enable_gamemode": "Enable GameMode",
   "enable_gamescope": "Enable GameScope",
   "enable_inhibit_sleep": "Prevent system sleep",
+  "enable_save_backup_prompt": "Prompt to back up saves after playing",
   "custom_env_label": "Custom environment variables (KEY=VALUE, one per line)",
   "save_configuration": "Save configuration",
   "dialog_title_mangohud_advice": "MangoHud Config Advice",
@@ -192,5 +193,19 @@
   "shortcuts_carousel_move": "Previous / next page",
   "shortcuts_carousel_first_last": "First / last page",
   "shortcuts_carousel_page": "Jump back / forward several cards",
-  "inhibit_sleep_tooltip": "Prevents the screen from turning off and the system from sleeping while this game is running. Only takes effect if the global mode (Settings > Behavior) is set to \"Per game\"."
+  "inhibit_sleep_tooltip": "Prevents the screen from turning off and the system from sleeping while this game is running. Only takes effect if the global mode (Settings > Behavior) is set to \"Per game\".",
+  "save_backup_title": "💾 Save your progress?",
+  "save_backup_body": "Your save files were modified during this session.",
+  "save_backup_multi_title": "💾 Save files detected",
+  "save_backup_multi_body": "We found save data in:",
+  "save_memories_title": "💾 Save your memories",
+  "save_memories_body": "We found save data for {game}.\nYour progress may be worth keeping.",
+  "backup_saves": "Backup saves",
+  "backup_all": "Backup all",
+  "not_now": "Not now",
+  "save_backup_done_title": "Backup complete",
+  "save_backup_done_message": "Save data backed up to {path}",
+  "save_backup_failed_title": "Backup failed",
+  "save_backup_failed_message": "Could not back up save data. Check the logs for details.",
+  "save_backup_prompt_tooltip": "When this game closes, proton-autogen checks whether the save files changed and offers to back them up. Disable this if the game doesn't save in a detectable way, or if you don't want to be prompted."
 }

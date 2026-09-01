@@ -6,6 +6,7 @@
   "enable_gamemode": "GameMode inschakelen",
   "enable_gamescope": "GameScope inschakelen",
   "enable_inhibit_sleep": "Slaapstand voorkomen",
+  "enable_save_backup_prompt": "Voorstellen om opgeslagen spellen te back-uppen na het spelen",
   "custom_env_label": "Aangepaste omgevingsvariabelen (SLEUTEL=WAARDE, één per regel)",
   "save_configuration": "Configuratie opslaan",
   "dialog_title_mangohud_advice": "MangoHud-configuratieadvies",
@@ -192,5 +193,19 @@
   "shortcuts_carousel_move": "Vorige / volgende pagina",
   "shortcuts_carousel_first_last": "Eerste / laatste pagina",
   "shortcuts_carousel_page": "Meerdere kaarten terug / vooruit gaan",
-  "inhibit_sleep_tooltip": "Voorkomt dat het scherm uitschakelt en het systeem in slaapstand gaat terwijl dit spel wordt uitgevoerd. Heeft alleen effect als de algemene modus (Instellingen > Gedrag) is ingesteld op \"Per spel\"."
+  "inhibit_sleep_tooltip": "Voorkomt dat het scherm uitschakelt en het systeem in slaapstand gaat terwijl dit spel wordt uitgevoerd. Heeft alleen effect als de algemene modus (Instellingen > Gedrag) is ingesteld op \"Per spel\".",
+  "save_backup_title": "💾 Voortgang opslaan?",
+  "save_backup_body": "Je opslagbestanden zijn tijdens deze sessie gewijzigd.",
+  "save_backup_multi_title": "💾 Opslagbestanden gedetecteerd",
+  "save_backup_multi_body": "We hebben opslaggegevens gevonden in:",
+  "save_memories_title": "💾 Bewaar je herinneringen",
+  "save_memories_body": "We hebben opslaggegevens gevonden voor {game}.\nJe voortgang is misschien de moeite waard om te bewaren.",
+  "backup_saves": "Back-up van opslag maken",
+  "backup_all": "Alles back-uppen",
+  "not_now": "Niet nu",
+  "save_backup_done_title": "Back-up voltooid",
+  "save_backup_done_message": "Opslaggegevens geback-upt naar {path}",
+  "save_backup_failed_title": "Back-up mislukt",
+  "save_backup_failed_message": "Kon opslaggegevens niet back-uppen. Bekijk de logboeken voor meer details.",
+  "save_backup_prompt_tooltip": "Wanneer dit spel wordt afgesloten, controleert proton-autogen of de opslagbestanden zijn gewijzigd en biedt aan om een back-up te maken. Schakel dit uit als dit spel niet op een detecteerbare manier opslaat, of als je niet gevraagd wilt worden."
 }

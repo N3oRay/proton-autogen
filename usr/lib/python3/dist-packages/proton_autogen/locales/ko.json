@@ -6,6 +6,7 @@
   "enable_gamemode": "GameMode 활성화",
   "enable_gamescope": "GameScope 활성화",
   "enable_inhibit_sleep": "절전 모드 방지",
+  "enable_save_backup_prompt": "플레이 후 저장 파일 백업 제안",
   "custom_env_label": "사용자 지정 환경 변수 (KEY=VALUE, 한 줄에 하나)",
   "save_configuration": "설정 저장",
   "dialog_title_mangohud_advice": "MangoHud 설정 안내",
@@ -192,5 +193,19 @@
   "shortcuts_carousel_move": "이전 / 다음 페이지",
   "shortcuts_carousel_first_last": "첫 페이지 / 마지막 페이지",
   "shortcuts_carousel_page": "여러 카드만큼 뒤로 / 앞으로 이동",
-  "inhibit_sleep_tooltip": "이 게임이 실행되는 동안 화면 꺼짐과 시스템 절전 모드를 방지합니다. 전역 모드(설정 > 동작)가 \"게임별\"로 설정된 경우에만 적용됩니다."
+  "inhibit_sleep_tooltip": "이 게임이 실행되는 동안 화면 꺼짐과 시스템 절전 모드를 방지합니다. 전역 모드(설정 > 동작)가 \"게임별\"로 설정된 경우에만 적용됩니다.",
+  "save_backup_title": "💾 진행 상황을 저장하시겠습니까?",
+  "save_backup_body": "이 세션 동안 저장 파일이 변경되었습니다.",
+  "save_backup_multi_title": "💾 저장 파일이 감지되었습니다",
+  "save_backup_multi_body": "다음 위치에서 저장 데이터를 찾았습니다:",
+  "save_memories_title": "💾 추억을 저장하세요",
+  "save_memories_body": "{game}의 저장 데이터를 찾았습니다.\n지금까지의 진행 상황을 보존할 가치가 있을 수 있습니다.",
+  "backup_saves": "저장 파일 백업",
+  "backup_all": "모두 백업",
+  "not_now": "나중에",
+  "save_backup_done_title": "백업 완료",
+  "save_backup_done_message": "저장 데이터가 {path}에 백업되었습니다",
+  "save_backup_failed_title": "백업 실패",
+  "save_backup_failed_message": "저장 데이터를 백업할 수 없습니다. 자세한 내용은 로그를 확인하세요.",
+  "save_backup_prompt_tooltip": "이 게임이 종료되면 proton-autogen이 저장 파일이 변경되었는지 확인하고 백업을 제안합니다. 이 게임이 감지 가능한 방식으로 저장하지 않거나 알림을 원하지 않는 경우 비활성화하세요."
 }

@@ -6,6 +6,7 @@
   "enable_gamemode": "GameMode सक्षम करें",
   "enable_gamescope": "GameScope सक्षम करें",
   "enable_inhibit_sleep": "सिस्टम को स्लीप होने से रोकें",
+  "enable_save_backup_prompt": "खेलने के बाद सेव बैकअप का सुझाव दें",
   "custom_env_label": "कस्टम पर्यावरण चर (KEY=VALUE, प्रति पंक्ति एक)",
   "save_configuration": "कॉन्फ़िगरेशन सहेजें",
   "dialog_title_mangohud_advice": "MangoHud कॉन्फ़िगरेशन सुझाव",
@@ -192,5 +193,19 @@
   "shortcuts_carousel_move": "पिछला / अगला पृष्ठ",
   "shortcuts_carousel_first_last": "पहला / अंतिम पृष्ठ",
   "shortcuts_carousel_page": "कई कार्ड पीछे / आगे जाएँ",
-  "inhibit_sleep_tooltip": "यह गेम चलते समय स्क्रीन बंद होने और सिस्टम को स्लीप मोड में जाने से रोकता है। यह केवल तभी प्रभावी होता है जब वैश्विक मोड (सेटिंग्स > व्यवहार) को \"प्रति गेम\" पर सेट किया गया हो।"
+  "inhibit_sleep_tooltip": "यह गेम चलते समय स्क्रीन बंद होने और सिस्टम को स्लीप मोड में जाने से रोकता है। यह केवल तभी प्रभावी होता है जब वैश्विक मोड (सेटिंग्स > व्यवहार) को \"प्रति गेम\" पर सेट किया गया हो।",
+  "save_backup_title": "💾 अपनी प्रगति सेव करें?",
+  "save_backup_body": "इस सत्र के दौरान आपकी सेव फ़ाइलें बदली गई हैं।",
+  "save_backup_multi_title": "💾 सेव फ़ाइलें मिलीं",
+  "save_backup_multi_body": "हमें यहाँ सेव डेटा मिला:",
+  "save_memories_title": "💾 अपनी यादें सहेजें",
+  "save_memories_body": "हमें {game} के लिए सेव डेटा मिला।\nआपकी प्रगति सहेजने लायक हो सकती है।",
+  "backup_saves": "सेव का बैकअप लें",
+  "backup_all": "सभी का बैकअप लें",
+  "not_now": "अभी नहीं",
+  "save_backup_done_title": "बैकअप पूरा हुआ",
+  "save_backup_done_message": "सेव डेटा {path} में बैकअप किया गया",
+  "save_backup_failed_title": "बैकअप विफल",
+  "save_backup_failed_message": "सेव डेटा का बैकअप नहीं लिया जा सका। विवरण के लिए लॉग देखें।",
+  "save_backup_prompt_tooltip": "जब यह गेम बंद होता है, तो proton-autogen जाँचता है कि सेव फ़ाइलें बदली हैं या नहीं और उनका बैकअप लेने का सुझाव देता है। यदि यह गेम पहचान योग्य तरीके से सेव नहीं करता है, या यदि आप संकेत नहीं चाहते हैं, तो इसे अक्षम करें।"
 }

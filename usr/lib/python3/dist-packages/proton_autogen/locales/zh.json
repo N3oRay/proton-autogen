@@ -6,6 +6,7 @@
   "enable_gamemode": "启用 GameMode",
   "enable_gamescope": "启用 GameScope",
   "enable_inhibit_sleep": "阻止系统休眠",
+  "enable_save_backup_prompt": "游戏结束后提示备份存档",
   "custom_env_label": "自定义环境变量（键=值，每行一个）",
   "save_configuration": "保存配置",
   "dialog_title_mangohud_advice": "MangoHud 配置建议",
@@ -192,5 +193,19 @@
   "shortcuts_carousel_move": "上一页 / 下一页",
   "shortcuts_carousel_first_last": "第一页 / 最后一页",
   "shortcuts_carousel_page": "向后 / 向前移动多张卡片",
-  "inhibit_sleep_tooltip": "在此游戏运行期间阻止屏幕关闭和系统休眠。仅当全局模式（设置 > 行为）设置为“按游戏”时才生效。"
+  "inhibit_sleep_tooltip": "在此游戏运行期间阻止屏幕关闭和系统休眠。仅当全局模式（设置 > 行为）设置为“按游戏”时才生效。",
+  "save_backup_title": "💾 是否保存你的进度？",
+  "save_backup_body": "本次游戏过程中存档文件发生了变化。",
+  "save_backup_multi_title": "💾 检测到存档文件",
+  "save_backup_multi_body": "我们在以下位置找到了存档数据：",
+  "save_memories_title": "💾 保存你的回忆",
+  "save_memories_body": "我们找到了 {game} 的存档数据。\n你的进度或许值得保留。",
+  "backup_saves": "备份存档",
+  "backup_all": "全部备份",
+  "not_now": "暂不备份",
+  "save_backup_done_title": "备份完成",
+  "save_backup_done_message": "存档已备份到 {path}",
+  "save_backup_failed_title": "备份失败",
+  "save_backup_failed_message": "无法备份存档数据，详情请查看日志。",
+  "save_backup_prompt_tooltip": "当此游戏关闭时，proton-autogen 会检查存档文件是否发生变化，并提示进行备份。如果此游戏无法以可检测的方式保存，或你不希望收到提示，可禁用此选项。"
 }

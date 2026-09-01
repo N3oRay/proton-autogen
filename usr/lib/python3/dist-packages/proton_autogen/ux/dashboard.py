@@ -15,6 +15,7 @@ from proton_autogen.ux.dashboard_mangohud import DashboardMangoHudMixin
 from proton_autogen.ux.dashboard_creatshortcut import DashboardCreateShortcutMixin
 from proton_autogen.ux.dashboard_settings import DashboardSettingsMixin
 from proton_autogen.ux.dashboard_shortcuts import DashboardShortcutsMixin
+from proton_autogen.ux.dashboard_saves import DashboardSavesMixin
 from proton_autogen.ux.themes import (
     load_saved_theme, save_theme, AVAILABLE_THEMES, DEFAULT_THEME,
     BACKGROUND_THEMES, STYLE_CSS,
@@ -34,7 +35,7 @@ from proton_autogen.i18n import detect_help_env_lang
 # -----------------------------
 # MAIN WINDOW
 # -----------------------------
-class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, DashboardActionsMixin, DashboardMangoHudMixin, DashboardCreateShortcutMixin, DashboardSettingsMixin, DashboardShortcutsMixin, Gtk.ApplicationWindow):
+class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, DashboardActionsMixin, DashboardMangoHudMixin, DashboardCreateShortcutMixin, DashboardSettingsMixin, DashboardShortcutsMixin, DashboardSavesMixin, Gtk.ApplicationWindow):
     SHOW_ADD_BUTTON = True
     SHOW_REFRESH_BUTTON = True
 
@@ -70,6 +71,7 @@ class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, Das
         # réglages, sinon détection CLI/environnement habituelle.
         self.lang = load_saved_language() or detect_help_env_lang()
         notifications.set_callback(self.notify_toast)
+        self._init_save_prompt_bridge()  # vient de DashboardSavesMixin
 
         self.build_ui()   # vient du mixin
         self.refresh_games()

@@ -6,6 +6,7 @@
   "enable_gamemode": "Bật GameMode",
   "enable_gamescope": "Bật GameScope",
   "enable_inhibit_sleep": "Ngăn hệ thống ngủ đông",
+  "enable_save_backup_prompt": "Đề xuất sao lưu tệp lưu sau khi chơi",
   "custom_env_label": "Biến môi trường tùy chỉnh (KHÓA=GIÁ TRỊ, mỗi biến một dòng)",
   "save_configuration": "Lưu cấu hình",
   "dialog_title_mangohud_advice": "Hướng dẫn cấu hình MangoHud",
@@ -192,5 +193,19 @@
   "shortcuts_carousel_move": "Trang trước / trang tiếp theo",
   "shortcuts_carousel_first_last": "Trang đầu tiên / cuối cùng",
   "shortcuts_carousel_page": "Lùi / tiến nhiều thẻ",
-  "inhibit_sleep_tooltip": "Ngăn màn hình tắt và hệ thống chuyển sang chế độ ngủ khi trò chơi này đang chạy. Chỉ có hiệu lực nếu chế độ toàn cục (Cài đặt > Hành vi) được đặt thành \"Theo từng trò chơi\"."
+  "inhibit_sleep_tooltip": "Ngăn màn hình tắt và hệ thống chuyển sang chế độ ngủ khi trò chơi này đang chạy. Chỉ có hiệu lực nếu chế độ toàn cục (Cài đặt > Hành vi) được đặt thành \"Theo từng trò chơi\".",
+  "save_backup_title": "💾 Lưu tiến trình của bạn?",
+  "save_backup_body": "Các tệp lưu của bạn đã bị thay đổi trong phiên chơi này.",
+  "save_backup_multi_title": "💾 Đã phát hiện tệp lưu",
+  "save_backup_multi_body": "Chúng tôi đã tìm thấy dữ liệu lưu tại:",
+  "save_memories_title": "💾 Lưu giữ kỷ niệm của bạn",
+  "save_memories_body": "Chúng tôi đã tìm thấy dữ liệu lưu cho {game}.\nTiến trình của bạn có thể đáng để giữ lại.",
+  "backup_saves": "Sao lưu tệp lưu",
+  "backup_all": "Sao lưu tất cả",
+  "not_now": "Để sau",
+  "save_backup_done_title": "Sao lưu hoàn tất",
+  "save_backup_done_message": "Đã sao lưu dữ liệu lưu vào {path}",
+  "save_backup_failed_title": "Sao lưu thất bại",
+  "save_backup_failed_message": "Không thể sao lưu dữ liệu lưu. Kiểm tra nhật ký để biết thêm chi tiết.",
+  "save_backup_prompt_tooltip": "Khi trò chơi này đóng lại, proton-autogen sẽ kiểm tra xem các tệp lưu có thay đổi hay không và đề xuất sao lưu chúng. Tắt tùy chọn này nếu trò chơi không lưu theo cách có thể phát hiện được, hoặc nếu bạn không muốn được nhắc."
 }

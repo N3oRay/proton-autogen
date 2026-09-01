@@ -212,6 +212,23 @@ class GameEditor(Gtk.Window):
                "(Réglages > Comportement) est réglé sur « Par jeu »."
         )
 
+        # SAVE BACKUP PROMPT (détection de sauvegardes en fin de session)
+        # Activé par défaut : contrairement à inhibit_sleep, c'est une
+        # fonctionnalité de protection des données, pas une préférence de
+        # confort — on préfère prévenir l'utilisateur par défaut et le
+        # laisser désactiver au cas par cas.
+        self.save_backup_prompt = Gtk.CheckButton(
+            label=tr("enable_save_backup_prompt") or "Proposer une sauvegarde en fin de partie"
+        )
+        self.save_backup_prompt.add_css_class("feature-toggle")
+        self.save_backup_prompt.set_active(features.get("save_backup_prompt", True))
+        self.save_backup_prompt.set_tooltip_text(
+            tr("save_backup_prompt_tooltip")
+            or "À la fermeture du jeu, proton-autogen détecte si les "
+               "fichiers de sauvegarde ont changé et propose de les "
+               "sauvegarder. Désactivez si ce jeu ne sauvegarde pas de "
+               "façon détectable ou si vous ne voulez pas être sollicité."
+        )
 
         # -------------------------
         # GPU MODE
@@ -233,6 +250,7 @@ class GameEditor(Gtk.Window):
         root.append(self.gamemode)
         root.append(self.gamescope)
         root.append(self.inhibit_sleep)
+        root.append(self.save_backup_prompt)
 
         # -------------------------
         # CUSTOM ENVIRONMENT VARIABLES
@@ -414,6 +432,7 @@ class GameEditor(Gtk.Window):
             "gamemode": self.gamemode.get_active(),
             "gamescope": self.gamescope.get_active(),
             "inhibit_sleep": self.inhibit_sleep.get_active(),
+            "save_backup_prompt": self.save_backup_prompt.get_active(),
             "gpu": gpu
         })
 

@@ -22,6 +22,7 @@ from proton_autogen.core import (
 
     run_game_proton,
     run_standard,
+    get_prefix_path,
 
     has_mangohud,
     has_gamemode,
@@ -246,7 +247,20 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None, 
                     )
             status = handle_result(result_code)
             # Update Stats
-            finalize_session(exe_path, start_time, result_code)
+            game_features = config.get("features", {}) if config else {}
+            try:
+                resolved_prefix_path = get_prefix_path(prefix_mode, exe_path)
+            except Exception:
+                resolved_prefix_path = None
+            finalize_session(
+                exe_path,
+                start_time,
+                result_code,
+                prefix_path=resolved_prefix_path,
+                game_name=config.get("name") if config else None,
+                game_id=game_id,
+                save_backup_enabled=normalize_flag(game_features.get("save_backup_prompt"), True),
+            )
             log_game_stats(exe_path)
             #show_result !
             progress.update( 100, result_to_line(status) )
@@ -260,7 +274,15 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None, 
             result_code = run_standard(exe_path)
             status = handle_result(result_code)
             # Update Stats
-            finalize_session(exe_path, start_time, result_code) # Stats
+            game_features = config.get("features", {}) if config else {}
+            finalize_session(
+                exe_path,
+                start_time,
+                result_code,
+                game_name=config.get("name") if config else None,
+                game_id=game_id,
+                save_backup_enabled=normalize_flag(game_features.get("save_backup_prompt"), True),
+            ) # Stats
             log_game_stats(exe_path)
             #show_result !
             progress.update( 100, result_to_line(status) )

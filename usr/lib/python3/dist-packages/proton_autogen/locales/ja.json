@@ -6,6 +6,7 @@
   "enable_gamemode": "GameModeを有効にする",
   "enable_gamescope": "GameScopeを有効にする",
   "enable_inhibit_sleep": "スリープを防止する",
+  "enable_save_backup_prompt": "プレイ後にセーブのバックアップを提案する",
   "custom_env_label": "カスタム環境変数（KEY=VALUE、1行に1つ）",
   "save_configuration": "設定を保存",
   "dialog_title_mangohud_advice": "MangoHud設定のアドバイス",
@@ -192,5 +193,19 @@
   "shortcuts_carousel_move": "前のページ / 次のページ",
   "shortcuts_carousel_first_last": "最初のページ / 最後のページ",
   "shortcuts_carousel_page": "複数のカード分戻る / 進む",
-  "inhibit_sleep_tooltip": "このゲームの実行中、画面の消灯とシステムのスリープを防ぎます。グローバルモード（設定 > 動作）が「ゲームごと」に設定されている場合のみ有効です。"
+  "inhibit_sleep_tooltip": "このゲームの実行中、画面の消灯とシステムのスリープを防ぎます。グローバルモード（設定 > 動作）が「ゲームごと」に設定されている場合のみ有効です。",
+  "save_backup_title": "💾 進行状況を保存しますか？",
+  "save_backup_body": "このセッション中にセーブファイルが変更されました。",
+  "save_backup_multi_title": "💾 セーブファイルを検出しました",
+  "save_backup_multi_body": "以下の場所でセーブデータが見つかりました：",
+  "save_memories_title": "💾 思い出を保存しましょう",
+  "save_memories_body": "{game}のセーブデータが見つかりました。\nこれまでの進行状況は保存する価値があるかもしれません。",
+  "backup_saves": "セーブをバックアップ",
+  "backup_all": "すべてバックアップ",
+  "not_now": "後で",
+  "save_backup_done_title": "バックアップ完了",
+  "save_backup_done_message": "セーブデータを{path}にバックアップしました",
+  "save_backup_failed_title": "バックアップに失敗しました",
+  "save_backup_failed_message": "セーブデータのバックアップに失敗しました。詳細はログを確認してください。",
+  "save_backup_prompt_tooltip": "このゲームを終了すると、proton-autogenはセーブファイルが変更されたかどうかを確認し、バックアップを提案します。このゲームが検出可能な方法で保存しない場合、または確認を求められたくない場合は無効にしてください。"
 }

@@ -6,6 +6,7 @@
   "enable_gamemode": "Ativar o GameMode",
   "enable_gamescope": "Ativar o GameScope",
   "enable_inhibit_sleep": "Impedir suspensão do sistema",
+  "enable_save_backup_prompt": "Sugerir uma cópia de segurança após jogar",
   "custom_env_label": "Variáveis de ambiente personalizadas (CHAVE=VALOR, uma por linha)",
   "save_configuration": "Guardar configuração",
   "dialog_title_mangohud_advice": "Sugestões de configuração do MangoHud",
@@ -192,5 +193,19 @@
   "shortcuts_carousel_move": "Página anterior / seguinte",
   "shortcuts_carousel_first_last": "Primeira / última página",
   "shortcuts_carousel_page": "Retroceder / avançar várias cartas",
-  "inhibit_sleep_tooltip": "Impede que o ecrã se desligue e que o sistema entre em suspensão enquanto este jogo está em execução. Só tem efeito se o modo global (Definições > Comportamento) estiver definido como «Por jogo»."
+  "inhibit_sleep_tooltip": "Impede que o ecrã se desligue e que o sistema entre em suspensão enquanto este jogo está em execução. Só tem efeito se o modo global (Definições > Comportamento) estiver definido como «Por jogo».",
+  "save_backup_title": "💾 Guardar o seu progresso?",
+  "save_backup_body": "Os seus ficheiros de gravação foram modificados durante esta sessão.",
+  "save_backup_multi_title": "💾 Ficheiros de gravação detetados",
+  "save_backup_multi_body": "Encontrámos dados de gravação em:",
+  "save_memories_title": "💾 Guarde as suas memórias",
+  "save_memories_body": "Encontrámos dados de gravação para {game}.\nO seu progresso pode valer a pena ser preservado.",
+  "backup_saves": "Fazer cópia de segurança",
+  "backup_all": "Copiar tudo",
+  "not_now": "Agora não",
+  "save_backup_done_title": "Cópia de segurança concluída",
+  "save_backup_done_message": "Dados de gravação guardados em {path}",
+  "save_backup_failed_title": "Falha na cópia de segurança",
+  "save_backup_failed_message": "Não foi possível fazer a cópia de segurança dos dados de gravação. Consulte os registos para mais detalhes.",
+  "save_backup_prompt_tooltip": "Quando este jogo é fechado, o proton-autogen verifica se os ficheiros de gravação foram alterados e sugere fazer uma cópia de segurança. Desative esta opção se este jogo não gravar de forma detetável, ou se não quiser ser notificado."
 }

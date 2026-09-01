@@ -6,6 +6,7 @@
   "enable_gamemode": "Activer GameMode",
   "enable_gamescope": "Activer GameScope",
   "enable_inhibit_sleep": "Empêcher la mise en veille",
+  "enable_save_backup_prompt": "Proposer une sauvegarde en fin de partie",
   "custom_env_label": "Variables d'environnement personnalisées (CLÉ=VALEUR, une par ligne)",
   "save_configuration": "Enregistrer la configuration",
   "dialog_title_mangohud_advice": "Conseils de configuration MangoHud",
@@ -192,5 +193,19 @@
   "shortcuts_carousel_move": "Page précédente / suivante",
   "shortcuts_carousel_first_last": "Première / dernière page",
   "shortcuts_carousel_page": "Reculer / avancer de plusieurs cartes",
-  "inhibit_sleep_tooltip": "Empêche l'écran de s'éteindre et la mise en veille pendant que ce jeu tourne. N'a d'effet que si le mode global (Réglages > Comportement) est réglé sur « Par jeu »."
+  "inhibit_sleep_tooltip": "Empêche l'écran de s'éteindre et la mise en veille pendant que ce jeu tourne. N'a d'effet que si le mode global (Réglages > Comportement) est réglé sur « Par jeu ».",
+  "save_backup_title": "💾 Sauvegarder votre progression ?",
+  "save_backup_body": "Vos fichiers de sauvegarde ont été modifiés pendant cette session.",
+  "save_backup_multi_title": "💾 Fichiers de sauvegarde détectés",
+  "save_backup_multi_body": "Nous avons trouvé des données de sauvegarde dans :",
+  "save_memories_title": "💾 Sauvegardez vos souvenirs",
+  "save_memories_body": "Nous avons trouvé des données de sauvegarde pour {game}.\nVotre progression mérite peut-être d'être conservée.",
+  "backup_saves": "Sauvegarder",
+  "backup_all": "Tout sauvegarder",
+  "not_now": "Pas maintenant",
+  "save_backup_done_title": "Sauvegarde terminée",
+  "save_backup_done_message": "Sauvegarde effectuée dans {path}",
+  "save_backup_failed_title": "Échec de la sauvegarde",
+  "save_backup_failed_message": "Impossible de sauvegarder les données. Consultez les journaux pour plus de détails.",
+  "save_backup_prompt_tooltip": "À la fermeture du jeu, proton-autogen vérifie si les fichiers de sauvegarde ont changé et propose de les sauvegarder. Désactivez si ce jeu ne sauvegarde pas de façon détectable, ou si vous ne souhaitez pas être sollicité."
 }

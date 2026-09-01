@@ -6,6 +6,7 @@
   "enable_gamemode": "Abilita GameMode",
   "enable_gamescope": "Abilita GameScope",
   "enable_inhibit_sleep": "Impedisci la sospensione del sistema",
+  "enable_save_backup_prompt": "Proponi un backup dopo aver giocato",
   "custom_env_label": "Variabili d'ambiente personalizzate (CHIAVE=VALORE, una per riga)",
   "save_configuration": "Salva configurazione",
   "dialog_title_mangohud_advice": "Consigli di configurazione MangoHud",
@@ -192,5 +193,19 @@
   "shortcuts_carousel_move": "Pagina precedente / successiva",
   "shortcuts_carousel_first_last": "Prima / ultima pagina",
   "shortcuts_carousel_page": "Indietro / avanti di più schede",
-  "inhibit_sleep_tooltip": "Impedisce lo spegnimento dello schermo e la sospensione del sistema mentre questo gioco è in esecuzione. Ha effetto solo se la modalità globale (Impostazioni > Comportamento) è impostata su «Per gioco»."
+  "inhibit_sleep_tooltip": "Impedisce lo spegnimento dello schermo e la sospensione del sistema mentre questo gioco è in esecuzione. Ha effetto solo se la modalità globale (Impostazioni > Comportamento) è impostata su «Per gioco».",
+  "save_backup_title": "💾 Salvare i tuoi progressi?",
+  "save_backup_body": "I file di salvataggio sono stati modificati durante questa sessione.",
+  "save_backup_multi_title": "💾 File di salvataggio rilevati",
+  "save_backup_multi_body": "Abbiamo trovato dati di salvataggio in:",
+  "save_memories_title": "💾 Salva i tuoi ricordi",
+  "save_memories_body": "Abbiamo trovato dati di salvataggio per {game}.\nI tuoi progressi potrebbero valere la pena di essere conservati.",
+  "backup_saves": "Backup dei salvataggi",
+  "backup_all": "Backup di tutto",
+  "not_now": "Non ora",
+  "save_backup_done_title": "Backup completato",
+  "save_backup_done_message": "Dati di salvataggio salvati in {path}",
+  "save_backup_failed_title": "Backup non riuscito",
+  "save_backup_failed_message": "Impossibile eseguire il backup dei dati di salvataggio. Consulta i log per maggiori dettagli.",
+  "save_backup_prompt_tooltip": "Alla chiusura di questo gioco, proton-autogen verifica se i file di salvataggio sono cambiati e propone di eseguirne il backup. Disattiva questa opzione se il gioco non salva in un modo rilevabile o se non vuoi ricevere richieste."
 }
