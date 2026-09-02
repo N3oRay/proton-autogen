@@ -207,5 +207,14 @@
   "save_backup_done_message": "Save data backed up to {path}",
   "save_backup_failed_title": "Backup failed",
   "save_backup_failed_message": "Could not back up save data. Check the logs for details.",
-  "save_backup_prompt_tooltip": "When this game closes, proton-autogen checks whether the save files changed and offers to back them up. Disable this if the game doesn't save in a detectable way, or if you don't want to be prompted."
+  "save_backup_prompt_tooltip": "When this game closes, proton-autogen checks whether the save files changed and offers to back them up. Disable this if the game doesn't save in a detectable way, or if you don't want to be prompted.",
+"memory_button": "🧠 Memory",
+"memory_window_title": "🧠 Memory — {game}",
+"memory_current_saves_section": "Save data found in source directory",
+"memory_backup_now": "Backup now",
+"memory_no_current_saves": "No save data detected for this game.",
+"memory_history_section": "Previous backups",
+"memory_no_history": "No backups yet.",
+"memory_open_folder": "Open folder",
+"memory_button_tooltip": "Open the save manager for this game.\n\nBack up your current save data or access previous backups."
 }

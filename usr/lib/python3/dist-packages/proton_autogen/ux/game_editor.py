@@ -33,6 +33,7 @@ class GameEditor(Gtk.Window):
         #self.set_resizable(True)
         self.on_saved = None
         self.on_protondb_requested = None   # 👈 nouveau
+        self.on_memory_requested = None     # 👈 ouvre le gestionnaire de sauvegardes
         self.set_size_request(520, 420)
         self.add_css_class("editor-window")
         self.profile_model = VALID_PROFILES
@@ -230,6 +231,25 @@ class GameEditor(Gtk.Window):
                "façon détectable ou si vous ne voulez pas être sollicité."
         )
 
+        # MEMORY (bouton) — ouvre immédiatement le gestionnaire de
+        # sauvegardes pour ce jeu : backup manuel + historique des
+        # sauvegardes précédentes. Volontairement à côté du toggle
+        # ci-dessus : l'un contrôle la détection automatique en fin de
+        # partie, l'autre donne un accès direct et à la demande.
+        self.memory_btn = Gtk.Button(label=tr("memory_button") or "🧠 Memory")
+        self.memory_btn.add_css_class("section-toggle")
+        self.memory_btn.set_tooltip_text(
+            tr("memory_button_tooltip")
+            or "Ouvre le gestionnaire de sauvegardes de ce jeu : "
+               "sauvegarder maintenant ou retrouver vos sauvegardes "
+               "précédentes."
+        )
+        self.memory_btn.connect("clicked", self._on_memory_clicked)
+
+        save_backup_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
+        save_backup_row.append(self.save_backup_prompt)
+        save_backup_row.append(self.memory_btn)
+
         # -------------------------
         # GPU MODE
         # -------------------------
@@ -250,7 +270,7 @@ class GameEditor(Gtk.Window):
         root.append(self.gamemode)
         root.append(self.gamescope)
         root.append(self.inhibit_sleep)
-        root.append(self.save_backup_prompt)
+        root.append(save_backup_row)
 
         # -------------------------
         # CUSTOM ENVIRONMENT VARIABLES
@@ -304,6 +324,13 @@ class GameEditor(Gtk.Window):
             self.on_protondb_requested(self.game)
 
         Gtk.UriLauncher(uri=f"https://www.protondb.com/app/{app_id}").launch(self, None, None)
+
+    # -------------------------
+    # MEMORY (gestionnaire de sauvegardes)
+    # -------------------------
+    def _on_memory_clicked(self, _btn):
+        if self.on_memory_requested:
+            self.on_memory_requested(self.game)
 
     # -------------------------
     # MANGOHUD / FPS LIMIT

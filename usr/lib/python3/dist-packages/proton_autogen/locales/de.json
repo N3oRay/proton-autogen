@@ -207,5 +207,15 @@
   "save_backup_done_message": "Spielstand gesichert unter {path}",
   "save_backup_failed_title": "Sicherung fehlgeschlagen",
   "save_backup_failed_message": "Spielstanddaten konnten nicht gesichert werden. Weitere Details finden Sie im Protokoll.",
-  "save_backup_prompt_tooltip": "Beim Beenden dieses Spiels prüft proton-autogen, ob sich die Spielstanddateien geändert haben, und bietet an, sie zu sichern. Deaktivieren Sie dies, wenn dieses Spiel nicht auf erkennbare Weise speichert oder Sie nicht gefragt werden möchten."
+  "save_backup_prompt_tooltip": "Beim Beenden dieses Spiels prüft proton-autogen, ob sich die Spielstanddateien geändert haben, und bietet an, sie zu sichern. Deaktivieren Sie dies, wenn dieses Spiel nicht auf erkennbare Weise speichert oder Sie nicht gefragt werden möchten.",
+"memory_button": "🧠 Speicher",
+"memory_window_title": "🧠 Speicher — {game}",
+"memory_current_saves_section": "Gespeicherte Daten im Quellverzeichnis",
+"memory_backup_now": "Jetzt sichern",
+"memory_no_current_saves": "Keine gespeicherten Daten für dieses Spiel gefunden.",
+"memory_history_section": "Vorherige Sicherungen",
+"memory_no_history": "Noch keine Sicherungen vorhanden.",
+"memory_open_folder": "Ordner öffnen",
+"memory_button_tooltip": "Öffnet die Speicherverwaltung für dieses Spiel.\n\nSichere deine aktuellen Speicherdaten oder greife auf vorherige Sicherungen zu."
+
 }

@@ -24,16 +24,24 @@ already does for toasts, via GLib.idle_add.
 """
 
 import threading
+from datetime import datetime
 from pathlib import Path
 
 import gi
 gi.require_version("Gtk", "4.0")
-from gi.repository import Gtk, GLib
+from gi.repository import Gtk, GLib, Gio
 
 from proton_autogen.i18n import tr
 from proton_autogen.notify import notifications
-from proton_autogen.save_prompt import save_prompt_center, SavePromptPayload
-from proton_autogen.save_backup import create_backup
+from proton_autogen.core import get_prefix_path
+from proton_autogen.save_detection import detect_save_paths, compute_save_fingerprint
+from proton_autogen.save_prompt import (
+    save_prompt_center,
+    resolve_game_key,
+    GameTarget,
+    SavePromptPayload,
+)
+from proton_autogen.save_backup import create_backup, list_backups, backup_archive_path
 
 
 class DashboardSavesMixin:
@@ -82,7 +90,7 @@ class DashboardSavesMixin:
             title=title,
         )
         dialog.add_css_class("save-backup-dialog")
-        dialog.set_default_size(420, -1)
+        dialog.set_default_size(440, -1)
 
         box = Gtk.Box(
             orientation=Gtk.Orientation.VERTICAL,
@@ -135,6 +143,272 @@ class DashboardSavesMixin:
 
         dialog.set_child(box)
         dialog.present()
+
+        return False  # GLib.idle_add: run once, don't repeat
+
+    # -------------------------
+    # Manual "Memory" save manager
+    # -------------------------
+    # Entry point wired from game_editor.py's "🧠 Memory" button:
+    #
+    #     editor.on_memory_requested = self._on_memory_requested
+    #
+    # (same pattern already used for editor.on_protondb_requested,
+    # wherever GameEditor is instantiated).
+    def _on_memory_requested(self, game: dict):
+        self.open_save_manager(game)
+
+    def open_save_manager(self, game: dict, game_id: "str | None" = None):
+        """Opens the save manager window for a game on demand. Unlike
+        the automatic end-of-session dialog, this always opens (no
+        fingerprint gating) and additionally shows this game's backup
+        history, so the user can find a save they backed up earlier.
+
+        `game_id` should be the same value passed to backend.run(...,
+        game_id=...) when this game is launched, so the history/
+        fingerprint lookups line up exactly with the automatic flow.
+        Leave it None if you don't have it handy -- both paths then
+        fall back to the exe path consistently either way (see
+        save_prompt.resolve_game_key)."""
+
+        exe_path = game.get("path")
+        if not exe_path:
+            return
+
+        game_name = game.get("name") or Path(exe_path).stem
+        prefix_mode = game.get("prefix", {}).get("name", "main")
+
+        try:
+            prefix_path = get_prefix_path(prefix_mode, exe_path)
+        except Exception:
+            prefix_path = None
+
+        key = resolve_game_key(exe_path, game_id)
+
+        try:
+            target = GameTarget(exe_path=exe_path, prefix_path=prefix_path, name=game_name)
+            locations = detect_save_paths(target)
+        except Exception:
+            locations = []
+
+        self._show_save_manager_dialog(key, game_name, locations)
+
+    def _show_save_manager_dialog(self, key: str, game_name: str, locations: list):
+        title = tr("memory_window_title", game=game_name) or f"\U0001F9E0 Memory — {game_name}"
+
+        dialog = Gtk.Window(
+            transient_for=self,
+            modal=False,
+            resizable=True,
+            title=title,
+        )
+        dialog.add_css_class("save-manager-dialog")
+        dialog.set_default_size(460, 480)
+
+        outer = Gtk.Box(
+            orientation=Gtk.Orientation.VERTICAL,
+            spacing=14,
+            margin_top=16,
+            margin_bottom=16,
+            margin_start=16,
+            margin_end=16,
+        )
+
+        header = Gtk.Label()
+        header.set_markup(f"<b>{GLib.markup_escape_text(title)}</b>")
+        header.set_xalign(0)
+        outer.append(header)
+
+        # --- Current save data ---
+        current_label = Gtk.Label(label=tr("memory_current_saves_section") or "Current save data")
+        current_label.add_css_class("title-5")
+        current_label.set_xalign(0)
+        outer.append(current_label)
+
+        if locations:
+            for loc in locations:
+                row = Gtk.Label(label=f"`{loc.label}`")
+                row.add_css_class("save-location-path")
+                row.set_xalign(0)
+                row.set_wrap(True)
+                row.set_selectable(True)
+                outer.append(row)
+
+            backup_now_btn = Gtk.Button(label=tr("memory_backup_now") or "Backup now")
+            backup_now_btn.add_css_class("suggested-action")
+            backup_now_btn.set_halign(Gtk.Align.START)
+            backup_now_btn.connect(
+                "clicked", self._on_manual_backup_clicked, key, locations, dialog
+            )
+            outer.append(backup_now_btn)
+        else:
+            empty_label = Gtk.Label(
+                label=tr("memory_no_current_saves") or "No save data detected for this game."
+            )
+            empty_label.set_xalign(0)
+            empty_label.add_css_class("dim-label")
+            outer.append(empty_label)
+
+        outer.append(Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL))
+
+        # --- Backup history ---
+        history_label = Gtk.Label(label=tr("memory_history_section") or "Previous backups")
+        history_label.add_css_class("title-5")
+        history_label.set_xalign(0)
+        outer.append(history_label)
+
+        history_scroll = Gtk.ScrolledWindow()
+        history_scroll.set_vexpand(True)
+        history_scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+
+        history_list = Gtk.ListBox()
+        history_list.add_css_class("save-history-list")
+        history_list.set_selection_mode(Gtk.SelectionMode.NONE)
+        history_scroll.set_child(history_list)
+        outer.append(history_scroll)
+
+        dialog.set_child(outer)
+        # Stashed on the window instance so a manual backup made from
+        # this same dialog can refresh the visible list in place,
+        # without closing/reopening the whole window.
+        dialog._history_list = history_list
+
+        self._populate_history_list(history_list, key)
+
+        dialog.present()
+
+    def _populate_history_list(self, history_list: Gtk.ListBox, key: str):
+        child = history_list.get_first_child()
+        while child is not None:
+            nxt = child.get_next_sibling()
+            history_list.remove(child)
+            child = nxt
+
+        entries = list_backups(key)
+
+        if not entries:
+            row = Gtk.Label(label=tr("memory_no_history") or "No backups yet.")
+            row.add_css_class("dim-label")
+            row.set_xalign(0)
+            row.set_margin_top(6)
+            row.set_margin_bottom(6)
+            history_list.append(row)
+            return
+
+        # Most recent first -- list_backups() returns oldest-first.
+        for entry in reversed(entries):
+            row_box = Gtk.Box(
+                orientation=Gtk.Orientation.HORIZONTAL,
+                spacing=10,
+                margin_top=6,
+                margin_bottom=6,
+                margin_start=4,
+                margin_end=4,
+            )
+
+            text_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=2)
+            text_box.set_hexpand(True)
+
+            date_row = Gtk.Label(label=self._format_backup_date(entry.get("created_at", "")))
+            date_row.set_xalign(0)
+            date_row.add_css_class("save-history-date")
+
+            archive_row = Gtk.Label(label=entry.get("archive", ""))
+            archive_row.set_xalign(0)
+            archive_row.add_css_class("dim-label")
+            archive_row.set_selectable(True)
+
+            text_box.append(date_row)
+            text_box.append(archive_row)
+
+            # Open button + folder path displayed underneath
+            action_box = Gtk.Box(
+                orientation=Gtk.Orientation.VERTICAL,
+                spacing=3,
+            )
+            action_box.set_halign(Gtk.Align.END)
+
+            open_btn = Gtk.Button(label=tr("memory_open_folder") or "Open folder")
+            open_btn.add_css_class("suggested-action")
+            open_btn.connect(
+                "clicked", self._on_open_backup_folder, key, entry.get("archive", "")
+            )
+
+            folder = backup_archive_path(
+                key, entry.get("archive", "")
+            ).parent
+
+            path_label = Gtk.Label(label=str(folder))
+            path_label.add_css_class("dim-label")
+            path_label.add_css_class("save-backup-path")
+            path_label.set_xalign(1)
+            path_label.set_wrap(True)
+            path_label.set_selectable(True)
+
+            action_box.append(open_btn)
+            action_box.append(path_label)
+
+            row_box.append(text_box)
+            row_box.append(action_box)
+            history_list.append(row_box)
+
+    @staticmethod
+    def _format_backup_date(iso_string: str) -> str:
+        try:
+            return datetime.fromisoformat(iso_string).strftime("%Y-%m-%d %H:%M")
+        except (ValueError, TypeError):
+            return iso_string or "?"
+
+    def _on_open_backup_folder(self, _btn, key: str, archive_name: str):
+        try:
+            folder = backup_archive_path(key, archive_name).parent
+            uri = folder.as_uri()
+
+            Gio.AppInfo.launch_default_for_uri(uri, None)
+
+        except Exception as exc:
+            print(f"Could not open backup folder: {exc}")
+
+    def _on_manual_backup_clicked(self, btn, key: str, locations: list, dialog):
+        btn.set_sensitive(False)
+
+        def _do_backup():
+            archive_path = create_backup(key, locations)
+            fingerprint = compute_save_fingerprint(locations)
+            GLib.idle_add(
+                self._on_manual_backup_finished, archive_path, key, fingerprint, dialog, btn
+            )
+
+        threading.Thread(target=_do_backup, daemon=True).start()
+
+    def _on_manual_backup_finished(self, archive_path, key, fingerprint, dialog, btn):
+        btn.set_sensitive(True)
+
+        if archive_path:
+            # A manual backup counts as "seen": this avoids the automatic
+            # end-of-session prompt firing again right after for the
+            # exact same, now-backed-up, save state.
+            save_prompt_center.acknowledge(key, fingerprint)
+
+            notifications.notify(
+                "info",
+                tr("save_backup_done_title") or "Backup complete",
+                tr("save_backup_done_message", path=str(archive_path))
+                or f"Save data backed up to {archive_path}",
+                ui=True,
+            )
+
+            history_list = getattr(dialog, "_history_list", None)
+            if history_list is not None:
+                self._populate_history_list(history_list, key)
+        else:
+            notifications.notify(
+                "error",
+                tr("save_backup_failed_title") or "Backup failed",
+                tr("save_backup_failed_message")
+                or "Could not back up save data. Check logs for details.",
+                ui=True,
+            )
 
         return False  # GLib.idle_add: run once, don't repeat
 

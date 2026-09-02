@@ -1182,3 +1182,8 @@ popover button:focus {
     border: 1px solid @kawaii-border;
     color: @kawaii-text;
 }
+
+.save-backup-path {
+    font-size: 0.75em;
+    color: alpha(@theme_fg_color, 0.55);
+}

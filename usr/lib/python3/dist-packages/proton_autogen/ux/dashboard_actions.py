@@ -508,6 +508,7 @@ class DashboardActionsMixin:
 
         editor.on_saved = after_save
         editor.on_protondb_requested = self._on_protondb_requested   # 👈 nouveau
+        editor.on_memory_requested = self.open_save_manager           # 👈 nouveau (DashboardSavesMixin)
         editor.connect("destroy", lambda *_: on_close(editor))
         editor.present()
 

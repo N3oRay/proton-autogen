@@ -53,6 +53,20 @@ def create_backup(game_id: str, locations: list[SaveLocation]) -> Path | None:
     timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
     archive_path = game_dir / f"backup-{timestamp}.zip"
 
+    # Two backups within the same second (e.g. clicking "Backup now"
+    # twice quickly, or a manual backup right after an automatic one)
+    # would otherwise silently overwrite the earlier archive, since the
+    # timestamp only has second-level resolution. Disambiguate with a
+    # numeric suffix rather than losing the earlier backup.
+    if archive_path.exists():
+        n = 2
+        while True:
+            candidate = game_dir / f"backup-{timestamp}-{n}.zip"
+            if not candidate.exists():
+                archive_path = candidate
+                break
+            n += 1
+
     try:
         with zipfile.ZipFile(archive_path, "w", compression=zipfile.ZIP_DEFLATED) as zf:
             for loc in locations:
@@ -121,3 +135,17 @@ def list_backups(game_id: str) -> list[dict]:
             return json.load(f)
     except (OSError, json.JSONDecodeError):
         return []
+
+
+def backup_dir_for(game_id: str) -> Path:
+    """Public resolver for a game's backup directory (where its .zip
+    archives and history.json live). Lets the UI offer an 'Open folder'
+    action, or point a file manager at the whole history, without
+    duplicating the private naming scheme used internally."""
+    return BACKUPS_ROOT / _safe_game_dir_name(game_id)
+
+
+def backup_archive_path(game_id: str, archive_name: str) -> Path:
+    """Full path to a specific archive listed in list_backups()'s
+    'archive' field. Used by the UI to open/reveal a single backup."""
+    return backup_dir_for(game_id) / archive_name

@@ -207,5 +207,14 @@
   "save_backup_done_message": "存档已备份到 {path}",
   "save_backup_failed_title": "备份失败",
   "save_backup_failed_message": "无法备份存档数据，详情请查看日志。",
-  "save_backup_prompt_tooltip": "当此游戏关闭时，proton-autogen 会检查存档文件是否发生变化，并提示进行备份。如果此游戏无法以可检测的方式保存，或你不希望收到提示，可禁用此选项。"
+  "save_backup_prompt_tooltip": "当此游戏关闭时，proton-autogen 会检查存档文件是否发生变化，并提示进行备份。如果此游戏无法以可检测的方式保存，或你不希望收到提示，可禁用此选项。",
+"memory_button": "🧠 记忆",
+"memory_window_title": "🧠 记忆 — {game}",
+"memory_current_saves_section": "源目录中找到的存档数据",
+"memory_backup_now": "立即备份",
+"memory_no_current_saves": "未找到此游戏的存档数据。",
+"memory_history_section": "之前的备份",
+"memory_no_history": "尚无备份。",
+"memory_open_folder": "打开文件夹",
+"memory_button_tooltip": "打开此游戏的存档管理器。\n\n备份当前存档数据或访问之前的备份。"
 }

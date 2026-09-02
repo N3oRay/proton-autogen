@@ -207,5 +207,15 @@
   "save_backup_done_message": "Dados de gravação guardados em {path}",
   "save_backup_failed_title": "Falha na cópia de segurança",
   "save_backup_failed_message": "Não foi possível fazer a cópia de segurança dos dados de gravação. Consulte os registos para mais detalhes.",
-  "save_backup_prompt_tooltip": "Quando este jogo é fechado, o proton-autogen verifica se os ficheiros de gravação foram alterados e sugere fazer uma cópia de segurança. Desative esta opção se este jogo não gravar de forma detetável, ou se não quiser ser notificado."
+  "save_backup_prompt_tooltip": "Quando este jogo é fechado, o proton-autogen verifica se os ficheiros de gravação foram alterados e sugere fazer uma cópia de segurança. Desative esta opção se este jogo não gravar de forma detetável, ou se não quiser ser notificado.",
+"memory_button": "🧠 Memória",
+"memory_window_title": "🧠 Memória — {game}",
+"memory_current_saves_section": "Dados de salvamento encontrados no diretório de origem",
+"memory_backup_now": "Fazer backup agora",
+"memory_no_current_saves": "Nenhum dado de salvamento encontrado para este jogo.",
+"memory_history_section": "Backups anteriores",
+"memory_no_history": "Ainda não há backups.",
+"memory_open_folder": "Abrir pasta",
+"memory_button_tooltip": "Abre o gerenciador de salvamentos deste jogo.\n\nFaça backup dos seus dados de salvamento atuais ou acesse backups anteriores."
+
 }

@@ -1204,3 +1204,7 @@ popover button:focus {
     border: 1px solid rgba(255,204,51,0.28);
     color: @im_gold;
 }
+
+.save-backup-path {
+    font-size: 0.75em;
+}

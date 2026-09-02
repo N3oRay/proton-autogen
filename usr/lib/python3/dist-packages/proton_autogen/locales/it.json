@@ -207,5 +207,14 @@
   "save_backup_done_message": "Dati di salvataggio salvati in {path}",
   "save_backup_failed_title": "Backup non riuscito",
   "save_backup_failed_message": "Impossibile eseguire il backup dei dati di salvataggio. Consulta i log per maggiori dettagli.",
-  "save_backup_prompt_tooltip": "Alla chiusura di questo gioco, proton-autogen verifica se i file di salvataggio sono cambiati e propone di eseguirne il backup. Disattiva questa opzione se il gioco non salva in un modo rilevabile o se non vuoi ricevere richieste."
+  "save_backup_prompt_tooltip": "Alla chiusura di questo gioco, proton-autogen verifica se i file di salvataggio sono cambiati e propone di eseguirne il backup. Disattiva questa opzione se il gioco non salva in un modo rilevabile o se non vuoi ricevere richieste.",
+"memory_button": "🧠 Memoria",
+"memory_window_title": "🧠 Memoria — {game}",
+"memory_current_saves_section": "Dati di salvataggio trovati nella directory di origine",
+"memory_backup_now": "Esegui backup",
+"memory_no_current_saves": "Nessun dato di salvataggio rilevato per questo gioco.",
+"memory_history_section": "Backup precedenti",
+"memory_no_history": "Nessun backup disponibile.",
+"memory_open_folder": "Apri cartella",
+"memory_button_tooltip": "Apre il gestore dei salvataggi per questo gioco.\n\nEsegui il backup dei dati di salvataggio attuali o accedi ai backup precedenti."
 }

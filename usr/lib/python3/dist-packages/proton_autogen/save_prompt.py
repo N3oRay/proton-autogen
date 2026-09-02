@@ -57,16 +57,34 @@ class SavePromptPayload:
     is_legacy: bool = False
 
 
-class _FakeGame:
+class GameTarget:
     """Minimal shim so detect_save_paths() (which expects a `game`-like
     object exposing exe_path/prefix_path/name) can be driven from plain
     parameters, without coupling this module to the app's real Game
-    model."""
+    model. Public so other callers -- e.g. the manual "Memory" save
+    manager in dashboard_saves.py -- can reuse it instead of duplicating
+    the same three-attribute shim."""
 
-    def __init__(self, exe_path: str, prefix_path: Optional[str], name: Optional[str]):
+    def __init__(self, exe_path: str, prefix_path: Optional[str] = None, name: Optional[str] = None):
         self.exe_path = exe_path
         self.prefix_path = prefix_path
         self.name = name
+
+
+# Kept for backward compatibility with any earlier internal references.
+_FakeGame = GameTarget
+
+
+def resolve_game_key(exe_path: str, game_id: Optional[str] = None) -> str:
+    """Canonical key used to store/retrieve save fingerprints and backup
+    history for a game. Centralized here so every caller -- the automatic
+    end-of-session prompt (session.finalize_session -> maybe_prompt) and
+    the manual "Memory" save manager opened from the game editor -- agree
+    on the same identity for a given game. If you pass a stable game_id
+    when launching (backend.run(..., game_id=...)), pass that SAME value
+    here too; otherwise both fall back to exe_path and stay consistent
+    with each other anyway."""
+    return game_id or exe_path
 
 
 class SavePromptCenter:
@@ -139,7 +157,7 @@ class SavePromptCenter:
             return
 
         fingerprint = compute_save_fingerprint(locations)
-        key = game_id or exe_path
+        key = resolve_game_key(exe_path, game_id)
         previous = self._load_fingerprints().get(key)
 
         if not has_save_changed(previous, fingerprint):

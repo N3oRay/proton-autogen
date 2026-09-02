@@ -207,5 +207,14 @@
   "save_backup_done_message": "Datos de guardado copiados en {path}",
   "save_backup_failed_title": "Error en la copia de seguridad",
   "save_backup_failed_message": "No se pudieron copiar los datos de guardado. Consulta los registros para más detalles.",
-  "save_backup_prompt_tooltip": "Al cerrar este juego, proton-autogen comprueba si los archivos de guardado han cambiado y ofrece hacer una copia de seguridad. Desactívalo si este juego no guarda de forma detectable, o si no quieres que se te pregunte."
+  "save_backup_prompt_tooltip": "Al cerrar este juego, proton-autogen comprueba si los archivos de guardado han cambiado y ofrece hacer una copia de seguridad. Desactívalo si este juego no guarda de forma detectable, o si no quieres que se te pregunte.",
+"memory_button": "🧠 Memoria",
+"memory_window_title": "🧠 Memoria — {game}",
+"memory_current_saves_section": "Datos de guardado encontrados en el directorio de origen",
+"memory_backup_now": "Hacer copia de seguridad",
+"memory_no_current_saves": "No se han detectado datos de guardado para este juego.",
+"memory_history_section": "Copias de seguridad anteriores",
+"memory_no_history": "Aún no hay copias de seguridad.",
+"memory_open_folder": "Abrir carpeta",
+"memory_button_tooltip": "Abre el gestor de guardados de este juego.\n\nHaz una copia de seguridad de tus datos de guardado actuales o accede a copias de seguridad anteriores."
 }

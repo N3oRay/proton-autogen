@@ -207,5 +207,14 @@
   "save_backup_done_message": "Tallennustiedot varmuuskopioitu kohteeseen {path}",
   "save_backup_failed_title": "Varmuuskopiointi epäonnistui",
   "save_backup_failed_message": "Tallennustietoja ei voitu varmuuskopioida. Katso lisätietoja lokista.",
-  "save_backup_prompt_tooltip": "Kun tämä peli suljetaan, proton-autogen tarkistaa, ovatko tallennustiedostot muuttuneet, ja tarjoutuu varmuuskopioimaan ne. Poista käytöstä, jos tämä peli ei tallenna havaittavalla tavalla tai et halua kehotusta."
+  "save_backup_prompt_tooltip": "Kun tämä peli suljetaan, proton-autogen tarkistaa, ovatko tallennustiedostot muuttuneet, ja tarjoutuu varmuuskopioimaan ne. Poista käytöstä, jos tämä peli ei tallenna havaittavalla tavalla tai et halua kehotusta.",
+"memory_button": "🧠 Muisti",
+"memory_window_title": "🧠 Muisti — {game}",
+"memory_current_saves_section": "Tallennustiedot lähdehakemistossa",
+"memory_backup_now": "Varmuuskopioi nyt",
+"memory_no_current_saves": "Tälle pelille ei löytynyt tallennustietoja.",
+"memory_history_section": "Aiemmat varmuuskopiot",
+"memory_no_history": "Varmuuskopioita ei ole vielä.",
+"memory_open_folder": "Avaa kansio",
+"memory_button_tooltip": "Avaa tämän pelin tallennustietojen hallinnan.\n\nVarmuuskopioi nykyiset tallennustietosi tai käytä aiempia varmuuskopioita."
 }
