@@ -137,6 +137,20 @@ If a translation is missing, the checker will report the missing key(s), allowin
 
 It is recommended to run this command after adding or modifying translation keys.
 
+## Git Workflow
+
+A simple workflow for submitting changes:
+```
+git status
+git add -A
+git commit -m "Describe your changes"
+git push
+```
+
+Before committing, make sure git status shows all the files you want to include.
+
+Note: git commit -a does not include new (untracked) files. Use git add -A when your changes include new files.
+
 ## ❤️ Thank You
 
 Thank you for taking the time to contribute to proton-autogen.
