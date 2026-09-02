@@ -106,7 +106,7 @@ Before submitting a pull request:
 
 Large changes should be discussed before implementation.
 
-🌍 Translations
+## 🌍 Translations
 
 Translations are welcome and are an important part of making proton-autogen accessible to more users.
 
@@ -118,7 +118,7 @@ Avoid literal translations when they sound unnatural.
 Preserve placeholders such as {game}.
 Preserve formatting and escape sequences such as \n.
 Make sure every translation key is present in all supported languages.
-Checking Translation Completeness
+## Checking Translation Completeness
 
 Before submitting changes to translations, you can use the built-in translation checker:
 ```
@@ -136,3 +136,9 @@ A successful check looks like:
 If a translation is missing, the checker will report the missing key(s), allowing you to update the affected language files before submitting your contribution.
 
 It is recommended to run this command after adding or modifying translation keys.
+
+❤️ Thank You
+
+Thank you for taking the time to contribute to proton-autogen.
+
+Whether you're reporting a bug, testing a game, improving a translation, adding a profile, improving the documentation, or submitting code, your contribution helps make Linux gaming better for everyone.
