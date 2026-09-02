@@ -137,7 +137,7 @@ If a translation is missing, the checker will report the missing key(s), allowin
 
 It is recommended to run this command after adding or modifying translation keys.
 
-❤️ Thank You
+## ❤️ Thank You
 
 Thank you for taking the time to contribute to proton-autogen.
 
