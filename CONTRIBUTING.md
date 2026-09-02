@@ -105,3 +105,34 @@ Before submitting a pull request:
 - Update documentation if needed.
 
 Large changes should be discussed before implementation.
+
+🌍 Translations
+
+Translations are welcome and are an important part of making proton-autogen accessible to more users.
+
+When adding or updating translations:
+
+Keep the meaning consistent with the English source text.
+Use natural terminology for the target language.
+Avoid literal translations when they sound unnatural.
+Preserve placeholders such as {game}.
+Preserve formatting and escape sequences such as \n.
+Make sure every translation key is present in all supported languages.
+Checking Translation Completeness
+
+Before submitting changes to translations, you can use the built-in translation checker:
+```
+proton-autogen --check-translations
+```
+
+This checks whether all supported translation files contain the required translation keys.
+
+A successful check looks like:
+```
+[i18n] Checking translation completeness...
+[i18n] OK: toutes les traductions sont complètes.
+```
+
+If a translation is missing, the checker will report the missing key(s), allowing you to update the affected language files before submitting your contribution.
+
+It is recommended to run this command after adding or modifying translation keys.
