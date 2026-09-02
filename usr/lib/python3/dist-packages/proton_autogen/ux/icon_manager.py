@@ -36,6 +36,7 @@ ICON_MAPPING = {
     "iphone": "apple.svg",
     "redsn0w": "apple.svg",
     "ios": "apple.svg",
+    "pinball": "pinball.svg",
 
     "spiderman": "spiderman.svg",
     "spider-man": "spiderman.svg",
