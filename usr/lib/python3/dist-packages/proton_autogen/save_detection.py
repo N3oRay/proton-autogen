@@ -150,6 +150,15 @@ def _dir_has_content(path: Path) -> bool:
     except (StopIteration, OSError, PermissionError):
         return False
 
+# If game_name is given, subfolders are matched against it using a
+# two-step name heuristic:
+#
+#   1. conservative matching using words of at least 4 characters;
+#   2. permissive fallback using all alphanumeric tokens, including
+#      abbreviations and sequel numbers.
+#
+# The permissive step intentionally favors false positives over false
+# negatives.
 
 _STOPWORDS = frozenset({
     "the",
@@ -202,19 +211,21 @@ def _folder_matches_game(folder_name: str, game_name: str) -> bool:
     Matching is performed in two steps:
 
       1. Conservative match using significant words (>= 4 chars).
-      2. Permissive match using all alphanumeric words, including short
-         tokens and numbers.
+      2. Permissive fallback using all alphanumeric words, including
+         short tokens and numbers.
 
     The second step intentionally favors false positives over false
     negatives.
     """
+
+    # Step 1: conservative matching.
     folder_words = _significant_words_step1(folder_name)
     game_words = _significant_words_step1(game_name)
 
     if folder_words and game_words and folder_words & game_words:
         return True
 
-    # Step 2: permissive fallback.
+    # Step 2: permissive matching.
     folder_words = _significant_words_step2(folder_name)
     game_words = _significant_words_step2(game_name)
 
@@ -222,6 +233,7 @@ def _folder_matches_game(folder_name: str, game_name: str) -> bool:
         return False
 
     return bool(folder_words & game_words)
+
 
 
 
