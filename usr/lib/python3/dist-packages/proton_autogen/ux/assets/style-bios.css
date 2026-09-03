@@ -1,0 +1,2028 @@
+/* =========================================================
+   BIOS PRO
+   ---------------------------------------------------------
+   Style :
+     - BIOS / UEFI bios
+     - Hardware Monitor
+     - Gaming motherboard
+     - Interface technique / industrielle
+
+   Palette :
+     - Noir graphite
+     - Gris acier
+     - Rouge bios
+     - Blanc froid
+     - Orange pour les alertes
+
+   Philosophie :
+     - Peu d'effets lumineux
+     - Bordures fines
+     - Contraste élevé
+     - Informations lisibles
+     - Aspect "BIOS professionnel"
+   ========================================================= */
+
+
+/* =========================================================
+   PALETTE PRINCIPALE
+   ========================================================= */
+
+@define-color pa_fg          #e8e8e8;
+@define-color hk_text        #eeeeee;
+@define-color hk_text2       #d8d8d8;
+
+@define-color pa_bg          rgba(12, 13, 15, 0.96);
+
+@define-color pa_blue        #4aa3ff;
+@define-color pa_green       #45d483;
+
+
+/* =========================================================
+   bios
+   ========================================================= */
+
+@define-color bios_red        #ff1e2d;
+@define-color bios_red_dark   #b5121d;
+@define-color bios_red_soft   #d71927;
+
+@define-color bios_orange     #ff9f1c;
+
+@define-color bios_black      #08090b;
+@define-color bios_bg         #101114;
+@define-color bios_surface    #17191d;
+@define-color bios_surface2   #1d2025;
+
+@define-color bios_border     rgba(255,255,255,0.08);
+@define-color bios_border_red rgba(255,30,45,0.45);
+
+@define-color bios_text       #f1f1f1;
+@define-color bios_text_dim   #9ca1a8;
+@define-color bios_text_dark  #6d7279;
+
+
+/* =========================================================
+   ACCENT
+   ========================================================= */
+
+@define-color accent @bios_red;
+
+
+/* Alias GTK
+   ========================================================= */
+
+@define-color kde-surface   @bios_surface;
+@define-color kde-blue      @bios_red;
+@define-color kde-blue-dark @bios_red_dark;
+@define-color kde-text      @bios_text;
+@define-color kde-border    @bios_border_red;
+
+
+/* =========================================================
+   TEXT
+   ========================================================= */
+
+label {
+    color: @bios_text;
+}
+
+entry,
+text,
+textview {
+    color: @bios_text;
+}
+
+
+/* =========================================================
+   FENÊTRE
+   ========================================================= */
+
+window {
+    background: transparent;
+}
+
+window.background {
+    background: @bios_bg;
+    border-radius: 6px;
+}
+
+
+/* =========================================================
+   CONTENEUR PRINCIPAL
+   ========================================================= */
+
+.style {
+    background: @bios_bg;
+    border-radius: 6px;
+}
+
+
+/* =========================================================
+   CONTENEURS GTK
+   ========================================================= */
+
+scrolledwindow,
+viewport,
+list,
+.game-list,
+.game-row {
+    background: transparent;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+headerbar {
+    background:
+        linear-gradient(
+            180deg,
+            #15171a,
+            #0e0f11
+        );
+
+    color: @bios_text;
+
+    border-bottom:
+        1px solid rgba(255,30,45,0.35);
+}
+
+
+/* Header personnalisé */
+
+.main-header {
+
+    background:
+        linear-gradient(
+            90deg,
+            #090a0c 0%,
+            #15171b 70%,
+            #1b0d10 100%
+        );
+
+    color: @bios_text;
+
+    border-bottom:
+        1px solid @bios_border_red;
+}
+
+
+/* Ligne rouge BIOS */
+
+.main-header::after {
+
+    background: @bios_red;
+    min-height: 2px;
+}
+
+
+/* =========================================================
+   BOUTONS SYSTÈME GTK4
+   ========================================================= */
+
+windowcontrols button,
+.titlebar button,
+.titlebar .titlebutton {
+
+    background: transparent;
+
+    color: @bios_text;
+
+    min-width: 24px;
+    min-height: 24px;
+
+    border-radius: 4px;
+
+    opacity: 1;
+}
+
+windowcontrols image {
+    color: @bios_text;
+    opacity: 1;
+}
+
+windowcontrols button:hover,
+.titlebar button:hover,
+.titlebar .titlebutton:hover {
+
+    background:
+        rgba(255,30,45,0.15);
+
+    color: white;
+}
+
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+.toast-container {
+
+    background:
+        rgba(16,17,20,0.98);
+
+    border-radius: 5px;
+
+    padding: 10px 14px;
+
+    border-left:
+        3px solid @bios_red;
+
+    border:
+        1px solid @bios_border;
+
+    box-shadow:
+        0 8px 24px rgba(0,0,0,0.55);
+}
+
+.toast-container:hover {
+
+    background:
+        @bios_surface2;
+
+    border-color:
+        @bios_border_red;
+}
+
+.toast {
+    color: @bios_text;
+    font-size: 13px;
+}
+
+.toast.info {
+    border-left-color: @pa_blue;
+}
+
+.toast.warning {
+    border-left-color: @bios_orange;
+}
+
+.toast.error {
+    border-left-color: @bios_red;
+}
+
+
+/* =========================================================
+   BOUTONS APPLICATION
+   ========================================================= */
+
+button.suggested-action {
+
+    background:
+        @pa_green;
+
+    color: #07100b;
+
+    border-radius: 4px;
+
+    padding: 8px;
+
+    font-weight: 700;
+}
+
+button.suggested-action:hover {
+    background: #59e394;
+}
+
+
+button.alternative-action {
+
+    background:
+        #5b63d8;
+
+    color: white;
+
+    border-radius: 4px;
+
+    padding: 8px;
+}
+
+button.alternative-action:hover {
+    background: #7078eb;
+}
+
+
+button.destructive-action {
+
+    background:
+        @bios_red;
+
+    color: white;
+
+    border-radius: 4px;
+
+    padding: 8px;
+}
+
+button.destructive-action:hover {
+    background:
+        #ff3b48;
+}
+
+
+/* =========================================================
+   BOUTON APPLICATION
+   ========================================================= */
+
+.app-button {
+
+    background:
+        @bios_surface;
+
+    color:
+        @bios_text;
+
+    border:
+        1px solid @bios_border;
+
+    border-radius:
+        4px;
+}
+
+.app-button:hover {
+
+    background:
+        @bios_surface2;
+
+    border-color:
+        @bios_border_red;
+}
+
+
+/* =========================================================
+   STATUS BOX
+   ========================================================= */
+
+.status-box {
+
+    background:
+        rgba(255,255,255,0.035);
+
+    border:
+        1px solid @bios_border;
+}
+
+
+/* =========================================================
+   SECTION TOGGLE
+   ========================================================= */
+
+.section-toggle {
+
+    background:
+        #15171a;
+
+    color:
+        @bios_text;
+
+    border-radius:
+        3px;
+
+    border:
+        1px solid @bios_border;
+
+    padding:
+        3px 7px;
+
+    font-size:
+        11px;
+}
+
+.section-toggle:hover {
+
+    background:
+        #1d2025;
+
+    border-color:
+        @bios_border_red;
+}
+
+
+/* =========================================================
+   BOUTON LAUNCH
+   ========================================================= */
+
+.btn-launch {
+
+    background:
+        @pa_green;
+
+    color:
+        #061009;
+
+    border-radius:
+        4px;
+
+    font-weight:
+        bold;
+
+    padding:
+        2px 6px;
+
+    min-width:
+        28px;
+
+    min-height:
+        28px;
+
+    font-size:
+        11px;
+}
+
+.btn-launch:hover {
+    background: #5ce99a;
+}
+
+
+/* =========================================================
+   BOUTON EDIT
+   ========================================================= */
+
+.btn-edit {
+
+    background:
+        #3d8bd9;
+
+    color:
+        white;
+
+    border-radius:
+        4px;
+
+    padding:
+        2px 6px;
+
+    min-width:
+        28px;
+
+    min-height:
+        28px;
+
+    font-size:
+        11px;
+}
+
+.btn-edit:hover {
+    background:
+        #50a0ef;
+}
+
+
+/* =========================================================
+   BOUTON EXPORT
+   ========================================================= */
+
+.btn-export {
+
+    background:
+        #7454a8;
+
+    color:
+        white;
+
+    border-radius:
+        4px;
+
+    padding:
+        2px 6px;
+
+    min-width:
+        28px;
+
+    min-height:
+        28px;
+
+    font-size:
+        11px;
+}
+
+.btn-export:hover {
+    background:
+        #8968bf;
+}
+
+
+/* =========================================================
+   EXPORT DIALOG
+   ========================================================= */
+
+.export-dialog {
+
+    background:
+        #0b0c0e;
+}
+
+.export-title {
+
+    color:
+        @bios_text;
+
+    font-weight:
+        bold;
+
+    font-size:
+        14px;
+}
+
+.export-path {
+
+    background:
+        #15171a;
+
+    color:
+        @bios_text;
+
+    padding:
+        8px;
+
+    border-radius:
+        4px;
+
+    border:
+        1px solid @bios_border;
+}
+
+
+/* =========================================================
+   CARTES
+   ========================================================= */
+
+.game-container {
+
+    background:
+        linear-gradient(
+            180deg,
+            #191b1f,
+            #111316
+        );
+
+    border-radius:
+        5px;
+
+    padding:
+        10px 12px;
+
+    border:
+        1px solid
+        rgba(255,255,255,0.07);
+}
+
+
+/* Ligne rouge sur hover */
+
+.game-container:hover {
+
+    background:
+        linear-gradient(
+            180deg,
+            #202328,
+            #15171a
+        );
+
+    border-color:
+        rgba(255,30,45,0.65);
+
+    box-shadow:
+        inset 3px 0 0 @bios_red;
+}
+
+
+.game-container:active {
+
+    background:
+        #241014;
+}
+
+
+.game-row {
+    margin-bottom: 6px;
+}
+
+
+/* =========================================================
+   TEXTES
+   ========================================================= */
+
+checkbutton.feature-toggle label {
+    color: @bios_text;
+}
+
+checkbutton.feature-toggle:checked label {
+    color: @pa_green;
+}
+
+
+.title-1 {
+
+    color:
+        @bios_text;
+
+    font-size:
+        20px;
+
+    font-weight:
+        bold;
+}
+
+
+.title-4 {
+
+    color:
+        @bios_text;
+
+    font-size:
+        14px;
+
+    font-weight:
+        bold;
+
+    opacity:
+        0.9;
+}
+
+
+.dim-label {
+
+    color:
+        @bios_text_dim;
+
+    font-size:
+        14px;
+}
+
+
+.form-label {
+
+    color:
+        @bios_text_dim;
+
+    font-weight:
+        600;
+
+    font-size:
+        13px;
+}
+
+
+.label-bottom {
+
+    color:
+        @bios_text;
+
+    font-size:
+        16px;
+}
+
+
+.label-bottom label {
+
+    color:
+        @bios_text;
+
+    font-size:
+        16px;
+}
+
+
+.game-container label {
+
+    color:
+        @bios_text;
+
+    font-size:
+        16px;
+}
+
+
+.dim-label1 {
+
+    color:
+        @bios_text_dim;
+
+    font-size:
+        12px;
+}
+
+
+.dim-label2 {
+
+    color:
+        @pa_green;
+
+    font-size:
+        10px;
+}
+
+
+label.dim-label1 {
+
+    color:
+        @bios_text_dim;
+
+    font-size:
+        12px;
+}
+
+
+label.dim-label2 {
+
+    color:
+        @pa_green;
+
+    font-size:
+        10px;
+}
+
+
+label.home-label {
+
+    color:
+        @bios_text_dim;
+
+    font-size:
+        14px;
+
+    padding:
+        4px;
+
+    border-radius:
+        4px;
+
+    border:
+        1px solid
+        rgba(255,255,255,0.08);
+}
+
+
+/* =========================================================
+   DIALOGUES
+   ========================================================= */
+
+.launch-dialog {
+
+    background:
+        #0d0e10;
+
+    border-radius:
+        6px;
+
+    padding:
+        24px;
+
+    border:
+        1px solid
+        @bios_border_red;
+}
+
+
+.launch-title {
+
+    font-size:
+        20px;
+
+    font-weight:
+        bold;
+
+    color:
+        @bios_text;
+}
+
+
+.launch-game {
+
+    font-size:
+        16px;
+
+    font-weight:
+        bold;
+
+    color:
+        @bios_red;
+}
+
+
+.launch-info {
+
+    color:
+        @bios_text_dim;
+}
+
+
+.dialog-content {
+
+    background:
+        #111316;
+
+    border:
+        1px solid
+        @bios_border;
+
+    border-radius:
+        5px;
+
+    padding:
+        12px;
+}
+
+
+.dialog-content textview {
+
+    background:
+        transparent;
+
+    color:
+        @bios_text;
+
+    font-family:
+        monospace;
+}
+
+
+/* =========================================================
+   BADGES
+   ========================================================= */
+
+.badge {
+
+    border-radius:
+        3px;
+
+    padding:
+        4px 8px;
+
+    font-size:
+        10px;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        0.25px;
+
+    color:
+        @bios_text;
+
+    background:
+        rgba(255,255,255,0.045);
+
+    border:
+        1px solid
+        rgba(255,255,255,0.10);
+
+    text-shadow:
+        0 1px 1px rgba(0,0,0,0.6);
+}
+
+
+.badge:hover {
+
+    background:
+        rgba(255,255,255,0.08);
+
+    border-color:
+        rgba(255,30,45,0.45);
+}
+
+
+/* =========================================================
+   BADGES SÉMANTIQUES
+   ========================================================= */
+
+.badge-protondb,
+.badge.profile {
+
+    background:
+        rgba(80,140,255,0.15);
+
+    border-color:
+        rgba(80,140,255,0.35);
+
+    border-left:
+        2px solid #508cff;
+
+    color:
+        #cbdcff;
+}
+
+
+.badge.platform {
+
+    background:
+        rgba(255,160,40,0.13);
+
+    border-color:
+        rgba(255,160,40,0.30);
+
+    border-left:
+        2px solid @bios_orange;
+
+    color:
+        #ffe1ad;
+}
+
+
+.badge.feature {
+
+    background:
+        rgba(80,220,130,0.13);
+
+    border-color:
+        rgba(80,220,130,0.30);
+
+    border-left:
+        2px solid #50dc82;
+
+    color:
+        #c8f5d5;
+}
+
+
+.badge.favorite {
+
+    background:
+        rgba(255,40,70,0.15);
+
+    border-color:
+        rgba(255,40,70,0.40);
+
+    border-left:
+        2px solid @bios_red;
+
+    color:
+        #ffd0d4;
+}
+
+
+/* =========================================================
+   PROGRESSION
+   ========================================================= */
+
+.badge.rookie {
+
+    background:
+        rgba(120,220,255,0.13);
+
+    border-color:
+        rgba(120,220,255,0.30);
+
+    border-left:
+        2px solid #78dcff;
+}
+
+
+.badge.casual {
+
+    background:
+        rgba(255,220,80,0.13);
+
+    border-color:
+        rgba(255,220,80,0.30);
+
+    border-left:
+        2px solid #ffdc50;
+}
+
+
+.badge.gamer {
+
+    background:
+        rgba(80,220,130,0.13);
+
+    border-color:
+        rgba(80,220,130,0.30);
+
+    border-left:
+        2px solid #50dc82;
+}
+
+
+.badge.heavy {
+
+    background:
+        rgba(255,130,50,0.15);
+
+    border-color:
+        rgba(255,130,50,0.35);
+
+    border-left:
+        2px solid #ff8232;
+}
+
+
+.badge.addict {
+
+    background:
+        rgba(255,50,80,0.18);
+
+    border-color:
+        rgba(255,50,80,0.40);
+
+    border-left:
+        2px solid @bios_red;
+}
+
+
+.badge.night_owl {
+
+    background:
+        rgba(100,90,255,0.15);
+
+    border-color:
+        rgba(100,90,255,0.30);
+
+    border-left:
+        2px solid #645aff;
+}
+
+
+.badge.veteran {
+
+    background:
+        rgba(220,180,80,0.15);
+
+    border-color:
+        rgba(220,180,80,0.35);
+
+    border-left:
+        2px solid #dcb450;
+}
+
+
+/* =========================================================
+   TEXTVIEW
+   ========================================================= */
+
+textview {
+
+    background:
+        transparent;
+
+    color:
+        @bios_text;
+
+    font-family:
+        monospace;
+}
+
+
+textview text {
+
+    background:
+        transparent;
+
+    color:
+        @bios_text;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+scrollbar {
+    background: transparent;
+}
+
+scrollbar slider {
+
+    background:
+        #3a3e44;
+
+    border-radius:
+        3px;
+
+    min-width:
+        6px;
+
+    min-height:
+        6px;
+
+    margin:
+        2px;
+}
+
+
+scrollbar slider:hover {
+
+    background:
+        @bios_red;
+}
+
+
+scrollbar.vertical slider {
+    min-width: 6px;
+}
+
+scrollbar.horizontal slider {
+    min-height: 6px;
+}
+
+
+/* =========================================================
+   RECENT GAMES
+   ========================================================= */
+
+.recent-card {
+
+    padding:
+        1px 5px;
+
+    margin:
+        1px;
+
+    border-radius:
+        4px;
+
+    background-color:
+        rgba(255,255,255,0.035);
+}
+
+
+.carousel-button {
+
+    min-width:
+        36px;
+
+    min-height:
+        36px;
+
+    color:
+        @bios_text;
+
+    padding:
+        0;
+
+    border-radius:
+        4px;
+
+    background-color:
+        rgba(255,255,255,0.04);
+}
+
+
+.carousel-button:hover {
+
+    background-color:
+        rgba(255,30,45,0.12);
+}
+
+
+.carousel-button:disabled {
+    opacity: 0.35;
+}
+
+
+.carousel-counter {
+
+    font-size:
+        0.85em;
+
+    opacity:
+        0.75;
+
+    color:
+        @bios_text;
+
+    margin-top:
+        4px;
+
+    margin-bottom:
+        2px;
+}
+
+
+.btn-delete {
+
+    min-width:
+        18px;
+
+    min-height:
+        18px;
+
+    padding:
+        0;
+
+    margin:
+        0;
+}
+
+
+.btn-delete image {
+    -gtk-icon-size: 10px;
+}
+
+
+/* =========================================================
+   POPOVER
+   ========================================================= */
+
+popover {
+
+    background:
+        #121417;
+
+    color:
+        @bios_text;
+
+    border:
+        1px solid
+        @bios_border_red;
+}
+
+
+popover contents {
+    background: transparent;
+}
+
+
+popover menuitem {
+    color: @bios_text;
+}
+
+
+popover menuitem:hover {
+
+    background:
+        rgba(255,30,45,0.12);
+}
+
+
+popover modelbutton {
+    color: @bios_text;
+}
+
+
+popover modelbutton:hover {
+
+    background:
+        rgba(255,30,45,0.12);
+}
+
+
+/* =========================================================
+   CHECKBUTTON
+   ========================================================= */
+
+checkbutton label {
+    color: @bios_text;
+}
+
+
+checkbutton check {
+
+    background:
+        @bios_surface;
+
+    border:
+        1px solid
+        #454a50;
+
+    border-radius:
+        3px;
+}
+
+
+checkbutton check:checked {
+
+    background:
+        @bios_red;
+
+    border-color:
+        @bios_red;
+}
+
+
+checkbutton check:checked image {
+    color: white;
+}
+
+
+/* =========================================================
+   COMBOBOX / DROPDOWN
+   ========================================================= */
+
+combobox > button,
+dropdown > button {
+
+    background:
+        #15171a;
+
+    color:
+        @bios_text;
+
+    border-radius:
+        4px;
+
+    border:
+        1px solid
+        #3b3f45;
+
+    padding:
+        6px 12px;
+}
+
+
+combobox > button:hover,
+dropdown > button:hover {
+
+    background:
+        #1c1f23;
+
+    border-color:
+        @bios_border_red;
+}
+
+
+combobox > button:active,
+dropdown > button:active {
+
+    background:
+        #251114;
+}
+
+
+combobox > button:focus,
+dropdown > button:focus {
+
+    outline:
+        2px solid
+        @bios_red;
+
+    outline-offset:
+        1px;
+}
+
+
+combobox label,
+dropdown label {
+
+    color:
+        @bios_text;
+
+    font-weight:
+        500;
+
+    background:
+        transparent;
+}
+
+
+/* =========================================================
+   ENTRÉES
+   ========================================================= */
+
+entry,
+searchentry {
+
+    background:
+        #0c0d0f;
+
+    color:
+        @bios_text;
+
+    border:
+        1px solid
+        #3a3e44;
+
+    border-radius:
+        4px;
+
+    padding:
+        6px 10px;
+}
+
+
+entry text,
+searchentry text {
+
+    background:
+        transparent;
+
+    color:
+        @bios_text;
+}
+
+
+entry image,
+searchentry image {
+
+    color:
+        @bios_text_dim;
+}
+
+
+entry placeholder,
+searchentry placeholder {
+
+    color:
+        #656a71;
+}
+
+
+entry:hover,
+searchentry:hover {
+
+    border-color:
+        #555b63;
+}
+
+
+entry:focus,
+searchentry:focus {
+
+    border-color:
+        @bios_red;
+
+    box-shadow:
+        0 0 0 2px
+        rgba(255,30,45,0.16);
+}
+
+
+entry:disabled,
+searchentry:disabled {
+    opacity: 0.5;
+}
+
+
+/* =========================================================
+   GAME ICON
+   ========================================================= */
+
+.game-icon {
+
+    min-width:
+        48px;
+
+    min-height:
+        48px;
+
+    border-radius:
+        4px;
+
+    background:
+        #17191d;
+
+    border:
+        1px solid
+        rgba(255,255,255,0.08);
+
+    box-shadow:
+        0 3px 8px rgba(0,0,0,0.35);
+
+    padding:
+        2px;
+}
+
+
+.game-icon:hover {
+
+    background:
+        #202328;
+
+    border-color:
+        rgba(255,30,45,0.55);
+
+    box-shadow:
+        inset 0 0 0 1px
+        rgba(255,30,45,0.15);
+}
+
+
+/* =========================================================
+   FPS SPINBUTTON
+   ========================================================= */
+
+.fps-spinbutton {
+
+    background-color:
+        #0d0e10;
+
+    border-radius:
+        4px;
+
+    border:
+        1px solid
+        #383c42;
+}
+
+
+.fps-spinbutton text {
+
+    background-color:
+        transparent;
+
+    color:
+        @bios_text;
+
+    caret-color:
+        @bios_red;
+}
+
+
+.fps-spinbutton text selection {
+
+    background-color:
+        rgba(255,30,45,0.30);
+
+    color:
+        white;
+}
+
+
+.fps-spinbutton button {
+
+    background-color:
+        transparent;
+
+    color:
+        @bios_text;
+
+    border:
+        none;
+
+    box-shadow:
+        none;
+}
+
+
+.fps-spinbutton button:hover {
+
+    background-color:
+        rgba(255,30,45,0.15);
+}
+
+
+.fps-spinbutton button:active {
+
+    background-color:
+        rgba(255,30,45,0.25);
+}
+
+
+/* =========================================================
+   HISTORIQUE
+   ========================================================= */
+
+.status-history-panel {
+
+    padding:
+        6px;
+
+    border:
+        1px solid
+        @bios_border;
+
+    background:
+        #131519;
+
+    border-radius:
+        4px;
+}
+
+
+.status-history-entry {
+    font-size: 0.9em;
+}
+
+
+.status-history-error {
+    color:
+        #ff5b63;
+}
+
+
+.status-history-success {
+    color:
+        #4caf78;
+}
+
+
+/* =========================================================
+   GAME GRID
+   ========================================================= */
+
+.game-grid {
+
+    padding:
+        4px;
+
+    background-color:
+        transparent;
+}
+
+
+.game-grid scrolledwindow {
+
+    background-color:
+        transparent;
+}
+
+
+.game-grid-card {
+
+    min-width:
+        0;
+
+    min-height:
+        0;
+
+    margin:
+        2px;
+
+    padding:
+        4px;
+
+    border-radius:
+        5px;
+}
+
+
+.game-grid-card:hover {
+
+    background-color:
+        rgba(255,255,255,0.035);
+}
+
+
+.game-grid-icon-holder {
+
+    min-width:
+        0;
+
+    min-height:
+        0;
+
+    border-radius:
+        4px;
+}
+
+
+.game-grid-icon-holder:hover {
+
+    background:
+        rgba(255,30,45,0.10);
+
+    box-shadow:
+        inset 0 0 0 1px
+        rgba(255,30,45,0.25);
+}
+
+
+.game-grid-icon {
+    border-radius: 4px;
+}
+
+
+.game-grid-title {
+
+    font-weight:
+        600;
+
+    font-size:
+        1em;
+
+    margin-left:
+        1px;
+
+    margin-right:
+        1px;
+
+    color:
+        @bios_text;
+}
+
+
+.game-grid-badges {
+    min-height: 8px;
+}
+
+
+/* =========================================================
+   CONTEXT MENU
+   ========================================================= */
+
+.game-grid-context-menu {
+
+    padding:
+        3px;
+
+    border-radius:
+        4px;
+
+    background:
+        #15171a;
+}
+
+
+.game-grid-context-menu button {
+
+    min-height:
+        24px;
+
+    padding:
+        4px 9px;
+
+    border:
+        none;
+
+    box-shadow:
+        none;
+
+    color:
+        @bios_text;
+
+    background:
+        transparent;
+}
+
+
+.game-grid-context-menu button:hover {
+
+    background:
+        rgba(255,30,45,0.12);
+}
+
+
+.game-grid-context-menu button:active {
+
+    background:
+        rgba(255,30,45,0.20);
+}
+
+
+.game-grid-context-menu .game-grid-menu-delete {
+
+    color:
+        #ff5b63;
+}
+
+
+.game-grid-context-menu .game-grid-menu-delete:hover {
+
+    color:
+        white;
+
+    background:
+        rgba(255,0,0,0.20);
+}
+
+
+.game-grid-context-menu separator {
+
+    margin:
+        3px 2px;
+
+    min-height:
+        1px;
+
+    background:
+        rgba(255,255,255,0.10);
+}
+
+
+/* =========================================================
+   FOCUS CLAVIER
+   ========================================================= */
+
+.btn-delete:focus-visible,
+.btn-export:focus-visible,
+.btn-install:focus-visible,
+.btn-edit:focus-visible,
+.btn-launch:focus-visible,
+.badge-clickable:focus-visible {
+
+    outline:
+        2px solid
+        @bios_red;
+
+    outline-offset:
+        2px;
+}
+
+
+popover modelbutton:focus-visible,
+popover menuitem:focus-visible {
+
+    background:
+        rgba(255,30,45,0.22);
+
+    color:
+        white;
+
+    outline:
+        2px solid
+        @bios_red;
+
+    outline-offset:
+        -2px;
+}
+
+
+button:focus {
+
+    outline:
+        2px solid
+        @bios_red;
+
+    outline-offset:
+        2px;
+}
+
+
+.btn-delete:focus,
+.btn-export:focus,
+.btn-install:focus,
+.btn-edit:focus,
+.btn-launch:focus {
+
+    outline:
+        2px solid
+        @bios_red;
+
+    outline-offset:
+        2px;
+}
+
+
+.badge-clickable:focus {
+
+    outline:
+        2px solid
+        @bios_red;
+
+    outline-offset:
+        2px;
+}
+
+
+entry:focus,
+searchentry:focus {
+
+    outline:
+        2px solid
+        @bios_red;
+
+    outline-offset:
+        2px;
+}
+
+
+.game-list:focus {
+
+    outline:
+        2px solid
+        @bios_red;
+
+    outline-offset:
+        2px;
+}
+
+
+popover modelbutton:focus,
+popover menuitem:focus {
+
+    background:
+        rgba(255,30,45,0.22);
+
+    color:
+        white;
+
+    outline:
+        2px solid
+        @bios_red;
+
+    outline-offset:
+        -2px;
+}
+
+
+popover button:focus {
+
+    background:
+        rgba(255,30,45,0.22);
+
+    color:
+        white;
+
+    outline:
+        2px solid
+        @bios_red;
+
+    outline-offset:
+        1px;
+}
+
+
+.game-grid-icon-holder:focus,
+.game-grid-icon-holder:focus-visible {
+
+    outline:
+        2px solid
+        @bios_red;
+
+    outline-offset:
+        2px;
+}
+
+
+.game-grid-context-menu button:focus,
+.game-grid-context-menu button:focus-visible {
+
+    outline:
+        2px solid
+        @bios_red;
+
+    outline-offset:
+        -2px;
+}
+
+
+/* =========================================================
+   RACCOURCIS CLAVIER
+   ========================================================= */
+
+.shortcuts-window {
+
+    background:
+        #0d0e10;
+
+    border-radius:
+        6px;
+
+    border:
+        1px solid
+        @bios_border_red;
+}
+
+
+.shortcuts-list {
+    background:
+        transparent;
+}
+
+
+.shortcuts-list row {
+
+    background:
+        transparent;
+
+    border-radius:
+        4px;
+}
+
+
+.shortcuts-list row:hover {
+
+    background:
+        rgba(255,30,45,0.08);
+}
+
+
+.shortcuts-list row:focus,
+.shortcuts-list row:focus-visible {
+
+    outline:
+        2px solid
+        @bios_red;
+
+    outline-offset:
+        -2px;
+
+    border-radius:
+        4px;
+}
+
+
+.shortcut-key {
+
+    font-family:
+        monospace;
+
+    font-size:
+        12px;
+
+    font-weight:
+        600;
+
+    padding:
+        2px 8px;
+
+    border-radius:
+        3px;
+
+    background:
+        #1b1e22;
+
+    border:
+        1px solid
+        #454a50;
+
+    color:
+        @bios_red;
+}
+
+
+.save-backup-path {
+    font-size: 0.75em;
+}
