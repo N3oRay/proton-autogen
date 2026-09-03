@@ -180,59 +180,105 @@ def _significant_words_step1(name: str) -> set[str]:
     such as numbers and abbreviations to reduce false positives.
     """
     words = re.findall(r"[a-z0-9]+", name.lower())
-    return {
+    result = {
         w
         for w in words
         if len(w) >= 4 and w not in _STOPWORDS
     }
+
+    logger.debug(
+        "Save detection Step 1: %r -> %s",
+        name,
+        sorted(result),
+    )
+
+    return result
 
 
 def _significant_words_step2(name: str) -> set[str]:
     """Return all normalized alphanumeric words.
 
     Step 2 is the permissive fallback matcher. Short tokens such as
-    '2', 'ii', 'v', 'nfs', etc. are deliberately retained because
-    publishers frequently use abbreviations or sequel numbers in
-    directory names.
-
-    False positives are preferred over false negatives.
+    '2', 'ii', 'v', 'nfs', etc. are deliberately retained.
     """
     words = re.findall(r"[a-z0-9]+", name.lower())
-    return {
+    result = {
         w
         for w in words
         if w not in _STOPWORDS
     }
+
+    logger.debug(
+        "Save detection Step 2: %r -> %s",
+        name,
+        sorted(result),
+    )
+
+    return result
 
 
 def _folder_matches_game(folder_name: str, game_name: str) -> bool:
     """Return True if a folder plausibly belongs to the game.
 
     Matching is performed in two steps:
-
-      1. Conservative match using significant words (>= 4 chars).
-      2. Permissive fallback using all alphanumeric words, including
-         short tokens and numbers.
-
-    The second step intentionally favors false positives over false
-    negatives.
+      1. Conservative match using words >= 4 characters.
+      2. Permissive fallback using all alphanumeric words.
     """
 
-    # Step 1: conservative matching.
+    logger.debug(
+        "Save detection: comparing folder=%r with game=%r",
+        folder_name,
+        game_name,
+    )
+
+    # ---------------------------------------------------------------
+    # Step 1: conservative matching
+    # ---------------------------------------------------------------
     folder_words = _significant_words_step1(folder_name)
     game_words = _significant_words_step1(game_name)
 
-    if folder_words and game_words and folder_words & game_words:
+    common_words = folder_words & game_words
+
+    if common_words:
+        logger.debug(
+            "Save detection: STEP 1 MATCH: folder=%r game=%r common=%s",
+            folder_name,
+            game_name,
+            sorted(common_words),
+        )
         return True
 
-    # Step 2: permissive matching.
+    logger.debug(
+        "Save detection: STEP 1 NO MATCH: folder=%r game=%r",
+        folder_name,
+        game_name,
+    )
+
+    # ---------------------------------------------------------------
+    # Step 2: permissive matching
+    # ---------------------------------------------------------------
     folder_words = _significant_words_step2(folder_name)
     game_words = _significant_words_step2(game_name)
 
-    if not folder_words or not game_words:
-        return False
+    common_words = folder_words & game_words
 
-    return bool(folder_words & game_words)
+    if common_words:
+        logger.debug(
+            "Save detection: STEP 2 MATCH: folder=%r game=%r common=%s",
+            folder_name,
+            game_name,
+            sorted(common_words),
+        )
+        return True
+
+    logger.debug(
+        "Save detection: STEP 2 NO MATCH: folder=%r game=%r",
+        folder_name,
+        game_name,
+    )
+
+    return False
+
 
 
 
@@ -349,65 +395,110 @@ def find_prefix_user_saves(
     returned as a whole.
     """
     users_dir = prefix_path / "drive_c" / "users"
+
     if not users_dir.is_dir():
+        logger.debug(
+            "Save detection: users directory not found: %s",
+            users_dir,
+        )
         return []
 
     found: list[SaveLocation] = []
+
     try:
         user_dirs = [d for d in users_dir.iterdir() if d.is_dir()]
     except (OSError, PermissionError) as exc:
-        logger.debug("Cannot list %s: %s", users_dir, exc)
+        logger.debug(
+            "Save detection: cannot list users directory %s: %s",
+            users_dir,
+            exc,
+        )
         return []
+
+    logger.debug(
+        "Save detection: scanning prefix %s for game %r",
+        prefix_path,
+        game_name,
+    )
 
     for user_dir in user_dirs:
         for subpath in PREFIX_USER_SAVE_SUBPATHS:
             candidate = user_dir / subpath
+
             if not candidate.is_dir():
                 continue
 
             if game_name:
                 try:
-                    subfolders = [c for c in candidate.iterdir() if c.is_dir()]
+                    subfolders = [
+                        c for c in candidate.iterdir()
+                        if c.is_dir()
+                    ]
                 except (OSError, PermissionError):
                     subfolders = []
 
                 matched_names: set[str] = set()
+
                 for sub in subfolders:
                     if _folder_matches_game(sub.name, game_name):
                         if _dir_has_content(sub):
+                            logger.info(
+                                "Save detection: found save directory: %s",
+                                sub,
+                            )
+
                             found.append(SaveLocation(
                                 path=sub,
                                 kind="prefix_dir",
                                 label=f"{subpath}/{sub.name}",
                             ))
+
                         matched_names.add(sub.name)
 
-                # Fallback tier, AppData/Local and AppData/Roaming only:
-                # if the word-overlap match above found nothing here,
-                # don't just give up -- publishers' on-disk folder names
-                # can diverge from the library's game title in ways no
-                # heuristic will reliably catch (initials, alternate
-                # titles, sequel numbering...). Rather than risk missing
-                # real save data, propose every remaining subfolder that
-                # isn't a known Windows/Wine system folder. Worse case:
-                # an extra, unrelated folder gets offered for backup --
-                # cheap, and still better than silently missing the
-                # actual save location.
+                # Fallback tier for AppData/Local and AppData/Roaming.
                 if subpath in APPDATA_SUBPATHS and not matched_names:
+                    logger.debug(
+                        "Save detection: no game-name match in %s; "
+                        "using AppData fallback",
+                        candidate,
+                    )
+
                     for sub in subfolders:
                         if sub.name.lower() in APPDATA_SYSTEM_FOLDER_BLOCKLIST:
                             continue
+
                         if _dir_has_content(sub):
+                            logger.info(
+                                "Save detection: fallback save directory: %s",
+                                sub,
+                            )
+
                             found.append(SaveLocation(
                                 path=sub,
                                 kind="prefix_dir",
                                 label=f"{subpath}/{sub.name}",
                             ))
+
             else:
                 if _dir_has_content(candidate):
-                    found.append(SaveLocation(path=candidate, kind="prefix_dir", label=subpath))
+                    logger.info(
+                        "Save detection: found save directory: %s",
+                        candidate,
+                    )
+
+                    found.append(SaveLocation(
+                        path=candidate,
+                        kind="prefix_dir",
+                        label=subpath,
+                    ))
+
+    logger.debug(
+        "Save detection: prefix scan found %d location(s)",
+        len(found),
+    )
 
     return found
+
 
 
 # ---------------------------------------------------------------------------
