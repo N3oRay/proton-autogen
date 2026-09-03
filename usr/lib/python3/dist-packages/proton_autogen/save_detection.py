@@ -37,6 +37,7 @@ from __future__ import annotations
 import hashlib
 import logging
 import os
+import re
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -74,6 +75,37 @@ PREFIX_USER_SAVE_SUBPATHS: tuple[str, ...] = (
     "AppData/Local",
     "AppData/Roaming",
 )
+
+# Subset of the above where game folders are typically named after the
+# game itself rather than under a curated "Saved Games"/"My Games"
+# convention -- and where Windows/Wine also dumps a lot of unrelated
+# per-user clutter (browser caches, GPU shader caches, telemetry...).
+# Used to scope the blocklist-based fallback below.
+APPDATA_SUBPATHS: frozenset[str] = frozenset({"AppData/Local", "AppData/Roaming"})
+
+# Known non-game folders found under AppData/Local and AppData/Roaming
+# inside a Wine prefix. Never proposed as save data, even by the
+# fallback tier below (see find_prefix_user_saves): these are standard
+# Windows user-profile / Wine internals, not any specific game's data.
+APPDATA_SYSTEM_FOLDER_BLOCKLIST: frozenset[str] = frozenset({
+    "microsoft",
+    "microsoft_corporation",
+    "temp",
+    "tmp",
+    "google",
+    "mozilla",
+    "packages",
+    "connecteddevicesplatform",
+    "crashdumps",
+    "d3dscache",
+    "nvidia",
+    "nvidia corporation",
+    "amd",
+    "comms",
+    "elevateddiagnostics",
+    "programs",
+    "publishers",
+})
 
 # How many directory levels below the install dir / prefix save subpath we
 # are willing to recurse into when looking for a named save directory.
@@ -117,6 +149,34 @@ def _dir_has_content(path: Path) -> bool:
         return True
     except (StopIteration, OSError, PermissionError):
         return False
+
+
+_STOPWORDS = frozenset({"the", "of", "and", "for", "a", "an", "edition", "game", "games"})
+
+
+def _significant_words(name: str) -> set[str]:
+    """Lowercased alphanumeric words of at least 4 characters, minus a
+    few generic stopwords. Used to compare a folder name against a game
+    title without requiring an exact or substring match -- publishers
+    routinely abbreviate their own game's folder name (e.g. "NFS
+    Underground 2" on disk for a game titled "Need for Speed
+    Underground 2" in the library), so a plain substring test in either
+    direction misses real matches."""
+    words = re.findall(r"[a-z0-9]+", name.lower())
+    return {w for w in words if len(w) >= 4 and w not in _STOPWORDS}
+
+
+def _folder_matches_game(folder_name: str, game_name: str) -> bool:
+    """True if folder_name plausibly belongs to game_name, based on at
+    least one shared significant word rather than a literal substring
+    match. False positives here just mean an extra folder gets offered
+    for backup (harmless); false negatives mean a real save location is
+    silently missed (the actual risk -- see module docstring)."""
+    folder_words = _significant_words(folder_name)
+    game_words = _significant_words(game_name)
+    if not folder_words or not game_words:
+        return False
+    return bool(folder_words & game_words)
 
 
 # ---------------------------------------------------------------------------
@@ -217,10 +277,18 @@ def find_prefix_user_saves(
     or Lutris prefix, or an arbitrary `~/Documents/Proton/env/<name>/pfx`)
     are all covered the same way.
 
-    If game_name is given, subfolders are matched loosely against it
-    (case-insensitive substring) to avoid pulling in unrelated games that
-    happen to share the same "Saved Games" parent across many titles.
-    Otherwise, all non-empty subpaths are returned as candidates.
+    If game_name is given, subfolders are matched against it by shared
+    significant words (see _folder_matches_game) rather than a strict
+    substring test, so abbreviated on-disk folder names (e.g. "NFS
+    Underground 2" for "Need for Speed Underground 2") are still found.
+    If no folder matches under AppData/Local or AppData/Roaming
+    specifically, every remaining subfolder there is proposed instead,
+    except a small blocklist of known Windows/Wine system folders (see
+    APPDATA_SYSTEM_FOLDER_BLOCKLIST) -- publishers' folder-naming
+    conventions vary too much to guarantee a name-based match always
+    succeeds, and a missed save is worse than an extra folder offered
+    for backup. Without a game_name at all, every non-empty subpath is
+    returned as a whole.
     """
     users_dir = prefix_path / "drive_c" / "users"
     if not users_dir.is_dir():
@@ -240,21 +308,43 @@ def find_prefix_user_saves(
                 continue
 
             if game_name:
-                needle = game_name.lower()
                 try:
-                    matches = [
-                        c for c in candidate.iterdir()
-                        if c.is_dir() and needle in c.name.lower()
-                    ]
+                    subfolders = [c for c in candidate.iterdir() if c.is_dir()]
                 except (OSError, PermissionError):
-                    matches = []
-                for match in matches:
-                    if _dir_has_content(match):
-                        found.append(SaveLocation(
-                            path=match,
-                            kind="prefix_dir",
-                            label=f"{subpath}/{match.name}",
-                        ))
+                    subfolders = []
+
+                matched_names: set[str] = set()
+                for sub in subfolders:
+                    if _folder_matches_game(sub.name, game_name):
+                        if _dir_has_content(sub):
+                            found.append(SaveLocation(
+                                path=sub,
+                                kind="prefix_dir",
+                                label=f"{subpath}/{sub.name}",
+                            ))
+                        matched_names.add(sub.name)
+
+                # Fallback tier, AppData/Local and AppData/Roaming only:
+                # if the word-overlap match above found nothing here,
+                # don't just give up -- publishers' on-disk folder names
+                # can diverge from the library's game title in ways no
+                # heuristic will reliably catch (initials, alternate
+                # titles, sequel numbering...). Rather than risk missing
+                # real save data, propose every remaining subfolder that
+                # isn't a known Windows/Wine system folder. Worse case:
+                # an extra, unrelated folder gets offered for backup --
+                # cheap, and still better than silently missing the
+                # actual save location.
+                if subpath in APPDATA_SUBPATHS and not matched_names:
+                    for sub in subfolders:
+                        if sub.name.lower() in APPDATA_SYSTEM_FOLDER_BLOCKLIST:
+                            continue
+                        if _dir_has_content(sub):
+                            found.append(SaveLocation(
+                                path=sub,
+                                kind="prefix_dir",
+                                label=f"{subpath}/{sub.name}",
+                            ))
             else:
                 if _dir_has_content(candidate):
                     found.append(SaveLocation(path=candidate, kind="prefix_dir", label=subpath))
