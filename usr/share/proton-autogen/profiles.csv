@@ -955,3 +955,614 @@ VoiceAttack.exe,Voice Attack,dotnet,Client Voice
 voiceattackinstaller_116.exe,Voice Attack,dotnet,Client Voice
 voiceattackinstaller_189_32.exe,Voice Attack,dotnet,Client Voice
 voiceattackinstaller_2.1.8.0.exe,Voice Attack,dotnet,Client Voice
+helldivers2.exe,Helldivers 2,dx12,Autodesk Stingray
+PioneerGame.exe,ARC Raiders,dx12,Unreal Engine 5
+DeltaForceClient-Win64-Shipping.exe,Delta Force,dx12,Unreal Engine
+UAGame.exe,Arena Breakout Infinite,dx12,Unreal Engine
+Polaris-Win64-Shipping.exe,Tekken 8,dx12,Unreal Engine 5
+METAPHOR.exe,Metaphor ReFantazio,dx11,Custom Atlus Engine
+Dragon's Dogma 2.exe,Dragon's Dogma 2,dx12,RE Engine
+MonsterHunterWilds.exe,Monster Hunter Wilds,dx12,RE Engine
+Avowed.exe,Avowed,dx12,Unreal Engine 5
+ClairObscur-Win64-Shipping.exe,Clair Obscur Expedition 33,dx12,Unreal Engine 5
+SHProto-Win64-Shipping.exe,Silent Hill 2 Remake,dx12,Unreal Engine 5
+IndianaJones.exe,Indiana Jones and the Great Circle,vulkan,id Tech / Motor Engine
+DoomTheDarkAges.exe,Doom The Dark Ages,dx12,id Tech 8
+BlackOps6.exe,Call of Duty Black Ops 6,dx12,Black Ops Engine
+Marvel-Win64-Shipping.exe,Marvel Rivals,dx12,Unreal Engine 5
+TheFirstDescendant.exe,The First Descendant,dx12,Unreal Engine 5
+OnceHuman.exe,Once Human,dx12,Starry Studio Engine
+Nightingale.exe,Nightingale,dx12,Unreal Engine 5
+LordsOfTheFallen.exe,Lords of the Fallen,dx12,Unreal Engine 5
+LiesOfP-Win64-Shipping.exe,Lies of P,dx12,Unreal Engine 4
+Enotria-Win64-Shipping.exe,Enotria The Last Song,dx12,Unreal Engine 5
+Flintlock-Win64-Shipping.exe,Flintlock The Siege of Dawn,dx12,Unreal Engine 5
+Banishers-Win64-Shipping.exe,Banishers Ghosts of New Eden,dx12,Unreal Engine 5
+Outlaws.exe,Star Wars Outlaws,dx12,Snowdrop Engine
+ACShadows.exe,Assassins Creed Shadows,dx12,Anvil Engine
+PrinceOfPersia-Win64-Shipping.exe,Prince of Persia The Lost Crown,dx12,Ubisoft Engine
+LikeaDragon8.exe,Like a Dragon Infinite Wealth,dx12,Dragon Engine
+Persona3Reload.exe,Persona 3 Reload,dx11,Custom Atlus Engine
+SonicFrontiers.exe,Sonic Frontiers,dx11,Hedgehog Engine 2
+SonicXShadowGenerations.exe,Sonic X Shadow Generations,dx11,Hedgehog Engine 2
+DragonBallSparkingZERO.exe,Dragon Ball Sparking Zero,dx12,Unreal Engine 5
+GranblueFantasyRelink.exe,Granblue Fantasy Relink,dx12,Custom Engine
+Tekken8-Win64-Shipping.exe,Tekken 8,dx12,Unreal Engine 5
+Helldivers2.exe,Helldivers 2,dx12,Autodesk Stingray
+Bodycam.exe,Bodycam,dx12,Unreal Engine 5
+GrayZoneWarfare.exe,Gray Zone Warfare,dx12,Unreal Engine 5
+AbioticFactor.exe,Abiotic Factor,dx11,Unreal Engine 5
+Palworld-Win64-Shipping.exe,Palworld,dx12,Unreal Engine 5
+Enshrouded.exe,Enshrouded,dx12,Enfusion Engine
+PacificDrive.exe,Pacific Drive,dx12,Unreal Engine 5
+ManorLords.exe,Manor Lords,dx12,Unreal Engine 5
+Homeworld3.exe,Homeworld 3,dx12,Unreal Engine 4
+Warhammer3.exe,Warhammer 40000 Space Marine 2,dx12,Saber Engine
+SpaceMarine2-Win64-Shipping.exe,Warhammer 40000 Space Marine 2,dx12,Saber Engine
+SenuaClient-Win64-Shipping.exe,Senua's Saga Hellblade II,dx12,Unreal Engine 5
+Frostpunk2.exe,Frostpunk 2,dx12,Unreal Engine 5
+AraHistoryUntold.exe,Ara History Untold,dx12,Unreal Engine 5
+StarWarsOutlaws.exe,Star Wars Outlaws,dx12,Snowdrop Engine
+TestDriveUnlimitedSolarCrown.exe,Test Drive Unlimited Solar Crown,dx12,KT Engine
+EAFC25.exe,EA Sports FC 25,dx12,Frostbite Engine
+EAFC26.exe,EA Sports FC 26,dx12,Frostbite Engine
+F1_24.exe,F1 24,dx12,EGO Engine
+F1_25.exe,F1 25,dx12,EGO Engine
+WWE2K24.exe,WWE 2K24,dx12,Unreal Engine 4
+WWE2K25.exe,WWE 2K25,dx12,Unreal Engine 5
+NBA2K25.exe,NBA 2K25,dx12,Custom 2K Engine
+Madden25.exe,Madden NFL 25,dx12,Frostbite Engine
+Madden26.exe,Madden NFL 26,dx12,Frostbite Engine
+UFC5.exe,UFC 5,dx12,Frostbite Engine
+CollegeFootball25.exe,College Football 25,dx12,Frostbite Engine
+Dragon's Dogma 2.exe,Dragon's Dogma 2,dx12,RE Engine
+MonsterHunterWilds.exe,Monster Hunter Wilds,dx12,RE Engine
+PioneerGame.exe,ARC Raiders,dx12,Unreal Engine 5
+DeltaForceClient-Win64-Shipping.exe,Delta Force,dx12,Unreal Engine
+UAGame.exe,Arena Breakout Infinite,dx12,Unreal Engine
+Polaris-Win64-Shipping.exe,Tekken 8,dx12,Unreal Engine 5
+Avowed.exe,Avowed,dx12,Unreal Engine 5
+ClairObscur-Win64-Shipping.exe,Clair Obscur: Expedition 33,dx12,Unreal Engine 5
+DragonBallSparkingZERO.exe,Dragon Ball: Sparking! ZERO,dx12,Unreal Engine 5
+Enotria-Win64-Shipping.exe,Enotria: The Last Song,dx12,Unreal Engine 5
+LollipopChainsawRePOP.exe,Lollipop Chainsaw RePOP,dx12,Unreal Engine 5
+NobodyWantsToDie.exe,Nobody Wants to Die,dx12,Unreal Engine 5
+CaravanSandWitch.exe,Caravan SandWitch,dx12,Unreal Engine 5
+EmpireOfTheAnts.exe,Empire of the Ants,dx12,Unreal Engine 5
+UntilDawn.exe,Until Dawn,dx12,Unreal Engine 5
+AlienRogueIncursion.exe,Alien: Rogue Incursion,dx12,Unreal Engine 5
+AQuietPlace.exe,A Quiet Place: The Road Ahead,dx12,Unreal Engine 5
+JujutsuKaisen.exe,Jujutsu Kaisen: Cursed Clash,dx12,Unreal Engine 5
+EnderMagnolia.exe,Ender Magnolia: Bloom in the Mist,dx12,Unreal Engine 5
+EternalStrands.exe,Eternal Strands,dx12,Unreal Engine 5
+LostRecords.exe,Lost Records: Bloom & Rage,dx12,Unreal Engine 5
+Banishers.exe,Banishers: Ghosts of New Eden,dx12,Unreal Engine 5
+Helldivers2.exe,Helldivers 2,dx12,Autodesk Stingray
+BlackMythWukong.exe,Black Myth: Wukong,dx12,Unreal Engine 5
+Bodycam.exe,Bodycam,dx12,Unreal Engine 5
+GrayZoneWarfare.exe,Gray Zone Warfare,dx12,Unreal Engine 5
+TheFirstDescendant.exe,The First Descendant,dx12,Unreal Engine 5
+OnceHuman.exe,Once Human,dx12,Starry Studio Engine
+Nightingale.exe,Nightingale,dx12,Unreal Engine 5
+PacificDrive.exe,Pacific Drive,dx12,Unreal Engine 5
+ManorLords.exe,Manor Lords,dx12,Unreal Engine 5
+Frostpunk2.exe,Frostpunk 2,dx12,Unreal Engine 5
+SonicXShadowGenerations.exe,Sonic X Shadow Generations,dx11,Hedgehog Engine 2
+LikeaDragon8.exe,Like a Dragon: Infinite Wealth,dx12,Dragon Engine
+Persona3Reload.exe,Persona 3 Reload,dx11,Custom Atlus Engine
+Metaphor.exe,METAPHOR: ReFantazio,dx11,Custom Atlus Engine
+GranblueFantasyRelink.exe,Granblue Fantasy: Relink,dx12,Custom Engine
+Enshrouded.exe,Enshrouded,dx12,Enfusion Engine
+TestDriveUnlimitedSolarCrown.exe,Test Drive Unlimited Solar Crown,dx12,KT Engine
+EAFC25.exe,EA Sports FC 25,dx12,Frostbite Engine
+F1_24.exe,F1 24,dx12,EGO Engine
+WWE2K24.exe,WWE 2K24,dx12,Unreal Engine 4
+WWE2K25.exe,WWE 2K25,dx12,Unreal Engine 5
+Helldivers2.exe,Helldivers 2,dx12,Autodesk Stingray
+DragonsDogma2.exe,Dragon's Dogma 2,dx12,RE Engine
+BlackMythWukong.exe,Black Myth Wukong,dx12,Unreal Engine 5
+DragonAgeTheVeilguard.exe,Dragon Age The Veilguard,dx12,Frostbite Engine
+GhostOfTsushima.exe,Ghost of Tsushima Director's Cut,dx12,Decima Engine
+Banishers-Win64-Shipping.exe,Banishers Ghosts of New Eden,dx12,Unreal Engine 5
+Enshrouded.exe,Enshrouded,dx12,Enfusion Engine
+ManorLords-Win64-Shipping.exe,Manor Lords,dx12,Unreal Engine 5
+Frostpunk2-Win64-Shipping.exe,Frostpunk 2,dx12,Unreal Engine 5
+Satisfactory.exe,Satisfactory,dx12,Unreal Engine 5
+Palworld-Win64-Shipping.exe,Palworld,dx12,Unreal Engine 5
+DragonBallSparkingZERO-Win64-Shipping.exe,Dragon Ball Sparking Zero,dx12,Unreal Engine 5
+Tekken8-Win64-Shipping.exe,Tekken 8,dx12,Unreal Engine 5
+LikeaDragon8.exe,Like a Dragon Infinite Wealth,dx12,Dragon Engine
+Persona3Reload.exe,Persona 3 Reload,dx11,Custom Atlus Engine
+GranblueFantasyRelink.exe,Granblue Fantasy Relink,dx12,Custom Engine
+SandLand-Win64-Shipping.exe,Sand Land,dx12,Unreal Engine 4
+StellarBlade.exe,Stellar Blade,dx12,Unreal Engine 4
+LordsOfTheFallen.exe,Lords of the Fallen,dx12,Unreal Engine 5
+PacificDrive.exe,Pacific Drive,dx12,Unreal Engine 5
+Bodycam-Win64-Shipping.exe,Bodycam,dx12,Unreal Engine 5
+GrayZoneWarfare-Win64-Shipping.exe,Gray Zone Warfare,dx12,Unreal Engine 5
+TheFirstDescendant.exe,The First Descendant,dx12,Unreal Engine 5
+OnceHuman.exe,Once Human,dx12,Starry Studio Engine
+Nightingale.exe,Nightingale,dx12,Unreal Engine 5
+ContentWarning.exe,Content Warning,dx11,Unity
+AbioticFactor.exe,Abiotic Factor,dx11,Unreal Engine 5
+CoreKeeper.exe,Core Keeper,dx11,Unity
+Palworld.exe,Palworld,dx12,Unreal Engine 5
+PaperTrail.exe,Paper Trail,dx11,Unity
+DreadDelusion.exe,Dread Delusion,dx11,Unity
+Conscript.exe,Conscript,dx11,Unity
+GestaltSteamAndCinder.exe,Gestalt Steam and Cinder,dx11,MonoGame
+SandLand.exe,Sand Land,dx12,Unreal Engine 4
+SonicXShadowGenerations.exe,Sonic X Shadow Generations,dx11,Hedgehog Engine 2
+Metaphor.exe,METAPHOR ReFantazio,dx11,Custom Atlus Engine
+SilentHill2.exe,Silent Hill 2 Remake,dx12,Unreal Engine 5
+UntilDawn.exe,Until Dawn,dx12,Unreal Engine 5
+DragonQuestIIIHD2D.exe,Dragon Quest III HD-2D Remake,dx11,Unreal Engine 4
+IndianaJones.exe,Indiana Jones and the Great Circle,dx12,id Tech Engine
+StarWarsOutlaws.exe,Star Wars Outlaws,dx12,Snowdrop Engine
+AvatarFrontiers.exe,Avatar Frontiers of Pandora,dx12,Snowdrop Engine
+PrinceOfPersia.exe,Prince of Persia The Lost Crown,dx11,Ubisoft Engine
+AnotherCrabsTreasure.exe,Another Crab's Treasure,dx12,Unreal Engine 4
+NineSols.exe,Nine Sols,dx11,Unity
+Hades2.exe,Hades II,dx11,Custom Engine
+Balatro.exe,Balatro,desktop,GameMaker
+AnimalWell.exe,Animal Well,desktop,Custom Engine
+BuckshotRoulette.exe,Buckshot Roulette,desktop,Gamemaker
+LoreleiAndTheLaserEyes.exe,Lorelei and the Laser Eyes,desktop,Unity
+ThePluckySquire.exe,The Plucky Squire,dx11,Unity
+Neva.exe,Neva,dx11,Unity
+ThankGoodnessYoureHere.exe,Thank Goodness You're Here,desktop,Custom Engine
+Mouthwashing.exe,Mouthwashing,dx11,Unreal Engine 5
+CrowCountry.exe,Crow Country,dx11,Custom Engine
+StillWakesTheDeep.exe,Still Wakes the Deep,dx12,Unreal Engine 5
+KunitsuGami.exe,Kunitsu-Gami Path of the Goddess,dx12,RE Engine
+VisionsOfMana.exe,Visions of Mana,dx12,Unreal Engine 4
+FinalFantasyVIIRebirth.exe,Final Fantasy VII Rebirth,dx12,Unreal Engine 4
+SaGaEmeraldBeyond.exe,SaGa Emerald Beyond,dx11,Custom Square Enix Engine
+RiseOfTheRonin.exe,Rise of the Ronin,dx12,KT Engine
+BlackOps6.exe,Call of Duty Black Ops 6,dx12,Call of Duty Engine
+Warhammer40000SpaceMarine2.exe,Warhammer 40000 Space Marine 2,dx12,Saber Engine
+EAFC25.exe,EA Sports FC 25,dx12,Frostbite Engine
+F1_24.exe,F1 24,dx12,EGO Engine
+WWE2K24.exe,WWE 2K24,dx12,Unreal Engine 4
+NBA2K25.exe,NBA 2K25,dx12,Custom 2K Engine
+KingdomCome.exe,Kingdom Come Deliverance II,dx12,CRYENGINE
+MonsterHunterWilds.exe,Monster Hunter Wilds,dx12,RE Engine
+Hades2.exe,Hades II,dx11,Custom Engine
+TheAlters.exe,The Alters,dx12,Unreal Engine
+SplitFiction.exe,Split Fiction,dx12,Unreal Engine
+Expedition33_Steam.exe,Clair Obscur Expedition 33,dx12,Unreal Engine 5
+CrimsonDesert.exe,Crimson Desert,dx12,BlackSpace Engine
+DoomTheDarkAges.exe,DOOM The Dark Ages,dx12,id Tech Engine
+Avowed.exe,Avowed,dx12,Unreal Engine 5
+AssassinsCreedShadows.exe,Assassin's Creed Shadows,dx12,Anvil Engine
+LikeADragonPirateYakuza.exe,Like a Dragon Pirate Yakuza in Hawaii,dx12,Dragon Engine
+ScheduleI.exe,Schedule I,dx11,Unity
+R.E.P.O.exe,R.E.P.O.,dx11,Unity
+PEAK.exe,PEAK,dx12,Unreal Engine 5
+BluePrince.exe,Blue Prince,dx11,Unity
+BallXPit.exe,Ball x Pit,dx11,Unity
+Dispatch.exe,Dispatch,dx12,Unreal Engine 5
+DyingLightTheBeast.exe,Dying Light The Beast,dx12,Unreal Engine 5
+MindsEye.exe,MindsEye,dx12,Unreal Engine 5
+DuneSandbox-Win64-Shipping.exe,Dune Awakening,dx12,Unreal Engine 5
+Borderlands4.exe,Borderlands 4,dx12,Unreal Engine 5
+NinjaGaiden4.exe,NINJA GAIDEN 4,dx12,Unreal Engine 5
+MetalGearSolidDelta.exe,Metal Gear Solid Delta Snake Eater,dx12,Unreal Engine 5
+ShinobiArtOfVengeance.exe,Shinobi Art of Vengeance,dx12,Custom Engine
+LostSoulAside.exe,Lost Soul Aside,dx12,Unreal Engine 4
+CronosTheNewDawn.exe,Cronos The New Dawn,dx12,Unreal Engine 5
+TheOuterWorlds2.exe,The Outer Worlds 2,dx12,Unreal Engine 5
+FBCFirebreak.exe,FBC Firebreak,dx12,Northlight Engine
+Rematch.exe,Rematch,dx12,Unreal Engine 5
+FatalFuryCityOfTheWolves.exe,FATAL FURY City of the Wolves,dx11,Custom SNK Engine
+2XKO.exe,2XKO,dx11,Riot Engine
+MortalKombat1.exe,Mortal Kombat 1,dx12,Unreal Engine 4
+NHL26.exe,NHL 26,dx12,Frostbite Engine
+EAFC26.exe,EA Sports FC 26,dx12,Frostbite Engine
+F125.exe,F1 25,dx12,EGO Engine
+WWE2K25.exe,WWE 2K25,dx12,Unreal Engine 5
+MaddenNFL26.exe,Madden NFL 26,dx12,Frostbite Engine
+NBA2K26.exe,NBA 2K26,dx12,Custom 2K Engine
+DeathStranding2.exe,Death Stranding 2 On the Beach,dx12,Decima Engine
+LittleNightmares3.exe,Little Nightmares III,dx12,Unreal Engine 5
+MafiaTheOldCountry.exe,Mafia The Old Country,dx12,Unreal Engine 5
+TheFirstBerserkerKhazan.exe,The First Berserker Khazan,dx12,Unreal Engine 5
+TaintedGrailFallOfAvalon.exe,Tainted Grail The Fall of Avalon,dx12,Unreal Engine 5
+Wuchang.exe,Wuchang Fallen Feathers,dx12,Unreal Engine 5
+EldenRingNightreign.exe,Elden Ring Nightreign,dx12,FromSoftware Engine
+Nioh3.exe,Nioh 3,dx12,KT Engine
+PathOfExile2.exe,Path of Exile 2,dx12,Custom Engine
+Nightingale.exe,Nightingale,dx12,Unreal Engine 5
+RoboCopRogueCity.exe,RoboCop Rogue City,dx12,Unreal Engine 5
+VampireTheMasqueradeBloodlines2.exe,Vampire The Masquerade Bloodlines 2,dx12,Unreal Engine 5
+InZOI.exe,inZOI,dx12,Unreal Engine 5
+Schedule1.exe,Schedule I,dx11,Unity
+Atomfall.exe,Atomfall,dx12,Unreal Engine 5
+SouthOfMidnight.exe,South of Midnight,dx12,Unreal Engine 5
+Fable.exe,Fable,dx12,Unreal Engine 5
+MonsterHunterStories3.exe,Monster Hunter Stories 3 Twisted Reflection,dx12,RE Engine
+FatalFrameMaskOfTheLunarEclipse.exe,Fatal Frame Mask of the Lunar Eclipse,dx12,Custom Koei Tecmo Engine
+TalesOfGracesFRemastered.exe,Tales of Graces f Remastered,dx11,Custom Engine
+Suikoden1and2HD.exe,Suikoden I II HD Remaster,dx11,Custom Engine
+RuneFactoryGuardiansOfAzuma.exe,Rune Factory Guardians of Azuma,dx12,Custom Engine
+BravelyDefaultFlyingFairyHD.exe,Bravely Default Flying Fairy HD Remaster,dx11,Unreal Engine
+XenobladeChroniclesX.exe,Xenoblade Chronicles X Definitive Edition,dx12,Custom Engine
+BlueProtocolStarResonance.exe,Blue Protocol Star Resonance,dx12,Unreal Engine 5
+MechaBREAK.exe,Mecha BREAK,dx12,Unreal Engine 5
+FragPunk.exe,FragPunk,dx12,Unreal Engine 5
+DeltaForceClient-Win64-Shipping.exe,Delta Force,dx12,Unreal Engine
+MarvelRivals.exe,Marvel Rivals,dx12,Unreal Engine 5
+ArenaBreakoutInfinite.exe,Arena Breakout Infinite,dx12,Unreal Engine
+TheFinals.exe,THE FINALS,dx12,Unreal Engine 5
+Warframe.x64.exe,Warframe,dx12,Evolution Engine
+ARC_Raiders.exe,ARC Raiders,dx12,Unreal Engine 5
+ReadyOrNot.exe,Ready or Not,dx12,Unreal Engine 4
+KillingFloor3.exe,Killing Floor 3,dx12,Unreal Engine 5
+GTA6.exe,Grand Theft Auto VI,dx12,RAGE Engine
+DuneCrawl.exe,DuneCrawl,dx11,PC 2026
+Pathologic3.exe,Pathologic 3,dx12,PC 2026
+TheLegendOfHeroes.exe,The Legend of Heroes Trails Beyond the Horizon,dx11,PC 2026
+MIO.exe,MIO Memories In Orbit,dx12,PC 2026
+CodeVein2.exe,Code Vein II,dx12,PC 2026
+Reanimal.exe,Reanimal,dx12,PC 2026
+ResidentEvilRequiem.exe,Resident Evil Requiem,dx12,RE Engine
+CrimsonDesert.exe,Crimson Desert,dx12,BlackSpace Engine
+DeathStranding2.exe,Death Stranding 2 On the Beach,dx12,Decima Engine
+Pragmata.exe,Pragmata,dx12,RE Engine
+NTE.exe,Neverness to Everness,dx12,UE5
+Replaced.exe,Replaced,dx12,PC 2026
+ForzaHorizon6.exe,Forza Horizon 6,dx12,ForzaTech
+Subnautica2.exe,Subnautica 2,dx12,UE5
+007FirstLight.exe,007 First Light,dx12,IO Interactive Glacier
+LegoBatman.exe,Lego Batman Legacy of the Dark Knight,dx12,UE5
+Palworld.exe,Palworld,dx12,UE5
+TheBloodOfDawnwalker.exe,The Blood of Dawnwalker,dx12,Unreal Engine 5
+OnimushaWayOfTheSword.exe,Onimusha Way of the Sword,dx12,RE Engine
+PhantomBladeZero.exe,Phantom Blade Zero,dx12,UE5
+ControlResonant.exe,CONTROL Resonant,dx12,Northlight Engine
+GearsOfWarEDay.exe,Gears of War E-Day,dx12,UE5
+StarWarsZeroCompany.exe,Star Wars Zero Company,dx12,UE5
+ResonancePlagueTale.exe,Resonance A Plague Tale Legacy,dx12,UE5
+SeriousSamShatterverse.exe,Serious Sam Shatterverse,dx12,Sirius Engine
+MetalGearSolid4.exe,Metal Gear Solid 4 Guns of the Patriots,dx11,Master Collection
+Breathedge2.exe,Breathedge 2,dx12,PC 2026
+Aggelos2.exe,Aggelos 2,dx11,PC 2026
+CaptainTsubasa2.exe,Captain Tsubasa II World Fighters,dx12,PC 2026
+StarWarsGalacticRacer.exe,Star Wars Galactic Racer,dx12,PC 2026
+GearClubUnlimited3.exe,Gear.Club Unlimited 3,dx12,PC 2026
+Neverway.exe,Neverway,dx11,PC 2026
+Crymelight.exe,Crymelight,dx12,PC 2026
+Halloween.exe,Halloween The Game,dx12,PC 2026
+TheWitchsBakery.exe,The Witch's Bakery,dx11,PC 2026
+Duskfade.exe,Duskfade,dx12,PC 2026
+HellLetLooseVietnam.exe,Hell Let Loose Vietnam,dx11,Unreal Engine
+MaddenNFL27.exe,Madden NFL 27,dx12,Frostbite Engine
+StarsReach.exe,Stars Reach,dx12,PC 2026
+TwistedTower.exe,Twisted Tower,dx11,PC 2026
+Dreamcards.exe,Dreamcards,dx11,PC 2026
+Gallipoli.exe,Gallipoli,dx12,PC 2026
+GroundZeroHero.exe,Ground Zero Hero,dx12,PC 2026
+Roomballs.exe,Roomballs,dx11,PC 2026
+GardenOfWitches.exe,Garden of Witches,dx11,PC 2026
+TheGuildEuropa1410.exe,The Guild Europa 1410,dx11,PC 2026
+KernelHearts.exe,Kernel Hearts,dx11,PC 2026
+MagicalBlush.exe,Magical Blush,dx11,PC 2026
+BrigandineAbyss.exe,Brigandine Abyss,dx11,PC 2026
+GawrGuraQuestForBread.exe,Gawr Gura Quest for Bread,dx11,PC 2026
+LouLagoon.exe,Lou's Lagoon,dx11,PC 2026
+Divinum.exe,Divinum,dx11,PC 2026
+Sincognito.exe,Sincognito,dx11,PC 2026
+Cursor.exe,Cursor,desktop,AI code editor
+Windsurf.exe,Windsurf,desktop,AI code editor
+Zed.exe,Zed,desktop,Code editor
+LM Studio.exe,LM Studio,desktop,Local AI application
+Jan.exe,Jan,desktop,Local AI assistant
+AnythingLLM.exe,AnythingLLM,desktop,Local AI application
+OpenWebUI.exe,Open WebUI,desktop,Local AI interface
+Pinokio.exe,Pinokio,desktop,AI application launcher
+Upscayl.exe,Upscayl,desktop,AI image upscaler
+InvokeAI.exe,InvokeAI,desktop,AI image generation
+ComfyUI.exe,ComfyUI,desktop,AI image workflow
+Fooocus.exe,Fooocus,desktop,AI image generation
+StableSwarmUI.exe,StableSwarmUI,desktop,AI image generation
+KritaAI.exe,Krita AI,desktop,AI image tools
+LosslessCut.exe,LosslessCut,desktop,Video editor
+Kdenlive.exe,Kdenlive,desktop,Video editor
+Shotcut.exe,Shotcut,desktop,Video editor
+Upscayl.exe,Upscayl,desktop,Image upscaler
+LocalSend.exe,LocalSend,desktop,File transfer
+AltSnap.exe,AltSnap,desktop,Window manager
+UniGetUI.exe,UniGetUI,desktop,Package manager GUI
+PixPin.exe,PixPin,desktop,Screenshot tool
+Notepad4.exe,Notepad4,desktop,Text editor
+QuickLook.exe,QuickLook,desktop,File preview
+Files.exe,Files,desktop,File manager
+MicaForEveryone.exe,MicaForEveryone,desktop,Windows customization
+Windhawk.exe,Windhawk,desktop,Windows customization
+TranslucentTB.exe,TranslucentTB,desktop,Windows customization
+ExplorerPatcher.exe,Explorer Patcher,desktop,Windows customization
+NilesoftShell.exe,Nilesoft Shell,desktop,Context menu customization
+FlowLauncher.exe,Flow Launcher,desktop,Application launcher
+Keypirinha.exe,Keypirinha,desktop,Application launcher
+EverythingToolbar.exe,Everything Toolbar,desktop,Search utility
+GlaryUtilities.exe,Glary Utilities,desktop,System utility
+BCUninstaller.exe,BCUninstaller,desktop,Software uninstaller
+RevoUninstaller.exe,Revo Uninstaller,desktop,Software uninstaller
+BulkCrapUninstaller.exe,Bulk Crap Uninstaller,desktop,Software uninstaller
+WizTree.exe,WizTree,desktop,Disk analyzer
+WinDirStat.exe,WinDirStat,desktop,Disk analyzer
+SpaceSniffer.exe,SpaceSniffer,desktop,Disk analyzer
+Windhawk.exe,Windhawk,desktop,Windows modding
+EarTrumpet.exe,EarTrumpet,desktop,Audio control
+SoundSwitch.exe,SoundSwitch,desktop,Audio device switcher
+TwinkleTray.exe,Twinkle Tray,desktop,Monitor brightness
+Monitorian.exe,Monitorian,desktop,Monitor control
+BatteryFlyout.exe,Battery Flyout,desktop,Battery management
+Lively.exe,Lively Wallpaper,desktop,Wallpaper manager
+WallpaperEngine.exe,Wallpaper Engine,desktop,Wallpaper manager
+EverythingToolbar.exe,Everything Toolbar,desktop,Search integration
+LocalSend.exe,LocalSend,desktop,Local network file transfer
+PairDrop.exe,PairDrop,desktop,Local file transfer
+RustDesk.exe,RustDesk,desktop,Remote desktop
+Parsec.exe,Parsec,desktop,Remote desktop
+HopToDesk.exe,HopToDesk,desktop,Remote desktop
+Moonlight.exe,Moonlight,desktop,Game streaming client
+Sunshine.exe,Sunshine,desktop,Game streaming host
+MullvadVPN.exe,Mullvad VPN,desktop,VPN client
+ProtonVPN.exe,Proton VPN,desktop,VPN client
+IVPN.exe,IVPN,desktop,VPN client
+Twingate.exe,Twingate,desktop,Zero trust network
+NetBird.exe,NetBird,desktop,VPN mesh client
+Headscale.exe,Headscale,desktop,VPN coordination
+Cloudflare WARP.exe,Cloudflare WARP,desktop,Network client
+AdGuard.exe,AdGuard,desktop,Content blocker
+NextDNS.exe,NextDNS,desktop,DNS client
+Portmaster.exe,Portmaster,desktop,Network firewall
+RethinkDNS.exe,RethinkDNS,desktop,Network firewall
+Mullvad Browser.exe,Mullvad Browser,desktop,Web browser
+Floorp.exe,Floorp,desktop,Web browser
+Zen Browser.exe,Zen Browser,desktop,Web browser
+Arc.exe,Arc Browser,desktop,Web browser
+Ladybird.exe,Ladybird,desktop,Web browser
+LibreWolf.exe,LibreWolf,desktop,Privacy browser
+Thorium.exe,Thorium,desktop,Chromium browser
+Vivaldi.exe,Vivaldi,desktop,Web browser
+Waterfox.exe,Waterfox,desktop,Web browser
+BraveBrowser.exe,Brave,desktop,Privacy browser
+SuperProductivity.exe,Super Productivity,desktop,Task management
+TickTick.exe,TickTick,desktop,Productivity
+Todoist.exe,Todoist,desktop,Task management
+Anytype.exe,Anytype,desktop,Notes application
+Affine.exe,AFFiNE,desktop,Workspace application
+AppFlowy.exe,AppFlowy,desktop,Workspace application
+SiYuan.exe,SiYuan,desktop,Knowledge management
+Logseq.exe,Logseq,desktop,Knowledge management
+StandardNotes.exe,Standard Notes,desktop,Notes application
+Morgen.exe,Morgen,desktop,Calendar application
+Msty.exe,Msty,desktop,AI workspace
+AnythingLLM.exe,AnythingLLM,desktop,AI workspace
+Jan.exe,Jan,desktop,AI assistant
+LMStudio.exe,LM Studio,desktop,Local LLM
+Ollama.exe,Ollama,desktop,Local AI runtime
+GPT4All.exe,GPT4All,desktop,Local AI runtime
+KoboldCpp.exe,KoboldCpp,desktop,Local LLM
+Tabby.exe,Tabby,desktop,AI terminal
+Warp.exe,Warp,desktop,AI terminal
+Ghostty.exe,Ghostty,desktop,Terminal
+WezTerm.exe,WezTerm,desktop,Terminal
+Alacritty.exe,Alacritty,desktop,Terminal
+Rio.exe,Rio Terminal,desktop,Terminal
+MobaXterm.exe,MobaXterm,desktop,Terminal
+Termius.exe,Termius,desktop,SSH client
+Beekeeper Studio.exe,Beekeeper Studio,desktop,Database client
+TablePlus.exe,TablePlus,desktop,Database client
+DBeaver.exe,DBeaver,desktop,Database client
+DbGate.exe,DbGate,desktop,Database client
+Bruno.exe,Bruno,desktop,API client
+Insomnia.exe,Insomnia,desktop,API client
+Hoppscotch.exe,Hoppscotch,desktop,API client
+HTTPie.exe,HTTPie,desktop,HTTP client
+DevToys.exe,DevToys,desktop,Developer toolbox
+DevToys.CLI.exe,DevToys CLI,desktop,Developer toolbox
+Meld.exe,Meld,desktop,File comparison
+KDiff3.exe,KDiff3,desktop,File comparison
+P4Merge.exe,P4Merge,desktop,File comparison
+GitHubDesktop.exe,GitHub Desktop,desktop,Git client
+Fork.exe,Fork,desktop,Git client
+Tower.exe,Tower,desktop,Git client
+LazyGit.exe,Lazygit,desktop,Git client
+GitButler.exe,GitButler,desktop,Git client
+Sourcetree.exe,SourceTree,desktop,Git client
+GitKraken.exe,GitKraken,desktop,Git client
+Gitea.exe,Gitea,desktop,Git server
+Podman Desktop.exe,Podman Desktop,desktop,Container management
+Rancher Desktop.exe,Rancher Desktop,desktop,Container management
+OrbStack.exe,OrbStack,desktop,Container management
+Colima.exe,Colima,desktop,Container runtime
+Kubernetes Dashboard.exe,Kubernetes Dashboard,desktop,Kubernetes management
+Lens.exe,Lens,desktop,Kubernetes IDE
+Inspektor Gadget.exe,Inspektor Gadget,desktop,Container diagnostics
+DevPod.exe,DevPod,desktop,Development environments
+Devbox.exe,Devbox,desktop,Development environment
+Nix.exe,Nix,desktop,Package manager
+Scoop.exe,Scoop,desktop,Package manager
+UniGetUI.exe,UniGetUI,desktop,Package manager GUI
+WingetUI.exe,WinGetUI,desktop,Package manager GUI
+Flox.exe,Flox,desktop,Development environment
+Mambaforge.exe,Mambaforge,desktop,Python environment
+uv.exe,uv,desktop,Python package manager
+Rye.exe,Rye,desktop,Python package manager
+Pixi.exe,Pixi,desktop,Package manager
+Poetry.exe,Poetry,desktop,Python package manager
+Ruff.exe,Ruff,desktop,Python linter
+PDM.exe,PDM,desktop,Python package manager
+Zig.exe,Zig,desktop,Programming language toolchain
+Bun.exe,Bun,desktop,JavaScript runtime
+Deno.exe,Deno,desktop,JavaScript runtime
+Biome.exe,Biome,desktop,JavaScript formatter
+Volta.exe,Volta,desktop,JavaScript tool manager
+fnm.exe,Fast Node Manager,desktop,Node.js manager
+Just.exe,Just,desktop,Command runner
+Task.exe,Task,desktop,Task runner
+Nushell.exe,Nushell,desktop,Shell
+Elvish.exe,Elvish,desktop,Shell
+Starship.exe,Starship,desktop,Shell prompt
+Yazi.exe,Yazi,desktop,Terminal file manager
+Superfile.exe,Superfile,desktop,Terminal file manager
+Presenterm.exe,Presenterm,desktop,Terminal presentation
+Glow.exe,Glow,desktop,Markdown viewer
+Chafa.exe,Chafa,desktop,Terminal graphics
+Btop.exe,btop,desktop,System monitor
+Bottom.exe,bottom,desktop,System monitor
+Procs.exe,procs,desktop,Process viewer
+Bandwhich.exe,bandwhich,desktop,Network monitor
+Gping.exe,gping,desktop,Network utility
+Dog.exe,dog,desktop,DNS client
+Trippy.exe,Trippy,desktop,Network diagnostic
+WiFiAnalyzer.exe,WiFi Analyzer,desktop,WiFi analyzer
+AngryIPScanner.exe,Angry IP Scanner,desktop,Network scanner
+NetLimiter.exe,NetLimiter,desktop,Network monitor
+GlassWire.exe,GlassWire,desktop,Network monitor
+OpenRGB.exe,OpenRGB,desktop,RGB controller
+FanControl.exe,Fan Control,desktop,Fan controller
+LibreHardwareMonitor.exe,Libre Hardware Monitor,desktop,Hardware monitor
+GPUCapsViewer.exe,GPU Caps Viewer,desktop,GPU information
+PresentMon.exe,PresentMon,desktop,Performance monitor
+CapFrameX.exe,CapFrameX,desktop,Frame analysis
+OCCT.exe,OCCT,desktop,Hardware stress test
+MemTest86.exe,MemTest86,desktop,Memory diagnostic
+CrystalDiskMark.exe,CrystalDiskMark,desktop,Storage benchmark
+CrystalDiskInfo.exe,CrystalDiskInfo,desktop,Storage monitor
+AS SSD Benchmark.exe,AS SSD Benchmark,desktop,Storage benchmark
+HWiNFO.exe,HWiNFO,desktop,Hardware monitor
+FanControl.exe,Fan Control,desktop,Hardware control
+LibreHardwareMonitor.exe,Libre Hardware Monitor,desktop,Hardware monitor
+OpenHardwareMonitor.exe,Open Hardware Monitor,desktop,Hardware monitor
+ShareDrop.exe,ShareDrop,desktop,File transfer
+SyncthingTray.exe,Syncthing Tray,desktop,File synchronization
+KopiaUI.exe,Kopia,desktop,Backup software
+Restic.exe,Restic,desktop,Backup utility
+Borg.exe,BorgBackup,desktop,Backup utility
+Cryptomator.exe,Cryptomator,desktop,Encrypted cloud storage
+Rclone.exe,rclone,desktop,Cloud storage utility
+MountainDuck.exe,Mountain Duck,desktop,Cloud storage client
+Cyberduck.exe,Cyberduck,desktop,File transfer client
+SFTPGo.exe,SFTPGo,desktop,SFTP server
+LocalXpose.exe,LocalXpose,desktop,Network tunneling
+Tailscale.exe,Tailscale,desktop,VPN mesh
+ZeroTier.exe,ZeroTier,desktop,Virtual network
+NetBird.exe,NetBird,desktop,VPN mesh
+Kdenlive.exe,Kdenlive,desktop,Video editor KDE
+FreeCAD.exe,FreeCAD,desktop,3D CAD parametric modeller
+LibreOffice.exe,LibreOffice,desktop,Office suite
+soffice.exe,LibreOffice,desktop,LibreOffice main executable
+KeePassXC.exe,KeePassXC,desktop,Password manager
+RustDesk.exe,RustDesk,desktop,Remote desktop
+ProtonVPN.exe,Proton VPN,desktop,VPN client
+proton-bridge.exe,Proton Mail Bridge,desktop,Mail bridge
+UniGetUI.exe,UniGetUI,dotnet_csharp,Windows package manager GUI
+AnythingLLM.exe,AnythingLLM,desktop,Local AI desktop application
+jan.exe,Jan,desktop,Local AI desktop application
+StabilityMatrix.exe,Stability Matrix,desktop,AI image generation package manager
+tabby.exe,Tabby,desktop,AI coding assistant/server
+zed.exe,Zed,desktop,Code editor
+Beekeeper Studio.exe,Beekeeper Studio,desktop,Database client
+Zed.exe,Zed,desktop,Code editor native Windows
+Raycast.exe,Raycast,desktop,Application launcher and productivity tool
+Upscayl.exe,Upscayl,desktop,AI image upscaler
+LM Studio.exe,LM Studio,desktop,Local AI/LLM application
+WindowTop.exe,WindowTop,desktop,Window management utility
+WinFile.exe,Windows File Manager,desktop,File manager
+Arc.exe,Arc Browser,desktop,Web browser
+Zen.exe,Zen Browser,desktop,Web browser
+Pinokio.exe,Pinokio,desktop,AI application launcher
+Beeper.exe,Beeper,desktop,Unified messaging application
+Msty.exe,Msty,desktop,Local AI application
+Brave.exe,Brave Browser,desktop,Web browser
+Vivaldi.exe,Vivaldi,desktop,Web browser
+Waterfox.exe,Waterfox,desktop,Web browser
+Floorp.exe,Floo​rp Browser,desktop,Firefox-based web browser
+KeePassXC.exe,KeePassXC,desktop,Password manager
+RustDesk.exe,RustDesk,desktop,Remote desktop software
+ProtonVPN.exe,Proton VPN,desktop,VPN client
+Proton Mail Bridge.exe,Proton Mail Bridge,desktop,Mail client bridge
+Kdenlive.exe,Kdenlive,desktop,Video editor
+FreeCAD.exe,FreeCAD,desktop,Parametric CAD software
+HandBrake.exe,HandBrake,desktop,Video transcoder
+OBS64.exe,OBS Studio,desktop,Streaming and recording
+Audacity.exe,Audacity,desktop,Audio editor
+Inkscape.exe,Inkscape,desktop,Vector graphics editor
+GIMP.exe,GIMP,desktop,Image editor
+Upscayl.exe,Upscayl,desktop,AI image enhancement
+ImageGlass.exe,ImageGlass,desktop,Image viewer
+ShareX.exe,ShareX,desktop,Screen capture
+ScreenToGif.exe,ScreenToGif,dotnet_csharp,Screen recorder
+PowerToys.exe,Microsoft PowerToys,dotnet_csharp,Windows utilities
+UniGetUI.exe,UniGetUI,dotnet_csharp,Package manager GUI
+DevToys.exe,DevToys,dotnet_csharp,Developer toolbox
+Files.exe,Files,dotnet_csharp,Modern Windows file manager
+FluentTerminal.exe,Fluent Terminal,dotnet_csharp,Windows terminal
+ModernFlyouts.exe,ModernFlyouts,dotnet_csharp,Windows UI utility
+TwinkleTray.exe,Twinkle Tray,dotnet_csharp,Monitor brightness control
+TranslucentTB.exe,TranslucentTB,dotnet_csharp,Taskbar customization
+ExplorerPatcher.exe,Explorer Patcher,dotnet_csharp,Windows shell customization
+Lively.exe,Lively Wallpaper,dotnet_csharp,Animated desktop wallpaper
+WinDirStat.exe,WinDirStat,desktop,Disk usage analyzer
+TreeSize.exe,TreeSize,desktop,Disk space analyzer
+DBeaver.exe,DBeaver,desktop,Database client
+HeidiSQL.exe,HeidiSQL,dotnet_csharp,Database client
+Beekeeper Studio.exe,Beekeeper Studio,desktop,Database client
+Postman.exe,Postman,desktop,API development client
+Insomnia.exe,Insomnia,desktop,API client
+TablePlus.exe,TablePlus,desktop,Database client
+Obsidian.exe,Obsidian,desktop,Knowledge management application
+Joplin.exe,Joplin,dotnet_csharp,Note-taking application
+Calibre.exe,Calibre,dotnet_csharp,E-book management
+Kavita.exe,Kavita,dotnet_csharp,Digital library server
+Komga.exe,Komga,dotnet_csharp,Comic library server
+Nextcloud.exe,Nextcloud Desktop,dotnet_csharp,Cloud synchronization
+Syncthing.exe,Syncthing,dotnet_csharp,File synchronization
+ResilioSync.exe,Resilio Sync,dotnet_csharp,File synchronization
+Duplicati.GUI.TrayIcon.exe,Duplicati,dotnet_csharp,Backup client
+Bitwarden.exe,Bitwarden Desktop,dotnet_csharp,Password manager
+1Password.exe,1Password,desktop,Password manager
+Standard Notes.exe,Standard Notes,desktop,Encrypted notes application
+CrowTranslate.exe,Crow Translate,dotnet_csharp,Desktop translation tool
+LocaleEmulator.exe,Locale Emulator,dotnet_csharp,Locale compatibility utility
+EarTrumpet.exe,EarTrumpet,dotnet_csharp,Windows audio mixer
+Flow.Launcher.exe,Flow Launcher,dotnet_csharp,Application launcher
+Wox.exe,Wox,dotnet_csharp,Application launcher
+FluentSearch.exe,Fluent Search,dotnet_csharp,Desktop search
+Greenshot.exe,Greenshot,dotnet_csharp,Screen capture
+Snagit32.exe,Snagit,desktop,Screen capture
+Voicemeeter.exe,Voicemeeter,desktop,Virtual audio mixer
+Wireshark.exe,Wireshark,dotnet_csharp,Network analyzer
+OpenVPNConnect.exe,OpenVPN Connect,desktop,VPN client
+WireGuard.exe,WireGuard,desktop,VPN client
+Tailscale.exe,Tailscale,desktop,VPN/network client
+ZeroTier One.exe,ZeroTier,dotnet_csharp,Virtual network client
+Radmin.exe,Radmin VPN,dotnet_csharp,VPN/network client
+Docker Desktop.exe,Docker Desktop,desktop,Container management
+Podman Desktop.exe,Podman Desktop,desktop,Container management
+VirtualBox.exe,VirtualBox,desktop,Virtual machine manager
+vmware.exe,VMware Workstation,desktop,Virtual machine manager
+Postman.exe,Postman,desktop,API development environment
+GitKraken.exe,GitKraken,dotnet_csharp,Git client
+SourceTree.exe,SourceTree,dotnet_csharp,Git client
+GitExtensions.exe,Git Extensions,dotnet_csharp,Git client
+TortoiseGitProc.exe,TortoiseGit,dotnet_csharp,Git client
+BeyondCompare.exe,Beyond Compare,desktop,File comparison
+WinMergeU.exe,WinMerge,desktop,File comparison
+DirectoryOpus.exe,Directory Opus,desktop,File manager
+Listary.exe,Listary,desktop,File search and launcher
+PowerRename.exe,PowerToys PowerRename,dotnet_csharp,File renaming utility
+darktable.exe,darktable,desktop,2025,5.4.0,RAW photo workflow and image editor
+LibreCAD.exe,LibreCAD,desktop,2026,2.2.1.3,2D CAD application
+JabRef.exe,JabRef,desktop,2024,5.15,Bibliography and reference manager
+julia.exe,Julia,desktop,2026,1.12.6,Technical computing programming language
+openrefine.exe,OpenRefine,desktop,2026,3.10.0,Data cleaning and transformation
+kicad.exe,KiCad,desktop,2025,9.0.4,Electronic design automation
+octave-gui.exe,GNU Octave,desktop,2025,9.4.0,Scientific computing environment
+CloudCompare.exe,CloudCompare,desktop,2024,2.13.2,3D point cloud processing
+LabPlot.exe,LabPlot,desktop,2025,2.12.1,Scientific data visualization
+WiseForceDeleter.exe,Wise Force Deleter,desktop,2025,1.5.7,File deletion utility

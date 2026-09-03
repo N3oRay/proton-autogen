@@ -19,7 +19,598 @@ DEFAULT_ICON = (
     "gamepad.svg"
 )
 
+# =================================================
+# SVG À AJOUTER PROGRESSIVEMENT
+# =================================================
+#
+# Objectif :
+# Ajouter uniquement les icônes SVG qui ne sont PAS
+# déjà couvertes par ICON_MAPPING.
+#
+# Une icône doit être ajoutée uniquement lorsqu'un
+# programme Windows réel nécessite une représentation
+# visuelle qui n'existe pas encore.
+#
+# IMPORTANT :
+# - Ne pas recréer une icône déjà disponible.
+# - Ne pas créer une icône spécifique à chaque logiciel.
+# - Privilégier les icônes thématiques réutilisables.
+# - Vérifier d'abord les alias existants dans ICON_MAPPING.
+#
+# =================================================
+# 01 - WINDOWS / SYSTÈME
+# =================================================
+# windows.svg
+# system.svg
+# service.svg
+# driver.svg
+# process.svg
+# task.svg
+# registry.svg
+# explorer.svg
+# desktop.svg
+# startup.svg
+#
+# Mots-clés potentiels :
+# windows, system, system32, service, services,
+# driver, dll, process, processes, taskmgr,
+# registry, regedit, explorer, desktop,
+# startup, autostart
+#
+# =================================================
+# 02 - STOCKAGE / DISQUES AVANCÉS
+# =================================================
+# disk.svg
+# drive.svg
+# storage.svg
+# ssd.svg
+# hdd.svg
+# partition.svg
+# backup.svg
+# recovery.svg
+# clone.svg
+# iso.svg
+# mount.svg
+# folder.svg
+# file.svg
+#
+# Mots-clés potentiels :
+# disk, drive, storage, ssd, hdd, partition,
+# backup, recovery, clone, cloning, iso, mount,
+# folder, file
+#
+# =================================================
+# 03 - SÉCURITÉ
+# =================================================
+# security.svg
+# antivirus.svg
+# firewall.svg
+# virus.svg
+# shield.svg
+# password.svg
+# lock.svg
+# unlock.svg
+# privacy.svg
+# certificate.svg
+# encryption.svg
+#
+# Mots-clés potentiels :
+# security, antivirus, firewall, malware, virus,
+# defender, password, credential, lock, unlock,
+# privacy, certificate, ssl, tls, encryption,
+# decrypt, authentication, auth
+#
+# =================================================
+# 04 - RÉSEAU AVANCÉ
+# =================================================
+# internet.svg
+# proxy.svg
+# dns.svg
+# dhcp.svg
+# ip.svg
+# port.svg
+# client.svg
+# remote.svg
+# rdp.svg
+# ssh.svg
+# ftp.svg
+#
+# Mots-clés potentiels :
+# internet, proxy, dns, dhcp, ip, tcp, udp,
+# port, client, remote, rdp, ssh, ftp, http,
+# websocket
+#
+# =================================================
+# 05 - DÉVELOPPEMENT / PROGRAMMATION
+# =================================================
+# code.svg
+# debug.svg
+# debugger.svg
+# compiler.svg
+# node.svg
+# npm.svg
+# git.svg
+# github.svg
+# cmake.svg
+# rust.svg
+# go.svg
+# api.svg
+# sdk.svg
+#
+# Mots-clés potentiels :
+# code, debug, debugger, compiler, node, nodejs,
+# npm, git, github, cmake, gcc, clang, rust,
+# go, php, perl, ruby, api, sdk
+#
+# =================================================
+# 06 - VIDÉO / CAPTURE / STREAMING
+# =================================================
+# codec.svg
+# stream.svg
+# capture.svg
+# screenshot.svg
+# record.svg
+# webcam.svg
+# display.svg
+# monitor.svg
+#
+# Mots-clés potentiels :
+# codec, stream, capture, screenshot, record,
+# recording, webcam, display, monitor, screen,
+# hdr
+#
+# =================================================
+# 07 - AUDIO
+# =================================================
+# audio.svg
+# speaker.svg
+# mixer.svg
+# equalizer.svg
+# microphone.svg
+# recording.svg
+# asio.svg
+# wasapi.svg
+# midi.svg
+#
+# Mots-clés potentiels :
+# audio, speaker, mixer, equalizer, microphone,
+# recording, asio, wasapi, dac, midi, sound,
+# voice, music
+#
+# =================================================
+# 08 - CLOUD / SYNCHRONISATION AVANCÉE
+# =================================================
+# cloud.svg
+# upload.svg
+# backup-cloud.svg
+#
+# Mots-clés potentiels :
+# cloud, upload, onedrive, dropbox,
+# google-drive, icloud
+#
+# =================================================
+# 09 - INSTALLATION / MISE À JOUR
+# =================================================
+# installer.svg
+# uninstall.svg
+# updater.svg
+# upgrade.svg
+# patch.svg
+# repair.svg
+# maintenance.svg
+# portable.svg
+# bootstrap.svg
+# package.svg
+#
+# Mots-clés potentiels :
+# installer, uninstall, remove, updater, upgrade,
+# patch, repair, maintenance, portable,
+# bootstrap, package, package-manager
+#
+# =================================================
+# 10 - DIAGNOSTIC / MONITORING
+# =================================================
+# diagnostic.svg
+# benchmark.svg
+# stress.svg
+# temperature.svg
+# sensor.svg
+# performance.svg
+# monitoring.svg
+# stats.svg
+# log.svg
+# logger.svg
+# profiler.svg
+# analyzer.svg
+#
+# Mots-clés potentiels :
+# diagnostic, benchmark, stress, temperature,
+# sensor, performance, monitoring, stats, log,
+# logger, profiler, analyzer, analyze
+#
+# =================================================
+# 11 - BUREAUTIQUE / DOCUMENTS
+# =================================================
+# document.svg
+# pdf.svg
+# text.svg
+# editor.svg
+# spreadsheet.svg
+# sql.svg
+# csv.svg
+# json.svg
+# xml.svg
+#
+# Mots-clés potentiels :
+# word, excel, powerpoint, pdf, document, text,
+# editor, notepad, spreadsheet, sql, csv, json,
+# xml
+#
+# =================================================
+# 12 - GRAPHISME / CRÉATION
+# =================================================
+# drawing.svg
+# paint.svg
+# vector.svg
+# 3d.svg
+# modeling.svg
+# render.svg
+# rendering.svg
+# animation.svg
+# design.svg
+#
+# Mots-clés potentiels :
+# drawing, paint, vector, 3d, modeling, render,
+# rendering, animation, illustrator, premiere,
+# davinci, aftereffects
+#
+# =================================================
+# 13 - PÉRIPHÉRIQUES
+# =================================================
+# controller.svg
+# gamepad.svg
+# webcam.svg
+# camera.svg
+# dock.svg
+# serial.svg
+# hid.svg
+#
+# Mots-clés potentiels :
+# controller, gamepad, webcam, camera, dock,
+# bluetooth, serial, com, hid, joystick
+#
+# =================================================
+# 14 - BASES DE DONNÉES SPÉCIFIQUES
+# =================================================
+# sql.svg
+# mysql.svg
+# postgresql.svg
+# sqlite.svg
+# mongodb.svg
+# redis.svg
+#
+# Mots-clés potentiels :
+# sql, mysql, mariadb, postgresql, postgres,
+# sqlite, mongodb, mongo, redis
+#
+# =================================================
+# 15 - VIRTUALISATION / CONTENEURS
+# =================================================
+# virtual-machine.svg
+# virtualization.svg
+# vm.svg
+# container.svg
+# hypervisor.svg
+#
+# Mots-clés potentiels :
+# vm, virtualmachine, virtualization,
+# virtualbox, vmware, hypervisor, container,
+# kubernetes, wsl
+#
+# =================================================
+# 16 - IA / MACHINE LEARNING
+# =================================================
+# ai.svg
+# neural.svg
+# brain.svg
+# machine-learning.svg
+# chatbot.svg
+# llm.svg
+# gpu-ai.svg
+#
+# Mots-clés potentiels :
+# ai, artificial-intelligence, neural,
+# neural-network, machine-learning, ml,
+# chatbot, llm, inference, ollama, cuda,
+# tensor, pytorch, tensorflow
+#
+# =================================================
+# 17 - TÉLÉCHARGEMENT / PARTAGE
+# =================================================
+# download.svg
+# upload.svg
+# torrent.svg
+# share.svg
+# transfer.svg
+#
+# Mots-clés potentiels :
+# download, downloader, upload, torrent,
+# bittorrent, share, sharing, transfer
+#
+# =================================================
+# RÈGLE D'AJOUT
+# =================================================
+#
+# Lorsqu'un nouvel EXE est identifié :
+#
+# 1. Vérifier le nom exact de l'EXE.
+# 2. Vérifier sa fonction réelle.
+# 3. Chercher un mot-clé déjà présent dans
+#    ICON_MAPPING.
+# 4. Vérifier si une icône existante peut convenir.
+# 5. Si aucune icône ne convient :
+#       -> rechercher / ajouter un nouveau SVG.
+# 6. Ajouter ensuite les alias nécessaires.
+#
+# =================================================
+# PRIORITÉ
+# =================================================
+#
+# [ ] EXE Windows réellement identifié
+# [ ] Fonction vérifiée
+# [ ] Aucun mapping existant adapté
+# [ ] SVG réellement nécessaire
+# [ ] Catégorie générique
+# [ ] Réutilisable pour plusieurs programmes
+# [ ] Aucun doublon avec les SVG existants
+#
+# =================================================
+# IMPORTANT
+# =================================================
+#
+# Ce bloc représente UNIQUEMENT les SVG restant
+# potentiellement à ajouter.
+#
+# Dès qu'un SVG est ajouté dans ICON_MAPPING :
+#
+#     -> supprimer ici le SVG correspondant
+#     -> supprimer les mots-clés désormais couverts
+#
+# Ne jamais conserver une catégorie déjà correctement
+# couverte par ICON_MAPPING.
+#
+# Exemple :
+#
+# "python": "brand-python.svg"
+#     -> ne pas ajouter python.svg
+#
+# "gpu": "gpu.svg"
+#     -> ne pas ajouter gpu.svg
+#
+# "docker": "brand-docker.svg"
+#     -> ne pas ajouter docker.svg
+#
+# "terminal": "terminal-2.svg"
+#     -> ne pas ajouter terminal.svg
+#
+# "video": "video.svg"
+#     -> ne pas ajouter video.svg
+#
+# =================================================
+# FIN DE LA LISTE DES SVG À AJOUTER
+# =================================================
+
+
+
 ICON_MAPPING = {
+
+    # =================================================
+    # Nouveaux SVG - Système / Développement / Réseau
+    # =================================================
+
+    # -------------------------------------------------
+    # Réglages / Configuration
+    # -------------------------------------------------
+    "adjustments": "adjustments-cog.svg",
+    "configuration": "adjustments-cog.svg",
+    "options": "adjustments-cog.svg",
+
+    "adjustments-code": "adjustments-code.svg",
+    "developer": "adjustments-code.svg",
+    "development": "adjustments-code.svg",
+    "dev": "adjustments-code.svg",
+    "coding": "adjustments-code.svg",
+
+    # -------------------------------------------------
+    # PowerShell
+    # -------------------------------------------------
+    "powershell": "brand-powershell.svg",
+    "pwsh": "brand-powershell.svg",
+
+    # -------------------------------------------------
+    # Python
+    # -------------------------------------------------
+    "python": "brand-python.svg",
+    "pythonw": "brand-python.svg",
+
+    # -------------------------------------------------
+    # Docker
+    # -------------------------------------------------
+    "docker": "brand-docker.svg",
+    "dockerd": "brand-docker.svg",
+
+    # -------------------------------------------------
+    # Android / Mobile
+    # -------------------------------------------------
+    "android": "brand-android.svg",
+    "adb": "brand-android.svg",
+    "fastboot": "brand-android.svg",
+
+    "mobile": "device-mobile-charging.svg",
+    "smartphone": "device-mobile-charging.svg",
+    "phone": "device-mobile-charging.svg",
+
+    # -------------------------------------------------
+    # Microsoft Office
+    # -------------------------------------------------
+    "office": "brand-office.svg",
+    "microsoftoffice": "brand-office.svg",
+    "msoffice": "brand-office.svg",
+
+    # -------------------------------------------------
+    # Databricks
+    # -------------------------------------------------
+    "databricks": "brand-databricks.svg",
+
+    # -------------------------------------------------
+    # YouTube
+    # -------------------------------------------------
+    "youtube": "brand-youtube.svg",
+
+    # =================================================
+    # Matériel / Hardware
+    # =================================================
+
+    # -------------------------------------------------
+    # CPU
+    # -------------------------------------------------
+    "cpu": "cpu.svg",
+    "processor": "cpu.svg",
+    "processeur": "cpu.svg",
+
+    # -------------------------------------------------
+    # GPU
+    # -------------------------------------------------
+    "gpu": "gpu.svg",
+    "graphics": "gpu.svg",
+    "graphicscard": "gpu.svg",
+    "videocard": "gpu.svg",
+
+    # -------------------------------------------------
+    # Ordinateur portable
+    # -------------------------------------------------
+    "laptop": "device-laptop.svg",
+    "notebook": "device-laptop.svg",
+
+    # -------------------------------------------------
+    # Souris
+    # -------------------------------------------------
+    "mouse": "mouse-2.svg",
+
+    # =================================================
+    # Réseau
+    # =================================================
+
+    # -------------------------------------------------
+    # Routeur
+    # -------------------------------------------------
+    "router": "router.svg",
+
+    # -------------------------------------------------
+    # Serveur
+    # -------------------------------------------------
+    "server": "server-2.svg",
+    "servers": "server-2.svg",
+
+    # -------------------------------------------------
+    # Serveur / Configuration
+    # -------------------------------------------------
+    "serverconfig": "server-cog.svg",
+    "server-config": "server-cog.svg",
+    "servermanager": "server-cog.svg",
+    "server-management": "server-cog.svg",
+
+    # -------------------------------------------------
+    # Monde / téléchargement réseau
+    # -------------------------------------------------
+    "world-download": "world-download.svg",
+    "internet-download": "world-download.svg",
+
+    # =================================================
+    # Base de données
+    # =================================================
+
+    "database": "database.svg",
+    "db": "database.svg",
+
+    "database-import": "database-import.svg",
+    "db-import": "database-import.svg",
+    "import-database": "database-import.svg",
+
+    # =================================================
+    # Fichiers / Archives
+    # =================================================
+
+    "zip": "file-type-zip.svg",
+    "7zip": "file-type-zip.svg",
+    "7z": "file-type-zip.svg",
+    "archive": "file-type-zip.svg",
+    "compressed": "file-type-zip.svg",
+    "compression": "file-type-zip.svg",
+
+    # =================================================
+    # Sauvegarde / Restauration
+    # =================================================
+
+    "restore": "restore.svg",
+    "restoration": "restore.svg",
+    "restorer": "restore.svg",
+
+    # =================================================
+    # Terminal
+    # =================================================
+
+    "terminal": "terminal-2.svg",
+    "console": "terminal-2.svg",
+    "command": "terminal-2.svg",
+    "commandline": "terminal-2.svg",
+    "command-line": "terminal-2.svg",
+
+    # =================================================
+    # Vidéo / Multimédia
+    # =================================================
+
+    "video": "video.svg",
+    "videoeditor": "video.svg",
+    "video-editor": "video.svg",
+    "encoder": "video.svg",
+    "decoder": "video.svg",
+
+    # -------------------------------------------------
+    # Film / Média
+    # -------------------------------------------------
+    "film": "film.svg",
+    "movie": "film.svg",
+    "movies": "film.svg",
+    "cinema": "film.svg",
+
+    # =================================================
+    # Disques / Médias
+    # =================================================
+
+    "disc": "disc.svg",
+    "disk": "disc.svg",
+    "cd": "disc.svg",
+    "dvd": "disc.svg",
+    "bluray": "disc.svg",
+
+    # =================================================
+    # Rotation / Synchronisation
+    # =================================================
+
+    "rotate": "rotate-clockwise-2.svg",
+    "rotation": "rotate-clockwise-2.svg",
+    "refresh": "rotate-clockwise-2.svg",
+    "reload": "rotate-clockwise-2.svg",
+    "sync": "rotate-clockwise-2.svg",
+    "synchronize": "rotate-clockwise-2.svg",
+
+    # =================================================
+    # Affichage / Mur / Écran
+    # =================================================
+
+    "wall": "wall.svg",
+
 
     # =================================================
     # Divers
