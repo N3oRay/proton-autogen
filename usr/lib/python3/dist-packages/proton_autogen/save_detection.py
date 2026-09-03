@@ -25,6 +25,11 @@ without maintaining an ever-growing lookup table. False positives are
 tolerated (worst case: an unnecessary backup); false negatives are not
 (worst case: silent data loss), so detection stays permissive.
 
+Strategy 3 also falls back to Proton's well-known compat-user directory
+name ("steamuser") if drive_c/users/ can't be listed at all -- a real,
+if unusual, POSIX permission combination (traversable but not listable)
+can otherwise make an entire prefix silently yield no results.
+
 Fingerprinting is done by walking the full save subtree and hashing
 (relative path, mtime, size) per file rather than trusting parent
 directory sizes -- `ls -l` can report a directory as 0 bytes even when
@@ -112,6 +117,17 @@ APPDATA_SYSTEM_FOLDER_BLOCKLIST: frozenset[str] = frozenset({
 # are willing to recurse into when looking for a named save directory.
 # Keeps the scan fast on large, asset-heavy install directories.
 MAX_SCAN_DEPTH = 3
+
+# Proton always creates its Windows compat-user profile under this exact
+# name inside drive_c/users/, regardless of the real Linux username --
+# forced via STEAM_COMPAT_* environment variables at prefix creation
+# time. Used as an explicit fallback in find_prefix_user_saves(): if
+# listing drive_c/users/ fails or yields nothing (unusual permissions on
+# that specific prefix -- e.g. traversable but not listable, a real
+# POSIX permission combination -- or any other enumeration quirk), we
+# still know exactly where Proton would have put the user's profile and
+# can check it directly rather than silently detecting nothing.
+DEFAULT_PROTON_USER = "steamuser"
 
 
 # ---------------------------------------------------------------------------
@@ -413,6 +429,28 @@ def find_prefix_user_saves(
             "Save detection: cannot list users directory %s: %s",
             users_dir,
             exc,
+        )
+        user_dirs = []
+
+    # Fallback: whether listing failed outright above, or simply didn't
+    # surface Proton's compat user for some reason, its name is always
+    # "steamuser" -- check it directly rather than silently detecting
+    # nothing for the whole prefix. Cheap (a single is_dir() check) and
+    # a no-op if it was already picked up above.
+    default_user_dir = users_dir / DEFAULT_PROTON_USER
+    if default_user_dir.is_dir() and default_user_dir not in user_dirs:
+        logger.debug(
+            "Save detection: adding default Proton user directory: %s",
+            default_user_dir,
+        )
+        user_dirs.append(default_user_dir)
+
+    if not user_dirs:
+        logger.debug(
+            "Save detection: no user directories found under %s "
+            "(including default '%s' fallback)",
+            users_dir,
+            DEFAULT_PROTON_USER,
         )
         return []
 
