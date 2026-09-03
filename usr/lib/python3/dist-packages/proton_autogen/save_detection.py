@@ -151,32 +151,78 @@ def _dir_has_content(path: Path) -> bool:
         return False
 
 
-_STOPWORDS = frozenset({"the", "of", "and", "for", "a", "an", "edition", "game", "games"})
+_STOPWORDS = frozenset({
+    "the",
+    "of",
+    "and",
+    "for",
+    "a",
+    "an",
+    "edition",
+    "game",
+    "games",
+})
 
 
-def _significant_words(name: str) -> set[str]:
-    """Lowercased alphanumeric words of at least 4 characters, minus a
-    few generic stopwords. Used to compare a folder name against a game
-    title without requiring an exact or substring match -- publishers
-    routinely abbreviate their own game's folder name (e.g. "NFS
-    Underground 2" on disk for a game titled "Need for Speed
-    Underground 2" in the library), so a plain substring test in either
-    direction misses real matches."""
+def _significant_words_step1(name: str) -> set[str]:
+    """Return significant words of at least 4 characters.
+
+    Step 1 is the conservative matcher. It avoids short/common tokens
+    such as numbers and abbreviations to reduce false positives.
+    """
     words = re.findall(r"[a-z0-9]+", name.lower())
-    return {w for w in words if len(w) >= 4 and w not in _STOPWORDS}
+    return {
+        w
+        for w in words
+        if len(w) >= 4 and w not in _STOPWORDS
+    }
+
+
+def _significant_words_step2(name: str) -> set[str]:
+    """Return all normalized alphanumeric words.
+
+    Step 2 is the permissive fallback matcher. Short tokens such as
+    '2', 'ii', 'v', 'nfs', etc. are deliberately retained because
+    publishers frequently use abbreviations or sequel numbers in
+    directory names.
+
+    False positives are preferred over false negatives.
+    """
+    words = re.findall(r"[a-z0-9]+", name.lower())
+    return {
+        w
+        for w in words
+        if w not in _STOPWORDS
+    }
 
 
 def _folder_matches_game(folder_name: str, game_name: str) -> bool:
-    """True if folder_name plausibly belongs to game_name, based on at
-    least one shared significant word rather than a literal substring
-    match. False positives here just mean an extra folder gets offered
-    for backup (harmless); false negatives mean a real save location is
-    silently missed (the actual risk -- see module docstring)."""
-    folder_words = _significant_words(folder_name)
-    game_words = _significant_words(game_name)
+    """Return True if a folder plausibly belongs to the game.
+
+    Matching is performed in two steps:
+
+      1. Conservative match using significant words (>= 4 chars).
+      2. Permissive match using all alphanumeric words, including short
+         tokens and numbers.
+
+    The second step intentionally favors false positives over false
+    negatives.
+    """
+    folder_words = _significant_words_step1(folder_name)
+    game_words = _significant_words_step1(game_name)
+
+    if folder_words and game_words and folder_words & game_words:
+        return True
+
+    # Step 2: permissive fallback.
+    folder_words = _significant_words_step2(folder_name)
+    game_words = _significant_words_step2(game_name)
+
     if not folder_words or not game_words:
         return False
+
     return bool(folder_words & game_words)
+
 
 
 # ---------------------------------------------------------------------------
