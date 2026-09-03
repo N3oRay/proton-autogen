@@ -35,13 +35,14 @@ slots), so directory-level stat() alone is not a reliable change signal.
 from __future__ import annotations
 
 import hashlib
-import logging
+from proton_autogen.utils.logger import StructuredLogger
 import os
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
 
-logger = logging.getLogger(__name__)
+#-------------------------- Init Log -------------------
+logger = StructuredLogger("proton-autogen.save_detection")
 
 
 # ---------------------------------------------------------------------------
