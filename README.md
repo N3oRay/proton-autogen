@@ -260,7 +260,7 @@ nautilus -q
 - [x] Configuration file support
 - [x] Game / Installer auto-detection
 - [x] GUI frontend
-- [x] Memory — Save Management:
+- [x] Memory — Save Management:system to manage, and preserve game saves/data. 
 
 ### Automation
 
