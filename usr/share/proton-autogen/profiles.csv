@@ -1556,13 +1556,32 @@ WinMergeU.exe,WinMerge,desktop,File comparison
 DirectoryOpus.exe,Directory Opus,desktop,File manager
 Listary.exe,Listary,desktop,File search and launcher
 PowerRename.exe,PowerToys PowerRename,dotnet_csharp,File renaming utility
-darktable.exe,darktable,desktop,2025,5.4.0,RAW photo workflow and image editor
-LibreCAD.exe,LibreCAD,desktop,2026,2.2.1.3,2D CAD application
-JabRef.exe,JabRef,desktop,2024,5.15,Bibliography and reference manager
-julia.exe,Julia,desktop,2026,1.12.6,Technical computing programming language
-openrefine.exe,OpenRefine,desktop,2026,3.10.0,Data cleaning and transformation
-kicad.exe,KiCad,desktop,2025,9.0.4,Electronic design automation
-octave-gui.exe,GNU Octave,desktop,2025,9.4.0,Scientific computing environment
-CloudCompare.exe,CloudCompare,desktop,2024,2.13.2,3D point cloud processing
-LabPlot.exe,LabPlot,desktop,2025,2.12.1,Scientific data visualization
-WiseForceDeleter.exe,Wise Force Deleter,desktop,2025,1.5.7,File deletion utility
+darktable.exe,darktable,desktop,RAW photo workflow and image editor (v5.4.0 - 2025)
+LibreCAD.exe,LibreCAD,desktop,2D CAD application (v2.2.1.3 - 2026)
+JabRef.exe,JabRef,desktop,Bibliography and reference manager (v5.15 - 2024)
+julia.exe,Julia,desktop,Technical computing programming language (v1.12.6 - 2026)
+openrefine.exe,OpenRefine,desktop,Data cleaning and transformation (v3.10.0 - 2026)
+kicad.exe,KiCad,desktop,Electronic design automation (v9.0.4 - 2025)
+octave-gui.exe,GNU Octave,desktop,Scientific computing environment (v9.4.0 - 2025)
+CloudCompare.exe,CloudCompare,desktop,3D point cloud processing (v2.13.2 - 2024)
+LabPlot.exe,LabPlot,desktop,Scientific data visualization (v2.12.1 - 2025)
+WiseForceDeleter.exe,Wise Force Deleter,desktop,File deletion utility (v1.5.7 - 2025)
+StardewValley.exe,Stardew Valley,dotnet_csharp,XNA/MonoGame
+FactoryGame-Win64-Shipping.exe,Satisfactory,dx12,Unreal Engine 5
+FSD-Win64-Shipping.exe,Deep Rock Galactic,dx11,Unreal Engine 4
+b1-Win64-Shipping.exe,Black Myth Wukong,dx12,Unreal Engine 5
+r5apex.exe,Apex Legends,dx12,Source Engine (modified)
+PathOfExile_x64Steam.exe,Path of Exile,dx11,PoE Engine (alias exe)
+cod.exe,Call of Duty Warzone,dx12,IW Engine
+DyingLightGame_x64_rwdi.exe,Dying Light,dx11,Chrome Engine 6
+DyingLight2.exe,Dying Light 2,dx12,C-Engine
+Lethal.exe,Lethal League Blaze,dotnet_csharp,Unity C#
+Techtonica.exe,Techtonica,dx12,Unity
+V_Rising.exe,V Rising,dx12,Unity DOTS
+core.exe,Core Keeper,dotnet_csharp,Unity C#
+Repo.exe,R.E.P.O.,dotnet_csharp,Unity C#
+PGA.exe,Content Warning,dotnet_csharp,Unity C#
+PowerWashSimulator.exe,PowerWash Simulator,dx11,Unreal Engine 4
+Anno1800.exe,Anno 1800,dx11,Anno Engine
+Frostpunk.exe,Frostpunk,dx11,Liquid Engine
+Manor Lords.exe,Manor Lords,dx12,Unreal Engine 5

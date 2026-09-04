@@ -1397,4 +1397,18 @@ KNOWN_APPIDS = {
     "Yakuza7.exe": "1235140",
     "Judgment.exe": "2058180",
     "LostJudgment.exe": "2058190",
+
+    # -----------------------------
+    # Ajouts -- complément profiles.csv (à re-vérifier si doute)
+    # -----------------------------
+    "TESV.exe": "72850",  # The Elder Scrolls V: Skyrim
+    "GTAV.exe": "271590",  # Grand Theft Auto V
+    "dota2.exe": "570",  # Dota 2
+    "Control_DX12.exe": "870780",  # Control
+    "HaloMCC.exe": "976730",  # Halo: The Master Chief Collection
+    "HaloInfinite.exe": "1240440",  # Halo Infinite
+    "DarkSouls.exe": "211420",  # Dark Souls: Prepare to Die Edition
+    "StardewValley.exe": "413150",  # Stardew Valley
+    "r5apex.exe": "1172470",  # Apex Legends
+    "V_Rising.exe": "1604030",  # V Rising
 }
