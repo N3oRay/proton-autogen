@@ -385,13 +385,21 @@ label.home-label {
 
 
 .badge {
-    border-radius:6px;
-    border-radius: 12px;
-    padding: 4px 8px;
-    background: #eef2f7;
+
     color: @kde-text;
-    border: 1px solid @kde-border;
-    font-weight:bold;
+    padding: 2px 2px;
+    background:
+        linear-gradient(
+            180deg,
+            rgba(20,45,30,.90),
+            rgba(12,25,18,.90)
+        );
+
+    border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 12px;
+
+    box-shadow:
+        0 0 6px @kde-text;
 }
 
 .badge:hover {

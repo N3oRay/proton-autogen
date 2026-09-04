@@ -1,6 +1,8 @@
-proton-autogen (3.3.4) noble; urgency=medium
+proton-autogen (3.3.5) noble; urgency=medium
 
   * Thanks to all users and contributors for their continued support, feedback and bug reports.
+  * Add game save management (Memory) to preserve and restore application data.
+  * Add new proton-autogen --import command (Beta) to import and recover games from Lutris and other supported sources.
   * Add system sleep inhibition while games are running
   * Added settings menu with all application options.
   * Advanced ProtonDB evolution. Integrated menu.
@@ -24,6 +26,6 @@ proton-autogen (3.3.4) noble; urgency=medium
   * Update all 16 supported locale files.
   * Improve graphical user experience with clearer status reporting and easier access to detailed application launch information.
   * Internal UX improvements with the introduction of dedicated status bar and status history handling.
-  * General UX improvements, localization improvements, configuration handling improvements and code cleanup.
+  * General UX improvements, configuration handling improvements and code cleanup.
 
- -- N3oray <n3oray77@gmail.com>  Sun, 30 Aug 2026 19:00:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Fri, 04 Sep 2026 21:28:00 +0200
