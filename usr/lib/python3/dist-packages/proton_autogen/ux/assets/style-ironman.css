@@ -1219,3 +1219,34 @@ popover button:focus {
 .save-backup-path {
     font-size: 0.75em;
 }
+
+.save-backup-dialog, .save-manager-dialog{
+    background: rgba(15,15,15,0.92);
+    padding: 2px 8px;
+    border-radius:16px;
+    color:white;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.18);
+}
+
+.title-5, .save-history-list{
+    background: rgba(15,15,15,0.92);
+    padding: 2px 8px;
+    border-radius:16px;
+    color:white;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.18);
+}
+
+.save-location-path{
+    background:
+        linear-gradient(
+            180deg,
+            rgba(58,20,16,0.80),
+            rgba(24,10,8,0.70)
+        );
+    padding: 2px 8px;
+    border-radius:8px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.18);
+}

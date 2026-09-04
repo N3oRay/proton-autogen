@@ -203,7 +203,7 @@ class DashboardSavesMixin:
             title=title,
         )
         dialog.add_css_class("save-manager-dialog")
-        dialog.set_default_size(460, 480)
+        dialog.set_default_size(460, 680)
 
         outer = Gtk.Box(
             orientation=Gtk.Orientation.VERTICAL,

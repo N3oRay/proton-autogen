@@ -1248,3 +1248,29 @@ popover button:focus {
     font-size: 0.75em;
     color: alpha(@theme_fg_color, 0.55);
 }
+
+.save-backup-dialog, .save-manager-dialog{
+    background-color: @hk_panel;
+    padding: 2px 8px;
+    border-radius:16px;
+    color:white;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.18);
+}
+
+.title-5, .save-history-list{
+    background-color: alpha(@kawaii-pink, 0.25);
+    padding: 2px 8px;
+    border-radius:16px;
+    color:white;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid rgba(255, 143, 196, 0.35);
+}
+
+.save-location-path{
+    background-color: @hk_panel;
+    padding: 2px 8px;
+    border-radius:8px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.18);
+}
