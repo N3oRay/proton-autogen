@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "proton-autogen"
-version = "3.3.2"
+version = "3.3.5"
 description = "Automatic Proton/Wine launcher"
 readme = "README.md"
 license = { text = "MIT" }
