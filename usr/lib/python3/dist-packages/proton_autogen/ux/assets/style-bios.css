@@ -166,16 +166,6 @@ headerbar {
         1px solid @bios_border_red;
 }
 
-
-/* Ligne rouge BIOS */
-
-.main-header::after {
-
-    background: @bios_red;
-    min-height: 2px;
-}
-
-
 /* =========================================================
    BOUTONS SYSTÈME GTK4
    ========================================================= */

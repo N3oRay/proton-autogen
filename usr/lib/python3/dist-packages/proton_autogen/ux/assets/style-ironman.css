@@ -1168,6 +1168,17 @@ popover button:focus {
 /* =========================================================
  * FENÊTRE "RACCOURCIS CLAVIER" (Ctrl+? / Ctrl+/)
  * ========================================================= */
+.game-grid-icon-holder:focus,
+.game-grid-icon-holder:focus-visible {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+.game-grid-context-menu button:focus,
+.game-grid-context-menu button:focus-visible {
+    outline: 2px solid @accent;
+    outline-offset: -2px;
+}
 
 .shortcuts-window {
     background: rgba(28, 10, 8, 0.96);

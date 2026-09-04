@@ -821,6 +821,9 @@ ICON_MAPPING = {
     "starwar": "star.svg",
     "swr": "star.svg",
     "star": "star.svg",
+    "stars": "favoris.svg",
+    "lux": "favoris.svg",
+
     "sega": "sega.svg",
     "sonic": "sega.svg",
     "bench": "wipe.svg",
