@@ -260,6 +260,7 @@ nautilus -q
 - [x] Configuration file support
 - [x] Game / Installer auto-detection
 - [x] GUI frontend
+- [x] Memory — Save Management:
 
 ### Automation
 
@@ -270,8 +271,7 @@ nautilus -q
 
 ### Gaming integrations
 
-- [x] Lutris profile export
-- [ ] Lutris profile import
+- [x] Lutris profile import/export
 - [ ] Bottles profile import/export
 - [x] Sensors and MangoHud support
 - [x] Gamescope integration
