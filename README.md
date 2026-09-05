@@ -142,7 +142,7 @@ Review the installer before running it
 ```bash
 less install.sh
 ```
-### Install manual  (ARCH and CachyOS)
+### Install manual  (Arch,Endeavouros,Cachyos,Garuda,Manjaro,Arcolinux,Rebornos,Debian,Ubuntu,Linuxmint,Pop,Elementary,Zorin,Fedora,Nobara)
 ```bash
 git clone https://github.com/N3oRay/proton-autogen.git
 cd proton-autogen
