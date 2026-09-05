@@ -2,8 +2,8 @@
 
 Name=Open with Proton-Autogen
 Comment=Run Windows exe using Proton or Wine fallback
-Exec=proton-autogen %f
-Icon-Name=applications-games
+Exec=proton-autogen %F
+Icon-Name=proton-autogen
 Extensions=exe;
-Selection=any
-EscapeSpaces=true
+Selection=single
+Quote=double
