@@ -24,13 +24,13 @@ fi
 PM=""
 
 case "${ID:-}" in
-    arch|cachyos|endeavouros)
+    arch|endeavouros|cachyos|garuda|manjaro|arcolinux|rebornos)
         PM="pacman"
         ;;
-    debian|ubuntu|linuxmint|pop)
+    debian|ubuntu|linuxmint|pop|elementary|zorin)
         PM="apt"
         ;;
-    fedora)
+    fedora|nobara)
         PM="dnf"
         ;;
     *)
