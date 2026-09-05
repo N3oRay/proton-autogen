@@ -6,7 +6,20 @@ X-KDE-Priority=TopLevel
 
 [Desktop Action RunWithProtonAutogen]
 Name=Open with Proton-Autogen
-Name[fr]=Ouvrir avec Proton-Autogen
+Name[fr]=Exécuter avec Proton-Autogen
+Name[de]=Mit Proton-Autogen öffnen
+Name[es]=Abrir con Proton-Autogen
+Name[it]=Apri con Proton-Autogen
+Name[pt]=Abrir com Proton-Autogen
+Name[pt_BR]=Abrir com Proton-Autogen
+Name[nl]=Openen met Proton-Autogen
+Name[pl]=Otwórz za pomocą Proton-Autogen
+Name[ru]=Открыть с помощью Proton-Autogen
+Name[uk]=Відкрити за допомогою Proton-Autogen
+Name[ja]=Proton-Autogenで開く
+Name[ko]=Proton-Autogen으로 열기
+Name[zh_CN]=使用 Proton-Autogen 打开
+Name[zh_TW]=使用 Proton-Autogen 開啟
 
 Icon=proton-autogen
-Exec=proton-autogen "%f"
+Exec=proton-autogen %f
