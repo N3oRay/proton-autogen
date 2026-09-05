@@ -8,5 +8,5 @@ X-KDE-Priority=TopLevel
 Name=Open with Proton-Autogen
 Name[fr]=Ouvrir avec Proton-Autogen
 
-Icon=wine
+Icon=proton-autogen
 Exec=proton-autogen "%f"
