@@ -13,7 +13,7 @@ fi
 PM=""
 
 case "${ID:-}" in
-    arch|cachyos)
+    arch|cachyos|endeavouros)
         PM="pacman"
         ;;
     debian|ubuntu|linuxmint|pop)
@@ -117,7 +117,7 @@ install_file_manager_integrations() {
         echo "==> Installing KDE service menu..."
 
         sudo install -Dm644 \
-            share/kio/servicemenus/proton-autogen.desktop \
+            usr/share/kio/servicemenus/proton-autogen.desktop \
             /usr/share/kio/servicemenus/proton-autogen.desktop
     else
         echo "==> KDE/KIO not detected. Skipping KDE service menu."
@@ -131,7 +131,7 @@ install_file_manager_integrations() {
         echo "==> Installing Nautilus extension..."
 
         sudo install -Dm644 \
-            share/nautilus-python/extensions/proton_autogen_nautilus.py \
+            usr/share/nautilus-python/extensions/proton_autogen_nautilus.py \
             /usr/share/nautilus-python/extensions/proton_autogen_nautilus.py
     else
         echo "==> Nautilus not detected. Skipping Nautilus extension."
@@ -145,12 +145,14 @@ install_file_manager_integrations() {
         echo "==> Installing Nemo action..."
 
         sudo install -Dm644 \
-            share/nemo/actions/proton-autogen.nemo_action \
+            usr/share/nemo/actions/proton-autogen.nemo_action \
             /usr/share/nemo/actions/proton-autogen.nemo_action
     else
         echo "==> Nemo not detected. Skipping Nemo action."
     fi
 }
+
+install_file_manager_integrations
 
 echo "==> Installing Python module..."
 
