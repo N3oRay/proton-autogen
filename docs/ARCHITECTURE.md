@@ -1,27 +1,25 @@
 # Architecture Overview
 
-.SRCINFO                # métadonnées (AUR)
-.github/                 # CI / actions (boilerplate)
-.gitignore
-About.md
-CONTRIBUTE.md
-LICENSE
-Note.txt
-PKGBUILD                 # Arch package build script
-README.md
-debian/                  # fichiers pour paquet Debian
-docs/                    # captures, gif, captures d'écran
-install.sh               # script d'installation
-log/                     # journaux / exemples
-pyproject.toml           # configuration packaging Python
-requirements.txt
-requirements-dev.txt
-tests/                   # tests unitaires / d'intégration
-update.sh                # script de mise à jour
-usr/                     # installation layout (bin/, lib/, share/)
-  bin/proton-autogen     # script CLI principal (entrypoint)
-  lib/
-  share/
+README.md                       # guide d'utilisation et installation
+pyproject.toml                  # packaging (setuptools)
+requirements*.txt               # dépendances
+usr/
+  bin/proton-autogen            # script d'entrée CLI
+  lib/python3/dist-packages/
+    proton_autogen/
+      core.py                   # moteur principal (env, lancement, profils)
+      backend.py                # orchestration CLI / actions
+      ux/                       # GTK4 dashboard, assets CSS/images
+      detection/                # detection de Proton/MangoHud/gamemode
+      profiles/                 # définitions d'environnements (dx11, dx12, etc.)
+      protondb/                 # intégration ProtonDB, cache/recommendations
+      utils/                    # utilitaires (gamescope, steam_appid, etc.)
+docs/                            # captures, guides d'installation et profils
+debian/                          # fichiers pour package Debian
+.github/                         # CI/workflows (build, tests, packaging)
+tests/                           # tests (quelques tests présents)
+install.sh / update.sh / uninstall.sh  # scripts d'installation/mise à jour
+PKGBUILD / .SRCINFO               # packaging AUR/Arch metadata
 
 # lancer un exe via Proton
 proton-autogen /chemin/vers/jeu.exe
