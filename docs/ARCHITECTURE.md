@@ -1,5 +1,5 @@
 # Architecture Overview
-
+```text
 README.md                       # guide d'utilisation et installation
 pyproject.toml                  # packaging (setuptools)
 requirements*.txt               # dépendances
@@ -20,7 +20,7 @@ debian/                          # fichiers pour package Debian
 tests/                           # tests (quelques tests présents)
 install.sh / update.sh / uninstall.sh  # scripts d'installation/mise à jour
 PKGBUILD / .SRCINFO               # packaging AUR/Arch metadata
-
+```
 # lancer un exe via Proton
 proton-autogen /chemin/vers/jeu.exe
 
