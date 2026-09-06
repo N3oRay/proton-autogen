@@ -1,4 +1,29 @@
 ```text
+
+# installer via PPA (recommandé sur Debian/Ubuntu dérivés)
+sudo add-apt-repository ppa:n3oray/proton-autogen
+sudo apt update
+sudo apt install proton-autogen
+
+# ou installer depuis le dépôt (manuel)
+git clone https://github.com/N3oRay/proton-autogen.git
+cd proton-autogen
+chmod +x install.sh
+./install.sh
+
+# lancer un exe
+proton-autogen /chemin/vers/jeu.exe
+
+# lancer l'interface GTK4
+proton-autogen --ux
+
+# diagnostic
+proton-autogen --diag
+
+# lister les protons détectés
+proton-autogen --list-protons
+
+
 $ proton-autogen 'Battle.net Launcher.exe'
 
 [proton-autogen] System information:
