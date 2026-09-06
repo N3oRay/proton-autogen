@@ -966,7 +966,7 @@ MonsterHunterWilds.exe,Monster Hunter Wilds,dx12,RE Engine
 Avowed.exe,Avowed,dx12,Unreal Engine 5
 ClairObscur-Win64-Shipping.exe,Clair Obscur Expedition 33,dx12,Unreal Engine 5
 SHProto-Win64-Shipping.exe,Silent Hill 2 Remake,dx12,Unreal Engine 5
-IndianaJones.exe,Indiana Jones and the Great Circle,vulkan,id Tech / Motor Engine
+IndianaJones.exe,Indiana Jones and the Great Circle,dx12,id Tech / Motor Engine
 DoomTheDarkAges.exe,Doom The Dark Ages,dx12,id Tech 8
 BlackOps6.exe,Call of Duty Black Ops 6,dx12,Black Ops Engine
 Marvel-Win64-Shipping.exe,Marvel Rivals,dx12,Unreal Engine 5

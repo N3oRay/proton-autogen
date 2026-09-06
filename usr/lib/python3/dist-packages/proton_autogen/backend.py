@@ -74,7 +74,7 @@ def print_runtime_info(proton, exe_path, mangohud_available):
     print(f"  {tr('path'):<10}: {proton_path(proton)}")
 
     print(
-        f"  {tr('proton_call'):<10}: ",
+        f"  {tr('proton_call'):<10} ({tr('optional')}): ",
         tr("detected") if has_proton_call() else tr("missing")
     )
 
@@ -357,7 +357,7 @@ def get_diagnostic_text():
     lines.append(f"{tr('python'):<12}: {sys.version.split()[0]}\n")
     lines.append(f"{tr('runtime')}:")
     lines.append(
-        f"  {tr('proton_call')} : "
+        f"  {tr('proton_call')} ({tr('optional')}) : "
         f"{tr('yes') if has_proton_call() else tr('no')}"
     )
     lines.append(

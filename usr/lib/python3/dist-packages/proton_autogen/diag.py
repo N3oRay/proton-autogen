@@ -12,6 +12,28 @@ from proton_autogen.diagnostic import diagnostic_report, load_logs
 
 
 # ----------------------------
+# EXCLUSIONS (dossiers internes Steam, jamais de vraies versions Proton)
+# ----------------------------
+# Steam crée des dossiers de travail internes dans compatibilitytools.d
+# pendant l'installation/mise à jour d'une version de Proton
+# (extraction en cours, zone de scratch...). Le plus connu est
+# "__proton_tmp__", mais le motif "__xxx__" est la convention Steam
+# pour ce type de dossier temporaire -- aucune vraie distribution
+# Proton (Proton 9.0, GE-Proton10-5, Proton - Experimental...) n'utilise
+# ce format de nom. On l'exclut explicitement plutôt que de se fier au
+# seul test "proton" in name.lower(), qui matche "__proton_tmp__" tout
+# autant qu'une vraie installation.
+_STEAM_INTERNAL_DIR_RE = re.compile(r"^__.*__$")
+
+
+def is_steam_internal_dir(name: str) -> bool:
+    """True si `name` correspond à un dossier de travail interne de
+    Steam (ex: '__proton_tmp__') plutôt qu'à une vraie installation
+    Proton."""
+    return bool(_STEAM_INTERNAL_DIR_RE.match(name))
+
+
+# ----------------------------
 # PROTON SCORE (robuste)
 # ----------------------------
 def proton_score(name: str):
@@ -50,6 +72,9 @@ def find_system_proton():
     candidates = []
 
     def is_proton_name(name: str) -> bool:
+        if is_steam_internal_dir(name):
+            return False
+
         n = name.lower()
 
         return (
@@ -99,6 +124,8 @@ def find_proton():
     seen = set()
 
     def is_proton_dir(name: str) -> bool:
+        if is_steam_internal_dir(name):
+            return False
         return re.search(r"proton", name, re.IGNORECASE) is not None
 
     def add(path):
@@ -155,6 +182,9 @@ def find_all_protons():
     seen = set()
 
     def is_proton(name: str) -> bool:
+        if is_steam_internal_dir(name):
+            return False
+
         n = name.lower()
 
         # vrais candidats Proton

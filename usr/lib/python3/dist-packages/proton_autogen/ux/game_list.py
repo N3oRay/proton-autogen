@@ -104,7 +104,7 @@ class GameList(Gtk.Box):
         info_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=2)
         info_box.set_hexpand(True)
         info_box.set_valign(Gtk.Align.CENTER)
-        info_box.set_size_request(300, -1)
+        # info_box.set_size_request(300, -1)
 
         header_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
         header_box.set_halign(Gtk.Align.START)
@@ -337,13 +337,25 @@ class GameList(Gtk.Box):
 
     def _make_label(self, text, css_class, wrap=False):
         label = Gtk.Label(label=text, xalign=0)
-        label.set_halign(Gtk.Align.START)
+        label.set_halign(Gtk.Align.FILL)
+        label.set_valign(Gtk.Align.CENTER)
+        label.set_hexpand(True)
+
         label.add_css_class(css_class)
+
         if wrap:
-            label.set_wrap(True)
-            label.set_wrap_mode(Pango.EllipsizeMode.MIDDLE)
+            # Les informations secondaires restent sur une ligne
+            # et sont tronquées proprement si nécessaire.
+            label.set_wrap(False)
+            label.set_ellipsize(Pango.EllipsizeMode.MIDDLE)
+            label.set_single_line_mode(True)
             label.set_selectable(True)
+        else:
+            label.set_ellipsize(Pango.EllipsizeMode.END)
+            label.set_single_line_mode(True)
+
         return label
+
 
     # -------------------------
     # FORMAT
