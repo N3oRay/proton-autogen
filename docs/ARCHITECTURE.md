@@ -25,10 +25,11 @@ PKGBUILD / .SRCINFO               # packaging AUR/Arch metadata
 proton-autogen /chemin/vers/jeu.exe
 
 # options utiles (CLI)
+```text
 proton-autogen --list-protons
 proton-autogen --diag
 proton-autogen --ux            # lance le dashboard GTK
-
+```
 
 # Installation manuelle (exemple)
 git clone https://github.com/N3oRay/proton-autogen.git
@@ -46,7 +47,7 @@ sudo dpkg -i ../proton-autogen_*.deb
 Contains all 18 game profiles (DX11, DX12, GoldSrc, etc).
 
 # 🏗️ Architecture Overview - Proton-Autogen
-
+```text
 .SRCINFO                 (meta pour Arch)
 .github/                 (actions / templates — ne semble pas critique)
 .gitignore
@@ -71,56 +72,64 @@ usr/
     backend.py           (logique de lancement, profils, etc.)
     ...                  (autres modules: info, diag, sensor, stats, etc.)
 docs/screenshots/        (images démonstratives)
-
+```
 
 ## 📦 Module Map
 
 # Game Execution
+```text
 ├─ run()                 # Main entry: detect Proton, setup env, launch
 │  └─ Handles: proton-call mode, Wine fallback, session tracking
 ├─ print_runtime_info()  # Display detected runtime (GPU, Proton, etc)
-
+```
 # Game Management (CRUD)
+```
 ├─ add_game()            # Register new game + config
 ├─ edit_game_ui()        # Interactive game config editor
 ├─ load_registered_games()          # Load all registered games from disk
 ├─ load_registered_games_ux()       # Format for UI display
-
+```
 # Game Discovery
+```text
 ├─ find_windows_programs()          # Scan home for .exe files (naive)
 ├─ find_windows_programs_ux()       # Scan + dedup with registered games
 ├─ find_windows_programs_ux_search()  # @lru_cache search in common dirs
 │  └─ Scans: ~/Bureau, ~/Downloads, ~/Jeux, ~/Téléchargements
 │  └─ MAX_DEPTH = 6, excludes 100+ cache/temp dirs
-
+```
 # Proton Management
+```text
 ├─ list_protons()       # Display all detected Proton versions
 ├─ choose_proton()      # Interactive Proton selector
 ├─ find_proton()        # Auto-select best Proton (GE > CachyOS > default)
 ├─ find_proton_by_name()  # Search by name pattern
 ├─ find_all_protons()   # Scan and return all Proton paths
-
+```
 # Prefix Management
+```text
 ├─ list_prefixes()      # List available Wine prefixes
 ├─ choose_prefix()      # Interactive prefix selector
 ├─ create_new_prefix()  # Create new prefix interactively
 ├─ find_existing_prefix_for_game()  # Reuse existing prefix
-
+```
 # Utilities
+```text
 ├─ normalize_flag()     # Parse boolean flags (1, true, yes, on)
 ├─ list_programs()      # CLI: list all discovered programs
 ├─ list_programs_ux()   # UI: list with badges and metadata
 └─ _normalize()         # Clean names for search
-
+```
 ### **Core Execution Modules**
 
 #### `core.py` (2100 lines) - **Engine Principal**
 **Responsibility:** Game environment setup and execution orchestration
 
 # Base Initializer
+```text
 ├─ init_env()            # Create clean environment dict
-
+```
 # Game Profile Factories (referenced in core.py)
+```text
 ├─ env_legacy_app()      # Photoshop 6, legacy apps
 ├─ env_launcher()        # Battle.net, EA App, Ubisoft
 ├─ env_dx11()            # Default DX11 games
@@ -146,8 +155,9 @@ docs/screenshots/        (images démonstratives)
   "MANGOHUD": "0",            # Performance overlay
   "GAMEMODE": "0"             # Game mode flag
 }
-
+```
 # Profile Definitions (18 total)
+```text
 ├─ env_legacy_app()       # Legacy apps (Photoshop 6)
 ├─ env_launcher()         # Launchers (Battle.net, EA App, Ubisoft)
 ├─ env_dx11()            # DirectX 11 (most modern games)
@@ -165,25 +175,28 @@ docs/screenshots/        (images démonstratives)
 ├─ env_win95()           # Windows 95 DirectDraw
 ├─ env_desktop()         # Desktop apps (Photoshop, etc)
 └─ env_gtav_*()          # GTA V (3 variants: compat, x11, safe)
-
+```
 # Core Functions
+```text
 ├─ base_env()            # Build runtime environment dict
 ├─ run_game_proton()     # Execute via Proton subprocess
 ├─ run_standard()        # Wine fallback execution
 ├─ get_prefix_path()     # Resolve Wine prefix (main/shared/auto/custom)
 └─ apply_user_profile()  # Override with user custom config
-
+```
 # Helpers
+```text
 ├─ has_proton_call()     # Check proton-call availability
 ├─ has_wine()            # Check Wine installation
 ├─ has_mangohud()        # Check MangoHud availability
 ├─ has_gamemode()        # Check GameMode availability
 ├─ get_exe_arch()        # Detect PE32/PE32+ (32 vs 64-bit)
 └─ load_proton_paths()   # Scan standard Proton locations
-
+```
 # Important Data Structures:
 
 # Game Config (JSON, per game)
+```text
 {
   "id": "hash",
   "name": "Game Name",
@@ -210,21 +223,24 @@ docs/screenshots/        (images démonstratives)
   "sync": {"esync": "auto", "fsync": "auto"},
   "env": {"DXVK_ASYNC": "1"}
 }
-
+```
 # Proton Detection Result
+```text
 {
   "path": "/home/user/.steam/root/compatibilitytools.d/GE-Proton10-34",
   "name": "GE-Proton10-34",
   "version": "10.34",
   "priority": 30  # GE-Proton priority
 }
-
+```
 
 # Feature Resolution
+```text
 ├─ resolve_game_features()   # Replace "auto" with actual values
 │  └─ gpu: "auto" → "safe"/"balanced"/"performance"/"extreme"
-
+```
 # GPU Profile Detection
+```text
 ├─ detect_gpu_profile()      # Auto-select GPU profile based on system
 │  ├─ Steam Deck    → "balanced"
 │  ├─ Wayland       → "safe"
@@ -233,11 +249,13 @@ docs/screenshots/        (images démonstratives)
 │  ├─ Mid-range GPU → "performance" (4GB VRAM, 8GB RAM)
 │  ├─ Dedicated GPU → "balanced"
 │  └─ Integrated GPU → "safe"
-
+```
 # GPU Environment Setup
+```text
 ├─ gpu_env()                # Return GPU-specific env vars
 │  └─ NVIDIA: PROTON_ENABLE_NVAPI=1, __GL_SHADER_DISK_CACHE=1
 │  └─ AMD: RADV_PERFTEST=aco (or sam on high-end)
+```
 
 # CPU Optimization
 ├─ detect_use_all_available_cores()
