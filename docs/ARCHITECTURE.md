@@ -258,5 +258,7 @@ docs/screenshots/        (images démonstratives)
 ```
 
 # CPU Optimization
+```text
 ├─ detect_use_all_available_cores()
 └─ cpu_args()               # Return -USEALLAVAILABLECORES if applicable
+```
