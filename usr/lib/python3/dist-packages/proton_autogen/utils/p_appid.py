@@ -104,7 +104,7 @@ KNOWN_APPIDS = {
     "POWERCOLOR_KEYTONE.exe": "480",    # Utilitaire PowerColor
     "WeMod.exe": "480",                              # WeMod
 
-    "Launcher.exe": "442080",                        # Riders of Icarus
+    #"Launcher.exe": "442080",                        # Riders of Icarus
     "Mir4S.exe": "1623660",                          # MIR4
     "lswebbroker.exe": "1934850",                    # 王牌对决 / LostSaga CN
     "icarus-101xp-micro-launcher.exe": "921940",     # Icarus Online
@@ -211,7 +211,6 @@ KNOWN_APPIDS = {
     "xcom.exe": "7770",                               # X-COM: Enforcer
     "Interceptor.exe": "7730",                  # X-COM: Interceptor
     "UFO Defense_Patched.exe": "7760",               # X-COM: UFO Defense
-    "runme.exe": "7650",                              # X-COM: Terror From the Deep
     "Terror From the Deep_patched.exe": "7650",      # X-COM: Terror From the Deep
 
     # -----------------------------
@@ -254,7 +253,6 @@ KNOWN_APPIDS = {
     "BatmanArkhamVR.exe": "502820",                 # Batman: Arkham VR
     "BatmanArkhamShadow.exe": "2562200",            # Batman: Arkham Shadow (si version PC détectée)
     "ShippingPC-BmGame.exe": "35140",     # Arkham Asylum
-    "ShippingPC-BmGame.exe": "200260",    # Arkham City (doublon impossible en dict)
     "BatmanAK-Win64-Shipping.exe": "208650",
 
     # -----------------------------
@@ -310,10 +308,6 @@ KNOWN_APPIDS = {
     "WWII.exe": "476600",                       # Call of Duty: WWII
     "s2_sp64_ship.exe": "476600",
     "s2_mp64_ship.exe": "476600",
-    "ModernWarfare.exe": "1938090",             # Call of Duty HQ
-    "cod.exe": "1938090",
-    "MWII.exe": "1938090",                      # MWII (2022) via HQ
-    "MWIII.exe": "1938090",                     # MWIII (2023) via HQ
     "Warzone.exe": "1938090",                   # Warzone via HQ
     "BlackOps6.exe": "2933620",                 # Black Ops 6
     # -----------------------------
@@ -677,7 +671,6 @@ KNOWN_APPIDS = {
     "RE3.exe": "952060",
     "re4.exe": "2050650",
     "DevilMayCry5.exe": "601150",
-    "StreetFighter6.exe": "1364780",
     # -----------------------------
     # Final Fantasy
     # -----------------------------
@@ -728,22 +721,12 @@ KNOWN_APPIDS = {
     "DOOMEternalx64vk.exe": "782330",
 
     # -----------------------------
-    # Ubisoft
-    # -----------------------------
-    "ACValhalla.exe": "2208920",
-    "ACMirage.exe": "3035570",
-    "ACOdyssey.exe": "812140",
-    "FarCry5.exe": "552520",
-    "FarCry6.exe": "2369390",
-
-    # -----------------------------
     # EA
     # -----------------------------
     "MassEffect.exe": "17460",
     "MassEffect2.exe": "24980",
     "MassEffect3.exe": "1238020",
     "MassEffectLauncher.exe": "1328670",
-    "DeadSpaceRemake.exe": "1693980",
     "JediSurvivor.exe": "1774580",
     "JediFallenOrder.exe": "1172380",
     # -----------------------------
@@ -768,7 +751,6 @@ KNOWN_APPIDS = {
     # -----------------------------
     # Total War / Guerrilla
     # -----------------------------
-    "HorizonZeroDawn.exe": "1151640",
     "Rome.exe": "4760",
     "Rome2.exe": "214950",
     "Attila.exe": "325610",
@@ -781,15 +763,7 @@ KNOWN_APPIDS = {
     # -----------------------------
     # Sony
     # -----------------------------
-    "GoW.exe": "1593500",
     "SpiderMan.exe": "1817070",
-    "SpiderMan2.exe": "2651280",
-    "MilesMorales.exe": "1817190",
-    "DaysGone.exe": "1259420",
-    "GhostOfTsushima.exe": "2215430",
-    "Returnal.exe": "1649240",
-
-
     # -----------------------------
     # Remedy
     # -----------------------------
@@ -815,20 +789,14 @@ KNOWN_APPIDS = {
     "Overwatch.exe": "2357570",          # Overwatch 2 Steam
     "ModernWarfare.exe": "1938090",      # Call of Duty HQ
     "cod.exe": "1938090",                # Call of Duty HQ (nouveau launcher)
-    "BlackOps6.exe": "2933620",          # Black Ops 6 (via COD HQ) # Call of Duty HQ
     "MWII.exe": "1938090",               # Modern Warfare II (via COD HQ)
     "MWIII.exe": "1938090",              # Modern Warfare III (via COD HQ)
-    "Warzone.exe": "1938090",            # Warzone (via COD HQ)
     "Diablo II Resurrected.exe": "2536520",     # Battle.net uniquement
     "D2R.exe": "2536520",
-    # Crash Bandicoot
-    "CrashBandicoot4.exe": "1378990",    # Crash Bandicoot 4: It's About Time
     # Spyro
     "Spyro-Win64-Shipping.exe": "996580",# Spyro Reignited Trilogy
     # Tony Hawk
     "THPS12.exe": "2395210",             # Tony Hawk's Pro Skater 1 + 2
-    # Sekiro (Activision éditeur)
-    "sekiro.exe": "814380",
     # Prototype
     "prototypef.exe": "10150",           # Prototype
     "prototype2.exe": "115320",          # Prototype 2
@@ -867,10 +835,6 @@ KNOWN_APPIDS = {
     "PAYDAY3Client.exe": "1272080",             # PAYDAY 3
     "PAYDAY3.exe": "1272080",
 
-    # -----------------------------
-    # Activision
-    # -----------------------------
-    "cod.exe": "1938090",               # Call of Duty HQ
     # -----------------------------
     # Independant or MUlti
     # -----------------------------
@@ -1003,12 +967,8 @@ KNOWN_APPIDS = {
     # -----------------------------
     # Borderlands
     # -----------------------------
-    "Borderlands.exe": "8980",                    # Borderlands GOTY
-    "BorderlandsGOTY.exe": "8980",                # Borderlands GOTY
     "Borderlands2.exe": "49520",                  # Borderlands 2
     "BorderlandsPreSequel.exe": "261640",         # Borderlands: The Pre-Sequel
-    "BorderlandsGOTYEnhanced.exe": "729040",      # Borderlands GOTY Enhanced
-    "Borderlands3.exe": "397540",                 # Borderlands 3
     "Wonderlands.exe": "1286680",                 # Tiny Tina's Wonderlands
     "TinyTinasWonderlands.exe": "1286680",        # Tiny Tina's Wonderlands
     "NewTales.exe": "1454970",                    # New Tales from the Borderlands
@@ -1108,11 +1068,6 @@ KNOWN_APPIDS = {
     "CrashTeamRacingNF.exe": "952060",           # Crash Team Racing Nitro-Fueled (si port)
 
     # -----------------------------
-    # Spyro
-    # -----------------------------
-    "Spyro-Win64-Shipping.exe": "996580",        # Spyro Reignited Trilogy
-
-    # -----------------------------
     # Rayman
     # -----------------------------
     "RaymanOrigins.exe": "207490",               # Rayman Origins
@@ -1153,24 +1108,14 @@ KNOWN_APPIDS = {
     # -----------------------------
     "Borderlands.exe": "8980",                   # Borderlands GOTY
     "BorderlandsGOTY.exe": "8980",
-    "Borderlands2.exe": "49520",                 # Borderlands 2
-    "BorderlandsPreSequel.exe": "261640",         # Borderlands The Pre-Sequel
     "BorderlandsGOTYEnhanced.exe": "729040",     # Borderlands GOTY Enhanced
     "Borderlands3.exe": "397540",                # Borderlands 3
-    "TinyTinasWonderlands.exe": "1286680",       # Tiny Tina's Wonderlands
-    "Wonderlands.exe": "1286680",
-    "TalesFromTheBorderlands.exe": "330830",      # Tales from the Borderlands
-    "Tales.exe": "330830",
-    "NewTalesFromTheBorderlands.exe": "1454970", # New Tales from the Borderlands
-    "NewTales.exe": "1454970",
 
     # -----------------------------
     # Metal Gear Solid (complément)
     # -----------------------------
     "MGS2Substance.exe": "2131630",              # MGS2 Master Collection
     "MGS3Subsistence.exe": "2131640",            # MGS3 Master Collection
-    "mgsvtpp.exe": "287700",                     # The Phantom Pain
-    "mgsvm.exe": "311340",                       # Ground Zeroes
 
     # -----------------------------
     # Castlevania (complément)
@@ -1215,13 +1160,6 @@ KNOWN_APPIDS = {
     "ForgottenSands.exe": "33320",                # The Forgotten Sands
 
     # -----------------------------
-    # Watch Dogs (complément)
-    # -----------------------------
-    "WatchDogs.exe": "243470",
-    "WatchDogs2.exe": "447040",
-    "WatchDogsLegion.exe": "2231380",
-
-    # -----------------------------
     # Far Cry complet
     # -----------------------------
     "FarCry.exe": "13520",                       # Far Cry
@@ -1234,25 +1172,6 @@ KNOWN_APPIDS = {
     "FarCry5.exe": "552520",
     "FarCryNewDawn.exe": "939960",
     "FarCry6.exe": "2369390",
-
-    # -----------------------------
-    # The Crew
-    # -----------------------------
-    "TheCrew.exe": "241560",
-    "TheCrew2.exe": "646910",
-    "TheCrewMotorfest.exe": "2698940",
-
-    # -----------------------------
-    # Borderlands (complément complet)
-    # -----------------------------
-    "Borderlands.exe": "8980",
-    "Borderlands2.exe": "49520",
-    "BorderlandsPreSequel.exe": "261640",
-    "BorderlandsGOTYEnhanced.exe": "729040",
-    "Borderlands3.exe": "397540",
-    "TalesFromTheBorderlands.exe": "330830",
-    "NewTalesFromTheBorderlands.exe": "1454970",
-    "TinyTinasWonderlands.exe": "1286680",
 
     # -----------------------------
     # Assassin's Creed (manquants)
@@ -1355,17 +1274,14 @@ KNOWN_APPIDS = {
     "ForzaMotorsport.exe": "2440510",
 
     # -----------------------------
-    # Doom / Quake / id (complément)
+    # Doom/ id (complément)
     # -----------------------------
     "DOOMx64.exe": "379720",
-    "DOOMEternalx64vk.exe": "782330",
-    "QuakeLive.exe": "282440",
 
     # -----------------------------
     # Portal / Valve (complément)
     # -----------------------------
     "portal2_linux.exe": "620",
-    "left4dead2.exe": "550",
 
     # -----------------------------
     # Ori
@@ -1377,7 +1293,6 @@ KNOWN_APPIDS = {
     # Hollow Knight / Metroidvania
     # -----------------------------
     "HollowKnight.exe": "367520",
-    "Blasphemous.exe": "774361",
 
     # -----------------------------
     # Nier

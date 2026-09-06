@@ -1,6 +1,18 @@
-proton-autogen (3.3.5) noble; urgency=medium
+proton-autogen (3.3.6) noble; urgency=medium
 
   * Thanks to all users and contributors for their continued support, feedback and bug reports.
+  * Support for additional Linux distributions.
+  * Improved Lutris profile management.
+  * Improved save management.
+  * New application and UI icons.
+  * More responsive game list and interface.
+  * Improved KIO and Nemo integration.
+  * More stable Helper and diagnostic tools.
+  * Improved profile stability.
+  * Updated installation documentation.
+  * Fixed executable path handling with Nemo 6.6.3.
+  * Fixed paths containing spaces or special characters when launching games from Nemo.
+  * Fixed several UI layout and display issues
   * Add game save management (Memory) to preserve and restore application data.
   * Add new proton-autogen --import command (Beta) to import and recover games from Lutris and other supported sources.
   * Add system sleep inhibition while games are running
@@ -28,4 +40,4 @@ proton-autogen (3.3.5) noble; urgency=medium
   * Internal UX improvements with the introduction of dedicated status bar and status history handling.
   * General UX improvements, configuration handling improvements and code cleanup.
 
- -- N3oray <n3oray77@gmail.com>  Fri, 04 Sep 2026 21:28:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Sun, 06 Sep 2026 12:28:00 +0200
