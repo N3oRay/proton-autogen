@@ -16,6 +16,8 @@ from proton_autogen.ux.dashboard_creatshortcut import DashboardCreateShortcutMix
 from proton_autogen.ux.dashboard_settings import DashboardSettingsMixin
 from proton_autogen.ux.dashboard_shortcuts import DashboardShortcutsMixin
 from proton_autogen.ux.dashboard_saves import DashboardSavesMixin
+from proton_autogen.ux.dashboard_import import DashboardImportMixin
+
 from proton_autogen.ux.themes import (
     load_saved_theme, save_theme, AVAILABLE_THEMES, DEFAULT_THEME,
     BACKGROUND_THEMES, STYLE_CSS,
@@ -29,14 +31,14 @@ from proton_autogen.i18n import tr, detect_help_env_lang
 from proton_autogen.ux.search import filter_games
 from proton_autogen.notify import notifications
 from proton_autogen.backend import list_programs_ux
-from proton_autogen.i18n import detect_help_env_lang
 
 
 # -----------------------------
 # MAIN WINDOW
 # -----------------------------
-class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, DashboardActionsMixin, DashboardMangoHudMixin, DashboardCreateShortcutMixin, DashboardSettingsMixin, DashboardShortcutsMixin, DashboardSavesMixin, Gtk.ApplicationWindow):
+class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, DashboardActionsMixin, DashboardMangoHudMixin, DashboardCreateShortcutMixin, DashboardSettingsMixin, DashboardShortcutsMixin, DashboardSavesMixin, DashboardImportMixin, Gtk.ApplicationWindow):
     SHOW_ADD_BUTTON = True
+    SHOW_IMPORT_BUTTON = True
     SHOW_REFRESH_BUTTON = True
 
     def __init__(self, app):
@@ -91,6 +93,12 @@ class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, Das
             # Mémorise immédiatement la taille actuelle plutôt que
             # d'attendre la fermeture, pour un effet visible tout de suite.
             save_window_size(self.get_width(), self.get_height())
+
+
+    def on_import_game(self, _btn=None):
+        """Lance le dialog d'import."""
+        self.show_import_dialog()
+
 
     # Notify Toast
     def notify_toast(self, status, timeout=3):

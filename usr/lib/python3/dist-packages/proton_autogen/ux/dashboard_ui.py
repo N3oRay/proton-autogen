@@ -100,9 +100,11 @@ class DashboardUIMixin:
             self.get_application(),
             on_refresh=lambda *_: self.refresh_games(),
             on_add=self.on_add_game,
+            on_import=self.on_import_game,
             on_change_style=self.on_change_style,
             show_refresh=self.SHOW_REFRESH_BUTTON,
             show_add=self.SHOW_ADD_BUTTON,
+            show_import=self.SHOW_IMPORT_BUTTON,
         )
         self.set_titlebar(header)
 
