@@ -217,5 +217,18 @@
 "memory_history_section": "Copias de seguridad anteriores",
 "memory_no_history": "Aún no hay copias de seguridad.",
 "memory_open_folder": "Abrir carpeta",
-"memory_button_tooltip": "Abre el gestor de guardados de este juego.\n\nHaz una copia de seguridad de tus datos de guardado actuales o accede a copias de seguridad anteriores."
+"memory_button_tooltip": "Abre el gestor de guardados de este juego.\n\nHaz una copia de seguridad de tus datos de guardado actuales o accede a copias de seguridad anteriores.",
+"import_dialog_title": "Importar aplicaciones",
+"import_title": "Importar desde Lutris, Bottles, Heroic...",
+"import_subtitle": "Buscando aplicaciones instaladas...",
+"import_start": "Importar",
+"import_nothing_selected": "No se ha seleccionado ninguna aplicación",
+"import_result": "Importación completada",
+"import_scan_error": "Error al buscar aplicaciones: {error}",
+"import_error": "Error durante la importación: {error}",
+"scanning_apps": "Buscando aplicaciones...",
+"import_custom_path_title": "Escanear una ruta personalizada",
+"import_custom_path_message": "No se han encontrado aplicaciones. Introduce una ruta para escanear:",
+"import_path_placeholder": "Por ejemplo, ~/Juegos",
+"import_scan": "Escanear"
 }

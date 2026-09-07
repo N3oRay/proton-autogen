@@ -217,5 +217,18 @@
   "memory_history_section": "以前のバックアップ",
   "memory_no_history": "バックアップはまだありません。",
   "memory_open_folder": "フォルダーを開く",
-  "memory_button_tooltip": "このゲームのセーブデータ管理画面を開きます。\n\n現在のセーブデータをバックアップしたり、以前のバックアップにアクセスしたりできます。"
+  "memory_button_tooltip": "このゲームのセーブデータ管理画面を開きます。\n\n現在のセーブデータをバックアップしたり、以前のバックアップにアクセスしたりできます。",
+"import_dialog_title": "アプリケーションをインポート",
+"import_title": "Lutris、Bottles、Heroic などからインポート",
+"import_subtitle": "インストールされているアプリケーションをスキャンしています...",
+"import_start": "インポート",
+"import_nothing_selected": "インポートするアプリケーションが選択されていません",
+"import_result": "インポートが完了しました",
+"import_scan_error": "スキャンに失敗しました: {error}",
+"import_error": "インポートに失敗しました: {error}",
+"scanning_apps": "アプリケーションをスキャンしています...",
+"import_custom_path_title": "カスタムパスをスキャン",
+"import_custom_path_message": "アプリケーションが見つかりませんでした。スキャンするパスを入力してください:",
+"import_path_placeholder": "例: ~/ゲーム",
+"import_scan": "スキャン"
 }

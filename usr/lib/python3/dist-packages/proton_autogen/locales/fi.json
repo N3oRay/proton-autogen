@@ -217,5 +217,18 @@
 "memory_history_section": "Aiemmat varmuuskopiot",
 "memory_no_history": "Varmuuskopioita ei ole vielä.",
 "memory_open_folder": "Avaa kansio",
-"memory_button_tooltip": "Avaa tämän pelin tallennustietojen hallinnan.\n\nVarmuuskopioi nykyiset tallennustietosi tai käytä aiempia varmuuskopioita."
+"memory_button_tooltip": "Avaa tämän pelin tallennustietojen hallinnan.\n\nVarmuuskopioi nykyiset tallennustietosi tai käytä aiempia varmuuskopioita.",
+"import_dialog_title": "Tuo sovelluksia",
+"import_title": "Tuo Lutrisista, Bottlesista, Heroicista...",
+"import_subtitle": "Asennettuja sovelluksia etsitään...",
+"import_start": "Tuo",
+"import_nothing_selected": "Sovelluksia ei ole valittu",
+"import_result": "Tuonti valmis",
+"import_scan_error": "Haku epäonnistui: {error}",
+"import_error": "Tuonti epäonnistui: {error}",
+"scanning_apps": "Sovelluksia etsitään...",
+"import_custom_path_title": "Mukautetun polun haku",
+"import_custom_path_message": "Sovelluksia ei löytynyt. Anna haettava polku:",
+"import_path_placeholder": "Esim. ~/Pelit",
+"import_scan": "Hae"
 }

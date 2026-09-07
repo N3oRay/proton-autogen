@@ -217,5 +217,18 @@
   "memory_history_section": "Eerdere back-ups",
   "memory_no_history": "Nog geen back-ups.",
   "memory_open_folder": "Map openen",
-  "memory_button_tooltip": "Opent de opslagbeheerder voor deze game.\n\nMaak een back-up van je huidige opgeslagen gegevens of open eerdere back-ups."
+  "memory_button_tooltip": "Opent de opslagbeheerder voor deze game.\n\nMaak een back-up van je huidige opgeslagen gegevens of open eerdere back-ups.",
+"import_dialog_title": "Applicaties importeren",
+"import_title": "Importeren vanuit Lutris, Bottles, Heroic...",
+"import_subtitle": "Geïnstalleerde applicaties worden gescand...",
+"import_start": "Importeren",
+"import_nothing_selected": "Geen applicaties geselecteerd",
+"import_result": "Importeren voltooid",
+"import_scan_error": "Scannen mislukt: {error}",
+"import_error": "Importeren mislukt: {error}",
+"scanning_apps": "Applicaties worden gescand...",
+"import_custom_path_title": "Aangepast pad scannen",
+"import_custom_path_message": "Geen applicaties gevonden. Voer een pad in om te scannen:",
+"import_path_placeholder": "Bijv. ~/Games",
+"import_scan": "Scannen"
 }

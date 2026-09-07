@@ -217,5 +217,18 @@
   "memory_history_section": "Các bản sao lưu trước",
   "memory_no_history": "Chưa có bản sao lưu nào.",
   "memory_open_folder": "Mở thư mục",
-  "memory_button_tooltip": "Mở trình quản lý dữ liệu lưu game cho trò chơi này.\n\nSao lưu dữ liệu lưu game hiện tại hoặc truy cập các bản sao lưu trước."
+  "memory_button_tooltip": "Mở trình quản lý dữ liệu lưu game cho trò chơi này.\n\nSao lưu dữ liệu lưu game hiện tại hoặc truy cập các bản sao lưu trước.",
+"import_dialog_title": "Nhập ứng dụng",
+"import_title": "Nhập từ Lutris, Bottles, Heroic...",
+"import_subtitle": "Đang quét các ứng dụng đã cài đặt...",
+"import_start": "Nhập",
+"import_nothing_selected": "Chưa chọn ứng dụng nào",
+"import_result": "Nhập hoàn tất",
+"import_scan_error": "Quét thất bại: {error}",
+"import_error": "Nhập thất bại: {error}",
+"scanning_apps": "Đang quét ứng dụng...",
+"import_custom_path_title": "Quét đường dẫn tùy chỉnh",
+"import_custom_path_message": "Không tìm thấy ứng dụng nào. Nhập đường dẫn cần quét:",
+"import_path_placeholder": "Ví dụ: ~/Trò chơi",
+"import_scan": "Quét"
 }

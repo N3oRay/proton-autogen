@@ -217,6 +217,19 @@
 "memory_history_section": "Vorherige Sicherungen",
 "memory_no_history": "Noch keine Sicherungen vorhanden.",
 "memory_open_folder": "Ordner öffnen",
-"memory_button_tooltip": "Öffnet die Speicherverwaltung für dieses Spiel.\n\nSichere deine aktuellen Speicherdaten oder greife auf vorherige Sicherungen zu."
+"memory_button_tooltip": "Öffnet die Speicherverwaltung für dieses Spiel.\n\nSichere deine aktuellen Speicherdaten oder greife auf vorherige Sicherungen zu.",
+"import_dialog_title": "Anwendungen importieren",
+"import_title": "Aus Lutris, Bottles, Heroic importieren...",
+"import_subtitle": "Installierte Anwendungen werden gescannt...",
+"import_start": "Importieren",
+"import_nothing_selected": "Keine Anwendung ausgewählt",
+"import_result": "Import abgeschlossen",
+"import_scan_error": "Scan fehlgeschlagen: {error}",
+"import_error": "Import fehlgeschlagen: {error}",
+"scanning_apps": "Anwendungen werden gescannt...",
+"import_custom_path_title": "Benutzerdefinierten Pfad scannen",
+"import_custom_path_message": "Keine Anwendungen gefunden. Geben Sie einen zu scannenden Pfad ein:",
+"import_path_placeholder": "z. B. ~/Spiele",
+"import_scan": "Scannen"
 
 }

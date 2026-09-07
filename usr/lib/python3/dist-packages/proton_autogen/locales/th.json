@@ -217,5 +217,18 @@
   "memory_history_section": "ข้อมูลสำรองก่อนหน้า",
   "memory_no_history": "ยังไม่มีข้อมูลสำรอง",
   "memory_open_folder": "เปิดโฟลเดอร์",
-  "memory_button_tooltip": "เปิดตัวจัดการข้อมูลเซฟสำหรับเกมนี้\n\nสำรองข้อมูลเซฟปัจจุบันหรือเข้าถึงข้อมูลสำรองก่อนหน้า"
+  "memory_button_tooltip": "เปิดตัวจัดการข้อมูลเซฟสำหรับเกมนี้\n\nสำรองข้อมูลเซฟปัจจุบันหรือเข้าถึงข้อมูลสำรองก่อนหน้า",
+"import_dialog_title": "นำเข้าแอปพลิเคชัน",
+"import_title": "นำเข้าจาก Lutris, Bottles, Heroic...",
+"import_subtitle": "กำลังสแกนแอปพลิเคชันที่ติดตั้งอยู่...",
+"import_start": "นำเข้า",
+"import_nothing_selected": "ไม่ได้เลือกแอปพลิเคชัน",
+"import_result": "นำเข้าเสร็จสมบูรณ์",
+"import_scan_error": "การสแกนล้มเหลว: {error}",
+"import_error": "การนำเข้าล้มเหลว: {error}",
+"scanning_apps": "กำลังสแกนแอปพลิเคชัน...",
+"import_custom_path_title": "สแกนเส้นทางที่กำหนดเอง",
+"import_custom_path_message": "ไม่พบแอปพลิเคชัน กรุณาระบุเส้นทางที่ต้องการสแกน:",
+"import_path_placeholder": "เช่น ~/เกม",
+"import_scan": "สแกน"
 }

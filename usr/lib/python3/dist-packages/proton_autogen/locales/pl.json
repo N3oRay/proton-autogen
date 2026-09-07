@@ -217,5 +217,18 @@
   "memory_history_section": "Poprzednie kopie zapasowe",
   "memory_no_history": "Brak kopii zapasowych.",
   "memory_open_folder": "Otwórz folder",
-  "memory_button_tooltip": "Otwiera menedżer zapisów dla tej gry.\n\nUtwórz kopię zapasową bieżących danych zapisu lub uzyskaj dostęp do poprzednich kopii zapasowych."
+  "memory_button_tooltip": "Otwiera menedżer zapisów dla tej gry.\n\nUtwórz kopię zapasową bieżących danych zapisu lub uzyskaj dostęp do poprzednich kopii zapasowych.",
+"import_dialog_title": "Importuj aplikacje",
+"import_title": "Importuj z Lutris, Bottles, Heroic...",
+"import_subtitle": "Trwa skanowanie zainstalowanych aplikacji...",
+"import_start": "Importuj",
+"import_nothing_selected": "Nie wybrano żadnych aplikacji",
+"import_result": "Importowanie zakończone",
+"import_scan_error": "Skanowanie nie powiodło się: {error}",
+"import_error": "Importowanie nie powiodło się: {error}",
+"scanning_apps": "Trwa skanowanie aplikacji...",
+"import_custom_path_title": "Skanuj niestandardową ścieżkę",
+"import_custom_path_message": "Nie znaleziono żadnych aplikacji. Wprowadź ścieżkę do przeskanowania:",
+"import_path_placeholder": "Np. ~/Gry",
+"import_scan": "Skanuj"
 }

@@ -217,5 +217,18 @@
   "memory_history_section": "Предыдущие резервные копии",
   "memory_no_history": "Резервных копий пока нет.",
   "memory_open_folder": "Открыть папку",
-  "memory_button_tooltip": "Открывает менеджер сохранений для этой игры.\n\nСоздайте резервную копию текущих сохранений или откройте предыдущие резервные копии."
+  "memory_button_tooltip": "Открывает менеджер сохранений для этой игры.\n\nСоздайте резервную копию текущих сохранений или откройте предыдущие резервные копии.",
+"import_dialog_title": "Импорт приложений",
+"import_title": "Импорт из Lutris, Bottles, Heroic...",
+"import_subtitle": "Выполняется поиск установленных приложений...",
+"import_start": "Импортировать",
+"import_nothing_selected": "Приложения не выбраны",
+"import_result": "Импорт завершён",
+"import_scan_error": "Ошибка сканирования: {error}",
+"import_error": "Ошибка импорта: {error}",
+"scanning_apps": "Поиск приложений...",
+"import_custom_path_title": "Сканирование указанного пути",
+"import_custom_path_message": "Приложения не найдены. Укажите путь для сканирования:",
+"import_path_placeholder": "Например, ~/Игры",
+"import_scan": "Сканировать"
 }

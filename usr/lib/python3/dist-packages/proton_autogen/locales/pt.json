@@ -217,6 +217,19 @@
 "memory_history_section": "Backups anteriores",
 "memory_no_history": "Ainda não há backups.",
 "memory_open_folder": "Abrir pasta",
-"memory_button_tooltip": "Abre o gerenciador de salvamentos deste jogo.\n\nFaça backup dos seus dados de salvamento atuais ou acesse backups anteriores."
+"memory_button_tooltip": "Abre o gerenciador de salvamentos deste jogo.\n\nFaça backup dos seus dados de salvamento atuais ou acesse backups anteriores.",
+"import_dialog_title": "Importar aplicações",
+"import_title": "Importar do Lutris, Bottles, Heroic...",
+"import_subtitle": "A procurar aplicações instaladas...",
+"import_start": "Importar",
+"import_nothing_selected": "Nenhuma aplicação selecionada",
+"import_result": "Importação concluída",
+"import_scan_error": "Falha ao procurar aplicações: {error}",
+"import_error": "Falha na importação: {error}",
+"scanning_apps": "A procurar aplicações...",
+"import_custom_path_title": "Procurar num caminho personalizado",
+"import_custom_path_message": "Nenhuma aplicação encontrada. Introduza um caminho para procurar:",
+"import_path_placeholder": "Por exemplo, ~/Jogos",
+"import_scan": "Procurar"
 
 }

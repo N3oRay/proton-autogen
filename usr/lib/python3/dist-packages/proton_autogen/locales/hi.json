@@ -217,5 +217,18 @@
 "memory_history_section": "पिछले बैकअप",
 "memory_no_history": "अभी तक कोई बैकअप नहीं है।",
 "memory_open_folder": "फ़ोल्डर खोलें",
-"memory_button_tooltip": "इस गेम के लिए सेव मैनेजर खोलें।\n\nअपने वर्तमान सेव डेटा का बैकअप लें या पिछले बैकअप एक्सेस करें।"
+"memory_button_tooltip": "इस गेम के लिए सेव मैनेजर खोलें।\n\nअपने वर्तमान सेव डेटा का बैकअप लें या पिछले बैकअप एक्सेस करें।",
+"import_dialog_title": "एप्लिकेशन आयात करें",
+"import_title": "Lutris, Bottles, Heroic आदि से आयात करें...",
+"import_subtitle": "इंस्टॉल किए गए एप्लिकेशन को स्कैन किया जा रहा है...",
+"import_start": "आयात करें",
+"import_nothing_selected": "कोई एप्लिकेशन चयनित नहीं है",
+"import_result": "आयात पूरा हुआ",
+"import_scan_error": "स्कैन विफल हुआ: {error}",
+"import_error": "आयात विफल हुआ: {error}",
+"scanning_apps": "एप्लिकेशन स्कैन किए जा रहे हैं...",
+"import_custom_path_title": "कस्टम पथ स्कैन करें",
+"import_custom_path_message": "कोई एप्लिकेशन नहीं मिला। स्कैन करने के लिए पथ दर्ज करें:",
+"import_path_placeholder": "उदाहरण: ~/गेम्स",
+"import_scan": "स्कैन करें"
 }
