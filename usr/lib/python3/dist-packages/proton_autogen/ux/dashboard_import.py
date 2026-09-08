@@ -377,8 +377,8 @@ class DashboardImportMixin:
 
         message = (
             f"✓ {tr('import_result') or 'Import complete'}\n\n"
-            f"  Imported: {imported}\n"
-            f"  Skipped: {skipped}\n"
+            f"  {tr('imported') or 'Imported'}: {imported}\n"
+            f"  {tr('skipped') or 'Skipped'}: {skipped}\n"
         )
 
         if errors:

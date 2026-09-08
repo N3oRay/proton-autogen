@@ -233,5 +233,7 @@
   "import_custom_path_title": "Scan Custom Path",
   "import_custom_path_message": "No applications found. Enter a path to scan:",
   "import_path_placeholder": "e.g., ~/Games",
-  "import_scan": "Scan"
+  "import_scan": "Scan",
+  "imported": "Imported",
+  "skipped": "Skipped"
 }

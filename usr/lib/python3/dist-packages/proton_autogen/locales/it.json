@@ -233,5 +233,7 @@
 "import_custom_path_title": "Scansiona un percorso personalizzato",
 "import_custom_path_message": "Nessuna applicazione trovata. Inserisci un percorso da scansionare:",
 "import_path_placeholder": "Ad es. ~/Giochi",
-"import_scan": "Scansiona"
+"import_scan": "Scansiona",
+"imported": "Importati",
+"skipped": "Saltati"
 }

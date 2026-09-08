@@ -233,5 +233,7 @@
 "import_custom_path_title": "Quét đường dẫn tùy chỉnh",
 "import_custom_path_message": "Không tìm thấy ứng dụng nào. Nhập đường dẫn cần quét:",
 "import_path_placeholder": "Ví dụ: ~/Trò chơi",
-"import_scan": "Quét"
+"import_scan": "Quét",
+"imported": "Đã nhập",
+"skipped": "Đã bỏ qua"
 }

@@ -233,6 +233,7 @@
 "import_custom_path_title": "Сканиране на персонализиран път",
 "import_custom_path_message": "Не са намерени приложения. Въведете път за сканиране:",
 "import_path_placeholder": "Напр. ~/Игри",
-"import_scan": "Сканиране"
-
+"import_scan": "Сканиране",
+"imported": "Импортирани",
+"skipped": "Пропуснати"
 }

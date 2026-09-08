@@ -233,5 +233,7 @@
 "import_custom_path_title": "사용자 지정 경로 검색",
 "import_custom_path_message": "애플리케이션을 찾을 수 없습니다. 검색할 경로를 입력하세요:",
 "import_path_placeholder": "예: ~/게임",
-"import_scan": "검색"
+"import_scan": "검색",
+"imported": "가져옴",
+"skipped": "건너뜀"
 }

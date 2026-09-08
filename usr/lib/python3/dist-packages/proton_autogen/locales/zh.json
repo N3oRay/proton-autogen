@@ -233,5 +233,7 @@
 "import_custom_path_title": "扫描自定义路径",
 "import_custom_path_message": "未找到任何应用程序。请输入要扫描的路径：",
 "import_path_placeholder": "例如：~/游戏",
-"import_scan": "扫描"
+"import_scan": "扫描",
+"imported": "已导入",
+"skipped": "已跳过"
 }

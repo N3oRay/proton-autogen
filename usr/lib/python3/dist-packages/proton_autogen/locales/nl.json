@@ -233,5 +233,7 @@
 "import_custom_path_title": "Aangepast pad scannen",
 "import_custom_path_message": "Geen applicaties gevonden. Voer een pad in om te scannen:",
 "import_path_placeholder": "Bijv. ~/Games",
-"import_scan": "Scannen"
+"import_scan": "Scannen",
+"imported": "Geïmporteerd",
+"skipped": "Overgeslagen"
 }

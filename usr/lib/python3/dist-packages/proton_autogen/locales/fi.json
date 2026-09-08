@@ -233,5 +233,7 @@
 "import_custom_path_title": "Mukautetun polun haku",
 "import_custom_path_message": "Sovelluksia ei löytynyt. Anna haettava polku:",
 "import_path_placeholder": "Esim. ~/Pelit",
-"import_scan": "Hae"
+"import_scan": "Hae",
+"imported": "Tuotu",
+"skipped": "Ohitettu"
 }

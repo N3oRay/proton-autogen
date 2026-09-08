@@ -233,5 +233,7 @@
 "import_custom_path_title": "Σάρωση προσαρμοσμένης διαδρομής",
 "import_custom_path_message": "Δεν βρέθηκαν εφαρμογές. Εισαγάγετε μια διαδρομή για σάρωση:",
 "import_path_placeholder": "Π.χ. ~/Παιχνίδια",
-"import_scan": "Σάρωση"
+"import_scan": "Σάρωση",
+"imported": "Εισήχθησαν",
+"skipped": "Παραλείφθηκαν"
 }

@@ -233,5 +233,7 @@
   "import_custom_path_title": "Scanner un chemin personnalisé",
   "import_custom_path_message": "Aucune application trouvée. Entrez un chemin à scanner :",
   "import_path_placeholder": "Par ex. ~/Jeux",
-  "import_scan": "Scanner"
+  "import_scan": "Scanner",
+  "imported": "Importés",
+  "skipped": "Ignorés"
 }

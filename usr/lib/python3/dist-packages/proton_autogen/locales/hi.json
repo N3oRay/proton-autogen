@@ -233,5 +233,7 @@
 "import_custom_path_title": "कस्टम पथ स्कैन करें",
 "import_custom_path_message": "कोई एप्लिकेशन नहीं मिला। स्कैन करने के लिए पथ दर्ज करें:",
 "import_path_placeholder": "उदाहरण: ~/गेम्स",
-"import_scan": "स्कैन करें"
+"import_scan": "स्कैन करें",
+"imported": "आयातित",
+"skipped": "छोड़े गए"
 }

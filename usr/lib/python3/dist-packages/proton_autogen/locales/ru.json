@@ -233,5 +233,7 @@
 "import_custom_path_title": "Сканирование указанного пути",
 "import_custom_path_message": "Приложения не найдены. Укажите путь для сканирования:",
 "import_path_placeholder": "Например, ~/Игры",
-"import_scan": "Сканировать"
+"import_scan": "Сканировать",
+"imported": "Импортировано",
+"skipped": "Пропущено"
 }
