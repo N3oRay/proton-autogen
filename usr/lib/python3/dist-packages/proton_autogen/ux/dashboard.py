@@ -186,16 +186,28 @@ class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, Das
 
 
     def _apply_system_status(self, system):
-        if system["ok"]:
-            self.system_status = "✓ CPU OK"
-        else:
-            self.system_status = f"⚠ CPU {system['cpu']:.0f}%"
+        level = system["level"]
+        cpu = system["cpu"]
+        memory = system["memory"]
 
-        # Si les statistiques sont déjà disponibles, on les rafraîchit
+        if level == "critical":
+            self.system_status = (
+                f"🔴 CPU {cpu:.0f}% • RAM {memory:.0f}%"
+            )
+        elif level == "warning":
+            self.system_status = (
+                f"🟠 CPU {cpu:.0f}% • RAM {memory:.0f}%"
+            )
+        else:
+            self.system_status = (
+                f"🟢 CPU {cpu:.0f}% • RAM {memory:.0f}%"
+            )
+
         if self.games:
             self.update_stats(self.games)
 
         return False
+
 
 
 
