@@ -49,7 +49,7 @@ class DashboardImportMixin:
         win = Gtk.Window(
             transient_for=self,
             modal=True,
-            title=tr("import_dialog_title") or "Import Games",
+            title=tr("import_dialog_title") or "Import Applications",
         )
         win.set_default_size(600, 500)
         win.add_css_class("import-dialog")
