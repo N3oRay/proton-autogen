@@ -100,6 +100,7 @@ class DashboardImportMixin:
         button_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
 
         self.import_cancel_btn = Gtk.Button(label=tr("cancel") or "Cancel")
+        self.import_cancel_btn.add_css_class("alternative-action")
         self.import_cancel_btn.connect("clicked", lambda *_: win.close())
 
         self.import_start_btn = Gtk.Button(label=tr("import_start") or "Import")

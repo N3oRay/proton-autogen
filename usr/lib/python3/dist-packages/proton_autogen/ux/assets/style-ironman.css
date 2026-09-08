@@ -487,29 +487,20 @@ label.home-label {
     color: rgba(255,243,214,0.55);
 }
 
-.dialog-content {
 
-    background:
-        rgba(28,10,8,0.85);
-
-    border:
-        1px solid rgba(255,204,51,0.12);
-
+.dialog-content, .import-dialog {
+    background: rgba(28,10,8,0.96);
+    border: 1px solid rgba(255,204,51,0.96);
     border-radius:16px;
-
     padding:12px;
 }
-
 
 .dialog-content textview {
 
     background:transparent;
     color: @im_text;
-
     font-family:monospace;
 }
-
-
 
 .badge {
     border-radius: 999px;

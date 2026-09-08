@@ -473,7 +473,7 @@ label.home-label {
     color: @hk_muted;
 }
 
-.dialog-content {
+.dialog-content, .import-dialog {
     background: rgba(255,250,253,0.96);
     border: 1px solid @hk_border;
     border-radius: 16px;

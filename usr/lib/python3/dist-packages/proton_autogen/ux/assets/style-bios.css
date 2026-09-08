@@ -798,35 +798,22 @@ label.home-label {
 }
 
 
-.dialog-content {
-
+.dialog-content, .import-dialog {
     background:
         #111316;
-
     border:
         1px solid
         @bios_border;
-
-    border-radius:
-        5px;
-
-    padding:
-        12px;
+    border-radius:5px;
+    padding:12px;
 }
-
 
 .dialog-content textview {
 
-    background:
-        transparent;
-
-    color:
-        @bios_text;
-
-    font-family:
-        monospace;
+    background:transparent;
+    color: @bios_text;
+    font-family:monospace;
 }
-
 
 /* =========================================================
    BADGES
