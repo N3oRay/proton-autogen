@@ -47,6 +47,7 @@ jobs:
             python-pyyaml \
             python-rich \
             python-requests \
+            python-psutil \
             gtk4 \
             graphene \
             gdk-pixbuf2 \

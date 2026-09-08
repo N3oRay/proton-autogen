@@ -30,6 +30,7 @@ jobs:
             python-pyyaml \
             python-rich \
             python-requests \
+            python-psutil \
             gtk4 \
             glib2 \
             graphene \

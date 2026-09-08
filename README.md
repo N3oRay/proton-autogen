@@ -271,8 +271,9 @@ nautilus -q
 
 ### Gaming integrations
 
-- [x] Lutris profile import/export
-- [ ] Bottles profile import/export
+- [x] Lutris, Bottles, Heroic profile import
+- [x] Lutris profile export
+- [ ] Bottles profile export
 - [x] Sensors and MangoHud support
 - [x] Gamescope integration
 

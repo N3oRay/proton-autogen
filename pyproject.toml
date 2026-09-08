@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "proton-autogen"
-version = "3.3.5"
+version = "3.3.6"
 description = "Automatic Proton/Wine launcher"
 readme = "README.md"
 license = { text = "MIT" }
@@ -23,7 +23,8 @@ dependencies = [
   "pyyaml",
   "pygobject",
   "rich",
-  "requests"
+  "requests",
+  "psutil"
 ]
 
 [tool.setuptools.package-dir]

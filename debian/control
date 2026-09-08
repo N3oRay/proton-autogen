@@ -10,12 +10,16 @@ Architecture: all
 Depends: python3,
          desktop-file-utils,
          python3-gi,
+         python3-yaml,
          python3-gi-cairo,
          python3-rich,
          python3-requests,
+         python3-psutil,
          libgtk-4-1,
          gir1.2-gtk-4.0,
-         gir1.2-graphene-1.0
+         gir1.2-graphene-1.0,
+         gir1.2-gdkpixbuf-2.0,
+         gir1.2-pango-1.0
 Recommends: wine, gamemode
 Description: Automatic Proton launcher for Windows executables
  Proton-Autogen automatically launches Windows executables using Proton

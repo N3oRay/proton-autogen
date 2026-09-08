@@ -7,6 +7,8 @@ import threading
 from datetime import datetime
 gi.require_version("Gtk", "4.0")
 from gi.repository import Gtk, Gio, Gdk, GLib
+from proton_autogen.system_monitor import SystemMonitor
+
 from proton_autogen.ux.dashboard_mini import DashboardMiniMixin
 from proton_autogen.ux.dashboard_ui import DashboardUIMixin
 from proton_autogen.ux.dashboard_dialogs import DashboardDialogsMixin
@@ -46,6 +48,7 @@ class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, Das
         self.set_title("Proton-Autogen")
         self.set_icon_name("proton-autogen")
 
+
         # Taille de fenêtre : reprend la dernière taille sauvegardée si
         # remember_window_size est activé (par défaut), sinon retombe
         # sur DEFAULT_WINDOW_WIDTH/HEIGHT. set_size_request() reste fixé
@@ -69,14 +72,20 @@ class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, Das
 
         self.games = []
         self.current_carousel = None
+        self.system_status = "◌ CPU..."
         # Priorité : préférence explicite sauvegardée via le panneau de
         # réglages, sinon détection CLI/environnement habituelle.
         self.lang = load_saved_language() or detect_help_env_lang()
         notifications.set_callback(self.notify_toast)
         self._init_save_prompt_bridge()  # vient de DashboardSavesMixin
 
+        # Contrôle Status :
+        self.system_monitor = SystemMonitor()
+
         self.build_ui()   # vient du mixin
-        self.refresh_games()
+        self.refresh_games() # chargement de la liste des applications
+
+
 
     def _on_close_request(self, *_):
         if load_remember_window_size():
@@ -170,12 +179,37 @@ class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, Das
 
         return { "total_games": total, "hours": hours, "minutes": minutes, "favorites": favorites, }
 
+    def _check_system_status(self):
+        system = self.system_monitor.get_status()
+
+        GLib.idle_add(self._apply_system_status, system)
+
+
+    def _apply_system_status(self, system):
+        if system["ok"]:
+            self.system_status = "✓ CPU OK"
+        else:
+            self.system_status = f"⚠ CPU {system['cpu']:.0f}%"
+
+        # Si les statistiques sont déjà disponibles, on les rafraîchit
+        if self.games:
+            self.update_stats(self.games)
+
+        return False
+
+
+
     def update_stats(self, games):
         stats = self.build_global_stats(games)
 
-        self.stats_label.set_text( f"🎮 {stats['total_games']} games  •  " f"⏱ {stats['hours']}h {stats['minutes']}m  •  " f"⭐ {stats['favorites']}" )
-        self.stats_label.add_css_class("home-label")
+        self.stats_label.set_text(
+            f"🎮 {stats['total_games']} games  •  "
+            f"⏱ {stats['hours']}h {stats['minutes']}m  •  "
+            f"⭐ {stats['favorites']}  •  "
+            f"{self.system_status}"
+        )
 
+        self.stats_label.add_css_class("home-label")
 
     def update_background(self, theme):
         base = os.path.dirname(__file__)
@@ -318,6 +352,13 @@ class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, Das
             if self.games else tr("no_apps_found")
         )
         self.status.add_css_class("label-bottom")
+
+        # Check System Status :
+        threading.Thread(
+            target=self._check_system_status,
+            daemon=True
+        ).start()
+
         return False
 
 
