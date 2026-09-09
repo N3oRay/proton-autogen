@@ -6,7 +6,7 @@
     Automatically generate optimized Proton launch options for Windows games.
   </summary>
   <metadata_license>CC0-1.0</metadata_license>
-  <project_license>GPL-3.0-or-later</project_license>
+  <project_license>MIT</project_license>
   <developer id="io.github.N3oRay">
     <name>N3oRay</name>
   </developer>
@@ -49,6 +49,7 @@
   <content_rating type="oars-1.1"/>
 
   <releases>
+    <release version="3.3.6" date="2026-09-06"/>
     <release version="3.2.1" date="2026-08-06"/>
   </releases>
 
@@ -59,12 +60,19 @@
   <screenshots>
     <screenshot type="default">
       <caption>Main window</caption>
-      <image>https://raw.githubusercontent.com/N3oRay/proton-autogen/main/docs/screenshots/V3.2.1.jpg</image>
+      <image>https://raw.githubusercontent.com/N3oRay/proton-autogen/main/docs/screenshots/v3.3.6.jpg</image>
     </screenshot>
 
     <screenshot>
       <caption>Game configuration</caption>
       <image>https://raw.githubusercontent.com/N3oRay/proton-autogen/main/docs/screenshots/new2.jpg</image>
+    </screenshot>
+
+    <screenshot>
+      <caption>Diagnostics</caption>
+      <image>
+      https://raw.githubusercontent.com/N3oRay/proton-autogen/main/docs/screenshots/V3.3.6-diag.jpg
+      </image>
     </screenshot>
   </screenshots>
 
