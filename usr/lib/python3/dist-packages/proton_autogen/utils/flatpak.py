@@ -110,7 +110,9 @@ def wrap_host_command(cmd, env=None, logger=None):
     host_cmd = [
         "flatpak-spawn",
         "--host",
+        "--watch-bus",
     ]
+
 
     if not env:
         host_cmd.extend(cmd)
