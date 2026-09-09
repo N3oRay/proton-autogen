@@ -149,6 +149,11 @@ cd proton-autogen
 chmod +x install.sh
 ./install.sh
 ```
+This installs:
+
+* `/usr/bin/proton-autogen`
+* Integrated with Nemo (Cinnamon), Nautilus (GNOME), and Dolphin (KDE Plasma).
+
 
 ## Flatpak
 
@@ -166,12 +171,6 @@ The configuration is fully automatic.
 cat ~/.config/proton-autogen/proton-autogen.conf
 ls ~/.config/proton-autogen/games
 ```
-
-
-This installs:
-
-* `/usr/bin/proton-autogen`
-* Integrated with Nemo (Cinnamon), Nautilus (GNOME), and Dolphin (KDE Plasma).
 
 ---
 
