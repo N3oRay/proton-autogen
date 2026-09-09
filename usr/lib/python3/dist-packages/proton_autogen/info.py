@@ -3,19 +3,9 @@
 # Proton-Autogen Help System
 # English (default) / Français
 
-from pathlib import Path
-import os
+from proton_autogen.data_paths import get_docs_root
 from proton_autogen.i18n import detect_help_env_lang
 
-
-DEV_DOCS = Path(__file__).parent / "docs"
-SYS_DOCS = Path("/usr/share/proton-autogen/docs")
-
-
-def get_docs_root():
-    if DEV_DOCS.exists():
-        return DEV_DOCS
-    return SYS_DOCS
 
 
 def get_help_text():

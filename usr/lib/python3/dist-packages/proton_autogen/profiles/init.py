@@ -3,6 +3,8 @@ import os
 from pathlib import Path
 from proton_autogen.utils.logger import StructuredLogger
 from proton_autogen.session import finalize_session, notifications
+from proton_autogen.data_paths import get_profiles_file
+
 
 import csv
 
@@ -52,14 +54,12 @@ def load_game_database():
     database = {}
 
     paths = [
-        "/usr/share/proton-autogen/profiles.csv",
-        os.path.expanduser(
-            "~/.config/proton-autogen/profiles.csv"
-        ),
+        get_profiles_file(),
+        Path.home() / ".config/proton-autogen/profiles.csv",
     ]
 
     for path in paths:
-        if not os.path.exists(path):
+        if not path.exists():
             continue
 
         with open(path, newline="", encoding="utf-8") as f:
@@ -74,7 +74,6 @@ def load_game_database():
     _GAME_DATABASE = list(database.values())
 
     return _GAME_DATABASE
-
 
 
 def find_game_profile(exe):

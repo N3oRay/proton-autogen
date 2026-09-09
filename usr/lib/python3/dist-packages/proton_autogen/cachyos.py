@@ -1,6 +1,7 @@
-from pathlib import Path
 import locale
-import os
+
+from proton_autogen.data_paths import get_docs_root
+
 
 
 def detect_language():
@@ -26,15 +27,6 @@ def detect_language():
 
     return "en"
 
-DEV_DOCS = Path(__file__).parent / "docs"
-SYS_DOCS = Path("/usr/share/proton-autogen/docs")
-
-
-def get_docs_root():
-    if DEV_DOCS.exists():
-        return DEV_DOCS
-    return SYS_DOCS
-
 
 def get_cachy_text():
     root = get_docs_root()
@@ -42,11 +34,12 @@ def get_cachy_text():
 
     candidates = [
         f"cachy_{lang}.txt",
-        "cachy_en.txt"
+        "cachy_en.txt",
     ]
 
     for file in candidates:
         path = root / file
+
         if path.exists():
             return path.read_text(encoding="utf-8")
 

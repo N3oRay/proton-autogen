@@ -1,9 +1,10 @@
-from pathlib import Path
 import locale
 import os
 import subprocess
+
 from proton_autogen.cachyos import get_cachy_text
 from proton_autogen.i18n import detect_help_env_lang
+from proton_autogen.data_paths import get_docs_root
 
 
 def has_nvidia_gpu():
@@ -18,21 +19,26 @@ def has_nvidia_gpu():
     except Exception:
         return False
 
+
 def get_display_server():
     session_type = os.environ.get("XDG_SESSION_TYPE", "").lower()
 
     if session_type == "wayland":
         return "wayland"
+
     if session_type == "x11":
         return "x11"
 
     return "unknown"
 
+
 def is_steam_deck():
     try:
         with open("/etc/os-release", encoding="utf-8") as f:
             data = f.read().lower()
+
         return "steamos" in data or "steamdeck" in data
+
     except FileNotFoundError:
         return False
 
@@ -41,7 +47,7 @@ def detect_gaming_environment():
     env = {
         "steam_deck": is_steam_deck(),
         "display_server": get_display_server(),
-        "nvidia": has_nvidia_gpu()
+        "nvidia": has_nvidia_gpu(),
     }
 
     return env
@@ -78,29 +84,6 @@ def detect_distro():
     return "ubuntu"
 
 
-DEV_DOCS = Path(__file__).parent / "docs"
-SYS_DOCS = Path("/usr/share/proton-autogen/docs")
-
-"""
-def get_docs_root():
-    if DEV_DOCS.exists():
-        return DEV_DOCS
-    return SYS_DOCS
-"""
-
-def get_docs_root():
-
-    candidates = [
-        DEV_DOCS,
-        SYS_DOCS,
-    ]
-
-    for path in candidates:
-        if path.exists():
-            return path
-
-    return SYS_DOCS
-
 def is_cachyos():
     try:
         with open("/etc/os-release", encoding="utf-8") as f:
@@ -111,8 +94,8 @@ def is_cachyos():
     except FileNotFoundError:
         return False
 
-def get_requirements_text():
 
+def get_requirements_text():
     root = get_docs_root()
 
     lang = detect_help_env_lang()
@@ -123,7 +106,7 @@ def get_requirements_text():
     # Distribution
     for filename in (
         f"{distro}_{lang}.txt",
-        f"{distro}_en.txt"
+        f"{distro}_en.txt",
     ):
         path = root / filename
 
@@ -133,14 +116,12 @@ def get_requirements_text():
             )
             break
 
-
     # CachyOS
     if is_cachyos():
         cachy = get_cachy_text()
 
         if cachy:
             texts.append(cachy)
-
 
     return "\n\n".join(texts) if texts else (
         "📄 Documentation not available."
@@ -159,6 +140,7 @@ def get_prerequisites_text():
         return file_path.read_text(encoding="utf-8")
 
     fallback = root / f"{distro}_en.txt"
+
     if fallback.exists():
         return fallback.read_text(encoding="utf-8")
 

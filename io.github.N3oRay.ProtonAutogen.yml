@@ -33,6 +33,11 @@ modules:
     build-commands:
       # Exécutable
       - install -Dm755 usr/bin/proton-autogen /app/bin/proton-autogen
+      # Man page
+      - install -Dm644 debian/proton-autogen.1.gz \
+          /app/share/man/man1/proton-autogen.1.gz
+
+      # Metainfo
       - install -Dm644 io.github.N3oRay.ProtonAutogen.metainfo.xml
           /app/share/metainfo/io.github.N3oRay.ProtonAutogen.metainfo.xml
       # Module Python — chemin versionné, Python 3.13 confirmé sur org.gnome.Sdk//49
