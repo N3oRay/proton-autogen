@@ -150,6 +150,15 @@ chmod +x install.sh
 ./install.sh
 ```
 
+## Flatpak
+
+Proton-Autogen is also available as a Flatpak.
+
+For installation from source, see:
+
+[Flatpak installation guide](INSTALL_FLATPAK.md)
+
+
 
 ### Config
 The configuration is fully automatic.
