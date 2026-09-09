@@ -385,6 +385,24 @@ def run_process(
 
     stderr_pipe = subprocess.STDOUT if merge_stderr else subprocess.PIPE
 
+    if debug and logger:
+        logger.info("=== REAL POPEN ENV ===")
+        logger.info(f"HOME={env.get('HOME')}")
+        logger.info(f"WINEPREFIX={env.get('WINEPREFIX')}")
+        logger.info(f"STEAM_COMPAT_DATA_PATH={env.get('STEAM_COMPAT_DATA_PATH')}")
+        logger.info(f"STEAM_COMPAT_TOOL_PATHS={env.get('STEAM_COMPAT_TOOL_PATHS')}")
+        logger.info(f"STEAM_COMPAT_CLIENT_INSTALL_PATH={env.get('STEAM_COMPAT_CLIENT_INSTALL_PATH')}")
+        logger.info(f"STEAM_COMPAT_APP_ID={env.get('STEAM_COMPAT_APP_ID')}")
+        logger.info(f"SteamGameId={env.get('SteamGameId')}")
+        logger.info(f"DISPLAY={env.get('DISPLAY')}")
+        logger.info(f"XAUTHORITY={env.get('XAUTHORITY')}")
+        logger.info(f"DBUS_SESSION_BUS_ADDRESS={env.get('DBUS_SESSION_BUS_ADDRESS')}")
+        logger.info("=== END REAL POPEN ENV ===")
+
+    if debug and logger:
+        logger.info(f"FINAL HOST CMD: {' '.join(cmd)}")
+
+
     process = subprocess.Popen(
         cmd,
         cwd=cwd,
@@ -754,10 +772,6 @@ def run_game_proton(exe_path, exe_type, proton,
             cmd, features, game_name=os.path.basename(exe_path)
         )
 
-        # Flatpak: execute Proton on the host
-        cmd = wrap_host_command(cmd, logger)
-        env = prepare_host_env(env)
-
         # =========================
         # COMMON OPTIONS
         # =========================
@@ -788,6 +802,50 @@ def run_game_proton(exe_path, exe_type, proton,
         else:
             # Affichage des log summary CLI
             log_profile_summary(logger, env, exe_type)
+
+        # --------------------------------------------------
+        # Flatpak / host execution
+        # --------------------------------------------------
+
+        if VERBOSE or DEBUG:
+            logger.info("=== BEFORE FLATPAK WRAP ===")
+            logger.info(f"CMD: {' '.join(cmd)}")
+            logger.info(
+                f"STEAM_COMPAT_DATA_PATH={env.get('STEAM_COMPAT_DATA_PATH')}"
+            )
+            logger.info(f"WINEPREFIX={env.get('WINEPREFIX')}")
+            logger.info(
+                f"STEAM_COMPAT_TOOL_PATHS={env.get('STEAM_COMPAT_TOOL_PATHS')}"
+            )
+            logger.info(
+                f"STEAM_COMPAT_CLIENT_INSTALL_PATH="
+                f"{env.get('STEAM_COMPAT_CLIENT_INSTALL_PATH')}"
+            )
+            logger.info(f"STEAM_COMPAT_APP_ID={env.get('STEAM_COMPAT_APP_ID')}")
+            logger.info("=== END BEFORE FLATPAK WRAP ===")
+
+        env = prepare_host_env(env)
+
+        if VERBOSE or DEBUG:
+            logger.info("=== AFTER PREPARE HOST ENV ===")
+            logger.info(
+                f"STEAM_COMPAT_DATA_PATH={env.get('STEAM_COMPAT_DATA_PATH')}"
+            )
+            logger.info(f"WINEPREFIX={env.get('WINEPREFIX')}")
+            logger.info(
+                f"STEAM_COMPAT_TOOL_PATHS={env.get('STEAM_COMPAT_TOOL_PATHS')}"
+            )
+            logger.info(f"STEAM_COMPAT_APP_ID={env.get('STEAM_COMPAT_APP_ID')}")
+            logger.info("=== END AFTER PREPARE HOST ENV ===")
+
+        cmd = wrap_host_command(cmd, env, logger)
+
+        if VERBOSE or DEBUG:
+            logger.info("=== AFTER WRAP HOST COMMAND ===")
+            logger.info(f"CMD: {' '.join(cmd)}")
+            logger.info("=== END AFTER WRAP HOST COMMAND ===")
+
+
         if progress is not None:
             progress.update( 83, f"Launch mode: Proton " )
         logger.info(f"Launch mode: Proton ")
@@ -817,6 +875,7 @@ def run_game_proton(exe_path, exe_type, proton,
                 progress=progress,
                 filters=filters,
                 merge_stderr=False,
+                debug=False,
                 game_id=game_id,      # <-- process_manager
                 prefix_path=prefix_path,
                 proton_dir=proton_dir,
@@ -859,6 +918,7 @@ def run_game_proton(exe_path, exe_type, proton,
                     progress=progress,
                     filters=filters,
                     merge_stderr=True,
+                    debug=False,
                     game_id=game_id,      # <-- process_manager
                     prefix_path=prefix_path,
                     proton_dir=proton_dir,

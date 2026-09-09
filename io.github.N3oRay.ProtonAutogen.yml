@@ -48,7 +48,5 @@ modules:
       - install -Dm644 usr/share/icons/hicolor/256x256/apps/proton-autogen.png
           /app/share/icons/hicolor/256x256/apps/io.github.N3oRay.ProtonAutogen.png
     sources:
-      - type: git
-        url: https://github.com/N3oRay/proton-autogen.git
-        tag: v3.3.6
-        commit: 81f51fd26924d7f3c4b8f923afe864d8ca4bd68b
+      - type: dir
+        path: /home/neoray/Bureau/projet/proton-autogen
