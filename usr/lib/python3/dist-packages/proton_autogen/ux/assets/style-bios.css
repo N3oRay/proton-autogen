@@ -1116,38 +1116,24 @@ scrollbar.horizontal slider {
 
 
 .carousel-button {
-
-    min-width:
-        36px;
-
-    min-height:
-        36px;
-
+    min-width: 36px;
+    min-height: 36px;
+    padding: 0;
     color:
         @bios_text;
-
-    padding:
-        0;
-
-    border-radius:
-        4px;
-
-    background-color:
-        rgba(255,255,255,0.04);
+    border-radius: 4px;
+    background:
+        #3d8bd9;
 }
-
 
 .carousel-button:hover {
-
-    background-color:
-        rgba(255,30,45,0.12);
+    background:
+        #50a0ef;
 }
-
 
 .carousel-button:disabled {
     opacity: 0.35;
 }
-
 
 .carousel-counter {
 
