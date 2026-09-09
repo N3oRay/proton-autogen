@@ -1,0 +1,86 @@
+name: Build Flatpak
+
+on:
+  release:
+    types: [published]
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  flatpak:
+    name: Build Flatpak
+    runs-on: ubuntu-latest
+
+    container:
+      image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-48
+      options: --privileged
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get version
+        id: version
+        shell: bash
+        run: |
+          if [[ "${GITHUB_EVENT_NAME}" == "release" ]]; then
+            VERSION="${GITHUB_REF_NAME#v}"
+          else
+            VERSION="$(grep -oP '(?<=version=")[0-9]+\.[0-9]+\.[0-9]+' \
+              io.github.N3oRay.ProtonAutogen.metainfo.xml | head -1)"
+          fi
+
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "Building Proton Autogen ${VERSION}"
+
+      - name: Update Flatpak metainfo version
+        shell: bash
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+
+          python3 - <<PY
+          from pathlib import Path
+          import re
+
+          path = Path("io.github.N3oRay.ProtonAutogen.metainfo.xml")
+          text = path.read_text()
+
+          text = re.sub(
+              r'<release version="[^"]+" date="[^"]+"',
+              f'<release version="{VERSION}" date="$(date +%Y-%m-%d)"',
+              text,
+              count=1
+          )
+
+          path.write_text(text)
+          PY
+
+      - name: Build Flatpak
+        uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+        with:
+          manifest-path: io.github.N3oRay.ProtonAutogen.yml
+          bundle: io.github.N3oRay.ProtonAutogen.flatpak
+          repository-name: flathub
+          repository-url: https://flathub.org/repo/flathub.flatpakrepo
+          cache: true
+          cache-key: flatpak-builder-${{ github.sha }}
+
+      - name: Upload Flatpak artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: proton-autogen-flatpak
+          path: io.github.N3oRay.ProtonAutogen.flatpak
+
+      - name: Upload Flatpak to GitHub Release
+        if: github.event_name == 'release'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          gh release upload \
+            "${{ github.event.release.tag_name }}" \
+            io.github.N3oRay.ProtonAutogen.flatpak \
+            --clobber
