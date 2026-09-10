@@ -253,38 +253,48 @@ jobs:
         run: |
           set -euo pipefail
 
-          echo "Checking installed files..."
+          echo "=== Package database ==="
+          pacman -Ql proton-autogen
 
-          if [[ ! -x /usr/bin/proton-autogen ]]; then
-            echo "ERROR: /usr/bin/proton-autogen is missing or not executable"
-            exit 1
-          fi
+          echo
+          echo "=== File system ==="
+          ls -ld /usr/share/man
+          ls -ld /usr/share/man/man1 || true
 
-          echo "OK: /usr/bin/proton-autogen"
+          echo
+          echo "=== Man page ==="
+          ls -la /usr/share/man/man1/proton-autogen.1.gz || true
 
-          if [[ ! -f /usr/share/applications/proton-autogen.desktop ]]; then
-            echo "ERROR: desktop file is missing"
-            exit 1
-          fi
+          echo
+          echo "=== stat ==="
+          stat /usr/share/man/man1/proton-autogen.1.gz || true
 
-          echo "OK: /usr/share/applications/proton-autogen.desktop"
+          echo
+          echo "=== package metadata ==="
+          pacman -Qi proton-autogen
 
-          if [[ ! -f /usr/share/man/man1/proton-autogen.1.gz ]]; then
-            echo "ERROR: man page is missing"
-            exit 1
-          fi
+          echo
+          echo "=== executable ==="
+          test -x /usr/bin/proton-autogen
+          echo "OK: executable"
 
-          echo "OK: /usr/share/man/man1/proton-autogen.1.gz"
+          echo
+          echo "=== desktop ==="
+          test -f /usr/share/applications/proton-autogen.desktop
+          echo "OK: desktop"
 
-          if [[ ! -f /usr/share/licenses/proton-autogen/LICENSE ]]; then
-            echo "ERROR: LICENSE is missing"
-            exit 1
-          fi
+          echo
+          echo "=== man page test ==="
+          test -f /usr/share/man/man1/proton-autogen.1.gz
+          echo "OK: man page"
 
-          echo "OK: /usr/share/licenses/proton-autogen/LICENSE"
+          echo
+          echo "=== license ==="
+          test -f /usr/share/licenses/proton-autogen/LICENSE
+          echo "OK: license"
 
+          echo
           echo "Installed files: OK"
-
 
       - name: Verify executable
         shell: bash
