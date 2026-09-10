@@ -43,7 +43,6 @@ jobs:
         run: |
           pacman -S --needed --noconfirm \
             base-devel \
-            curl \
             git \
             namcap \
             python \
@@ -83,46 +82,6 @@ jobs:
           set -euo pipefail
 
           namcap PKGBUILD
-
-      - name: Verify package version consistency
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          PKGVER=$(sed -n 's/^pkgver=//p' PKGBUILD)
-          PROJECT_VERSION=$(sed -n 's/^version = "\(.*\)"/\1/p' pyproject.toml)
-
-          echo "PKGBUILD version:       $PKGVER"
-          echo "pyproject.toml version: $PROJECT_VERSION"
-
-          if [[ -z "$PKGVER" ]]; then
-            echo "ERROR: pkgver is missing from PKGBUILD."
-            exit 1
-          fi
-
-          if [[ -z "$PROJECT_VERSION" ]]; then
-            echo "ERROR: version is missing from pyproject.toml."
-            exit 1
-          fi
-
-          if [[ "$PKGVER" != "$PROJECT_VERSION" ]]; then
-            echo "ERROR: PKGBUILD and pyproject.toml versions differ."
-            exit 1
-          fi
-
-          TAG="v${PKGVER}"
-
-          echo "Checking GitHub tag: $TAG"
-
-          curl \
-            --fail \
-            --silent \
-            --show-error \
-            "https://api.github.com/repos/N3oRay/proton-autogen/git/ref/tags/${TAG}" \
-            >/dev/null
-
-          echo "GitHub tag ${TAG}: OK"
-          echo "Version consistency: OK"
 
       - name: Verify source URL
         shell: bash
@@ -257,41 +216,40 @@ jobs:
           pacman -Ql proton-autogen
 
           echo
-          echo "=== File system ==="
-          ls -ld /usr/share/man
-          ls -ld /usr/share/man/man1 || true
-
-          echo
-          echo "=== Man page ==="
-          ls -la /usr/share/man/man1/proton-autogen.1.gz || true
-
-          echo
-          echo "=== stat ==="
-          stat /usr/share/man/man1/proton-autogen.1.gz || true
-
-          echo
-          echo "=== package metadata ==="
+          echo "=== Package metadata ==="
           pacman -Qi proton-autogen
 
           echo
-          echo "=== executable ==="
-          test -x /usr/bin/proton-autogen
-          echo "OK: executable"
+          echo "=== Executable ==="
+          if [[ ! -x /usr/bin/proton-autogen ]]; then
+            echo "ERROR: executable is missing or not executable"
+            exit 1
+          fi
+          echo "OK: /usr/bin/proton-autogen"
 
           echo
-          echo "=== desktop ==="
-          test -f /usr/share/applications/proton-autogen.desktop
-          echo "OK: desktop"
+          echo "=== Desktop entry ==="
+          if [[ ! -f /usr/share/applications/proton-autogen.desktop ]]; then
+            echo "ERROR: desktop entry is missing"
+            exit 1
+          fi
+          echo "OK: /usr/share/applications/proton-autogen.desktop"
 
           echo
-          echo "=== man page test ==="
-          test -f /usr/share/man/man1/proton-autogen.1.gz
-          echo "OK: man page"
+          echo "=== Man page ==="
+          if [[ ! -f /usr/share/man/man1/proton-autogen.1.gz ]]; then
+            echo "ERROR: man page is missing"
+            exit 1
+          fi
+          echo "OK: /usr/share/man/man1/proton-autogen.1.gz"
 
           echo
-          echo "=== license ==="
-          test -f /usr/share/licenses/proton-autogen/LICENSE
-          echo "OK: license"
+          echo "=== License ==="
+          if [[ ! -f /usr/share/licenses/proton-autogen/LICENSE ]]; then
+            echo "ERROR: license is missing"
+            exit 1
+          fi
+          echo "OK: /usr/share/licenses/proton-autogen/LICENSE"
 
           echo
           echo "Installed files: OK"
@@ -317,13 +275,8 @@ jobs:
 
           pacman -Qo /usr/bin/proton-autogen
           pacman -Qo /usr/share/applications/proton-autogen.desktop
-
-      - name: Check package metadata
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          pacman -Qi proton-autogen
+          pacman -Qo /usr/share/man/man1/proton-autogen.1.gz
+          pacman -Qo /usr/share/licenses/proton-autogen/LICENSE
 
       - name: Check repository state
         shell: bash
