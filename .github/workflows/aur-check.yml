@@ -253,12 +253,38 @@ jobs:
         run: |
           set -euo pipefail
 
-          test -x /usr/bin/proton-autogen
-          test -f /usr/share/applications/proton-autogen.desktop
-          test -f /usr/share/man/man1/proton-autogen.1.gz
-          test -f /usr/share/licenses/proton-autogen/LICENSE
+          echo "Checking installed files..."
+
+          if [[ ! -x /usr/bin/proton-autogen ]]; then
+            echo "ERROR: /usr/bin/proton-autogen is missing or not executable"
+            exit 1
+          fi
+
+          echo "OK: /usr/bin/proton-autogen"
+
+          if [[ ! -f /usr/share/applications/proton-autogen.desktop ]]; then
+            echo "ERROR: desktop file is missing"
+            exit 1
+          fi
+
+          echo "OK: /usr/share/applications/proton-autogen.desktop"
+
+          if [[ ! -f /usr/share/man/man1/proton-autogen.1.gz ]]; then
+            echo "ERROR: man page is missing"
+            exit 1
+          fi
+
+          echo "OK: /usr/share/man/man1/proton-autogen.1.gz"
+
+          if [[ ! -f /usr/share/licenses/proton-autogen/LICENSE ]]; then
+            echo "ERROR: LICENSE is missing"
+            exit 1
+          fi
+
+          echo "OK: /usr/share/licenses/proton-autogen/LICENSE"
 
           echo "Installed files: OK"
+
 
       - name: Verify executable
         shell: bash
