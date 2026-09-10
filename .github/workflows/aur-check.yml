@@ -269,17 +269,3 @@ jobs:
           pacman -Qo /usr/share/applications/proton-autogen.desktop
           pacman -Qo /usr/share/man/man1/proton-autogen.1.gz
           pacman -Qo /usr/share/licenses/proton-autogen/LICENSE
-
-      - name: Check repository state
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          cd "$GITHUB_WORKSPACE"
-
-          echo "Working directory:"
-          pwd
-
-          echo
-          echo "Git status:"
-          git status --short
