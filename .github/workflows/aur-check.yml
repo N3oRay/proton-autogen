@@ -221,35 +221,27 @@ jobs:
 
           echo
           echo "=== Executable ==="
-          if [[ ! -x /usr/bin/proton-autogen ]]; then
-            echo "ERROR: executable is missing or not executable"
-            exit 1
-          fi
+          test -x /usr/bin/proton-autogen
           echo "OK: /usr/bin/proton-autogen"
 
           echo
           echo "=== Desktop entry ==="
-          if [[ ! -f /usr/share/applications/proton-autogen.desktop ]]; then
-            echo "ERROR: desktop entry is missing"
-            exit 1
-          fi
+          test -f /usr/share/applications/proton-autogen.desktop
           echo "OK: /usr/share/applications/proton-autogen.desktop"
 
           echo
-          echo "=== Man page ==="
-          if [[ ! -f /usr/share/man/man1/proton-autogen.1.gz ]]; then
-            echo "ERROR: man page is missing"
-            exit 1
-          fi
-          echo "OK: /usr/share/man/man1/proton-autogen.1.gz"
+          echo "=== License ==="
+          test -f /usr/share/licenses/proton-autogen/LICENSE
+          echo "OK: /usr/share/licenses/proton-autogen/LICENSE"
 
           echo
-          echo "=== License ==="
-          if [[ ! -f /usr/share/licenses/proton-autogen/LICENSE ]]; then
-            echo "ERROR: license is missing"
+          echo "=== Man page ==="
+          if pacman -Ql proton-autogen | grep -q '/usr/share/man/man1/proton-autogen.1.gz$'; then
+            echo "OK: man page is registered in package database"
+          else
+            echo "ERROR: man page is not registered in package"
             exit 1
           fi
-          echo "OK: /usr/share/licenses/proton-autogen/LICENSE"
 
           echo
           echo "Installed files: OK"
