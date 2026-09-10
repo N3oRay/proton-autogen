@@ -31,27 +31,29 @@ modules:
   - name: proton-autogen
     buildsystem: simple
     build-commands:
-      # Exécutable
+      # Executable
       - install -Dm755 usr/bin/proton-autogen /app/bin/proton-autogen
-      # Man page
-      - install -Dm644 debian/proton-autogen.1.gz \
-          /app/share/man/man1/proton-autogen.1.gz
 
-      # Metainfo
-      - install -Dm644 io.github.N3oRay.ProtonAutogen.metainfo.xml
-          /app/share/metainfo/io.github.N3oRay.ProtonAutogen.metainfo.xml
-      # Module Python — chemin versionné, Python 3.13 confirmé sur org.gnome.Sdk//49
+      # Man page
+      - install -Dm644 debian/proton-autogen.1.gz /app/share/man/man1/proton-autogen.1.gz
+
+      # AppStream metadata
+      - install -Dm644 io.github.N3oRay.ProtonAutogen.metainfo.xml /app/share/metainfo/io.github.N3oRay.ProtonAutogen.metainfo.xml
+
+      # Python module
       - mkdir -p /app/lib/python3.13/site-packages
       - cp -a usr/lib/python3/dist-packages/proton_autogen /app/lib/python3.13/site-packages/
-      # Ressources
+
+      # Resources
       - mkdir -p /app/share
       - cp -a usr/share/proton-autogen /app/share/
-      # Desktop
-      - install -Dm644 usr/share/applications/proton-autogen.desktop
-          /app/share/applications/io.github.N3oRay.ProtonAutogen.desktop
-      # Icône
-      - install -Dm644 usr/share/icons/hicolor/256x256/apps/proton-autogen.png
-          /app/share/icons/hicolor/256x256/apps/io.github.N3oRay.ProtonAutogen.png
+
+      # Desktop entry
+      - install -Dm644 usr/share/applications/proton-autogen.desktop /app/share/applications/io.github.N3oRay.ProtonAutogen.desktop
+
+      # Icon
+      - install -Dm644 usr/share/icons/hicolor/256x256/apps/proton-autogen.png /app/share/icons/hicolor/256x256/apps/io.github.N3oRay.ProtonAutogen.png
+
     sources:
       - type: dir
         path: .

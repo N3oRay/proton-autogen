@@ -36,28 +36,6 @@ jobs:
           echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
           echo "Building Proton Autogen ${VERSION}"
 
-      - name: Update Flatpak metainfo version
-        shell: bash
-        run: |
-          VERSION="${{ steps.version.outputs.version }}"
-
-          python3 - <<PY
-          from pathlib import Path
-          import re
-
-          path = Path("io.github.N3oRay.ProtonAutogen.metainfo.xml")
-          text = path.read_text()
-
-          text = re.sub(
-              r'<release version="[^"]+" date="[^"]+"',
-              f'<release version="{VERSION}" date="$(date +%Y-%m-%d)"',
-              text,
-              count=1
-          )
-
-          path.write_text(text)
-          PY
-
       - name: Build Flatpak
         uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
