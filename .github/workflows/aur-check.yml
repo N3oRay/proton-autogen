@@ -34,8 +34,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Update Arch Linux
         run: |
@@ -45,6 +43,7 @@ jobs:
         run: |
           pacman -S --needed --noconfirm \
             base-devel \
+            curl \
             git \
             namcap \
             python \
@@ -54,11 +53,19 @@ jobs:
             python-wheel
 
       - name: Check PKGBUILD syntax
+        shell: bash
         run: |
+          set -euo pipefail
+
           bash -n PKGBUILD
 
+          echo "PKGBUILD syntax: OK"
+
       - name: Validate PKGBUILD
+        shell: bash
         run: |
+          set -euo pipefail
+
           namcap PKGBUILD
 
       - name: Verify package version consistency
@@ -72,96 +79,194 @@ jobs:
           echo "PKGBUILD version:       $PKGVER"
           echo "pyproject.toml version: $PROJECT_VERSION"
 
-          test -n "$PKGVER"
-          test -n "$PROJECT_VERSION"
+          if [[ -z "$PKGVER" ]]; then
+            echo "ERROR: pkgver is missing from PKGBUILD."
+            exit 1
+          fi
+
+          if [[ -z "$PROJECT_VERSION" ]]; then
+            echo "ERROR: version is missing from pyproject.toml."
+            exit 1
+          fi
 
           if [[ "$PKGVER" != "$PROJECT_VERSION" ]]; then
             echo "ERROR: PKGBUILD and pyproject.toml versions differ."
             exit 1
           fi
 
-          git fetch --tags --force
-
           TAG="v${PKGVER}"
 
-          echo "Required Git tag: $TAG"
+          echo "Checking GitHub tag: $TAG"
 
-          if ! git rev-parse "refs/tags/${TAG}" >/dev/null 2>&1; then
-            echo "ERROR: Git tag ${TAG} does not exist."
+          curl \
+            --fail \
+            --silent \
+            --show-error \
+            "https://api.github.com/repos/N3oRay/proton-autogen/git/ref/tags/${TAG}" \
+            >/dev/null
+
+          echo "GitHub tag ${TAG}: OK"
+          echo "Version consistency: OK"
+
+      - name: Verify source URL
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if ! grep -q 'archive/refs/tags/v${pkgver}.tar.gz' PKGBUILD; then
+            echo "ERROR: PKGBUILD source does not use v\${pkgver}.tar.gz."
             exit 1
           fi
 
-          echo "Version consistency: OK"
+          echo "Source URL: OK"
 
-      - name: Verify source tag
+      - name: Verify source checksum
+        shell: bash
         run: |
-          grep -q 'archive/refs/tags/v${pkgver}.tar.gz' PKGBUILD
+          set -euo pipefail
+
+          grep -q '^sha256sums=' PKGBUILD
+
+          echo "sha256sums: present"
 
       - name: Regenerate .SRCINFO
+        shell: bash
         run: |
+          set -euo pipefail
+
           makepkg --printsrcinfo > .SRCINFO.generated
 
       - name: Compare .SRCINFO
+        shell: bash
         run: |
+          set -euo pipefail
+
           diff -u .SRCINFO .SRCINFO.generated
 
+          echo ".SRCINFO: synchronized with PKGBUILD"
+
       - name: Build package
+        shell: bash
         run: |
-          makepkg --clean --syncdeps --noconfirm
+          set -euo pipefail
+
+          makepkg \
+            --clean \
+            --syncdeps \
+            --noconfirm
 
       - name: Find generated package
+        shell: bash
         run: |
-          ls -lh *.pkg.tar.*
+          set -euo pipefail
 
-      - name: Validate built package
+          PACKAGE=$(find . -maxdepth 1 -type f -name '*.pkg.tar.*' -print -quit)
+
+          if [[ -z "$PACKAGE" ]]; then
+            echo "ERROR: No package was generated."
+            exit 1
+          fi
+
+          echo "Generated package:"
+          ls -lh "$PACKAGE"
+
+      - name: Validate built package with namcap
+        shell: bash
         run: |
-          namcap *.pkg.tar.*
+          set -euo pipefail
+
+          PACKAGE=$(find . -maxdepth 1 -type f -name '*.pkg.tar.*' -print -quit)
+
+          namcap "$PACKAGE"
 
       - name: Inspect package contents
+        shell: bash
         run: |
-          pacman -Qlp *.pkg.tar.*
+          set -euo pipefail
+
+          PACKAGE=$(find . -maxdepth 1 -type f -name '*.pkg.tar.*' -print -quit)
+
+          echo "Package contents:"
+          pacman -Qlp "$PACKAGE"
 
       - name: Verify required files
+        shell: bash
         run: |
-          PACKAGE=$(find . -maxdepth 1 -name '*.pkg.tar.*' -print -quit)
+          set -euo pipefail
 
-          echo "Checking package: $PACKAGE"
+          PACKAGE=$(find . -maxdepth 1 -type f -name '*.pkg.tar.*' -print -quit)
 
-          pacman -Qlp "$PACKAGE" | grep -q '/usr/bin/proton-autogen$'
-          pacman -Qlp "$PACKAGE" | grep -q '/usr/share/applications/proton-autogen.desktop$'
-          pacman -Qlp "$PACKAGE" | grep -q '/usr/share/man/man1/proton-autogen.1.gz$'
-          pacman -Qlp "$PACKAGE" | grep -q '/usr/share/licenses/proton-autogen/LICENSE$'
+          REQUIRED_FILES=(
+            '/usr/bin/proton-autogen'
+            '/usr/share/applications/proton-autogen.desktop'
+            '/usr/share/man/man1/proton-autogen.1.gz'
+            '/usr/share/licenses/proton-autogen/LICENSE'
+          )
+
+          for file in "${REQUIRED_FILES[@]}"; do
+            if ! pacman -Qlp "$PACKAGE" | grep -q "${file}$"; then
+              echo "ERROR: Missing required file: $file"
+              exit 1
+            fi
+
+            echo "Found: $file"
+          done
+
+          echo "Required files: OK"
 
       - name: Install built package
+        shell: bash
         run: |
-          PACKAGE=$(find . -maxdepth 1 -name '*.pkg.tar.*' -print -quit)
+          set -euo pipefail
+
+          PACKAGE=$(find . -maxdepth 1 -type f -name '*.pkg.tar.*' -print -quit)
 
           pacman -U --noconfirm "$PACKAGE"
 
       - name: Verify installed files
+        shell: bash
         run: |
+          set -euo pipefail
+
           test -x /usr/bin/proton-autogen
           test -f /usr/share/applications/proton-autogen.desktop
           test -f /usr/share/man/man1/proton-autogen.1.gz
           test -f /usr/share/licenses/proton-autogen/LICENSE
 
+          echo "Installed files: OK"
+
       - name: Verify executable
+        shell: bash
         run: |
+          set -euo pipefail
+
           proton-autogen --help
 
       - name: Verify Python module
+        shell: bash
         run: |
+          set -euo pipefail
+
           python -c "import proton_autogen; print(proton_autogen)"
 
       - name: Verify package ownership
+        shell: bash
         run: |
+          set -euo pipefail
+
           pacman -Qo /usr/bin/proton-autogen
           pacman -Qo /usr/share/applications/proton-autogen.desktop
 
       - name: Check package metadata
+        shell: bash
         run: |
+          set -euo pipefail
+
           pacman -Qi proton-autogen
 
       - name: Check repository state
+        shell: bash
         run: |
+          set -euo pipefail
+
           git status --short
