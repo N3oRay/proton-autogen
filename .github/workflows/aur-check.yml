@@ -50,20 +50,38 @@ jobs:
             python-build \
             python-installer \
             python-setuptools \
-            python-wheel
+            python-wheel \
+            sudo
 
       - name: Create build user
         run: |
-          useradd --create-home --shell /bin/bash builder
+          useradd \
+            --create-home \
+            --shell /bin/bash \
+            builder
 
           chown -R builder:builder "$GITHUB_WORKSPACE"
 
+          cat > /etc/sudoers.d/builder-pacman <<'EOF'
+          builder ALL=(root) NOPASSWD: /usr/bin/pacman
+          EOF
+
+          chmod 440 /etc/sudoers.d/builder-pacman
+
       - name: Check PKGBUILD syntax
+        shell: bash
         run: |
+          set -euo pipefail
+
           bash -n PKGBUILD
 
+          echo "PKGBUILD syntax: OK"
+
       - name: Validate PKGBUILD
+        shell: bash
         run: |
+          set -euo pipefail
+
           namcap PKGBUILD
 
       - name: Verify package version consistency
@@ -107,7 +125,10 @@ jobs:
           echo "Version consistency: OK"
 
       - name: Verify source URL
+        shell: bash
         run: |
+          set -euo pipefail
+
           if ! grep -q 'archive/refs/tags/v${pkgver}.tar.gz' PKGBUILD; then
             echo "ERROR: PKGBUILD source does not use v\${pkgver}.tar.gz."
             exit 1
@@ -116,24 +137,40 @@ jobs:
           echo "Source URL: OK"
 
       - name: Verify source checksum
+        shell: bash
         run: |
-          grep -q '^sha256sums=' PKGBUILD
+          set -euo pipefail
+
+          if ! grep -q '^sha256sums=' PKGBUILD; then
+            echo "ERROR: sha256sums is missing from PKGBUILD."
+            exit 1
+          fi
 
           echo "sha256sums: present"
 
       - name: Regenerate .SRCINFO
+        shell: bash
         run: |
-          su builder -c 'cd "$GITHUB_WORKSPACE" && makepkg --printsrcinfo' \
+          set -euo pipefail
+
+          su builder -c \
+            'cd "$GITHUB_WORKSPACE" && makepkg --printsrcinfo' \
             > .SRCINFO.generated
 
       - name: Compare .SRCINFO
+        shell: bash
         run: |
+          set -euo pipefail
+
           diff -u .SRCINFO .SRCINFO.generated
 
           echo ".SRCINFO: synchronized with PKGBUILD"
 
       - name: Build package
+        shell: bash
         run: |
+          set -euo pipefail
+
           su builder -c '
             cd "$GITHUB_WORKSPACE"
 
@@ -144,7 +181,10 @@ jobs:
           '
 
       - name: Find generated package
+        shell: bash
         run: |
+          set -euo pipefail
+
           PACKAGE=$(find . -maxdepth 1 -type f -name '*.pkg.tar.*' -print -quit)
 
           if [[ -z "$PACKAGE" ]]; then
@@ -156,19 +196,26 @@ jobs:
           ls -lh "$PACKAGE"
 
       - name: Validate built package with namcap
+        shell: bash
         run: |
+          set -euo pipefail
+
           PACKAGE=$(find . -maxdepth 1 -type f -name '*.pkg.tar.*' -print -quit)
 
           namcap "$PACKAGE"
 
       - name: Inspect package contents
+        shell: bash
         run: |
+          set -euo pipefail
+
           PACKAGE=$(find . -maxdepth 1 -type f -name '*.pkg.tar.*' -print -quit)
 
           echo "Package contents:"
           pacman -Qlp "$PACKAGE"
 
       - name: Verify required files
+        shell: bash
         run: |
           set -euo pipefail
 
@@ -193,12 +240,16 @@ jobs:
           echo "Required files: OK"
 
       - name: Install built package
+        shell: bash
         run: |
+          set -euo pipefail
+
           PACKAGE=$(find . -maxdepth 1 -type f -name '*.pkg.tar.*' -print -quit)
 
           pacman -U --noconfirm "$PACKAGE"
 
       - name: Verify installed files
+        shell: bash
         run: |
           set -euo pipefail
 
@@ -210,22 +261,37 @@ jobs:
           echo "Installed files: OK"
 
       - name: Verify executable
+        shell: bash
         run: |
+          set -euo pipefail
+
           proton-autogen --help
 
       - name: Verify Python module
+        shell: bash
         run: |
+          set -euo pipefail
+
           python -c "import proton_autogen; print(proton_autogen)"
 
       - name: Verify package ownership
+        shell: bash
         run: |
+          set -euo pipefail
+
           pacman -Qo /usr/bin/proton-autogen
           pacman -Qo /usr/share/applications/proton-autogen.desktop
 
       - name: Check package metadata
+        shell: bash
         run: |
+          set -euo pipefail
+
           pacman -Qi proton-autogen
 
       - name: Check repository state
+        shell: bash
         run: |
+          set -euo pipefail
+
           git status --short
