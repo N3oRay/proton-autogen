@@ -275,4 +275,11 @@ jobs:
         run: |
           set -euo pipefail
 
+          cd "$GITHUB_WORKSPACE"
+
+          echo "Working directory:"
+          pwd
+
+          echo
+          echo "Git status:"
           git status --short
