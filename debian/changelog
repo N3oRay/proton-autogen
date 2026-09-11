@@ -1,43 +1,27 @@
-proton-autogen (3.3.6) noble; urgency=medium
+proton-autogen (3.3.7) noble; urgency=medium
 
   * Thanks to all users and contributors for their continued support, feedback and bug reports.
-  * Support for additional Linux distributions.
-  * Improved Lutris profile management.
-  * Improved save management.
-  * New application and UI icons.
-  * More responsive game list and interface.
-  * Improved KIO and Nemo integration.
-  * More stable Helper and diagnostic tools.
-  * Improved profile stability.
-  * Updated installation documentation.
-  * Fixed executable path handling with Nemo 6.6.3.
-  * Fixed paths containing spaces or special characters when launching games from Nemo.
-  * Fixed several UI layout and display issues
-  * Add game save management (Memory) to preserve and restore application data.
-  * Add new proton-autogen --import command (Beta) to import and recover games from Lutris and other supported sources.
-  * Add system sleep inhibition while games are running
-  * Added settings menu with all application options.
-  * Advanced ProtonDB evolution. Integrated menu.
-  * Add ProtonDB integration with game compatibility ratings, confidence levels and report counts.
-  * Add support for displaying ProtonDB compatibility information directly in the game list and grid.
-  * Add support for editing the Steam App ID from the application editor.
-  * Improve application responsiveness and adaptive layout behavior.
-  * Add a dedicated GRID menu with zoom controls for adjusting game icon sizes.
-  * Improve the GRID layout with adaptive column handling and responsive game cards.
-  * Add visual feedback for game card interactions and improve the overall GRID user experience.
-  * Automatically save and restore the application window size between sessions.
-  * Add a status bar message history panel, allowing users to review all status messages since startup with timestamps and a clear action.
-  * Add a dedicated status message widget with support for expandable details, allowing truncated messages to be viewed and copied in full.
-  * Improve status bar readability by limiting long multi-line messages to 6 lines and indicating when additional lines are available in the history.
-  * Fix broken raw ANSI escape sequences being displayed in the status bar when applications emit colored console output.
-  * Fix excessive CPU usage during application launches caused by the status bar rebuilding its entire message history on every spinner animation frame.
-  * Fix a significant CPU usage issue during application execution where every line of process output (stdout/stderr) triggered an immediate status bar update.
-  * Reduce CPU overhead of status message processing by consolidating multiple regular expressions into single combined patterns, without changing observable behavior.
-  * Improve application terminology throughout the interface, replacing game-specific wording with application-specific terminology to better reflect support for generic Windows programs.
-  * Localize the application search entry placeholder instead of using hardcoded text.
-  * Update all 16 supported locale files.
-  * Improve graphical user experience with clearer status reporting and easier access to detailed application launch information.
-  * Internal UX improvements with the introduction of dedicated status bar and status history handling.
+  * Add game import functionality to recover applications from Lutris and other supported sources.
+  * Add system monitoring with CPU and memory usage information.
+  * Improve application status reporting and runtime monitoring.
+  * Improve dashboard responsiveness and overall user experience.
+  * Improve application import workflow and user interface.
+  * Improve Flatpak support, packaging and installation documentation.
+  * Add Flatpak build and validation workflow.
+  * Add AUR package validation and build checks.
+  * Improve Debian package metadata and build configuration.
+  * Add automated package and integration validation workflows.
+  * Add comprehensive automated tests for core functionality, profiles, CLI, Gamescope and integrity checks.
+  * Add CSS integrity tests to help prevent UI regressions.
+  * Improve localization support across all supported languages.
+  * Improve application data and path handling.
+  * Improve Proton and Flatpak integration.
+  * Improve documentation with dedicated guides for Proton prefixes, Windows applications and game execution.
+  * Improve application profile management and stability.
+  * Improve graphical styles and responsive UI behavior.
+  * Remove obsolete system tray implementation.
+  * Improve code organization, cleanup and maintainability.
+  * Fix various UI, packaging and integration issues.
   * General UX improvements, configuration handling improvements and code cleanup.
 
- -- N3oray <n3oray77@gmail.com>  Sun, 06 Sep 2026 12:28:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Thu, 11 Sep 2026 22:35:00 +0200
