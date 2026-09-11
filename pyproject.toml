@@ -23,6 +23,12 @@ dependencies = [
   "psutil"
 ]
 
+[tool.pytest.ini_options]
+markers = [
+    "unit: unit tests",
+]
+
+
 [tool.setuptools.package-dir]
 proton_autogen = "usr/lib/python3/dist-packages/proton_autogen"
 
