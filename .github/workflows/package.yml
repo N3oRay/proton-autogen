@@ -1,4 +1,4 @@
-name: Debian Package
+name: Build and Release Packages
 
 on:
   push:
@@ -15,9 +15,14 @@ permissions:
   contents: write
 
 jobs:
-  build-deb:
 
-    name: Build Debian package
+  # ============================================================
+  # Debian packages
+  # ============================================================
+
+  build-deb:
+    name: Build Debian package (${{ matrix.ubuntu }})
+
     strategy:
       matrix:
         ubuntu:
@@ -40,7 +45,7 @@ jobs:
             fakeroot \
             lintian
 
-      - name: Build package from debian/
+      - name: Build package
         run: |
           dpkg-buildpackage \
             -us \
@@ -56,19 +61,16 @@ jobs:
         run: |
           lintian ../*.deb
 
-
       - name: Install generated package
         run: |
           sudo apt-get install -y ../*.deb
-
 
       - name: Verify installation
         run: |
           proton-autogen --help
           proton-autogen --version
 
-
-      - name: Prepare Debian artifact
+      - name: Prepare artifact
         run: |
           mkdir -p artifacts
           cp ../*.deb artifacts/
@@ -80,41 +82,132 @@ jobs:
           path: artifacts/*.deb
 
 
-  release:
+  # ============================================================
+  # Arch Linux package
+  # ============================================================
 
+  build-arch:
+    name: Build Arch Linux package
+
+    if: startsWith(github.ref, 'refs/tags/v')
+
+    runs-on: ubuntu-latest
+
+    container:
+      image: archlinux:latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Update Arch Linux
+        run: |
+          pacman -Syu --noconfirm
+
+      - name: Install build dependencies
+        run: |
+          pacman -S --needed --noconfirm \
+            base-devel \
+            git \
+            pacman-contrib \
+            python \
+            python-build \
+            python-installer \
+            python-wheel \
+            python-setuptools \
+            python-gobject \
+            python-pyyaml \
+            python-rich \
+            python-requests \
+            python-psutil \
+            gtk4 \
+            gdk-pixbuf2 \
+            graphene
+
+      - name: Set package version from Git tag
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+
+          echo "Building version: ${VERSION}"
+
+          sed -i \
+            "s/^pkgver=.*/pkgver=${VERSION}/" \
+            PKGBUILD
+
+      - name: Update source checksum
+        run: |
+          updpkgsums
+
+      - name: Show PKGBUILD
+        run: |
+          cat PKGBUILD
+
+      - name: Build Arch package
+        run: |
+          useradd -m builder
+
+          chown -R builder:builder "$GITHUB_WORKSPACE"
+
+          su builder -c \
+            "cd '$GITHUB_WORKSPACE' && makepkg -sf --noconfirm"
+
+      - name: List generated package
+        run: |
+          ls -lh ./*.pkg.tar.zst
+
+      - name: Check package metadata
+        run: |
+          pacman -Qip ./*.pkg.tar.zst
+
+      - name: Prepare Arch artifact
+        run: |
+          mkdir -p arch-artifact
+          cp ./*.pkg.tar.zst arch-artifact/
+
+      - name: Upload Arch artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: proton-autogen-arch
+          path: arch-artifact/*.pkg.tar.zst
+
+
+  # ============================================================
+  # GitHub Release
+  # ============================================================
+
+  release:
     name: Publish GitHub Release
 
-    needs: build-deb
+    needs:
+      - build-deb
+      - build-arch
 
     if: startsWith(github.ref, 'refs/tags/v')
 
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Checkout source
-        uses: actions/checkout@v4
 
+      - name: Download Ubuntu 24.04 Debian package
+        uses: actions/download-artifact@v4
+        with:
+          name: proton-autogen-ubuntu-24.04-deb
+          path: release/deb
 
-      - name: Install packaging tools
+      - name: Download Arch package
+        uses: actions/download-artifact@v4
+        with:
+          name: proton-autogen-arch
+          path: release/arch
+
+      - name: List release files
         run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            build-essential \
-            devscripts \
-            debhelper \
-            fakeroot
-
-
-      - name: Build Debian package
-        run: |
-          dpkg-buildpackage \
-            -us \
-            -uc \
-            -b
-
+          echo "Release files:"
+          find release -type f -maxdepth 3 -print
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            ../*.deb
+            release/deb/*.deb
+            release/arch/*.pkg.tar.zst
