@@ -86,30 +86,25 @@ jobs:
   # Arch Linux package
   # ============================================================
 
+  # ---------------------------------------------------------------------------
+  # Arch Linux — native pacman package (.pkg.tar.zst)
+  # ---------------------------------------------------------------------------
   build-arch:
-    name: Build Arch Linux package
+    name: Build (Arch / pacman)
+    runs-on: ubuntu-latest
 
     if: startsWith(github.ref, 'refs/tags/v')
-
-    runs-on: ubuntu-latest
 
     container:
       image: archlinux:latest
 
     steps:
-      - name: Checkout source
-        uses: actions/checkout@v4
-
-      - name: Update Arch Linux
+      - name: Install dependencies
         run: |
           pacman -Syu --noconfirm
-
-      - name: Install build dependencies
-        run: |
-          pacman -S --needed --noconfirm \
+          pacman -S --noconfirm \
             base-devel \
             git \
-            pacman-contrib \
             python \
             python-build \
             python-installer \
@@ -124,48 +119,138 @@ jobs:
             gdk-pixbuf2 \
             graphene
 
-      - name: Set package version from Git tag
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Mark workspace safe for git
         run: |
-          VERSION="${GITHUB_REF_NAME#v}"
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
-          echo "Building version: ${VERSION}"
-
-          sed -i \
-            "s/^pkgver=.*/pkgver=${VERSION}/" \
-            PKGBUILD
-
-      - name: Show PKGBUILD
+      - name: Resolve version
+        id: ver
         run: |
+          V="${GITHUB_REF#refs/tags/v}"
+
+          echo "VERSION=$V" >> "$GITHUB_OUTPUT"
+
+          echo "Building Proton-Autogen version: $V"
+
+      - name: Create CI PKGBUILD
+        run: |
+          V="${{ steps.ver.outputs.VERSION }}"
+
+          cat > PKGBUILD.ci <<EOF
+          pkgname=proton-autogen
+          pkgver=$V
+          pkgrel=1
+          pkgdesc="Automatic Proton/Wine launcher for Windows executables"
+          arch=('any')
+          url="https://github.com/N3oRay/proton-autogen"
+          license=('MIT')
+
+          depends=(
+              'python'
+              'python-gobject'
+              'python-pyyaml'
+              'python-rich'
+              'python-requests'
+              'python-psutil'
+              'gtk4'
+              'gdk-pixbuf2'
+              'graphene'
+          )
+
+          makedepends=(
+              'python-build'
+              'python-installer'
+              'python-wheel'
+              'python-setuptools'
+          )
+
+          build() {
+              cd "\$startdir"
+
+              python -m build --wheel --no-isolation
+          }
+
+          package() {
+              cd "\$startdir"
+
+              python -m installer \
+                  --destdir="\$pkgdir" \
+                  dist/*.whl
+
+              install -Dm755 \
+                  usr/bin/proton-autogen \
+                  "\$pkgdir/usr/bin/proton-autogen"
+
+              install -dm755 \
+                  "\$pkgdir/usr/share/proton-autogen"
+
+              cp -a \
+                  usr/share/proton-autogen/. \
+                  "\$pkgdir/usr/share/proton-autogen/"
+
+              install -Dm644 \
+                  usr/share/applications/proton-autogen.desktop \
+                  "\$pkgdir/usr/share/applications/proton-autogen.desktop"
+
+              install -Dm644 \
+                  usr/share/icons/hicolor/256x256/apps/proton-autogen.png \
+                  "\$pkgdir/usr/share/icons/hicolor/256x256/apps/proton-autogen.png"
+
+              install -Dm644 \
+                  usr/share/icons/hicolor/256x256/apps/proton-autogen.png \
+                  "\$pkgdir/usr/share/icons/hicolor/256x256/apps/io.github.N3oRay.ProtonAutogen.png"
+
+              install -Dm644 \
+                  debian/proton-autogen.1.gz \
+                  "\$pkgdir/usr/share/man/man1/proton-autogen.1.gz"
+
+              install -Dm644 \
+                  LICENSE \
+                  "\$pkgdir/usr/share/licenses/proton-autogen/LICENSE"
+          }
+          EOF
+
+          cp PKGBUILD.ci PKGBUILD
+
+          echo "Generated PKGBUILD:"
           cat PKGBUILD
 
-      - name: Create build user
+      - name: Build pacman package
         run: |
-          useradd -m -G wheel builder
+          useradd -m builder
+
           chown -R builder:builder "$GITHUB_WORKSPACE"
 
-      - name: Build Arch package
-        run: |
           su builder -c \
-            "cd '$GITHUB_WORKSPACE' && makepkg -f --noconfirm"
+            "cd '$GITHUB_WORKSPACE' && makepkg -f --nodeps --noconfirm"
 
-      - name: List generated package
+      - name: Inspect package
         run: |
           ls -lh ./*.pkg.tar.zst
 
-      - name: Check package metadata
-        run: |
           pacman -Qip ./*.pkg.tar.zst
+
+      - name: Check package contents
+        run: |
+          pacman -Qlp ./*.pkg.tar.zst
 
       - name: Prepare Arch artifact
         run: |
-          mkdir -p arch-artifact
-          cp ./*.pkg.tar.zst arch-artifact/
+          mkdir -p dist
+
+          cp ./*.pkg.tar.zst dist/
 
       - name: Upload Arch artifact
         uses: actions/upload-artifact@v4
         with:
           name: proton-autogen-arch
-          path: arch-artifact/*.pkg.tar.zst
+          path: dist/*.pkg.tar.zst
+
 
 
 
