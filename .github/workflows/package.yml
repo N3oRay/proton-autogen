@@ -134,10 +134,6 @@ jobs:
             "s/^pkgver=.*/pkgver=${VERSION}/" \
             PKGBUILD
 
-      - name: Update source checksum
-        run: |
-          updpkgsums
-
       - name: Show PKGBUILD
         run: |
           cat PKGBUILD
