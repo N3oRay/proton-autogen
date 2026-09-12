@@ -142,14 +142,15 @@ jobs:
         run: |
           cat PKGBUILD
 
-      - name: Build Arch package
+      - name: Create build user
         run: |
-          useradd -m builder
-
+          useradd -m -G wheel builder
           chown -R builder:builder "$GITHUB_WORKSPACE"
 
+      - name: Build Arch package
+        run: |
           su builder -c \
-            "cd '$GITHUB_WORKSPACE' && makepkg -sf --noconfirm"
+            "cd '$GITHUB_WORKSPACE' && makepkg -f --noconfirm"
 
       - name: List generated package
         run: |
@@ -169,6 +170,7 @@ jobs:
         with:
           name: proton-autogen-arch
           path: arch-artifact/*.pkg.tar.zst
+
 
 
   # ============================================================
