@@ -1,5 +1,5 @@
 pkgname=proton-autogen
-pkgver=3.3.6
+pkgver=3.3.7
 pkgrel=1
 pkgdesc="Automatic Proton/Wine launcher for Windows executables"
 arch=('any')
@@ -29,7 +29,7 @@ source=(
     "https://github.com/N3oRay/proton-autogen/archive/refs/tags/v${pkgver}.tar.gz"
 )
 
-sha256sums=('8405333947bc3adea119b929bdc36ad8a47f2e935de07692bda860eca8398320')
+sha256sums=('273c8c3665b29526eff820ee05c99e8ac1b3e6b088f4d678329b52fa6f6f2eff')
 
 build() {
     cd "$srcdir/$pkgname-$pkgver"
