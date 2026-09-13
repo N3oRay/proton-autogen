@@ -3,7 +3,7 @@
 ![Python](https://img.shields.io/badge/python-3.x-yellow)
 ![GitHub release](https://img.shields.io/github/v/release/N3oRay/proton-autogen)
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Test](https://github.com/N3oRay/proton-autogen/actions/workflows/test.yml/badge.svg)
+![Test](https://github.com/N3oRay/proton-autogen/actions/workflows/tests.yml/badge.svg)
 ![Debian/ARCH Package](https://github.com/N3oRay/proton-autogen/actions/workflows/package.yml/badge.svg)
 ![Downloads](https://img.shields.io/github/downloads/N3oRay/proton-autogen/total)
 
