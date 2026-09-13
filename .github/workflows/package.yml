@@ -357,6 +357,59 @@ jobs:
           path: dist/*.pkg.tar.zst
 
 
+# ============================================================
+  # Flatpak
+  # ============================================================
+
+  build-flatpak:
+    name: Build Flatpak
+
+    runs-on: ubuntu-latest
+
+    if: startsWith(github.ref, 'refs/tags/v')
+
+    container:
+      image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-48
+      options: --privileged
+
+    steps:
+
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Get version
+        id: version
+        shell: bash
+        run: |
+          VERSION="${GITHUB_REF#refs/tags/v}"
+
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+
+          echo "Building Proton-Autogen ${VERSION}"
+
+      - name: Build Flatpak
+        uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+        with:
+          manifest-path: io.github.N3oRay.ProtonAutogen.yml
+          bundle: io.github.N3oRay.ProtonAutogen.flatpak
+          repository-name: flathub
+          repository-url: https://flathub.org/repo/flathub.flatpakrepo
+          cache: true
+          cache-key: flatpak-builder-${{ github.sha }}
+
+      - name: Verify Flatpak bundle
+        run: |
+          ls -lh io.github.N3oRay.ProtonAutogen.flatpak
+
+          test -f io.github.N3oRay.ProtonAutogen.flatpak
+
+      - name: Upload Flatpak artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: proton-autogen-flatpak
+          path: io.github.N3oRay.ProtonAutogen.flatpak
+
+
   # ============================================================
   # GitHub Release
   # ============================================================
@@ -367,6 +420,7 @@ jobs:
     needs:
       - build-deb
       - build-arch
+      - build-flatpak
 
     if: startsWith(github.ref, 'refs/tags/v')
 
@@ -386,6 +440,12 @@ jobs:
           name: proton-autogen-arch
           path: release/arch
 
+      - name: Download Flatpak
+        uses: actions/download-artifact@v4
+        with:
+          name: proton-autogen-flatpak
+          path: release/flatpak
+
       - name: List release files
         run: |
           echo "Release files:"
@@ -397,3 +457,4 @@ jobs:
           files: |
             release/deb/*.deb
             release/arch/*.pkg.tar.zst
+            release/flatpak/*.flatpak
