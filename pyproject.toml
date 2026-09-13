@@ -36,3 +36,12 @@ proton_autogen = "usr/lib/python3/dist-packages/proton_autogen"
 where = ["usr/lib/python3/dist-packages"]
 include = ["proton_autogen*"]
 namespaces = false
+
+[tool.setuptools.package-data]
+proton_autogen = [
+    "ux/assets/*.css",
+    "ux/assets/*.jpg",
+    "ux/assets/*.png",
+    "ux/assets/*.svg",
+    "ux/assets/svg/*.svg",
+]
