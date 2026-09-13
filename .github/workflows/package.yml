@@ -86,11 +86,9 @@ jobs:
   # Arch Linux package
   # ============================================================
 
-  # ---------------------------------------------------------------------------
-  # Arch Linux — native pacman package (.pkg.tar.zst)
-  # ---------------------------------------------------------------------------
   build-arch:
     name: Build (Arch / pacman)
+
     runs-on: ubuntu-latest
 
     if: startsWith(github.ref, 'refs/tags/v')
@@ -99,9 +97,11 @@ jobs:
       image: archlinux:latest
 
     steps:
+
       - name: Install dependencies
         run: |
           pacman -Syu --noconfirm
+
           pacman -S --noconfirm \
             base-devel \
             git \
@@ -173,6 +173,38 @@ jobs:
               cd "\$startdir"
 
               python -m build --wheel --no-isolation
+
+              echo "Checking wheel for UX assets..."
+
+              python - <<'PY'
+          import glob
+          import zipfile
+          import sys
+
+          wheels = glob.glob("dist/*.whl")
+
+          if not wheels:
+              print("ERROR: no wheel found")
+              sys.exit(1)
+
+          wheel = wheels[0]
+
+          with zipfile.ZipFile(wheel) as z:
+              assets = [
+                  name
+                  for name in z.namelist()
+                  if "/ux/assets/" in name
+              ]
+
+          if not assets:
+              print("ERROR: wheel contains no UX assets")
+              sys.exit(1)
+
+          print(f"Found {len(assets)} UX asset files in {wheel}")
+
+          for asset in assets[:20]:
+              print(f"  {asset}")
+          PY
           }
 
           package() {
@@ -181,6 +213,13 @@ jobs:
               python -m installer \
                   --destdir="\$pkgdir" \
                   dist/*.whl
+
+              echo "Checking installed UX assets..."
+
+              find \
+                  "\$pkgdir/usr/lib/python"*"/site-packages/proton_autogen/ux/assets" \
+                  -type f \
+                  | sort
 
               install -Dm755 \
                   usr/bin/proton-autogen \
@@ -239,6 +278,13 @@ jobs:
         run: |
           pacman -Qlp ./*.pkg.tar.zst
 
+      - name: Verify UX assets in package
+        run: |
+          echo "Checking packaged UX assets..."
+
+          pacman -Qlp ./*.pkg.tar.zst \
+            | grep 'proton_autogen/ux/assets/'
+
       - name: Prepare Arch artifact
         run: |
           mkdir -p dist
@@ -250,8 +296,6 @@ jobs:
         with:
           name: proton-autogen-arch
           path: dist/*.pkg.tar.zst
-
-
 
 
   # ============================================================
