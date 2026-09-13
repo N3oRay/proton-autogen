@@ -3,9 +3,6 @@ DXVK_ENV_VARS = [
     # =========================================================
     # DXVK
     # =========================================================
-# =========================================================
-# DXVK
-# =========================================================
     {
         "name": "DXVK_FULLSCREEN",
         "type": "dxvk",
@@ -747,3 +744,56 @@ ENV_VARS = (
     + GSTREAMER_ENV_VARS
     + GAME_ENV_VARS
 )
+
+
+# ---------------------------------------------------------
+# ENVIRONMENT VARIABLES
+# ---------------------------------------------------------
+
+ENV_VARS_BY_NAME = {
+    env_var["name"]: env_var
+    for env_var in ENV_VARS
+}
+
+
+def get_env_var(name: str) -> dict | None:
+    """
+    Retourne les métadonnées d'une variable d'environnement connue.
+
+    Exemple:
+        get_env_var("DXVK_HUD")
+
+    Retourne:
+        {
+            "name": "DXVK_HUD",
+            "type": "dxvk",
+            "category": "debug",
+            "i18n": "env_vars.dxvk_hud",
+        }
+
+    Retourne None si la variable n'est pas connue.
+    """
+    return ENV_VARS_BY_NAME.get(name)
+
+
+def is_known_env_var(name: str) -> bool:
+    """Retourne True si la variable existe dans le catalogue."""
+    return name in ENV_VARS_BY_NAME
+
+
+def get_env_var_type(name: str) -> str | None:
+    """Retourne le type d'une variable connue."""
+    env_var = get_env_var(name)
+    return env_var["type"] if env_var else None
+
+
+def get_env_var_category(name: str) -> str | None:
+    """Retourne la catégorie d'une variable connue."""
+    env_var = get_env_var(name)
+    return env_var["category"] if env_var else None
+
+
+def get_env_var_i18n(name: str) -> str | None:
+    """Retourne la clé i18n d'une variable connue."""
+    env_var = get_env_var(name)
+    return env_var["i18n"] if env_var else None

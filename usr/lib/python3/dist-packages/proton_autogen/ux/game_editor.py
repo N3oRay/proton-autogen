@@ -5,6 +5,7 @@ import os
 gi.require_version("Gtk", "4.0")
 from gi.repository import Gtk, Gdk
 
+from proton_autogen.profiles.def_env import ENV_VARS_BY_NAME
 
 from proton_autogen.backend import save_game_config
 from proton_autogen.backend import find_all_protons
@@ -285,6 +286,25 @@ class GameEditor(Gtk.Window):
         self.env_buffer = Gtk.TextBuffer()
         self.env_buffer.set_text(env_text)
 
+        # ---------------------------------------------------------
+        # CUSTOM ENVIRONMENT VARIABLES - SYNTAX HIGHLIGHTING
+        # ---------------------------------------------------------
+
+        # Variable connue dans ENV_VARS
+        self.env_known_tag = self.env_buffer.create_tag(
+            "env-known",
+            foreground="#78A9FF",
+        )
+
+        self.env_buffer.connect(
+            "changed",
+            self._highlight_custom_env,
+        )
+
+        # Première coloration
+        self._highlight_custom_env(self.env_buffer)
+
+
         self.env_view = Gtk.TextView(buffer=self.env_buffer)
         self.env_view.add_css_class("editor-env-view")
         self.env_view.set_monospace(True)
@@ -346,6 +366,69 @@ class GameEditor(Gtk.Window):
     # -------------------------
     # CUSTOM ENV HELPERS
     # -------------------------
+    def _highlight_custom_env(self, buffer: Gtk.TextBuffer) -> None:
+        """
+        Colorie les noms de variables d'environnement connues.
+
+        Une variable présente dans ENV_VARS est affichée avec la couleur
+        env-known. Les variables inconnues utilisent env-unknown.
+        """
+        start = buffer.get_start_iter()
+        end = buffer.get_end_iter()
+
+        # Supprime les anciennes couleurs
+        buffer.remove_tag(
+            self.env_known_tag,
+            start,
+            end,
+        )
+
+        text = buffer.get_text(start, end, False)
+
+        offset = 0
+
+        for raw_line in text.splitlines(True):
+            line = raw_line.rstrip("\r\n")
+
+            if not line.strip() or line.lstrip().startswith("#"):
+                offset += len(raw_line)
+                continue
+
+            if "=" not in line:
+                offset += len(raw_line)
+                continue
+
+            key, _, _ = line.partition("=")
+            key = key.strip()
+
+            if not key:
+                offset += len(raw_line)
+                continue
+
+            # Position réelle du KEY dans le TextBuffer.
+            key_start_offset = offset + (
+                len(key) - len(key.lstrip())
+            )
+
+            key_end_offset = key_start_offset + len(key)
+
+            key_start = buffer.get_iter_at_offset(
+                key_start_offset
+            )
+            key_end = buffer.get_iter_at_offset(
+                key_end_offset
+            )
+
+            if key in ENV_VARS_BY_NAME:
+                buffer.apply_tag(
+                    self.env_known_tag,
+                    key_start,
+                    key_end,
+                )
+
+
+            offset += len(raw_line)
+
     def _existing_custom_env(self) -> dict:
         """Variables d'environnement déjà enregistrées pour ce jeu,
         hors clés réservées."""
