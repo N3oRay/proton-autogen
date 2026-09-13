@@ -8,7 +8,8 @@ import json
 import threading
 import time
 from collections import defaultdict
-
+from proton_autogen.i18n import tr
+from typing import Optional
 from pathlib import Path
 from proton_autogen import process_manager
 from proton_autogen.config import VERSION, CONFIG_FILE, CONFIG_DIR, PREFIX_DIR, PREFIX_DIR_PATH, load_proton_paths, load_prefix_dir
@@ -54,29 +55,17 @@ USER_PROFILE_DATA = None
 logger = StructuredLogger("proton-autogen.core")
 
 #-----------------------------------------------------------------------------------------------
-def print_help_env(lang="fr"):
+def print_help_env(lang: Optional[str] = None):
     groups = defaultdict(list)
 
     for var in ENV_VARS:
         groups[var.get("type", "unknown")].append(var)
 
-    desc_key = {
-        "fr": "description_fr",
-        "en": "description_en",
-        "de": "description_de",
-        "uk": "description_uk",
-        "zh": "description_zh",
-        "hi": "description_hi",
-        "es": "description_es",
-        "pt": "description_pt",
-    }.get(lang, "description_en")  # anglais par défaut
-
     for group, vars_ in sorted(groups.items()):
         print(f"\n[{group.upper()}]\n")
 
         for var in vars_:
-            desc = var.get(desc_key, "")
-            print(f"- {var['name']}: {desc}")
+            print(f"- {var['name']}: {tr(var['i18n'])}")
 #-----------------------------------------------------------------------------------------------
 
 def apply_user_profile(env, profile):
