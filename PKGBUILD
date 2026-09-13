@@ -1,3 +1,4 @@
+# Maintainer: N3oRay <n3oray77 at gmail dot com>
 pkgname=proton-autogen
 pkgver=3.3.7
 pkgrel=1
@@ -16,6 +17,17 @@ depends=(
     gtk4
     gdk-pixbuf2
     graphene
+)
+
+optdepends=(
+    'steam: Proton runtime'
+    'wine: Wine fallback'
+    'mangohud: Performance overlay'
+    'gamemode: Game optimization'
+    'gamescope: Micro-compositor'
+    'dolphin: Dolphin file manager integration'
+    'nemo: Nemo file manager integration'
+    'nautilus: Nautilus file manager integration'
 )
 
 makedepends=(
@@ -50,7 +62,7 @@ package() {
         usr/bin/proton-autogen \
         "$pkgdir/usr/bin/proton-autogen"
 
-    # Ressources
+    # Application resources
     install -dm755 \
         "$pkgdir/usr/share/proton-autogen"
 
@@ -77,6 +89,21 @@ package() {
     install -Dm644 \
         debian/proton-autogen.1.gz \
         "$pkgdir/usr/share/man/man1/proton-autogen.1.gz"
+
+    # Dolphin / KDE
+    install -Dm644 \
+        usr/share/kio/servicemenus/proton-autogen.desktop \
+        "$pkgdir/usr/share/kio/servicemenus/proton-autogen.desktop"
+
+    # Nemo
+    install -Dm644 \
+        usr/share/nemo/actions/proton-autogen.nemo_action \
+        "$pkgdir/usr/share/nemo/actions/proton-autogen.nemo_action"
+
+    # Nautilus
+    install -Dm644 \
+        usr/share/nautilus-python/extensions/proton_autogen_nautilus.py \
+        "$pkgdir/usr/share/nautilus-python/extensions/proton_autogen_nautilus.py"
 
     # Licence
     install -Dm644 \
