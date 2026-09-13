@@ -122,9 +122,10 @@ jobs:
           grep '^sha256sums=' PKGBUILD
 
           echo
-          echo "=== Actual downloaded checksum ==="
-          find /home/builder/.cache -type f -name 'v3.3.7.tar.gz' \
+          echo "=== Downloaded source checksums ==="
+          find /home/builder/.cache -type f -name '*.tar.gz' \
             -exec sha256sum {} \; 2>/dev/null || true
+
 
       - name: Regenerate .SRCINFO
         shell: bash
