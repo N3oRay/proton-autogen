@@ -108,7 +108,6 @@ Latest releases are available on GitHub:
 
 The recommended installation method is the official Proton-Autogen PPA:
 
-For Arch Linux and CachyOS, a native package is planned.
 Until then, the manual installer is available.
 
 ### Recommended installation (Ubuntu / Linux Mint / Pop!_OS)
