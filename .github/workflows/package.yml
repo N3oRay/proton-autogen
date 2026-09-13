@@ -274,6 +274,13 @@ jobs:
 
           pacman -Qip ./*.pkg.tar.zst
 
+      - name: Verify package content
+        run: |
+          echo "Checking package content..."
+
+          tar -tf ./*.pkg.tar.zst \
+            | grep 'proton_autogen'
+
       - name: Check package contents
         run: |
           pacman -Qlp ./*.pkg.tar.zst
@@ -284,6 +291,58 @@ jobs:
 
           pacman -Qlp ./*.pkg.tar.zst \
             | grep 'proton_autogen/ux/assets/'
+
+      - name: Install package
+        run: |
+          pacman -U --noconfirm ./*.pkg.tar.zst
+
+      - name: Test binary version
+        run: |
+          proton-autogen --version
+
+      - name: Test binary help
+        run: |
+          proton-autogen --help
+
+      - name: List package files
+        run: |
+          pacman -Ql proton-autogen
+
+      - name: Verify installed files
+        run: |
+          test -x /usr/bin/proton-autogen
+
+          ASSET_DIR=$(find /usr/lib -type d \
+            -path '*/site-packages/proton_autogen/ux/assets' \
+            -print -quit)
+
+          WIDGET_DIR=$(find /usr/lib -type d \
+            -path '*/site-packages/proton_autogen/ux/widgets' \
+            -print -quit)
+
+          test -n "$ASSET_DIR"
+          test -d "$ASSET_DIR"
+
+          test -n "$WIDGET_DIR"
+          test -d "$WIDGET_DIR"
+
+          echo "UX assets directory: $ASSET_DIR"
+          echo "UX widgets directory: $WIDGET_DIR"
+
+      - name: Uninstall package
+        run: |
+          pacman -Rns --noconfirm proton-autogen
+
+      - name: Verify uninstall
+        run: |
+          test ! -e /usr/bin/proton-autogen
+
+          if pacman -Q proton-autogen >/dev/null 2>&1; then
+            echo "ERROR: proton-autogen is still installed"
+            exit 1
+          fi
+
+          echo "Proton-Autogen successfully uninstalled"
 
       - name: Prepare Arch artifact
         run: |
