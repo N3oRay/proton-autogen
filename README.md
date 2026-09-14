@@ -99,10 +99,19 @@ Latest releases are available on GitHub:
 
 - Debian / Ubuntu: `.deb` package
 - Source installation: `install.sh`
-- Arch Linux / CachyOS: AUR (coming soon)
+- Arch Linux / CachyOS: AUR
 
 
 ## 📦 Installation & Updates
+
+###📦 **Arch Linux / CachyOS users:** Proton-Autogen is now available on the AUR.
+
+Install it with:
+
+ ```bash
+ paru -S proton-autogen
+ ```
+
 
 ### Ubuntu / Linux Mint / Pop!_OS (Recommended)
 
