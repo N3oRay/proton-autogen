@@ -25,8 +25,8 @@ pkgbase = proton-autogen
 	optdepends = gamescope: Micro-compositor
 	optdepends = dolphin: Dolphin file manager integration
 	optdepends = nemo: Nemo file manager integration
-	optdepends = nautilus: Nautilus file manager integration
-	source = https://github.com/N3oRay/proton-autogen/archive/refs/tags/v3.3.7.tar.gz
+	optdepends = nautilus-python: Nautilus file manager integration
+	source = proton-autogen-3.3.7.tar.gz::https://github.com/N3oRay/proton-autogen/archive/refs/tags/v3.3.7.tar.gz
 	sha256sums = cc104e0f0270ec7ea2c85bda130701798f3b0cd21ce30f81de8568034989492f
 
 pkgname = proton-autogen

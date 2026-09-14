@@ -27,7 +27,7 @@ optdepends=(
     'gamescope: Micro-compositor'
     'dolphin: Dolphin file manager integration'
     'nemo: Nemo file manager integration'
-    'nautilus: Nautilus file manager integration'
+    'nautilus-python: Nautilus file manager integration'
 )
 
 makedepends=(
