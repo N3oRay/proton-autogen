@@ -50,63 +50,68 @@ build() {
 }
 
 package() {
-    cd "$srcdir/$pkgname-$pkgver"
+cd "$srcdir/$pkgname-$pkgver"
 
-    # Installation du module Python
-    python -m installer \
-        --destdir="$pkgdir" \
-        dist/*.whl
 
-    # Lanceur
-    install -Dm755 \
-        usr/bin/proton-autogen \
-        "$pkgdir/usr/bin/proton-autogen"
+# Installation du package Python et de ses ressources
+python -m installer \
+    --destdir="$pkgdir" \
+    dist/*.whl
 
-    # Application resources
+# Lanceur
+install -Dm755 \
+    usr/bin/proton-autogen \
+    "$pkgdir/usr/bin/proton-autogen"
+
+# Ressources partagées
+if [[ -d usr/share/proton-autogen ]]; then
     install -dm755 \
         "$pkgdir/usr/share/proton-autogen"
 
-    # Ressources
     cp -a \
         usr/share/proton-autogen/. \
         "$pkgdir/usr/share/proton-autogen/"
+fi
 
-    # Desktop
-    install -Dm644 \
-        usr/share/applications/proton-autogen.desktop \
-        "$pkgdir/usr/share/applications/proton-autogen.desktop"
+# Desktop
+install -Dm644 \
+    usr/share/applications/proton-autogen.desktop \
+    "$pkgdir/usr/share/applications/proton-autogen.desktop"
 
-    # Icône
-    install -Dm644 \
-        usr/share/icons/hicolor/256x256/apps/proton-autogen.png \
-        "$pkgdir/usr/share/icons/hicolor/256x256/apps/proton-autogen.png"
+# Icône
+install -Dm644 \
+    usr/share/icons/hicolor/256x256/apps/proton-autogen.png \
+    "$pkgdir/usr/share/icons/hicolor/256x256/apps/proton-autogen.png"
 
-    install -Dm644 \
-        usr/share/icons/hicolor/256x256/apps/proton-autogen.png \
-        "$pkgdir/usr/share/icons/hicolor/256x256/apps/io.github.N3oRay.ProtonAutogen.png"
+install -Dm644 \
+    usr/share/icons/hicolor/256x256/apps/proton-autogen.png \
+    "$pkgdir/usr/share/icons/hicolor/256x256/apps/io.github.N3oRay.ProtonAutogen.png"
 
-    # Page de manuel
-    install -Dm644 \
-        debian/proton-autogen.1.gz \
-        "$pkgdir/usr/share/man/man1/proton-autogen.1.gz"
+# Page de manuel
+install -Dm644 \
+    debian/proton-autogen.1.gz \
+    "$pkgdir/usr/share/man/man1/proton-autogen.1.gz"
 
-    # Dolphin / KDE
-    install -Dm644 \
-        usr/share/kio/servicemenus/proton-autogen.desktop \
-        "$pkgdir/usr/share/kio/servicemenus/proton-autogen.desktop"
+# Dolphin / KDE
+install -Dm644 \
+    usr/share/kio/servicemenus/proton-autogen.desktop \
+    "$pkgdir/usr/share/kio/servicemenus/proton-autogen.desktop"
 
-    # Nemo
-    install -Dm644 \
-        usr/share/nemo/actions/proton-autogen.nemo_action \
-        "$pkgdir/usr/share/nemo/actions/proton-autogen.nemo_action"
+# Nemo
+install -Dm644 \
+    usr/share/nemo/actions/proton-autogen.nemo_action \
+    "$pkgdir/usr/share/nemo/actions/proton-autogen.nemo_action"
 
-    # Nautilus
-    install -Dm644 \
-        usr/share/nautilus-python/extensions/proton_autogen_nautilus.py \
-        "$pkgdir/usr/share/nautilus-python/extensions/proton_autogen_nautilus.py"
+# Nautilus
+install -Dm644 \
+    usr/share/nautilus-python/extensions/proton_autogen_nautilus.py \
+    "$pkgdir/usr/share/nautilus-python/extensions/proton_autogen_nautilus.py"
 
-    # Licence
-    install -Dm644 \
-        LICENSE \
-        "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+# Licence
+install -Dm644 \
+    LICENSE \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+
+
 }
+

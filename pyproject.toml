@@ -1,6 +1,6 @@
 [build-system]
 requires = [
-    "setuptools>=68",
+    "setuptools>=77",
     "wheel"
 ]
 build-backend = "setuptools.build_meta"
@@ -10,7 +10,7 @@ name = "proton-autogen"
 version = "3.3.7"
 description = "Automatic Proton/Wine launcher"
 readme = "README.md"
-license = { text = "MIT" }
+license = "MIT"
 requires-python = ">=3.10"
 authors = [
   { name = "N3oRay" }
@@ -28,6 +28,8 @@ markers = [
     "unit: unit tests",
 ]
 
+[tool.setuptools]
+include-package-data = false
 
 [tool.setuptools.package-dir]
 proton_autogen = "usr/lib/python3/dist-packages/proton_autogen"
@@ -39,9 +41,11 @@ namespaces = false
 
 [tool.setuptools.package-data]
 proton_autogen = [
-    "ux/assets/*.css",
-    "ux/assets/*.jpg",
-    "ux/assets/*.png",
-    "ux/assets/*.svg",
-    "ux/assets/svg/*.svg",
+"**/*.json",
+"**/*.csv",
+"**/*.css",
+"**/*.jpg",
+"**/*.png",
+"**/*.svg",
 ]
+
