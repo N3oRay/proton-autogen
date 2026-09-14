@@ -100,11 +100,6 @@ install -Dm644 \
     usr/share/nemo/actions/proton-autogen.nemo_action \
     "$pkgdir/usr/share/nemo/actions/proton-autogen.nemo_action"
 
-# Nautilus
-install -Dm644 \
-    usr/share/nautilus-python/extensions/proton_autogen_nautilus.py \
-    "$pkgdir/usr/share/nautilus-python/extensions/proton_autogen_nautilus.py"
-
 # Licence
 install -Dm644 \
     LICENSE \
