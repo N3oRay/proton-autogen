@@ -1,6 +1,7 @@
-proton-autogen (3.3.7) noble; urgency=medium
+proton-autogen (3.3.8) noble; urgency=medium
 
   * Thanks to all users and contributors for their continued support, feedback and bug reports.
+  * New status Loader UX
   * Add game import functionality to recover applications from Lutris and other supported sources.
   * Add system monitoring with CPU and memory usage information.
   * Improve application status reporting and runtime monitoring.
@@ -24,4 +25,4 @@ proton-autogen (3.3.7) noble; urgency=medium
   * Fix various UI, packaging and integration issues.
   * General UX improvements, configuration handling improvements and code cleanup.
 
- -- N3oray <n3oray77@gmail.com>  Thu, 11 Sep 2026 22:35:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Tue, 15 Sep 2026 10:53:00 +0200
