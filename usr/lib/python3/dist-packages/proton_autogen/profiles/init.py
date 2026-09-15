@@ -1,5 +1,6 @@
 #profile.py proton-autogen
 import os
+import json
 from pathlib import Path
 from proton_autogen.utils.logger import StructuredLogger
 from proton_autogen.session import finalize_session, notifications
@@ -108,6 +109,100 @@ def detect_exe_type(exe_path):
             return profile
 
     return detect_exe_type_legacy(exe_path)
+
+#---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+def detect_runtimeconfig(exe_path):
+    """
+    Cherche le fichier *.runtimeconfig.json associé à l'exécutable et en
+    extrait le framework cible (tfm, runtime, version) s'il existe.
+
+    Deux emplacements possibles selon la convention du SDK .NET :
+      - "MonApp.exe.runtimeconfig.json" (rare, mais tolère les cas où
+        l'extension .exe n'est pas retirée par l'outil de publication)
+      - "MonApp.runtimeconfig.json"     (convention standard du SDK .NET
+        Core/5+ : même nom de base que l'exécutable, extension remplacée)
+
+    La présence de ce fichier signale une application .NET moderne
+    (Core/5/6/7/8+), qui embarque son propre hôte CLR — à distinguer
+    d'une application .NET Framework classique, qui n'en génère jamais
+    et dépend du CLR installé côté système (cf. detect_dotnet_ui() et
+    proton_autogen.profiles.dotnet.ensure_dotnet48()).
+
+    Retourne None si aucun fichier trouvé ou illisible ; sinon un dict
+    {"tfm": ..., "runtime": ..., "version": ...} (valeurs éventuellement
+    None si absentes du JSON).
+    """
+
+    candidates = [
+        exe_path + ".runtimeconfig.json",
+        os.path.splitext(exe_path)[0] + ".runtimeconfig.json",
+    ]
+
+    for path in candidates:
+        if not os.path.exists(path):
+            continue
+
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+
+            options = data.get("runtimeOptions", {})
+
+            result = {
+                "tfm": options.get("tfm"),
+                "runtime": None,
+                "version": None,
+            }
+
+            framework = options.get("framework")
+
+            if framework:
+                result["runtime"] = framework.get("name")
+                result["version"] = framework.get("version")
+
+            logger.debug(
+                f"[detect_runtimeconfig] {os.path.basename(path)} -> "
+                f"tfm={result['tfm']} runtime={result['runtime']} "
+                f"version={result['version']}"
+            )
+
+            return result
+
+        except (OSError, json.JSONDecodeError) as e:
+            logger.debug(f"[detect_runtimeconfig] {path} illisible: {e}")
+
+    return None
+
+
+def detect_dotnet_ui(exe_dir):
+    """
+    Détecte la présence d'une UI .NET managée connue (WPF ou WinForms)
+    par les DLL caractéristiques livrées à côté de l'exécutable.
+
+    Un résultat non-None ("wpf"/"winforms") est un signal fort qu'il
+    s'agit d'une application desktop C# — par opposition à un jeu
+    Mono/Unity ou un outil CLI, qui n'embarquent ni l'un ni l'autre
+    (cf. les entrées "dotnet" vs "dotnet_csharp" de profiles.csv, où
+    ce critère sépare très proprement les deux catégories).
+
+    Retourne None si le dossier est illisible ou si aucune des deux
+    DLL n'est présente.
+    """
+
+    try:
+        files = os.listdir(exe_dir)
+    except OSError as e:
+        logger.debug(f"[detect_dotnet_ui] {exe_dir} illisible: {e}")
+        return None
+
+    if "PresentationFramework.dll" in files:
+        return "wpf"
+
+    if "System.Windows.Forms.dll" in files:
+        return "winforms"
+
+    return None
 
 #---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -331,6 +426,41 @@ def detect_exe_type_legacy(exe_path: str) -> str:
     ]
     if any(k in name for k in desktop_keywords):
         return "desktop"
+
+    # -----------------------------
+    # 8. DÉTECTION .NET INTELLIGENTE (fallback avant dx11)
+    # -----------------------------
+    # Aucun nom connu (ni profiles.csv, ni les mots-clés ci-dessus) :
+    # avant de router par défaut vers le profil DXVK "dx11" — qui ne
+    # conviendrait pas du tout à une application .NET — on regarde les
+    # artefacts réellement présents sur le disque à côté de l'exécutable.
+    #
+    # Ordre volontaire : la détection d'UI (WPF/WinForms) est vérifiée
+    # EN PREMIER car c'est le signal le plus décisif d'une application
+    # desktop C# (-> dotnet_csharp). Un .runtimeconfig.json seul, sans
+    # UI desktop connue, correspond typiquement à un jeu Mono/Unity ou
+    # un outil CLI .NET (-> dotnet) : cf. la répartition réelle dans
+    # profiles.csv, où ce critère sépare très proprement les deux
+    # catégories.
+    exe_dir = os.path.dirname(exe_path) or "."
+
+    dotnet_ui = detect_dotnet_ui(exe_dir)
+
+    if dotnet_ui is not None:
+        logger.debug(
+            f"[detect_exe_type_legacy] {name}: UI {dotnet_ui} détectée "
+            f"sans profil connu -> dotnet_csharp"
+        )
+        return "dotnet_csharp"
+
+    runtimeconfig = detect_runtimeconfig(exe_path)
+
+    if runtimeconfig is not None:
+        logger.debug(
+            f"[detect_exe_type_legacy] {name}: runtimeconfig.json "
+            f"détecté sans UI desktop connue -> dotnet"
+        )
+        return "dotnet"
 
     # -----------------------------
     # 4. DEFAULT = DX11 (safe fallback)
