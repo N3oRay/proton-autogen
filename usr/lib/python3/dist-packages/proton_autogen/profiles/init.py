@@ -5,6 +5,7 @@ from pathlib import Path
 from proton_autogen.utils.logger import StructuredLogger
 from proton_autogen.session import finalize_session, notifications
 from proton_autogen.data_paths import get_profiles_file
+from proton_autogen.profiles.capabilities import detect_capabilities
 
 
 import csv
@@ -428,12 +429,75 @@ def detect_exe_type_legacy(exe_path: str) -> str:
         return "desktop"
 
     # -----------------------------
-    # 8. DÉTECTION .NET INTELLIGENTE (fallback avant dx11)
+    # 8. DÉTECTION INTELLIGENTE PAR CAPACITÉS (fallback avant dx11)
     # -----------------------------
     # Aucun nom connu (ni profiles.csv, ni les mots-clés ci-dessus) :
     # avant de router par défaut vers le profil DXVK "dx11" — qui ne
-    # conviendrait pas du tout à une application .NET — on regarde les
-    # artefacts réellement présents sur le disque à côté de l'exécutable.
+    # conviendrait pas forcément à cet exécutable —, on analyse
+    # directement le PE (API graphique importée, DirectDraw,
+    # architecture) et le dossier (moteur, .NET) plutôt que de deviner
+    # à l'aveugle. Une seule analyse (detect_capabilities) alimente
+    # toutes les vérifications qui suivent.
+    exe_dir = os.path.dirname(exe_path) or "."
+    caps = detect_capabilities(exe_path)
+
+    if caps["anti_cheat"]:
+        # Pas de profil dédié — c'est une information, pas une
+        # décision de routage : le choix de Proton et certains réglages
+        # (ex. PROTON_USE_SECCOMP) peuvent en dépendre, mais ça reste
+        # à l'appréciation de l'utilisateur/d'une logique dédiée, pas de
+        # ce sélecteur de profil.
+        logger.info(
+            f"[detect_exe_type_legacy] {name}: anti-cheat détecté "
+            f"({caps['anti_cheat']}) — la compatibilité Proton peut en dépendre"
+        )
+        notifications.notify(
+            "warning", "proton-autogen",
+            f"{name}: anti-cheat {caps['anti_cheat'].upper()} détecté",
+            ui=True,
+        )
+
+    graphics = caps["graphics"]
+
+    # DirectDraw : cas particulier, combiné avec l'architecture ou D3D8
+    # comme demandé — DirectDraw+x86 est le signe d'un jeu vraiment
+    # ancien (-> oldgame), DirectDraw+D3D8 d'une transition D3D8/DDraw
+    # typique fin années 90 (-> dx8dg).
+    if caps["directdraw"]:
+        if graphics["dx8"]:
+            logger.debug(f"[detect_exe_type_legacy] {name}: DirectDraw + D3D8 -> dx8dg")
+            return "dx8dg"
+
+        if caps["architecture"] == "x86":
+            logger.debug(f"[detect_exe_type_legacy] {name}: DirectDraw + x86 -> oldgame")
+            return "oldgame"
+
+        logger.debug(f"[detect_exe_type_legacy] {name}: DirectDraw (sans D3D8 ni x86) -> legacy")
+        return "legacy"
+
+    if graphics["dx12"]:
+        logger.debug(f"[detect_exe_type_legacy] {name}: D3D12 importé -> dx12")
+        return "dx12"
+
+    if graphics["dx11"]:
+        logger.debug(f"[detect_exe_type_legacy] {name}: D3D11 importé -> dx11")
+        return "dx11"
+
+    if graphics["dx9"] or graphics["dx8"] or graphics["dx10"] or graphics["opengl"]:
+        logger.debug(
+            f"[detect_exe_type_legacy] {name}: API DX8/9/10/OpenGL importée -> dx9opengl"
+        )
+        return "dx9opengl"
+
+    if graphics["vulkan"]:
+        # Pas de profil Vulkan dédié : un jeu Vulkan natif n'a de toute
+        # façon pas besoin de traduction DXVK/VKD3D, le profil "dx12"
+        # (réglages modernes génériques) reste le repli le plus sûr.
+        logger.debug(f"[detect_exe_type_legacy] {name}: Vulkan natif -> dx12")
+        return "dx12"
+
+    # Aucune API graphique native détectée : peut-être une application
+    # managée (.NET) plutôt qu'un jeu — mêmes vérifications qu'avant.
     #
     # Ordre volontaire : la détection d'UI (WPF/WinForms) est vérifiée
     # EN PREMIER car c'est le signal le plus décisif d'une application
@@ -442,8 +506,6 @@ def detect_exe_type_legacy(exe_path: str) -> str:
     # un outil CLI .NET (-> dotnet) : cf. la répartition réelle dans
     # profiles.csv, où ce critère sépare très proprement les deux
     # catégories.
-    exe_dir = os.path.dirname(exe_path) or "."
-
     dotnet_ui = detect_dotnet_ui(exe_dir)
 
     if dotnet_ui is not None:
@@ -461,6 +523,18 @@ def detect_exe_type_legacy(exe_path: str) -> str:
             f"détecté sans UI desktop connue -> dotnet"
         )
         return "dotnet"
+
+    if caps["engine"]:
+        # Un jeu Unity/Unreal/Godot dont on n'a détecté ni API
+        # graphique par import PE (fréquent avec IL2CPP/des exécutables
+        # empaquetés qui résolvent leurs DLL dynamiquement plutôt que
+        # par import statique) ni signal .NET : on le journalise pour
+        # diagnostic, mais dx11 reste le repli le plus sûr en pratique
+        # pour ces moteurs sur Proton.
+        logger.debug(
+            f"[detect_exe_type_legacy] {name}: moteur {caps['engine']} détecté, "
+            f"sans API graphique ni .NET identifiable -> dx11 (repli sûr)"
+        )
 
     # -----------------------------
     # 4. DEFAULT = DX11 (safe fallback)
