@@ -97,6 +97,87 @@ def _strip_stderr_prefix(text: str) -> str:
     return text
 
 
+# ------------------------------------------------------------------------------------
+# NETTOYAGE COMPLET (pure, sans GTK) — réutilisable par tout appelant
+# ------------------------------------------------------------------------------------
+#
+# Extrait de StatusLabel._format_message()/_cap_lines() pour être
+# réutilisable ailleurs sans dépendre du widget StatusLabel lui-même.
+# Utilisé par StatusLabel.set_text() (barre de statut du bas) ET par
+# proton_autogen.ux.dialogs.update_launch_dialog_info() (popup de
+# lancement) : les deux affichent des messages issus des mêmes lignes
+# stdout/stderr de core.run_process(), donc les mêmes risques de codes
+# ANSI bruts et de préfixes "stderr:" s'appliquent aux deux — pas de
+# raison d'avoir deux implémentations qui pourraient diverger.
+
+def clean_message(text, level: str = "info"):
+    """
+    Nettoie un message de statut brut : suppression ANSI, normalisation
+    des fins de ligne, détection de niveau d'erreur, suppression du
+    préfixe "stderr:". Ne fait AUCUN plafonnement de lignes (cf.
+    cap_lines() séparément — les appelants n'ont pas tous la même
+    largeur/hauteur disponible).
+
+    Retourne (texte_nettoye_complet, niveau).
+    """
+
+    if text is None:
+        return "", level
+
+    text = str(text)
+
+    if not text.strip():
+        return "", level
+
+    # Supprime couleurs / séquences de contrôle AVANT toute autre
+    # étape : sinon les codes ANSI polluent la détection de motifs
+    # et le split par lignes. Une seule passe regex (voir strip_ansi).
+    text = strip_ansi(text)
+
+    # Normalisation des fins de lignes.
+    text = text.replace("\r\n", "\n")
+    text = text.replace("\r", "\n")
+
+    # Nettoyage des espaces en fin de ligne + suppression des lignes
+    # vides au début et à la fin.
+    lines = [line.rstrip() for line in text.splitlines()]
+
+    while lines and not lines[0]:
+        lines.pop(0)
+
+    while lines and not lines[-1]:
+        lines.pop()
+
+    text = "\n".join(lines)
+
+    # Détection d'erreur : un seul regex combiné (voir _ERROR_HINT_RE).
+    if level == "info" and _ERROR_HINT_RE.match(text):
+        level = "error"
+
+    # Suppression du préfixe "stderr:" : comparaison de chaîne, pas
+    # de regex (voir _strip_stderr_prefix).
+    text = _strip_stderr_prefix(text)
+
+    return text, level
+
+
+def cap_lines(text: str, max_lines: int = MAX_DISPLAY_LINES) -> str:
+    """Plafonne `text` à `max_lines` lignes ; ajoute une note indiquant
+    le nombre de lignes masquées. `max_lines` est paramétrable car tous
+    les appelants n'ont pas le même espace disponible (la popup de
+    lancement, plus petite et de hauteur fixe, en accepte beaucoup
+    moins que la barre de statut du bas)."""
+    lines = text.split("\n")
+
+    if len(lines) <= max_lines:
+        return text
+
+    hidden = len(lines) - max_lines
+    capped = lines[:max_lines]
+    capped.append(tr("status_more_lines").format(count=hidden))
+    return "\n".join(capped)
+
+
 class StatusEntry:
     """Un message de statut horodaté.
 
@@ -149,64 +230,16 @@ class StatusLabel(Gtk.Label):
     def _format_message(text, level: str):
         """
         Nettoie un message et détermine éventuellement son niveau.
-
-        Retourne :
-            (texte_nettoye_complet, niveau)
+        Délègue à clean_message() (fonction pure, module-level) —
+        conservé comme méthode ici uniquement pour compatibilité avec
+        le code existant qui appelle StatusLabel._format_message().
         """
-
-        if text is None:
-            return "", level
-
-        text = str(text)
-
-        if not text.strip():
-            return "", level
-
-        # Supprime couleurs / séquences de contrôle AVANT toute autre
-        # étape : sinon les codes ANSI polluent la détection de motifs
-        # et le split par lignes. Une seule passe regex (voir strip_ansi).
-        text = strip_ansi(text)
-
-        # Normalisation des fins de lignes.
-        text = text.replace("\r\n", "\n")
-        text = text.replace("\r", "\n")
-
-        # Nettoyage des espaces en fin de ligne + suppression des lignes
-        # vides au début et à la fin.
-        lines = [line.rstrip() for line in text.splitlines()]
-
-        while lines and not lines[0]:
-            lines.pop(0)
-
-        while lines and not lines[-1]:
-            lines.pop()
-
-        text = "\n".join(lines)
-
-        # Détection d'erreur : un seul regex combiné (voir _ERROR_HINT_RE).
-        if level == "info" and _ERROR_HINT_RE.match(text):
-            level = "error"
-
-        # Suppression du préfixe "stderr:" : comparaison de chaîne, pas
-        # de regex (voir _strip_stderr_prefix).
-        text = _strip_stderr_prefix(text)
-
-        return text, level
+        return clean_message(text, level)
 
     @staticmethod
     def _cap_lines(text: str, max_lines: int = MAX_DISPLAY_LINES) -> str:
-        """Plafonne le texte à max_lines lignes pour l'affichage dans
-        la barre elle-même ; ajoute une note indiquant qu'il faut ouvrir
-        l'historique pour voir la suite."""
-        lines = text.split("\n")
-
-        if len(lines) <= max_lines:
-            return text
-
-        hidden = len(lines) - max_lines
-        capped = lines[:max_lines]
-        capped.append(tr("status_more_lines").format(count=hidden))
-        return "\n".join(capped)
+        """Délègue à cap_lines() (fonction pure, module-level)."""
+        return cap_lines(text, max_lines)
 
     # ------------------------------------------------------------------
     # API Gtk.Label

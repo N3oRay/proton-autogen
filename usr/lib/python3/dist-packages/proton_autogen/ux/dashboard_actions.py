@@ -16,7 +16,9 @@ from proton_autogen.backend import run, fetch_protondb_info
 from proton_autogen import process_manager
 from proton_autogen.ux.game_editor import GameEditor
 from proton_autogen.ux.dialogs import show_launch_dialog, hide_launch_dialog
+from proton_autogen.ux.dialogs import update_launch_dialog_info
 from proton_autogen.ux.dialogs import open_game_file_dialog
+from proton_autogen.ux.launch_watcher import LaunchReadyWatcher
 from proton_autogen.editor import add_game_ux, rm_game_ux
 from proton_autogen.utils.logger import StructuredLogger
 
@@ -131,7 +133,18 @@ class DashboardActionsMixin:
         hide_launch_dialog(self)
         self.set_sensitive(True)
         self.status.set_text(tr("ready"))
-        return False  # le timer ne se répète pas
+        return False  # compatible avec un éventuel appel via GLib.timeout_add
+
+    def _stop_launch_watcher(self):
+        """Arrête et oublie le watcher de lancement courant, s'il existe.
+        Idempotent — appelable depuis _on_launch_ready/_on_launch_timeout
+        ET depuis le nettoyage de fin de worker() sans risque de double
+        arrêt (LaunchReadyWatcher.stop() est lui-même sans effet si déjà
+        stoppé)."""
+        watcher = getattr(self, "_launch_watcher", None)
+        if watcher is not None:
+            watcher.stop()
+            self._launch_watcher = None
 
     def launch_game(self, game):
         GLib.idle_add(self.spinner.start)
@@ -152,8 +165,30 @@ class DashboardActionsMixin:
         self.set_sensitive(False)
         show_launch_dialog(self, name)
 
-        # Ferme automatiquement après 3 secondes
-        GLib.timeout_add_seconds(3, self._close_launch_dialog)
+        # Ferme la popup dès qu'un vrai signal de démarrage est détecté
+        # (fenêtre mappée appartenant au process lancé, cf. launch_watcher.py)
+        # plutôt qu'après un délai fixe arbitraire. Un timeout de sécurité
+        # (LaunchReadyWatcher.max_wait_s) couvre le cas des applications
+        # sans fenêtre (installeurs, outils CLI) pour ne jamais bloquer
+        # indéfiniment.
+        def _on_launch_ready(elapsed):
+            logger.info(f"Launch ready for {name} after {elapsed:.1f}s")
+            self._stop_launch_watcher()
+            self._close_launch_dialog()
+
+        def _on_launch_timeout(elapsed):
+            logger.info(f"Launch watcher timed out for {name} after {elapsed:.1f}s")
+            self._stop_launch_watcher()
+            self._close_launch_dialog()
+
+        # Callbacks du watcher exécutés depuis GLib.timeout_add : déjà
+        # sur le thread principal GTK, pas besoin de idle_add ici.
+        self._launch_watcher = LaunchReadyWatcher(
+            game_id=game_id,
+            on_ready=_on_launch_ready,
+            on_timeout=_on_launch_timeout,
+        )
+        self._launch_watcher.start()
 
         # Le jeu devient "en cours" — lu par stop_running_game()
         # et par le binding du bouton Stop côté UI mixin.
@@ -168,7 +203,18 @@ class DashboardActionsMixin:
         GLib.idle_add(self._update_stop_button_state, True, name)
 
         def worker():
-            progress = Progress(callback=self.progress_callback)
+            def _progress_and_dialog(percent, message, is_spinner_tick=False):
+                # Comportement existant inchangé (barre de statut du bas).
+                self.progress_callback(percent, message, is_spinner_tick)
+                # Répercute en plus le même message, déjà calculé, sur la
+                # popup de lancement — remplace le texte statique
+                # "Please wait..." par un retour réel ("Launching Proton",
+                # "EXE architecture: 32bit"...). Sans effet si la popup a
+                # déjà été fermée (update_launch_dialog_info est un no-op
+                # silencieux dans ce cas).
+                GLib.idle_add(update_launch_dialog_info, self, message)
+
+            progress = Progress(callback=_progress_and_dialog)
 
             # Le jeu est maintenant en cours d'exécution
             GLib.idle_add(
@@ -217,6 +263,14 @@ class DashboardActionsMixin:
             finally:
                 GLib.idle_add(self.spinner.stop)
                 GLib.idle_add(self.spinner.set_visible, False)
+
+                # Filet de sécurité : si le process s'est terminé (crash
+                # immédiat, chemin invalide...) avant que le watcher n'ait
+                # eu l'occasion de détecter un état "prêt" ou d'atteindre
+                # son propre timeout, on ne doit pas le laisser tourner
+                # pour rien ni laisser la popup ouverte.
+                GLib.idle_add(self._stop_launch_watcher)
+                GLib.idle_add(self._close_launch_dialog)
 
                 if getattr(self, "_current_game_id", None) == game_id:
                     self._current_game_id = None

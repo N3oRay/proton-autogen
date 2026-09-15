@@ -3,6 +3,15 @@
 import gi
 gi.require_version("Gtk", "4.0")
 from gi.repository import Gtk, Gio, GLib
+
+from proton_autogen.ux.dashboard_status import clean_message, cap_lines
+
+# La popup de lancement est petite et de hauteur FIXE (resizable=False,
+# default_height=220) : impossible d'y laisser le même plafond que la
+# barre de statut du bas (MAX_DISPLAY_LINES=6 lignes dans
+# dashboard_status.py), sous peine de texte qui déborde du cadre.
+LAUNCH_DIALOG_MAX_LINES = 2
+
 # =========================================================
 # launch  - GAME
 # =========================================================
@@ -50,6 +59,11 @@ def show_launch_dialog(self, game_name):
     info = Gtk.Label(label="Please wait...")
     info.add_css_class("launch-info")
     info.set_halign(Gtk.Align.CENTER)
+    info.set_wrap(True)
+    info.set_justify(Gtk.Justification.CENTER)
+    # Évite qu'un message de progression un peu long ("stdout: ...")
+    # ne fasse exploser la largeur fixe (380px) de la popup.
+    info.set_max_width_chars(40)
 
     box.append(spinner)
     box.append(title)
@@ -59,7 +73,46 @@ def show_launch_dialog(self, game_name):
     dialog.set_child(box)
 
     self.launch_dialog = dialog
+    # Référence gardée pour update_launch_dialog_info() : permet à
+    # dashboard_actions.py d'afficher les messages réels déjà produits
+    # par Progress (core.run_process) au lieu du texte statique
+    # "Please wait...", sans changer la signature de cette fonction.
+    self.launch_dialog_info_label = info
     dialog.present()
+
+
+def update_launch_dialog_info(self, text: str):
+    """Met à jour le texte de la popup de lancement en cours, si elle
+    est encore affichée. Sans effet sinon (ex. popup déjà fermée entre
+    deux appels asynchrones) — pas d'exception à gérer côté appelant.
+
+    Le texte passe par le même nettoyage que la barre de statut du bas
+    (clean_message() dans dashboard_status.py) avant affichage :
+    suppression des codes ANSI bruts émis par wine/gamescope/vulkan
+    (ex. "^[[38;5;208m..."), retrait du préfixe "stderr:". Sans ce
+    nettoyage, les lignes de log brutes remontées par Progress
+    s'affichaient illisibles dans la popup — voir StatusLabel dans
+    dashboard_status.py, qui applique déjà ce nettoyage pour la barre
+    de statut, réutilisé ici plutôt que dupliqué.
+
+    Plafonné à LAUNCH_DIALOG_MAX_LINES lignes (popup petite, hauteur
+    fixe), contre MAX_DISPLAY_LINES pour la barre de statut du bas.
+
+    Prévu pour être appelé à fréquence modérée (throttlée en amont, cf.
+    MIN_PROGRESS_UPDATE_INTERVAL dans core.py) : chaque appel ne fait
+    qu'un set_text() sur un seul Gtk.Label, coût négligeable.
+    """
+
+    label = getattr(self, "launch_dialog_info_label", None)
+    if label is None:
+        return
+
+    full_text, _level = clean_message(text)
+    if not full_text:
+        return  # message vide après nettoyage (ex. ligne blanche) : on garde l'affichage précédent
+
+    display_text = cap_lines(full_text, max_lines=LAUNCH_DIALOG_MAX_LINES)
+    label.set_text(display_text)
 
 
 def hide_launch_dialog(self):
@@ -68,6 +121,7 @@ def hide_launch_dialog(self):
     if getattr(self, "launch_dialog", None):
         self.launch_dialog.close()
         self.launch_dialog = None
+        self.launch_dialog_info_label = None
 
 # =========================================================
 # FILE PICKER - ADD GAME

@@ -1218,3 +1218,18 @@ popover button:focus {
     border-bottom: 1px solid rgba(255,255,255,0.08);
     border: 1px solid rgba(255,255,255,0.18);
 }
+
+.launch-dialog spinner {
+    color: #ff8fc4;
+    opacity: 1;
+    filter: drop-shadow(0 0 6px rgba(255, 143, 196, 0.55));
+    animation:
+        spin 1s linear infinite,
+        pa-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes pa-pulse {
+    0%   { filter: drop-shadow(0 0 4px rgba(255, 143, 196, 0.35)); }
+    50%  { filter: drop-shadow(0 0 10px rgba(255, 143, 196, 0.75)); }
+    100% { filter: drop-shadow(0 0 4px rgba(255, 143, 196, 0.35)); }
+}
