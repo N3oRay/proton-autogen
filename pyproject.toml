@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "proton-autogen"
-version = "3.3.7"
+version = "3.3.8"
 description = "Automatic Proton/Wine launcher"
 readme = "README.md"
 license = "MIT"
@@ -20,7 +20,8 @@ dependencies = [
   "pygobject",
   "rich",
   "requests",
-  "psutil"
+  "psutil",
+  "python-xlib"
 ]
 
 [tool.pytest.ini_options]
@@ -48,4 +49,3 @@ proton_autogen = [
 "**/*.png",
 "**/*.svg",
 ]
-

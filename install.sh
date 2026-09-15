@@ -43,6 +43,7 @@ install_deps() {
                 python-rich \
                 python-requests \
                 python-psutil \
+                python-xlib \
                 gtk4 \
                 gdk-pixbuf2 \
                 graphene
@@ -57,6 +58,7 @@ install_deps() {
                 python3-rich \
                 python3-requests \
                 python3-psutil \
+                python3-xlib \
                 gir1.2-gtk-4.0 \
                 gir1.2-graphene-1.0 \
                 gir1.2-gdkpixbuf-2.0 \
@@ -72,6 +74,7 @@ install_deps() {
                 python3-rich \
                 python3-requests \
                 python3-psutil \
+                python3-xlib \
                 gtk4 \
                 graphene \
                 gdk-pixbuf2

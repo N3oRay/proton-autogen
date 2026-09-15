@@ -32,6 +32,7 @@ jobs:
             python3-rich \
             python3-requests \
             python3-psutil \
+            python3-xlib \
             gir1.2-gtk-4.0 \
             gir1.2-graphene-1.0 \
             gir1.2-gdkpixbuf-2.0 \

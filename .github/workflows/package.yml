@@ -115,6 +115,7 @@ jobs:
             python-rich \
             python-requests \
             python-psutil \
+            python-xlib \
             gtk4 \
             gdk-pixbuf2 \
             graphene
@@ -157,6 +158,7 @@ jobs:
               'python-rich'
               'python-requests'
               'python-psutil'
+              'python-xlib'
               'gtk4'
               'gdk-pixbuf2'
               'graphene'

@@ -32,6 +32,7 @@ jobs:
             python3-rich \
             python3-requests \
             python3-psutil \
+            python3-xlib \
             gir1.2-gtk-4.0 \
             gir1.2-glib-2.0 \
             gir1.2-graphene-1.0 \
@@ -81,6 +82,7 @@ jobs:
             python-rich \
             python-requests \
             python-psutil \
+            python-xlib \
             gtk4 \
             graphene \
             glib2 \
@@ -130,6 +132,7 @@ jobs:
             python3-rich \
             python3-requests \
             python3-psutil \
+            python3-xlib \
             pango \
             cairo \
             gtk4 \
