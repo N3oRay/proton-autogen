@@ -3,7 +3,7 @@
   <id>io.github.N3oRay.ProtonAutogen</id>
   <name>Proton Autogen</name>
   <summary>
-    Automatically generate optimized Proton launch options for Windows games.
+    Configure and launch Windows applications with Proton on Linux.
   </summary>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>MIT</project_license>
@@ -65,7 +65,7 @@
     </screenshot>
 
     <screenshot>
-      <caption>Game configuration</caption>
+      <caption>Configure a Proton game profile</caption>
       <image>https://raw.githubusercontent.com/N3oRay/proton-autogen/main/docs/screenshots/new2.jpg</image>
     </screenshot>
 
