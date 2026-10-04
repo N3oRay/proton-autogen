@@ -356,3 +356,11 @@ Ubuntu PPA
 <sub>
 Launchpad downloads represent PPA package downloads, not unique users.
 </sub>
+
+## ❤️ Support Proton-Autogen
+
+Proton-Autogen is free and open source. Your support helps me continue development, improve compatibility, and maintain the project.
+
+☕  [Support me on Ko-fi](https://ko-fi.com/n3oray)
+
+Thank you! ❤️
