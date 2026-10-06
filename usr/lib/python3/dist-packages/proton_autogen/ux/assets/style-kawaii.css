@@ -1,0 +1,1424 @@
+/* =========================================================
+   KAWAII CYBER  —  Proton Autogen
+   ---------------------------------------------------------
+   Variante de style-cyberpunk-pro.css
+   Palette   : issue du visuel logo-kawaii (noir rosé, néon rose
+               bonbon, pistes de circuit rose-or, bokeh rose)
+   Style     : formes très arrondies, badges en pilule, lueurs
+               roses douces, dégradés, transparences conservées
+   Polices   : interface  -> Poppins / Nunito / Quicksand
+               technique  -> JetBrains Mono / Fira Code
+   Règle     : chaque variable de couleur référencée est
+               définie ici (sinon GTK ignore tout le bloc).
+   ========================================================= */
+
+
+/* =========================================================
+   PALETTE
+   ========================================================= */
+
+/* Fonds (noir légèrement rosé) */
+@define-color kw_bg       #080305;
+@define-color kw_bg2      #10060b;
+@define-color kw_surface  #1a0b13;
+@define-color kw_surface2 #27111c;
+
+/* Pistes de circuit (rose-or) */
+@define-color kw_line      #b76d88;
+@define-color kw_line_soft rgba(234,150,176,0.28);
+@define-color kw_rosegold  #ea96b0;
+
+/* Accents roses (logo néon) */
+@define-color kw_accent       #ff7ac0;
+@define-color kw_accent_dark  #c23c80;
+@define-color kw_accent_light #ffabde;
+@define-color kw_accent_soft  #ffdcfe;
+
+/* Couleurs secondaires douces (badges, statuts) */
+@define-color kw_lilac   #c9a6ff;
+@define-color kw_violet  #a98bff;
+@define-color kw_peach   #ffb38a;
+@define-color kw_success #8fe3c0;
+@define-color kw_warning #ffc98a;
+@define-color kw_danger  #ff5370;
+
+/* Texte */
+@define-color kw_text      #ffe9f4;
+@define-color kw_text_dim  #c9a0b6;
+@define-color kw_text_dark #8a5f74;
+
+/* Noms hérités des autres thèmes */
+@define-color pa_fg    @kw_text;
+@define-color hk_text  @kw_text;
+@define-color hk_text2 #f2cfe0;
+@define-color pa_bg    rgba(12,5,9,0.88);
+@define-color pa_blue  @kw_lilac;
+@define-color pa_green @kw_success;
+
+@define-color kde-surface   @kw_surface;
+@define-color kde-blue      @kw_accent;
+@define-color kde-blue-dark @kw_accent_dark;
+@define-color kde-text      @kw_text;
+@define-color kde-border    @kw_line_soft;
+
+/* Alias requis par les règles de focus */
+@define-color accent @kw_accent;
+
+
+/* =========================================================
+   TYPOGRAPHIE
+   ========================================================= */
+
+* {
+    font-family: "Poppins", "Nunito", "Quicksand", "Noto Sans",
+                 "Cantarell", "Segoe UI", sans-serif;
+}
+
+/* Éléments techniques : chemins, journaux, saisie de code */
+textview,
+.dialog-content textview,
+.export-path,
+.status-history-entry,
+.save-backup-path,
+.save-location-path,
+.dim-label2,
+label.dim-label2,
+.carousel-counter,
+.shortcut-key,
+.fps-spinbutton text {
+    font-family: "JetBrains Mono", "Fira Code", "Source Code Pro",
+                 "DejaVu Sans Mono", monospace;
+}
+
+
+/* =========================================================
+   TEXTE
+   ========================================================= */
+
+label {
+    color: @hk_text2;
+}
+
+entry,
+text,
+textview {
+    color: @hk_text;
+}
+
+
+/* =========================================================
+   FENÊTRE
+   ========================================================= */
+
+window {
+    background: transparent;
+}
+
+window.background {
+    background:
+        linear-gradient(
+            180deg,
+            rgba(18,7,13,0.88),
+            rgba(8,3,5,0.94)
+        );
+    border: 1px solid @kw_line_soft;
+    border-radius: 14px;
+}
+
+
+/* =========================================================
+   CONTENEUR PRINCIPAL
+   ========================================================= */
+
+.style {
+    background:
+        linear-gradient(
+            180deg,
+            rgba(18,7,13,0.88),
+            rgba(8,3,5,0.94)
+        );
+    border-radius: 14px;
+}
+
+
+/* =========================================================
+   CONTENEURS GTK
+   ========================================================= */
+
+scrolledwindow,
+viewport,
+list,
+.game-list,
+.game-row {
+    background: transparent;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+headerbar {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(26,11,19,0.94),
+            rgba(60,18,42,0.84)
+        );
+    color: @kw_text;
+    border-bottom: 1px solid rgba(255,122,192,0.40);
+}
+
+.main-header {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(14,6,10,0.96),
+            rgba(52,16,38,0.90)
+        );
+    color: @kw_text;
+    border-bottom: 1px solid rgba(255,122,192,0.40);
+    box-shadow: 0 2px 14px rgba(255,122,192,0.14);
+}
+
+
+/* =========================================================
+   BOUTONS SYSTÈME GTK4
+   ========================================================= */
+
+windowcontrols button,
+.titlebar button,
+.titlebar .titlebutton {
+    background: transparent;
+    color: @kw_text;
+
+    min-width: 24px;
+    min-height: 24px;
+
+    border-radius: 12px;
+    opacity: 1;
+}
+
+windowcontrols image {
+    color: @kw_text;
+    opacity: 1;
+}
+
+windowcontrols button:hover,
+.titlebar button:hover,
+.titlebar .titlebutton:hover {
+    background: rgba(255,122,192,0.22);
+    color: @kw_accent_soft;
+}
+
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+.toast-container {
+    background: rgba(16,6,11,0.96);
+
+    border: 1px solid @kw_line_soft;
+    border-left: 4px solid @kw_accent;
+    border-radius: 12px;
+
+    padding: 10px 16px;
+
+    box-shadow:
+        0 8px 24px rgba(0,0,0,0.55),
+        0 0 14px rgba(255,122,192,0.18);
+}
+
+.toast-container:hover {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(39,17,28,0.96),
+            rgba(16,6,11,0.92)
+        );
+}
+
+.toast {
+    color: @kw_text;
+    font-size: 13px;
+}
+
+.toast.info {
+    border-left-color: @kw_lilac;
+}
+
+.toast.warning {
+    border-left-color: @kw_warning;
+}
+
+.toast.error {
+    border-left-color: @kw_danger;
+}
+
+
+/* =========================================================
+   BOUTONS APPLICATION
+   ========================================================= */
+
+/* Action principale : dégradé rose bonbon */
+button.suggested-action {
+    background:
+        linear-gradient(
+            180deg,
+            #e0559f,
+            #c23c80
+        );
+    color: #ffffff;
+    border: 1px solid rgba(255,171,222,0.55);
+    border-radius: 999px;
+    padding: 8px 18px;
+    font-weight: 600;
+    box-shadow:
+        0 2px 8px rgba(0,0,0,0.40),
+        0 0 12px rgba(255,122,192,0.30);
+    transition: background 150ms ease, box-shadow 150ms ease,
+                border-color 150ms ease;
+}
+
+button.suggested-action:hover {
+    background:
+        linear-gradient(
+            180deg,
+            #f06cb0,
+            #d24a90
+        );
+    border-color: rgba(255,220,254,0.80);
+    box-shadow:
+        0 2px 10px rgba(0,0,0,0.40),
+        0 0 20px rgba(255,122,192,0.55);
+}
+
+button.suggested-action:active {
+    background: #a8326c;
+}
+
+/* Action secondaire */
+button.alternative-action {
+    background: rgba(255,122,192,0.12);
+    color: @kw_accent_light;
+    border: 1px solid rgba(255,122,192,0.45);
+    border-radius: 999px;
+    padding: 8px 18px;
+    font-weight: 600;
+    transition: background 150ms ease, border-color 150ms ease,
+                box-shadow 150ms ease;
+}
+
+button.alternative-action:hover {
+    background: rgba(255,122,192,0.24);
+    border-color: rgba(255,171,222,0.75);
+    box-shadow: 0 0 14px rgba(255,122,192,0.35);
+}
+
+/* Action destructive */
+button.destructive-action {
+    background: #c93a52;
+    color: #ffffff;
+    border: 1px solid rgba(255,83,112,0.55);
+    border-radius: 999px;
+    padding: 8px 18px;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.40);
+    transition: background 150ms ease, box-shadow 150ms ease;
+}
+
+button.destructive-action:hover {
+    background: #de4a63;
+    box-shadow: 0 0 16px rgba(255,83,112,0.45);
+}
+
+.app-button {
+    background: rgba(255,122,192,0.08);
+    color: @kw_text;
+    border: 1px solid @kw_line_soft;
+    border-radius: 999px;
+    transition: background 150ms ease, border-color 150ms ease,
+                box-shadow 150ms ease;
+}
+
+.app-button:hover {
+    background: rgba(255,122,192,0.18);
+    border-color: rgba(255,171,222,0.60);
+    box-shadow: 0 0 12px rgba(255,122,192,0.30);
+}
+
+.status-box {
+    background: rgba(255,122,192,0.06);
+    border: 1px solid @kw_line_soft;
+    border-radius: 12px;
+}
+
+.section-toggle {
+    background: rgba(255,122,192,0.12);
+    color: @kw_text;
+    border: 1px solid rgba(255,122,192,0.32);
+    border-radius: 999px;
+    padding: 3px 10px;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.section-toggle:hover {
+    background: rgba(255,122,192,0.24);
+    border-color: rgba(255,171,222,0.65);
+    box-shadow: 0 0 10px rgba(255,122,192,0.30);
+}
+
+/* Boutons d'action des cartes (28x28, ronds) */
+.btn-launch,
+.btn-edit,
+.btn-export,
+.btn-install {
+    border-radius: 14px;
+    padding: 2px 6px;
+    min-width: 28px;
+    min-height: 28px;
+    font-size: 11px;
+    font-weight: 600;
+    transition: background 150ms ease, border-color 150ms ease,
+                box-shadow 150ms ease;
+}
+
+.btn-launch {
+    background: rgba(143,227,192,0.14);
+    color: @kw_success;
+    border: 1px solid rgba(143,227,192,0.45);
+}
+
+.btn-launch:hover {
+    background: @kw_success;
+    color: #072016;
+    box-shadow: 0 0 12px rgba(143,227,192,0.50);
+}
+
+.btn-edit {
+    background: rgba(201,166,255,0.14);
+    color: @kw_lilac;
+    border: 1px solid rgba(201,166,255,0.45);
+}
+
+.btn-edit:hover {
+    background: @kw_lilac;
+    color: #1a0f2e;
+    box-shadow: 0 0 12px rgba(201,166,255,0.50);
+}
+
+.btn-export {
+    background: rgba(255,122,192,0.14);
+    color: @kw_accent;
+    border: 1px solid rgba(255,122,192,0.45);
+}
+
+.btn-export:hover {
+    background: @kw_accent;
+    color: #2a0716;
+    box-shadow: 0 0 12px rgba(255,122,192,0.55);
+}
+
+.btn-install {
+    background: rgba(255,201,138,0.14);
+    color: @kw_warning;
+    border: 1px solid rgba(255,201,138,0.45);
+}
+
+.btn-install:hover {
+    background: @kw_warning;
+    color: #2a1a06;
+    box-shadow: 0 0 12px rgba(255,201,138,0.50);
+}
+
+/* ---------------------------------------------------------
+   TEXTE INTERNE DES BOUTONS
+   La règle globale "label { color }" cible le label enfant du
+   bouton et écrase le "color" du bouton : on le force ici.
+   --------------------------------------------------------- */
+
+button.suggested-action label,
+button.destructive-action label {
+    color: #ffffff;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.45);
+}
+
+button.alternative-action label {
+    color: @kw_accent_light;
+    font-weight: 600;
+}
+
+.btn-launch label {
+    color: @kw_success;
+}
+
+.btn-edit label {
+    color: @kw_lilac;
+}
+
+.btn-export label {
+    color: @kw_accent;
+}
+
+.btn-install label {
+    color: @kw_warning;
+}
+
+.btn-launch:hover label {
+    color: #072016;
+}
+
+.btn-edit:hover label {
+    color: #1a0f2e;
+}
+
+.btn-export:hover label {
+    color: #2a0716;
+}
+
+.btn-install:hover label {
+    color: #2a1a06;
+}
+
+.export-dialog {
+    background: @kw_bg2;
+}
+
+.export-title {
+    color: @kw_accent_light;
+    font-weight: 600;
+    font-size: 14px;
+    text-shadow: 0 0 8px rgba(255,122,192,0.45);
+}
+
+.export-path {
+    background: @kw_bg;
+    color: @kw_text;
+    padding: 8px;
+    border: 1px solid @kw_line_soft;
+    border-radius: 10px;
+}
+
+
+/* =========================================================
+   CARTES DE JEUX
+   ========================================================= */
+
+.game-container {
+    background:
+        linear-gradient(
+            180deg,
+            rgba(39,17,28,0.72),
+            rgba(20,8,14,0.66)
+        );
+
+    border: 1px solid rgba(234,150,176,0.18);
+    border-left: 4px solid @kw_accent;
+    border-radius: 14px;
+
+    padding: 10px 14px;
+
+    transition: background 180ms ease, border-color 180ms ease,
+                box-shadow 180ms ease;
+}
+
+.game-container:hover {
+    background:
+        linear-gradient(
+            180deg,
+            rgba(58,24,42,0.84),
+            rgba(26,10,18,0.76)
+        );
+
+    border-color: rgba(255,122,192,0.50);
+    border-left-color: @kw_accent_light;
+
+    box-shadow:
+        0 0 16px rgba(255,122,192,0.22),
+        inset 0 0 14px rgba(255,122,192,0.05);
+}
+
+.game-container:active {
+    background: rgba(14,6,10,0.92);
+}
+
+.game-row {
+    margin-bottom: 6px;
+}
+
+
+/* =========================================================
+   TEXTES
+   ========================================================= */
+
+checkbutton.feature-toggle label {
+    color: @kw_text;
+}
+
+checkbutton.feature-toggle:checked label {
+    color: @kw_accent_light;
+    font-weight: 600;
+    text-shadow: 0 0 6px rgba(255,122,192,0.45);
+}
+
+.title-1 {
+    color: @kw_accent_light;
+    font-size: 20px;
+    font-weight: 700;
+    text-shadow:
+        0 0 8px rgba(255,122,192,0.65),
+        0 0 18px rgba(255,122,192,0.30);
+}
+
+.title-4 {
+    color: @kw_accent_light;
+    font-size: 14px;
+    font-weight: 600;
+    text-shadow: 0 0 6px rgba(255,122,192,0.40);
+}
+
+.dim-label {
+    color: @kw_text_dim;
+    font-size: 14px;
+}
+
+.form-label {
+    color: @kw_text_dim;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.label-bottom {
+    color: @kw_text;
+    font-size: 16px;
+}
+
+.label-bottom label {
+    color: @kw_text;
+    font-size: 16px;
+}
+
+.game-container label {
+    color: @kw_text;
+    font-size: 16px;
+}
+
+.dim-label1,
+label.dim-label1 {
+    color: @kw_text_dim;
+    font-size: 12px;
+}
+
+.dim-label2,
+label.dim-label2 {
+    color: @kw_rosegold;
+    font-size: 10px;
+}
+
+label.home-label {
+    color: @kw_text_dim;
+    font-size: 14px;
+    padding: 4px 8px;
+    border-radius: 10px;
+    border: 1px solid rgba(234,150,176,0.16);
+}
+
+
+/* =========================================================
+   DIALOGUES
+   ========================================================= */
+
+.launch-dialog {
+    background: rgba(16,6,11,0.97);
+    border: 1px solid rgba(255,122,192,0.40);
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow:
+        0 12px 32px rgba(0,0,0,0.60),
+        0 0 22px rgba(255,122,192,0.20);
+}
+
+.launch-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: @kw_accent_light;
+    text-shadow:
+        0 0 8px rgba(255,122,192,0.65),
+        0 0 18px rgba(255,122,192,0.30);
+}
+
+.launch-game {
+    font-size: 16px;
+    font-weight: 600;
+    color: @kw_accent_soft;
+    text-shadow: 0 0 6px rgba(255,122,192,0.45);
+}
+
+.launch-info {
+    color: @kw_text_dim;
+}
+
+.dialog-content,
+.import-dialog {
+    background: rgba(16,6,11,0.97);
+    border: 1px solid rgba(255,122,192,0.35);
+    border-radius: 18px;
+    padding: 12px;
+    box-shadow:
+        0 10px 28px rgba(0,0,0,0.55),
+        0 0 16px rgba(255,122,192,0.14);
+}
+
+.dialog-content textview {
+    background: transparent;
+    color: @kw_text;
+}
+
+
+/* =========================================================
+   BADGES (pilules)
+   ========================================================= */
+
+.badge {
+    border-radius: 999px;
+    padding: 3px 10px;
+
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+
+    color: rgba(255,233,244,0.92);
+
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+
+    transition: background 150ms ease, border-color 150ms ease,
+                box-shadow 150ms ease;
+}
+
+.badge:hover {
+    background: rgba(255,255,255,0.11);
+    border-color: rgba(255,255,255,0.24);
+}
+
+.badge-protondb,
+.badge.profile {
+    background: rgba(201,166,255,0.16);
+    border-color: rgba(201,166,255,0.45);
+    color: #e6d6ff;
+}
+
+.badge.platform {
+    background: rgba(255,179,138,0.15);
+    border-color: rgba(255,179,138,0.45);
+    color: #ffd9c2;
+}
+
+.badge.feature {
+    background: rgba(143,227,192,0.14);
+    border-color: rgba(143,227,192,0.42);
+    color: #c9f5e2;
+}
+
+.badge.favorite {
+    background: rgba(255,122,192,0.22);
+    border-color: rgba(255,171,222,0.65);
+    color: @kw_accent_soft;
+    box-shadow: 0 0 10px rgba(255,122,192,0.35);
+}
+
+/* Niveaux de jeu */
+.badge.rookie {
+    background: rgba(201,166,255,0.16);
+    border-color: rgba(201,166,255,0.42);
+}
+
+.badge.casual {
+    background: rgba(255,201,138,0.15);
+    border-color: rgba(255,201,138,0.42);
+}
+
+.badge.gamer {
+    background: rgba(143,227,192,0.15);
+    border-color: rgba(143,227,192,0.42);
+}
+
+.badge.heavy {
+    background: rgba(255,179,138,0.18);
+    border-color: rgba(255,179,138,0.48);
+}
+
+.badge.addict {
+    background: rgba(255,83,112,0.20);
+    border-color: rgba(255,83,112,0.55);
+    box-shadow: 0 0 10px rgba(255,83,112,0.30);
+}
+
+.badge.night_owl {
+    background: rgba(169,139,255,0.20);
+    border-color: rgba(169,139,255,0.52);
+    box-shadow: 0 0 8px rgba(169,139,255,0.25);
+}
+
+.badge.veteran {
+    background: rgba(234,150,176,0.16);
+    border-color: rgba(234,150,176,0.45);
+}
+
+
+/* =========================================================
+   TEXTVIEW
+   ========================================================= */
+
+textview {
+    background: transparent;
+    color: @kw_text;
+}
+
+textview text {
+    background: transparent;
+    color: @kw_text;
+}
+
+textview text selection,
+entry selection {
+    background: rgba(255,122,192,0.38);
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   SCROLLBAR GTK4
+   ========================================================= */
+
+scrollbar {
+    background: transparent;
+}
+
+scrollbar slider {
+    background: rgba(255,122,192,0.42);
+
+    border-radius: 999px;
+
+    min-width: 6px;
+    min-height: 6px;
+
+    margin: 2px;
+}
+
+scrollbar.vertical slider {
+    min-width: 6px;
+}
+
+scrollbar.horizontal slider {
+    min-height: 6px;
+}
+
+scrollbar slider:hover {
+    background: @kw_accent_light;
+}
+
+
+/* =========================================================
+   JEUX RÉCENTS / CARROUSEL
+   ========================================================= */
+
+.recent-card {
+    padding: 1px 6px;
+    margin: 1px;
+    border-radius: 10px;
+    background-color: rgba(255,122,192,0.06);
+    border: 1px solid rgba(234,150,176,0.16);
+}
+
+.carousel-button {
+    min-width: 36px;
+    min-height: 36px;
+    padding: 0;
+    color: @kw_accent_light;
+    border-radius: 18px;
+    background: rgba(255,122,192,0.12);
+    border: 1px solid rgba(255,122,192,0.42);
+    box-shadow: 0 0 8px rgba(255,122,192,0.18);
+    transition: background 150ms ease, border-color 150ms ease,
+                box-shadow 150ms ease;
+}
+
+.carousel-button:hover {
+    background: rgba(255,122,192,0.26);
+    color: @kw_accent_soft;
+    border-color: @kw_accent_light;
+    box-shadow: 0 0 14px rgba(255,122,192,0.45);
+}
+
+.carousel-button:disabled {
+    opacity: 0.35;
+}
+
+.carousel-counter {
+    font-size: 0.85em;
+    opacity: 0.90;
+    color: @kw_rosegold;
+    margin-top: 4px;
+    margin-bottom: 2px;
+}
+
+.btn-delete {
+    min-width: 18px;
+    min-height: 18px;
+    padding: 0;
+    margin: 0;
+    color: @kw_danger;
+}
+
+.btn-delete:hover {
+    color: #ffffff;
+    background: rgba(255,83,112,0.38);
+}
+
+.btn-delete image {
+    -gtk-icon-size: 10px;
+}
+
+
+/* =========================================================
+   POPOVER / MENUS
+   ========================================================= */
+
+popover {
+    background: transparent;
+    color: @kw_text;
+}
+
+popover contents {
+    background: rgba(18,7,13,0.98);
+    border: 1px solid rgba(255,122,192,0.32);
+    border-radius: 14px;
+    box-shadow:
+        0 8px 24px rgba(0,0,0,0.55),
+        0 0 14px rgba(255,122,192,0.12);
+}
+
+popover menuitem,
+popover modelbutton {
+    color: @kw_text;
+}
+
+popover menuitem:hover,
+popover modelbutton:hover {
+    background: rgba(255,122,192,0.18);
+    color: @kw_accent_soft;
+}
+
+
+/* =========================================================
+   CHECKBUTTON
+   ========================================================= */
+
+checkbutton label {
+    color: @kde-text;
+}
+
+checkbutton check {
+    background: @kw_bg;
+    border: 1px solid rgba(255,122,192,0.50);
+    border-radius: 6px;
+}
+
+checkbutton check:hover {
+    border-color: @kw_accent_light;
+}
+
+checkbutton check:checked {
+    background: @kw_accent_dark;
+    border-color: @kw_accent_light;
+    box-shadow: 0 0 8px rgba(255,122,192,0.45);
+}
+
+checkbutton check:checked image {
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   LISTES DÉROULANTES
+   ========================================================= */
+
+combobox > button,
+dropdown > button {
+    background: rgba(255,122,192,0.08);
+    color: @kw_text;
+
+    border: 1px solid rgba(255,122,192,0.35);
+    border-radius: 999px;
+
+    padding: 6px 16px;
+
+    transition: background 150ms ease, border-color 150ms ease,
+                box-shadow 150ms ease;
+}
+
+combobox > button:hover,
+dropdown > button:hover {
+    background: rgba(255,122,192,0.18);
+    border-color: rgba(255,171,222,0.65);
+    box-shadow: 0 0 10px rgba(255,122,192,0.28);
+}
+
+combobox > button:active,
+dropdown > button:active {
+    background: rgba(255,122,192,0.26);
+}
+
+combobox > button:focus,
+dropdown > button:focus {
+    outline: 2px solid @accent;
+    outline-offset: 1px;
+}
+
+combobox label,
+dropdown label {
+    color: @kw_text;
+    font-weight: 500;
+    background: transparent;
+}
+
+
+/* =========================================================
+   ENTRÉES DE TEXTE / RECHERCHE
+   ========================================================= */
+
+entry,
+searchentry {
+    background: @kw_bg;
+    color: @kw_text;
+    caret-color: @kw_accent_light;
+
+    border: 1px solid rgba(255,122,192,0.35);
+    border-radius: 12px;
+
+    padding: 6px 12px;
+
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+entry text,
+searchentry text {
+    background: transparent;
+    color: @kw_text;
+}
+
+entry image,
+searchentry image {
+    color: @kw_accent_light;
+}
+
+entry placeholder,
+searchentry placeholder {
+    color: @kw_text_dark;
+}
+
+entry:hover,
+searchentry:hover {
+    border-color: rgba(255,171,222,0.60);
+}
+
+entry:focus,
+searchentry:focus {
+    border-color: @kw_accent;
+    box-shadow:
+        0 0 0 3px alpha(@accent, 0.20),
+        0 0 14px rgba(255,122,192,0.30);
+}
+
+entry:disabled,
+searchentry:disabled {
+    opacity: 0.5;
+}
+
+
+/* =========================================================
+   ICÔNE DE JEU
+   ========================================================= */
+
+.game-icon {
+    min-width: 48px;
+    min-height: 48px;
+
+    border-radius: 12px;
+
+    background: rgba(255,122,192,0.09);
+    border: 1px solid rgba(255,122,192,0.30);
+    box-shadow: 0 0 10px rgba(255,122,192,0.16);
+
+    padding: 2px;
+
+    transition: background 150ms ease, border-color 150ms ease,
+                box-shadow 150ms ease;
+}
+
+.game-icon:hover {
+    background: rgba(255,122,192,0.18);
+    border-color: @kw_accent_light;
+    box-shadow: 0 0 16px rgba(255,122,192,0.42);
+}
+
+.game-icon image,
+image.game-icon {
+    color: @kw_accent_light;
+    -gtk-icon-shadow: 0 0 6px rgba(255,122,192,0.65),
+                      0 0 14px rgba(255,122,192,0.30);
+}
+
+.game-icon:hover image,
+image.game-icon:hover {
+    color: @kw_accent_soft;
+    -gtk-icon-shadow: 0 0 8px rgba(255,171,222,0.80),
+                      0 0 18px rgba(255,122,192,0.45);
+}
+
+
+/* =========================================================
+   FPS LIMIT — SPINBUTTON
+   ========================================================= */
+
+.fps-spinbutton {
+    background-color: @kw_bg;
+    border: 1px solid rgba(255,122,192,0.35);
+    border-radius: 12px;
+}
+
+.fps-spinbutton text {
+    background-color: transparent;
+    color: @kw_accent_light;
+    caret-color: @kw_accent_light;
+}
+
+.fps-spinbutton text selection {
+    background-color: rgba(255,122,192,0.38);
+    color: #ffffff;
+}
+
+.fps-spinbutton button {
+    background-color: transparent;
+    color: @kw_accent_light;
+    border: none;
+    box-shadow: none;
+}
+
+.fps-spinbutton button:hover {
+    background-color: rgba(255,122,192,0.18);
+}
+
+.fps-spinbutton button:active {
+    background-color: rgba(255,122,192,0.28);
+}
+
+
+/* =========================================================
+   HISTORIQUE DE STATUT
+   ========================================================= */
+
+.status-history-panel {
+    padding: 8px;
+    border: 1px solid @kw_line_soft;
+    background:
+        linear-gradient(
+            180deg,
+            rgba(39,17,28,0.80),
+            rgba(20,8,14,0.72)
+        );
+    border-radius: 12px;
+}
+
+.status-history-entry {
+    font-size: 0.9em;
+}
+
+.status-history-error {
+    color: @kw_danger;
+}
+
+.status-history-success {
+    color: @kw_success;
+}
+
+
+/* =========================================================
+   GAME GRID
+   ========================================================= */
+
+.game-grid {
+    padding: 4px;
+    background-color: transparent;
+}
+
+.game-grid scrolledwindow {
+    background-color: transparent;
+}
+
+.game-grid-card {
+    min-width: 0;
+    min-height: 0;
+
+    margin: 2px;
+    padding: 4px;
+
+    border: 1px solid transparent;
+    border-radius: 14px;
+
+    transition: background 150ms ease, border-color 150ms ease,
+                box-shadow 150ms ease;
+}
+
+.game-grid-card:hover {
+    background-color: rgba(255,122,192,0.10);
+    border-color: rgba(255,122,192,0.42);
+    box-shadow: 0 0 12px rgba(255,122,192,0.20);
+}
+
+.game-grid-icon-holder {
+    min-width: 0;
+    min-height: 0;
+}
+
+.game-grid-icon {
+    border-radius: 12px;
+}
+
+.game-grid-title {
+    font-weight: 600;
+    font-size: 1em;
+    margin-left: 1px;
+    margin-right: 1px;
+}
+
+.game-grid-badges {
+    min-height: 8px;
+}
+
+
+/* =========================================================
+   GAME GRID — MENU CONTEXTUEL
+   ========================================================= */
+
+.game-grid-context-menu {
+    padding: 4px;
+    border-radius: 12px;
+}
+
+.game-grid-context-menu button {
+    min-height: 24px;
+    padding: 4px 10px;
+    border: none;
+    border-radius: 8px;
+    box-shadow: none;
+
+    color: @kw_text;
+    background: transparent;
+}
+
+.game-grid-context-menu button:hover {
+    background: rgba(255,122,192,0.18);
+    color: @kw_accent_soft;
+}
+
+.game-grid-context-menu button:active {
+    background: rgba(255,122,192,0.28);
+}
+
+.game-grid-context-menu .game-grid-menu-delete {
+    color: @kw_danger;
+}
+
+.game-grid-context-menu .game-grid-menu-delete:hover {
+    color: #ffffff;
+    background: rgba(255,83,112,0.32);
+}
+
+.game-grid-context-menu separator {
+    margin: 3px 2px;
+    min-height: 1px;
+    background: @kw_line_soft;
+}
+
+
+/* =========================================================
+   NAVIGATION CLAVIER / FOCUS
+   ========================================================= */
+
+.btn-delete:focus-visible,
+.btn-export:focus-visible,
+.btn-install:focus-visible,
+.btn-edit:focus-visible,
+.btn-launch:focus-visible,
+.badge-clickable:focus-visible {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+popover modelbutton:focus-visible,
+popover menuitem:focus-visible {
+    background: rgba(255,122,192,0.26);
+    color: #ffffff;
+    outline: 2px solid @accent;
+    outline-offset: -2px;
+}
+
+button:focus {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+.btn-delete:focus,
+.btn-export:focus,
+.btn-install:focus,
+.btn-edit:focus,
+.btn-launch:focus {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+.badge-clickable:focus {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+entry:focus,
+searchentry:focus {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+.game-list:focus {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+popover modelbutton:focus,
+popover menuitem:focus {
+    background: rgba(255,122,192,0.26);
+    color: #ffffff;
+
+    outline: 2px solid @accent;
+    outline-offset: -2px;
+}
+
+popover button:focus {
+    background: rgba(255,122,192,0.26);
+    color: #ffffff;
+
+    outline: 2px solid @accent;
+    outline-offset: 1px;
+}
+
+.game-grid-icon-holder:focus,
+.game-grid-icon-holder:focus-visible {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+.game-grid-context-menu button:focus,
+.game-grid-context-menu button:focus-visible {
+    outline: 2px solid @accent;
+    outline-offset: -2px;
+}
+
+
+/* =========================================================
+   FENÊTRE RACCOURCIS CLAVIER
+   ========================================================= */
+
+.shortcuts-window {
+    background: rgba(16,6,11,0.97);
+    border: 1px solid rgba(255,122,192,0.40);
+    border-radius: 18px;
+}
+
+.shortcuts-list {
+    background: transparent;
+}
+
+.shortcuts-list row {
+    background: transparent;
+    border-radius: 10px;
+}
+
+.shortcuts-list row:hover {
+    background: rgba(255,122,192,0.10);
+}
+
+.shortcuts-list row:focus,
+.shortcuts-list row:focus-visible {
+    outline: 2px solid @accent;
+    outline-offset: -2px;
+    border-radius: 10px;
+}
+
+.shortcut-key {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 8px;
+    background: @kw_bg;
+    border: 1px solid rgba(255,122,192,0.50);
+    color: @kw_accent_light;
+    box-shadow: 0 2px 0 rgba(255,122,192,0.20);
+}
+
+
+/* =========================================================
+   SAUVEGARDES
+   ========================================================= */
+
+.save-backup-path {
+    font-size: 0.75em;
+}
+
+.save-backup-dialog,
+.save-manager-dialog {
+    background: rgba(16,6,11,0.96);
+    padding: 2px 8px;
+    border-radius: 18px;
+    color: @kw_text;
+    border: 1px solid rgba(255,122,192,0.38);
+}
+
+.title-5,
+.save-history-list {
+    background: rgba(16,6,11,0.96);
+    padding: 2px 8px;
+    border-radius: 14px;
+    color: @kw_text;
+    border: 1px solid @kw_line_soft;
+}
+
+.save-location-path {
+    background: rgba(255,122,192,0.14);
+    padding: 2px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,122,192,0.38);
+}
+
+
+/* =========================================================
+   SPINNER DE LANCEMENT + PULSATION ROSE
+   ========================================================= */
+
+.launch-dialog spinner {
+    color: @kw_accent;
+    opacity: 1;
+    filter: drop-shadow(0 0 5px rgba(255,122,192,0.60));
+    animation:
+        spin 1s linear infinite,
+        kw-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes kw-pulse {
+    0%   { filter: drop-shadow(0 0 3px  rgba(255,122,192,0.35)); }
+    50%  { filter: drop-shadow(0 0 12px rgba(255,171,222,0.85)); }
+    100% { filter: drop-shadow(0 0 3px  rgba(255,122,192,0.35)); }
+}

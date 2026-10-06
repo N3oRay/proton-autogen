@@ -1,0 +1,1349 @@
+/* =========================================================
+   CYBERPUNK PRO  —  Proton Autogen
+   ---------------------------------------------------------
+   Variante professionnelle de style-cyberpunk.css
+   Palette   : issue du visuel logo-pro (noir indigo, circuits
+               bleu-violet, logo lavande)
+   Style     : transparences conservées, néon très atténué,
+               ombres douces, typographie moderne
+   Polices   : interface  -> Inter / Noto Sans / Cantarell
+               technique  -> JetBrains Mono / Fira Code
+   Règle     : chaque variable de couleur référencée est
+               définie ici (sinon GTK ignore tout le bloc).
+   ========================================================= */
+
+
+/* =========================================================
+   PALETTE
+   ========================================================= */
+
+/* Fonds (noir indigo du visuel) */
+@define-color pro_bg       #070415;
+@define-color pro_bg2      #0b0820;
+@define-color pro_surface  #100d2a;
+@define-color pro_surface2 #17143a;
+
+/* Lignes de circuit */
+@define-color pro_line      #36367c;
+@define-color pro_line_soft rgba(106,109,200,0.28);
+
+/* Accents (dégradé du logo : bleu-violet -> lavande) */
+@define-color pro_accent       #8a7cff;
+@define-color pro_accent_dark  #5b4fd6;
+@define-color pro_accent_light #b9a8ff;
+@define-color pro_accent_soft  #dfceff;
+@define-color pro_blue         #6a8dff;
+
+/* Statuts (désaturés, sobres) */
+@define-color pro_success #5fd3a0;
+@define-color pro_warning #e6b450;
+@define-color pro_danger  #ef6b82;
+@define-color pro_orange  #e8955a;
+
+/* Texte */
+@define-color pro_text      #e8e6fa;
+@define-color pro_text_dim  #9a96c8;
+@define-color pro_text_dark #62609a;
+
+/* Noms hérités des autres thèmes */
+@define-color pa_fg    @pro_text;
+@define-color hk_text  @pro_text;
+@define-color hk_text2 #c9c5ee;
+@define-color pa_bg    rgba(11,8,32,0.88);
+@define-color pa_blue  @pro_blue;
+@define-color pa_green @pro_success;
+
+@define-color kde-surface   @pro_surface;
+@define-color kde-blue      @pro_accent;
+@define-color kde-blue-dark @pro_accent_dark;
+@define-color kde-text      @pro_text;
+@define-color kde-border    @pro_line_soft;
+
+/* Alias requis par les règles de focus */
+@define-color accent @pro_accent;
+
+
+/* =========================================================
+   TYPOGRAPHIE
+   ========================================================= */
+
+* {
+    font-family: "Inter", "Noto Sans", "Cantarell", "Segoe UI",
+                 "Helvetica Neue", sans-serif;
+}
+
+/* Éléments techniques : chemins, journaux, saisie de code */
+textview,
+.dialog-content textview,
+.export-path,
+.status-history-entry,
+.save-backup-path,
+.save-location-path,
+.dim-label2,
+label.dim-label2,
+.carousel-counter,
+.shortcut-key,
+.fps-spinbutton text {
+    font-family: "JetBrains Mono", "Fira Code", "Source Code Pro",
+                 "DejaVu Sans Mono", monospace;
+}
+
+
+/* =========================================================
+   TEXTE
+   ========================================================= */
+
+label {
+    color: @hk_text2;
+}
+
+entry,
+text,
+textview {
+    color: @hk_text;
+}
+
+
+/* =========================================================
+   FENÊTRE
+   ========================================================= */
+
+window {
+    background: transparent;
+}
+
+window.background {
+    background:
+        linear-gradient(
+            180deg,
+            rgba(11,8,32,0.90),
+            rgba(7,4,21,0.94)
+        );
+    border: 1px solid @pro_line_soft;
+    border-radius: 10px;
+}
+
+
+/* =========================================================
+   CONTENEUR PRINCIPAL
+   ========================================================= */
+
+.style {
+    background:
+        linear-gradient(
+            180deg,
+            rgba(11,8,32,0.90),
+            rgba(7,4,21,0.94)
+        );
+    border-radius: 10px;
+}
+
+
+/* =========================================================
+   CONTENEURS GTK
+   ========================================================= */
+
+scrolledwindow,
+viewport,
+list,
+.game-list,
+.game-row {
+    background: transparent;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+headerbar {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(16,13,42,0.94),
+            rgba(26,14,52,0.86)
+        );
+    color: @pro_text;
+    border-bottom: 1px solid @pro_line_soft;
+}
+
+.main-header {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(9,6,26,0.96),
+            rgba(22,12,46,0.92)
+        );
+    color: @pro_text;
+    border-bottom: 1px solid @pro_line_soft;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.35);
+}
+
+
+/* =========================================================
+   BOUTONS SYSTÈME GTK4
+   ========================================================= */
+
+windowcontrols button,
+.titlebar button,
+.titlebar .titlebutton {
+    background: transparent;
+    color: @pro_text;
+
+    min-width: 24px;
+    min-height: 24px;
+
+    border-radius: 6px;
+    opacity: 1;
+}
+
+windowcontrols image {
+    color: @pro_text;
+    opacity: 1;
+}
+
+windowcontrols button:hover,
+.titlebar button:hover,
+.titlebar .titlebutton:hover {
+    background: rgba(138,124,255,0.18);
+    color: @pro_accent_soft;
+}
+
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+.toast-container {
+    background: rgba(11,8,32,0.96);
+
+    border: 1px solid @pro_line_soft;
+    border-left: 3px solid @pro_accent;
+    border-radius: 8px;
+
+    padding: 10px 14px;
+
+    box-shadow: 0 8px 24px rgba(0,0,0,0.55);
+}
+
+.toast-container:hover {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(23,20,58,0.96),
+            rgba(11,8,32,0.92)
+        );
+}
+
+.toast {
+    color: @pro_text;
+    font-size: 13px;
+}
+
+.toast.info {
+    border-left-color: @pro_blue;
+}
+
+.toast.warning {
+    border-left-color: @pro_warning;
+}
+
+.toast.error {
+    border-left-color: @pro_danger;
+}
+
+
+/* =========================================================
+   BOUTONS APPLICATION
+   ========================================================= */
+
+/* Action principale */
+button.suggested-action {
+    background: @pro_accent_dark;
+    color: #ffffff;
+    border: 1px solid rgba(185,168,255,0.35);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+    transition: background 150ms ease, box-shadow 150ms ease,
+                border-color 150ms ease;
+}
+
+button.suggested-action:hover {
+    background: #6c60e6;
+    border-color: rgba(185,168,255,0.60);
+    box-shadow: 0 2px 12px rgba(91,79,214,0.45);
+}
+
+button.suggested-action:active {
+    background: #4d42bd;
+}
+
+/* Action secondaire */
+button.alternative-action {
+    background: rgba(138,124,255,0.12);
+    color: @pro_accent_light;
+    border: 1px solid rgba(138,124,255,0.40);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-weight: 600;
+    transition: background 150ms ease, border-color 150ms ease;
+}
+
+button.alternative-action:hover {
+    background: rgba(138,124,255,0.22);
+    border-color: rgba(185,168,255,0.65);
+}
+
+/* Action destructive */
+button.destructive-action {
+    background: #b8435b;
+    color: #ffffff;
+    border: 1px solid rgba(239,107,130,0.45);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+    transition: background 150ms ease, box-shadow 150ms ease;
+}
+
+button.destructive-action:hover {
+    background: #cc5169;
+    box-shadow: 0 2px 12px rgba(184,67,91,0.45);
+}
+
+.app-button {
+    background: rgba(138,124,255,0.08);
+    color: @pro_text;
+    border: 1px solid @pro_line_soft;
+    border-radius: 8px;
+    transition: background 150ms ease, border-color 150ms ease;
+}
+
+.app-button:hover {
+    background: rgba(138,124,255,0.16);
+    border-color: rgba(185,168,255,0.50);
+}
+
+.status-box {
+    background: rgba(138,124,255,0.06);
+    border: 1px solid @pro_line_soft;
+    border-radius: 8px;
+}
+
+.section-toggle {
+    background: rgba(138,124,255,0.10);
+    color: @pro_text;
+    border: 1px solid rgba(138,124,255,0.28);
+    border-radius: 6px;
+    padding: 3px 8px;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.section-toggle:hover {
+    background: rgba(138,124,255,0.20);
+    border-color: rgba(185,168,255,0.55);
+}
+
+/* Boutons d'action des cartes (28x28) */
+.btn-launch,
+.btn-edit,
+.btn-export,
+.btn-install {
+    border-radius: 6px;
+    padding: 2px 6px;
+    min-width: 28px;
+    min-height: 28px;
+    font-size: 11px;
+    font-weight: 600;
+    transition: background 150ms ease, border-color 150ms ease;
+}
+
+.btn-launch {
+    background: rgba(95,211,160,0.12);
+    color: @pro_success;
+    border: 1px solid rgba(95,211,160,0.40);
+}
+
+.btn-launch:hover {
+    background: @pro_success;
+    color: #06140d;
+}
+
+.btn-edit {
+    background: rgba(106,141,255,0.12);
+    color: @pro_blue;
+    border: 1px solid rgba(106,141,255,0.40);
+}
+
+.btn-edit:hover {
+    background: @pro_blue;
+    color: #070b1f;
+}
+
+.btn-export {
+    background: rgba(138,124,255,0.12);
+    color: @pro_accent;
+    border: 1px solid rgba(138,124,255,0.40);
+}
+
+.btn-export:hover {
+    background: @pro_accent;
+    color: #0b0820;
+}
+
+.btn-install {
+    background: rgba(230,180,80,0.12);
+    color: @pro_warning;
+    border: 1px solid rgba(230,180,80,0.40);
+}
+
+.btn-install:hover {
+    background: @pro_warning;
+    color: #1a1204;
+}
+
+/* ---------------------------------------------------------
+   TEXTE INTERNE DES BOUTONS
+   La règle globale "label { color }" cible le label enfant du
+   bouton et écrase le "color" du bouton : on le force ici.
+   --------------------------------------------------------- */
+
+button.suggested-action label,
+button.destructive-action label {
+    color: #ffffff;
+    font-weight: 600;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.35);
+}
+
+button.alternative-action label {
+    color: @pro_accent_light;
+    font-weight: 600;
+}
+
+.btn-launch label {
+    color: @pro_success;
+}
+
+.btn-edit label {
+    color: @pro_blue;
+}
+
+.btn-export label {
+    color: @pro_accent;
+}
+
+.btn-install label {
+    color: @pro_warning;
+}
+
+.btn-launch:hover label {
+    color: #06140d;
+}
+
+.btn-edit:hover label {
+    color: #070b1f;
+}
+
+.btn-export:hover label {
+    color: #0b0820;
+}
+
+.btn-install:hover label {
+    color: #1a1204;
+}
+
+.export-dialog {
+    background: @pro_bg2;
+}
+
+.export-title {
+    color: @pro_accent_soft;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.export-path {
+    background: @pro_bg;
+    color: @pro_text;
+    padding: 8px;
+    border: 1px solid @pro_line_soft;
+    border-radius: 6px;
+}
+
+
+/* =========================================================
+   CARTES DE JEUX
+   ========================================================= */
+
+.game-container {
+    background:
+        linear-gradient(
+            180deg,
+            rgba(23,20,58,0.74),
+            rgba(13,10,34,0.68)
+        );
+
+    border: 1px solid rgba(106,109,200,0.18);
+    border-left: 3px solid @pro_accent;
+    border-radius: 10px;
+
+    padding: 10px 12px;
+
+    transition: background 180ms ease, border-color 180ms ease,
+                box-shadow 180ms ease;
+}
+
+.game-container:hover {
+    background:
+        linear-gradient(
+            180deg,
+            rgba(32,27,78,0.84),
+            rgba(17,13,42,0.76)
+        );
+
+    border-color: rgba(138,124,255,0.45);
+    border-left-color: @pro_accent_light;
+
+    box-shadow: 0 4px 16px rgba(0,0,0,0.40);
+}
+
+.game-container:active {
+    background: rgba(11,8,32,0.92);
+}
+
+.game-row {
+    margin-bottom: 6px;
+}
+
+
+/* =========================================================
+   TEXTES
+   ========================================================= */
+
+checkbutton.feature-toggle label {
+    color: @pro_text;
+}
+
+checkbutton.feature-toggle:checked label {
+    color: @pro_accent_light;
+    font-weight: 600;
+}
+
+.title-1 {
+    color: @pro_accent_soft;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.title-4 {
+    color: @pro_accent_light;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.dim-label {
+    color: @pro_text_dim;
+    font-size: 14px;
+}
+
+.form-label {
+    color: @pro_text_dim;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.label-bottom {
+    color: @pro_text;
+    font-size: 16px;
+}
+
+.label-bottom label {
+    color: @pro_text;
+    font-size: 16px;
+}
+
+.game-container label {
+    color: @pro_text;
+    font-size: 16px;
+}
+
+.dim-label1,
+label.dim-label1 {
+    color: @pro_text_dim;
+    font-size: 12px;
+}
+
+.dim-label2,
+label.dim-label2 {
+    color: @pro_blue;
+    font-size: 10px;
+}
+
+label.home-label {
+    color: @pro_text_dim;
+    font-size: 14px;
+    padding: 4px;
+    border-radius: 6px;
+    border: 1px solid rgba(106,109,200,0.14);
+}
+
+
+/* =========================================================
+   DIALOGUES
+   ========================================================= */
+
+.launch-dialog {
+    background: rgba(11,8,32,0.97);
+    border: 1px solid @pro_line_soft;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.60);
+}
+
+.launch-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: @pro_accent_soft;
+}
+
+.launch-game {
+    font-size: 16px;
+    font-weight: 600;
+    color: @pro_accent_light;
+}
+
+.launch-info {
+    color: @pro_text_dim;
+}
+
+.dialog-content,
+.import-dialog {
+    background: rgba(11,8,32,0.97);
+    border: 1px solid @pro_line_soft;
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.55);
+}
+
+.dialog-content textview {
+    background: transparent;
+    color: @pro_text;
+}
+
+
+/* =========================================================
+   BADGES
+   ========================================================= */
+
+.badge {
+    border-radius: 6px;
+    padding: 3px 8px;
+
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+
+    color: rgba(232,230,250,0.90);
+
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.10);
+
+    transition: background 150ms ease, border-color 150ms ease;
+}
+
+.badge:hover {
+    background: rgba(255,255,255,0.09);
+    border-color: rgba(255,255,255,0.20);
+}
+
+.badge-protondb,
+.badge.profile {
+    background: rgba(106,141,255,0.14);
+    border-color: rgba(106,141,255,0.38);
+    color: #c4d2ff;
+}
+
+.badge.platform {
+    background: rgba(230,180,80,0.12);
+    border-color: rgba(230,180,80,0.36);
+    color: #f2d9a0;
+}
+
+.badge.feature {
+    background: rgba(95,211,160,0.12);
+    border-color: rgba(95,211,160,0.36);
+    color: #b9ecd6;
+}
+
+.badge.favorite {
+    background: rgba(223,206,255,0.14);
+    border-color: rgba(223,206,255,0.42);
+    color: @pro_accent_soft;
+}
+
+/* Niveaux de jeu */
+.badge.rookie {
+    background: rgba(106,141,255,0.14);
+    border-color: rgba(106,141,255,0.36);
+}
+
+.badge.casual {
+    background: rgba(230,180,80,0.12);
+    border-color: rgba(230,180,80,0.34);
+}
+
+.badge.gamer {
+    background: rgba(95,211,160,0.12);
+    border-color: rgba(95,211,160,0.34);
+}
+
+.badge.heavy {
+    background: rgba(232,149,90,0.14);
+    border-color: rgba(232,149,90,0.38);
+}
+
+.badge.addict {
+    background: rgba(239,107,130,0.16);
+    border-color: rgba(239,107,130,0.42);
+}
+
+.badge.night_owl {
+    background: rgba(138,124,255,0.16);
+    border-color: rgba(138,124,255,0.42);
+}
+
+.badge.veteran {
+    background: rgba(185,168,255,0.12);
+    border-color: rgba(185,168,255,0.34);
+}
+
+
+/* =========================================================
+   TEXTVIEW
+   ========================================================= */
+
+textview {
+    background: transparent;
+    color: @pro_text;
+}
+
+textview text {
+    background: transparent;
+    color: @pro_text;
+}
+
+textview text selection,
+entry selection {
+    background: rgba(138,124,255,0.35);
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   SCROLLBAR GTK4
+   ========================================================= */
+
+scrollbar {
+    background: transparent;
+}
+
+scrollbar slider {
+    background: rgba(138,124,255,0.35);
+
+    border-radius: 4px;
+
+    min-width: 6px;
+    min-height: 6px;
+
+    margin: 2px;
+}
+
+scrollbar.vertical slider {
+    min-width: 6px;
+}
+
+scrollbar.horizontal slider {
+    min-height: 6px;
+}
+
+scrollbar slider:hover {
+    background: rgba(185,168,255,0.65);
+}
+
+
+/* =========================================================
+   JEUX RÉCENTS / CARROUSEL
+   ========================================================= */
+
+.recent-card {
+    padding: 1px 5px;
+    margin: 1px;
+    border-radius: 8px;
+    background-color: rgba(138,124,255,0.05);
+    border: 1px solid rgba(106,109,200,0.14);
+}
+
+.carousel-button {
+    min-width: 36px;
+    min-height: 36px;
+    padding: 0;
+    color: @pro_accent_light;
+    border-radius: 18px;
+    background: rgba(138,124,255,0.10);
+    border: 1px solid rgba(138,124,255,0.35);
+    transition: background 150ms ease, border-color 150ms ease;
+}
+
+.carousel-button:hover {
+    background: rgba(138,124,255,0.22);
+    color: @pro_accent_soft;
+    border-color: rgba(185,168,255,0.65);
+}
+
+.carousel-button:disabled {
+    opacity: 0.35;
+}
+
+.carousel-counter {
+    font-size: 0.85em;
+    opacity: 0.85;
+    color: @pro_text_dim;
+    margin-top: 4px;
+    margin-bottom: 2px;
+}
+
+.btn-delete {
+    min-width: 18px;
+    min-height: 18px;
+    padding: 0;
+    margin: 0;
+    color: @pro_danger;
+}
+
+.btn-delete:hover {
+    color: #ffffff;
+    background: rgba(239,107,130,0.35);
+}
+
+.btn-delete image {
+    -gtk-icon-size: 10px;
+}
+
+
+/* =========================================================
+   POPOVER / MENUS
+   ========================================================= */
+
+popover {
+    background: transparent;
+    color: @pro_text;
+}
+
+popover contents {
+    background: rgba(13,10,34,0.98);
+    border: 1px solid @pro_line_soft;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.55);
+}
+
+popover menuitem,
+popover modelbutton {
+    color: @pro_text;
+}
+
+popover menuitem:hover,
+popover modelbutton:hover {
+    background: rgba(138,124,255,0.16);
+    color: @pro_accent_soft;
+}
+
+
+/* =========================================================
+   CHECKBUTTON
+   ========================================================= */
+
+checkbutton label {
+    color: @kde-text;
+}
+
+checkbutton check {
+    background: @pro_bg;
+    border: 1px solid rgba(138,124,255,0.45);
+    border-radius: 4px;
+}
+
+checkbutton check:hover {
+    border-color: @pro_accent_light;
+}
+
+checkbutton check:checked {
+    background: @pro_accent_dark;
+    border-color: @pro_accent_light;
+}
+
+checkbutton check:checked image {
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   LISTES DÉROULANTES
+   ========================================================= */
+
+combobox > button,
+dropdown > button {
+    background: rgba(138,124,255,0.08);
+    color: @pro_text;
+
+    border: 1px solid rgba(138,124,255,0.32);
+    border-radius: 8px;
+
+    padding: 6px 12px;
+
+    transition: background 150ms ease, border-color 150ms ease;
+}
+
+combobox > button:hover,
+dropdown > button:hover {
+    background: rgba(138,124,255,0.16);
+    border-color: rgba(185,168,255,0.60);
+}
+
+combobox > button:active,
+dropdown > button:active {
+    background: rgba(138,124,255,0.24);
+}
+
+combobox > button:focus,
+dropdown > button:focus {
+    outline: 2px solid @accent;
+    outline-offset: 1px;
+}
+
+combobox label,
+dropdown label {
+    color: @pro_text;
+    font-weight: 500;
+    background: transparent;
+}
+
+
+/* =========================================================
+   ENTRÉES DE TEXTE / RECHERCHE
+   ========================================================= */
+
+entry,
+searchentry {
+    background: @pro_bg;
+    color: @pro_text;
+    caret-color: @pro_accent_light;
+
+    border: 1px solid rgba(138,124,255,0.30);
+    border-radius: 8px;
+
+    padding: 6px 10px;
+
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+entry text,
+searchentry text {
+    background: transparent;
+    color: @pro_text;
+}
+
+entry image,
+searchentry image {
+    color: @pro_accent_light;
+}
+
+entry placeholder,
+searchentry placeholder {
+    color: @pro_text_dark;
+}
+
+entry:hover,
+searchentry:hover {
+    border-color: rgba(138,124,255,0.55);
+}
+
+entry:focus,
+searchentry:focus {
+    border-color: @pro_accent;
+    box-shadow: 0 0 0 3px alpha(@accent, 0.18);
+}
+
+entry:disabled,
+searchentry:disabled {
+    opacity: 0.5;
+}
+
+
+/* =========================================================
+   ICÔNE DE JEU
+   ========================================================= */
+
+.game-icon {
+    min-width: 48px;
+    min-height: 48px;
+
+    border-radius: 8px;
+
+    background: rgba(138,124,255,0.08);
+    border: 1px solid rgba(138,124,255,0.24);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.30);
+
+    padding: 2px;
+
+    transition: background 150ms ease, border-color 150ms ease;
+}
+
+.game-icon:hover {
+    background: rgba(138,124,255,0.16);
+    border-color: rgba(185,168,255,0.55);
+}
+
+.game-icon image,
+image.game-icon {
+    color: @pro_accent_light;
+    -gtk-icon-shadow: 0 1px 3px rgba(0,0,0,0.55);
+}
+
+.game-icon:hover image,
+image.game-icon:hover {
+    color: @pro_accent_soft;
+    -gtk-icon-shadow: 0 0 5px rgba(138,124,255,0.45);
+}
+
+
+/* =========================================================
+   FPS LIMIT — SPINBUTTON
+   ========================================================= */
+
+.fps-spinbutton {
+    background-color: @pro_bg;
+    border: 1px solid rgba(138,124,255,0.30);
+    border-radius: 8px;
+}
+
+.fps-spinbutton text {
+    background-color: transparent;
+    color: @pro_accent_light;
+    caret-color: @pro_accent_light;
+}
+
+.fps-spinbutton text selection {
+    background-color: rgba(138,124,255,0.35);
+    color: #ffffff;
+}
+
+.fps-spinbutton button {
+    background-color: transparent;
+    color: @pro_accent_light;
+    border: none;
+    box-shadow: none;
+}
+
+.fps-spinbutton button:hover {
+    background-color: rgba(138,124,255,0.16);
+}
+
+.fps-spinbutton button:active {
+    background-color: rgba(138,124,255,0.26);
+}
+
+
+/* =========================================================
+   HISTORIQUE DE STATUT
+   ========================================================= */
+
+.status-history-panel {
+    padding: 6px;
+    border: 1px solid @pro_line_soft;
+    background:
+        linear-gradient(
+            180deg,
+            rgba(23,20,58,0.80),
+            rgba(13,10,34,0.72)
+        );
+    border-radius: 8px;
+}
+
+.status-history-entry {
+    font-size: 0.9em;
+}
+
+.status-history-error {
+    color: @pro_danger;
+}
+
+.status-history-success {
+    color: @pro_success;
+}
+
+
+/* =========================================================
+   GAME GRID
+   ========================================================= */
+
+.game-grid {
+    padding: 4px;
+    background-color: transparent;
+}
+
+.game-grid scrolledwindow {
+    background-color: transparent;
+}
+
+.game-grid-card {
+    min-width: 0;
+    min-height: 0;
+
+    margin: 2px;
+    padding: 4px;
+
+    border: 1px solid transparent;
+    border-radius: 10px;
+
+    transition: background 150ms ease, border-color 150ms ease;
+}
+
+.game-grid-card:hover {
+    background-color: rgba(138,124,255,0.08);
+    border-color: rgba(138,124,255,0.35);
+}
+
+.game-grid-icon-holder {
+    min-width: 0;
+    min-height: 0;
+}
+
+.game-grid-icon {
+    border-radius: 8px;
+}
+
+.game-grid-title {
+    font-weight: 600;
+    font-size: 1em;
+    margin-left: 1px;
+    margin-right: 1px;
+}
+
+.game-grid-badges {
+    min-height: 8px;
+}
+
+
+/* =========================================================
+   GAME GRID — MENU CONTEXTUEL
+   ========================================================= */
+
+.game-grid-context-menu {
+    padding: 3px;
+    border-radius: 8px;
+}
+
+.game-grid-context-menu button {
+    min-height: 24px;
+    padding: 4px 9px;
+    border: none;
+    box-shadow: none;
+
+    color: @pro_text;
+    background: transparent;
+}
+
+.game-grid-context-menu button:hover {
+    background: rgba(138,124,255,0.16);
+    color: @pro_accent_soft;
+}
+
+.game-grid-context-menu button:active {
+    background: rgba(138,124,255,0.26);
+}
+
+.game-grid-context-menu .game-grid-menu-delete {
+    color: @pro_danger;
+}
+
+.game-grid-context-menu .game-grid-menu-delete:hover {
+    color: #ffffff;
+    background: rgba(239,107,130,0.30);
+}
+
+.game-grid-context-menu separator {
+    margin: 3px 2px;
+    min-height: 1px;
+    background: @pro_line_soft;
+}
+
+
+/* =========================================================
+   NAVIGATION CLAVIER / FOCUS
+   ========================================================= */
+
+.btn-delete:focus-visible,
+.btn-export:focus-visible,
+.btn-install:focus-visible,
+.btn-edit:focus-visible,
+.btn-launch:focus-visible,
+.badge-clickable:focus-visible {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+popover modelbutton:focus-visible,
+popover menuitem:focus-visible {
+    background: rgba(138,124,255,0.22);
+    color: #ffffff;
+    outline: 2px solid @accent;
+    outline-offset: -2px;
+}
+
+button:focus {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+.btn-delete:focus,
+.btn-export:focus,
+.btn-install:focus,
+.btn-edit:focus,
+.btn-launch:focus {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+.badge-clickable:focus {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+entry:focus,
+searchentry:focus {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+.game-list:focus {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+popover modelbutton:focus,
+popover menuitem:focus {
+    background: rgba(138,124,255,0.22);
+    color: #ffffff;
+
+    outline: 2px solid @accent;
+    outline-offset: -2px;
+}
+
+popover button:focus {
+    background: rgba(138,124,255,0.22);
+    color: #ffffff;
+
+    outline: 2px solid @accent;
+    outline-offset: 1px;
+}
+
+.game-grid-icon-holder:focus,
+.game-grid-icon-holder:focus-visible {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+.game-grid-context-menu button:focus,
+.game-grid-context-menu button:focus-visible {
+    outline: 2px solid @accent;
+    outline-offset: -2px;
+}
+
+
+/* =========================================================
+   FENÊTRE RACCOURCIS CLAVIER
+   ========================================================= */
+
+.shortcuts-window {
+    background: rgba(11,8,32,0.97);
+    border: 1px solid @pro_line_soft;
+    border-radius: 12px;
+}
+
+.shortcuts-list {
+    background: transparent;
+}
+
+.shortcuts-list row {
+    background: transparent;
+    border-radius: 8px;
+}
+
+.shortcuts-list row:hover {
+    background: rgba(138,124,255,0.08);
+}
+
+.shortcuts-list row:focus,
+.shortcuts-list row:focus-visible {
+    outline: 2px solid @accent;
+    outline-offset: -2px;
+    border-radius: 8px;
+}
+
+.shortcut-key {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 5px;
+    background: @pro_bg;
+    border: 1px solid rgba(138,124,255,0.40);
+    color: @pro_accent_light;
+}
+
+
+/* =========================================================
+   SAUVEGARDES
+   ========================================================= */
+
+.save-backup-path {
+    font-size: 0.75em;
+}
+
+.save-backup-dialog,
+.save-manager-dialog {
+    background: rgba(11,8,32,0.96);
+    padding: 2px 8px;
+    border-radius: 12px;
+    color: @pro_text;
+    border: 1px solid @pro_line_soft;
+}
+
+.title-5,
+.save-history-list {
+    background: rgba(11,8,32,0.96);
+    padding: 2px 8px;
+    border-radius: 10px;
+    color: @pro_text;
+    border: 1px solid @pro_line_soft;
+}
+
+.save-location-path {
+    background: rgba(138,124,255,0.14);
+    padding: 2px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(138,124,255,0.34);
+}
+
+
+/* =========================================================
+   SPINNER DE LANCEMENT (sobre, sans pulsation)
+   ========================================================= */
+
+.launch-dialog spinner {
+    color: @pro_accent;
+    opacity: 1;
+    animation: spin 1s linear infinite;
+}
