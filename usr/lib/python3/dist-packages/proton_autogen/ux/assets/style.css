@@ -11,6 +11,9 @@
 @define-color kde-text      #232629;
 @define-color kde-text2     #5b6573;
 
+@define-color neon_cyan      #00f0ff;
+@define-color neon_cyan_dark #00b8c4;
+
 @define-color kde-surface2 #1e1e1e;
 @define-color kde-dark-text #eeeeee;
 
@@ -895,7 +898,22 @@ searchentry:disabled {
     opacity: 0.5;
 }
 
-/* GAME ICON */
+/* GAME ICON - 0,240, 255 */
+.game-icon image,
+image.game-icon {
+    /*color: @neon_cyan_dark;*/
+    -gtk-icon-shadow: 0 0 6px rgba(0, 130, 0,0.80),
+                      0 0 14px rgba(0, 240, 0,0.40);
+}
+
+.game-icon:hover image,
+image.game-icon:hover {
+    /*color: @neon_cyan;*/
+    -gtk-icon-shadow: 0 0 6px rgba(0,184,196,0.85),
+                      0 0 16px rgba(0,184,196,0.45);
+}
+
+
 .game-icon {
     min-width:64px;
     min-height:64px;

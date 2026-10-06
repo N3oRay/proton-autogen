@@ -844,6 +844,19 @@ dropdown label {
 
 
 /* GAME ICON */
+.game-icon image,
+image.game-icon {
+    -gtk-icon-shadow: 0 0 6px rgba(255,43,214,0.80),
+                      0 0 20px rgba(255,43,214,0.40);
+}
+
+.game-icon:hover image,
+image.game-icon:hover {
+    -gtk-icon-shadow: 0 0 16px rgba(255,43,214,0.85),
+                      0 0 20px rgba(255,43,214,0.45);
+}
+
+
 .game-icon {
     min-width:48px;
     min-height:48px;
