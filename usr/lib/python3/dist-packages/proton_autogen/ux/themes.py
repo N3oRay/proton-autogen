@@ -31,7 +31,7 @@ def _migrate_legacy_config():
 _migrate_legacy_config()
 
 DEFAULT_THEME = "fluent"
-AVAILABLE_THEMES = ["fluent", "gta", "adwaita", "hellokit", "cute", "dark", "sky", "Breeze", "ironman", "ironpro", "cyberpunk", "cyberpunk2", "cyberpunk3", "ironwood"]
+AVAILABLE_THEMES = ["fluent", "gta", "adwaita", "pro", "hellokit", "cute", "dark", "sky", "Breeze", "ironman", "ironpro", "cyberpunk", "cyberpunk2", "cyberpunk3", "ironwood"]
 
 # Taille par défaut de la fenêtre principale au tout premier lancement
 # (avant toute sauvegarde), ou quand remember_window_size = false.
@@ -93,6 +93,7 @@ BACKGROUND_THEMES = {
             "fluent": "logo-pa.jpg",
             "gta": "logo-gta.jpg",
             "adwaita": "logo-adwaita.jpg",
+            "pro": "logo-pro.jpg",
             "hellokit": "logo-hellokit.jpg",
             "cute": "logo-cute.jpg",
             "dark": "logo-dark.jpg",
@@ -112,6 +113,7 @@ STYLE_CSS = {
             "fluent": os.path.join(base, "assets", "style.css"),
             "gta": os.path.join(base, "assets", "style.css"),
             "adwaita": os.path.join(base, "assets", "style_adwaita.css"),
+            "pro": os.path.join(base, "assets", "style-dark.css"),
             "hellokit": os.path.join(base, "assets", "hello-kit.css"),
             "cute": os.path.join(base, "assets", "style-cute.css"),
             "dark": os.path.join(base, "assets", "style-dark.css"),
