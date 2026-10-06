@@ -359,7 +359,83 @@ jobs:
           path: dist/*.pkg.tar.zst
 
 
-# ============================================================
+  # ============================================================
+  # RPM packages (Fedora/RHEL)
+  # ============================================================
+
+  build-rpm:
+    name: Build RPM package
+
+    runs-on: ubuntu-latest
+
+    if: startsWith(github.ref, 'refs/tags/v')
+
+    container:
+      image: fedora:latest
+
+    steps:
+
+      - name: Install dependencies
+        run: |
+          dnf install -y \
+            @development-tools \
+            python3-devel \
+            python3-setuptools \
+            python3-build \
+            python3-installer \
+            python3-wheel \
+            python3-gobject \
+            gobject-introspection-devel \
+            gtk4-devel \
+            python3-pyyaml \
+            python3-rich \
+            python3-requests \
+            python3-psutil \
+            python3-xlib \
+            git \
+            rpm-build
+
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build RPM
+        run: |
+          rpmbuild \
+            -ba proton-autogen.spec \
+            --define "_sourcedir $(pwd)" \
+            --define "_specdir $(pwd)" \
+            --define "_builddir /tmp/rpmbuild/BUILD" \
+            --define "_rpmdir /tmp/rpmbuild/RPMS" \
+            --define "_srcrpmdir /tmp/rpmbuild/SRPMS"
+
+      - name: List generated RPMs
+        run: |
+          ls -lh /tmp/rpmbuild/RPMS/noarch/*.rpm
+
+      - name: Install generated RPM
+        run: |
+          dnf install -y /tmp/rpmbuild/RPMS/noarch/*.rpm
+
+      - name: Verify installation
+        run: |
+          proton-autogen --help
+          proton-autogen --version
+
+      - name: Prepare artifact
+        run: |
+          mkdir -p artifacts
+          cp /tmp/rpmbuild/RPMS/noarch/*.rpm artifacts/
+
+      - name: Upload RPM artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: proton-autogen-rpm
+          path: artifacts/*.rpm
+
+
+  # ============================================================
   # Flatpak
   # ============================================================
 
@@ -422,6 +498,7 @@ jobs:
     needs:
       - build-deb
       - build-arch
+      - build-rpm
       - build-flatpak
 
     if: startsWith(github.ref, 'refs/tags/v')
@@ -430,11 +507,18 @@ jobs:
 
     steps:
 
-      - name: Download Ubuntu 24.04 Debian package
+      - name: Download Debian packages
         uses: actions/download-artifact@v4
         with:
-          name: proton-autogen-ubuntu-24.04-deb
+          pattern: proton-autogen-*-deb
+          merge-multiple: true
           path: release/deb
+
+      - name: Download RPM package
+        uses: actions/download-artifact@v4
+        with:
+          name: proton-autogen-rpm
+          path: release/rpm
 
       - name: Download Arch package
         uses: actions/download-artifact@v4
@@ -458,5 +542,6 @@ jobs:
         with:
           files: |
             release/deb/*.deb
+            release/rpm/*.rpm
             release/arch/*.pkg.tar.zst
             release/flatpak/*.flatpak
