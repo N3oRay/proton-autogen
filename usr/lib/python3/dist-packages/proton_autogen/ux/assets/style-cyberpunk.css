@@ -1006,19 +1006,6 @@ image.game-icon:hover {
                       0 0 16px rgba(255,43,214,0.45);
 }
 
-/* Lueur néon, couleurs d'origine conservées */
-.game-icon image {
-    filter: saturate(1.5) brightness(1.1) contrast(1.1)
-            drop-shadow(0 0 5px rgba(0,240,255,0.80));
-}
-
-/* Teinte monochrome cyan (valeurs à ajuster à l'œil) */
-.game-icon image {
-    filter: grayscale(1) sepia(1) hue-rotate(130deg) saturate(6)
-            brightness(1.1)
-            drop-shadow(0 0 5px rgba(0,240,255,0.80));
-}
-
 .game-icon {
     min-width: 48px;
     min-height: 48px;
