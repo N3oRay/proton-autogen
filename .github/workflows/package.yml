@@ -410,20 +410,31 @@ jobs:
       - name: Create source tarball
         run: |
           VERSION="${{ steps.version.outputs.VERSION }}"
+          SRC_DIR="/tmp/build/proton-autogen-${VERSION}"
 
-          # Create a clean directory structure for the tarball
-          mkdir -p "/tmp/rpmbuild/SOURCES"
-          tar --exclude=.git --exclude=.github -czf "/tmp/rpmbuild/SOURCES/proton-autogen-${VERSION}.tar.gz" .
+          mkdir -p /tmp/build
+          rm -rf "$SRC_DIR"
+          mkdir -p "$SRC_DIR"
 
+          rsync -a --delete \
+            --exclude='.git' \
+            --exclude='.github' \
+            ./ "$SRC_DIR"/
+
+          mkdir -p /tmp/rpmbuild/SOURCES
+          tar -C /tmp/build -czf "/tmp/rpmbuild/SOURCES/proton-autogen-${VERSION}.tar.gz" \
+            "proton-autogen-${VERSION}"
+
+          echo "Created source tarball:"
           ls -lh "/tmp/rpmbuild/SOURCES/proton-autogen-${VERSION}.tar.gz"
+
+          echo "Tarball structure:"
+          tar -tzf "/tmp/rpmbuild/SOURCES/proton-autogen-${VERSION}.tar.gz" | head -20
 
       - name: Build RPM
         run: |
-          VERSION="${{ steps.version.outputs.VERSION }}"
-
           rpmbuild \
             -ba proton-autogen.spec \
-            --define "version ${VERSION}" \
             --define "_sourcedir /tmp/rpmbuild/SOURCES" \
             --define "_specdir $(pwd)" \
             --define "_builddir /tmp/rpmbuild/BUILD" \
