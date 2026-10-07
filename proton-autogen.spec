@@ -1,7 +1,7 @@
 %define __python /usr/bin/python3
 
 Name:           proton-autogen
-Version:        3.3.8
+Version:        3.3.9
 Release:        1%{?dist}
 Summary:        Automatic Proton/Wine launcher for Windows executables
 
@@ -41,11 +41,11 @@ Recommends:     dolphin
 BuildArch:      noarch
 
 %description
-Proton-Autogen automatically creates and configures Proton environments 
-for Windows games and applications, applying optimized settings for 
+Proton-Autogen automatically creates and configures Proton environments
+for Windows games and applications, applying optimized settings for
 the best compatibility.
 
-Simply right-click a .exe file, select "Open with Proton-Autogen", 
+Simply right-click a .exe file, select "Open with Proton-Autogen",
 and launch the application without manual Steam configuration.
 
 %prep
@@ -120,4 +120,3 @@ install -Dm644 LICENSE \
 %changelog
 * %{nil}
 - See GitHub releases for changelog: %{url}/releases
-
