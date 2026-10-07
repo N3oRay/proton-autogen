@@ -82,7 +82,7 @@ if [ -f debian/%{name}.1.gz ]; then
         "%{buildroot}%{_mandir}/man1/%{name}.1.gz"
 fi
 
-# Install Nautilus/Nemo integration
+# Install Nautilus and Nemo integration
 install -Dm644 usr/share/nautilus-python/extensions/proton_autogen_nautilus.py \
     "%{buildroot}%{_datadir}/nautilus-python/extensions/proton_autogen_nautilus.py" || true
 
