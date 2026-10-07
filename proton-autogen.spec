@@ -83,8 +83,8 @@ if [ -f debian/%{name}.1.gz ]; then
 fi
 
 # Install Nautilus/Nemo integration
-install -Dm644 usr/share/nautilus-python/extensions/%{name}-nautilus.py \
-    "%{buildroot}%{_datadir}/nautilus-python/extensions/%{name}-nautilus.py" || true
+install -Dm644 usr/share/nautilus-python/extensions/proton_autogen_nautilus.py \
+    "%{buildroot}%{_datadir}/nautilus-python/extensions/proton_autogen_nautilus.py" || true
 
 install -Dm644 usr/share/nemo/actions/%{name}.nemo_action \
     "%{buildroot}%{_datadir}/nemo/actions/%{name}.nemo_action" || true
@@ -117,7 +117,7 @@ PYTHONPATH="%{buildroot}%{python3_sitelib}:$PYTHONPATH" %{buildroot}%{_bindir}/%
 %{_datadir}/icons/hicolor/256x256/apps/io.github.N3oRay.ProtonAutogen.png
 %{_datadir}/nemo/actions/%{name}.nemo_action
 %{_datadir}/kio/servicemenus/%{name}.desktop
-%{_datadir}/nautilus-python/extensions/%{name}-nautilus.py
+%{_datadir}/nautilus-python/extensions/proton_autogen_nautilus.py
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
