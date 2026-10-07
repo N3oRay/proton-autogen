@@ -1,0 +1,7 @@
+recursive-include usr/lib/python3/dist-packages/proton_autogen/ux/assets *.css
+recursive-include usr/lib/python3/dist-packages/proton_autogen/ux/assets *.jpg
+recursive-include usr/lib/python3/dist-packages/proton_autogen/ux/assets *.png
+recursive-include usr/lib/python3/dist-packages/proton_autogen/ux/assets *.svg
+recursive-include usr/lib/python3/dist-packages/proton_autogen/ux/widgets *.py
+recursive-include usr/lib/python3/dist-packages/proton_autogen *.json
+recursive-include usr/lib/python3/dist-packages/proton_autogen *.csv
