@@ -400,11 +400,31 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Resolve version
+        id: version
+        run: |
+          V="${GITHUB_REF#refs/tags/v}"
+          echo "VERSION=$V" >> "$GITHUB_OUTPUT"
+          echo "Building Proton-Autogen version: $V"
+
+      - name: Create source tarball
+        run: |
+          VERSION="${{ steps.version.outputs.VERSION }}"
+
+          # Create a clean directory structure for the tarball
+          mkdir -p "/tmp/rpmbuild/SOURCES"
+          tar --exclude=.git --exclude=.github -czf "/tmp/rpmbuild/SOURCES/proton-autogen-${VERSION}.tar.gz" .
+
+          ls -lh "/tmp/rpmbuild/SOURCES/proton-autogen-${VERSION}.tar.gz"
+
       - name: Build RPM
         run: |
+          VERSION="${{ steps.version.outputs.VERSION }}"
+
           rpmbuild \
             -ba proton-autogen.spec \
-            --define "_sourcedir $(pwd)" \
+            --define "version ${VERSION}" \
+            --define "_sourcedir /tmp/rpmbuild/SOURCES" \
             --define "_specdir $(pwd)" \
             --define "_builddir /tmp/rpmbuild/BUILD" \
             --define "_rpmdir /tmp/rpmbuild/RPMS" \
