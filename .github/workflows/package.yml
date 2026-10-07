@@ -393,7 +393,8 @@ jobs:
             python3-psutil \
             python3-xlib \
             git \
-            rpm-build
+            rpm-build \
+            rsync
 
       - name: Checkout source
         uses: actions/checkout@v4
