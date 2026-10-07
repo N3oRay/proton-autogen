@@ -7,7 +7,7 @@ Summary:        Automatic Proton/Wine launcher for Windows executables
 
 License:        MIT
 URL:            https://github.com/N3oRay/proton-autogen
-Source0:        %{url}/archive/refs/tags/v%{version}/%{name}-%{version}.tar.gz
+Source0:        %{name}-%{version}.tar.gz
 
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
@@ -118,5 +118,5 @@ install -Dm644 LICENSE \
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
-* %{nil}
-- See GitHub releases for changelog: %{url}/releases
+* Wed Oct 07 2026 N3oRay <n3oray77@gmail.com> - 3.3.9-1
+- Initial RPM package for 3.3.9
