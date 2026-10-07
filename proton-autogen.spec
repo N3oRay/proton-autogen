@@ -98,9 +98,12 @@ install -Dm644 LICENSE \
     "%{buildroot}%{_licensedir}/%{name}/LICENSE"
 
 %check
-# Basic binary check
-%{buildroot}%{_bindir}/%{name} --version
-%{buildroot}%{_bindir}/%{name} --help
+# Test using Python import to verify the module can be imported
+PYTHONPATH="%{buildroot}%{python3_sitelib}:$PYTHONPATH" python3 -c "from proton_autogen.config import VERSION; print(f'Module version: {VERSION}')"
+
+# Test the installed binary with PYTHONPATH set
+PYTHONPATH="%{buildroot}%{python3_sitelib}:$PYTHONPATH" %{buildroot}%{_bindir}/%{name} --version
+PYTHONPATH="%{buildroot}%{python3_sitelib}:$PYTHONPATH" %{buildroot}%{_bindir}/%{name} --help
 
 %files
 %license LICENSE
