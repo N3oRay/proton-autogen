@@ -31,7 +31,7 @@ def _migrate_legacy_config():
 _migrate_legacy_config()
 
 DEFAULT_THEME = "fluent"
-AVAILABLE_THEMES = ["fluent", "gta", "adwaita", "pro", "kawaii", "hellokit", "cute", "dark", "sky", "Breeze", "ironman", "ironpro", "cyberpunk", "cyberpunk2", "cyberpunk3", "ironwood"]
+AVAILABLE_THEMES = ["fluent", "gta", "adwaita", "pro", "kawaii", "hellokit", "cute", "dark", "sky", "Breeze", "KDE", "ironman", "ironpro", "cyberpunk", "cyberpunk2", "cyberpunk3", "ironwood"]
 
 # Taille par défaut de la fenêtre principale au tout premier lancement
 # (avant toute sauvegarde), ou quand remember_window_size = false.
@@ -100,6 +100,7 @@ BACKGROUND_THEMES = {
             "dark": "logo-dark.jpg",
             "sky": "logo-sky.jpg",
             "Breeze": "logo-kde.jpg",
+            "KDE": "logo-kde2.jpg",
             "ironman": "logo-ironman.jpg",
             "ironpro": "logo-ironpro.jpg",
             "cyberpunk": "logo-cyber.jpg",
@@ -121,10 +122,11 @@ STYLE_CSS = {
             "dark": os.path.join(base, "assets", "style-dark.css"),
             "sky": os.path.join(base, "assets", "style-dark.css"),
             "Breeze": os.path.join(base, "assets", "style-kde.css"),
+            "KDE": os.path.join(base, "assets", "style-givre.css"),
             "ironman": os.path.join(base, "assets", "style-ironman.css"),
             "ironpro": os.path.join(base, "assets", "style-bios.css"),
             "cyberpunk": os.path.join(base, "assets", "style-cyberpunk.css"),
-            "cyberpunk2": os.path.join(base, "assets", "style-cyberpunk.css"),
+            "cyberpunk2": os.path.join(base, "assets", "style-cyberpunk2.css"),
             "cyberpunk3": os.path.join(base, "assets", "style-cyberpunk.css"),
             "ironwood": os.path.join(base, "assets", "style-ironman.css"),
         }
