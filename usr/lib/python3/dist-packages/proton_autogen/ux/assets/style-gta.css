@@ -1,0 +1,1621 @@
+/* =========================================================
+   PALETTE — alignée sur le fond d'écran Proton Autogen
+   ---------------------------------------------------------
+   Bleu nuit (fonds)    #0a0d1c  rgba(10,13,28)
+   Indigo (fumée)       #2b2f5a  rgba(30,34,64)
+   Or (accent)          #f2c46d  rgba(242,196,109)
+   Or clair (lueur)     #ffe2a6
+   Ambre (ombres)       #d9a24a
+   Vert logo (succès)   #94c24f
+   Blanc chaud (texte)  #f4ecda
+   ========================================================= */
+
+@define-color hk_text #3b2b2b;
+@define-color hk_text2 #ffffff;
+@define-color hk_text3 #2b2f5a;
+@define-color hk_text4 #ffe2a6;
+
+@define-color kde-bg        #0a0d1c;
+@define-color kde-surface   #1a2040;
+@define-color kde-border    #5a5f94;
+@define-color kde-blue      #f2c46d;
+@define-color kde-blue-dark #d9a24a;
+@define-color kde-text      #232629;
+@define-color kde-text2     #8d93b8;
+
+@define-color neon_cyan      #ffe2a6;
+@define-color neon_cyan_dark #d9a24a;
+
+@define-color kde-surface2 #0d1124;
+@define-color kde-dark-text #f4ecda;
+
+@define-color style_fg_color #b7bdd9;
+
+@define-color success #94c24f;
+@define-color warning #ffb020;
+@define-color error #ff4d4d;
+@define-color info #8ea2ff;
+
+@define-color accent #f2c46d;
+@define-color accent-hover #ffd98f;
+
+/* =========================================================
+   Text
+   ========================================================= */
+label,
+entry,
+text,
+textview {
+    color: @hk_text2;
+}
+
+/* =========================================================
+   FENETRE
+   ========================================================= */
+
+window {
+    background: transparent;
+}
+
+window.background {
+    background: rgba(10,13,28,0.75);
+    border-radius: 16px;
+}
+
+
+/* =========================================================
+   CONTENEUR PRINCIPAL
+   ========================================================= */
+
+.style {
+    background: rgba(10,13,28,0.75);
+    border-radius: 16px;
+}
+
+
+/* =========================================================
+   CONTENEURS GTK
+   ========================================================= */
+
+scrolledwindow,
+viewport,
+list,
+.game-list,
+.game-row {
+    background: transparent;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+/* GtkHeaderBar native */
+headerbar {
+    background: rgba(10,13,28,0.60);
+    color: white;
+}
+
+
+/* Header personnalisé */
+.main-header {
+    background: rgba(8,10,22,0.92);
+    color:white;
+    border-bottom: 1px solid rgba(242,196,109,0.22);
+}
+
+
+/* =========================================================
+   BOUTONS SYSTEME GTK4
+   NE PAS TOUCHER AUX BOUTONS GLOBALEMENT
+   ========================================================= */
+
+windowcontrols button,
+.titlebar button,
+.titlebar .titlebutton {
+
+    background: transparent;
+    color:white;
+
+    min-width:24px;
+    min-height:24px;
+
+    border-radius:8px;
+    opacity:1;
+}
+
+
+windowcontrols image {
+    color:white;
+    opacity:1;
+}
+
+
+windowcontrols button:hover,
+.titlebar button:hover,
+.titlebar .titlebutton:hover {
+
+    background:rgba(255,255,255,0.15);
+}
+/* =========================================================
+   TOAST APPLICATION
+   ========================================================= */
+
+.toast-container {
+    background: rgba(10,13,28, 0.92);
+
+    border-radius: 12px;
+
+    padding: 10px 14px;
+
+    border-left: 3px solid #f2c46d;
+
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
+
+    outline: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.toast-container:hover {
+    background: linear-gradient(
+        135deg,
+        rgba(30,34,66, 0.92),
+        rgba(10,12,26, 0.85)
+    );
+}
+
+.toast {
+    color: #f4ecda;
+    font-size: 13px;
+}
+
+.toast.info {
+    border-left-color: #8ea2ff;
+}
+
+.toast.warning {
+    border-left-color: #ffb020;
+}
+
+.toast.error {
+    border-left-color: #ff4d4d;
+}
+
+
+/* =========================================================
+   BOUTONS APPLICATION
+   Ajouter .app-button dans le code GTK
+   ========================================================= */
+
+button.suggested-action {
+    background: #94c24f;
+    color: #0b1020;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+button.suggested-action:hover {
+    background: #82ae42;
+}
+
+button.alternative-action {
+    background: #3a4080;
+    color: white;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+button.alternative-action:hover {
+    background: #2f3568;
+}
+
+button.destructive-action {
+    background: #f44336;
+    color: white;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+button.destructive-action:hover {
+    background: #e53935;
+}
+
+.app-button {
+    background: rgba(255,255,255,0.10);
+    color: white;
+
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 8px;
+
+    box-shadow:
+        0 2px 6px rgba(0,0,0,0.25);
+}
+
+.app-button:focus {
+
+    outline:2px solid @accent;
+    outline-offset:2px;
+}
+
+
+.app-button:hover {
+    background: rgba(242,196,109,0.22);
+
+    border-color: rgba(242,196,109,0.50);
+
+    box-shadow:
+        0 4px 12px rgba(0,0,0,0.35),
+        0 0 12px rgba(242,196,109,0.20);
+}
+
+.app-button:active {
+    background: rgba(242,196,109,0.35);
+
+    box-shadow:
+        0 1px 4px rgba(0,0,0,0.40),
+        0 0 18px rgba(242,196,109,0.30);
+}
+
+.status-box {
+    background: alpha(@style_fg_color,0.12);
+}
+
+.section-toggle {
+    background: alpha(@style_fg_color,0.12);
+    color: white;
+    border-radius: 6px;
+    padding: 3px 6px;
+    font-size: 11px;
+}
+
+.section-toggle:hover {
+    background: alpha(@style_fg_color,0.24);
+}
+
+.btn-launch {
+    background:@success;
+    color: #0b1020;
+    border-radius: 6px;
+    font-weight: bold;
+
+    padding: 2px 6px;
+    min-width: 28px;
+    min-height: 28px;
+    font-size: 11px;
+}
+
+.btn-launch:hover {
+    background: #82ae42;
+}
+
+.btn-edit {
+    background: #4a5fb0;
+    color: white;
+    border-radius: 6px;
+
+    padding: 2px 6px;
+    min-width: 28px;
+    min-height: 28px;
+    font-size: 11px;
+}
+
+.btn-edit:hover {
+    background: #3e5099;
+}
+
+.btn-export {
+    background: #4a4f94;
+    color: white;
+    border-radius: 6px;
+
+    padding: 2px 6px;
+    min-width: 28px;
+    min-height: 28px;
+    font-size: 11px;
+}
+
+.btn-export:hover {
+    background: #3d4280;
+}
+
+
+.export-dialog {
+    background: #0d1124;
+}
+
+.export-title {
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.export-path {
+    background: #1a2040;
+    color: white;
+    padding: 8px;
+    border-radius: 6px;
+}
+
+/* =========================================================
+   CARTES DE JEUX
+   ========================================================= */
+
+.game-container {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(30,34,64,0.82),
+            rgba(10,13,28,0.72)
+        );
+
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 14px;
+
+    padding: 10px 12px;
+
+    box-shadow:
+        0 4px 12px rgba(0,0,0,0.30);
+}
+
+.game-container:hover {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(54,52,82,0.90),
+            rgba(18,18,38,0.85)
+        );
+
+    border-color: rgba(242,196,109,0.45);
+
+    box-shadow:
+        0 6px 18px rgba(0,0,0,0.45),
+        0 0 18px rgba(242,196,109,0.18);
+}
+
+.game-container:active {
+    background:
+        rgba(20,18,34,0.95);
+
+    border-color: rgba(242,196,109,0.70);
+
+    box-shadow:
+        0 2px 8px rgba(0,0,0,0.50),
+        0 0 25px rgba(242,196,109,0.30);
+}
+
+
+.game-row {
+    margin-bottom:6px;
+}
+
+
+/* =========================================================
+   TEXTES
+   Eviter label {}
+   =========================================================
+*/
+
+checkbutton.feature-toggle label {
+    color: white;
+}
+
+checkbutton.feature-toggle:checked label {
+    color: #94c24f;
+}
+
+.title-1 {
+    color:
+        rgba(255,226,166,0.88);
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.title-4 {
+    color:
+        rgba(255,226,166,0.88);
+    font-size: 14px;
+    font-weight: bold;
+    opacity: 0.9;
+}
+
+.dim-label {
+    color:
+        rgba(255,255,255,0.70);
+    font-size:14px;
+}
+
+.form-label {
+    color:
+        rgba(255,255,255,0.70);
+    font-weight: 600;
+    font-size: 13px;
+    background:
+        rgba(10,13,28,0.80);
+}
+
+.editor-env-view {
+    color:
+        rgba(255,255,255,0.70);
+    font-weight: 600;
+    font-size: 13px;
+    background:
+        rgba(10,13,28,0.80);
+
+    border:
+        1px solid rgba(255,255,255,0.06);
+}
+
+.label-bottom {
+    color: white;
+    font-size: 16px;
+}
+
+.label-bottom label {
+    color:white;
+    font-size:16px;
+}
+
+.game-container label {
+    color:white;
+    font-size:16px;
+}
+
+
+.dim-label1 {
+    color:
+        rgba(255,255,255,0.70);
+    font-size:12px;
+}
+
+
+.dim-label2 {
+    color:
+        rgba(176,208,110,0.70);
+    font-size:10px;
+}
+
+
+label.dim-label1 {
+    color: rgba(255,255,255,0.70);
+    font-size: 12px;
+}
+
+label.dim-label2 {
+    color: rgba(176,208,110,0.70);
+    font-size: 10px;
+}
+
+label.home-label {
+    color: rgba(255,255,255,0.70);
+    font-size: 14px;
+    padding: 4px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.04);
+}
+
+
+/* =========================================================
+   DIALOGUES
+   ========================================================= */
+
+.launch-dialog {
+    background: rgba(12,15,32, 0.95);
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.launch-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.launch-game {
+    font-size: 16px;
+    font-weight: bold;
+    color: #f2c46d;
+}
+
+.launch-info {
+    color: #b9bdd6;
+}
+
+.dialog-content, .import-dialog {
+    background: rgba(10,13,28,0.96);
+    border: 1px solid rgba(255,255,255,0.96);
+    border-radius:16px;
+    padding:12px;
+}
+
+
+.dialog-content textview {
+    background:transparent;
+    color:white;
+    font-family:monospace;
+}
+
+
+
+.badge {
+
+    color: @kde-text;
+    padding: 2px 2px;
+    background:
+        linear-gradient(
+            180deg,
+            rgba(30,34,64,.90),
+            rgba(12,15,32,.90)
+        );
+
+    border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 12px;
+
+    box-shadow:
+        0 0 6px @kde-text;
+}
+
+.badge:hover {
+
+    border-color: #f2c46d;
+
+    box-shadow:
+        0 0 10px rgba(242,196,109,.45),
+        0 0 18px rgba(242,196,109,.20);
+}
+
+.badge-protondb, .badge.profile {
+    background: rgba(120,140,255, 0.18);
+    border-color: rgba(120,140,255, 0.35);
+    border-left-color: rgba(120,140,255, 0.90);
+    color: rgba(214,222,255, 0.98);
+}
+
+
+.badge.platform {
+    background: rgba(255, 190, 80, 0.18);
+    border-color: rgba(255, 190, 80, 0.35);
+    border-left-color: rgba(255, 190, 80, 0.95);
+    color: rgba(255, 230, 180, 0.98);
+}
+
+.badge.feature {
+    background: rgba(160,200,90, 0.16);
+    border-color: rgba(160,200,90, 0.30);
+    border-left-color: rgba(160,200,90, 0.90);
+    color: rgba(222,240,180, 0.98);
+}
+
+.badge.favorite {
+    background: rgba(255,60,120,0.20);
+    border: 1px solid rgba(255,60,120,0.40);
+    border-left: 3px solid rgba(255,60,120,1);
+
+    color: rgba(255,200,215,1);
+
+    box-shadow:
+        0 0 10px rgba(255,60,120,0.15);
+}
+
+.badge.favorite:hover {
+    background: rgba(255,60,120,0.30);
+
+    border-color: rgba(255,100,150,0.70);
+
+    box-shadow:
+        0 0 10px rgba(255,60,120,0.30),
+        0 0 24px rgba(255,60,120,0.18);
+}
+
+
+.badge {
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
+}
+
+/* =========================================================
+   NEW
+   ========================================================= */
+
+.badge.rookie {
+    background: rgba(120,220,255,0.18);
+    border-color: rgba(120,220,255,0.35);
+    border-left-color:#78dcff;
+}
+
+
+.badge.casual {
+    background: rgba(255,220,80,0.18);
+    border-color:rgba(255,220,80,0.35);
+    border-left-color:#ffdc50;
+}
+
+
+.badge.gamer {
+    background: rgba(150,200,90,0.18);
+    border-color:rgba(150,200,90,0.35);
+    border-left-color:#96c85a;
+}
+
+
+.badge.heavy {
+    background: rgba(255,130,50,0.22);
+    border-color:rgba(255,130,50,0.40);
+    border-left-color:#ff8232;
+}
+
+
+.badge.addict {
+    background:rgba(255,50,80,0.22);
+    border-color:rgba(255,50,80,0.45);
+    border-left-color:#ff3250;
+
+    box-shadow:
+        0 0 12px rgba(255,50,80,0.35);
+}
+
+
+.badge.night_owl {
+    background:rgba(120,128,240,0.20);
+    border-color:rgba(120,128,240,0.40);
+    border-left-color:#7882f0;
+}
+
+
+.badge.veteran {
+    background:rgba(220,180,80,0.22);
+    border-color:rgba(220,180,80,0.45);
+    border-left-color:#dcb450;
+}
+/* =========================================================
+   TEXTVIEW
+   ========================================================= */
+
+textview {
+
+    background:transparent;
+    color:white;
+    font-family:monospace;
+}
+
+
+textview text {
+
+    background:transparent;
+    color:white;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+scrollbar,
+scrollbar slider {
+    min-width:8px;
+    min-height:8px;
+}
+
+
+/* Recent games cards */
+.recent-card {
+    padding: 1px 5px;
+    margin: 1px;
+    border-radius: 8px;
+    background-color: alpha(@style_fg_color, 0.25);
+}
+
+.carousel-button {
+    min-width: 36px;
+    min-height: 36px;
+    padding: 0;
+    border-radius: 18px;
+}
+
+.carousel-button:hover {
+    background-color: alpha(currentColor, 0.20);
+}
+
+.carousel-button:disabled {
+    opacity: 0.35;
+}
+
+.carousel-counter {
+    font-size: 0.85em;
+    opacity: 0.75;
+    color:white;
+    margin-top: 4px;
+    margin-bottom: 2px;
+}
+
+.btn-delete {
+    min-width: 18px;
+    min-height: 18px;
+    padding: 0;
+    margin: 0;
+}
+
+.btn-delete image {
+    -gtk-icon-size: 10px;
+}
+
+
+popover {
+    background: rgba(16,20,40,0.98);
+    color: white;
+}
+
+popover contents {
+    background: transparent;
+}
+
+popover menuitem {
+    color: white;
+}
+
+popover menuitem:hover {
+    background: rgba(255,255,255,0.10);
+}
+
+popover modelbutton {
+    color: white;
+}
+
+popover modelbutton:hover {
+    background: rgba(255,255,255,0.10);
+}
+
+/* =========================================================
+SCROLLBAR GTK4
+========================================================= */
+
+scrollbar {
+    background: transparent;
+}
+
+scrollbar slider {
+    background: rgba(242,196,109,0.35);
+    border-radius: 5px;
+    min-width: 6px;
+    min-height: 6px;
+    margin: 2px;
+}
+
+scrollbar.vertical slider {
+    min-width: 6px;
+}
+
+scrollbar.horizontal slider {
+    min-height: 6px;
+}
+
+scrollbar slider:hover {
+    background: @kde-blue;
+}
+
+/* =========================================================
+ *  CHECKBUTTON CLAIR
+ *  ========================================================= */
+
+checkbutton label {
+    color: @kde-text;
+}
+
+checkbutton check {
+    background: @kde-surface;
+    border: 1px solid @kde-border;
+    border-radius: 4px;
+}
+
+checkbutton check:checked {
+    background: @kde-blue;
+    border-color: @kde-blue-dark;
+}
+
+checkbutton check:checked image {
+    color: @kde-text;
+}
+
+
+/* =========================================================
+ *  LISTES DEROULANTES - CONTENU
+ *  ========================================================= */
+
+combobox > button,
+dropdown > button {
+
+    background: rgba(255,255,255,0.18);
+    color: #f0f0f0;
+
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.20);
+
+    padding: 6px 12px;
+}
+
+combobox > button:hover,
+dropdown > button:hover {
+
+    background: rgba(255,255,255,0.26);
+    border-color: rgba(255,255,255,0.35);
+}
+
+combobox > button:active,
+dropdown > button:active {
+
+    background: rgba(255,255,255,0.32);
+}
+
+combobox > button:focus,
+dropdown > button:focus {
+
+    outline: 2px solid @accent;
+    outline-offset: 1px;
+}
+
+combobox label,
+dropdown label {
+
+    color: #f0f0f0;
+    font-weight: 500;
+    background: transparent;
+}
+
+/* SearchEntry */
+
+/* Entrées de texte */
+entry,
+searchentry {
+    background: #090c1a;
+    color: white;
+
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 8px;
+
+    padding: 6px 10px;
+}
+
+/* Zone de texte interne */
+entry text,
+searchentry text {
+    background: transparent;
+    color: white;
+}
+
+/* Icônes (loupe, effacer, etc.) */
+entry image,
+searchentry image {
+    color: rgba(255,255,255,0.80);
+}
+
+/* Texte d'indication (placeholder) */
+entry placeholder,
+searchentry placeholder {
+    color: rgba(255,255,255,0.45);
+}
+
+/* Survol */
+entry:hover,
+searchentry:hover {
+    border-color: rgba(255,255,255,0.50);
+}
+
+/* Focus */
+entry:focus,
+searchentry:focus {
+    border-color: @accent;
+    box-shadow: 0 0 0 2px alpha(@accent, 0.25);
+}
+
+/* Désactivé */
+entry:disabled,
+searchentry:disabled {
+    opacity: 0.5;
+}
+
+/* GAME ICON - 0,240, 255 */
+.game-icon image,
+image.game-icon {
+    -gtk-icon-shadow: 0 0 6px rgba(184,128,47,0.80),
+                      0 0 14px rgba(242,196,109,0.40);
+}
+
+.game-icon:hover image,
+image.game-icon:hover {
+    -gtk-icon-shadow: 0 0 6px rgba(255,226,166,0.85),
+                      0 0 16px rgba(255,226,166,0.45);
+}
+
+
+.game-icon {
+    min-width:64px;
+    min-height:64px;
+    border-radius:14px;
+    background:
+        rgba(255,255,255,0.85);
+    box-shadow:
+        0 0 10px rgba(242,196,109,0.15);
+
+    padding:4px;
+}
+
+.game-icon:hover {
+    background:
+        rgba(255,255,255,0.35);
+    box-shadow:
+        0 0 10px rgba(242,196,109,0.35);
+}
+
+
+/* -------------------------------------------------
+   FPS limit SpinButton : texte blanc / fond noir transparent
+   ------------------------------------------------- */
+/* Conteneur global du spinbutton */
+.fps-spinbutton {
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 6px;
+    border: none;
+}
+
+/* Zone de saisie du nombre (nœud "text" en GTK4) */
+.fps-spinbutton text {
+    background-color: transparent;
+    color: #ffffff;
+    caret-color: #ffffff;
+}
+
+.fps-spinbutton text selection {
+    background-color: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+}
+
+/* Boutons flèches haut/bas */
+.fps-spinbutton button {
+    background-color: transparent;
+    color: #ffffff;
+    border: none;
+    box-shadow: none;
+}
+
+.fps-spinbutton button:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+.fps-spinbutton button:active {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.status-history-panel {
+    padding: 6px;
+    border: 1px solid rgba(255,255,255,0.04);
+    background:
+        linear-gradient(
+            180deg,
+            rgba(34,38,70,0.85),
+            rgba(16,19,38,0.75)
+        );
+    border-radius: 6px;
+}
+
+.status-history-entry {
+    font-size: 0.9em;
+}
+
+.status-history-error {
+    color: #e05252;
+}
+
+.status-history-success {
+    color: #94c24f;
+}
+
+
+/* =========================================================
+ * GAME GRID
+ * ========================================================= */
+
+.game-grid {
+    padding: 10px;
+    background: transparent;
+}
+
+/* Zone de scroll */
+.game-grid scrolledwindow {
+    background: transparent;
+}
+
+
+/* =========================================================
+ * TOOLBAR
+ * ========================================================= */
+
+.game-grid-toolbar {
+    padding: 6px 8px;
+    margin-bottom: 4px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(24,28,54,0.85),
+            rgba(10,13,28,0.75)
+        );
+
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+
+    box-shadow:
+        0 4px 14px rgba(0,0,0,0.25);
+}
+
+
+/* =========================================================
+ * CARTE
+ * ========================================================= */
+
+.game-grid-card {
+    min-width: 0;
+    min-height: 0;
+
+    margin: 5px;
+    padding: 7px;
+
+    border-radius: 14px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(30,34,64,0.78),
+            rgba(11,14,30,0.72)
+        );
+
+    border: 1px solid rgba(255,255,255,0.055);
+
+    box-shadow:
+        0 4px 12px rgba(0,0,0,0.28);
+}
+
+
+/* =========================================================
+ * HOVER
+ * ========================================================= */
+
+.game-grid-card:hover {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(54,52,82,0.90),
+            rgba(18,18,38,0.88)
+        );
+
+    border-color:
+        rgba(242,196,109,0.45);
+
+    box-shadow:
+        0 7px 18px rgba(0,0,0,0.40),
+        0 0 16px rgba(242,196,109,0.16);
+}
+
+
+/* =========================================================
+ * ACTIVE / CLIC
+ * ========================================================= */
+
+.game-grid-card:active {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(242,196,109,0.30),
+            rgba(40,30,22,0.92)
+        );
+
+    border-color:
+        rgba(255,217,143,0.90);
+
+    box-shadow:
+        inset 0 2px 8px rgba(0,0,0,0.45),
+        0 0 18px rgba(242,196,109,0.30);
+
+    outline:
+        1px solid rgba(242,196,109,0.25);
+}
+
+
+/* =========================================================
+ * ICON HOLDER
+ * ========================================================= */
+
+.game-grid-icon-holder {
+    min-width: 0;
+    min-height: 0;
+
+    padding: 3px;
+
+    border-radius: 12px;
+
+    background:
+        rgba(0,0,0,0.20);
+}
+
+
+/* =========================================================
+ * ICON
+ * ========================================================= */
+
+.game-grid-icon {
+    border-radius: 10px;
+
+    background:
+        rgba(255,255,255,0.75);
+
+    box-shadow:
+        0 4px 12px rgba(0,0,0,0.40);
+}
+
+
+/* Hover de l'icône */
+
+.game-grid-card:hover .game-grid-icon {
+    box-shadow:
+        0 5px 16px rgba(0,0,0,0.50),
+        0 0 14px rgba(242,196,109,0.18);
+}
+
+
+/* =========================================================
+ * TITRE
+ * ========================================================= */
+
+.game-grid-title {
+    font-weight: 600;
+    font-size: 0.95em;
+
+    color:
+        rgba(255,255,255,0.88);
+
+    margin-top: 3px;
+    margin-left: 2px;
+    margin-right: 2px;
+
+    text-shadow:
+        0 1px 2px rgba(0,0,0,0.70);
+}
+
+
+/* Titre plus lumineux au survol */
+
+.game-grid-card:hover .game-grid-title {
+    color: #ffffff;
+
+    text-shadow:
+        0 0 8px rgba(242,196,109,0.25);
+}
+
+
+/* =========================================================
+ * BADGES
+ * ========================================================= */
+
+.game-grid-badges {
+    min-height: 8px;
+
+    margin-top: 2px;
+
+    padding: 1px;
+
+    background: transparent;
+}
+
+
+/* =========================================================
+ * BADGES INDIVIDUELS DANS LA GRILLE
+ * ========================================================= */
+
+.game-grid-card .badge {
+    padding: 2px 5px;
+
+    min-height: 16px;
+
+    border-radius: 6px;
+
+    font-size: 0.72em;
+
+    background:
+        rgba(255,255,255,0.07);
+
+    border:
+        1px solid rgba(255,255,255,0.08);
+
+    box-shadow:
+        0 2px 5px rgba(0,0,0,0.20);
+}
+
+
+/* =========================================================
+ * BADGES AU SURVOL DE LA CARTE
+ * ========================================================= */
+
+.game-grid-card:hover .badge {
+    border-color:
+        rgba(242,196,109,0.22);
+}
+
+
+/* =========================================================
+ * PROTONDB
+ * ========================================================= */
+
+.game-grid-card .badge-protondb {
+    background:
+        rgba(120,140,255,0.18);
+
+    border-color:
+        rgba(120,140,255,0.40);
+
+    color:
+        rgba(214,222,255,0.98);
+
+    box-shadow:
+        0 0 7px rgba(120,140,255,0.10);
+}
+
+
+/* =========================================================
+ * FAVORITE
+ * ========================================================= */
+
+.game-grid-card .badge.favorite {
+    background:
+        rgba(255,60,120,0.18);
+
+    border-color:
+        rgba(255,60,120,0.38);
+
+    color:
+        rgba(255,205,220,1);
+
+    box-shadow:
+        0 0 8px rgba(255,60,120,0.14);
+}
+
+
+/* =========================================================
+ * CONTEXT MENU
+ * ========================================================= */
+
+.game-grid-context-popover {
+    background: rgba(12,15,32,0.98);
+
+    border: 1px solid rgba(255,255,255,0.08);
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 12px 35px rgba(0,0,0,0.55),
+        0 0 20px rgba(242,196,109,0.08);
+}
+
+
+.game-grid-context-menu {
+    padding: 5px;
+
+    background: transparent;
+}
+
+
+/* =========================================================
+ * MENU BUTTONS
+ * ========================================================= */
+
+.game-grid-context-menu .game-grid-menu-button,
+.game-grid-context-menu .game-grid-menu-delete {
+
+    min-height: 30px;
+
+    padding: 5px 10px;
+
+    border-radius: 7px;
+
+    border: 1px solid transparent;
+
+    background: transparent;
+
+    color:
+        rgba(255,255,255,0.85);
+
+    box-shadow: none;
+}
+
+
+/* Hover */
+
+.game-grid-context-menu .game-grid-menu-button:hover {
+    background:
+        rgba(242,196,109,0.18);
+
+    border-color:
+        rgba(242,196,109,0.25);
+
+    color: #ffffff;
+}
+
+
+/* Active */
+
+.game-grid-context-menu .game-grid-menu-button:active {
+    background:
+        rgba(242,196,109,0.32);
+
+    border-color:
+        rgba(242,196,109,0.50);
+}
+
+
+/* =========================================================
+ * DELETE
+ * ========================================================= */
+
+.game-grid-context-menu .game-grid-menu-delete {
+    color:
+        #ff7070;
+}
+
+.game-grid-context-menu .game-grid-menu-delete:hover {
+    color: #ffffff;
+
+    background:
+        rgba(255,60,60,0.20);
+
+    border-color:
+        rgba(255,80,80,0.30);
+}
+
+.game-grid-context-menu .game-grid-menu-delete:active {
+    background:
+        rgba(255,60,60,0.35);
+
+    border-color:
+        rgba(255,80,80,0.55);
+}
+
+
+/* =========================================================
+ * SEPARATOR
+ * ========================================================= */
+
+.game-grid-context-menu separator {
+    margin: 4px 3px;
+
+    min-height: 1px;
+
+    background:
+        rgba(255,255,255,0.08);
+}
+
+
+/* =========================================================
+ * ZOOM BUTTONS
+ * ========================================================= */
+
+.game-grid-toolbar .section-toggle {
+    min-width: 30px;
+    min-height: 28px;
+
+    padding: 3px 9px;
+
+    border-radius: 7px;
+
+    background:
+        rgba(255,255,255,0.08);
+
+    border:
+        1px solid rgba(255,255,255,0.07);
+
+    color:
+        rgba(255,255,255,0.85);
+}
+
+
+.game-grid-toolbar .section-toggle:hover {
+    background:
+        rgba(242,196,109,0.20);
+
+    border-color:
+        rgba(242,196,109,0.35);
+
+    color: #ffffff;
+
+    box-shadow:
+        0 0 10px rgba(242,196,109,0.15);
+}
+
+
+.game-grid-toolbar .section-toggle:active {
+    background:
+        rgba(242,196,109,0.35);
+
+    border-color:
+        rgba(255,217,143,0.65);
+
+    box-shadow:
+        inset 0 2px 5px rgba(0,0,0,0.35);
+}
+
+/* =========================================================
+ * NAVIGATION CLAVIER / FOCUS
+ * ========================================================= */
+.btn-delete:focus-visible,
+.btn-export:focus-visible,
+.btn-install:focus-visible,
+.btn-edit:focus-visible,
+.btn-launch:focus-visible,
+.badge-clickable:focus-visible {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+popover modelbutton:focus-visible,
+popover menuitem:focus-visible {
+    background: rgba(242,196,109, 0.25);
+    color: #ffffff;
+    outline: 2px solid @accent;
+    outline-offset: -2px;
+}
+
+
+/* Boutons */
+button:focus {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+/* Focus clavier plus discret pour les boutons d'action */
+.btn-delete:focus,
+.btn-export:focus,
+.btn-install:focus,
+.btn-edit:focus,
+.btn-launch:focus {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+/* Badge ProtonDB cliquable */
+.badge-clickable:focus {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+/* Entrées texte */
+entry:focus,
+searchentry:focus {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+/* ListView */
+.game-list:focus {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+/* Éléments de menu / popover */
+popover modelbutton:focus,
+popover menuitem:focus {
+    background: rgba(242,196,109, 0.25);
+    color: #ffffff;
+
+    outline: 2px solid @accent;
+    outline-offset: -2px;
+}
+
+/* Boutons de popover */
+popover button:focus {
+    background: rgba(242,196,109, 0.25);
+    color: #ffffff;
+
+    outline: 2px solid @accent;
+    outline-offset: 1px;
+}
+
+
+/* =========================================================
+ * ACCESSIBILITÉ CLAVIER (complément)
+ * - Icône de jeu (grille) : Gtk.Button focusable au Tab, activable
+ *   à Entrée/Espace -> anneau de focus manquant du bloc précédent.
+ * - Fenêtre "Raccourcis clavier" (menu, ou Ctrl+? / Ctrl+/).
+ * ========================================================= */
+
+.game-grid-icon-holder:focus,
+.game-grid-icon-holder:focus-visible {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+.game-grid-context-menu button:focus,
+.game-grid-context-menu button:focus-visible {
+    outline: 2px solid @accent;
+    outline-offset: -2px;
+}
+
+.shortcuts-window {
+    background: rgba(12,15,32, 0.95);
+    border-radius: 16px;
+}
+
+.shortcuts-list {
+    background: transparent;
+}
+
+.shortcuts-list row {
+    background: transparent;
+    border-radius: 8px;
+}
+
+.shortcuts-list row:hover {
+    background: rgba(255,255,255,0.06);
+}
+
+.shortcuts-list row:focus,
+.shortcuts-list row:focus-visible {
+    outline: 2px solid @accent;
+    outline-offset: -2px;
+    border-radius: 8px;
+}
+
+.shortcut-key {
+    font-family: monospace;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.18);
+    color: #ffffff;
+}
+
+.save-backup-path {
+    font-size: 0.75em;
+}
+
+
+.save-backup-dialog, .save-manager-dialog{
+    background: rgba(8,10,22,0.92);
+    padding: 2px 8px;
+    border-radius:16px;
+    color:white;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.18);
+}
+
+.title-5, .save-history-list{
+    background: rgba(8,10,22,0.92);
+    padding: 2px 8px;
+    border-radius:16px;
+    color:white;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.18);
+}
+
+.save-location-path{
+    background:
+        linear-gradient(
+            145deg,
+            rgba(242,196,109,0.30),
+            rgba(40,30,22,0.92)
+        );
+    padding: 2px 8px;
+    border-radius:8px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.18);
+}
+
+.launch-dialog spinner {
+    color: #f2c46d;
+    opacity: 1;
+    filter: drop-shadow(0 0 6px rgba(242,196,109, 0.55));
+    animation:
+        spin 1s linear infinite,
+        pa-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes pa-pulse {
+    0%   { filter: drop-shadow(0 0 4px rgba(242,196,109, 0.35)); }
+    50%  { filter: drop-shadow(0 0 10px rgba(242,196,109, 0.75)); }
+    100% { filter: drop-shadow(0 0 4px rgba(242,196,109, 0.35)); }
+}

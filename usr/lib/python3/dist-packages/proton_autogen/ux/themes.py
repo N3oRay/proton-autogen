@@ -112,7 +112,7 @@ base = os.path.dirname(__file__)
 
 STYLE_CSS = {
             "fluent": os.path.join(base, "assets", "style.css"),
-            "gta": os.path.join(base, "assets", "style.css"),
+            "gta": os.path.join(base, "assets", "style-gta.css"),
             "adwaita": os.path.join(base, "assets", "style_adwaita.css"),
             "pro": os.path.join(base, "assets", "style-cyberpunk-pro.css"),
             "kawaii": os.path.join(base, "assets", "style-kawaii.css"),
