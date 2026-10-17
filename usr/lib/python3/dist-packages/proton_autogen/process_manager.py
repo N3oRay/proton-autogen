@@ -22,6 +22,16 @@ Point important (retour d'expérience) :
     complète systématiquement par un `wineserver -k` scopé au préfixe,
     qui est le mécanisme officiel Wine pour arrêter tout ce qui est
     rattaché à un WINEPREFIX donné, indépendamment du pgid/session.
+
+Suivi inter-processus (CLI <-> UX) :
+    Le dictionnaire _processes n'existe que dans la mémoire du processus qui
+    a lancé le jeu. Pour qu'un jeu lancé depuis le CLI soit visible et
+    arrêtable depuis l'UX (et inversement), chaque enregistrement est aussi
+    écrit dans un fichier via running_registry
+    (~/.local/share/proton-autogen/running-<game_id>.json). Les jeux lancés par un AUTRE
+    processus sont exposés par list_external() / get_info() / is_running()
+    et arrêtables par stop() (via le groupe de processus enregistré, puis
+    wineserver -k, puis kill par PID).
 """
 
 import os
@@ -33,6 +43,7 @@ import time
 from dataclasses import dataclass
 from typing import Dict, Optional, Any
 
+from proton_autogen import running_registry
 from proton_autogen.utils.logger import StructuredLogger
 
 logger = StructuredLogger("proton-autogen.process_manager")
@@ -134,6 +145,35 @@ def _wait_process(process, timeout: float) -> bool:
 _pgrep_cache: Dict[str, tuple[float, list]] = {}
 _pgrep_cache_lock = threading.Lock()
 
+_LAUNCHER_NAMES = ("proton-autogen", "proton_autogen")
+
+
+def _is_launcher_process(pid: int) -> bool:
+    """
+    Vrai si pid est proton-autogen lui-même (CLI ou UX), ce processus ou
+    son parent.
+
+    `pgrep -f game.exe` correspond à la ligne de commande COMPLÈTE : la
+    commande `proton-autogen game.exe` contient donc le nom de l'exe et
+    serait tuée par _kill_stray_pids() comme un « reste » du jeu. On
+    l'exclut en regardant l'interpréteur et le script (argv[0], argv[1]).
+    """
+    if pid in (os.getpid(), os.getppid()):
+        return True
+
+    try:
+        with open(f"/proc/{pid}/cmdline", "rb") as f:
+            argv = f.read().split(b"\0")[:2]
+    except OSError:
+        return False
+
+    for arg in argv:
+        base = os.path.basename(arg.decode("utf-8", "replace"))
+        if base in _LAUNCHER_NAMES:
+            return True
+
+    return False
+
 def _find_pids_by_exe(exe_path: str, use_cache=True) -> list:
     if not exe_path:
         return []
@@ -154,7 +194,10 @@ def _find_pids_by_exe(exe_path: str, use_cache=True) -> list:
             text=True,
             timeout=PGREP_TIMEOUT,
         )
-        pids = [int(p) for p in out.stdout.split() if p.strip()]
+        pids = [
+            int(p) for p in out.stdout.split()
+            if p.strip() and not _is_launcher_process(int(p))
+        ]
 
         # Mettre en cache
         with _pgrep_cache_lock:
@@ -228,7 +271,9 @@ def _remove_if_same(game_id: str, process) -> bool:
         if record.process is not process:
             return False
         del _processes[game_id]
-        return True
+
+    running_registry.remove(game_id)
+    return True
 
 
 # ---------------------------------------------------------------------------
@@ -242,11 +287,16 @@ def register(
     proton_dir: Optional[str] = None,
     env: Optional[dict] = None,
     exe_path: Optional[str] = None,
+    name: Optional[str] = None,
 ) -> bool:
     """
     Enregistre un processus Proton.
     Plusieurs game_id différents peuvent être actifs simultanément.
     Un même game_id ne doit représenter qu'une seule instance.
+
+    L'enregistrement est aussi écrit dans le registre partagé
+    (running_registry) pour être visible des autres processus
+    proton-autogen (CLI <-> UX).
     """
 
     if not game_id or process is None:
@@ -276,7 +326,31 @@ def register(
 
         _processes[game_id] = record
 
+    _publish(record, name)
     return True
+
+
+def _publish(record: ProcessRecord, name: Optional[str] = None) -> None:
+    """Écrit l'enregistrement dans le registre partagé (best-effort)."""
+    pid = _safe_pid(record.process)
+    if pid is None:
+        return
+
+    try:
+        running_registry.write(
+            record.game_id,
+            pid=pid,
+            owner_pid=os.getpid(),
+            name=name or (
+                os.path.splitext(os.path.basename(record.exe_path))[0]
+                if record.exe_path else None
+            ),
+            exe_path=record.exe_path,
+            prefix_path=record.prefix_path,
+            proton_dir=record.proton_dir,
+        )
+    except Exception as e:
+        logger.warning(f"running_registry write failed for {record.game_id}: {e}")
 
 
 # ---------------------------------------------------------------------------
@@ -296,7 +370,78 @@ def unregister(game_id: str, process=None) -> bool:
         if process is not None and record.process is not process:
             return False
         del _processes[game_id]
+        still_running = _is_running(record.process)
+
+    # Si le Popen local est terminé, le jeu l'est aussi dans le cas normal :
+    # on retire le fichier. S'il tourne encore (ex. CLI interrompu par
+    # Ctrl+C alors que le jeu continue), on LAISSE le fichier : l'UX doit
+    # pouvoir voir et arrêter ce jeu devenu orphelin. Il sera purgé dès que
+    # le processus aura disparu (cf. list_external / purge_stale).
+    if not still_running:
+        running_registry.remove(game_id)
+    return True
+
+
+# ---------------------------------------------------------------------------
+# Jeux lancés par un autre processus (CLI <-> UX)
+# ---------------------------------------------------------------------------
+
+def _external_alive(record) -> bool:
+    """
+    Vivacité d'un jeu enregistré par un autre processus : PID/groupe
+    (running_registry), puis pgrep par nom d'exe en dernier recours.
+    Peut lancer pgrep : ne pas appeler depuis le thread principal GTK.
+    """
+    if running_registry.is_alive(record):
         return True
+
+    # PID réutilisé par un autre programme : le pgrep par nom serait
+    # trompeur pour ce même identifiant, on conclut directement.
+    if running_registry.pid_was_reused(record):
+        return False
+
+    return bool(record.exe_path and _find_pids_by_exe(record.exe_path))
+
+
+def get_external(game_id: str):
+    """
+    Enregistrement vivant d'un jeu lancé par un AUTRE processus, ou None.
+    Purge l'enregistrement s'il est périmé.
+    """
+    if not game_id:
+        return None
+
+    game_id = str(game_id)
+    record = running_registry.read(game_id)
+    if record is None or record.owner_pid == os.getpid():
+        return None
+
+    if _external_alive(record):
+        return record
+
+    running_registry.remove(game_id)
+    return None
+
+
+def list_external() -> Dict[str, dict]:
+    """
+    Jeux en cours lancés par un autre processus proton-autogen, sous la
+    forme {game_id: info}. Les enregistrements périmés sont purgés.
+
+    Appeler depuis un thread de travail (peut lancer pgrep).
+    """
+    external = {}
+
+    for game_id, record in running_registry.list_records().items():
+        if record.owner_pid == os.getpid():
+            continue
+
+        if _external_alive(record):
+            external[game_id] = record.to_info()
+        else:
+            running_registry.remove(game_id)
+
+    return external
 
 
 # ---------------------------------------------------------------------------
@@ -324,7 +469,8 @@ def is_running(game_id: str) -> bool:
     """
     record = get(game_id)
     if record is None:
-        return False
+        # Pas lancé par ce processus : peut l'être par un autre (CLI/UX).
+        return get_external(game_id) is not None
 
     if _is_running(record.process):
         return True
@@ -357,6 +503,80 @@ def list_game_ids():
 
 def count() -> int:
     return len(list_running())
+
+
+# ---------------------------------------------------------------------------
+# Stop d'un jeu lancé par un autre processus
+# ---------------------------------------------------------------------------
+
+def _safe_external_pgid(record) -> Optional[int]:
+    """
+    pgid utilisable pour killpg, ou None. Refuse 0/1 et notre propre
+    groupe : un enregistrement corrompu ou périmé ne doit jamais nous
+    faire tuer proton-autogen lui-même ni un processus système.
+    """
+    pgid = record.pgid
+    if not isinstance(pgid, int) or pgid <= 1:
+        return None
+    try:
+        if pgid == os.getpgrp():
+            return None
+    except OSError:
+        return None
+    return pgid
+
+
+def _stop_external(game_id: str, timeout: float) -> bool:
+    """
+    Arrête un jeu enregistré par un autre processus. Même séquence que
+    stop(), sans objet Popen :
+        1. SIGTERM au groupe enregistré, attente jusqu'à timeout
+        2. SIGKILL au groupe s'il reste des membres
+        3. wineserver -k scopé au préfixe
+        4. kill direct des PID restants (par nom d'exe)
+        5. suppression de l'enregistrement
+    Le processus propriétaire (ex. le CLI) vit dans un autre groupe : il
+    n'est pas touché et termine normalement (statistiques, sauvegardes).
+    """
+    record = running_registry.read(game_id)
+    if record is None or record.owner_pid == os.getpid():
+        return False
+
+    pgid = _safe_external_pgid(record)
+
+    if pgid is not None and running_registry.is_alive(record):
+        try:
+            os.killpg(pgid, signal.SIGTERM)
+        except OSError:
+            pass
+
+        deadline = time.monotonic() + max(0.0, timeout)
+        while time.monotonic() < deadline and running_registry.is_alive(record):
+            time.sleep(0.1)
+
+        if running_registry.is_alive(record):
+            try:
+                os.killpg(pgid, signal.SIGKILL)
+            except OSError:
+                pass
+
+    wineserver_killed = _kill_wineserver_for_prefix(record.prefix_path, record.proton_dir)
+
+    stray_killed = 0
+    if record.exe_path:
+        time.sleep(0.3)
+        stray_killed = _kill_stray_pids(record.exe_path)
+
+    running_registry.remove(game_id)
+
+    logger.info(
+        f"stop() summary for external game_id={game_id}: "
+        f"owner_pid={record.owner_pid}, "
+        f"wineserver_killed={wineserver_killed}, "
+        f"stray_pids_killed={stray_killed}"
+    )
+
+    return True
 
 
 # ---------------------------------------------------------------------------
@@ -400,7 +620,8 @@ def stop(
     with _lock:
         record = _processes.get(game_id)
         if record is None:
-            return False
+            # Jeu lancé par un autre processus (CLI <-> UX) ?
+            return _stop_external(game_id, timeout)
         process = record.process
         prefix_path = record.prefix_path
         proton_dir = record.proton_dir
@@ -471,7 +692,7 @@ def force_stop(game_id: str) -> bool:
     with _lock:
         record = _processes.get(game_id)
         if record is None:
-            return False
+            return _stop_external(game_id, 0.0)
         process = record.process
         prefix_path = record.prefix_path
         proton_dir = record.proton_dir
@@ -500,6 +721,11 @@ def force_stop(game_id: str) -> bool:
 # ---------------------------------------------------------------------------
 
 def stop_all(timeout: float = DEFAULT_STOP_TIMEOUT) -> int:
+    """
+    Arrête les jeux lancés par CE processus uniquement. Les jeux lancés
+    par un autre processus (CLI) ne sont volontairement pas touchés :
+    fermer la fenêtre UX ne doit pas tuer un jeu lancé depuis un terminal.
+    """
     with _lock:
         game_ids = list(_processes.keys())
 
@@ -525,6 +751,10 @@ def cleanup_finished() -> int:
             if not _is_running(record.process):
                 del _processes[game_id]
                 removed += 1
+                running_registry.remove(game_id)
+
+    # Enregistrements d'autres processus dont le jeu n'existe plus
+    running_registry.purge_stale()
     return removed
 
 
@@ -535,7 +765,8 @@ def cleanup_finished() -> int:
 def get_info(game_id: str) -> Optional[dict]:
     record = get(game_id)
     if record is None:
-        return None
+        external = get_external(game_id)
+        return external.to_info() if external else None
 
     return {
         "game_id": record.game_id,

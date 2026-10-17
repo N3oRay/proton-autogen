@@ -1,7 +1,11 @@
 #proton_call.py
 
+import hashlib
+import os
+import signal
 import sys
 import subprocess
+import threading
 from pathlib import Path
 
 from proton_autogen.core import (
@@ -21,6 +25,7 @@ from proton_autogen.notify import notifications
 from proton_autogen.util_path import proton_path, proton_name
 from proton_autogen.core import get_prefix_path
 from proton_autogen.progress import Progress
+from proton_autogen import process_manager
 
 
 def launch_proton_call(
@@ -162,7 +167,44 @@ def launch_proton_call(
     # -------------------------
     # Run
     # -------------------------
-    result_code = subprocess.run(cmd, env=env)
+    # Popen (et non subprocess.run) pour que le jeu soit enregistré dans
+    # process_manager : visible et arrêtable depuis l'UX, comme en mode
+    # "proton". Nouvelle session = le jeu a son propre groupe de processus
+    # (arrêt fiable de tout l'arbre) ; les signaux du terminal ne
+    # l'atteignent plus directement, on les relaie donc ci-dessous.
+    game_id = hashlib.md5(exe_path.encode()).hexdigest()
+
+    process = subprocess.Popen(cmd, env=env, start_new_session=True)
+
+    process_manager.register(
+        game_id,
+        process,
+        prefix_path=prefix_path,
+        proton_dir=proton_dir,
+        env=env,
+        exe_path=exe_path,
+    )
+
+    previous_handlers = {}
+
+    def _forward_signal(signum, _frame):
+        try:
+            os.killpg(process.pid, signum)
+        except (ProcessLookupError, PermissionError, OSError):
+            pass
+
+    # Les gestionnaires de signaux ne peuvent être installés que depuis
+    # le thread principal ; sinon on laisse le comportement par défaut.
+    if threading.current_thread() is threading.main_thread():
+        for sig in (signal.SIGINT, signal.SIGTERM):
+            previous_handlers[sig] = signal.signal(sig, _forward_signal)
+
+    try:
+        result_code = process.wait()
+    finally:
+        for sig, handler in previous_handlers.items():
+            signal.signal(sig, handler)
+        process_manager.unregister(game_id, process)
 
     status = handle_result(result_code)
     # Update Stats

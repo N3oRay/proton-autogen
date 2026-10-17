@@ -19,6 +19,7 @@ from proton_autogen.ux.dashboard_settings import DashboardSettingsMixin
 from proton_autogen.ux.dashboard_shortcuts import DashboardShortcutsMixin
 from proton_autogen.ux.dashboard_saves import DashboardSavesMixin
 from proton_autogen.ux.dashboard_import import DashboardImportMixin
+from proton_autogen.ux.dashboard_running import DashboardRunningMixin
 
 from proton_autogen.ux.themes import (
     load_saved_theme, save_theme, AVAILABLE_THEMES, DEFAULT_THEME,
@@ -38,7 +39,7 @@ from proton_autogen.backend import list_programs_ux
 # -----------------------------
 # MAIN WINDOW
 # -----------------------------
-class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, DashboardActionsMixin, DashboardMangoHudMixin, DashboardCreateShortcutMixin, DashboardSettingsMixin, DashboardShortcutsMixin, DashboardSavesMixin, DashboardImportMixin, Gtk.ApplicationWindow):
+class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, DashboardActionsMixin, DashboardMangoHudMixin, DashboardCreateShortcutMixin, DashboardSettingsMixin, DashboardShortcutsMixin, DashboardSavesMixin, DashboardImportMixin, DashboardRunningMixin, Gtk.ApplicationWindow):
     SHOW_ADD_BUTTON = True
     SHOW_IMPORT_BUTTON = True
     SHOW_REFRESH_BUTTON = True
@@ -84,6 +85,7 @@ class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, Das
 
         self.build_ui()   # vient du mixin
         self.refresh_games() # chargement de la liste des applications
+        self._init_running_watch()  # vient de DashboardRunningMixin (jeux lancés via le CLI)
 
 
 
