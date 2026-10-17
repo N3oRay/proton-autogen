@@ -995,15 +995,15 @@ searchentry:disabled {
 .game-icon image,
 image.game-icon {
     color: @neon_cyan;
-    -gtk-icon-shadow: 0 0 6px rgba(0,240,255,0.80),
-                      0 0 14px rgba(0,240,255,0.40);
+    -gtk-icon-shadow: 0 0 2px rgba(0,240,255,0.80),
+                      0 0 4px rgba(0,240,255,0.40);
 }
 
 .game-icon:hover image,
 image.game-icon:hover {
     color: @neon_pink;
-    -gtk-icon-shadow: 0 0 6px rgba(255,43,214,0.85),
-                      0 0 16px rgba(255,43,214,0.45);
+    -gtk-icon-shadow: 0 0 2px rgba(255,43,214,0.85),
+                      0 0 4px rgba(255,43,214,0.45);
 }
 
 .game-icon {

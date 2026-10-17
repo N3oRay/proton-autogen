@@ -851,14 +851,24 @@ searchentry:disabled {
 
 
 /* GAME ICON */
+.game-icon image,
+image.game-icon {
+    -gtk-icon-shadow: 0 0 2px rgba(104, 186, 49,0.80),
+                      0 0 4px rgba(104, 186, 49,0.20);
+}
+
+.game-icon:hover image,
+image.game-icon:hover {
+    -gtk-icon-shadow: 0 0 2px rgba(211,253,138,0.85),
+                      0 0 4px rgba(211,253,138,0.25);
+}
+
 .game-icon {
 
     min-width:48px;
     min-height:48px;
-
     border-radius:4px;
-
-    background: rgba(255,255,255,0.35);
+    background: rgba(46,86,50,0.35);
     box-shadow:
         0 0 10px rgba(255,255,255,0.15);
 
@@ -866,10 +876,8 @@ searchentry:disabled {
 }
 
 .game-icon:hover {
-
     background:
         rgba(61,255,138,0.05);
-
     box-shadow:
         0 0 10px rgba(61,255,138,0.15);
 }

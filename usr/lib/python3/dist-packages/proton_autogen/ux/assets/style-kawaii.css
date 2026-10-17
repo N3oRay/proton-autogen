@@ -1069,15 +1069,15 @@ searchentry:disabled {
 .game-icon image,
 image.game-icon {
     color: @kw_accent_light;
-    -gtk-icon-shadow: 0 0 6px rgba(255,122,192,0.65),
-                      0 0 14px rgba(255,122,192,0.30);
+    -gtk-icon-shadow: 0 0 2px rgba(255,122,192,0.65),
+                      0 0 4px rgba(255,122,192,0.30);
 }
 
 .game-icon:hover image,
 image.game-icon:hover {
     color: @kw_accent_soft;
-    -gtk-icon-shadow: 0 0 8px rgba(255,171,222,0.80),
-                      0 0 18px rgba(255,122,192,0.45);
+    -gtk-icon-shadow: 0 0 2px rgba(255,171,222,0.80),
+                      0 0 4px rgba(255,122,192,0.45);
 }
 
 
