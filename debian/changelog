@@ -1,7 +1,7 @@
-proton-autogen (3.3.9) noble; urgency=medium
+proton-autogen (3.4.0) noble; urgency=medium
 
   * Thanks to all users and contributors for their continued support, feedback and bug reports.
-  * New theme Style UX
+  * New UX/UI Theme – Modern CSS – Updated Images – Professional Design
   * Expand UI and CSS integrity checks to prevent regressions.
   * Improve Proton, Steam and Flatpak runtime integration.
   * Improve Debian, Flatpak and AUR package validation and build workflows.
@@ -30,4 +30,4 @@ proton-autogen (3.3.9) noble; urgency=medium
   * Fix various UI, packaging and integration issues.
   * General UX improvements, configuration handling improvements and code cleanup.
 
- -- N3oray <n3oray77@gmail.com>  Wed, 07 Oct 2026 18:30:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Sat, 17 Oct 2026 22:06:00 +0200
