@@ -31,7 +31,7 @@ def _migrate_legacy_config():
 _migrate_legacy_config()
 
 DEFAULT_THEME = "fluent"
-AVAILABLE_THEMES = ["fluent", "gta", "adwaita", "pro", "kawaii", "hellokit", "cute", "dark", "sky", "Breeze", "KDE", "ironman", "ironpro", "cyberpunk", "cyberpunk2", "cyberpunk3", "ironwood"]
+AVAILABLE_THEMES = ["fluent", "ia_green", "gta", "adwaita", "ia", "pro", "kawaii", "hellokit", "cute", "dark", "sky", "Breeze", "KDE", "ironman", "ironpro", "cyberpunk", "cyberpunk2", "cyberpunk3", "ironwood"]
 
 # Taille par défaut de la fenêtre principale au tout premier lancement
 # (avant toute sauvegarde), ou quand remember_window_size = false.
@@ -91,8 +91,10 @@ _ensure_default_config()
 
 BACKGROUND_THEMES = {
             "fluent": "logo-pa.jpg",
+            "ia_green": "logo-ia-green.jpg",
             "gta": "logo-gta.jpg",
             "adwaita": "logo-adwaita.jpg",
+            "ia": "logo-ia.jpg",
             "pro": "logo-pro.jpg",
             "kawaii": "logo-kawaii.jpg",
             "hellokit": "logo-hellokit.jpg",
@@ -113,8 +115,10 @@ base = os.path.dirname(__file__)
 
 STYLE_CSS = {
             "fluent": os.path.join(base, "assets", "style.css"),
+            "ia_green": os.path.join(base, "assets", "style_ia.css"),
             "gta": os.path.join(base, "assets", "style-gta.css"),
             "adwaita": os.path.join(base, "assets", "style_adwaita.css"),
+            "ia": os.path.join(base, "assets", "style_ia.css"),
             "pro": os.path.join(base, "assets", "style-cyberpunk-pro.css"),
             "kawaii": os.path.join(base, "assets", "style-kawaii.css"),
             "hellokit": os.path.join(base, "assets", "hello-kit.css"),

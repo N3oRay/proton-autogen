@@ -1,0 +1,1192 @@
+/* =========================================================
+   GTK4 - Adwaita Inspired
+   Part 1 / 4
+   Palette - Fenêtre - Header - Boutons
+   ========================================================= */
+
+
+/* =========================================================
+   PALETTE
+   ========================================================= */
+
+@define-color bg #1e1e1e;
+@define-color bg-alt #262626;
+@define-color bg-hover #303030;
+
+@define-color surface #242424;
+@define-color surface-hover #2f2f2f;
+
+@define-color border rgba(255,255,255,.08);
+
+@define-color text #f6f5f4;
+@define-color text-muted #b5b8bd;
+
+@define-color accent #3584e4;
+@define-color accent-hover #4a90e8;
+
+@define-color success #33d17a;
+@define-color warning #f6d32d;
+@define-color error #e01b24;
+
+
+/* =========================================================
+   FENETRE
+   ========================================================= */
+
+window {
+    background: transparent;
+}
+
+window.background,
+.style {
+
+    background: @bg;
+
+    border-radius: 12px;
+
+    border: 1px solid @border;
+}
+
+
+/* =========================================================
+   CONTENEURS GTK
+   ========================================================= */
+
+scrolledwindow,
+viewport,
+list,
+.game-list,
+.game-row {
+
+    background: @bg-alt;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+headerbar,
+.main-header {
+    background: @bg-alt;
+    color: @text;
+    border-bottom: 1px solid @border;
+}
+
+
+/* =========================================================
+   WINDOW CONTROLS
+   ========================================================= */
+
+windowcontrols button,
+.titlebar button,
+.titlebar .titlebutton {
+
+    background: transparent;
+
+    color: @text;
+
+    min-width: 28px;
+    min-height: 28px;
+
+    border-radius: 8px;
+
+    border: none;
+}
+
+windowcontrols image {
+
+    color: @text;
+}
+
+windowcontrols button:hover,
+.titlebar button:hover,
+.titlebar .titlebutton:hover {
+
+    background: rgba(255,255,255,.08);
+}
+
+windowcontrols button:active,
+.titlebar button:active {
+
+    background: rgba(255,255,255,.14);
+}
+
+
+/* =========================================================
+   BOUTONS
+   ========================================================= */
+
+button {
+
+    background: @surface;
+    color: @text;
+    border-radius: 8px;
+    border: 1px solid @border;
+    padding: 6px 12px;
+    transition: 150ms ease;
+}
+
+button:hover {
+
+    background: @surface-hover;
+}
+
+button:active {
+
+    background: @bg-hover;
+}
+
+button:disabled {
+
+    opacity: .45;
+}
+
+
+/* =========================================================
+   BOUTON PRINCIPAL
+   ========================================================= */
+
+button.suggested-action {
+
+    background: @accent;
+
+    color: white;
+
+    border: none;
+
+    font-weight: 600;
+}
+
+button.suggested-action:hover {
+
+    background: @accent-hover;
+}
+
+
+/* =========================================================
+   BOUTONS APPLICATION
+   ========================================================= */
+
+.app-button {
+
+    background: @surface;
+
+    color: @text;
+
+    border: 1px solid @border;
+
+    border-radius: 8px;
+
+    padding: 6px 10px;
+}
+
+.app-button:hover {
+
+    background: @surface-hover;
+}
+
+
+/* =========================================================
+   ACTIONS
+   ========================================================= */
+
+.status-box {
+    background: alpha(@theme_fg_color,0.12);
+}
+
+.section-toggle {
+    background: alpha(@theme_fg_color,0.12);
+    color: white;
+    border-radius: 6px;
+    padding: 3px 6px;
+    font-size: 11px;
+}
+
+.section-toggle:hover {
+    background: alpha(@theme_fg_color,0.24);
+}
+
+.btn-launch {
+
+    background: @accent;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    min-width: 30px;
+    min-height: 30px;
+    padding: 4px 8px;
+
+    font-weight: 600;
+}
+
+.btn-launch:hover {
+
+    background: @accent-hover;
+}
+
+
+.btn-edit {
+
+    background: @surface;
+
+    color: @text;
+
+    border-radius: 8px;
+
+    border: 1px solid @border;
+
+    min-width: 30px;
+    min-height: 30px;
+
+    padding: 4px 8px;
+}
+
+.btn-edit:hover {
+
+    background: @surface-hover;
+}
+
+
+.btn-export {
+
+    background: @surface;
+
+    color: @text;
+
+    border-radius: 8px;
+
+    border: 1px solid @border;
+
+    min-width: 30px;
+    min-height: 30px;
+
+    padding: 4px 8px;
+}
+
+.btn-export:hover {
+
+    background: @surface-hover;
+}
+
+
+/* =========================================================
+   EXPORT
+   ========================================================= */
+
+.export-dialog {
+
+    background: @bg;
+}
+
+.export-title {
+
+    color: @text;
+
+    font-size: 15px;
+
+    font-weight: 600;
+}
+
+.export-path {
+
+    background: @surface;
+
+    color: @text;
+
+    border-radius: 8px;
+
+    padding: 8px;
+
+    border: 1px solid @border;
+}
+
+/* =========================================================
+   GTK4 - Adwaita Inspired
+   Part 2 / 4
+   Cards, Textes, Dialogues, Badges, Listes, Toasts...
+   ========================================================= */
+
+/* =========================================================
+   CARTES DE JEUX / LIGNES DE LISTE
+   ========================================================= */
+
+.game-container {
+    background: linear-gradient(180deg, @surface, @bg-alt);
+    border-radius: 12px;
+    padding: 10px 12px;
+    border: 1px solid rgba(255,255,255,0.04);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.45);
+    transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
+}
+
+.game-container:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.50);
+    border-color: rgba(255,255,255,0.08);
+}
+
+.game-row {
+    margin-bottom: 8px;
+}
+
+/* List rows / selection */
+list row:selected,
+.listbox row:selected,
+.treeview row:selected {
+    background: rgba(53,132,228,0.12);
+    border-radius: 8px;
+}
+
+/* small separators */
+.game-row + .game-row {
+    margin-top: 6px;
+}
+
+/* =========================================================
+   TYPOGRAPHIE & LABELS
+   ========================================================= */
+
+.title-1 {
+    color: @text;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.title-2 {
+    color: @text;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.title-4 {
+    color: @text-muted;
+    font-size: 13px;
+    font-weight: 600;
+    opacity: 0.95;
+}
+
+.dim-label {
+    color: @text-muted;
+    font-size: 13px;
+}
+
+.form-label {
+    color: @text-muted;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.label-bottom {
+    color: @text;
+    font-size: 14px;
+}
+
+/* form labels */
+label {
+    color: @text;
+    font-size: 13px;
+}
+
+label.home-label {
+    color: rgba(255,255,255,0.70);
+    font-size: 14px;
+    margin-left: 6px;
+    padding: 4px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.04);
+}
+
+
+/* small helper text */
+.help-text {
+    color: @text-muted;
+    font-size: 14px;
+}
+
+/* =========================================================
+   ENTRIES / SEARCH
+   ========================================================= */
+
+entry,
+.searchentry,
+.search-entry,
+.search {
+    background: @surface;
+    color: @text;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.04);
+    padding: 6px 10px;
+    min-height: 36px;
+}
+
+entry:focus,
+.searchentry:focus {
+    border-color: @accent;
+    box-shadow: 0 6px 18px rgba(53,132,228,0.08);
+}
+
+/* Placeholder muted */
+entry placeholder,
+.searchentry placeholder {
+    color: @text-muted;
+}
+
+/* =========================================================
+   DIALOGUES / MODALES
+   ========================================================= */
+
+.dialog-content {
+
+    background:
+        rgba(20,20,20,0.80);
+
+    border:
+        1px solid rgba(255,255,255,0.06);
+
+    border-radius:16px;
+
+    padding:12px;
+}
+
+
+.dialog-content textview {
+
+    background:transparent;
+    color:white;
+
+    font-family:monospace;
+}
+
+.launch-dialog {
+    background: @bg-alt;
+    border-radius: 14px;
+    padding: 18px;
+    border: 1px solid rgba(255,255,255,0.04);
+}
+
+.launch-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: @text;
+}
+
+.launch-game {
+    font-size: 15px;
+    font-weight: 600;
+    color: @accent;
+}
+
+.launch-info {
+    color: @text-muted;
+    font-size: 13px;
+}
+
+/* Export dialog specifics */
+.export-dialog {
+    background: @bg;
+    border-radius: 12px;
+    padding: 12px;
+}
+
+/* =========================================================
+   BADGES
+   ========================================================= */
+
+.badge {
+    padding: 1px 2px;
+    border-radius: 1px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.04);
+    color: @text;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+}
+
+/* badge variants */
+.badge-protondb, .badge.profile {
+    background: rgba(80,140,255,0.12);
+    border-color: rgba(80,140,255,0.20);
+    color: rgba(200,220,255,0.98);
+}
+
+.badge.platform {
+    background: rgba(255,190,80,0.10);
+    border-color: rgba(255,190,80,0.18);
+    color: rgba(255,230,180,0.98);
+}
+
+.badge.feature {
+    background: rgba(100,255,170,0.08);
+    border-color: rgba(100,255,170,0.14);
+    color: rgba(190,255,210,0.98);
+}
+
+.badge.favorite {
+    background: rgba(255,60,120,0.08);
+    border-color: rgba(255,60,120,0.18);
+    color: rgba(255,200,215,0.98);
+}
+
+
+/* =====================================
+   PREMIUM GAMING BADGES - GTK
+   ===================================== */
+
+
+.badge {
+
+    border-radius: 10px;
+
+    padding: 5px 10px;
+
+    border-width: 1px;
+    border-style: solid;
+
+    color: #ffffff;
+
+    font-weight: bold;
+
+    background-color: rgba(255,255,255,0.06);
+
+}
+
+
+/* =====================================
+   🐣 ROOKIE - STARTER
+   ===================================== */
+
+.badge.rookie {
+
+    background-color: #17394a;
+
+    border-color: #4ed8ff;
+
+    color: #b9f2ff;
+
+}
+
+
+
+/* =====================================
+   🙂 CASUAL - COMMON
+   ===================================== */
+
+.badge.casual {
+
+    background-color: #4a4018;
+
+    border-color: #ffd84d;
+
+    color: #fff2a8;
+
+}
+
+
+
+/* =====================================
+   🎮 GAMER - RARE
+   ===================================== */
+
+.badge.gamer {
+
+    background-color: #163d28;
+
+    border-color: #4dff8a;
+
+    color: #baffd0;
+
+}
+
+
+
+/* =====================================
+   🏆 HEAVY - EPIC
+   ===================================== */
+
+.badge.heavy {
+
+    background-color: #4a2815;
+
+    border-color: #ff9b45;
+
+    color: #ffd2a8;
+
+}
+
+
+
+/* =====================================
+   💀 ADDICT - MYTHIC
+   ===================================== */
+
+.badge.addict {
+
+    background-color: #4a1623;
+
+    border-color: #ff4768;
+
+    color: #ffc0cb;
+
+}
+
+
+
+/* =====================================
+   🌙 NIGHT OWL - SPECIAL
+   ===================================== */
+
+.badge.night_owl {
+
+    background-color: #241b55;
+
+    border-color: #8d7cff;
+
+    color: #d5ceff;
+
+}
+
+
+
+/* =====================================
+   🧓 VETERAN - LEGENDARY
+   ===================================== */
+
+.badge.veteran {
+
+    background-color: #4b3b12;
+
+    border-color: #e7c45c;
+
+    color: #fff0a6;
+
+}
+
+/* =========================================================
+   TOASTS / NOTIFICATIONS
+   ========================================================= */
+
+.toast {
+    color: @text;
+    font-size: 13px;
+    padding: 8px 10px;
+}
+
+.toast-container {
+    background: linear-gradient(180deg, @surface, @bg-alt);
+    border-radius: 10px;
+    padding: 8px 12px;
+    border-left: 3px solid @accent;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.55);
+}
+
+/* toast states */
+.toast.info { border-left-color: @accent; }
+.toast.warning { border-left-color: @warning; }
+.toast.error { border-left-color: @error; }
+
+/* =========================================================
+   PROGRESS / LOADING
+   ========================================================= */
+
+.progress {
+    background: rgba(255,255,255,0.03);
+    border-radius: 999px;
+}
+
+.progress .bar {
+    background: @accent;
+    transition: width 220ms ease;
+}
+
+/* small spinner overrides */
+.spinner {
+    color: @accent;
+}
+
+/* =========================================================
+   TREEVIEW / LISTVIEW / COLUMNS
+   ========================================================= */
+
+treeview,
+.treeview,
+.listview {
+    background: transparent;
+    color: @text;
+}
+
+treeview header {
+    background: transparent;
+    color: @text-muted;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* rows */
+treeview row,
+.listview row {
+    padding: 8px 10px;
+    border-radius: 8px;
+}
+
+/* =========================================================
+   TEXTVIEW / MONOSPACE OUTPUT
+   ========================================================= */
+
+textview {
+    background: transparent;
+    color: @text;
+    font-family: monospace;
+    font-size: 13px;
+}
+
+/* Ne pas forcer la couleur interne des Gtk.TextBuffer */
+textview text {
+    background: transparent;
+}
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+scrollbar,
+scrollbar slider {
+    min-width: 8px;
+    min-height: 8px;
+    background: rgba(255,255,255,0.02);
+    border-radius: 8px;
+}
+
+scrollbar vertical slider,
+scrollbar horizontal slider {
+    background: linear-gradient(180deg, rgba(80,140,255,0.16), rgba(80,140,255,0.06));
+    border-radius: 8px;
+}
+
+/* hover */
+scrollbar slider:hover {
+    background: linear-gradient(180deg, rgba(80,140,255,0.22), rgba(80,140,255,0.08));
+}
+
+/* =========================================================
+   FOCUS & ACCESSIBILITÉ
+   ========================================================= */
+
+*:focus {
+    outline-color: rgba(53,132,228,0.45);
+    outline-style: solid;
+    outline-width: 2px;
+    outline-offset: 2px;
+    border-radius: 6px;
+}
+
+/* keyboard focus visible */
+:focus-visible {
+    box-shadow: 0 6px 18px rgba(53,132,228,0.08);
+}
+
+/* =========================================================
+   ANIMATIONS / TRANSITIONS
+   ========================================================= */
+
+button,
+.game-container,
+.entry,
+.listbox row {
+    transition: background-color 150ms ease, transform 150ms ease, box-shadow 150ms ease;
+}
+
+/* Recent games cards */
+.recent-card {
+    padding: 1px 5px;
+    margin: 1px;
+    border-radius: 8px;
+    background-color: alpha(@surface, 0.05);
+    /* background: linear-gradient(180deg, @surface, @bg-alt); */
+}
+
+.carousel-button {
+    min-width: 36px;
+    min-height: 36px;
+
+    padding: 0;
+
+    border-radius: 18px;
+}
+
+.carousel-button:hover {
+    background-color: alpha(currentColor, 0.08);
+}
+
+.carousel-button:disabled {
+    opacity: 0.35;
+}
+
+.carousel-counter {
+    font-size: 0.8em;
+    color: alpha(white, 0.55);
+
+    padding: 3px 10px;
+    border-radius: 12px;
+}
+
+.btn-delete {
+    min-width: 18px;
+    min-height: 18px;
+    padding: 0;
+    margin: 0;
+}
+
+.btn-delete image {
+    -gtk-icon-size: 10px;
+}
+/* GAME ICON */
+.game-icon image,
+image.game-icon {
+    -gtk-icon-shadow: 0 0 1px rgba(255, 255, 255,0.80),
+                      0 0 2px rgba(255, 255, 255,0.20);
+}
+
+.game-icon:hover image,
+image.game-icon:hover {
+    -gtk-icon-shadow: 0 0 1px rgba(255,255,255,0.85),
+                      0 0 2px rgba(255,255,255,0.25);
+}
+
+.game-icon {
+
+    min-width:64px;
+    min-height:64px;
+
+    border-radius:14px;
+
+    background:
+        rgba(255,255,255,0.85);
+    box-shadow:
+        0 0 10px rgba(46, 204, 113,0.15);
+
+    padding:4px;
+}
+
+.game-icon:hover {
+
+    background:
+        rgba(255,255,255,0.35);
+
+    box-shadow:
+        0 0 10px rgba(46, 204, 113,0.35);
+}
+
+.status-history-panel {
+    padding: 6px;
+    border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 6px;
+}
+
+.status-history-entry {
+    font-size: 0.9em;
+}
+
+.status-history-error {
+    color: #e05252;
+}
+
+.status-history-success {
+    color: #4caf78;
+}
+
+/* -------------------------------------------------
+   GAME GRID
+   ------------------------------------------------- */
+
+.game-grid {
+    padding: 4px;
+    background-color: transparent;
+}
+
+.game-grid scrolledwindow {
+    background-color: transparent;
+}
+
+.game-grid-card {
+    min-width: 0;
+    min-height: 0;
+
+    margin: 2px;
+    padding: 4px;
+
+    border-radius: 10px;
+}
+
+.game-grid-card:hover {
+    background-color: alpha(@theme_fg_color, 0.07);
+}
+
+.game-grid-icon-holder {
+    min-width: 0;
+    min-height: 0;
+}
+
+.game-grid-icon {
+    border-radius: 6px;
+}
+
+.game-grid-title {
+    font-weight: 600;
+    font-size: 1em;
+    margin-left: 1px;
+    margin-right: 1px;
+}
+
+.game-grid-badges {
+    min-height: 8px;
+}
+
+/* =========================================================
+ * GAME GRID — CONTEXT MENU — ADWAITA
+ * ========================================================= */
+
+.game-grid-context-menu {
+    padding: 3px;
+    background: @surface;
+    color: @text;
+}
+
+/* ---------------------------------------------------------
+ * Boutons
+ * --------------------------------------------------------- */
+
+.game-grid-context-menu button {
+    min-height: 24px;
+    padding: 4px 9px;
+
+    border: none;
+    border-radius: 6px;
+    box-shadow: none;
+
+    color: @text;
+    background: transparent;
+}
+
+/* Hover */
+.game-grid-context-menu button:hover {
+    color: @text;
+    background: @surface-hover;
+}
+
+/* Press */
+.game-grid-context-menu button:active {
+    color: @text;
+    background: @bg-hover;
+}
+
+/* Focus clavier */
+.game-grid-context-menu button:focus-visible {
+    color: @text;
+    outline: 2px solid @accent;
+    outline-offset: -2px;
+}
+
+/* ---------------------------------------------------------
+ * Suppression
+ * --------------------------------------------------------- */
+
+.game-grid-context-menu .game-grid-menu-delete {
+    color: @error;
+}
+
+.game-grid-context-menu .game-grid-menu-delete:hover {
+    color: @error;
+    background: alpha(@error, 0.10);
+}
+
+.game-grid-context-menu .game-grid-menu-delete:active {
+    color: @error;
+    background: alpha(@error, 0.16);
+}
+
+/* ---------------------------------------------------------
+ * Séparateur
+ * --------------------------------------------------------- */
+
+
+.game-grid-context-menu separator {
+    margin: 3px 2px;
+    min-height: 1px;
+    background: alpha(@text, 0.12);
+}
+
+/* =========================================================
+ * NAVIGATION CLAVIER / FOCUS
+ * ========================================================= */
+.btn-delete:focus-visible,
+.btn-export:focus-visible,
+.btn-install:focus-visible,
+.btn-edit:focus-visible,
+.btn-launch:focus-visible,
+.badge-clickable:focus-visible {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+popover modelbutton:focus-visible,
+popover menuitem:focus-visible {
+    background: rgba(124, 92, 255, 0.25);
+    color: #ffffff;
+    outline: 2px solid @accent;
+    outline-offset: -2px;
+}
+
+
+/* Boutons */
+button:focus {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+/* Focus clavier plus discret pour les boutons d'action */
+.btn-delete:focus,
+.btn-export:focus,
+.btn-install:focus,
+.btn-edit:focus,
+.btn-launch:focus {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+/* Badge ProtonDB cliquable */
+.badge-clickable:focus {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+/* Entrées texte */
+entry:focus,
+searchentry:focus {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+/* ListView */
+.game-list:focus {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+/* Éléments de menu / popover */
+popover modelbutton:focus,
+popover menuitem:focus {
+    background: rgba(124, 92, 255, 0.25);
+    color: #ffffff;
+
+    outline: 2px solid @accent;
+    outline-offset: -2px;
+}
+
+/* Boutons de popover */
+popover button:focus {
+    background: rgba(124, 92, 255, 0.25);
+    color: #ffffff;
+
+    outline: 2px solid @accent;
+    outline-offset: 1px;
+}
+
+
+/* =========================================================
+ * ACCESSIBILITÉ CLAVIER (complément)
+ * - Icône de jeu (grille) : Gtk.Button focusable au Tab, activable
+ *   à Entrée/Espace -> anneau de focus manquant du bloc précédent.
+ * - Fenêtre "Raccourcis clavier" (menu, ou Ctrl+? / Ctrl+/).
+ * ========================================================= */
+
+.game-grid-icon-holder:focus,
+.game-grid-icon-holder:focus-visible {
+    outline: 2px solid @accent;
+    outline-offset: 2px;
+}
+
+.shortcuts-window {
+    background: @surface;
+    border-radius: 16px;
+}
+
+.shortcuts-list {
+    background: transparent;
+}
+
+.shortcuts-list row {
+    background: transparent;
+    border-radius: 8px;
+}
+
+.shortcuts-list row:hover {
+    background: @surface-hover;
+}
+
+.shortcuts-list row:focus,
+.shortcuts-list row:focus-visible {
+    outline: 2px solid @accent;
+    outline-offset: -2px;
+    border-radius: 8px;
+}
+
+.shortcut-key {
+    font-family: monospace;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: @bg-alt;
+    border: 1px solid @border;
+    color: @text;
+}
+
+.save-backup-path {
+    font-size: 0.75em;
+    color: alpha(@theme_fg_color, 0.55);
+}
+
+.save-backup-dialog, .save-manager-dialog{
+    background: rgba(15,15,15,0.92);
+    padding: 2px 8px;
+    border-radius:8px;
+    color:white;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.18);
+}
+
+.title-5, .save-history-list{
+    background: rgba(15,15,15,0.92);
+    padding: 2px 8px;
+    border-radius:8px;
+    color:white;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    border:
+        1px solid
+        @border;
+}
+
+.save-location-path{
+    background: linear-gradient(180deg, @surface, @bg-alt);
+    padding: 2px 8px;
+    border-radius:8px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.18);
+}
+
+.launch-dialog spinner {
+    color: #3584e4;
+    opacity: 1;
+    filter: drop-shadow(0 0 6px rgba(53, 132, 228, 0.55));
+    animation:
+        spin 1s linear infinite,
+        pa-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes pa-pulse {
+    0%   { filter: drop-shadow(0 0 4px rgba(53, 132, 228, 0.35)); }
+    50%  { filter: drop-shadow(0 0 10px rgba(53, 132, 228, 0.75)); }
+    100% { filter: drop-shadow(0 0 4px rgba(53, 132, 228, 0.35)); }
+}
