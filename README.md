@@ -138,8 +138,12 @@ dpkg-buildpackage -b -us -uc
 sudo apt install ../proton-autogen_*.deb
 ```
 
-### See the manual installation guide:
-[Installation Guide](docs/install.md)
+### See the manual :
+#### Installation guide:
+[Install Guide](docs/install.md)
+
+#### Uninstallation guide:
+[Uninstall Guide](docs/uninstall.md)
 
 
 Review the installer before running it
