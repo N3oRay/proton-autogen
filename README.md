@@ -144,14 +144,16 @@ sudo apt install ../proton-autogen_*.deb
 #### Installation guide:
 [Install Guide](docs/install.md)
 
-#### Uninstallation guide:
-[Uninstall Guide](docs/uninstall.md)
-
-
 Review the installer before running it
 ```bash
 less install.sh
 ```
+
+#### Uninstallation guide:
+[Uninstall Guide](docs/uninstall.md)
+
+
+
 ### Install manual  (Arch,Endeavouros,Cachyos,Garuda,Manjaro,Arcolinux,Rebornos,Debian,Ubuntu,Linuxmint,Pop,Elementary,Zorin,Fedora,Nobara)
 ```bash
 git clone https://github.com/N3oRay/proton-autogen.git
