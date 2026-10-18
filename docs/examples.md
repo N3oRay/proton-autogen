@@ -1,3 +1,7 @@
+## 📸 Screenshots
+
+![Screenshot](https://github.com/N3oRay/proton-autogen/blob/main/docs/screenshots/pics0.jpg)
+
 ```text
 
 # installer via PPA (recommandé sur Debian/Ubuntu dérivés)
