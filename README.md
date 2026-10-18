@@ -271,7 +271,7 @@ See the `LICENSE` file for details.
 
 ## ❤️ Support Proton-Autogen
 
-Proton-Autogen is free and open source. Your support helps me continue development, improve compatibility, and maintain the project.
+[Proton-Autogen is free and open source. Your support helps me continue development, improve compatibility, and maintain the project.](docs/SPONSORING.md)
 
 ☕  [Support me on Ko-fi](https://ko-fi.com/n3oray)
 
