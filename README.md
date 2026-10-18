@@ -244,17 +244,6 @@ Bug reports, feature requests, and contributions are welcome.
 
 Please use GitHub Issues for discussions and reports.
 
-
-## 💡 Philosophy
-
-Linux gaming is powerful but often fragmented.
-
-Proton-Autogen aims to reduce friction by turning Proton into a transparent execution layer rather than a manually configured tool.
-
-The goal is simple:
-
-> Right-click → Run Windows application → It just works.
-
 ---
 
 ## 👤 Author
