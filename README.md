@@ -21,18 +21,18 @@ Run Windows executables through Proton with zero Steam configuration.
 
 ## ✨ Why Proton-Autogen?
 
-Run Windows applications on Linux with less setup and fewer manual steps.
+**Run Windows applications on Linux with less setup and fewer manual steps.**
 
-* 🚀 One-Click Launching — Launch Windows .exe files directly from your file manager.
-* 🔍 Automatic Runtime Detection — Automatically detect available Proton installations and simplify runtime selection.
-* 🎮 Proton & Wine Support — Launch Windows applications using Proton or Wine, depending on your configuration.
-* 🖥️ Desktop Integration — Seamlessly integrate with Nemo, Nautilus, and Dolphin for a smoother Linux desktop experience.
-* ⚙️ Custom Launch Profiles — Configure and manage application-specific launch settings.
-* 🛠️ Built-in Diagnostics — Generate diagnostic reports to help troubleshoot launch issues.
-* 🪄 Less Manual Configuration — Automate repetitive setup tasks and spend less time configuring your environment.
-* 🐧 Linux-Native Experience — Bring Windows application launching into your existing Linux workflow.
+* 🚀 **One-Click Launching** — Launch Windows .exe files directly from your file manager.
+* 🔍 **Automatic Runtime Detection** — Automatically detect available Proton installations and simplify runtime selection.
+* 🎮 **Proton & Wine Support** — Launch Windows applications using Proton or Wine, depending on your configuration.
+* 🖥️ **Desktop Integration** — Seamlessly integrate with Nemo, Nautilus, and Dolphin for a smoother Linux desktop experience.
+* ⚙️ **Custom Launch Profiles** — Configure and manage application-specific launch settings.
+* 🛠️ **Built-in Diagnostics** — Generate diagnostic reports to help troubleshoot launch issues.
+* 🪄 **Less Manual Configuration** — Automate repetitive setup tasks and spend less time configuring your environment.
+* 🐧 **Linux-Native Experience** — Bring Windows application launching into your existing Linux workflow.
 
-The goal: make launching Windows applications on Linux as simple and convenient as possible.
+**The goal: make launching Windows applications on Linux as simple and convenient as possible.**
 
 ## 🚀 Overview
 
