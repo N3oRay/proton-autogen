@@ -118,7 +118,7 @@ STYLE_CSS = {
             "ia_green": os.path.join(base, "assets", "style_ia.css"),
             "gta": os.path.join(base, "assets", "style-gta.css"),
             "adwaita": os.path.join(base, "assets", "style_adwaita.css"),
-            "ia": os.path.join(base, "assets", "style_ia.css"),
+            "ia": os.path.join(base, "assets", "style_ia-dark.css"),
             "pro": os.path.join(base, "assets", "style-cyberpunk-pro.css"),
             "kawaii": os.path.join(base, "assets", "style-kawaii.css"),
             "hellokit": os.path.join(base, "assets", "hello-kit.css"),
