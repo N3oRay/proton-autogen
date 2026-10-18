@@ -52,6 +52,7 @@ Simply:
 
 See an example of generated profiles here: [Profile Output Example](docs/profiles.md)
 See more info: [Features](docs/features.md)
+
 ---
 
 ### Integration
