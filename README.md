@@ -251,9 +251,9 @@ Please use GitHub Issues for discussions and reports.
 ## 👤 Author
 
 **N3oray**
-
-![Screenshot](https://www.fflmpics.fr/images/2026/06/15/n3oray.png)
-
+<p align="left">
+  <img src="docs/screenshots/neoray.png" width="271" alt="Proton-Autogen Demo">
+</p>
 GitHub: [@N3oRay](https://github.com/N3oRay)
 
 ---
