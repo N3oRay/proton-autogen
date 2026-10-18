@@ -100,7 +100,7 @@ Latest releases are available on GitHub:
 
 ## 📦 Installation & Updates
 
-###📦 **Arch Linux / CachyOS users:** Proton-Autogen is now available on the AUR.
+### 📦 **Arch Linux / CachyOS users:** Proton-Autogen is now available on the AUR.
 
 Install it with:
 
@@ -199,12 +199,10 @@ Supported locations:
 
 ### Optional
 
-- GameMode
-- MangoHud
-- GameScope
-- Proton-CachyOS
-- GE-Proton
+- GameMode - MangoHud - GameScope
+- Proton-CachyOS / GE-Proton
 - ProtonUp-Qt
+  
 ```bash
 sudo apt install gamemode mangohud
 ```
@@ -236,33 +234,30 @@ No Steam shortcut creation is required.
 ## 🛣️ Roadmap
 ### Core features
 
-- [x] Per-application profiles
-- [x] Advanced prefix control (Steam compatdata integration)
-- [x] Configuration file support
-- [x] Game / Installer auto-detection
-- [x] GUI frontend
-- [x] Memory — Save Management:system to manage, and preserve game saves/data.
-- [x] System Monitor
-- [ ] System Optimizer
+- [x] 🖥️ GUI frontend / Per-application profiles
+- [x] ⚙️ Advanced prefix control (Steam compatdata integration)
+- [x] 🎮 Game / Installer auto-detection / Configuration file support
+- [x] 🛠️ Memory — Save Management:system to manage, and preserve game saves/data.
+- [x] 🧠 System Monitor
+- [ ] 🚀 System Optimizer
 
 ### Automation
 
-- [x] ProtonDB integration
-- [x] Automatic dependency installation (.NET, .NET C#)
-- [ ] Automatic dependency installation (VC++, VB, ...)
-- [ ] Silent mode
+- [x] 🎮 ProtonDB integration
+- [x] 🧠 Automatic dependency installation (.NET, .NET C#)
+- [ ] 🛠️ Automatic dependency installation (VC++, VB, ...)
+- [ ] ⚙️ Silent mode
 
 ### Gaming integrations
 
-- [x] Lutris, Bottles, Heroic profile import
-- [x] Lutris profile export
-- [ ] Bottles profile export
-- [x] Sensors and MangoHud support
-- [x] Gamescope integration
+- [x] 🛠️ Lutris, Bottles, Heroic profile import
+- [x] 📦 Lutris profile export
+- [ ] 📦 Bottles profile export
+- [x] ⚙️ Sensors and MangoHud support / Gamescope integration
 
 ### Accessibility
 
-- [x] Accessibility improvements
+- [x] 🖥️ Accessibility improvements
 
 
 ---
