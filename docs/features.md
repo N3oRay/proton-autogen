@@ -13,25 +13,6 @@
 * 🔧 Lightweight and dependency-minimal
 
 
-J’ai consulté ta page [`docs/features.md`](<https://github.com/N3oRay/proton-autogen/blob/main/docs/features.md?utm_source=chatgpt.com>). Elle contient actuellement 11 fonctionnalités sous forme d’une simple liste, sans explication ni exemple.
-
-GitHub
-
-+1
-
-Je te conseille d’en faire une véritable page de documentation fonctionnelle, plus détaillée que la section Features de ton README. L’objectif est d’expliquer ce que fait chaque fonctionnalité, comment elle aide l’utilisateur et où trouver les instructions correspondantes.
-
-Je conserverais l’anglais pour toucher la communauté Linux internationale, avec une structure facile à parcourir.
-
-## Proposition de contenu pour `docs/features.md`
-
-Voici une version complète en anglais, prête à remplacer le contenu actuel. Elle développe les 11 fonctionnalités existantes, ajoute des exemples d'utilisation et renvoie vers tes autres documents. Les descriptions s'appuient sur le README et la configuration du projet ; les détails qui méritent une vérification dans le code sont formulés prudemment.
-
-GitHub
-
-+1
-
-Écriture
 
 # ✨ Proton-Autogen Features
 
@@ -239,14 +220,4 @@ Proton-Autogen aims to make this process more accessible through runtime detecti
 
 **Less manual configuration. A simpler workflow. More control over how Windows applications run on Linux.**
 
-## Avant de publier cette version
 
-Je vérifierais trois points pour éviter que la documentation promette davantage que le logiciel :
-
-- Préfixes : précise les opérations réellement disponibles — création, sélection, réinitialisation, suppression ou association à une application.
-- Détection et fallback : confirme les règles de sélection de Proton et les conditions exactes dans lesquelles Wine est utilisé.
-- Interface GTK4 : ajoute des captures d'écran de l'interface réelle et explique ses fonctions une par une. C'est plus utile qu'une description générale.
-
-Vérifie aussi que les fichiers `docs/install.md`, `docs/profiles.md` et `docs/examples.md` existent bien avec ces noms. Les liens relatifs proposés supposent qu'ils se trouvent dans le même répertoire que `features.md`.
-
-Mon conseil : garde cette page comme documentation détaillée des fonctionnalités, ton README comme présentation rapide du projet et `docs/install.md` comme guide pratique. Ainsi, chaque page a un objectif distinct et l'ensemble paraît beaucoup plus professionnel.
