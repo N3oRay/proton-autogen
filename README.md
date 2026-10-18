@@ -53,10 +53,6 @@ See an example of generated profiles here: [Profile Output Example](docs/profile
 
 ---
 
-## 📸 Screenshots
-
-![Screenshot](https://github.com/N3oRay/proton-autogen/blob/main/docs/screenshots/pics0.jpg)
-
 ### Integration
 Right-click any Windows executable and select:
 
