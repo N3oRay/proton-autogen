@@ -173,7 +173,7 @@ Proton-Autogen is also available as a Flatpak.
 
 For installation from source, see:
 
-[Flatpak installation guide](INSTALL_FLATPAK.md)
+[Flatpak installation guide](docs/INSTALL_FLATPAK.md)
 
 
 
