@@ -113,9 +113,7 @@ Install it with:
 
 ### Ubuntu / Linux Mint / Pop!_OS (Recommended)
 
-The recommended installation method is the official Proton-Autogen PPA:
-
-Until then, the manual installer is available.
+The recommended installation method is the official Proton-Autogen PPA.
 
 ### Recommended installation (Ubuntu / Linux Mint / Pop!_OS)
 
