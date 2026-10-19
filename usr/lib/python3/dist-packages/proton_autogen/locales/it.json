@@ -287,6 +287,11 @@
   "env_vars.proton_enable_fsync": "Forza Fsync di Proton.",
   "env_vars.proton_wayland_monitor": "Seleziona il monitor Wayland utilizzato da Proton. Esempio: PROTON_WAYLAND_MONITOR=HDMI-A-1 %command%",
   "env_vars.proton_use_ntsync": "Abilita NTSync, un metodo di sincronizzazione più efficiente progettato per migliorare le prestazioni della CPU e la compatibilità dei giochi Windows.",
+  "env_vars.proton_death_stranding_controller_effects": "Configura il supporto agli effetti specifici del controller in Death Stranding.",
+  "env_vars.proton_dualsense_haptics_prefer_non_event": "Modifica la preferenza di gestione del feedback aptico del DualSense per gli eventi non standard.",
+  "env_vars.proton_sony_auto_xinput": "Controlla l'uso automatico della compatibilità XInput per i controller Sony.",
+  "env_vars.proton_limit_address_space": "Limita lo spazio di indirizzamento della memoria utilizzato dal processo, secondo il comportamento implementato da Proton.",
+  "env_vars.wayland_fullscreen_enable": "Abilita la gestione dello schermo intero nell'ambiente Wayland.",
 
   "env_vars.wineprefix": "Prefisso Wine.",
   "env_vars.winearch": "Architettura Wine.",

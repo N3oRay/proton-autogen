@@ -308,7 +308,37 @@ PROTON_ENV_VARS = [
         "type": "proton",
         "category": "performance",
         "i18n": "env_vars.proton_use_ntsync",
-    }
+    },
+    {
+        "name": "PROTON_DEATH_STRANDING_CONTROLLER_EFFECTS",
+        "type": "proton",
+        "category": "input",
+        "i18n": "env_vars.proton_death_stranding_controller_effects",
+    },
+    {
+        "name": "PROTON_DUALSENSE_HAPTICS_PREFER_NON_EVENT",
+        "type": "proton",
+        "category": "input",
+        "i18n": "env_vars.proton_dualsense_haptics_prefer_non_event",
+    },
+    {
+        "name": "PROTON_SONY_AUTO_XINPUT",
+        "type": "proton",
+        "category": "input",
+        "i18n": "env_vars.proton_sony_auto_xinput",
+    },
+    {
+        "name": "PROTON_LIMIT_ADDRESS_SPACE",
+        "type": "proton",
+        "category": "compatibility",
+        "i18n": "env_vars.proton_limit_address_space",
+    },
+    {
+        "name": "WAYLAND_FULLSCREEN_ENABLE",
+        "type": "proton",
+        "category": "graphics",
+        "i18n": "env_vars.wayland_fullscreen_enable",
+    },
 
 ]
 WINE_ENV_VARS = [
