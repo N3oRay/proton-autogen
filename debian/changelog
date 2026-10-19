@@ -1,6 +1,13 @@
-proton-autogen (3.4.0) noble; urgency=medium
+proton-autogen (3.4.1) noble; urgency=medium
 
   * Thanks to all users and contributors for their continued support, feedback and bug reports.
+  * Added support for additional Proton environment variables to improve compatibility with GE-Proton-11-10.
+  * Added environment variables related to controller effects, DualSense haptics, Sony controller compatibility, memory address space management, and Wayland fullscreen handling.
+  * Added project activity statistics to the documentation.
+  * Added a project roadmap to track planned features and development tasks.
+  * Added detailed documentation describing Proton-Autogen's features.
+  * Added integration instructions and improved installation guidance.
+  * Improved visual themes and applied additional theme fixes.
   * New UX/UI Theme – Modern CSS – Updated Images – Professional Design
   * Expand UI and CSS integrity checks to prevent regressions.
   * Improve Proton, Steam and Flatpak runtime integration.
@@ -30,4 +37,4 @@ proton-autogen (3.4.0) noble; urgency=medium
   * Fix various UI, packaging and integration issues.
   * General UX improvements, configuration handling improvements and code cleanup.
 
- -- N3oray <n3oray77@gmail.com>  Sat, 17 Oct 2026 22:06:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Mon, 19 Oct 2026 21:40:00 +0200
