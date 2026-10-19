@@ -1,4 +1,4 @@
-# 🧩 Proton-Autogen
+# 🧩 Proton-Autogen — Run Windows EXE Files on Linux with Proton or Wine
 ![Linux](https://img.shields.io/badge/platform-Linux-blue)
 ![Python](https://img.shields.io/badge/python-3.x-yellow)
 ![GitHub release](https://img.shields.io/github/v/release/N3oRay/proton-autogen)
@@ -14,7 +14,7 @@ Proton-autogen automatically creates and configures Proton environments for Wind
 
 Run Windows executables through Proton with zero Steam configuration.
 ---
-🎬 Quick Demo
+🎬 Quick Demo - run Windows EXE on Linux
 <p align="left">
   <img src="docs/screenshots/demo.gif" width="550" alt="Proton-Autogen Demo">
 </p>
@@ -55,7 +55,7 @@ See more info: [Features](docs/features.md)
 
 ---
 
-### Integration
+### Integration - Nautilus, Nemo, Dolphin
 Right-click any Windows executable and select:
 
 ```text
