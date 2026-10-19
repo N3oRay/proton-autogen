@@ -1,7 +1,7 @@
 %define __python /usr/bin/python3
 
 Name:           proton-autogen
-Version:        3.4.0
+Version:        3.4.1
 Release:        1%{?dist}
 Summary:        Automatic Proton/Wine launcher for Windows executables
 
@@ -121,6 +121,17 @@ PYTHONPATH="%{buildroot}%{python3_sitelib}:$PYTHONPATH" %{buildroot}%{_bindir}/%
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
+* Mon Oct 19 2026 N3oRay <n3oray77@gmail.com> - 3.4.1-1
+- Release Proton-Autogen 3.4.1.
+- Improve compatibility with GE-Proton-11-10 through additional Proton environment variables.
+- Improve controller support, Wayland integration, and runtime handling.
+- Improve application profiles, game imports, and system monitoring.
+- Introduce a redesigned UI with modern CSS themes and improved responsiveness.
+- Expand automated tests and CSS integrity checks.
+- Improve localization, documentation, and installation guides.
+- Remove obsolete system tray implementation.
+- Improve stability, configuration handling, and code maintainability.
+
 * Sat Oct 17 2026 N3oRay <n3oray77@gmail.com> - 3.4.0-1
 - Release of Proton-Autogen 3.4.0
 - Introduce a redesigned and modern UX/UI theme
