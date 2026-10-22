@@ -350,5 +350,10 @@
 "env_vars.gst_plugin_feature_rank": "Змінює пріоритет плагінів, кодеків і функцій GStreamer, щоб надати перевагу або вимкнути певні компоненти.",
 
 "env_vars.use_d3d11": "Примусово використовує рушій рендерингу Direct3D 11 замість новіших версій DirectX.",
-"env_vars.useallavailablecores": "Вказує Unreal Engine використовувати всі доступні ядра CPU для обробки гри."
+"env_vars.useallavailablecores": "Вказує Unreal Engine використовувати всі доступні ядра CPU для обробки гри.",
+  "drop_no_exe": "У перетягнутих елементах немає файлу .exe",
+  "drop_games_added": "Ігор додано до бібліотеки: {count}",
+  "drop_already_present": "Ігор уже в бібліотеці: {count}",
+  "drop_failed": "Не вдалося додати файлів: {count}",
+  "drop_ignored": "Пропущено файлів (не .exe): {count}"
 }

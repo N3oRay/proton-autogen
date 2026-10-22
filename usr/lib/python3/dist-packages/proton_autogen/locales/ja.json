@@ -350,6 +350,10 @@
   "env_vars.gst_plugin_feature_rank": "GStreamer のプラグイン、コーデック、機能の優先度を変更し、特定のコンポーネントを優先または無効化します。",
 
   "env_vars.use_d3d11": "新しい DirectX バージョンの代わりに Direct3D 11 レンダラーの使用を強制します。",
-  "env_vars.useallavailablecores": "Unreal Engine に対して、ゲーム処理に利用可能なすべての CPU コアを使用するよう指示します。"
-
+  "env_vars.useallavailablecores": "Unreal Engine に対して、ゲーム処理に利用可能なすべての CPU コアを使用するよう指示します。",
+  "drop_no_exe": "ドロップされた項目に .exe ファイルがありません",
+  "drop_games_added": "{count} 個のゲームをライブラリに追加しました",
+  "drop_already_present": "{count} 個のゲームは既にライブラリにあります",
+  "drop_failed": "{count} 個のファイルを追加できませんでした",
+  "drop_ignored": "{count} 個のファイルを無視しました（.exe ではありません）"
 }

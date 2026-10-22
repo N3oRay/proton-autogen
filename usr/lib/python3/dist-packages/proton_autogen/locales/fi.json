@@ -351,6 +351,10 @@
   "env_vars.gst_plugin_feature_rank": "Muuttaa GStreamerin lisäosien, koodekkien ja ominaisuuksien prioriteettia tiettyjen komponenttien suosimiseksi tai poistamiseksi käytöstä.",
 
   "env_vars.use_d3d11": "Pakottaa käyttämään Direct3D 11 -renderöintimoottoria uudempien DirectX-versioiden sijaan.",
-  "env_vars.useallavailablecores": "Pyytää Unreal Engineä käyttämään kaikkia käytettävissä olevia CPU-ytimiä pelin käsittelyyn."
-
+  "env_vars.useallavailablecores": "Pyytää Unreal Engineä käyttämään kaikkia käytettävissä olevia CPU-ytimiä pelin käsittelyyn.",
+  "drop_no_exe": "Pudotuksessa ei ollut .exe-tiedostoa",
+  "drop_games_added": "{count} peliä lisätty kirjastoon",
+  "drop_already_present": "{count} peli(ä) on jo kirjastossa",
+  "drop_failed": "{count} tiedoston lisääminen epäonnistui",
+  "drop_ignored": "{count} tiedosto(a) ohitettu (ei .exe)"
 }

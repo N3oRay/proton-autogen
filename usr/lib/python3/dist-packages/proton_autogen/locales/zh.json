@@ -350,6 +350,10 @@
   "env_vars.gst_plugin_feature_rank": "修改 GStreamer 插件、编解码器和功能的优先级，以优先使用或禁用特定组件。",
 
   "env_vars.use_d3d11": "强制使用 Direct3D 11 渲染器，而不是较新的 DirectX 版本。",
-  "env_vars.useallavailablecores": "指示 Unreal Engine 使用所有可用的 CPU 核心进行游戏处理。"
-
+  "env_vars.useallavailablecores": "指示 Unreal Engine 使用所有可用的 CPU 核心进行游戏处理。",
+  "drop_no_exe": "拖放的内容中没有 .exe 文件",
+  "drop_games_added": "已将 {count} 个游戏添加到库",
+  "drop_already_present": "{count} 个游戏已在库中",
+  "drop_failed": "无法添加 {count} 个文件",
+  "drop_ignored": "已忽略 {count} 个文件（不是 .exe）"
 }

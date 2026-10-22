@@ -350,5 +350,10 @@
   "env_vars.gst_plugin_feature_rank": "Змінює пріоритет плагінів, кодеків і функцій GStreamer, щоб надавати перевагу певним компонентам або вимикати їх.",
 
   "env_vars.use_d3d11": "Примусово використовує рушій рендерингу Direct3D 11 замість новіших версій DirectX.",
-  "env_vars.useallavailablecores": "Вказує Unreal Engine використовувати всі доступні ядра CPU для обробки гри."
+  "env_vars.useallavailablecores": "Вказує Unreal Engine використовувати всі доступні ядра CPU для обробки гри.",
+  "drop_no_exe": "Không có tệp .exe nào trong mục đã thả",
+  "drop_games_added": "Đã thêm {count} trò chơi vào thư viện",
+  "drop_already_present": "{count} trò chơi đã có trong thư viện",
+  "drop_failed": "Không thể thêm {count} tệp",
+  "drop_ignored": "Đã bỏ qua {count} tệp (không phải .exe)"
 }

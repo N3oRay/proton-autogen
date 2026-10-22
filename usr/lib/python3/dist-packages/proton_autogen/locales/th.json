@@ -350,6 +350,10 @@
 "env_vars.gst_plugin_feature_rank": "เปลี่ยนลำดับความสำคัญของปลั๊กอิน โคเดก และฟีเจอร์ของ GStreamer เพื่อเลือกใช้หรือปิดใช้งานส่วนประกอบที่กำหนด",
 
 "env_vars.use_d3d11": "บังคับให้ใช้เอนจินเรนเดอร์ Direct3D 11 แทน DirectX เวอร์ชันใหม่กว่า",
-"env_vars.useallavailablecores": "สั่งให้ Unreal Engine ใช้คอร์ CPU ที่มีอยู่ทั้งหมดสำหรับการประมวลผลเกม"
-
+"env_vars.useallavailablecores": "สั่งให้ Unreal Engine ใช้คอร์ CPU ที่มีอยู่ทั้งหมดสำหรับการประมวลผลเกม",
+  "drop_no_exe": "ไม่พบไฟล์ .exe ในรายการที่วาง",
+  "drop_games_added": "เพิ่มเกม {count} เกมลงในคลังแล้ว",
+  "drop_already_present": "มีเกม {count} เกมอยู่ในคลังแล้ว",
+  "drop_failed": "ไม่สามารถเพิ่มไฟล์ {count} ไฟล์ได้",
+  "drop_ignored": "ข้าม {count} ไฟล์ (ไม่ใช่ .exe)"
 }

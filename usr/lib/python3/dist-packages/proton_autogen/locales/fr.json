@@ -350,5 +350,10 @@
   "env_vars.gst_plugin_feature_rank": "Modifie la priorité des plugins, codecs et fonctionnalités GStreamer afin de privilégier ou désactiver certains composants.",
 
   "env_vars.use_d3d11": "Force l'utilisation du moteur de rendu Direct3D 11 au lieu de versions plus récentes de DirectX.",
-  "env_vars.useallavailablecores": "Demande au moteur Unreal Engine d'utiliser tous les cœurs CPU disponibles pour le traitement du jeu."
+  "env_vars.useallavailablecores": "Demande au moteur Unreal Engine d'utiliser tous les cœurs CPU disponibles pour le traitement du jeu.",
+  "drop_no_exe": "Aucun fichier .exe dans ce dépôt",
+  "drop_games_added": "{count} jeux ajoutés à la bibliothèque",
+  "drop_already_present": "{count} jeu(x) déjà dans la bibliothèque",
+  "drop_failed": "{count} fichier(s) n'ont pas pu être ajoutés",
+  "drop_ignored": "{count} fichier(s) ignoré(s) (pas un .exe)"
 }

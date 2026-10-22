@@ -350,6 +350,10 @@
   "env_vars.gst_plugin_feature_rank": "Изменяет приоритет плагинов, кодеков и функций GStreamer, позволяя отдавать предпочтение определённым компонентам или отключать их.",
 
   "env_vars.use_d3d11": "Принудительно использует рендерер Direct3D 11 вместо более новых версий DirectX.",
-  "env_vars.useallavailablecores": "Указывает Unreal Engine использовать все доступные ядра CPU для обработки игры."
-
+  "env_vars.useallavailablecores": "Указывает Unreal Engine использовать все доступные ядра CPU для обработки игры.",
+  "drop_no_exe": "В перетащенных элементах нет файла .exe",
+  "drop_games_added": "Игр добавлено в библиотеку: {count}",
+  "drop_already_present": "Игр уже в библиотеке: {count}",
+  "drop_failed": "Не удалось добавить файлов: {count}",
+  "drop_ignored": "Пропущено файлов (не .exe): {count}"
 }
