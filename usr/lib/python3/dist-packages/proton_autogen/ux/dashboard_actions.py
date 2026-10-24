@@ -120,7 +120,11 @@ class DashboardActionsMixin:
     def _apply_protondb_result(self, game, info):
         if info:
             game["protondb"] = info
-            self.game_list.update_game(game)   # méthode déjà existante dans game_list.py
+            # Les trois vues : sinon le badge n'apparaît que dans la liste.
+            for view_name in ("game_list", "game_grid", "game_biblio"):
+                view = getattr(self, view_name, None)
+                if view is not None:
+                    view.update_game(game)
         else:
             self.toast.warning(tr("protondb_fetch_failed"))
         return False  # important pour GLib.idle_add

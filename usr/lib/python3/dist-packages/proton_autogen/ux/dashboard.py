@@ -274,6 +274,9 @@ class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, Das
         if hasattr(self, "game_grid"):
             self.game_grid.set_games(games)
 
+        if hasattr(self, "game_biblio"):
+            self.game_biblio.set_games(games)
+
     # -------------------------
     # SEARCH
     # -------------------------
@@ -343,6 +346,7 @@ class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, Das
                 "badges": g.get("badges", []),
                 "app_id": g.get("app_id"),        # 👈 ajouté, Steam APP ID en mémoire
                 "protondb": g.get("protondb"),    # 👈 ajouté, ProtonDB en mémoire
+                "cover_image": g.get("cover_image"),  # 👈 ajouté, jaquette vue Bibliothèque
             }
             for g in games
             if isinstance(g, dict)
@@ -548,12 +552,22 @@ class ProtonAutogenApp(Gtk.Application):
         # -------------------------
         # ZOOM VUE GRILLE (icônes)
         # -------------------------
+        def zoomable_view(win):
+            """Vue à zoomer : la Bibliothèque si elle est affichée, sinon
+            la grille d'icônes (comportement historique)."""
+            if win is None:
+                return None
+            stack = getattr(win, "game_view_stack", None)
+            if stack is not None and stack.get_visible_child_name() == "biblio":
+                return getattr(win, "game_biblio", None)
+            return getattr(win, "game_grid", None)
+
         grid_zoom_in = Gio.SimpleAction.new("grid-zoom-in", None)
 
         def on_grid_zoom_in(*a):
-            win = self.get_active_window()
-            if win and hasattr(win, "game_grid"):
-                win.game_grid.zoom_in()
+            view = zoomable_view(self.get_active_window())
+            if view:
+                view.zoom_in()
 
         grid_zoom_in.connect("activate", on_grid_zoom_in)
         self.add_action(grid_zoom_in)
@@ -561,9 +575,9 @@ class ProtonAutogenApp(Gtk.Application):
         grid_zoom_out = Gio.SimpleAction.new("grid-zoom-out", None)
 
         def on_grid_zoom_out(*a):
-            win = self.get_active_window()
-            if win and hasattr(win, "game_grid"):
-                win.game_grid.zoom_out()
+            view = zoomable_view(self.get_active_window())
+            if view:
+                view.zoom_out()
 
         grid_zoom_out.connect("activate", on_grid_zoom_out)
         self.add_action(grid_zoom_out)

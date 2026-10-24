@@ -686,6 +686,7 @@ def list_programs_ux(lang: str = "en"):
             }),
             "env": config.get("env", {}),
             "favorite": config.get("favorite", False),
+            "cover_image": config.get("cover_image"),
             "playtime": config.get("playtime", {
                 "seconds": 0,
                 "launch_count": 0,

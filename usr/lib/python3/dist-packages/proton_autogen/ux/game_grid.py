@@ -55,6 +55,10 @@ class GameGrid(Gtk.Box):
     Les actions sont déléguées au parent via les callbacks.
     """
 
+    # Espacement horizontal entre cartes, utilisé pour calculer le nombre de
+    # colonnes. Surchargeable par une sous-classe (voir GameBiblio).
+    CARD_SPACING = GRID_CARD_SPACING
+
     def __init__(
         self,
         on_launch=None,
@@ -196,7 +200,7 @@ class GameGrid(Gtk.Box):
             return
 
         # Taille réelle d'une carte = icône + spacing
-        card_width = self.icon_size + GRID_CARD_SPACING
+        card_width = self.icon_size + self.CARD_SPACING
 
         # Espace disponible après les marges
         available_width = max(

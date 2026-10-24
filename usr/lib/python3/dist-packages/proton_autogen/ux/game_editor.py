@@ -3,7 +3,7 @@
 import gi
 import os
 gi.require_version("Gtk", "4.0")
-from gi.repository import Gtk, Gdk
+from gi.repository import Gtk, Gdk, Gio, GLib
 
 from proton_autogen.profiles.def_env import ENV_VARS_BY_NAME
 
@@ -13,6 +13,7 @@ from proton_autogen.desc import set_tooltip
 from proton_autogen.editor import list_prefixes_ux
 from proton_autogen.profiles.init import VALID_PROFILES
 from proton_autogen.i18n import tr
+from proton_autogen.ux import cover_manager
 
 # Valeur par défaut appliquée quand MangoHud est activé sans fps_limit défini
 DEFAULT_FPS_LIMIT = 60
@@ -49,6 +50,14 @@ class GameEditor(Gtk.Window):
 
         self.game = game
         self.lang = lang
+
+        # Jaquette (vue Bibliothèque) : l'image choisie n'est importée dans
+        # le dossier de données qu'à l'enregistrement, pour ne pas laisser
+        # de fichier orphelin si l'utilisateur annule.
+        self._cover_current = self.game.get("cover_image")   # chemin déjà stocké
+        self._cover_new_src = None                           # image fraîchement choisie
+        self._cover_removed = False
+
         self.build_ui()
 
     # -------------------------
@@ -150,6 +159,12 @@ class GameEditor(Gtk.Window):
 
         # État initial : bouton visible seulement si un AppID est déjà renseigné
         self._on_app_id_changed(self.app_id_entry)
+
+        # -------------------------
+        # COVER (vue Bibliothèque)
+        # -------------------------
+        root.append(self._build_cover_row())
+        root.append(self.cover_hint)
 
         # -------------------------
         # TOGGLES
@@ -346,6 +361,126 @@ class GameEditor(Gtk.Window):
         Gtk.UriLauncher(uri=f"https://www.protondb.com/app/{app_id}").launch(self, None, None)
 
     # -------------------------
+    # COVER (image de la vue Bibliothèque)
+    # -------------------------
+    def _build_cover_row(self):
+        self.cover_preview = Gtk.Picture()
+        self.cover_preview.set_size_request(64, 96)
+        self.cover_preview.set_content_fit(Gtk.ContentFit.COVER)
+        self.cover_preview.add_css_class("editor-cover-preview")
+
+        choose_btn = Gtk.Button(label=tr("cover_choose") or "Choisir une image…")
+        choose_btn.add_css_class("section-toggle")
+        choose_btn.connect("clicked", self._on_cover_choose)
+
+        self.cover_clear_btn = Gtk.Button(label=tr("cover_remove") or "Retirer l'image")
+        self.cover_clear_btn.add_css_class("section-toggle")
+        self.cover_clear_btn.connect("clicked", self._on_cover_clear)
+
+        buttons = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+        buttons.set_valign(Gtk.Align.CENTER)
+        buttons.append(choose_btn)
+        buttons.append(self.cover_clear_btn)
+
+        box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        box.set_tooltip_text(
+            tr("cover_tooltip")
+            or "Image affichée dans la vue Bibliothèque. Format conseillé : "
+               "portrait 2:3 (l'image est recadrée au centre)."
+        )
+        box.append(self.cover_preview)
+        box.append(buttons)
+
+        self.cover_hint = Gtk.Label(xalign=0)
+        self.cover_hint.add_css_class("error-label")
+        self.cover_hint.set_visible(False)
+
+        self._refresh_cover_preview()
+
+        return self._row(tr("cover_label") or "Cover", box)
+
+    def _displayed_cover(self):
+        """Chemin de l'image à montrer dans l'aperçu (ou None)."""
+        if self._cover_removed:
+            return None
+        return self._cover_new_src or self._cover_current
+
+    def _refresh_cover_preview(self):
+        path = self._displayed_cover()
+        texture = None
+
+        if path and os.path.isfile(path):
+            texture = cover_manager.load_texture_sync(path, 64, 96)
+
+        self.cover_preview.set_paintable(texture)
+        self.cover_clear_btn.set_sensitive(bool(path))
+
+    def _on_cover_choose(self, _btn):
+        image_filter = Gtk.FileFilter()
+        image_filter.set_name(tr("cover_filter_images") or "Images")
+        image_filter.add_pixbuf_formats()
+
+        filters = Gio.ListStore.new(Gtk.FileFilter)
+        filters.append(image_filter)
+
+        dialog = Gtk.FileDialog()
+        dialog.set_title(tr("cover_choose") or "Choisir une image…")
+        dialog.set_filters(filters)
+        dialog.set_default_filter(image_filter)
+        dialog.open(self, None, self._on_cover_chosen)
+
+    def _on_cover_chosen(self, dialog, result):
+        try:
+            gfile = dialog.open_finish(result)
+        except GLib.Error:
+            return  # dialogue fermé sans choix
+
+        path = gfile.get_path() if gfile else None
+        if not path:
+            return
+
+        if not cover_manager.is_supported_image(path):
+            self.cover_hint.set_text(
+                "⚠ " + (tr("cover_invalid") or "Image non supportée ou illisible")
+            )
+            self.cover_hint.set_visible(True)
+            return
+
+        self.cover_hint.set_visible(False)
+        self._cover_new_src = path
+        self._cover_removed = False
+        self._refresh_cover_preview()
+
+    def _on_cover_clear(self, _btn):
+        self.cover_hint.set_visible(False)
+        self._cover_new_src = None
+        self._cover_removed = True
+        self._refresh_cover_preview()
+
+    def _resolve_cover_for_save(self):
+        """
+        Applique le choix de jaquette et retourne le chemin à enregistrer
+        (None = aucune jaquette). En cas d'échec d'import, l'ancienne
+        jaquette est conservée.
+        """
+        previous = self._cover_current
+
+        if self._cover_removed:
+            cover_manager.remove_cover(previous)
+            return None
+
+        if self._cover_new_src:
+            stored = cover_manager.import_cover(
+                self._cover_new_src, self.game["path"]
+            )
+            if stored:
+                if previous and previous != stored:
+                    cover_manager.remove_cover(previous)
+                return stored
+
+        return previous
+
+    # -------------------------
     # MEMORY (gestionnaire de sauvegardes)
     # -------------------------
     def _on_memory_clicked(self, _btn):
@@ -532,6 +667,8 @@ class GameEditor(Gtk.Window):
             if self.gpu.get_selected() >= 0
             else "auto"
         )
+        cover_image = self._resolve_cover_for_save()
+
         data = self.game.copy()
 
         features = self.game.get("features", {}).copy()
@@ -562,6 +699,7 @@ class GameEditor(Gtk.Window):
                 "name": prefix
             },
             "app_id": self.app_id_entry.get_text().strip() or None,
+            "cover_image": cover_image,
             "features": features,
             "env": env,
         })

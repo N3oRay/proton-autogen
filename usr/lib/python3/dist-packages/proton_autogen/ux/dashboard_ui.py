@@ -10,6 +10,7 @@ from proton_autogen.ux.recent_carousel import RecentCarousel
 from proton_autogen.ux.favorites_carousel import FavoritesCarousel
 from proton_autogen.ux.game_list import GameList
 from proton_autogen.ux.game_grid import GameGrid
+from proton_autogen.ux.game_biblio import GameBiblio
 from proton_autogen.ux.dashboard_status import StatusLabel
 from proton_autogen.i18n import tr
 
@@ -153,10 +154,18 @@ class DashboardUIMixin:
             icon_name="view-grid-symbolic"
         )
 
+        self.game_biblio_view_btn = Gtk.ToggleButton(
+            icon_name="view-paged-symbolic"
+        )
+
         self.game_list_view_btn.set_tooltip_text("Liste")
         self.game_grid_view_btn.set_tooltip_text("Icônes")
+        self.game_biblio_view_btn.set_tooltip_text(
+            tr("view_biblio") or "Bibliothèque"
+        )
 
         self.game_grid_view_btn.set_group(self.game_list_view_btn)
+        self.game_biblio_view_btn.set_group(self.game_list_view_btn)
         self.game_list_view_btn.set_active(True)
 
         self.game_list_view_btn.connect(
@@ -165,9 +174,13 @@ class DashboardUIMixin:
         self.game_grid_view_btn.connect(
             "toggled", self._on_game_view_grid_toggled
         )
+        self.game_biblio_view_btn.connect(
+            "toggled", self._on_game_view_biblio_toggled
+        )
 
         buttons.append(self.game_list_view_btn)
         buttons.append(self.game_grid_view_btn)
+        buttons.append(self.game_biblio_view_btn)
 
         root.append(buttons)
 
@@ -249,6 +262,11 @@ class DashboardUIMixin:
             self.game_view_stack.set_visible_child_name("grid")
 
 
+    def _on_game_view_biblio_toggled(self, button):
+        if button.get_active():
+            self.game_view_stack.set_visible_child_name("biblio")
+
+
     def _build_game_list(self, root):
         self.game_list = GameList(
             on_launch=self.launch_game,
@@ -272,7 +290,18 @@ class DashboardUIMixin:
             lang=self.lang,
         )
 
-        for view in (self.game_list, self.game_grid):
+        self.game_biblio = GameBiblio(
+            on_launch=self.launch_game,
+            on_edit=self.edit_game,
+            on_delete=self.delete_game,
+            on_refresh=self.refresh_games,
+            on_export_lutris=self.export_lutris_handler,
+            on_install=self.show_create_shortcut_dialog,
+            on_protondb=self.show_protondb_dialog,
+            lang=self.lang,
+        )
+
+        for view in (self.game_list, self.game_grid, self.game_biblio):
             view.set_hexpand(True)
             view.set_vexpand(True)
 
@@ -286,6 +315,9 @@ class DashboardUIMixin:
         )
         self.game_view_stack.add_named(
             self.game_grid, "grid"
+        )
+        self.game_view_stack.add_named(
+            self.game_biblio, "biblio"
         )
 
         self.game_view_stack.set_visible_child_name("list")
