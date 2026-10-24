@@ -15,6 +15,7 @@ from proton_autogen.progress import Progress
 from proton_autogen.backend import run, fetch_protondb_info
 from proton_autogen import process_manager
 from proton_autogen.ux.game_editor import GameEditor
+from proton_autogen.ux import cover_manager
 from proton_autogen.ux.dialogs import show_launch_dialog, hide_launch_dialog
 from proton_autogen.ux.dialogs import update_launch_dialog_info
 from proton_autogen.ux.dialogs import open_game_file_dialog
@@ -577,6 +578,10 @@ class DashboardActionsMixin:
         game_name = game.get("name", tr("unknown_game"))
 
         if rm_game_ux(game.get("path"), game.get("config_path")):
+            # Supprime aussi la jaquette copiée dans covers/ : sans cela, le
+            # fichier resterait orphelin. remove_cover() ne touche qu'aux
+            # fichiers de ce dossier (jamais à une image de l'utilisateur).
+            cover_manager.remove_cover(game.get("cover_image"))
             self.refresh_games()
             self.status.set_text(
                 tr("game_removed_from_library", name=game_name)

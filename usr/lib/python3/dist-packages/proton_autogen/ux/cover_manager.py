@@ -152,7 +152,7 @@ def import_cover(src_path, game_path: str) -> Optional[str]:
         else:
             fmt, ext, keys, values = "jpeg", "jpg", ["quality"], ["90"]
 
-        final = directory / f"{_game_id(game_path)}-{int(time.time())}.{ext}"
+        final = directory / f"{_game_id(game_path)}-{time.time_ns()}.{ext}"
         tmp = final.with_suffix(final.suffix + ".tmp")
 
         # Écriture atomique : jamais de jaquette à moitié écrite.
