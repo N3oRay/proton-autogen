@@ -1,7 +1,7 @@
 %define __python /usr/bin/python3
 
 Name:           proton-autogen
-Version:        3.4.1
+Version:        3.4.2
 Release:        1%{?dist}
 Summary:        Automatic Proton/Wine launcher for Windows executables
 
