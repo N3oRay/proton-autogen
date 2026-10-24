@@ -1,6 +1,9 @@
-proton-autogen (3.4.1) noble; urgency=medium
+proton-autogen (3.4.2) noble; urgency=medium
 
   * Thanks to all users and contributors for their continued support, feedback and bug reports.
+  * Added a Library Menu with Jacquet – new UX menu
+  * Drag-and-drop of `.EXE` files directly into UX
+  * Added a Favorites filter in UX
   * Added support for additional Proton environment variables to improve compatibility with GE-Proton-11-10.
   * Added environment variables related to controller effects, DualSense haptics, Sony controller compatibility, memory address space management, and Wayland fullscreen handling.
   * Added project activity statistics to the documentation.
@@ -37,4 +40,4 @@ proton-autogen (3.4.1) noble; urgency=medium
   * Fix various UI, packaging and integration issues.
   * General UX improvements, configuration handling improvements and code cleanup.
 
- -- N3oray <n3oray77@gmail.com>  Mon, 19 Oct 2026 21:40:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Sat, 24 Oct 2026 11:40:00 +0200
