@@ -288,6 +288,7 @@ class DashboardUIMixin:
             on_install=self.show_create_shortcut_dialog,
             on_protondb=self.show_protondb_dialog,
             lang=self.lang,
+            on_favorites_filter=self.on_favorites_filter_toggled,
         )
 
         self.game_biblio = GameBiblio(
@@ -299,6 +300,7 @@ class DashboardUIMixin:
             on_install=self.show_create_shortcut_dialog,
             on_protondb=self.show_protondb_dialog,
             lang=self.lang,
+            on_favorites_filter=self.on_favorites_filter_toggled,
         )
 
         for view in (self.game_list, self.game_grid, self.game_biblio):

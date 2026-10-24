@@ -69,11 +69,19 @@ class GameGrid(Gtk.Box):
         on_install=None,
         on_protondb=None,
         lang="en",
+        on_favorites_filter=None,
     ):
         super().__init__(
             orientation=Gtk.Orientation.VERTICAL,
             spacing=6,
         )
+
+        # Appelé avec True/False quand l'utilisateur bascule le bouton ★.
+        # Le filtrage lui-même est fait par le Dashboard (voir
+        # DashboardMixin._set_game_views), pour que la grille et la
+        # bibliothèque restent synchronisées.
+        self.on_favorites_filter = on_favorites_filter
+        self._syncing_favorites = False
 
         self.on_launch = on_launch
         self.on_edit = on_edit
@@ -116,6 +124,15 @@ class GameGrid(Gtk.Box):
         zoom_in_btn.connect("clicked", lambda _: self.zoom_in())
         zoom_in_btn.add_css_class("section-toggle")
         toolbar.append(zoom_in_btn)
+
+        # Bouton filtre « favoris uniquement ». Le libellé change (☆ → ★)
+        # pour que l'état reste lisible sur tous les thèmes, même si l'un
+        # d'eux ne stylise pas l'état « coché » des boutons.
+        self.favorites_btn = Gtk.ToggleButton(label="☆")
+        self.favorites_btn.add_css_class("section-toggle")
+        self.favorites_btn.set_tooltip_text(tr("favorites") or "Favoris")
+        self.favorites_btn.connect("toggled", self._on_favorites_toggled)
+        toolbar.append(self.favorites_btn)
 
         # Label info taille
         self.size_label = Gtk.Label()
@@ -184,6 +201,31 @@ class GameGrid(Gtk.Box):
         # Le GridView n'a sa largeur réelle qu'après le premier layout GTK.
         GLib.idle_add(self._update_grid_columns)
 
+
+    def _on_favorites_toggled(self, button):
+        active = button.get_active()
+        button.set_label("★" if active else "☆")
+
+        # Changement d'état provoqué par set_favorites_filter_active() :
+        # ne pas relancer le filtre (le Dashboard l'a déjà appliqué).
+        if self._syncing_favorites:
+            return
+
+        if self.on_favorites_filter:
+            self.on_favorites_filter(active)
+
+    def set_favorites_filter_active(self, active):
+        """Aligne le bouton ★ sur l'état du Dashboard, sans callback."""
+        active = bool(active)
+
+        if self.favorites_btn.get_active() == active:
+            return
+
+        self._syncing_favorites = True
+        try:
+            self.favorites_btn.set_active(active)
+        finally:
+            self._syncing_favorites = False
 
     def _update_size_label(self):
         """Met à jour le label affichant la taille actuelle."""

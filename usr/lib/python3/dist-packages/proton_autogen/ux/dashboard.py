@@ -267,15 +267,52 @@ class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, Das
         ][:limit]
 
     def _set_game_views(self, games):
-        """Met à jour simultanément les vues liste et grille."""
+        """Met à jour simultanément les vues liste, grille et bibliothèque.
+
+        Le filtre « favoris » (bouton ★ de la grille et de la bibliothèque)
+        ne s'applique qu'à ces deux vues : la liste n'a pas de bouton pour
+        le désactiver, elle montre donc toujours tous les jeux.
+        """
+        # Mémorisé pour pouvoir ré-appliquer le filtre au basculement du ★.
+        self._view_games = games
+
         if hasattr(self, "game_list"):
             self.game_list.set_games(games)
 
+        shown = (
+            [g for g in games if g.get("favorite")]
+            if getattr(self, "_favorites_only", False)
+            else games
+        )
+
         if hasattr(self, "game_grid"):
-            self.game_grid.set_games(games)
+            self.game_grid.set_games(shown)
 
         if hasattr(self, "game_biblio"):
-            self.game_biblio.set_games(games)
+            self.game_biblio.set_games(shown)
+
+    def on_favorites_filter_toggled(self, active):
+        """Bouton ★ de la grille / bibliothèque : filtre les favoris."""
+        self._favorites_only = bool(active)
+
+        # Les deux vues partagent le même état : on aligne l'autre bouton.
+        for name in ("game_grid", "game_biblio"):
+            view = getattr(self, name, None)
+            if view is not None:
+                view.set_favorites_filter_active(self._favorites_only)
+
+        games = getattr(self, "_view_games", None)
+        if games is None:
+            games = self.games
+
+        self._set_game_views(games)
+
+        shown_count = (
+            sum(1 for g in games if g.get("favorite"))
+            if self._favorites_only
+            else len(games)
+        )
+        self.status.set_text(tr("apps_count").format(count=shown_count))
 
     # -------------------------
     # SEARCH
