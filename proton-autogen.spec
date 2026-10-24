@@ -121,6 +121,11 @@ PYTHONPATH="%{buildroot}%{python3_sitelib}:$PYTHONPATH" %{buildroot}%{_bindir}/%
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
+* Sat Oct 24 2026 N3oRay <n3oray77@gmail.com> - 3.4.2-1
+- Release Proton-Autogen 3.4.2.
+- Added a Library Menu with Jacquet – new UX menu
+- Drag-and-drop of `.EXE` files directly into UX.
+
 * Mon Oct 19 2026 N3oRay <n3oray77@gmail.com> - 3.4.1-1
 - Release Proton-Autogen 3.4.1.
 - Improve compatibility with GE-Proton-11-10 through additional Proton environment variables.
