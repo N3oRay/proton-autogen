@@ -33,6 +33,7 @@ jobs:
             python3-requests \
             python3-psutil \
             python3-xlib \
+            procps \
             gir1.2-gtk-4.0 \
             gir1.2-glib-2.0 \
             gir1.2-graphene-1.0 \
@@ -83,6 +84,7 @@ jobs:
             python-requests \
             python-psutil \
             python-xlib \
+            procps-ng \
             gtk4 \
             graphene \
             glib2 \
@@ -133,6 +135,7 @@ jobs:
             python3-requests \
             python3-psutil \
             python3-xlib \
+            procps-ng \
             pango \
             cairo \
             gtk4 \
