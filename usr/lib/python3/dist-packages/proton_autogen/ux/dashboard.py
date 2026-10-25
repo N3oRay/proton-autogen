@@ -33,6 +33,7 @@ from proton_autogen.ux.themes import (
 )
 from proton_autogen.i18n import tr, detect_help_env_lang
 from proton_autogen.ux.search import filter_games
+from proton_autogen import library
 from proton_autogen.notify import notifications
 from proton_autogen.backend import list_programs_ux
 
@@ -240,31 +241,13 @@ class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, Das
     # SEARCH Recent games for Caroussel
     # ---------------------------------
     def get_recent_games(self, games, limit=6):
-        def last_launch_dt(g):
-            raw = g.get("playtime", {}).get("last_launch")
-            if not raw:
-                return None
-            try:
-                return datetime.fromisoformat(raw)
-            except Exception:
-                return None
-
-        played = [
-            (g, last_launch_dt(g))
-            for g in games
-        ]
-        played = [(g, dt) for g, dt in played if dt is not None]
-        played.sort(key=lambda pair: pair[1], reverse=True)
-
-        return [g for g, _ in played][:limit]
+        # Logique extraite dans library.py (pure, testée sans GTK).
+        return library.get_recent_games(games, limit)
 
 
     def get_favorite_games(self, games, limit=6):
-
-        return [
-            g for g in games
-            if g.get("favorite", False)
-        ][:limit]
+        # Logique extraite dans library.py (pure, testée sans GTK).
+        return library.get_favorite_games(games, limit)
 
     def _set_game_views(self, games):
         """Met à jour simultanément les vues liste, grille et bibliothèque.
@@ -279,10 +262,8 @@ class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, Das
         if hasattr(self, "game_list"):
             self.game_list.set_games(games)
 
-        shown = (
-            [g for g in games if g.get("favorite")]
-            if getattr(self, "_favorites_only", False)
-            else games
+        shown = library.visible_games(
+            games, getattr(self, "_favorites_only", False)
         )
 
         if hasattr(self, "game_grid"):
@@ -307,10 +288,8 @@ class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, Das
 
         self._set_game_views(games)
 
-        shown_count = (
-            sum(1 for g in games if g.get("favorite"))
-            if self._favorites_only
-            else len(games)
+        shown_count = len(
+            library.visible_games(games, self._favorites_only)
         )
         self.status.set_text(tr("apps_count").format(count=shown_count))
 
