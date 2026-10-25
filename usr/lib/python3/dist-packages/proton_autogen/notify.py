@@ -1,4 +1,3 @@
-from gi.repository import GLib
 from proton_autogen.utils.logger import StructuredLogger
 
 #-------------------------- Init Log -------------------
@@ -16,6 +15,10 @@ class NotificationCenter:
         logger.info(f"[{level}] {title}: {message}")
 
         if ui and self.toast_callback:
+            # Importé ici : sans callback d'interface (CLI), GLib n'est
+            # jamais nécessaire.
+            from gi.repository import GLib
+
             GLib.idle_add(
                 self.toast_callback,
                 {

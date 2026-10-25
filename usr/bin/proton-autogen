@@ -23,7 +23,6 @@ from proton_autogen.editor import add_game, edit_game_ui
 from proton_autogen.i18n import detect_help_env_lang, check_translations_cli
 from proton_autogen.info import print_help
 from proton_autogen.diag import print_diagnostic
-from proton_autogen.ux.dashboard import start_dashboard
 from proton_autogen.import_scan import scan_all, scan_wine_prefixes, any_source_available, total_count, import_selected
 
 # For install dependance:
@@ -113,6 +112,10 @@ def run_import_cli():
 def main():
     # Launcher UX
     if "--ux" in sys.argv:
+        # Import différé : charger le tableau de bord tire GTK 4. Les autres
+        # commandes (--help, --list, lancement d'un jeu...) n'en ont pas
+        # besoin et démarrent donc plus vite, même sans GTK installé.
+        from proton_autogen.ux.dashboard import start_dashboard
         start_dashboard()
         return
 

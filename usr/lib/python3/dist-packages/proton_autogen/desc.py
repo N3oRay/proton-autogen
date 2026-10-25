@@ -3,8 +3,6 @@
 import os
 import json
 
-from gi.repository import Gtk
-
 # ------------------------------------------------------------------------------------
 # DESCRIPTIONS : chargement paresseux
 #

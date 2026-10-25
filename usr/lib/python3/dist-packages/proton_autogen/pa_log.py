@@ -1,10 +1,11 @@
 #pa_log.py
 import os
 import subprocess
-import gi
-gi.require_version("Gtk", "4.0")
-from gi.repository import Gtk, Gio, Gdk, GLib
 
+# GTK n'est plus importé ici : seule _notify_toast() en a besoin, et elle
+# l'importe elle-même à l'appel. Le reste du module (journalisation des
+# profils, handle_result) sert aussi la CLI, qui doit pouvoir tourner sans
+# GTK installé.
 
 
 # -----------------------------------------------------------
@@ -137,6 +138,9 @@ def _notify_toast(status, parent=None, timeout=3):
     """
     Toast non bloquant GTK4 (overlay simple)
     """
+    import gi
+    gi.require_version("Gtk", "4.0")
+    from gi.repository import Gtk, GLib
 
     win = Gtk.Window(
         transient_for=parent,
