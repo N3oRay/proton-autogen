@@ -347,26 +347,9 @@ class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, Das
         self.spinner.stop()
         self.spinner.set_visible(False)
 
-        self.games = [
-            {
-                "name": g.get("name", "Unknown"),
-                "path": g.get("path"),
-                "config_path": g.get("config_path"),
-                "exe_type": g.get("exe_type", "dx11"),
-                "proton": g.get("proton", ""),
-                "prefix": g.get("prefix", {}),
-                "features": g.get("features", {}),
-                "env": g.get("env", {}),
-                "favorite": g.get("favorite", False),
-                "playtime": g.get("playtime", {}),
-                "badges": g.get("badges", []),
-                "app_id": g.get("app_id"),        # 👈 ajouté, Steam APP ID en mémoire
-                "protondb": g.get("protondb"),    # 👈 ajouté, ProtonDB en mémoire
-                "cover_image": g.get("cover_image"),  # 👈 ajouté, jaquette vue Bibliothèque
-            }
-            for g in games
-            if isinstance(g, dict)
-        ]
+        # Plus de liste de champs à tenir à jour ici : tout ce que fournit
+        # backend.list_programs_ux traverse (voir library.normalize_game).
+        self.games = library.normalize_games(games)
 
         if hasattr(self, "game_list"):
             filtered = (

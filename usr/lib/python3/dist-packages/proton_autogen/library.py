@@ -17,6 +17,55 @@ toujours, avec la même signature : elles délèguent simplement ici.
 from datetime import datetime
 
 
+# Valeurs par défaut d'un jeu pour l'interface. Les valeurs modifiables
+# (dict, list) sont des fabriques : chaque jeu reçoit SON objet, jamais un
+# objet partagé entre plusieurs jeux.
+_GAME_DEFAULTS = {
+    "name": lambda: "Unknown",
+    "path": lambda: None,
+    "config_path": lambda: None,
+    "exe_type": lambda: "dx11",
+    "proton": lambda: "",
+    "prefix": dict,
+    "features": dict,
+    "env": dict,
+    "favorite": lambda: False,
+    "playtime": dict,
+    "badges": list,
+    "app_id": lambda: None,
+    "protondb": lambda: None,
+    "cover_image": lambda: None,
+}
+
+
+def normalize_game(game):
+    """Copie d'un jeu venant de backend.list_programs_ux, prête pour l'UI.
+
+    - TOUTES les clés fournies par le backend sont conservées : ajouter un
+      champ côté backend suffit pour qu'il atteigne les vues (il n'y a plus
+      de seconde liste de champs à maintenir dans le Dashboard, cause du
+      bug « cover_image perdu »).
+    - Les clés absentes reçoivent leur valeur par défaut ; une clé présente
+      avec la valeur None est laissée telle quelle (même sémantique que
+      l'ancien `g.get(clé, défaut)`).
+    - La copie est superficielle : les sous-objets (features, env,
+      playtime...) restent partagés avec l'original, comme avant.
+    """
+    normalized = dict(game)
+
+    for key, make_default in _GAME_DEFAULTS.items():
+        if key not in normalized:
+            normalized[key] = make_default()
+
+    return normalized
+
+
+def normalize_games(games):
+    """normalize_game() pour chaque élément qui est un dict (les autres
+    éléments sont ignorés, comme avant)."""
+    return [normalize_game(g) for g in games if isinstance(g, dict)]
+
+
 def only_favorites(games):
     """Jeux marqués favoris, dans l'ordre d'origine."""
     return [g for g in games if g.get("favorite")]
