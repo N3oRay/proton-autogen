@@ -9,7 +9,7 @@ from proton_autogen.profiles.def_env import ENV_VARS_BY_NAME
 
 from proton_autogen.backend import save_game_config
 from proton_autogen.backend import find_all_protons
-from proton_autogen.desc import set_tooltip
+from proton_autogen.ux.desc import set_tooltip
 from proton_autogen.editor import list_prefixes_ux
 from proton_autogen.profiles.init import VALID_PROFILES
 from proton_autogen.i18n import tr

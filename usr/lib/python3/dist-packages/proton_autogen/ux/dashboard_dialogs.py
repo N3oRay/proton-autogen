@@ -4,7 +4,7 @@ import gi
 gi.require_version("Gtk", "4.0")
 from gi.repository import Gtk, Gdk
 
-from proton_autogen.color_label import insert_colored_text, insert_sensor_text, insert_about_text
+from proton_autogen.ux.color_label import insert_colored_text, insert_sensor_text, insert_about_text
 from proton_autogen.core import get_about_text, get_about_proton_text
 from proton_autogen.info import get_help_text, get_mangohud_model_text
 from proton_autogen.sensor import get_sensors_text, get_mangohud_advice
