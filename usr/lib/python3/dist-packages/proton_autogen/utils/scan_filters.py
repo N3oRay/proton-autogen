@@ -55,7 +55,7 @@ EXCLUDED_DIR_CATEGORIES = {
     ),
     "dossiers personnels": (
         "Musique", "Modèles", "Images", "Vidéos", "customFiles", "docs", "bsa",
-        "pdf", "Serene-Conky", "os", "steal",
+        "pdf", "Serene-Conky", "os", "steal", "Music", "Pictures", "Test", "Archives",
     ),
     "jeux (hors bibliothèque)": (
         "dgVoodoo2", "deb-installer", "depotcache", "friends", "linux64", "linux32",
@@ -66,7 +66,7 @@ EXCLUDED_DIR_CATEGORIES = {
         "bin", "clientui", "controller_base",
     ),
     "Proton": (
-        "compatibilitytools.d",
+        "compatibilitytools.d", "dosdevices", "users", "ProgramData", "Common Files", "proton_shortcuts",
     ),
     "sauvegardes": (
         "backup", "backups", "old", "recovery", "stockages", "zip", "tar",
