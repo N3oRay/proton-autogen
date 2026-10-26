@@ -635,10 +635,21 @@ def list_programs_ux(lang: str = "en"):
         return []
 
     result = []
+    manifest_cache = {}
 
     for exe in sorted(programs):
         config = load_game_config(exe) or {}
-        app_id = config.get("app_id") or detect_steam_appid(exe, fallback=False)
+
+        # Respecter la configuration si app_id est défini.
+        # Sinon, utiliser un cache partagé pour cet appel.
+        if config.get("app_id"):
+            app_id = config["app_id"]
+        else:
+            app_id = detect_steam_appid(
+                exe,
+                fallback=False,
+                manifest_cache=manifest_cache,
+            )
 
         protondb_data = config.get("protondb")
         protondb = None
@@ -646,18 +657,28 @@ def list_programs_ux(lang: str = "en"):
             try:
                 protondb = ProtonDBInfo(**protondb_data)
             except TypeError as e:
-                logger.debug("ProtonDB config schema mismatch for %s: %s", exe, e)
+                logger.debug(
+                    "ProtonDB config schema mismatch for %s: %s",
+                    exe,
+                    e,
+                )
 
         badges = get_game_badges({
             "favorite": config.get("favorite", False),
             "playtime": config.get("playtime", {}),
         }, lang)
 
+        # Ne détecter exe_type que si la clé est absente.
+        if "exe_type" in config:
+            exe_type = config["exe_type"]
+        else:
+            exe_type = detect_exe_type(exe)
+
         result.append({
             "name": config.get("name", exe.split("/")[-1]),
             "path": exe,
             "config_path": config.get("config_path"),
-            "exe_type": config.get("exe_type", detect_exe_type(exe)),
+            "exe_type": exe_type,
             "proton": config.get("proton", ""),
             "prefix": config.get("prefix", {"name": "main"}),
             "features": config.get("features", {
@@ -677,10 +698,11 @@ def list_programs_ux(lang: str = "en"):
             }),
             "badges": badges,
             "app_id": app_id,
-            "protondb": protondb,   # 👈 reconstruit depuis la config
+            "protondb": protondb,
         })
 
     return result
+
 
 def _normalize(name: str):
     return re.sub(r"[^a-z0-9]", "", name.lower())
