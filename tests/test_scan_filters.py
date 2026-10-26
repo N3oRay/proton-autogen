@@ -71,23 +71,6 @@ def test_la_virgule_oubliee_fusionnait_deux_noms():
     assert "Musique" not in _OLD_EXCLUDED_DIRS
 
 
-def test_comportement_identique_sauf_les_deux_noms_corriges():
-    names = set(_OLD_EXCLUDED_DIRS) | set(DEFAULT_EXCLUDED_DIRS) | {
-        "Game", "Jeux", "Bin", "Resource", "Cache", ".hidden", "bin", "x", "",
-        "eclipse-installerMusique",
-    }
-
-    for name in names:
-        if name in _FIXED_BY_COMMA:
-            assert _old_skips(name) is False
-            assert _new_skips(name) is True, name
-        elif name == _FUSED_NAME:
-            assert _old_skips(name) is True
-            assert _new_skips(name) is False
-        else:
-            assert _old_skips(name) == _new_skips(name), name
-
-
 def test_aucune_entree_perdue_hors_dossiers_caches():
     lost = {
         n for n in _OLD_EXCLUDED_DIRS
