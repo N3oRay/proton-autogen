@@ -37,7 +37,40 @@ def _from_environment() -> Optional[str]:
     return None
 
 
-def _from_appmanifest(exe_path: Path) -> Optional[str]:
+def _read_manifest_index(steamapps_dir: Path) -> dict:
+    """Index {installdir: appid} de tous les appmanifest_*.acf d'un dossier
+    steamapps, lu UNE fois.
+
+    Mêmes règles que la boucle de _from_appmanifest : fichier dont le nom
+    ne porte pas d'AppID ignoré, fichier illisible ignoré, et, si deux
+    manifestes ont le même installdir, le PREMIER dans l'ordre du glob gagne
+    (setdefault) — comme le `return` au premier succès de l'ancienne boucle.
+    """
+    index = {}
+
+    try:
+        acf_files = list(steamapps_dir.glob("appmanifest_*.acf"))
+    except OSError:
+        return index
+
+    for acf in acf_files:
+        filename_match = _ACF_FILENAME_RE.search(acf.name)
+        if not filename_match:
+            continue
+
+        try:
+            content = acf.read_text(encoding="utf-8", errors="ignore")
+        except OSError:
+            continue
+
+        installdir_match = _ACF_INSTALLDIR_RE.search(content)
+        if installdir_match:
+            index.setdefault(installdir_match.group(1), filename_match.group(1))
+
+    return index
+
+
+def _from_appmanifest(exe_path: Path, manifest_cache: Optional[dict] = None) -> Optional[str]:
     """Recherche l'AppID via appmanifest_<id>.acf dans la bibliothèque Steam.
 
     Fonctionne pour les chemins de la forme :
@@ -63,6 +96,20 @@ def _from_appmanifest(exe_path: Path) -> Optional[str]:
 
     if not steamapps_dir.is_dir():
         return None
+
+    # Appelant qui traite beaucoup de jeux (list_programs_ux) : il fournit un
+    # dict partagé et chaque dossier steamapps n'est lu qu'une fois, au lieu
+    # d'être re-listé et re-lu en entier pour chaque jeu (O(jeux x manifestes)).
+    # Sans dict (lancement d'un seul jeu), le comportement d'origine est
+    # conservé : la recherche s'arrête au premier manifeste qui correspond.
+    if manifest_cache is not None:
+        key = str(steamapps_dir)
+        index = manifest_cache.get(key)
+
+        if index is None:
+            index = manifest_cache[key] = _read_manifest_index(steamapps_dir)
+
+        return index.get(game_dir)
 
     try:
         acf_files = list(steamapps_dir.glob("appmanifest_*.acf"))
@@ -108,7 +155,13 @@ def _from_known_appids(exe_path: Path) -> Optional[str]:
     """
     return _KNOWN_APPIDS_LOWER.get(exe_path.name.lower())
 
-def detect_steam_appid(exe_path: str, fallback: bool = True) -> Optional[str]:
+def detect_steam_appid(
+    exe_path: str,
+    fallback: bool = True,
+    manifest_cache: Optional[dict] = None,
+) -> Optional[str]:
+    """`manifest_cache` : dict optionnel, à créer par l'appelant le temps d'un
+    traitement groupé (puis à jeter : il n'est jamais invalidé)."""
     path = Path(exe_path).resolve()
 
     appid = _from_environment()
@@ -116,7 +169,7 @@ def detect_steam_appid(exe_path: str, fallback: bool = True) -> Optional[str]:
         logger.info(f"Steam AppID detected: {appid} (environment)")
         return appid
 
-    appid = _from_appmanifest(path)
+    appid = _from_appmanifest(path, manifest_cache)
     if appid:
         logger.info(f"Steam AppID detected: {appid} (appmanifest)")
         return appid

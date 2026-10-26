@@ -654,9 +654,16 @@ def list_programs_ux(lang: str = "en"):
 
     result = []
 
+    # Partagé par tous les jeux de CET appel : chaque bibliothèque Steam n'est
+    # lue qu'une fois (voir utils/steam_appid._from_appmanifest). Recréé à
+    # chaque rafraîchissement, donc jamais périmé.
+    steam_manifest_cache = {}
+
     for exe in sorted(programs):
         config = load_game_config(exe) or {}
-        app_id = config.get("app_id") or detect_steam_appid(exe, fallback=False)
+        app_id = config.get("app_id") or detect_steam_appid(
+            exe, fallback=False, manifest_cache=steam_manifest_cache
+        )
 
         protondb_data = config.get("protondb")
         protondb = None
@@ -671,11 +678,18 @@ def list_programs_ux(lang: str = "en"):
             "playtime": config.get("playtime", {}),
         }, lang)
 
+        # `config.get(clé, detect_exe_type(exe))` évaluait detect_exe_type() à
+        # CHAQUE jeu, même quand la config a déjà un type : analyse du PE et
+        # lecture du dossier du jeu, résultat jeté. Même sémantique qu'avant
+        # (une clé présente, même à None, est conservée), mais l'analyse n'a
+        # lieu que si la clé est absente.
+        exe_type = config["exe_type"] if "exe_type" in config else detect_exe_type(exe)
+
         result.append({
             "name": config.get("name", exe.split("/")[-1]),
             "path": exe,
             "config_path": config.get("config_path"),
-            "exe_type": config.get("exe_type", detect_exe_type(exe)),
+            "exe_type": exe_type,
             "proton": config.get("proton", ""),
             "prefix": config.get("prefix", {"name": "main"}),
             "features": config.get("features", {
