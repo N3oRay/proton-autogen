@@ -95,7 +95,8 @@ docs/screenshots/        (images démonstratives)
 ├─ find_windows_programs_ux()       # Scan + dedup with registered games
 ├─ find_windows_programs_ux_search()  # @lru_cache search in common dirs
 │  └─ Scans: ~/Bureau, ~/Downloads, ~/Jeux, ~/Téléchargements
-│  └─ MAX_DEPTH = 6, excludes 100+ cache/temp dirs
+│  └─ MAX_DEPTH = 6, excludes 100+ cache/temp dirs (scan_filters.py)
+│  └─ Customizable: ~/.config/proton-autogen/scan-excludes.txt (one name per line, `-name` re-enables a default)
 ```
 # Proton Management
 ```text

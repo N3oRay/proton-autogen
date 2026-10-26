@@ -480,42 +480,24 @@ def find_windows_programs_ux(root=None):
 Recherche les programmes Windows (.exe) dans les dossiers utilisateur
 et retourne leurs chemins.
 """
-excluded_dirs = {
-    # cache / temp
-    ".cache", "cache", "tmp", ".tmp", "temp", ".temp", "appcache", ".cargo", '.config', "configs",
-    # dev
-    "__pycache__", "node_modules", ".git", ".svn", "JAVA", "www", ".gnupg", ".p2", ".rpmdb", ".rustup", ".ssh", ".var", ".vnc", ".nuget", ".omnisharp", ".m2", ".pki", ".lime", ".java",
-    ".eclipse", ".fltk", ".fonts", ".dotnet", ".dbus", ".config", ".icons", ".conky", ".swt", ".templateengine", ".themes", ".thunderbird", ".npm", ".gvfs",
-    ".uno", "pipeline", "eclipse-workspace", "eclipse-installer"
-    # personnal
-    "Musique", "Modèles", "Images", "customFiles", "docs", "bsa", "pdf", "Serene-Conky", ".mozilla", "os", ".wavemonrc", "steal",
-
-    # gaming
-    ".steam", "dgVoodoo2", "deb-installer", "depotcache", "friends", "linux64", "linux32",
-
-    # steam apps
-    "steamui", "steamrt64", "steamrt32", "userdata", "ubuntu12_32", "ubuntu12_64", "resource", "package", "root", "sdk64", "bin64", "bin32", "bin", "clientui", "controller_base",
-
-    # Proton
-    "compatibilitytools.d",
-
-    # backups
-    "backup", "backups", "old", "recovery", "stockages", "zip", "tar", "Vidéos", "Modèles",
-
-    # misc noise
-    "drivers", "bios", "logs", "log", "old", "tmp", "www", "mail", "personnel", "virus", "malware",
-}
+# Dossiers ignorés par la recherche : voir scan_filters.py (valeurs par défaut +
+# personnalisation optionnelle via ~/.config/proton-autogen/scan-excludes.txt).
 
 excluded_names = { "setup.exe", "install.exe", }
 MAX_DEPTH = 6  # 👈 réglable
 
 from functools import lru_cache
 
+from proton_autogen.utils.scan_filters import get_excluded_dirs
+
 @lru_cache(maxsize=1)
 def find_windows_programs_ux_search(root=None):
     start = perf_counter()
 
     root = Path.home() if root is None else Path(root)
+
+    # Lu une fois par recherche (le résultat de la recherche est lui-même mis en cache).
+    excluded_dirs = get_excluded_dirs()
 
     allowed_roots = [
         root / "Bureau",
@@ -654,16 +636,9 @@ def list_programs_ux(lang: str = "en"):
 
     result = []
 
-    # Partagé par tous les jeux de CET appel : chaque bibliothèque Steam n'est
-    # lue qu'une fois (voir utils/steam_appid._from_appmanifest). Recréé à
-    # chaque rafraîchissement, donc jamais périmé.
-    steam_manifest_cache = {}
-
     for exe in sorted(programs):
         config = load_game_config(exe) or {}
-        app_id = config.get("app_id") or detect_steam_appid(
-            exe, fallback=False, manifest_cache=steam_manifest_cache
-        )
+        app_id = config.get("app_id") or detect_steam_appid(exe, fallback=False)
 
         protondb_data = config.get("protondb")
         protondb = None
@@ -678,18 +653,11 @@ def list_programs_ux(lang: str = "en"):
             "playtime": config.get("playtime", {}),
         }, lang)
 
-        # `config.get(clé, detect_exe_type(exe))` évaluait detect_exe_type() à
-        # CHAQUE jeu, même quand la config a déjà un type : analyse du PE et
-        # lecture du dossier du jeu, résultat jeté. Même sémantique qu'avant
-        # (une clé présente, même à None, est conservée), mais l'analyse n'a
-        # lieu que si la clé est absente.
-        exe_type = config["exe_type"] if "exe_type" in config else detect_exe_type(exe)
-
         result.append({
             "name": config.get("name", exe.split("/")[-1]),
             "path": exe,
             "config_path": config.get("config_path"),
-            "exe_type": exe_type,
+            "exe_type": config.get("exe_type", detect_exe_type(exe)),
             "proton": config.get("proton", ""),
             "prefix": config.get("prefix", {"name": "main"}),
             "features": config.get("features", {

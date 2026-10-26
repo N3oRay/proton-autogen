@@ -1,0 +1,15 @@
+# Exemple de ~/.config/proton-autogen/scan-excludes.txt
+# (copiez ce fichier à cet emplacement puis adaptez-le)
+#
+# Recherche automatique d'exécutables : ~/Bureau, ~/Downloads, ~/Jeux, ~/Téléchargements.
+# Un nom de dossier par ligne ; les lignes vides et celles qui commencent par # sont ignorées.
+# Les dossiers cachés (nom commençant par « . ») sont toujours ignorés.
+# La comparaison est exacte, sensible à la casse. Pris en compte au prochain démarrage.
+
+# Ajouter un dossier à ignorer :
+#MesFilms
+#Backups/
+
+# Cesser d'ignorer un dossier exclu par défaut (précédé de « - ») :
+#-bin
+#-resource
