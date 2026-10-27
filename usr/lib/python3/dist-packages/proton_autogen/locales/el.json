@@ -45,6 +45,7 @@
   "settings_theme": "Θέμα",
   "settings_language": "Γλώσσα",
   "settings_remember_window_size": "Απομνημόνευση μεγέθους παραθύρου",
+  "settings_scan_options": "Αυτόματη σάρωση νέων εφαρμογών (ανενεργή: φορτώνονται μόνο γνωστές εφαρμογές)",
   "settings_reduced_effects": "Μειωμένα οπτικά εφέ (χαμηλότερη χρήση CPU)",
   "settings_section_proton": "Proton",
   "settings_section_behavior": "Συμπεριφορά",

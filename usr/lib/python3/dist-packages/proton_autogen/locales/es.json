@@ -45,6 +45,7 @@
   "settings_theme": "Tema",
   "settings_language": "Idioma",
   "settings_remember_window_size": "Recordar el tamaño de la ventana",
+  "settings_scan_options": "Análisis automático de nuevas apps (desactivado: solo se cargan apps conocidas)",
   "settings_reduced_effects": "Efectos visuales reducidos (menor uso de CPU)",
   "settings_section_behavior": "Comportamiento",
   "settings_minimize_on_launch": "Minimizar la ventana al iniciar un juego",

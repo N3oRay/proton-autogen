@@ -45,6 +45,7 @@
   "settings_theme": "Teema",
   "settings_language": "Kieli",
   "settings_remember_window_size": "Muista ikkunan koko",
+  "settings_scan_options": "Uusien sovellusten automaattinen tarkistus (pois: vain tunnetut sovellukset ladataan)",
   "settings_reduced_effects": "Vähennetyt visuaaliset tehosteet (pienempi suoritinkuorma)",
   "settings_section_behavior": "Käyttäytyminen",
   "settings_minimize_on_launch": "Pienennä ikkuna pelin käynnistyessä",

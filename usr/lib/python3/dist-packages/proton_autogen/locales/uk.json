@@ -45,6 +45,7 @@
   "settings_theme": "Тема",
   "settings_language": "Мова",
   "settings_remember_window_size": "Запам'ятовувати розмір вікна",
+  "settings_scan_options": "Автосканування нових програм (вимкнено: завантажуються лише відомі програми)",
   "settings_reduced_effects": "Спрощені візуальні ефекти (менше навантаження на ЦП)",
   "settings_section_behavior": "Поведінка",
   "settings_minimize_on_launch": "Згортати вікно під час запуску гри",

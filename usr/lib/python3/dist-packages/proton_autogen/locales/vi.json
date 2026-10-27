@@ -45,6 +45,7 @@
   "settings_theme": "Chủ đề",
   "settings_language": "Ngôn ngữ",
   "settings_remember_window_size": "Ghi nhớ kích thước cửa sổ",
+  "settings_scan_options": "Tự động quét ứng dụng mới (tắt: chỉ tải ứng dụng đã biết)",
   "settings_reduced_effects": "Giảm hiệu ứng hình ảnh (giảm mức dùng CPU)",
   "settings_section_behavior": "Hành vi",
   "settings_minimize_on_launch": "Thu nhỏ cửa sổ khi khởi chạy trò chơi",

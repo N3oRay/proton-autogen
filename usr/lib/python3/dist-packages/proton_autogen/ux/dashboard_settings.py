@@ -37,6 +37,7 @@ from proton_autogen.config import (
 )
 from proton_autogen.ux.dashboard_mini import load_mini_mode_enabled
 from proton_autogen.ux.css_perf import load_reduced_effects, save_reduced_effects
+from proton_autogen.ux.settings_scan import load_scan_options, save_scan_options
 
 
 # Noms affichés pour les langues disponibles (repli sur le code brut
@@ -76,7 +77,7 @@ class DashboardSettingsMixin:
             transient_for=self,
             modal=True,
         )
-        win.set_default_size(560, 520)
+        win.set_default_size(620, 620)
         win.add_css_class("settings-dialog")
 
         root = Gtk.Box(
@@ -125,6 +126,15 @@ class DashboardSettingsMixin:
         remember_size_check.add_css_class("feature-toggle")
         remember_size_check.set_active(load_remember_window_size())
         root.append(remember_size_check)
+
+
+        options_scan_check = Gtk.CheckButton(
+            label=tr("settings_scan_options") or "Auto-scan new apps (off: only known apps are loaded)"
+        )
+        options_scan_check.add_css_class("feature-toggle")
+        options_scan_check.set_active(load_scan_options())
+        root.append(options_scan_check)
+
 
         reduced_effects_check = Gtk.CheckButton(
             label=tr("settings_reduced_effects") or "Reduced visual effects (lower CPU usage)"
@@ -198,6 +208,7 @@ class DashboardSettingsMixin:
                 ),
                 prefix_entry.get_text(),
                 reduced_effects_check.get_active(),
+                options_scan_check.get_active(),
             ),
         )
 
@@ -231,11 +242,14 @@ class DashboardSettingsMixin:
     # -------------------------
     # SAVE
     # -------------------------
-    def _on_settings_save(self, win, theme, lang, remember_size, minimize_on_launch, raw_paths, prefix_dir, reduced_effects=None):
+    def _on_settings_save(self, win, theme, lang, remember_size, minimize_on_launch, raw_paths, prefix_dir, reduced_effects=None, options_scan=None):
         # Effets visuels réduits : à enregistrer AVANT apply_style(), qui
         # relit la préférence en rechargeant le thème ci-dessous.
         if reduced_effects is not None:
             save_reduced_effects(reduced_effects)
+        # Active le scan auto : Permet d'activer ou deactiver le scan automatique de nouveau programme.
+        if options_scan is not None:
+            save_scan_options(options_scan)
 
         # Thème : application immédiate (CSS + fond), même mécanisme que
         # ProtonAutogenApp.cycle_style() déjà existant.

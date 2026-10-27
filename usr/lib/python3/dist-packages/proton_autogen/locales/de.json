@@ -45,6 +45,7 @@
   "settings_theme": "Design",
   "settings_language": "Sprache",
   "settings_remember_window_size": "Fenstergröße merken",
+  "settings_scan_options": "Neue Apps automatisch scannen (aus: nur bekannte Apps werden geladen)",
   "settings_reduced_effects": "Reduzierte visuelle Effekte (geringere CPU-Last)",
   "settings_section_behavior": "Verhalten",
   "settings_minimize_on_launch": "Fenster beim Start eines Spiels minimieren",

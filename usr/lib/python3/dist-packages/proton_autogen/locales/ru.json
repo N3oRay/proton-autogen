@@ -45,6 +45,7 @@
   "settings_theme": "Тема",
   "settings_language": "Язык",
   "settings_remember_window_size": "Запоминать размер окна",
+  "settings_scan_options": "Автосканирование новых приложений (выкл.: загружаются только известные приложения)",
   "settings_reduced_effects": "Упрощённые визуальные эффекты (меньше нагрузка на ЦП)",
   "settings_section_behavior": "Поведение",
   "settings_minimize_on_launch": "Сворачивать окно при запуске игры",

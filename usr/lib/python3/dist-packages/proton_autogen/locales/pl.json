@@ -45,6 +45,7 @@
   "settings_theme": "Motyw",
   "settings_language": "Język",
   "settings_remember_window_size": "Zapamiętaj rozmiar okna",
+  "settings_scan_options": "Automatyczne skanowanie nowych aplikacji (wyłączone: ładowane są tylko znane aplikacje)",
   "settings_reduced_effects": "Ograniczone efekty wizualne (mniejsze użycie procesora)",
   "settings_section_behavior": "Zachowanie",
   "settings_minimize_on_launch": "Minimalizuj okno podczas uruchamiania gry",

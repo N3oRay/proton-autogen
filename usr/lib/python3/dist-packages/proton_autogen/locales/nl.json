@@ -45,6 +45,7 @@
   "settings_theme": "Thema",
   "settings_language": "Taal",
   "settings_remember_window_size": "Venstergrootte onthouden",
+  "settings_scan_options": "Nieuwe apps automatisch scannen (uit: alleen bekende apps worden geladen)",
   "settings_reduced_effects": "Minder visuele effecten (lager CPU-gebruik)",
   "settings_section_behavior": "Gedrag",
   "settings_minimize_on_launch": "Venster minimaliseren wanneer een spel wordt gestart",
