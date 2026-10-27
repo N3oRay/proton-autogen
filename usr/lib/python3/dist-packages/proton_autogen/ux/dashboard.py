@@ -33,6 +33,7 @@ from proton_autogen.ux.themes import (
 )
 from proton_autogen.i18n import tr, detect_help_env_lang
 from proton_autogen.ux.search import filter_games
+from proton_autogen.ux.css_perf import load_css_text, load_reduced_effects, optimize_css
 from proton_autogen import library
 from proton_autogen.notify import notifications
 from proton_autogen.backend import list_programs_ux
@@ -426,7 +427,14 @@ class ProtonAutogenApp(Gtk.Application):
         provider = Gtk.CssProvider()
 
         try:
-            provider.load_from_path(path)
+            if load_reduced_effects():
+                # « Effets visuels réduits » : le thème est allégé en mémoire
+                # (ombres floues des lignes/cartes) ; le fichier sur disque
+                # n'est pas modifié. Voir ux/css_perf.py.
+                with open(path, encoding="utf-8") as css_file:
+                    load_css_text(provider, optimize_css(css_file.read()))
+            else:
+                provider.load_from_path(path)
         except Exception as e:
             print(f"[WARN] CSS error {path}: {e}")
             return

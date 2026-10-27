@@ -45,6 +45,7 @@
   "settings_theme": "ธีม",
   "settings_language": "ภาษา",
   "settings_remember_window_size": "จดจำขนาดหน้าต่าง",
+  "settings_reduced_effects": "ลดเอฟเฟกต์ภาพ (ใช้ CPU น้อยลง)",
   "settings_section_behavior": "พฤติกรรม",
   "settings_minimize_on_launch": "ย่อหน้าต่างเมื่อเปิดเกม",
   "settings_section_proton": "Proton",

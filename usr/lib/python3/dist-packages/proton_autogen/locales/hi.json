@@ -45,6 +45,7 @@
   "settings_theme": "थीम",
   "settings_language": "भाषा",
   "settings_remember_window_size": "विंडो का आकार याद रखें",
+  "settings_reduced_effects": "कम दृश्य प्रभाव (कम CPU उपयोग)",
   "settings_section_behavior": "व्यवहार",
   "settings_minimize_on_launch": "गेम शुरू होने पर विंडो को छोटा करें",
   "settings_section_proton": "Proton",

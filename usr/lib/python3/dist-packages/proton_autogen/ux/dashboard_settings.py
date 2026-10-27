@@ -36,6 +36,7 @@ from proton_autogen.config import (
     save_prefix_dir,
 )
 from proton_autogen.ux.dashboard_mini import load_mini_mode_enabled
+from proton_autogen.ux.css_perf import load_reduced_effects, save_reduced_effects
 
 
 # Noms affichés pour les langues disponibles (repli sur le code brut
@@ -125,6 +126,13 @@ class DashboardSettingsMixin:
         remember_size_check.set_active(load_remember_window_size())
         root.append(remember_size_check)
 
+        reduced_effects_check = Gtk.CheckButton(
+            label=tr("settings_reduced_effects") or "Reduced visual effects (lower CPU usage)"
+        )
+        reduced_effects_check.add_css_class("feature-toggle")
+        reduced_effects_check.set_active(load_reduced_effects())
+        root.append(reduced_effects_check)
+
         # -------------------------
         # COMPORTEMENT
         # -------------------------
@@ -189,6 +197,7 @@ class DashboardSettingsMixin:
                     False,
                 ),
                 prefix_entry.get_text(),
+                reduced_effects_check.get_active(),
             ),
         )
 
@@ -222,7 +231,12 @@ class DashboardSettingsMixin:
     # -------------------------
     # SAVE
     # -------------------------
-    def _on_settings_save(self, win, theme, lang, remember_size, minimize_on_launch, raw_paths, prefix_dir):
+    def _on_settings_save(self, win, theme, lang, remember_size, minimize_on_launch, raw_paths, prefix_dir, reduced_effects=None):
+        # Effets visuels réduits : à enregistrer AVANT apply_style(), qui
+        # relit la préférence en rechargeant le thème ci-dessous.
+        if reduced_effects is not None:
+            save_reduced_effects(reduced_effects)
+
         # Thème : application immédiate (CSS + fond), même mécanisme que
         # ProtonAutogenApp.cycle_style() déjà existant.
         app = self.get_application()
