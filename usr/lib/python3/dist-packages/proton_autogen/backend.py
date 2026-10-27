@@ -466,11 +466,14 @@ def load_registered_games_ux():
         if game.get("path")
     ]
 
+from proton_autogen.ux.settings_scan import load_scan_options
+
 def find_windows_programs_ux(root=None):
 
     programs = []
     programs.extend(load_registered_games_ux())
-    programs.extend(find_windows_programs_ux_search(root))
+    if load_scan_options():
+        programs.extend(find_windows_programs_ux_search(root))
 
     # suppression doublons
     return list(dict.fromkeys(programs))
