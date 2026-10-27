@@ -466,7 +466,7 @@ def load_registered_games_ux():
         if game.get("path")
     ]
 
-from proton_autogen.ux.settings_scan import load_scan_options
+from proton_autogen.utils.scan_prefs import load_scan_options
 
 def find_windows_programs_ux(root=None):
 

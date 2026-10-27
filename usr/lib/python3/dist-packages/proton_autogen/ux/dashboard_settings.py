@@ -127,15 +127,6 @@ class DashboardSettingsMixin:
         remember_size_check.set_active(load_remember_window_size())
         root.append(remember_size_check)
 
-
-        options_scan_check = Gtk.CheckButton(
-            label=tr("settings_scan_options") or "Auto-scan new apps (off: only known apps are loaded)"
-        )
-        options_scan_check.add_css_class("feature-toggle")
-        options_scan_check.set_active(load_scan_options())
-        root.append(options_scan_check)
-
-
         reduced_effects_check = Gtk.CheckButton(
             label=tr("settings_reduced_effects") or "Reduced visual effects (lower CPU usage)"
         )
@@ -152,6 +143,13 @@ class DashboardSettingsMixin:
         minimize_check.add_css_class("feature-toggle")
         minimize_check.set_active(load_mini_mode_enabled())
         root.append(minimize_check)
+
+        options_scan_check = Gtk.CheckButton(
+            label=tr("settings_scan_options") or "Auto-scan new apps (off: only known apps are loaded)"
+        )
+        options_scan_check.add_css_class("feature-toggle")
+        options_scan_check.set_active(load_scan_options())
+        root.append(options_scan_check)
 
         # -------------------------
         # PROTON
@@ -248,6 +246,7 @@ class DashboardSettingsMixin:
         if reduced_effects is not None:
             save_reduced_effects(reduced_effects)
         # Active le scan auto : Permet d'activer ou deactiver le scan automatique de nouveau programme.
+        scan_changed = options_scan is not None and options_scan != load_scan_options()
         if options_scan is not None:
             save_scan_options(options_scan)
 
@@ -292,3 +291,8 @@ class DashboardSettingsMixin:
         else:
             self.toast.success(tr("settings_saved"))
             self.status.set_text(tr("settings_saved"))
+
+        # Activer / désactiver le scan change la liste affichée : rechargement
+        # immédiat (sinon l'effet n'apparaît qu'au prochain rafraîchissement).
+        if scan_changed:
+            self.refresh_games()
