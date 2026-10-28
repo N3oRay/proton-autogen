@@ -3,7 +3,9 @@
 import sys
 
 from proton_autogen.config import VERSION
-from proton_autogen.core import USER_PROFILE, USER_PROFILE_DATA
+# Le mode --profile affecte core.USER_PROFILE / core.USER_PROFILE_DATA : il faut le
+# MODULE (un `from core import USER_PROFILE` ne ferait qu'une copie figée à None).
+from proton_autogen import core
 
 from proton_autogen.backend import (
     run,

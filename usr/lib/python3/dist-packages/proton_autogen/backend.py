@@ -14,11 +14,10 @@ from proton_autogen.progress import Progress
 from proton_autogen.utils.steam_appid import detect_steam_appid
 
 from proton_autogen.loader import save_game_config, load_game_config
+from proton_autogen import core as _core
 from proton_autogen.core import (
     DEBUG,
     VERBOSE,
-    USER_PROFILE,
-    USER_PROFILE_DATA,
 
     run_game_proton,
     run_standard,
@@ -103,6 +102,21 @@ def print_runtime_info(proton, exe_path, mangohud_available):
 
 # ---------------------------------------------------------------------------------------------------
 
+def _apply_profile_exe_type(exe_type):
+    """Mode PRO (--profile) : le profil imposé remplace le type détecté.
+
+    Lu sur le module core AU MOMENT DE L'APPEL. L'ancien
+    `from proton_autogen.core import USER_PROFILE_DATA` capturait la valeur
+    d'import (None) : l'affectation faite ensuite par la CLI n'était jamais vue.
+    """
+    data = _core.USER_PROFILE_DATA
+
+    if data:
+        return data.get("base") or data.get("name") or exe_type
+
+    return exe_type
+
+
 def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None, game_id=None):
     try:
         start_time = time.time() # Stats
@@ -142,8 +156,7 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None, 
         if not exe_type:
             exe_type = detect_exe_type(exe_path)
         #---------------------------------------Mode PRO -------------------------
-        if USER_PROFILE_DATA:
-            exe_type = USER_PROFILE_DATA.get("base") or USER_PROFILE_DATA.get("name") or exe_type
+        exe_type = _apply_profile_exe_type(exe_type)
         #-------------------------------------------------------------------------
 
         if config:
