@@ -1,7 +1,12 @@
 import re
 from pathlib import Path
 
-ASSETS_DIR = Path("usr/lib/python3/dist-packages/proton_autogen/ux/assets")
+# Ancré sur ce fichier (et non sur le dossier courant) : le test fonctionne
+# quel que soit le répertoire depuis lequel pytest est lancé.
+ASSETS_DIR = (
+    Path(__file__).resolve().parents[1]
+    / "usr/lib/python3/dist-packages/proton_autogen/ux/assets"
+)
 
 
 HEX_RE = re.compile(r"^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$")
@@ -10,7 +15,9 @@ RGBA_RE = re.compile(
     re.IGNORECASE,
 )
 DEFINE_RE = re.compile(r"@define-color\s+([A-Za-z0-9_-]+)\s+([^;]+);")
-REFERENCE_RE = re.compile(r"@(?!define-color\b)([A-Za-z0-9_-]+)")
+# Une référence de couleur est « @nom ». Les règles CSS (@define-color,
+# @keyframes) commencent aussi par « @ » mais ne sont pas des références.
+REFERENCE_RE = re.compile(r"@(?!(?:define-color|keyframes)\b)([A-Za-z0-9_-]+)")
 
 def find_css_files():
     if not ASSETS_DIR.exists():

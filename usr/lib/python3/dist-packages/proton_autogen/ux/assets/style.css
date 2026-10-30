@@ -1596,14 +1596,17 @@ popover button:focus {
 .launch-dialog spinner {
     color: #4f9dff;
     opacity: 1;
-    filter: drop-shadow(0 0 6px rgba(79, 157, 255, 0.55));
+    /* Halo statique + pulsation d'opacité. Avant : un filtre d'ombre animé, qui forçait
+       un flou hors-écran à chaque image pendant toute la durée du lancement. */
+    border-radius: 999px;
+    box-shadow: 0 0 6px rgba(79, 157, 255, 0.55);
     animation:
         spin 1s linear infinite,
         pa-pulse 1.6s ease-in-out infinite;
 }
 
 @keyframes pa-pulse {
-    0%   { filter: drop-shadow(0 0 4px rgba(79, 157, 255, 0.35)); }
-    50%  { filter: drop-shadow(0 0 10px rgba(79, 157, 255, 0.75)); }
-    100% { filter: drop-shadow(0 0 4px rgba(79, 157, 255, 0.35)); }
+    0%   { opacity: 0.70; }
+    50%  { opacity: 1.00; }
+    100% { opacity: 0.70; }
 }
