@@ -1,43 +1,26 @@
-proton-autogen (3.4.2) noble; urgency=medium
+proton-autogen (3.4.3) noble; urgency=medium
 
   * Thanks to all users and contributors for their continued support, feedback and bug reports.
-  * Added a Library Menu with Jacquet – new UX menu
-  * Drag-and-drop of `.EXE` files directly into UX
-  * Added a Favorites filter in UX
-  * Added support for additional Proton environment variables to improve compatibility with GE-Proton-11-10.
-  * Added environment variables related to controller effects, DualSense haptics, Sony controller compatibility, memory address space management, and Wayland fullscreen handling.
-  * Added project activity statistics to the documentation.
-  * Added a project roadmap to track planned features and development tasks.
-  * Added detailed documentation describing Proton-Autogen's features.
-  * Added integration instructions and improved installation guidance.
-  * Improved visual themes and applied additional theme fixes.
-  * New UX/UI Theme – Modern CSS – Updated Images – Professional Design
-  * Expand UI and CSS integrity checks to prevent regressions.
-  * Improve Proton, Steam and Flatpak runtime integration.
-  * Improve Debian, Flatpak and AUR package validation and build workflows.
-  * Improve application and game profile management and stability.
-  * Improve application data, executable path and prefix handling.
-  * Add game import functionality to recover applications from Lutris and other supported sources.
-  * Add system monitoring with CPU and memory usage information.
-  * Improve application status reporting and runtime monitoring.
-  * Improve dashboard responsiveness and overall user experience.
-  * Improve application import workflow and user interface.
-  * Improve Flatpak support, packaging and installation documentation.
-  * Add Flatpak build and validation workflow.
-  * Add AUR package validation and build checks.
-  * Improve Debian package metadata and build configuration.
-  * Add automated package and integration validation workflows.
-  * Add comprehensive automated tests for core functionality, profiles, CLI, Gamescope and integrity checks.
-  * Add CSS integrity tests to help prevent UI regressions.
-  * Improve localization support across all supported languages.
-  * Improve application data and path handling.
-  * Improve Proton and Flatpak integration.
-  * Improve documentation with dedicated guides for Proton prefixes, Windows applications and game execution.
-  * Improve application profile management and stability.
-  * Improve graphical styles and responsive UI behavior.
-  * Remove obsolete system tray implementation.
-  * Improve code organization, cleanup and maintainability.
-  * Fix various UI, packaging and integration issues.
-  * General UX improvements, configuration handling improvements and code cleanup.
+  * Added new backend configuration options to provide greater control over application behavior.
+  * Added an option to disable .EXE file scanning for improved scan customization.
+  * Improved scan configuration and finalized additional scanning options.
+  * Optimized scan filtering and filtering operations to improve scanning efficiency.
+  * Improved overall scanning performance and internal processing.
+  * Refactored library.normalize_games to improve game data normalization and code maintainability.
+  * Refactored UX components and improved separation between application logic and presentation.
+  * Moved color_label and desc into the UX layer to improve architecture and component organization.
+  * Improved headless module imports to support cleaner operation without graphical interface dependencies.
+  * Cleaned up imports and internal code organization.
+  * Improved CSS mode optimization and styling performance.
+  * Fixed various CSS and UI styling issues.
+  * Improved --profile option handling and added associated tests.
+  * Improved application version handling and corrected version-related issues.
+  * Added and improved automated tests for UX components and refactored modules.
+  * Improved code quality through refactoring, cleanup and additional regression testing.
+  * Strengthened multi-distribution Linux build and compatibility validation.
+  * Improved Debian package build and release validation.
+  * Improved AUR package validation and automated checks.
+  * Strengthened package build workflows and release reliability.
+  * General backend, UX, performance, configuration handling and code maintainability improvements.
 
- -- N3oray <n3oray77@gmail.com>  Sat, 24 Oct 2026 11:40:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Sat, 31 Oct 2026 00:56:00 +0200
