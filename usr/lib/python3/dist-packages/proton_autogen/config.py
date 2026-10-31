@@ -8,7 +8,7 @@ from pathlib import Path
 from proton_autogen.detection.proton import DEFAULT_PROTON_PATHS
 
 
-VERSION = "3.4.3"
+VERSION = "3.4.4"
 
 CONFIG_FILE = os.path.expanduser("~/.config/proton-autogen/proton-autogen.conf")
 CONFIG_DIR = os.path.expanduser("~/.config/proton-autogen/games")

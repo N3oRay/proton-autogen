@@ -1,0 +1,3 @@
+tar-ignore=.flatpak-builder
+tar-ignore=build-dir
+tar-ignore=.venv-flatpak

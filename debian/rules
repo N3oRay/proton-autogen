@@ -2,3 +2,9 @@
 
 %:
 	dh $@
+
+override_dh_auto_clean:
+	rm -rf .flatpak-builder
+	rm -rf build-dir
+	rm -rf .venv-flatpak
+	dh_auto_clean
