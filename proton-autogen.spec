@@ -1,7 +1,7 @@
 %define __python /usr/bin/python3
 
 Name:           proton-autogen
-Version:        3.4.2
+Version:        3.4.4
 Release:        1%{?dist}
 Summary:        Automatic Proton/Wine launcher for Windows executables
 
@@ -121,6 +121,13 @@ PYTHONPATH="%{buildroot}%{python3_sitelib}:$PYTHONPATH" %{buildroot}%{_bindir}/%
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
+* Sat Oct 31 2026 N3oRay <n3oray77@gmail.com> - 3.4.4-1
+- Release Proton-Autogen 3.4.4.
+- Stable version
+
+* Sat Oct 31 2026 N3oRay <n3oray77@gmail.com> - 3.4.3-1
+- Release Proton-Autogen 3.4.3.
+
 * Sat Oct 24 2026 N3oRay <n3oray77@gmail.com> - 3.4.2-1
 - Release Proton-Autogen 3.4.2.
 - Added a Library Menu with Jacquet – new UX menu
