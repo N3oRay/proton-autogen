@@ -1,0 +1,16 @@
+{
+  "favorite": "Kedvenc",
+  "recent": "Nemrég játszott",
+  "gamemode": "GameMode bekapcsolva",
+  "gamescope": "GameScope bekapcsolva",
+  "mangohud": "MangoHud bekapcsolva",
+  "rookie": "Kezdő (lassan kezdünk)",
+  "casual": "Alkalmi játékos",
+  "gamer": "Tapasztalt gamer",
+  "heavy": "Tryhard mód észlelve",
+  "addict": "Segítségre van szükségem",
+  "night_owl": "Nemrég aktív (éjjeli bagoly?)",
+  "veteran": "Legendás veterán",
+  "_error_title": "FIGYELMEZTETÉS",
+  "_error_message": "Jelvények frissítése"
+}

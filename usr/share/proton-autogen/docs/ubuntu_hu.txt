@@ -1,0 +1,87 @@
+## Követelmények
+
+A Proton-autogen több meglévő eszközre támaszkodik, és ezek használatának egyszerűsítése érdekében összehangolja a működésüket.
+
+A teljes Proton-környezet kialakításához az alábbi eszközök telepítése ajánlott:
+
+- Steam
+- GameMode
+- MangoHud
+- ProtonUp-Qt
+
+## Telepítés (Linux Mint / Ubuntu)
+
+### 1\. A rendszer frissítése
+
+bash
+
+```bash
+sudo apt update && sudo apt upgrade -y
+```
+
+### 2\. A GameMode telepítése
+
+bash
+
+```bash
+sudo apt install gamemode -y
+```
+
+Steam indítási beállítás:
+
+bash
+
+```bash
+gamemoderun %command%
+```
+
+### 3\. A MangoHud telepítése
+
+bash
+
+```bash
+sudo apt install mangohud -y
+```
+
+Steam indítási beállítás:
+
+bash
+
+```bash
+mangohud %command%
+```
+
+Vagy GameMode használatával:
+
+bash
+
+```bash
+mangohud gamemoderun %command%
+```
+
+### 4\. A ProtonUp-Qt telepítése
+
+Ha a Flatpak telepítve van:
+
+bash
+
+```bash
+flatpak install flathub net.davidotek.pupgui2
+```
+
+Opcionális:
+
+Indítsd el a ProtonUp-Qt alkalmazást, válaszd ki a Steamet, majd telepítsd a Proton-GE legújabb verzióját.
+
+### Eredmény
+
+- GameMode: a CPU teljesítményének optimalizálása.
+- MangoHud: az FPS és a rendszerstatisztikák megjelenítése.
+- ProtonUp-Qt: a Proton-GE telepítése és kezelése.
+
+Az eszközök telepítése után a Proton-autogen automatikusan kezelheti a Proton-környezetet, és elindíthatja a Windows-alkalmazásokat.
+
+### Ajánlott minimális konfiguráció:
+
+- ProtonUp-Qt
+- Proton-autogen

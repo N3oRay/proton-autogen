@@ -1,0 +1,41 @@
+PROTON-AUTOGEN
+
+Windows-alkalmazások futtatása Linux alatt Proton segítségével,
+Steam-konfiguráció és manuális beállítások nélkül.
+
+Automatikusan felismeri az elérhető legmegfelelőbb Proton-verziót,
+beállítja a futtatási környezetet,
+betölti az egyes alkalmazásokhoz tartozó profilokat,
+és szükség esetén tartalék megoldásként a Wine-t használja.
+
+────────────────────────
+FŐBB ELŐNYÖK
+────────────────────────
+✓ Nincs szükség Steam-konfigurációra
+✓ A Proton automatikus felismerése
+✓ GE-Proton és Proton-CachyOS támogatása
+✓ Intelligens átváltás Wine-ra
+✓ Alkalmazásonkénti profilok
+✓ GameScope, GameMode és MangoHud integráció
+✓ Kompatibilis a Steammel, a Flatpakkal és a natív telepítésekkel
+✓ Könnyű, minimális függőséggel
+
+────────────────────────
+SZERZŐ
+────────────────────────
+N3oray
+
+────────────────────────
+LICENC
+────────────────────────
+MIT
+
+────────────────────────
+GITHUB-TÁROLÓ
+────────────────────────
+https://github.com/N3oRay/proton-autogen
+
+────────────────────────
+PPA
+────────────────────────
+sudo add-apt-repository ppa:n3oray/proton-autogen

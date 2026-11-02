@@ -1,0 +1,60 @@
+A Proton-CachyOS telepítési útmutatója
+ELŐFELTÉTELEK
+
+A telepítés megkezdése előtt győződj meg arról, hogy rendelkezel az alábbiakkal:
+
+Kompatibilis Linux-disztribúció (Arch Linux, CachyOS vagy ezek valamelyik származéka).
+Telepített Steam.
+Internetkapcsolat.
+Rendszergazdai jogosultságok (sudo).
+1. MÓDSZER – Telepítés a CachyOS Hello segítségével (ajánlott)
+
+Ez a legegyszerűbb és leginkább ajánlott módszer a CachyOS felhasználói számára.
+
+Lépések:
+
+Nyisd meg a CachyOS Hello alkalmazást.
+Lépj az „Apps / Tweaks” menübe.
+Kattints az „Install Gaming Packages” lehetőségre.
+
+A következő összetevők automatikusan telepítésre kerülnek:
+
+Steam
+Proton-CachyOS
+MangoHud
+Gamescope
+Heroic Games Launcher
+Lutris
+A szükséges Vulkan-könyvtárak
+
+Ellenőrzés:
+
+Zárd be teljesen a Steamet, ha már fut.
+Indítsd újra a Steamet.
+Lépj a következő menübe:
+
+Steam └── Beállítások └── Kompatibilitás
+
+Ellenőrizd, hogy a „Proton-CachyOS” megjelenik-e az elérhető kompatibilitási eszközök listájában.
+2. MÓDSZER – Telepítés Pacmannel
+
+Ha inkább manuálisan szeretnéd telepíteni az összetevőket, használd a Pacmant.
+
+Az összes Gaming csomag telepítése:
+
+bash
+sudo pacman -S cachyos-gaming-meta
+sudo pacman -S cachyos-gaming-applications
+
+
+Kizárólag a Proton-CachyOS telepítése:
+
+bash
+sudo pacman -S proton-cachyos-slr
+
+
+Megjegyzés:
+
+A Proton-CachyOS-SLR (Steam Linux Runtime) változat használata ajánlott.
+
+Jobb kompatibilitást biztosít bizonyos olyan játékokkal, amelyek csalás elleni rendszereket használnak, például az Easy Anti-Cheat (EAC) és a BattlEye rendszerekkel.

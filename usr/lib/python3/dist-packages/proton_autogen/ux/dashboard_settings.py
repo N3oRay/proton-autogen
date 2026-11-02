@@ -57,6 +57,7 @@ _LANG_LABELS = {
     "ko": "한국어",
     "zh": "中文",
     "hi": "हिन्दी",
+    "hu": "Magyar",
     "el": "Ελληνικά",
     "fi": "Suomi",
     "vi": "Tiếng Việt",

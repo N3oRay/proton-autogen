@@ -1,0 +1,99 @@
+PROTON-AUTOGEN - SÚGÓ
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+HASZNÁLAT
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+proton-autogen <fichier.exe>
+proton-autogen run <fichier.exe>
+proton-autogen add <fichier.exe>
+proton-autogen edit <fichier.exe>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+INFORMÁCIÓK
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--ux        GTK4 grafikus felület
+--v         Verzió megjelenítése
+--about     A Proton-Autogen névjegye
+--help      Súgó megjelenítése
+--help-env  Súgó a környezeti változókhoz
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+PREFIXKEZELÉS
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEAM_COMPAT_DATA_PATH
+
+--pc        Egyéni prefix
+--pa        Automatikus prefix
+--ps        Megosztott prefix
+alapértelmezés  Fő prefix
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+PROFILOK
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--json-profile   Profilok exportálása JSON formátumban
+--profile dx11   A megadott profil használata
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+FELDERÍTÉS
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--list-protons   Az észlelt Proton-verziók listázása
+--list-programs  A regisztrált programok listázása
+--proton-paths   Az észlelt Proton elérési utak megjelenítése
+--diag           Diagnosztika indítása
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+FUTTATÁS
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+proton-autogen game.exe
+proton-autogen run game.exe
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+BEÁLLÍTÁSOK
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--debug       Hibakeresési mód engedélyezése
+--verbose     Részletes naplózási mód engedélyezése
+--mangohud    FPS és teljesítményadatok megjelenítése
+--gamemode    A rendszer teljesítményének optimalizálása
+--gamescope   Gamescope használata
+--wine        A Wine használatának kényszerítése
+--proton      A Proton használatának kényszerítése
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+PÉLDÁK
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+proton-autogen game.exe
+proton-autogen game.exe --gamemode --mangohud --gamescope
+
+# Beépített Gamescope
+proton-autogen game.exe --gamescope
+
+# Manuális Gamescope (haladó)
+gamescope -f -W 1280 -H 1024 -- proton-autogen game.exe
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+MEGJEGYZÉSEK
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+- A legmegfelelőbb Proton-verzió automatikus kiválasztása
+- Automatikus átváltás Wine-ra, ha a Proton nem érhető el
+- Kompatibilis a Steammel, a Flatpakkal és a kompatibilitási eszközökkel
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+KÖRNYEZETI VÁLTOZÓK
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+A következő változók opcionálisak, és hasznosak lehetnek a kompatibilitási problémák megoldásában.
+
+SDL_VIDEODRIVER=x11
+    Az SDL-alkalmazások X11 backend használatára kényszerítése.
+
+    Példa:
+        SDL_VIDEODRIVER=x11 proton-autogen --ux
+
+SDL_VIDEODRIVER=wayland
+    Az SDL-alkalmazások natív Wayland backend használatára kényszerítése.
+
+    Példa:
+        SDL_VIDEODRIVER=wayland proton-autogen --ux
+
+Alapértelmezés szerint az SDL automatikusan kiválasztja a legmegfelelőbb backendet.
+Ezeket a változókat elsősorban kompatibilitási tesztelésre és hibaelhárításra szánták.

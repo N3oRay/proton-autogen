@@ -1,0 +1,14 @@
+{
+  "profile": "Meghatározza a játék futtatási módját és az alkalmazott optimalizálásokat (DX11, DX12, kompatibilitás, régebbi játékok vagy speciális konfigurációk).",
+  "proton": "A játék Linux alatti futtatásához használt Proton-verzió. A különböző verziók javíthatják a kompatibilitást és a teljesítményt, illetve kijavíthatnak bizonyos hibákat.",
+  "show_performance": "Játék közben megjelenít egy panelt, amely mutatja az FPS-t, a processzor (CPU) és a grafikus kártya (GPU) terhelését, a memóriahasználatot és egyéb statisztikákat.",
+  "optimize_performance": "Automatikusan optimalizálja a rendszer teljesítményét a játék futása közben bizonyos prioritások és beállítások módosításával.",
+  "mangohud": "A MangoHud egy grafikus fedvény, amely valós időben jeleníti meg az FPS-t, a CPU/GPU terhelését, a hőmérsékletet, a memóriahasználatot és egyéb hasznos információkat.",
+  "gamemode": "A GameMode egy szolgáltatás, amely ideiglenesen optimalizálja a rendszert a játék futása közben a teljesítmény javítása és az akadozások csökkentése érdekében.",
+  "gamescope": "A Gamescope egy grafikus kompozitor, amely lehetővé teszi a játékok szabályozott környezetben történő futtatását. Segítségével kezelhető a felbontás, a teljes képernyős mód és a képfrissítési frekvencia, valamint javítható bizonyos játékok és grafikus konfigurációk kompatibilitása.",
+  "gpu": "Meghatározza a játék által használt GPU-optimalizálási módot: auto (automatikus felismerés), safe (maximális kompatibilitás), balanced (kiegyensúlyozott) vagy performance (FPS-előnyben részesítése).",
+  "prefix": "Egy elkülönített környezet, amely az adott alkalmazás Windows-konfigurációját, könyvtárait és telepített programjait tartalmazza. Minden környezet független, így elkerülhetők a játékok közötti ütközések.",
+  "prefix_short": "Elkülönített környezet létrehozása ehhez az alkalmazáshoz.",
+  "performance_overlay": "Teljesítmény megjelenítése (FPS, CPU, GPU)",
+  "system_optimization": "Rendszerteljesítmény optimalizálása"
+}

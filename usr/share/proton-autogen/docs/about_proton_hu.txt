@@ -1,0 +1,92 @@
+Proton elérési útvonalak
+
+A Proton-autogen automatikusan megkeresi a Proton telepítéseit több gyakran használt könyvtárban.
+
+Automatikusan keresett elérési útvonalak
+Steam
+
+A Proton-autogen többek között a következő könyvtárakban keres:
+
+text
+~/.steam/root/compatibilitytools.d
+~/.steam/steam/compatibilitytools.d
+~/.local/share/Steam/compatibilitytools.d
+
+Steam Runtime
+
+A következő Steam-könyvtárakban található telepítéseket is megkeresi:
+
+text
+~/.steam/steam/steamapps/common
+~/.local/share/Steam/steamapps/common
+
+Rendszerszintű telepítés
+
+A Proton-autogen a rendszerszintű telepítéseket is megkeresi a következő helyen:
+
+text
+/usr/share/steam/compatibilitytools.d
+
+
+Ezt az elérési útvonalat többek között egyes Linux-disztribúciók, például az Arch Linux és a CachyOS használják.
+
+Steam Flatpak
+
+Ha a Steam Flatpak segítségével van telepítve, a Proton-autogen automatikusan a következő könyvtárakban keres:
+
+text
+~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools.d
+~/.var/app/com.valvesoftware.Steam/.steam/root/compatibilitytools.d
+
+Egyéni elérési útvonal hozzáadása
+
+Ha a Proton egy másik könyvtárba van telepítve, hozzáadhatod az elérési útvonalat a következő fájlban:
+
+text
+~/.config/proton-autogen/proton-autogen.conf
+
+
+Példa:
+
+ini
+[proton]
+paths=~/Proton
+
+
+Több elérési útvonal is megadható, egymástól ;, : karakterrel vagy sortöréssel elválasztva.
+
+Példa:
+
+ini
+[proton]
+paths=~/Proton;~/Games/Proton;/opt/proton
+
+Az észlelt elérési útvonalak ellenőrzése
+
+A Proton-autogen által használt elérési útvonalak megjelenítése:
+
+bash
+proton-autogen --proton-paths
+
+
+Az észlelt Proton-verziók listázása:
+
+bash
+proton-autogen --list-protons
+
+
+Diagnosztika futtatása:
+
+bash
+proton-autogen --diag
+
+Összefoglalás
+
+A legtöbb esetben nincs szükség semmilyen konfigurációra.
+
+A Proton-autogen automatikusan felismeri a Steam, a Steam Flatpak, a Proton-GE, a Proton-CachyOS és a rendszerszintű Proton-telepítéseket.
+
+Ha a Proton-verziód egy egyéni helyen található, egyszerűen add hozzá annak elérési útvonalát a következő fájlhoz:
+
+text
+~/.config/proton-autogen/proton-autogen.conf
