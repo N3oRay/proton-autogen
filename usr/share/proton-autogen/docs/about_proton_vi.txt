@@ -1,0 +1,77 @@
+# Đường dẫn Proton
+
+Proton-autogen tự động tìm các bản cài đặt Proton trong nhiều thư mục phổ biến.
+
+## Đường dẫn được tìm tự động
+
+### Steam
+
+Proton-autogen tìm đặc biệt trong:
+
+~/.steam/root/compatibilitytools.d
+~/.steam/steam/compatibilitytools.d
+~/.local/share/Steam/compatibilitytools.d
+
+### Steam Runtime
+
+Các bản cài đặt nằm trong những thư mục Steam sau cũng được tìm:
+
+~/.steam/steam/steamapps/common
+~/.local/share/Steam/steamapps/common
+
+### Cài đặt hệ thống
+
+Proton-autogen cũng tìm các bản cài đặt hệ thống trong:
+
+/usr/share/steam/compatibilitytools.d
+
+Đường dẫn này được một số bản phân phối sử dụng, chẳng hạn Arch Linux và CachyOS.
+
+### Steam Flatpak
+
+Nếu Steam được cài bằng Flatpak, Proton-autogen tự động tìm trong:
+
+~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools.d
+~/.var/app/com.valvesoftware.Steam/.steam/root/compatibilitytools.d
+
+## Thêm đường dẫn tùy chỉnh
+
+Nếu Proton được cài ở thư mục khác, bạn có thể thêm đường dẫn đó vào:
+
+~/.config/proton-autogen/proton-autogen.conf
+
+Ví dụ:
+
+[proton]
+paths=~/Proton
+
+Có thể thêm nhiều đường dẫn bằng cách ngăn cách bằng `;`, `:` hoặc xuống dòng.
+
+Ví dụ:
+
+[proton]
+paths=~/Proton;~/Games/Proton;/opt/proton
+
+## Kiểm tra các đường dẫn đã phát hiện
+
+Để hiển thị các đường dẫn mà Proton-autogen sử dụng:
+
+proton-autogen --proton-paths
+
+Để hiển thị các phiên bản Proton đã phát hiện:
+
+proton-autogen --list-protons
+
+Để chạy chẩn đoán:
+
+proton-autogen --diag
+
+## Tóm lại
+
+Trong hầu hết các trường hợp, bạn không cần cấu hình gì.
+
+Proton-autogen tự động phát hiện các bản cài đặt Steam, Steam Flatpak, Proton-GE, Proton-CachyOS và bản cài đặt hệ thống.
+
+Nếu phiên bản Proton của bạn nằm ở vị trí tùy chỉnh, chỉ cần thêm đường dẫn của nó vào:
+
+~/.config/proton-autogen/proton-autogen.conf

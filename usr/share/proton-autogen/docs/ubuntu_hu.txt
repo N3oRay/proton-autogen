@@ -1,87 +1,60 @@
-## Követelmények
+## Előfeltételek
 
-A Proton-autogen több meglévő eszközre támaszkodik, és ezek használatának egyszerűsítése érdekében összehangolja a működésüket.
+A Proton-autogen több meglévő eszközre épül,
+és összehangoló szerepet tölt be a használatuk egyszerűsítéséhez.
 
-A teljes Proton-környezet kialakításához az alábbi eszközök telepítése ajánlott:
+Teljes Proton-környezethez a következők telepítése ajánlott:
 
 - Steam
 - GameMode
 - MangoHud
 - ProtonUp-Qt
 
-## Telepítés (Linux Mint / Ubuntu)
+Telepítés (Linux Mint / Ubuntu)
+----------------------------------
 
-### 1\. A rendszer frissítése
+1. A rendszer frissítése
 
-bash
+    sudo apt update && sudo apt upgrade -y
 
-```bash
-sudo apt update && sudo apt upgrade -y
-```
+2. A GameMode telepítése
 
-### 2\. A GameMode telepítése
+    sudo apt install gamemode -y
 
-bash
+Steam-beállítás:
 
-```bash
-sudo apt install gamemode -y
-```
+    gamemoderun %command%
 
-Steam indítási beállítás:
+3. A MangoHud telepítése
 
-bash
+    sudo apt install mangohud -y
 
-```bash
-gamemoderun %command%
-```
+Steam-beállítás:
 
-### 3\. A MangoHud telepítése
+    mangohud %command%
 
-bash
+Vagy a GameMode-dal együtt:
 
-```bash
-sudo apt install mangohud -y
-```
+    mangohud gamemoderun %command%
 
-Steam indítási beállítás:
-
-bash
-
-```bash
-mangohud %command%
-```
-
-Vagy GameMode használatával:
-
-bash
-
-```bash
-mangohud gamemoderun %command%
-```
-
-### 4\. A ProtonUp-Qt telepítése
+4. A ProtonUp-Qt telepítése
 
 Ha a Flatpak telepítve van:
 
-bash
-
-```bash
-flatpak install flathub net.davidotek.pupgui2
-```
+    flatpak install flathub net.davidotek.pupgui2
 
 Opcionális:
+Indítsa el a ProtonUp-Qt-t, válassza a Steam-et, majd telepítse a Proton-GE legújabb verzióját.
 
-Indítsd el a ProtonUp-Qt alkalmazást, válaszd ki a Steamet, majd telepítsd a Proton-GE legújabb verzióját.
+Eredmény:
 
-### Eredmény
-
-- GameMode: a CPU teljesítményének optimalizálása.
+- GameMode: a processzor teljesítményének optimalizálása.
 - MangoHud: az FPS és a rendszerstatisztikák megjelenítése.
 - ProtonUp-Qt: a Proton-GE telepítése és kezelése.
 
-Az eszközök telepítése után a Proton-autogen automatikusan kezelheti a Proton-környezetet, és elindíthatja a Windows-alkalmazásokat.
+Ezeknek az eszközöknek a telepítése után a Proton-autogen automatikusan
+kezelni tudja a Proton-környezetet, és el tudja indítani a Windows-alkalmazásokat.
 
-### Ajánlott minimális konfiguráció:
-
+Ajánlott minimális konfiguráció:
 - ProtonUp-Qt
 - Proton-autogen

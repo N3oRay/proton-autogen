@@ -13,19 +13,19 @@ INFORMÁCIÓK
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 --ux        GTK4 grafikus felület
 --v         Verzió megjelenítése
---about     A Proton-Autogen névjegye
---help      Súgó megjelenítése
---help-env  Súgó a környezeti változókhoz
+--about     A Proton-Autogenről
+--help      Ennek a súgónak a megjelenítése
+--help-env  Súgó a környezeti változókról
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
-PREFIXKEZELÉS
+PREFIX-RENDSZER
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 STEAM_COMPAT_DATA_PATH
 
 --pc        Egyéni prefix
 --pa        Automatikus prefix
 --ps        Megosztott prefix
-alapértelmezés  Fő prefix
+alapértelmezett  Fő prefix
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 PROFILOK
@@ -36,10 +36,10 @@ PROFILOK
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 FELDERÍTÉS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
---list-protons   Az észlelt Proton-verziók listázása
+--list-protons   A felismert Proton-verziók listázása
 --list-programs  A regisztrált programok listázása
---proton-paths   Az észlelt Proton elérési utak megjelenítése
---diag           Diagnosztika indítása
+--proton-paths   A felismert Proton-útvonalak megjelenítése
+--diag           Diagnosztika futtatása
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 FUTTATÁS
@@ -50,13 +50,13 @@ proton-autogen run game.exe
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 BEÁLLÍTÁSOK
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
---debug       Hibakeresési mód engedélyezése
---verbose     Részletes naplózási mód engedélyezése
---mangohud    FPS és teljesítményadatok megjelenítése
+--debug       Hibakeresési mód bekapcsolása
+--verbose     Részletes mód bekapcsolása
+--mangohud    FPS és teljesítményinformációk megjelenítése
 --gamemode    A rendszer teljesítményének optimalizálása
 --gamescope   Gamescope használata
---wine        A Wine használatának kényszerítése
---proton      A Proton használatának kényszerítése
+--wine        A Wine használatának kikényszerítése
+--proton      A Proton használatának kikényszerítése
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 PÉLDÁK
@@ -67,33 +67,33 @@ proton-autogen game.exe --gamemode --mangohud --gamescope
 # Beépített Gamescope
 proton-autogen game.exe --gamescope
 
-# Manuális Gamescope (haladó)
+# Kézi Gamescope (haladó)
 gamescope -f -W 1280 -H 1024 -- proton-autogen game.exe
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 MEGJEGYZÉSEK
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
-- A legmegfelelőbb Proton-verzió automatikus kiválasztása
+- A legjobb Proton-verzió automatikus kiválasztása
 - Automatikus átváltás Wine-ra, ha a Proton nem érhető el
-- Kompatibilis a Steammel, a Flatpakkal és a kompatibilitási eszközökkel
+- Kompatibilis a Steammel, a Flatpakkal és a Compatibility Tools eszközökkel
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 KÖRNYEZETI VÁLTOZÓK
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-A következő változók opcionálisak, és hasznosak lehetnek a kompatibilitási problémák megoldásában.
+A következő változók nem kötelezők, és hasznosak lehetnek a kompatibilitási problémák megoldásához.
 
 SDL_VIDEODRIVER=x11
-    Az SDL-alkalmazások X11 backend használatára kényszerítése.
+    Az SDL-alkalmazásokat az X11 háttérrendszer használatára kényszeríti.
 
     Példa:
         SDL_VIDEODRIVER=x11 proton-autogen --ux
 
 SDL_VIDEODRIVER=wayland
-    Az SDL-alkalmazások natív Wayland backend használatára kényszerítése.
+    Az SDL-alkalmazásokat a natív Wayland háttérrendszer használatára kényszeríti.
 
     Példa:
         SDL_VIDEODRIVER=wayland proton-autogen --ux
 
-Alapértelmezés szerint az SDL automatikusan kiválasztja a legmegfelelőbb backendet.
-Ezeket a változókat elsősorban kompatibilitási tesztelésre és hibaelhárításra szánták.
+Alapértelmezés szerint az SDL automatikusan a legmegfelelőbb háttérrendszert választja.
+Ezek a változók elsősorban kompatibilitási tesztekhez és hibaelhárításhoz szolgálnak.

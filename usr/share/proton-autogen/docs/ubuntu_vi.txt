@@ -1,0 +1,60 @@
+## Điều kiện tiên quyết
+
+Proton-autogen dựa trên nhiều công cụ có sẵn
+và đóng vai trò điều phối để đơn giản hóa việc sử dụng chúng.
+
+Để có môi trường Proton đầy đủ, nên cài đặt:
+
+- Steam
+- GameMode
+- MangoHud
+- ProtonUp-Qt
+
+Cài đặt (Linux Mint / Ubuntu)
+----------------------------------
+
+1. Cập nhật hệ thống
+
+    sudo apt update && sudo apt upgrade -y
+
+2. Cài đặt GameMode
+
+    sudo apt install gamemode -y
+
+Tùy chọn Steam:
+
+    gamemoderun %command%
+
+3. Cài đặt MangoHud
+
+    sudo apt install mangohud -y
+
+Tùy chọn Steam:
+
+    mangohud %command%
+
+Hoặc kết hợp với GameMode:
+
+    mangohud gamemoderun %command%
+
+4. Cài đặt ProtonUp-Qt
+
+Nếu đã cài Flatpak:
+
+    flatpak install flathub net.davidotek.pupgui2
+
+Tùy chọn:
+Khởi chạy ProtonUp-Qt, chọn Steam, rồi cài đặt phiên bản Proton-GE mới nhất.
+
+Kết quả:
+
+- GameMode: tối ưu hiệu năng CPU.
+- MangoHud: hiển thị FPS và thống kê hệ thống.
+- ProtonUp-Qt: cài đặt và quản lý Proton-GE.
+
+Sau khi cài đặt các công cụ này, Proton-autogen sẽ tự động quản lý
+môi trường Proton của bạn và khởi chạy các ứng dụng Windows.
+
+Cấu hình tối thiểu được khuyến nghị:
+- ProtonUp-Qt
+- Proton-autogen

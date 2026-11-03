@@ -1,24 +1,24 @@
 PROTON-AUTOGEN
 
-Windows-alkalmazások futtatása Linux alatt Proton segítségével,
-Steam-konfiguráció és manuális beállítások nélkül.
+Futtasson Windows-alkalmazásokat Linuxon a Proton segítségével,
+Steam-beállítások és kézi konfigurálás nélkül.
 
-Automatikusan felismeri az elérhető legmegfelelőbb Proton-verziót,
+Automatikusan felismeri az elérhető legjobb Proton-verziót,
 beállítja a futtatási környezetet,
-betölti az egyes alkalmazásokhoz tartozó profilokat,
-és szükség esetén tartalék megoldásként a Wine-t használja.
+betölti az egyes alkalmazások saját profiljait,
+és szükség esetén a Wine-t használja tartalékmegoldásként.
 
 ────────────────────────
-FŐBB ELŐNYÖK
+FŐ ERŐSSÉGEK
 ────────────────────────
-✓ Nincs szükség Steam-konfigurációra
-✓ A Proton automatikus felismerése
-✓ GE-Proton és Proton-CachyOS támogatása
+✓ Nem igényel Steam-beállítást
+✓ Automatikus Proton-felismerés
+✓ GE-Proton és Proton-CachyOS támogatás
 ✓ Intelligens átváltás Wine-ra
 ✓ Alkalmazásonkénti profilok
 ✓ GameScope, GameMode és MangoHud integráció
 ✓ Kompatibilis a Steammel, a Flatpakkal és a natív telepítésekkel
-✓ Könnyű, minimális függőséggel
+✓ Könnyű, minimális függőségekkel
 
 ────────────────────────
 SZERZŐ

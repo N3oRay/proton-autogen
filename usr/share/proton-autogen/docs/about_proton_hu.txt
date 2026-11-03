@@ -1,92 +1,77 @@
-Proton elérési útvonalak
+# Proton-útvonalak
 
-A Proton-autogen automatikusan megkeresi a Proton telepítéseit több gyakran használt könyvtárban.
+A Proton-autogen automatikusan keresi a Proton-telepítéseket több gyakori mappában.
 
-Automatikusan keresett elérési útvonalak
-Steam
+## Automatikusan keresett útvonalak
 
-A Proton-autogen többek között a következő könyvtárakban keres:
+### Steam
 
-text
+A Proton-autogen többek között a következő helyeken keres:
+
 ~/.steam/root/compatibilitytools.d
 ~/.steam/steam/compatibilitytools.d
 ~/.local/share/Steam/compatibilitytools.d
 
-Steam Runtime
+### Steam Runtime
 
-A következő Steam-könyvtárakban található telepítéseket is megkeresi:
+A következő Steam-mappákban található telepítéseket is megkeresi:
 
-text
 ~/.steam/steam/steamapps/common
 ~/.local/share/Steam/steamapps/common
 
-Rendszerszintű telepítés
+### Rendszerszintű telepítés
 
-A Proton-autogen a rendszerszintű telepítéseket is megkeresi a következő helyen:
+A Proton-autogen a rendszerszintű telepítéseket is keresi itt:
 
-text
 /usr/share/steam/compatibilitytools.d
 
+Ezt az útvonalat egyes disztribúciók használják, például az Arch Linux és a CachyOS.
 
-Ezt az elérési útvonalat többek között egyes Linux-disztribúciók, például az Arch Linux és a CachyOS használják.
+### Steam Flatpak
 
-Steam Flatpak
+Ha a Steam Flatpakkal van telepítve, a Proton-autogen automatikusan keres itt:
 
-Ha a Steam Flatpak segítségével van telepítve, a Proton-autogen automatikusan a következő könyvtárakban keres:
-
-text
 ~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools.d
 ~/.var/app/com.valvesoftware.Steam/.steam/root/compatibilitytools.d
 
-Egyéni elérési útvonal hozzáadása
+## Egyéni útvonal hozzáadása
 
-Ha a Proton egy másik könyvtárba van telepítve, hozzáadhatod az elérési útvonalat a következő fájlban:
+Ha a Proton más mappában van telepítve, az útvonalat itt adhatja meg:
 
-text
 ~/.config/proton-autogen/proton-autogen.conf
-
 
 Példa:
 
-ini
 [proton]
 paths=~/Proton
 
-
-Több elérési útvonal is megadható, egymástól ;, : karakterrel vagy sortöréssel elválasztva.
+Több útvonal is megadható, `;`, `:` vagy sortörés használatával elválasztva.
 
 Példa:
 
-ini
 [proton]
 paths=~/Proton;~/Games/Proton;/opt/proton
 
-Az észlelt elérési útvonalak ellenőrzése
+## A felismert útvonalak ellenőrzése
 
-A Proton-autogen által használt elérési útvonalak megjelenítése:
+A Proton-autogen által használt útvonalak megjelenítéséhez:
 
-bash
 proton-autogen --proton-paths
 
+A felismert Proton-verziók megjelenítéséhez:
 
-Az észlelt Proton-verziók listázása:
-
-bash
 proton-autogen --list-protons
 
+Diagnosztika futtatásához:
 
-Diagnosztika futtatása:
-
-bash
 proton-autogen --diag
 
-Összefoglalás
+## Összefoglalás
 
-A legtöbb esetben nincs szükség semmilyen konfigurációra.
+A legtöbb esetben nincs szükség semmilyen beállításra.
 
-A Proton-autogen automatikusan felismeri a Steam, a Steam Flatpak, a Proton-GE, a Proton-CachyOS és a rendszerszintű Proton-telepítéseket.
+A Proton-autogen automatikusan felismeri a Steam, a Steam Flatpak, a Proton-GE, a Proton-CachyOS és a rendszerszintű telepítéseket.
 
-Ha a Proton-verziód egy egyéni helyen található, egyszerűen add hozzá annak elérési útvonalát a következő fájlhoz:
+Ha a Proton-verziója egyéni helyen található, egyszerűen adja hozzá az útvonalát ide:
 
-text
 ~/.config/proton-autogen/proton-autogen.conf

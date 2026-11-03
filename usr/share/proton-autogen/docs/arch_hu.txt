@@ -1,55 +1,60 @@
-Követelmények
+## Előfeltételek
 
-A Proton-autogen több meglévő eszközre támaszkodik, és ezek használatának egyszerűsítése érdekében összehangolja a működésüket.
+A Proton-autogen több meglévő eszközre épül,
+és összehangoló szerepet tölt be a használatuk egyszerűsítéséhez.
 
-A teljes Proton-környezet kialakításához az alábbi eszközök telepítése ajánlott:
+Teljes Proton-környezethez a következők telepítése ajánlott:
 
-Steam
-GameMode
-MangoHud
-ProtonUp-Qt
+- Steam
+- GameMode
+- MangoHud
+- ProtonUp-Qt
+
 Telepítés (Arch Linux / CachyOS)
+-----------------------------------
+
 1. A rendszer frissítése
-bash
-sudo pacman -Syu
+
+    sudo pacman -Syu
 
 2. A szükséges csomagok telepítése
-bash
-sudo pacman -S steam gamemode mangohud protonup-qt
+
+    sudo pacman -S steam gamemode mangohud protonup-qt
 
 Steam indítási beállítások
+--------------------------
 
-GameMode engedélyezése:
+A GameMode bekapcsolása:
 
-bash
-gamemoderun %command%
+    gamemoderun %command%
 
+A MangoHud bekapcsolása:
 
-MangoHud engedélyezése:
+    mangohud %command%
 
-bash
-mangohud %command%
+A GameMode és a MangoHud együttes bekapcsolása:
 
+    mangohud gamemoderun %command%
 
-GameMode és MangoHud együttes engedélyezése:
+Opcionális
+---------
 
-bash
-mangohud gamemoderun %command%
-
-Opcionális beállítás
-
-Indítsd el a ProtonUp-Qt alkalmazást, válaszd ki a Steamet, majd telepítsd a Proton-GE legújabb verzióját.
+Indítsa el a ProtonUp-Qt-t, válassza a Steam-et, majd telepítse a Proton-GE legújabb verzióját.
 
 Eredmény
-GameMode: automatikusan optimalizálja a processzor teljesítményét játék közben.
-MangoHud: egy fedvényt jelenít meg az FPS-adatokkal és a rendszerstatisztikákkal.
-ProtonUp-Qt: megkönnyíti a Proton-GE verzióinak telepítését és kezelését.
+---------
 
-Az eszközök telepítése után a Proton-autogen automatikusan kezelheti a Proton-környezetet, és elindíthatja a Windows-alkalmazásokat.
+- GameMode: játék közben automatikusan optimalizálja a processzor teljesítményét.
+- MangoHud: átfedést jelenít meg az FPS-értékekkel és a rendszerstatisztikákkal.
+- ProtonUp-Qt: megkönnyíti a Proton-GE verzióinak telepítését és kezelését.
+
+Ezeknek az eszközöknek a telepítése után a Proton-autogen automatikusan
+kezelni tudja a Proton-környezetet, és el tudja indítani a Windows-alkalmazásokat.
 
 Ajánlott minimális konfiguráció:
 
-ProtonUp-Qt
-Proton-autogen
+- ProtonUp-Qt
+- Proton-autogen
 
-A többi eszköz opcionális, de erősen ajánlott a lehető legjobb teljesítmény és a játék közbeni részletesebb információk megjelenítése érdekében.
+A többi eszköz opcionális, de erősen ajánlott
+a legjobb teljesítmény és a jobb játékközbeni követés érdekében.

@@ -1,0 +1,37 @@
+legacy_layout=0
+
+### การแสดงผลแบบน้อยที่สุด ###
+
+fps                 # FPS
+frame_timing        # Frametime / ความลื่นไหล
+frametime_color=00FF00
+vsync=0
+gpu_stats           # สถิติ GPU
+cpu_stats           # สถิติ CPU
+cpu_temp=1          # อุณหภูมิ CPU
+cpu_temp_color=00FF00,FFFF00,FF0000
+ram                 # RAM ที่ใช้
+gamemode            # สถานะ GameMode
+hud_compact         # การแสดงผลแบบกะทัดรัด
+
+fps_limit_method=early
+toggle_fps_limit=Shift_L+F1  # เปิด/ปิดตัวจำกัด FPS
+
+network=enp4s0      # เครือข่าย Ethernet
+vram               # VRAM ที่ใช้
+
+vram_color=AD64C1
+gpu_color=55AAFF
+cpu_color=FFAA33
+ram_color=66DD66
+
+position=top-left
+toggle_hud=Shift_L+F12       # แสดง/ซ่อน HUD
+background_alpha=0.15        # ความโปร่งใสของพื้นหลัง
+font_size=12
+
+gpu_temp=1                    # อุณหภูมิ GPU
+gpu_temp_color=00FF00,FFFF00,FF0000
+
+# แอปพลิเคชันที่ไม่แสดง HUD
+blacklist=protonplus,lsfg-vk-ui,bazzar,gnome-calculator,pamac-manager,lact,ghb,bitwig-studio,ptyxis,yumex

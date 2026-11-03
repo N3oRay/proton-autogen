@@ -1,0 +1,99 @@
+PROTON-AUTOGEN - TRỢ GIÚP
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+CÁCH SỬ DỤNG
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+proton-autogen <fichier.exe>
+proton-autogen run <fichier.exe>
+proton-autogen add <fichier.exe>
+proton-autogen edit <fichier.exe>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+THÔNG TIN
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--ux        Giao diện đồ họa GTK4
+--v         Hiển thị phiên bản
+--about     Giới thiệu về Proton-Autogen
+--help      Hiển thị trợ giúp này
+--help-env  Trợ giúp về biến môi trường
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+HỆ THỐNG PREFIX
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEAM_COMPAT_DATA_PATH
+
+--pc        Prefix tùy chỉnh
+--pa        Prefix tự động
+--ps        Prefix dùng chung
+mặc định    Prefix chính
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+HỒ SƠ
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--json-profile   Xuất hồ sơ ở định dạng JSON
+--profile dx11   Dùng hồ sơ được chỉ định
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+KHÁM PHÁ
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--list-protons   Liệt kê các phiên bản Proton đã phát hiện
+--list-programs  Liệt kê các chương trình đã đăng ký
+--proton-paths   Hiển thị các đường dẫn Proton đã phát hiện
+--diag           Chạy chẩn đoán
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+THỰC THI
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+proton-autogen game.exe
+proton-autogen run game.exe
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+TÙY CHỌN
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--debug       Bật chế độ gỡ lỗi
+--verbose     Bật chế độ chi tiết
+--mangohud    Hiển thị FPS và thông tin hiệu năng
+--gamemode    Tối ưu hiệu năng hệ thống
+--gamescope   Dùng Gamescope
+--wine        Bắt buộc dùng Wine
+--proton      Bắt buộc dùng Proton
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+VÍ DỤ
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+proton-autogen game.exe
+proton-autogen game.exe --gamemode --mangohud --gamescope
+
+# Gamescope tích hợp
+proton-autogen game.exe --gamescope
+
+# Gamescope thủ công (nâng cao)
+gamescope -f -W 1280 -H 1024 -- proton-autogen game.exe
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+GHI CHÚ
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Tự động chọn phiên bản Proton tốt nhất
+- Tự động chuyển sang Wine nếu không có Proton
+- Tương thích với Steam, Flatpak và Compatibility Tools
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+BIẾN MÔI TRƯỜNG
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Các biến sau là tùy chọn và có thể hữu ích để giải quyết các vấn đề tương thích.
+
+SDL_VIDEODRIVER=x11
+    Buộc các ứng dụng SDL dùng backend X11.
+
+    Ví dụ:
+        SDL_VIDEODRIVER=x11 proton-autogen --ux
+
+SDL_VIDEODRIVER=wayland
+    Buộc các ứng dụng SDL dùng backend Wayland gốc.
+
+    Ví dụ:
+        SDL_VIDEODRIVER=wayland proton-autogen --ux
+
+Theo mặc định, SDL tự động chọn backend phù hợp nhất.
+Các biến này chủ yếu dành cho việc kiểm thử tương thích và khắc phục sự cố.
