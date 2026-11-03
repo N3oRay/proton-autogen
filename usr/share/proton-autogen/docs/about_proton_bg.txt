@@ -1,0 +1,77 @@
+# Пътища до Proton
+
+Proton-autogen автоматично търси инсталациите на Proton в няколко стандартни директории.
+
+## Автоматично търсени пътища
+
+### Steam
+
+Proton-autogen търси по-специално в :
+
+~/.steam/root/compatibilitytools.d
+~/.steam/steam/compatibilitytools.d
+~/.local/share/Steam/compatibilitytools.d
+
+### Steam Runtime
+
+Инсталациите, намиращи се в следните директории на Steam, също се проверяват :
+
+~/.steam/steam/steamapps/common
+~/.local/share/Steam/steamapps/common
+
+### Системна инсталация
+
+Proton-autogen търси също и системни инсталации в :
+
+/usr/share/steam/compatibilitytools.d
+
+Този път се използва по-специално от някои дистрибуции като Arch Linux и CachyOS.
+
+### Steam Flatpak
+
+Ако Steam е инсталиран чрез Flatpak, Proton-autogen автоматично търси в :
+
+~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools.d
+~/.var/app/com.valvesoftware.Steam/.steam/root/compatibilitytools.d
+
+## Добавяне на персонализиран път
+
+Ако Proton е инсталиран в друга директория, можете да добавите този път в :
+
+~/.config/proton-autogen/proton-autogen.conf
+
+Пример :
+
+[proton]
+paths=~/Proton
+
+Могат да бъдат добавени няколко пътя, като се разделят с `;`, `:` или нов ред.
+
+Пример :
+
+[proton]
+paths=~/Proton;~/Games/Proton;/opt/proton
+
+## Проверка на откритите пътища
+
+За да покажете пътищата, използвани от Proton-autogen :
+
+proton-autogen --proton-paths
+
+За да покажете откритите версии на Proton :
+
+proton-autogen --list-protons
+
+За да извършите диагностика :
+
+proton-autogen --diag
+
+## Обобщение
+
+В повечето случаи не е необходима никаква конфигурация.
+
+Proton-autogen автоматично открива инсталациите на Steam, Steam Flatpak, Proton-GE, Proton-CachyOS и системните инсталации.
+
+Ако вашата версия на Proton се намира в персонализирана директория, просто добавете нейния път в :
+
+~/.config/proton-autogen/proton-autogen.conf

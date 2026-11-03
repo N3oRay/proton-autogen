@@ -1,0 +1,37 @@
+legacy_layout=0
+
+### МИНИМАЛЕН ДИСПЛЕЙ ###
+
+fps             # FPS
+frame_timing    # Време за кадър / плавност
+frametime_color=00FF00
+vsync=0
+gpu_stats       # Статистика за GPU
+cpu_stats       # Статистика за CPU
+cpu_temp=1      # Температура на CPU
+cpu_temp_color=00FF00,FFFF00,FF0000
+ram             # Използвана RAM
+gamemode        # Състояние на GameMode
+hud_compact     # Компактно показване
+
+fps_limit_method=early
+toggle_fps_limit=Shift_L+F1 # Активиране на ограничителя на FPS
+
+network=enp4s0  # Ethernet мрежа
+vram            # Използвана VRAM
+
+vram_color=AD64C1
+gpu_color=55AAFF
+cpu_color=FFAA33
+ram_color=66DD66
+
+position=top-left
+toggle_hud=Shift_L+F12      # Показване/скриване на HUD
+background_alpha=0.15       # Прозрачност на фона
+font_size=12
+
+gpu_temp=1                  # Температура на GPU
+gpu_temp_color=00FF00,FFFF00,FF0000
+
+# Приложения, изключени от HUD
+blacklist=protonplus,lsfg-vk-ui,bazzar,gnome-calculator,pamac-manager,lact,ghb,bitwig-studio,ptyxis,yumex
