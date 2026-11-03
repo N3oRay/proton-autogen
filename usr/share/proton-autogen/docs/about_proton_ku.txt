@@ -1,0 +1,77 @@
+# Rêyên Proton
+
+Proton-autogen sazkirinên Proton di gelek peldankên hevpar de bi awayekî xweber digere.
+
+## Rêyên ku bi awayekî xweber têne lêgerîn
+
+### Steam
+
+Proton-autogen bi taybetî li van deran digere:
+
+~/.steam/root/compatibilitytools.d
+~/.steam/steam/compatibilitytools.d
+~/.local/share/Steam/compatibilitytools.d
+
+### Steam Runtime
+
+Sazkirinên di peldankên Steam ên jêrîn de jî têne lêgerîn:
+
+~/.steam/steam/steamapps/common
+~/.local/share/Steam/steamapps/common
+
+### Sazkirina pergalê
+
+Proton-autogen sazkirinên pergalê jî li vir digere:
+
+/usr/share/steam/compatibilitytools.d
+
+Ev rê bi taybetî ji hêla hin distroyan ve tê bikaranîn, wekî Arch Linux û CachyOS.
+
+### Steam Flatpak
+
+Heke Steam bi Flatpak hatibe sazkirin, Proton-autogen bi awayekî xweber li van deran digere:
+
+~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools.d
+~/.var/app/com.valvesoftware.Steam/.steam/root/compatibilitytools.d
+
+## Zêdekirina rêyeke taybet
+
+Heke Proton di peldankeke din de hatibe sazkirin, hûn dikarin vê rêyê li vir zêde bikin:
+
+~/.config/proton-autogen/proton-autogen.conf
+
+Mînak:
+
+[proton]
+paths=~/Proton
+
+Gelek rê dikarin bêne zêdekirin; bi `;`, `:` an rêzeke nû ji hev tên cuda kirin.
+
+Mînak:
+
+[proton]
+paths=~/Proton;~/Games/Proton;/opt/proton
+
+## Kontrolkirina rêyên hatine tespîtkirin
+
+Ji bo nîşandana rêyên ku Proton-autogen bi kar tîne:
+
+proton-autogen --proton-paths
+
+Ji bo nîşandana guhertoyên Proton ên hatine tespîtkirin:
+
+proton-autogen --list-protons
+
+Ji bo meşandina teşhîsê:
+
+proton-autogen --diag
+
+## Bi kurtasî
+
+Di piraniya rewşan de, tu mîhengkirin ne pêwîst e.
+
+Proton-autogen sazkirinên Steam, Steam Flatpak, Proton-GE, Proton-CachyOS û sazkirinên pergalê bi awayekî xweber tespît dike.
+
+Heke guhertoya we ya Proton li cihekî taybet be, tenê rêya wê li vir zêde bikin:
+
+~/.config/proton-autogen/proton-autogen.conf

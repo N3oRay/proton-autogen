@@ -1,0 +1,99 @@
+PROTON-AUTOGEN - ヘルプ
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+使い方
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+proton-autogen <fichier.exe>
+proton-autogen run <fichier.exe>
+proton-autogen add <fichier.exe>
+proton-autogen edit <fichier.exe>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+情報
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--ux        GTK4 グラフィカルインターフェース
+--v         バージョンを表示
+--about     Proton-Autogen について
+--help      このヘルプを表示
+--help-env  環境変数に関するヘルプ
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+プレフィックスシステム
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEAM_COMPAT_DATA_PATH
+
+--pc        カスタムプレフィックス
+--pa        自動プレフィックス
+--ps        共有プレフィックス
+デフォルト   メインプレフィックス
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+プロファイル
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--json-profile   プロファイルを JSON 形式でエクスポート
+--profile dx11   指定したプロファイルを使用
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+探索
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--list-protons   検出された Proton のバージョンを一覧表示
+--list-programs  登録済みのプログラムを一覧表示
+--proton-paths   検出された Proton のパスを表示
+--diag           診断を実行
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+実行
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+proton-autogen game.exe
+proton-autogen run game.exe
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+オプション
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--debug       デバッグモードを有効にする
+--verbose     詳細モードを有効にする
+--mangohud    FPS とパフォーマンス情報を表示
+--gamemode    システムのパフォーマンスを最適化
+--gamescope   Gamescope を使用
+--wine        Wine の使用を強制
+--proton      Proton の使用を強制
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+例
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+proton-autogen game.exe
+proton-autogen game.exe --gamemode --mangohud --gamescope
+
+# 統合 Gamescope
+proton-autogen game.exe --gamescope
+
+# 手動 Gamescope (上級者向け)
+gamescope -f -W 1280 -H 1024 -- proton-autogen game.exe
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+注意事項
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+- 最適な Proton バージョンを自動選択
+- Proton が利用できない場合は自動的に Wine へフォールバック
+- Steam、Flatpak、Compatibility Tools に対応
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+環境変数
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+次の変数は任意で、互換性の問題を解決するのに役立つ場合があります。
+
+SDL_VIDEODRIVER=x11
+    SDL アプリケーションに X11 バックエンドの使用を強制します。
+
+    例:
+        SDL_VIDEODRIVER=x11 proton-autogen --ux
+
+SDL_VIDEODRIVER=wayland
+    SDL アプリケーションにネイティブ Wayland バックエンドの使用を強制します。
+
+    例:
+        SDL_VIDEODRIVER=wayland proton-autogen --ux
+
+デフォルトでは、SDL が最も適したバックエンドを自動的に選択します。
+これらの変数は主に互換性テストとトラブルシューティング用です。

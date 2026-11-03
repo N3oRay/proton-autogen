@@ -1,0 +1,77 @@
+# Proton のパス
+
+Proton-autogen は、一般的な複数のフォルダから Proton のインストールを自動的に検索します。
+
+## 自動的に検索されるパス
+
+### Steam
+
+Proton-autogen は主に次の場所を検索します:
+
+~/.steam/root/compatibilitytools.d
+~/.steam/steam/compatibilitytools.d
+~/.local/share/Steam/compatibilitytools.d
+
+### Steam Runtime
+
+次の Steam フォルダ内にあるインストールも検索されます:
+
+~/.steam/steam/steamapps/common
+~/.local/share/Steam/steamapps/common
+
+### システムインストール
+
+Proton-autogen はシステムインストールも次の場所で検索します:
+
+/usr/share/steam/compatibilitytools.d
+
+このパスは、Arch Linux や CachyOS など一部のディストリビューションで使用されています。
+
+### Steam Flatpak
+
+Steam が Flatpak でインストールされている場合、Proton-autogen は自動的に次の場所を検索します:
+
+~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools.d
+~/.var/app/com.valvesoftware.Steam/.steam/root/compatibilitytools.d
+
+## カスタムパスの追加
+
+Proton が別のフォルダにインストールされている場合は、次のファイルにそのパスを追加できます:
+
+~/.config/proton-autogen/proton-autogen.conf
+
+例:
+
+[proton]
+paths=~/Proton
+
+複数のパスを追加するには、`;`、`:` または改行で区切ります。
+
+例:
+
+[proton]
+paths=~/Proton;~/Games/Proton;/opt/proton
+
+## 検出されたパスの確認
+
+Proton-autogen が使用しているパスを表示するには:
+
+proton-autogen --proton-paths
+
+検出された Proton のバージョンを表示するには:
+
+proton-autogen --list-protons
+
+診断を実行するには:
+
+proton-autogen --diag
+
+## まとめ
+
+ほとんどの場合、設定は不要です。
+
+Proton-autogen は、Steam、Steam Flatpak、Proton-GE、Proton-CachyOS、システムインストールを自動的に検出します。
+
+Proton のバージョンがカスタムの場所にある場合は、次のファイルにそのパスを追加するだけです:
+
+~/.config/proton-autogen/proton-autogen.conf

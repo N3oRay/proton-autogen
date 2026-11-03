@@ -1,0 +1,99 @@
+PROTON-AUTOGEN - alîkarî
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+BIKARANÎN
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+proton-autogen <fichier.exe>
+proton-autogen run <fichier.exe>
+proton-autogen add <fichier.exe>
+proton-autogen edit <fichier.exe>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+AGAHDARÎ
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--ux        Navrûya grafîkî ya GTK4
+--v         Guhertoyê nîşan bide
+--about     Derbarê Proton-Autogen de
+--help      Vê alîkariyê nîşan bide
+--help-env  Alîkarî li ser guherbarên jîngehê
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+PERGALA PREFIXAN
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEAM_COMPAT_DATA_PATH
+
+--pc        Prefixa taybet
+--pa        Prefixa xweber
+--ps        Prefixa hevpar
+bi default  Prefixa sereke
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+PROFÎL
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--json-profile   Profîlan bi formata JSON derxe
+--profile dx11   Profîla diyarkirî bi kar bîne
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+VEDÎTIN
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--list-protons   Guhertoyên Proton ên hatine tespîtkirin navnîş bike
+--list-programs  Bernameyên tomarkirî navnîş bike
+--proton-paths   Rêyên Proton ên hatine tespîtkirin nîşan bide
+--diag           Teşhîsê bimeşîne
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+MEŞANDIN
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+proton-autogen game.exe
+proton-autogen run game.exe
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+VEBIJARK
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+--debug       Moda debug çalak bike
+--verbose     Moda berfireh çalak bike
+--mangohud    FPS û agahiyên performansê nîşan bide
+--gamemode    Performansa pergalê xweştir bike
+--gamescope   Gamescope bi kar bîne
+--wine        Bikaranîna Wine bi zorê bike
+--proton      Bikaranîna Proton bi zorê bike
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+MÎNAK
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+proton-autogen game.exe
+proton-autogen game.exe --gamemode --mangohud --gamescope
+
+# Gamescope ya yekkirî
+proton-autogen game.exe --gamescope
+
+# Gamescope ya bi destan (pêşketî)
+gamescope -f -W 1280 -H 1024 -- proton-autogen game.exe
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+NÎŞE
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Hilbijartina xweber a guhertoya herî baş a Proton
+- Vegera xweber ber bi Wine ve heke Proton nebe berdest
+- Bi Steam, Flatpak û Compatibility Tools re lihevhatî
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+GUHERBARÊN JÎNGEHÊ
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Guherbarên jêrîn bijarte ne û dikarin ji bo çareserkirina pirsgirêkên lihevhatinê bikêr bin.
+
+SDL_VIDEODRIVER=x11
+    Bernameyên SDL neçar dike ku backenda X11 bi kar bînin.
+
+    Mînak:
+        SDL_VIDEODRIVER=x11 proton-autogen --ux
+
+SDL_VIDEODRIVER=wayland
+    Bernameyên SDL neçar dike ku backenda xwemalî ya Wayland bi kar bînin.
+
+    Mînak:
+        SDL_VIDEODRIVER=wayland proton-autogen --ux
+
+Bi default, SDL bi awayekî xweber backenda herî guncav hildibijêre.
+Ev guherbar bi giranî ji bo ceribandinên lihevhatinê û çareserkirina pirsgirêkan in.

@@ -1,0 +1,37 @@
+legacy_layout=0
+
+### MINIMALE WEERGAVE ###
+
+fps                 # FPS
+frame_timing        # Frametime / vloeiendheid
+frametime_color=00FF00
+vsync=0
+gpu_stats           # GPU-statistieken
+cpu_stats           # CPU-statistieken
+cpu_temp=1          # CPU-temperatuur
+cpu_temp_color=00FF00,FFFF00,FF0000
+ram                 # Gebruikt RAM
+gamemode            # Status van GameMode
+hud_compact         # Compacte weergave
+
+fps_limit_method=early
+toggle_fps_limit=Shift_L+F1  # FPS-limiter in-/uitschakelen
+
+network=enp4s0      # Ethernet-netwerk
+vram               # Gebruikt VRAM
+
+vram_color=AD64C1
+gpu_color=55AAFF
+cpu_color=FFAA33
+ram_color=66DD66
+
+position=top-left
+toggle_hud=Shift_L+F12       # HUD tonen/verbergen
+background_alpha=0.15        # Transparantie van de achtergrond
+font_size=12
+
+gpu_temp=1                    # GPU-temperatuur
+gpu_temp_color=00FF00,FFFF00,FF0000
+
+# Applicaties die van de HUD zijn uitgesloten
+blacklist=protonplus,lsfg-vk-ui,bazzar,gnome-calculator,pamac-manager,lact,ghb,bitwig-studio,ptyxis,yumex

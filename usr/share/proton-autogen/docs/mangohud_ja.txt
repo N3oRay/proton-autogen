@@ -1,0 +1,37 @@
+legacy_layout=0
+
+### 最小表示 ###
+
+fps                 # FPS
+frame_timing        # フレームタイム / 滑らかさ
+frametime_color=00FF00
+vsync=0
+gpu_stats           # GPU 統計
+cpu_stats           # CPU 統計
+cpu_temp=1          # CPU 温度
+cpu_temp_color=00FF00,FFFF00,FF0000
+ram                 # 使用中の RAM
+gamemode            # GameMode の状態
+hud_compact         # コンパクト表示
+
+fps_limit_method=early
+toggle_fps_limit=Shift_L+F1  # FPS リミッターの切り替え
+
+network=enp4s0      # イーサネットネットワーク
+vram               # 使用中の VRAM
+
+vram_color=AD64C1
+gpu_color=55AAFF
+cpu_color=FFAA33
+ram_color=66DD66
+
+position=top-left
+toggle_hud=Shift_L+F12       # HUD の表示/非表示
+background_alpha=0.15        # 背景の透明度
+font_size=12
+
+gpu_temp=1                    # GPU 温度
+gpu_temp_color=00FF00,FFFF00,FF0000
+
+# HUD から除外するアプリケーション
+blacklist=protonplus,lsfg-vk-ui,bazzar,gnome-calculator,pamac-manager,lact,ghb,bitwig-studio,ptyxis,yumex

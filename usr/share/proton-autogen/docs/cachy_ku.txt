@@ -1,0 +1,64 @@
+# Awayê sazkirina Proton-CachyOS
+
+## PÊDIVÎ
+
+Berî destpêkirinê, piştrast bin ku hûn van tiştan hene:
+
+* Distroyeke Linux a lihevhatî (Arch Linux, CachyOS an yekî ji wan derketî).
+* Steam hatiye sazkirin.
+* Girêdana Înternetê.
+* Mafên rêvebir (sudo).
+
+---
+
+## RÊBAZA 1 – Sazkirin bi CachyOS Hello (tê pêşniyarkirin)
+
+Ev rêbaz a herî hêsan e û ji bo bikarhênerên CachyOS tê pêşniyarkirin.
+
+Gav:
+
+1. CachyOS Hello vekin.
+2. Herin menuya « Apps / Tweaks ».
+3. Li « Install Gaming Packages » bikirtînin.
+
+Pêkhateyên jêrîn bi awayekî xweber têne sazkirin:
+
+* Steam
+* Proton-CachyOS
+* MangoHud
+* Gamescope
+* Heroic Games Launcher
+* Lutris
+* Pirtûkxaneyên Vulkan ên pêwîst
+
+Kontrol:
+
+1. Heke Steam vekirî ye, wê bi temamî bigirin.
+2. Steam dîsa bidin destpêkirin.
+3. Herin:
+
+Steam
+└── Mîheng
+└── Lihevhatin
+
+4. Kontrol bikin ka « Proton-CachyOS » di navnîşa amûrên lihevhatinê yên berdest de xuya dibe.
+
+---
+
+## RÊBAZA 2 – Sazkirin bi Pacman
+
+Heke hûn dixwazin pêkhateyan bi destan saz bikin, Pacman bi kar bînin.
+
+Hemû pakêtên Gaming saz bikin:
+
+sudo pacman -S cachyos-gaming-meta
+sudo pacman -S cachyos-gaming-applications
+
+Tenê Proton-CachyOS saz bikin:
+
+sudo pacman -S proton-cachyos-slr
+
+Nîşe:
+
+Guhertoya Proton-CachyOS-SLR (Steam Linux Runtime) tê pêşniyarkirin.
+Ew bi hin lîstikên ku pergalên dijî-xapandinê bi kar tînin, wekî Easy Anti-Cheat (EAC) û BattlEye, lihevhatina çêtir pêşkêş dike.

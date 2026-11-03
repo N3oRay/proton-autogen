@@ -1,0 +1,37 @@
+legacy_layout=0
+
+### NÎŞANDANA MINÎMAL ###
+
+fps                 # FPS
+frame_timing        # Frametime / lihevhatî
+frametime_color=00FF00
+vsync=0
+gpu_stats           # Statîstîkên GPU
+cpu_stats           # Statîstîkên CPU
+cpu_temp=1          # Germahiya CPU
+cpu_temp_color=00FF00,FFFF00,FF0000
+ram                 # RAM a bikaranî
+gamemode            # Rewşa GameMode
+hud_compact         # Nîşandana kompakt
+
+fps_limit_method=early
+toggle_fps_limit=Shift_L+F1  # Sînorkera FPS çalak/neçalak bike
+
+network=enp4s0      # Tora Ethernet
+vram               # VRAM a bikaranî
+
+vram_color=AD64C1
+gpu_color=55AAFF
+cpu_color=FFAA33
+ram_color=66DD66
+
+position=top-left
+toggle_hud=Shift_L+F12       # HUD nîşan bide/veşêre
+background_alpha=0.15        # Zelalbûna paşxanê
+font_size=12
+
+gpu_temp=1                    # Germahiya GPU
+gpu_temp_color=00FF00,FFFF00,FF0000
+
+# Bernameyên ji HUD hatine derxistin
+blacklist=protonplus,lsfg-vk-ui,bazzar,gnome-calculator,pamac-manager,lact,ghb,bitwig-studio,ptyxis,yumex

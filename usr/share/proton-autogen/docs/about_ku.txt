@@ -1,0 +1,41 @@
+PROTON-AUTOGEN
+
+Bernameyên Windows di Linuxê de bi Proton bimeşînin,
+bê mîhengkirina Steam û bê sazkirinên destan.
+
+Guhertoya herî baş a Proton ya berdest bi awayekî xweber tespît dike,
+jîngeha xebatê mîheng dike,
+profîlên taybet ên her bernameyê bar dike
+û dema pêwîst be Wine wekî çareseriya yedek bi kar tîne.
+
+────────────────────────
+TAYBETMENDÎ
+────────────────────────
+✓ Mîhengkirina Steam ne pêwîst e
+✓ Tespîtkirina xweber a Proton
+✓ Piştgiriya GE-Proton û Proton-CachyOS
+✓ Veguherîna jîr a ji bo Wine
+✓ Profîlên taybet ên her bernameyê
+✓ Yekkirina GameScope, GameMode û MangoHud
+✓ Bi Steam, Flatpak û sazkirinên xwemalî re lihevhatî
+✓ Sivik û bi herî kêm girêdayîbûn
+
+────────────────────────
+NIVÎSKAR
+────────────────────────
+N3oray
+
+────────────────────────
+LÎSANS
+────────────────────────
+MIT
+
+────────────────────────
+DEPOYA GITHUB
+────────────────────────
+https://github.com/N3oRay/proton-autogen
+
+────────────────────────
+PPA
+────────────────────────
+sudo add-apt-repository ppa:n3oray/proton-autogen

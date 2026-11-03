@@ -1,0 +1,77 @@
+# Ścieżki Protona
+
+Proton-autogen automatycznie wyszukuje instalacje Protona w kilku popularnych katalogach.
+
+## Automatycznie przeszukiwane ścieżki
+
+### Steam
+
+Proton-autogen przeszukuje m.in.:
+
+~/.steam/root/compatibilitytools.d
+~/.steam/steam/compatibilitytools.d
+~/.local/share/Steam/compatibilitytools.d
+
+### Steam Runtime
+
+Przeszukiwane są również instalacje znajdujące się w następujących katalogach Steama:
+
+~/.steam/steam/steamapps/common
+~/.local/share/Steam/steamapps/common
+
+### Instalacja systemowa
+
+Proton-autogen przeszukuje także instalacje systemowe w:
+
+/usr/share/steam/compatibilitytools.d
+
+Ta ścieżka jest używana m.in. przez niektóre dystrybucje, takie jak Arch Linux i CachyOS.
+
+### Steam Flatpak
+
+Jeśli Steam jest zainstalowany przez Flatpak, Proton-autogen automatycznie przeszukuje:
+
+~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools.d
+~/.var/app/com.valvesoftware.Steam/.steam/root/compatibilitytools.d
+
+## Dodawanie własnej ścieżki
+
+Jeśli Proton jest zainstalowany w innym katalogu, możesz dodać jego ścieżkę w pliku:
+
+~/.config/proton-autogen/proton-autogen.conf
+
+Przykład:
+
+[proton]
+paths=~/Proton
+
+Można dodać kilka ścieżek, oddzielając je znakiem `;`, `:` lub znakiem nowej linii.
+
+Przykład:
+
+[proton]
+paths=~/Proton;~/Games/Proton;/opt/proton
+
+## Sprawdzanie wykrytych ścieżek
+
+Aby wyświetlić ścieżki używane przez Proton-autogen:
+
+proton-autogen --proton-paths
+
+Aby wyświetlić wykryte wersje Protona:
+
+proton-autogen --list-protons
+
+Aby przeprowadzić diagnostykę:
+
+proton-autogen --diag
+
+## Podsumowanie
+
+W większości przypadków żadna konfiguracja nie jest potrzebna.
+
+Proton-autogen automatycznie wykrywa instalacje Steama, Steam Flatpak, Proton-GE, Proton-CachyOS oraz instalacje systemowe.
+
+Jeśli Twoja wersja Protona znajduje się w niestandardowej lokalizacji, po prostu dodaj jej ścieżkę w pliku:
+
+~/.config/proton-autogen/proton-autogen.conf

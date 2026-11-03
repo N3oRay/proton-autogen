@@ -1,0 +1,77 @@
+# Proton-paden
+
+Proton-autogen zoekt automatisch naar Proton-installaties in verschillende gangbare mappen.
+
+## Automatisch doorzochte paden
+
+### Steam
+
+Proton-autogen zoekt onder meer in:
+
+~/.steam/root/compatibilitytools.d
+~/.steam/steam/compatibilitytools.d
+~/.local/share/Steam/compatibilitytools.d
+
+### Steam Runtime
+
+Installaties in de volgende Steam-mappen worden ook doorzocht:
+
+~/.steam/steam/steamapps/common
+~/.local/share/Steam/steamapps/common
+
+### Systeeminstallatie
+
+Proton-autogen zoekt ook naar systeeminstallaties in:
+
+/usr/share/steam/compatibilitytools.d
+
+Dit pad wordt onder meer gebruikt door sommige distributies, zoals Arch Linux en CachyOS.
+
+### Steam Flatpak
+
+Als Steam met Flatpak is geïnstalleerd, zoekt Proton-autogen automatisch in:
+
+~/.var/app/com.valvesoftware.Steam/.local/share/Steam/compatibilitytools.d
+~/.var/app/com.valvesoftware.Steam/.steam/root/compatibilitytools.d
+
+## Een aangepast pad toevoegen
+
+Als Proton in een andere map is geïnstalleerd, kunt u dit pad toevoegen in:
+
+~/.config/proton-autogen/proton-autogen.conf
+
+Voorbeeld:
+
+[proton]
+paths=~/Proton
+
+Er kunnen meerdere paden worden toegevoegd door ze te scheiden met `;`, `:` of een regeleinde.
+
+Voorbeeld:
+
+[proton]
+paths=~/Proton;~/Games/Proton;/opt/proton
+
+## De gedetecteerde paden controleren
+
+Om de paden weer te geven die Proton-autogen gebruikt:
+
+proton-autogen --proton-paths
+
+Om de gedetecteerde Proton-versies weer te geven:
+
+proton-autogen --list-protons
+
+Om een diagnose uit te voeren:
+
+proton-autogen --diag
+
+## Samengevat
+
+In de meeste gevallen is geen configuratie nodig.
+
+Proton-autogen detecteert automatisch Steam-, Steam Flatpak-, Proton-GE-, Proton-CachyOS- en systeeminstallaties.
+
+Als uw versie van Proton zich op een aangepaste locatie bevindt, voegt u het pad gewoon toe in:
+
+~/.config/proton-autogen/proton-autogen.conf

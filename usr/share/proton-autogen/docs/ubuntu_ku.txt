@@ -1,0 +1,60 @@
+## Pêdivî
+
+Proton-autogen xwe dispêre gelek amûrên heyî
+û wekî orkestrator tevdigere da ku bikaranîna wan sade bike.
+
+Ji bo jîngeheke Proton a temam, tê pêşniyarkirin ku ev werin sazkirin:
+
+- Steam
+- GameMode
+- MangoHud
+- ProtonUp-Qt
+
+Sazkirin (Linux Mint / Ubuntu)
+----------------------------------
+
+1. Pergalê nû bikin
+
+    sudo apt update && sudo apt upgrade -y
+
+2. GameMode saz bikin
+
+    sudo apt install gamemode -y
+
+Vebijarka Steam:
+
+    gamemoderun %command%
+
+3. MangoHud saz bikin
+
+    sudo apt install mangohud -y
+
+Vebijarka Steam:
+
+    mangohud %command%
+
+An bi GameMode re:
+
+    mangohud gamemoderun %command%
+
+4. ProtonUp-Qt saz bikin
+
+Heke Flatpak hatibe sazkirin:
+
+    flatpak install flathub net.davidotek.pupgui2
+
+Bijarte:
+ProtonUp-Qt bidin destpêkirin, Steam hilbijêrin, paşê guhertoya herî dawî ya Proton-GE saz bikin.
+
+Encam:
+
+- GameMode: xweştirkirina performansa CPU.
+- MangoHud: nîşandana FPS û statîstîkên pergalê.
+- ProtonUp-Qt: sazkirin û rêvebirina Proton-GE.
+
+Gava ku ev amûr werin sazkirin, Proton-autogen dikare jîngeha we ya Proton
+bi awayekî xweber birêve bibe û bernameyên we yên Windows bide destpêkirin.
+
+Mîhengkirina herî kêm a pêşniyarkirî:
+- ProtonUp-Qt
+- Proton-autogen
