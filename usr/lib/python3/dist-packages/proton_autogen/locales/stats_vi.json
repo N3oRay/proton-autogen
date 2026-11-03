@@ -1,0 +1,16 @@
+{
+  "favorite": "Yêu thích",
+  "recent": "Chơi gần đây",
+  "gamemode": "Đã bật GameMode",
+  "gamescope": "Đã bật GameScope",
+  "mangohud": "Đã bật MangoHud",
+  "rookie": "Người mới (chúng ta bắt đầu từ từ)",
+  "casual": "Game thủ giải trí",
+  "gamer": "Game thủ có kinh nghiệm",
+  "heavy": "Phát hiện game thủ tryhard",
+  "addict": "Cần người giúp đỡ!",
+  "night_owl": "Hoạt động gần đây (cú đêm?)",
+  "veteran": "Cựu binh huyền thoại",
+  "_error_title": "CẢNH BÁO",
+  "_error_message": "Đang làm mới huy hiệu"
+}
