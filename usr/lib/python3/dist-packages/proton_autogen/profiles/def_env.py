@@ -339,6 +339,48 @@ PROTON_ENV_VARS = [
         "category": "graphics",
         "i18n": "env_vars.wayland_fullscreen_enable",
     },
+    {
+        "name": "PROTON_SONY_WINDOWS_DEVICE_NAMES",
+        "type": "proton",
+        "category": "input",
+        "i18n": "env_vars.proton_sony_windows_device_names",
+    },
+    {
+        "name": "PROTON_STEAM_INPUT_XBOX_PROMPTS",
+        "type": "proton",
+        "category": "input",
+        "i18n": "env_vars.proton_steam_input_xbox_prompts",
+    },
+    {
+        "name": "PROTON_FORCE_HDR",
+        "type": "proton",
+        "category": "graphics",
+        "i18n": "env_vars.proton_force_hdr",
+    },
+    {
+        "name": "PROTON_FSR4_UPGRADE",
+        "type": "proton",
+        "category": "graphics",
+        "i18n": "env_vars.proton_fsr4_upgrade",
+    },
+    {
+        "name": "PROTON_MLFG_UPGRADE",
+        "type": "proton",
+        "category": "graphics",
+        "i18n": "env_vars.proton_mlfg_upgrade",
+    },
+    {
+        "name": "PROTON_STREAMLINE_UPGRADE",
+        "type": "proton",
+        "category": "graphics",
+        "i18n": "env_vars.proton_streamline_upgrade",
+    },
+    {
+        "name": "PROTON_DLL_COPY",
+        "type": "proton",
+        "category": "compatibility",
+        "i18n": "env_vars.proton_dll_copy",
+    },
 
 ]
 WINE_ENV_VARS = [
@@ -411,7 +453,20 @@ WINE_ENV_VARS = [
         "type": "wine",
         "category": "compatibility",
         "i18n": "env_vars.wine_vk_fullscreen_method",
-    }
+    },
+    {
+        "name": "WINE_LAYERED_OVERLAY_DIRECT",
+        "type": "wine",
+        "category": "graphics",
+        "i18n": "env_vars.wine_layered_overlay_direct",
+    },
+    {
+        "name": "WINE_WAYLAND_HDR_PASSTHROUGH",
+        "type": "wine",
+        "category": "graphics",
+        "i18n": "env_vars.wine_wayland_hdr_passthrough",
+    },
+
 ]
 SDL_ENV_VARS = [
     # =========================================================
