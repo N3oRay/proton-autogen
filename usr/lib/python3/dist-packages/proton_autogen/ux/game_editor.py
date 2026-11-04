@@ -23,6 +23,13 @@ DEFAULT_FPS_LIMIT = 60
 # / conflits avec la logique interne (prefix, mangohud, gpu...).
 RESERVED_ENV_KEYS = set()
 
+
+def _env_query_matches(query: str, haystack: str) -> bool:
+    """Recherche "tous les mots" : chaque mot saisi doit apparaître dans
+    le nom ou la description (insensible à la casse). Une requête vide
+    correspond à tout."""
+    return all(token in haystack for token in query.lower().split())
+
 # -----------------------------
 # GAME EDITOR WINDOW
 # -----------------------------
@@ -293,7 +300,12 @@ class GameEditor(Gtk.Window):
         # -------------------------
         env_label = Gtk.Label(label=tr("custom_env_label"), xalign=0)
         env_label.add_css_class("form-label")
-        root.append(env_label)
+        env_label.set_hexpand(True)
+
+        env_header = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
+        env_header.append(env_label)
+        env_header.append(self._build_env_search_button())
+        root.append(env_header)
 
         custom_env = self._existing_custom_env()
         env_text = "\n".join(f"{k}={v}" for k, v in custom_env.items())
@@ -324,6 +336,7 @@ class GameEditor(Gtk.Window):
         self.env_view.add_css_class("editor-env-view")
         self.env_view.set_monospace(True)
         set_tooltip(self.env_view, "custom_env", self.lang)
+        self._setup_env_hover_tooltip()
 
         env_scroll = Gtk.ScrolledWindow()
         env_scroll.set_min_content_height(90)
@@ -563,6 +576,219 @@ class GameEditor(Gtk.Window):
 
 
             offset += len(raw_line)
+
+    # -------------------------
+    # RECHERCHE DE VARIABLES (bouton + popover)
+    # -------------------------
+    def _build_env_search_button(self) -> Gtk.MenuButton:
+        """Bouton "Rechercher une variable" : ouvre une liste filtrable de
+        toutes les variables connues avec leur description. Un clic sur une
+        variable l'ajoute dans le champ (ou y place le curseur si elle y est
+        déjà)."""
+        content = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
+        content.append(Gtk.Image.new_from_icon_name("system-search-symbolic"))
+        content.append(Gtk.Label(label=tr("env_search_button")))
+
+        button = Gtk.MenuButton()
+        button.set_child(content)
+        button.add_css_class("section-toggle")
+
+        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+        box.set_margin_top(8)
+        box.set_margin_bottom(8)
+        box.set_margin_start(8)
+        box.set_margin_end(8)
+        box.set_size_request(500, -1)
+
+        self._env_search_entry = Gtk.SearchEntry()
+        self._env_search_entry.set_placeholder_text(tr("env_search_placeholder"))
+        box.append(self._env_search_entry)
+
+        self._env_list = Gtk.ListBox()
+        self._env_list.set_selection_mode(Gtk.SelectionMode.SINGLE)
+        self._env_list.set_activate_on_single_click(True)
+        self._env_list.set_filter_func(
+            lambda row: _env_query_matches(
+                self._env_search_entry.get_text(), row.search_text
+            )
+        )
+
+        self._env_rows = []
+        for name in sorted(ENV_VARS_BY_NAME):
+            meta = ENV_VARS_BY_NAME[name]
+            description = tr(meta["i18n"])
+
+            title = Gtk.Label(xalign=0)
+            title.set_markup(f"<b><tt>{GLib.markup_escape_text(name)}</tt></b>")
+
+            desc = Gtk.Label(label=description, xalign=0)
+            desc.set_wrap(True)
+            desc.set_max_width_chars(60)
+            desc.set_opacity(0.75)
+
+            row_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=2)
+            row_box.set_margin_top(4)
+            row_box.set_margin_bottom(4)
+            row_box.append(title)
+            row_box.append(desc)
+
+            row = Gtk.ListBoxRow()
+            row.set_child(row_box)
+            row.env_name = name
+            row.search_text = f"{name} {description}".lower()
+            self._env_list.append(row)
+            self._env_rows.append(row)
+
+        self._env_scroll = Gtk.ScrolledWindow()
+        self._env_scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+        self._env_scroll.set_min_content_height(320)
+        self._env_scroll.set_child(self._env_list)
+        box.append(self._env_scroll)
+
+        self._env_empty_label = Gtk.Label(label=tr("env_search_no_result"))
+        self._env_empty_label.set_opacity(0.75)
+        self._env_empty_label.set_visible(False)
+        box.append(self._env_empty_label)
+
+        self._env_popover = Gtk.Popover()
+        self._env_popover.set_child(box)
+        button.set_popover(self._env_popover)
+
+        self._env_search_entry.connect("search-changed", self._on_env_search_changed)
+        self._env_search_entry.connect("activate", self._on_env_search_enter)
+        self._env_search_entry.connect("next-match", lambda *_: self._env_move_selection(1))
+        self._env_search_entry.connect("previous-match", lambda *_: self._env_move_selection(-1))
+        self._env_search_entry.connect("stop-search", lambda *_: self._env_popover.popdown())
+        self._env_list.connect("row-activated", self._on_env_row_activated)
+        self._env_popover.connect("show", self._on_env_popover_show)
+
+        return button
+
+    def _env_visible_rows(self) -> list:
+        query = self._env_search_entry.get_text()
+        return [r for r in self._env_rows if _env_query_matches(query, r.search_text)]
+
+    def _on_env_popover_show(self, _popover):
+        self._env_search_entry.set_text("")
+        self._env_search_entry.grab_focus()
+        self._on_env_search_changed(self._env_search_entry)
+
+    def _on_env_search_changed(self, _entry):
+        self._env_list.invalidate_filter()
+        visible = self._env_visible_rows()
+        self._env_empty_label.set_visible(not visible)
+        self._env_scroll.get_vadjustment().set_value(0)
+
+        if visible:
+            self._env_list.select_row(visible[0])
+        else:
+            self._env_list.unselect_all()
+
+    def _env_move_selection(self, step: int):
+        """Flèches haut/bas dans le champ de recherche : déplace la sélection
+        parmi les résultats visibles et la garde dans la zone visible."""
+        visible = self._env_visible_rows()
+        if not visible:
+            return
+
+        current = self._env_list.get_selected_row()
+        index = visible.index(current) if current in visible else -1
+        row = visible[max(0, min(len(visible) - 1, index + step))]
+        self._env_list.select_row(row)
+
+        ok, rect = row.compute_bounds(self._env_list)
+        if ok:
+            adj = self._env_scroll.get_vadjustment()
+            top, bottom = rect.get_y(), rect.get_y() + rect.get_height()
+            if top < adj.get_value():
+                adj.set_value(top)
+            elif bottom > adj.get_value() + adj.get_page_size():
+                adj.set_value(bottom - adj.get_page_size())
+
+    def _on_env_search_enter(self, _entry):
+        row = self._env_list.get_selected_row()
+        if row is not None and row in self._env_visible_rows():
+            self._insert_env_var(row.env_name)
+
+    def _on_env_row_activated(self, _listbox, row):
+        self._insert_env_var(row.env_name)
+
+    def _insert_env_var(self, name: str) -> None:
+        """Ajoute "NAME=" dans le champ, prêt à recevoir la valeur. Si la
+        variable est déjà saisie, place simplement le curseur en fin de sa
+        ligne au lieu de créer un doublon."""
+        buf = self.env_buffer
+        text = buf.get_text(buf.get_start_iter(), buf.get_end_iter(), False)
+
+        offset = 0
+        for line in text.split("\n"):
+            key, sep, _ = line.partition("=")
+            if sep and key.strip() == name:
+                buf.place_cursor(buf.get_iter_at_offset(offset + len(line)))
+                break
+            offset += len(line) + 1
+        else:
+            prefix = "" if (not text or text.endswith("\n")) else "\n"
+            buf.insert(buf.get_end_iter(), f"{prefix}{name}=")
+            buf.place_cursor(buf.get_end_iter())
+
+        self._env_popover.popdown()
+        self.env_view.grab_focus()
+        self.env_view.scroll_mark_onscreen(buf.get_insert())
+
+    # -------------------------
+    # DESCRIPTION AU SURVOL
+    # -------------------------
+    def _setup_env_hover_tooltip(self) -> None:
+        """Affiche la description d'une variable connue quand la souris
+        survole son nom dans le champ. Hors d'un nom connu, l'info-bulle
+        générale du champ est restaurée."""
+        self._env_default_tooltip = self.env_view.get_tooltip_text()
+        self._env_hover_key = None
+
+        motion = Gtk.EventControllerMotion()
+        motion.connect("motion", self._on_env_view_motion)
+        motion.connect("leave", lambda *_: self._set_env_hover_key(None))
+        self.env_view.add_controller(motion)
+
+    def _on_env_view_motion(self, _ctrl, x, y):
+        bx, by = self.env_view.window_to_buffer_coords(
+            Gtk.TextWindowType.WIDGET, int(x), int(y)
+        )
+        found, it = self.env_view.get_iter_at_position(bx, by)[:2]
+        key = None
+
+        if found:
+            line_start = it.copy()
+            line_start.set_line_offset(0)
+            line_end = line_start.copy()
+            if not line_end.ends_line():
+                line_end.forward_to_line_end()
+
+            line = self.env_buffer.get_text(line_start, line_end, False)
+            name, sep, _ = line.partition("=")
+
+            # Seulement quand le pointeur est sur le nom, pas sur la valeur.
+            if sep and it.get_line_offset() <= len(name) and name.strip() in ENV_VARS_BY_NAME:
+                key = name.strip()
+
+        self._set_env_hover_key(key)
+
+    def _set_env_hover_key(self, key) -> None:
+        if key == self._env_hover_key:
+            return
+        self._env_hover_key = key
+
+        if key:
+            description = tr(ENV_VARS_BY_NAME[key]["i18n"])
+            self.env_view.set_tooltip_markup(
+                f"<b>{GLib.markup_escape_text(key)}</b>\n"
+                f"{GLib.markup_escape_text(description)}"
+            )
+        else:
+            self.env_view.set_tooltip_text(self._env_default_tooltip)
+
+        self.env_view.trigger_tooltip_query()
 
     def _existing_custom_env(self) -> dict:
         """Variables d'environnement déjà enregistrées pour ce jeu,
