@@ -318,6 +318,7 @@
   "env_vars.winefsync": "Wine Fsync।",
   "env_vars.wine_large_address_aware": "Wine LAA।",
   "env_vars.wine_fullscreen_fsr": "Wine/Proton में फुलस्क्रीन अपस्केलिंग के लिए FSR (FidelityFX Super Resolution) के उपयोग को सक्षम या अक्षम करता है।",
+  "env_vars.wine_fullscreen_fsr_strength": "Wine और Proton (विशेषकर GE-Proton) में एकीकृत AMD FidelityFX Super Resolution (FSR) अपस्केलिंग द्वारा लागू की जाने वाली शार्पनिंग की तीव्रता को नियंत्रित करता है। मान 0 से 5: 0 सबसे तीखा और 5 सबसे मुलायम है।",
   "env_vars.wine_vk_fullscreen_method": "Vulkan फुलस्क्रीन को प्रबंधित करने के लिए Wine द्वारा उपयोग की जाने वाली विधि निर्धारित करता है (जैसे: desktop, exclusive, auto)।",
   "env_vars.sdl_video_x11_net_wm_bypass_compositor": "यह नियंत्रित करता है कि SDL X11 कंपोज़िटर से कंपोज़िशन को बायपास करने का अनुरोध करे या नहीं। इससे लेटेंसी या डिस्प्ले संबंधी समस्याएँ कम हो सकती हैं, लेकिन कुछ विंडो मैनेजर में फ़ोकस या माउस कैप्चर से जुड़ी समस्याएँ उत्पन्न हो सकती हैं।",
   "env_vars.sdl_mouse_auto_capture": "विंडो सक्रिय होने पर माउस का स्वचालित कैप्चर सक्षम करता है। यह फुलस्क्रीन या FPS मोड में गेम के व्यवहार को बेहतर बनाता है और माउस नियंत्रण खोने से बचाता है।",

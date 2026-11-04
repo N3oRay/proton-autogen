@@ -318,6 +318,7 @@
   "env_vars.winefsync": "Wine Fsync。",
   "env_vars.wine_large_address_aware": "Wine LAA。",
   "env_vars.wine_fullscreen_fsr": "启用或禁用 Wine/Proton 全屏模式下使用 FSR（FidelityFX Super Resolution）进行图像缩放。",
+  "env_vars.wine_fullscreen_fsr_strength": "控制 Wine 和 Proton（尤其是 GE-Proton）内置的 AMD FidelityFX Super Resolution（FSR）放大所应用的锐化（sharpening）强度。取值 0 到 5：0 最锐利，5 最柔和。",
   "env_vars.wine_vk_fullscreen_method": "定义 Wine 管理 Vulkan 全屏模式所使用的方法（例如 desktop、exclusive、auto）。",
   "env_vars.sdl_video_x11_net_wm_bypass_compositor": "控制 SDL 是否请求 X11 合成器绕过合成。可以降低延迟或解决显示问题，但在某些窗口管理器中可能导致焦点或鼠标捕获问题。",
   "env_vars.sdl_mouse_auto_capture": "窗口激活时自动捕获鼠标。可改善全屏或 FPS 游戏中的鼠标行为，避免鼠标控制丢失。",

@@ -449,6 +449,12 @@ WINE_ENV_VARS = [
         "i18n": "env_vars.wine_fullscreen_fsr",
     },
     {
+        "name": "WINE_FULLSCREEN_FSR_STRENGTH",
+        "type": "wine",
+        "category": "graphics",
+        "i18n": "env_vars.wine_fullscreen_fsr_strength",
+    },
+    {
         "name": "WINE_VK_FULLSCREEN_METHOD",
         "type": "wine",
         "category": "compatibility",

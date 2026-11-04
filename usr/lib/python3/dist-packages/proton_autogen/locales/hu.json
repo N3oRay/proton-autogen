@@ -318,6 +318,7 @@
   "env_vars.winefsync": "Wine Fsync.",
   "env_vars.wine_large_address_aware": "Wine LAA.",
   "env_vars.wine_fullscreen_fsr": "Engedélyezi vagy letiltja az FSR (FidelityFX Super Resolution) használatát teljes képernyős felskálázáshoz Wine/Proton alatt.",
+  "env_vars.wine_fullscreen_fsr_strength": "Szabályozza a Wine-ba és Protonba (különösen a GE-Protonba) integrált AMD FidelityFX Super Resolution (FSR) felskálázás által alkalmazott élesítés (sharpening) erősségét. Érték 0-tól 5-ig: a 0 a legélesebb, az 5 a legpuhább.",
   "env_vars.wine_vk_fullscreen_method": "Meghatározza a Wine által a Vulkan teljes képernyős módjának kezelésére használt módszert (pl.: desktop, exclusive, auto).",
   "env_vars.sdl_video_x11_net_wm_bypass_compositor": "Szabályozza, hogy az SDL kérje-e az X11 kompozitor megkerülését. Csökkentheti a késleltetést vagy a megjelenítési problémákat, de egyes ablakkezelők esetében fókusz- vagy egérrögzítési problémákat okozhat.",
   "env_vars.sdl_mouse_auto_capture": "Automatikusan rögzíti az egeret, amikor az ablak aktívvá válik. Javítja a teljes képernyős és FPS-játékok egérkezelését, megelőzve az egér feletti irányítás elvesztését.",

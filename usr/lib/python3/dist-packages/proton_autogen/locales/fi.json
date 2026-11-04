@@ -318,6 +318,7 @@
   "env_vars.winefsync": "Winen Fsync.",
   "env_vars.wine_large_address_aware": "Winen LAA.",
   "env_vars.wine_fullscreen_fsr": "Ottaa FSR:n (FidelityFX Super Resolution) käytön koko näytön skaalaukseen Wine/Protonissa käyttöön tai pois käytöstä.",
+  "env_vars.wine_fullscreen_fsr_strength": "Säätää terävöityksen (sharpening) voimakkuutta, jota Wineen ja Protoniin (erityisesti GE-Protoniin) integroitu AMD FidelityFX Super Resolution (FSR) -skaalaus käyttää. Arvo 0–5: 0 on terävin, 5 pehmein.",
   "env_vars.wine_vk_fullscreen_method": "Määrittää Winen käyttämän menetelmän Vulkanin koko näytön tilan hallintaan (esim. desktop, exclusive, auto).",
   "env_vars.sdl_video_x11_net_wm_bypass_compositor": "Määrittää, pyytääkö SDL X11:n kompositointiohjelmaa ohittamaan kompositoinnin (bypass). Tämä voi vähentää viivettä tai näyttöongelmia, mutta saattaa aiheuttaa tarkennus- tai hiiren kaappausongelmia joissakin ikkunanhallintaohjelmissa.",
   "env_vars.sdl_mouse_auto_capture": "Ottaa hiiren automaattisen kaappauksen käyttöön, kun ikkuna aktivoituu. Parantaa pelien toimintaa koko näytön tilassa tai FPS-tilassa estämällä hiiren hallinnan menettämisen.",
