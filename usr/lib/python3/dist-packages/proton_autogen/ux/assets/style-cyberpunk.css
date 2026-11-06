@@ -1374,3 +1374,140 @@ popover button:focus {
     50%  { filter: drop-shadow(0 0 12px rgba(255,43,214,0.80)); }
     100% { filter: drop-shadow(0 0 4px  rgba(0,240,255,0.35)); }
 }
+
+/* ==== TABLEAU LAYER (début) ==== */
+/* Présentation commune. Couleurs propres au thème : 3 alias ci-dessous. */
+@define-color ta_accent #00f0ff;
+@define-color ta_card rgba(255, 255, 255, 0.05);
+@define-color ta_line rgba(255, 255, 255, 0.10);
+
+/* Cartes : bordure fine, coins arrondis, filet d'accent en haut */
+.recent-card,
+.game-grid-card,
+.status-box {
+    background-color: @ta_card;
+    border: 1px solid @ta_line;
+    border-radius: 14px;
+    box-shadow: inset 0 2px 0 alpha(@ta_accent, 0.55);
+    transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+.recent-card {
+    padding: 4px 8px;
+}
+
+.status-box {
+    padding: 6px 12px;
+}
+
+.recent-card:hover,
+.game-grid-card:hover {
+    background-color: alpha(@ta_accent, 0.10);
+    border-color: alpha(@ta_accent, 0.45);
+}
+
+/* Lignes de liste */
+.game-row {
+    border-radius: 12px;
+    transition: background-color 150ms ease;
+}
+
+.game-row:hover {
+    background-color: alpha(@ta_accent, 0.08);
+}
+
+/* En-tête */
+.main-header {
+    border-bottom: 1px solid @ta_line;
+    box-shadow: 0 1px 0 alpha(@ta_accent, 0.25);
+}
+
+/* Boutons en pastille */
+.app-button,
+.section-toggle,
+.btn-launch,
+.btn-edit,
+.btn-export,
+.btn-install,
+.btn-delete {
+    border-radius: 999px;
+    transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+.app-button {
+    border: 1px solid @ta_line;
+}
+
+.section-toggle {
+    padding: 4px 12px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+}
+
+/* Badges en pastille */
+.badge {
+    border-radius: 999px;
+    letter-spacing: 0.6px;
+}
+
+/* Champs de saisie : bordure fine, halo d'accent au focus */
+entry,
+.searchentry,
+.search-entry,
+.search {
+    border: 1px solid @ta_line;
+    border-radius: 10px;
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+entry:focus,
+.searchentry:focus,
+.search-entry:focus {
+    border-color: @ta_accent;
+    box-shadow: 0 0 0 3px alpha(@ta_accent, 0.18);
+}
+
+/* Menus déroulants */
+popover.background {
+    border-radius: 14px;
+}
+
+popover > contents {
+    border: 1px solid @ta_line;
+    border-radius: 14px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+}
+
+popover row:hover,
+popover modelbutton:hover {
+    background-color: alpha(@ta_accent, 0.14);
+}
+
+/* Boîtes de dialogue et éditeur de jeu */
+.dialog-content {
+    border: 1px solid @ta_line;
+    border-radius: 18px;
+}
+
+frame.editor-form,
+.editor-form {
+    border: 1px solid @ta_line;
+    border-radius: 16px;
+    box-shadow: inset 0 2px 0 alpha(@ta_accent, 0.5);
+}
+
+/* Titres et étiquettes : léger espacement des lettres */
+.title-1,
+.title-2,
+.title-4,
+.title-5,
+.home-label,
+.export-title,
+.launch-title {
+    letter-spacing: 0.5px;
+}
+
+.form-label {
+    letter-spacing: 0.4px;
+}
+/* ==== TABLEAU LAYER (fin) ==== */

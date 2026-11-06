@@ -158,6 +158,12 @@ class DashboardUIMixin:
             icon_name="view-paged-symbolic"
         )
 
+        for btn in (self.game_list_view_btn, self.game_grid_view_btn, self.game_biblio_view_btn):
+            btn.add_css_class("section-toggle")
+
+
+
+
         self.game_list_view_btn.set_tooltip_text("Liste")
         self.game_grid_view_btn.set_tooltip_text("Icônes")
         self.game_biblio_view_btn.set_tooltip_text(
