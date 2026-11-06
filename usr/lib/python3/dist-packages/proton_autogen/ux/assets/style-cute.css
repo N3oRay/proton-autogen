@@ -46,10 +46,10 @@
    Text
    ========================================================= */
 label{
-    color: @kawaii-green;
+    color: @kawaii-text;
     font-size: 12px;
     font-weight: bold;
-    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
+    /*text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);*/
 }
 
 
@@ -400,6 +400,14 @@ button.destructive-action:hover {
    Eviter label {}
    =========================================================
 */
+
+checkbutton.feature-toggle label {
+    color: @hk_text;
+}
+
+checkbutton.feature-toggle:checked label {
+    color: @kawaii-pink-dark;
+}
 
 
 .title-1 {
