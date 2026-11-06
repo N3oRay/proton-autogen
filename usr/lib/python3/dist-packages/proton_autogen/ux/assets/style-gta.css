@@ -58,7 +58,7 @@ window {
 }
 
 window.background {
-    background: rgba(10,13,28,0.75);
+    background: rgba(10,13,28,0.96);
     border-radius: 16px;
 }
 
@@ -68,7 +68,7 @@ window.background {
    ========================================================= */
 
 .style {
-    background: rgba(10,13,28,0.75);
+    background: rgba(10,13,28,0.96);
     border-radius: 16px;
 }
 
@@ -498,7 +498,7 @@ label.home-label {
    ========================================================= */
 
 .launch-dialog {
-    background: rgba(12,15,32, 0.95);
+    background: rgba(12,15,32, 0.96);
     border-radius: 16px;
     padding: 24px;
 }
@@ -1575,7 +1575,7 @@ popover button:focus {
 
 
 .save-backup-dialog, .save-manager-dialog{
-    background: rgba(8,10,22,0.92);
+    background: rgba(8,10,22,0.96);
     padding: 2px 8px;
     border-radius:16px;
     color:white;

@@ -116,8 +116,8 @@ window.background {
     background:
         linear-gradient(
             180deg,
-            rgba(11,8,32,0.90),
-            rgba(7,4,21,0.94)
+            rgba(11,8,32,0.96),
+            rgba(7,4,21,0.96)
         );
     border: 1px solid @pro_line_soft;
     border-radius: 10px;
@@ -132,8 +132,8 @@ window.background {
     background:
         linear-gradient(
             180deg,
-            rgba(11,8,32,0.90),
-            rgba(7,4,21,0.94)
+            rgba(11,8,32,0.96),
+            rgba(7,4,21,0.96)
         );
     border-radius: 10px;
 }

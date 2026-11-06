@@ -132,8 +132,8 @@ window.background {
     background:
         linear-gradient(
             180deg,
-            rgba(10,9,22,0.90),
-            rgba(6,5,13,0.94)
+            rgba(10,9,22,0.96),
+            rgba(6,5,13,0.96)
         );
     border: 1px solid @cy_border;
     border-radius: 8px;
@@ -148,8 +148,8 @@ window.background {
     background:
         linear-gradient(
             180deg,
-            rgba(10,9,22,0.90),
-            rgba(6,5,13,0.94)
+            rgba(10,9,22,0.96),
+            rgba(6,5,13,0.96)
         );
     border-radius: 8px;
 }

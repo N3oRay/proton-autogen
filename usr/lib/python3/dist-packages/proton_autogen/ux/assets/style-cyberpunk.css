@@ -84,8 +84,8 @@ window.background {
     background:
         linear-gradient(
             180deg,
-            rgba(10,7,22,0.88),
-            rgba(5,3,13,0.92)
+            rgba(10,7,22,0.96),
+            rgba(5,3,13,0.96)
         );
     border: 1px solid @cyber_border;
     border-radius: 8px;
@@ -100,8 +100,8 @@ window.background {
     background:
         linear-gradient(
             180deg,
-            rgba(10,7,22,0.88),
-            rgba(5,3,13,0.92)
+            rgba(10,7,22,0.96),
+            rgba(5,3,13,0.96)
         );
     border-radius: 8px;
 }
@@ -1331,7 +1331,7 @@ popover button:focus {
 
 .save-backup-dialog,
 .save-manager-dialog {
-    background: rgba(10,7,22,0.95);
+    background: rgba(10,7,22,0.96);
     padding: 2px 8px;
     border-radius: 10px;
     color: @cyber_text;

@@ -2003,7 +2003,7 @@ popover button:focus {
 }
 
 .save-backup-dialog, .save-manager-dialog{
-    background: rgba(15,15,15,0.92);
+    background: rgba(15,15,15,0.96);
     padding: 2px 8px;
     border-radius:16px;
     color:white;

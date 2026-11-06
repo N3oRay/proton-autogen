@@ -100,7 +100,7 @@ window {
 }
 
 window.background {
-    background: rgba(12,8,16,0.75);
+    background: rgba(12,8,16,0.96);
     border: 1px solid alpha(@hk_pink, 0.14);
     border-radius: 16px;
 }
@@ -111,7 +111,7 @@ window.background {
    ========================================================= */
 
 .style {
-    background: rgba(12,8,16,0.75);
+    background: rgba(12,8,16,0.96);
     border-radius: 16px;
 }
 
@@ -954,7 +954,7 @@ popover.menu modelbutton.submenu arrow {
    ========================================================= */
 
 .editor-form {
-    background: rgba(16,10,21,0.92);
+    background: rgba(16,10,21,0.96);
     border: 2px solid alpha(@hk_pink, 0.35);
     border-radius: 20px;
     padding: 18px;
@@ -1499,7 +1499,7 @@ popover button:focus {
 
 .save-backup-dialog,
 .save-manager-dialog {
-    background-color: rgba(12,8,16,0.94);
+    background-color: rgba(12,8,16,0.96);
     padding: 2px 8px;
     border-radius: 16px;
     color: @hk_text;

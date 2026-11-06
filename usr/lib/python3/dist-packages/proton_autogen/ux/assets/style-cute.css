@@ -81,8 +81,8 @@ window.background,
 
     background: linear-gradient(
         180deg,
-        rgba(255,247,251,0.70),
-        rgba(247,245,255,0.70)
+        rgba(255,247,251,0.96),
+        rgba(247,245,255,0.96)
     );
 
     color: @hk_text;
@@ -483,7 +483,7 @@ label.home-label {
    ========================================================= */
 
 .launch-dialog {
-    background: rgba(25, 25, 25, 0.95);
+    background: rgba(25, 25, 25, 0.96);
     border-radius: 16px;
     padding: 24px;
 }

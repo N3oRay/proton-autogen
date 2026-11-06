@@ -14,6 +14,8 @@ from proton_autogen.editor import list_prefixes_ux
 from proton_autogen.profiles.init import VALID_PROFILES
 from proton_autogen.i18n import tr
 from proton_autogen.ux import cover_manager
+from proton_autogen.ux import adw_rows
+from proton_autogen.ux.adw_rows import USE_ADW
 
 # Valeur par défaut appliquée quand MangoHud est activé sans fps_limit défini
 DEFAULT_FPS_LIMIT = 60
@@ -179,19 +181,20 @@ class GameEditor(Gtk.Window):
         features = self.game.get("features", {})
 
         # FAVORITE
-        self.favorite = Gtk.CheckButton(label=tr("add_to_favorites"))
-        self.favorite.add_css_class("feature-toggle")
-        self.favorite.set_active(
-            self.game.get("favorite", False)
+        self.favorite = adw_rows.new_switch(
+            tr("add_to_favorites"), self.game.get("favorite", False)
         )
 
         set_tooltip(self.favorite, "favorite", self.lang)
         # MANGO
-        self.mangohud = Gtk.CheckButton(label=tr("enable_mangohud"))
-        self.mangohud.add_css_class("feature-toggle")
-        self.mangohud.set_active(features.get("mangohud", False))
+        self.mangohud = adw_rows.new_switch(
+            tr("enable_mangohud"), features.get("mangohud", False)
+        )
         set_tooltip(self.mangohud, "mangohud", self.lang)  #new code
-        self.mangohud.connect("toggled", self.on_mangohud_toggled)
+        # "notify::active" existe pour CheckButton comme pour AdwSwitchRow.
+        self.mangohud.connect(
+            "notify::active", lambda w, _p: self.on_mangohud_toggled(w)
+        )
 
         # FPS LIMIT (visible seulement si MangoHud est actif)
         fps_limit = features.get("fps_limit", DEFAULT_FPS_LIMIT)
@@ -208,27 +211,35 @@ class GameEditor(Gtk.Window):
         self.fps_limit.set_numeric(True)
         set_tooltip(self.fps_limit, "fps_limit", self.lang)
 
-        self.fps_limit_row = self._row("FPS limit", self.fps_limit)
+        if USE_ADW:
+            # Le réglage FPS se loge à droite de l'interrupteur MangoHud :
+            # pas de ligne supplémentaire, le menu reste compact.
+            self.fps_limit_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
+            self.fps_limit_row.set_valign(Gtk.Align.CENTER)
+            self.fps_limit_row.append(Gtk.Label(label="FPS"))
+            self.fps_limit_row.append(self.fps_limit)
+            self.mangohud.add_suffix(self.fps_limit_row)
+        else:
+            self.fps_limit_row = self._row("FPS limit", self.fps_limit)
         self.fps_limit_row.set_sensitive(self.mangohud.get_active())
         # GAMEMODE
-        self.gamemode = Gtk.CheckButton(label=tr("enable_gamemode"))
-        self.gamemode.add_css_class("feature-toggle")
-        self.gamemode.set_active(features.get("gamemode", False))
+        self.gamemode = adw_rows.new_switch(
+            tr("enable_gamemode"), features.get("gamemode", False)
+        )
         set_tooltip(self.gamemode, "gamemode", self.lang) #new code
         # GAMESCOPE
-        self.gamescope = Gtk.CheckButton(label=tr("enable_gamescope"))
-        self.gamescope.add_css_class("feature-toggle")
-        self.gamescope.set_active(features.get("gamescope", False))
+        self.gamescope = adw_rows.new_switch(
+            tr("enable_gamescope"), features.get("gamescope", False)
+        )
         set_tooltip(self.gamescope, "gamescope", self.lang)
 
         # INHIBIT SLEEP (verrou anti-veille) — n'a d'effet que si le
         # mode global (Réglages > Comportement) est réglé sur
         # "Par jeu" ; sinon "Jamais"/"Toujours" prime sur ce toggle.
-        self.inhibit_sleep = Gtk.CheckButton(
-            label=tr("enable_inhibit_sleep") or "Empêcher la mise en veille"
+        self.inhibit_sleep = adw_rows.new_switch(
+            tr("enable_inhibit_sleep") or "Empêcher la mise en veille",
+            features.get("inhibit_sleep", False),
         )
-        self.inhibit_sleep.add_css_class("feature-toggle")
-        self.inhibit_sleep.set_active(features.get("inhibit_sleep", False))
         self.inhibit_sleep.set_tooltip_text(
             tr("inhibit_sleep_tooltip")
             or "Empêche l'écran de s'éteindre et la mise en veille pendant "
@@ -241,11 +252,10 @@ class GameEditor(Gtk.Window):
         # fonctionnalité de protection des données, pas une préférence de
         # confort — on préfère prévenir l'utilisateur par défaut et le
         # laisser désactiver au cas par cas.
-        self.save_backup_prompt = Gtk.CheckButton(
-            label=tr("enable_save_backup_prompt") or "Proposer une sauvegarde en fin de partie"
+        self.save_backup_prompt = adw_rows.new_switch(
+            tr("enable_save_backup_prompt") or "Proposer une sauvegarde en fin de partie",
+            features.get("save_backup_prompt", True),
         )
-        self.save_backup_prompt.add_css_class("feature-toggle")
-        self.save_backup_prompt.set_active(features.get("save_backup_prompt", True))
         self.save_backup_prompt.set_tooltip_text(
             tr("save_backup_prompt_tooltip")
             or "À la fermeture du jeu, proton-autogen détecte si les "
@@ -269,9 +279,14 @@ class GameEditor(Gtk.Window):
         )
         self.memory_btn.connect("clicked", self._on_memory_clicked)
 
-        save_backup_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
-        save_backup_row.append(self.save_backup_prompt)
-        save_backup_row.append(self.memory_btn)
+        if USE_ADW:
+            self.memory_btn.set_valign(Gtk.Align.CENTER)
+            self.save_backup_prompt.add_suffix(self.memory_btn)
+            save_backup_row = self.save_backup_prompt
+        else:
+            save_backup_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
+            save_backup_row.append(self.save_backup_prompt)
+            save_backup_row.append(self.memory_btn)
 
         # -------------------------
         # GPU MODE
@@ -287,13 +302,20 @@ class GameEditor(Gtk.Window):
 
         root.append(self._row("GPU Mode", self.gpu))
 
-        root.append(self.favorite)
-        root.append(self.mangohud)
-        root.append(self.fps_limit_row)
-        root.append(self.gamemode)
-        root.append(self.gamescope)
-        root.append(self.inhibit_sleep)
-        root.append(save_backup_row)
+        if USE_ADW:
+            switches = adw_rows.new_switch_list()
+            for row in (self.favorite, self.mangohud, self.gamemode,
+                        self.gamescope, self.inhibit_sleep, save_backup_row):
+                adw_rows.list_add(switches, row)
+            root.append(switches)
+        else:
+            root.append(self.favorite)
+            root.append(self.mangohud)
+            root.append(self.fps_limit_row)
+            root.append(self.gamemode)
+            root.append(self.gamescope)
+            root.append(self.inhibit_sleep)
+            root.append(save_backup_row)
 
         # -------------------------
         # CUSTOM ENVIRONMENT VARIABLES
