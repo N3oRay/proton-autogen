@@ -18,6 +18,7 @@
 @define-color hk_text3 #5d4a8a;
 @define-color hk_text4 #d7beff;
 @define-color hk_text5 #e6d4ff;
+@define-color cyber_border_pink rgba(255,43,214,0.45);
 
 
 @define-color kde-bg        #eff1f5;
@@ -108,15 +109,30 @@ list,
    HEADER
    ========================================================= */
 
-headerbar .title,
-headerbar windowtitle {
-    font-size: 20px;
-    font-weight: 600;
+
+headerbar {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(18,12,36,0.92),
+            rgba(40,10,50,0.80)
+        );
     color: @kawaii-text;
-    min-height: 48px;
-    padding: 6px 12px;
-    text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+    border-bottom: 1px solid @cyber_border_pink;
 }
+
+.main-header {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(8,5,18,0.96),
+            rgba(30,8,40,0.92)
+        );
+    color: @kawaii-text;
+    border-bottom: 1px solid @cyber_border_pink;
+    box-shadow: 0 2px 14px rgba(255,43,214,0.18);
+}
+
 /* =========================================================
    BOUTONS SYSTEME GTK4
    NE PAS TOUCHER AUX BOUTONS GLOBALEMENT
@@ -770,7 +786,7 @@ popover.menu modelbutton {
     background: transparent;
     color: @hk_text;
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
-    padding: 8px;
+    padding: 4px;
 }
 
 popover.menu modelbutton:hover {
@@ -1335,13 +1351,13 @@ entry:focus,
 
 /* Menus déroulants */
 popover.background {
-    border-radius: 14px;
+    border-radius: 10px;
 }
 
 popover > contents {
     border: 1px solid @ta_line;
-    border-radius: 14px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+    border-radius: 10px;
+    /*box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);*/
 }
 
 popover row:hover,
@@ -1352,7 +1368,7 @@ popover modelbutton:hover {
 /* Boîtes de dialogue et éditeur de jeu */
 .dialog-content {
     border: 1px solid @ta_line;
-    border-radius: 18px;
+    border-radius: 10px;
 }
 
 frame.editor-form,
