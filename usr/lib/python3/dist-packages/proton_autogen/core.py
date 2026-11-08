@@ -514,14 +514,28 @@ def run_standard(exe_path: str):
 
     if not has_wine():
         logger.error(
-            """No runtime found.
+            """
+No compatible runtime found.
 
-        Missing:
-          - Proton
-          - Wine
+Missing:
+  - Proton
+  - Wine
 
-        Install Wine:
-          sudo apt install wine"""
+Wine is required to run this Windows executable.
+
+Install Wine using your distribution's package manager:
+
+  Debian / Ubuntu:
+    sudo apt install wine
+
+  Arch Linux / Manjaro:
+    sudo pacman -S wine
+
+  Fedora:
+    sudo dnf install wine
+
+After installation, try again.
+"""
         )
         sys.exit(1)
 
