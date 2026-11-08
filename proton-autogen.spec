@@ -1,7 +1,7 @@
 %define __python /usr/bin/python3
 
 Name:           proton-autogen
-Version:        3.4.4
+Version:        3.4.5
 Release:        1%{?dist}
 Summary:        Automatic Proton/Wine launcher for Windows executables
 
@@ -121,6 +121,20 @@ PYTHONPATH="%{buildroot}%{python3_sitelib}:$PYTHONPATH" %{buildroot}%{_bindir}/%
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
+* Sun Nov 08 2026 N3oRay <n3oray77@gmail.com> - 3.4.5-1
+- Release Proton-Autogen 3.4.5.
+- Introduced a new Cute visual style and improved CSS styling.
+- Replaced checkbox controls with switch buttons.
+- Improved interface consistency and text background styling.
+- Added variable autocompletion and an integrated search menu to Game Editor.
+- Improved environment variable selection and editing.
+- Added WINE_FULLSCREEN_FSR_STRENGTH.
+- Added new environment variables for GE-Proton 11-12.
+- Improved environment variable descriptions and documentation.
+- Added Hungarian (hu) language support.
+- Expanded translations for Japanese, Kurdish, Dutch, Polish, Hungarian, Vietnamese, Thai and Bulgarian.
+- Updated multilingual documentation.
+
 * Sat Oct 31 2026 N3oRay <n3oray77@gmail.com> - 3.4.4-1
 - Release Proton-Autogen 3.4.4.
 - Stable version

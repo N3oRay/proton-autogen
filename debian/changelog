@@ -1,6 +1,27 @@
-proton-autogen (3.4.4) noble; urgency=medium
+proton-autogen (3.4.5) noble; urgency=medium
 
   * Thanks to all users and contributors for their continued support, feedback and bug reports.
+  * Interface:
+  *
+  * Introduced a new Cute visual style.
+  * Improved CSS styling and interface consistency.
+  * Replaced checkbox controls with switch buttons.
+  * Added text background styling.
+  * Game Editor:
+  *
+  * Added variable autocompletion with an integrated search menu.
+  * Improved variable selection and editing workflow.
+  * Environment variables:
+  *
+  * Added WINE_FULLSCREEN_FSR_STRENGTH.
+  * Added new environment variables for GE-Proton 11-12.
+  * Improved environment variable descriptions and documentation.
+  * Internationalization:
+  *
+  * Added Hungarian (hu) language support.
+  * Expanded translations for Japanese, Kurdish, Dutch, Polish, Hungarian, Vietnamese, Thai and Bulgarian.
+  * Updated multilingual documentation.
+  *
   * Added new backend configuration options to provide greater control over application behavior.
   * Added an option to disable .EXE file scanning for improved scan customization.
   * Improved scan configuration and finalized additional scanning options.
@@ -23,4 +44,4 @@ proton-autogen (3.4.4) noble; urgency=medium
   * Strengthened package build workflows and release reliability.
   * General backend, UX, performance, configuration handling and code maintainability improvements.
 
- -- N3oray <n3oray77@gmail.com>  Sat, 31 Oct 2026 01:15:00 +0200
+ -- N3oray <n3oray77@gmail.com>  Sun, 08 Nov 2026 13:43:00 +0100
