@@ -1,5 +1,26 @@
 # Architecture Overview
 ```text
+flowchart TD
+    A["User launches EXE"] --> B["CLI / File Manager"]
+    B --> C["Backend"]
+    C --> D["Load Game Configuration"]
+    D --> E["Detect Runtime"]
+    E --> F{"Proton available?"}
+    F -->|Yes| G["Select Proton Version"]
+    F -->|No| H["Wine Fallback"]
+    G --> I["Resolve Wine Prefix"]
+    H --> I
+    I --> J["Resolve Game Profile"]
+    J --> K["Build Environment Variables"]
+    K --> L["Apply GPU / CPU Optimizations"]
+    L --> M["Launch Process"]
+    M --> N["Session Tracking"]
+    N --> O["Process Exit"]
+    O --> P["Finalize Session"]
+    P --> Q["Update Statistics"]
+```
+
+```text
 README.md                       # guide d'utilisation et installation
 pyproject.toml                  # packaging (setuptools)
 requirements*.txt               # dépendances
@@ -108,6 +129,29 @@ docs/screenshots/        (images démonstratives)
 ```
 # Prefix Management
 ```text
+Prefix Management
+├── Prefix Discovery
+│   ├── Steam compatibilitydata
+│   ├── Proton-Autogen prefixes
+│   └── Custom prefixes
+│
+├── Prefix Creation
+│   ├── Initialize prefix
+│   ├── Configure Windows environment
+│   └── Initialize Proton compatibility
+│
+├── Prefix Resolution
+│   ├── Game-specific prefix
+│   ├── Shared prefix
+│   ├── Main prefix
+│   └── Automatic selection
+│
+└── Prefix Lifecycle
+    ├── Reuse
+    ├── Validation
+    ├── Backup
+    └── Cleanup
+
 ├─ list_prefixes()      # List available Wine prefixes
 ├─ choose_prefix()      # Interactive prefix selector
 ├─ create_new_prefix()  # Create new prefix interactively
