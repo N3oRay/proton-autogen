@@ -42,8 +42,8 @@ from proton_autogen.detection.mangohud import configure_mangohud_env
 from proton_autogen.utils.detector import resolve_game_features, gpu_env
 
 from proton_autogen.util_path import proton_path, proton_name
-from proton_autogen.about import afficher_abouts, afficher_abouts_label
-from proton_autogen.about_proton import afficher_about_protons, afficher_about_protons_label
+from proton_autogen.utils.about import afficher_abouts, afficher_abouts_label
+from proton_autogen.utils.about_proton import afficher_about_protons, afficher_about_protons_label
 
 
 DEBUG = "--debug" in sys.argv
