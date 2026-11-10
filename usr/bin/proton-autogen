@@ -24,7 +24,6 @@ from proton_autogen.core import (
 from proton_autogen.editor import add_game, edit_game_ui
 from proton_autogen.i18n import detect_help_env_lang, check_translations_cli
 from proton_autogen.info import print_help
-from proton_autogen.diag import print_diagnostic
 from proton_autogen.import_scan import scan_all, scan_wine_prefixes, any_source_available, total_count, import_selected
 
 
@@ -126,6 +125,7 @@ def main():
         check_translations_cli()
         return
     if "--check-gamescope" in sys.argv or "--check-gs" in sys.argv:
+        # Import différé :
         from proton_autogen.utils.diag_gamescope import run_gamescope_check
         run_gamescope_check()
         return
@@ -148,6 +148,8 @@ def main():
         return
 
     if "--diag" in sys.argv or "--diagnostic" in sys.argv:
+        # Import différé :
+        from proton_autogen.diag import print_diagnostic
         print_diagnostic()
         return
 
