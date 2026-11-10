@@ -2,7 +2,7 @@ import locale
 import os
 import subprocess
 
-from proton_autogen.cachyos import get_cachy_text
+from proton_autogen.utils.cachyos import get_cachy_text
 from proton_autogen.i18n import detect_help_env_lang
 from proton_autogen.data_paths import get_docs_root
 
