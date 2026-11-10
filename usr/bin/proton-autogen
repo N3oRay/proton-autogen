@@ -113,7 +113,7 @@ def run_import_cli():
 
 def main():
     # Launcher UX
-    if "--ux" in sys.argv:
+    if "--ux" in sys.argv or "--UX" in sys.argv:
         # Import différé : charger le tableau de bord tire GTK 4. Les autres
         # commandes (--help, --list, lancement d'un jeu...) n'en ont pas
         # besoin et démarrent donc plus vite, même sans GTK installé.
@@ -142,7 +142,7 @@ def main():
         print_proton_paths()
         return
 
-    if "--diag" in sys.argv:
+    if "--diag" in sys.argv or "--diagnostic" in sys.argv:
         print_diagnostic()
         return
 

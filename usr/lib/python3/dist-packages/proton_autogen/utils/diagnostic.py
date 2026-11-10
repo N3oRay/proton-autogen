@@ -8,7 +8,12 @@ from collections import Counter, defaultdict
 IGNORED_EXEC_NAMES = {
     "--call",
     "--gamemode",
+    "--gamescope",
+    "--about",
     "--mangohud",
+    "--debug",
+    "--json-export",
+    "--info",
     "--wine",
     "missing.exe",
 }
