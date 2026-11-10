@@ -14,7 +14,7 @@ from pathlib import Path
 from proton_autogen import process_manager
 from proton_autogen.config import VERSION, CONFIG_FILE, CONFIG_DIR, PREFIX_DIR, PREFIX_DIR_PATH, load_proton_paths, load_prefix_dir
 from proton_autogen.utils.flatpak import wrap_host_command, prepare_host_env
-from proton_autogen.inhibit import wrap_command_with_inhibit
+from proton_autogen.utils.inhibit import wrap_command_with_inhibit
 from proton_autogen.utils.logger import StructuredLogger
 from proton_autogen.utils.steam_appid import detect_steam_appid
 from proton_autogen.utils.gamescope import build_gamescope_command, init_gamescope_env, clear_gamescope_env, apply_gamescope, LOG_FILTERS
