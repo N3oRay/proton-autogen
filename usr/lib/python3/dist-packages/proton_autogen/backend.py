@@ -39,7 +39,7 @@ from proton_autogen.stats import get_game_badges, log_game_stats
 from proton_autogen.pa_log import handle_result, result_to_line
 from proton_autogen.diag import find_all_protons, find_proton
 # new files:
-from proton_autogen.dector import resolve_game_features
+from proton_autogen.utils.detector import resolve_game_features
 from proton_autogen.system import detect_system_info
 from proton_autogen.session import finalize_session, notifications
 from proton_autogen.proton_call import launch_proton_call

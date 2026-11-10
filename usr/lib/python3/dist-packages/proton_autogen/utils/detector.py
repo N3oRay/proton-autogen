@@ -1,4 +1,4 @@
-#dector.py
+#detector.py
 
 
 # "GPU Optimization Mode: Performance"
@@ -11,7 +11,6 @@
 #performance	priorité FPS
 
 # Dectection des profils GPU / OS
-# dector.py
 
 # Résout les fonctionnalités du jeu avant leur utilisation.
 # Les options automatiques (ex. gpu="auto") sont remplacées

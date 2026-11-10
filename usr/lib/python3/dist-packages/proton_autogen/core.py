@@ -39,7 +39,7 @@ from proton_autogen.profiles.dotnet import env_dotnet
 from proton_autogen.detection.analyser import has_proton_call, has_wine, has_mangohud, has_gamemode, has_gamescope, has_xrandr
 from proton_autogen.detection.proton import DEFAULT_PROTON_PATHS
 from proton_autogen.detection.mangohud import configure_mangohud_env
-from proton_autogen.dector import resolve_game_features, gpu_env
+from proton_autogen.utils.detector import resolve_game_features, gpu_env
 
 from proton_autogen.util_path import proton_path, proton_name
 from proton_autogen.about import afficher_abouts, afficher_abouts_label

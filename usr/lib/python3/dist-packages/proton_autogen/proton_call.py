@@ -17,7 +17,7 @@ from proton_autogen.core import (
     VERBOSE,
 )
 from proton_autogen.utils.gamescope import build_gamescope_command
-from proton_autogen.dector import resolve_game_features, gpu_env
+from proton_autogen.utils.detector import resolve_game_features, gpu_env
 from proton_autogen.util_path import proton_path, proton_name
 from proton_autogen.pa_log import handle_result, result_to_line
 from proton_autogen.session import finalize_session
