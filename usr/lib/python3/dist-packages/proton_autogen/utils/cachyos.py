@@ -1,46 +1,56 @@
+
 import locale
+
+from functools import lru_cache
+from pathlib import Path
 
 from proton_autogen.data_paths import get_docs_root
 
 
+DEFAULT_LANGUAGE = "en"
+TRANSLATION_PREFIX = "cachy_"
+TRANSLATION_EXTENSION = ".txt"
 
-def detect_language():
-    lang = locale.getlocale()[0]
+
+def detect_language() -> str:
+    """Detect the system language."""
+    try:
+        lang, _ = locale.getlocale()
+    except (ValueError, TypeError):
+        lang = None
 
     if not lang:
-        return "en"
+        return DEFAULT_LANGUAGE
 
-    lang = lang.lower()
-
-    if lang.startswith("fr"):
-        return "fr"
-    if lang.startswith("de"):
-        return "de"
-    if lang.startswith("es"):
-        return "es"
-    if lang.startswith("zh"):
-        return "zh"
-    if lang.startswith("uk"):
-        return "uk"
-    if lang.startswith("pt"):
-        return "pt"
-
-    return "en"
+    # Normalize language identifiers:
+    # fr_FR -> fr, pt-BR -> pt, zh_CN -> zh
+    return lang.replace("-", "_").split("_")[0].lower()
 
 
-def get_cachy_text():
-    root = get_docs_root()
-    lang = detect_language()
+@lru_cache(maxsize=1)
+def get_available_languages() -> set[str]:
+    """Discover all available translations automatically."""
+    root = Path(get_docs_root())
 
-    candidates = [
-        f"cachy_{lang}.txt",
-        "cachy_en.txt",
-    ]
+    return {
+        path.stem.removeprefix(TRANSLATION_PREFIX)
+        for path in root.glob(f"{TRANSLATION_PREFIX}*{TRANSLATION_EXTENSION}")
+    }
 
-    for file in candidates:
-        path = root / file
 
-        if path.exists():
+def get_cachy_text() -> str:
+    """Load the best available translation."""
+    root = Path(get_docs_root())
+
+    language = detect_language()
+    available = get_available_languages()
+
+    # Try detected language, then English
+    candidates = [language, DEFAULT_LANGUAGE]
+
+    for lang in candidates:
+        if lang in available:
+            path = root / f"{TRANSLATION_PREFIX}{lang}{TRANSLATION_EXTENSION}"
             return path.read_text(encoding="utf-8")
 
     return "📄 Documentation not available."
