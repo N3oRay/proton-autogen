@@ -60,6 +60,76 @@ def test_help():
     assert "usage" in result.stdout.lower() or "help" in result.stdout.lower()
 
 
+
+def test_check_gamescope():
+    """
+    Gamescope diagnostic must work even without
+    Gamescope, xrandr or a graphical session.
+    """
+
+    result = run_cli(
+        ["--check-gs"],
+        timeout=10
+    )
+
+    assert_no_crash(result)
+
+    output = (
+        result.stdout + result.stderr
+    ).lower()
+
+    # CLI must execute successfully.
+    assert result.returncode == 0, (
+        f"Gamescope diagnostic failed:\n"
+        f"STDOUT:\n{result.stdout}\n"
+        f"STDERR:\n{result.stderr}"
+    )
+
+    # Diagnostic structure
+    expected = [
+        "proton autogen - gamescope",
+        "[ system ]",
+        "[ display ]",
+        "[ environment ]",
+        "[ command builder ]",
+        "result:",
+    ]
+
+    for item in expected:
+        assert item in output, (
+            f"Missing diagnostic element: {item}"
+        )
+
+    # All diagnostic checks must be executed,
+    # regardless of the host configuration.
+    expected_tests = [
+        "gamescope detection",
+        "xrandr detection",
+        "flatpak detection",
+        "screen resolution",
+        "environment initialization",
+        "environment cleanup",
+        "gamescope activation",
+        "command generation",
+    ]
+
+    for item in expected_tests:
+        assert item in output, (
+            f"Missing test: {item}"
+        )
+
+    # No Python crash
+    forbidden = [
+        "traceback",
+        "modulenotfounderror",
+        "unhandled exception",
+    ]
+
+    for item in forbidden:
+        assert item not in output
+
+
+
 def test_help_env():
     result = run_cli(["--help-env"])
 
