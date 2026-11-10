@@ -7,7 +7,7 @@ from gi.repository import Gtk, Gdk
 from proton_autogen.ux.color_label import insert_colored_text, insert_sensor_text, insert_about_text
 from proton_autogen.core import get_about_text, get_about_proton_text
 from proton_autogen.info import get_help_text, get_mangohud_model_text
-from proton_autogen.sensor import get_sensors_text, get_mangohud_advice
+from proton_autogen.ux.widgets.sensor import get_sensors_text, get_mangohud_advice
 from proton_autogen.requis import afficher_requirements_label
 from proton_autogen.backend import get_diagnostic_text
 from proton_autogen.i18n import tr
