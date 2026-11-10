@@ -8,7 +8,7 @@ from typing import Dict, Any, Optional, Tuple
 
 logger = logging.getLogger(__name__)
 
-from proton_autogen.lutris_validate import validate_lutris_export, LutrisValidationError
+from proton_autogen.ux.widgets.lutris_validate import validate_lutris_export, LutrisValidationError
 # ============================================================
 # Utils
 # ============================================================

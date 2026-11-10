@@ -10,7 +10,7 @@ gi.require_version("Gtk", "4.0")
 from gi.repository import Gtk, GLib
 
 from proton_autogen.i18n import tr
-from proton_autogen.lutris import export_game_to_lutris_yaml
+from proton_autogen.ux.widgets.lutris import export_game_to_lutris_yaml
 from proton_autogen.progress import Progress
 from proton_autogen.backend import run, fetch_protondb_info
 from proton_autogen import process_manager
