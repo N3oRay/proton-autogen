@@ -121,7 +121,7 @@ def main():
         start_dashboard()
         return
 
-    if "--check-translations" in sys.argv:
+    if "--check-translations" in sys.argv or "--check" in sys.argv:
         check_translations_cli()
         return
 
@@ -134,7 +134,7 @@ def main():
         print(f"proton-autogen {VERSION}")
         return
 
-    if "--list-protons" in sys.argv:
+    if "--list-protons" in sys.argv or "--lp" in sys.argv:
         list_protons()
         return
 
