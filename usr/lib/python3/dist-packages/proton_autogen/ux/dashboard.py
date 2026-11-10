@@ -7,7 +7,7 @@ import threading
 from datetime import datetime
 gi.require_version("Gtk", "4.0")
 from gi.repository import Gtk, Gio, Gdk, GLib
-from proton_autogen.system_monitor import SystemMonitor
+from proton_autogen.ux.widgets.system_monitor import SystemMonitor
 
 from proton_autogen.ux.dashboard_mini import DashboardMiniMixin
 from proton_autogen.ux.dashboard_ui import DashboardUIMixin
