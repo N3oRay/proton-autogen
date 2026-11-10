@@ -27,6 +27,7 @@ from proton_autogen.info import print_help
 from proton_autogen.diag import print_diagnostic
 from proton_autogen.import_scan import scan_all, scan_wine_prefixes, any_source_available, total_count, import_selected
 
+
 # For install dependance:
 #sudo apt update
 #sudo apt install libgtk-4-1 libgtk-4-dev gtk-4-examples
@@ -121,8 +122,12 @@ def main():
         start_dashboard()
         return
 
-    if "--check-translations" in sys.argv or "--check" in sys.argv:
+    if "--check-translations" in sys.argv or "--check-tr" in sys.argv:
         check_translations_cli()
+        return
+    if "--check-gamescope" in sys.argv or "--check-gs" in sys.argv:
+        from proton_autogen.utils.diag_gamescope import run_gamescope_check
+        run_gamescope_check()
         return
 
     # About project
