@@ -226,24 +226,18 @@ button.suggested-action:hover {
 }
 
 
-.btn-edit {
+.btn-install, .btn-edit {
 
     background: @surface;
-
     color: @text;
-
     border-radius: 8px;
-
     border: 1px solid @border;
-
     min-width: 30px;
     min-height: 30px;
-
     padding: 4px 8px;
 }
 
-.btn-edit:hover {
-
+.btn-install:hover, .btn-edit:hover {
     background: @surface-hover;
 }
 

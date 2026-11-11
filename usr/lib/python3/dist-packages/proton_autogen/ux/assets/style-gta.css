@@ -287,7 +287,7 @@ button.destructive-action:hover {
     background: #82ae42;
 }
 
-.btn-edit {
+.btn-install, .btn-edit {
     background: #4a5fb0;
     color: white;
     border-radius: 6px;
@@ -298,7 +298,7 @@ button.destructive-action:hover {
     font-size: 11px;
 }
 
-.btn-edit:hover {
+.btn-install:hover, .btn-edit:hover {
     background: #3e5099;
 }
 

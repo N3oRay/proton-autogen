@@ -247,7 +247,6 @@ button.destructive-action:hover {
     background: #3498db;
     color: white;
     border-radius: 6px;
-
     padding: 2px 6px;
     min-width: 28px;
     min-height: 28px;
@@ -258,11 +257,25 @@ button.destructive-action:hover {
     background: #2980b9;
 }
 
+
+.btn-install {
+    background: #f1c40f;
+    color: #fff;
+    border-radius: 6px;
+    padding: 2px 6px;
+    min-width: 28px;
+    min-height: 28px;
+    font-size: 11px;
+}
+
+.btn-install:hover {
+    background: #d4ac0d;
+}
+
 .btn-export {
     background: #9b59b6;
     color: white;
     border-radius: 6px;
-
     padding: 2px 6px;
     min-width: 28px;
     min-height: 28px;
