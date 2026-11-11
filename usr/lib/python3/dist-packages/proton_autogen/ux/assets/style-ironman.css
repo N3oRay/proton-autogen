@@ -14,6 +14,15 @@
 @define-color pa_blue #4fd8ff;
 @define-color pa_green #4caf50;
 
+@define-color neon_cyan      #00f0ff;
+@define-color neon_cyan_dark #00b8c4;
+@define-color neon_pink      #ff2bd6;
+@define-color neon_violet    #9d5cff;
+@define-color neon_yellow    #fcee0a;
+@define-color neon_green     #39ff88;
+@define-color neon_red       #ff2a55;
+@define-color neon_orange    #ff9f1c;
+
 @define-color im_red        #9e1414;
 @define-color im_red_bright #e21f1f;
 @define-color im_gold       #ffcc33;
@@ -254,50 +263,66 @@ button.destructive-action:hover {
     background: rgba(255,204,51,0.26);
 }
 
-.btn-launch {
-    background: #2ecc71;
-    color: white;
-    border-radius: 6px;
-    font-weight: bold;
-
+/* Boutons d'action des cartes (28x28) */
+.btn-launch,
+.btn-edit,
+.btn-export,
+.btn-install {
+    border-radius: 4px;
     padding: 2px 6px;
     min-width: 28px;
     min-height: 28px;
     font-size: 11px;
+    font-weight: 700;
+    transition: background 150ms ease, box-shadow 150ms ease;
+}
+
+.btn-launch {
+    background: rgba(57,255,136,0.16);
+    color: @neon_green;
+    border: 1px solid rgba(57,255,136,0.55);
 }
 
 .btn-launch:hover {
-    background: #27ae60;
+    background: @neon_green;
+    color: #031a0d;
+    box-shadow: 0 0 14px rgba(57,255,136,0.65);
 }
 
-.btn-install, .btn-edit {
-    background: #3498db;
-    color: white;
-    border-radius: 6px;
-
-    padding: 2px 6px;
-    min-width: 28px;
-    min-height: 28px;
-    font-size: 11px;
+.btn-edit {
+    background: rgba(0,240,255,0.14);
+    color: @neon_cyan;
+    border: 1px solid rgba(0,240,255,0.55);
 }
 
-.btn-install:hover, .btn-edit:hover {
-    background: #2980b9;
+.btn-edit:hover {
+    background: @neon_cyan;
+    color: #031418;
+    box-shadow: 0 0 14px rgba(0,240,255,0.65);
 }
 
 .btn-export {
-    background: #9b59b6;
-    color: white;
-    border-radius: 6px;
-
-    padding: 2px 6px;
-    min-width: 28px;
-    min-height: 28px;
-    font-size: 11px;
+    background: rgba(157,92,255,0.16);
+    color: @neon_violet;
+    border: 1px solid rgba(157,92,255,0.55);
 }
 
 .btn-export:hover {
-    background: #8e44ad;
+    background: @neon_violet;
+    color: #0a0716;
+    box-shadow: 0 0 14px rgba(157,92,255,0.65);
+}
+
+.btn-install {
+    background: rgba(252,238,10,0.14);
+    color: @neon_yellow;
+    border: 1px solid rgba(252,238,10,0.55);
+}
+
+.btn-install:hover {
+    background: @neon_yellow;
+    color: #1a1700;
+    box-shadow: 0 0 14px rgba(252,238,10,0.65);
 }
 
 

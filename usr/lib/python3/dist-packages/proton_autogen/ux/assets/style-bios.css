@@ -22,6 +22,14 @@
      - Aspect "BIOS professionnel"
    ========================================================= */
 
+@define-color neon_cyan      #00f0ff;
+@define-color neon_cyan_dark #00b8c4;
+@define-color neon_pink      #ff2bd6;
+@define-color neon_violet    #9d5cff;
+@define-color neon_yellow    #fcee0a;
+@define-color neon_green     #39ff88;
+@define-color neon_red       #ff2a55;
+@define-color neon_orange    #ff9f1c;
 
 /* =========================================================
    PALETTE PRINCIPALE
@@ -389,107 +397,73 @@ button.destructive-action:hover {
 
 
 /* =========================================================
-   BOUTON LAUNCH
+   BOUTON LAUNCH - EDIT - EXPORT - INSTALL
    ========================================================= */
 
+/* Boutons d'action des cartes (28x28) */
+.btn-launch,
+.btn-edit,
+.btn-export,
+.btn-install {
+    border-radius: 4px;
+    padding: 2px 6px;
+    min-width: 28px;
+    min-height: 28px;
+    font-size: 11px;
+    font-weight: 700;
+    transition: background 150ms ease, box-shadow 150ms ease;
+}
+
 .btn-launch {
-
-    background:
-        @pa_green;
-
-    color:
-        #061009;
-
-    border-radius:
-        4px;
-
-    font-weight:
-        bold;
-
-    padding:
-        2px 6px;
-
-    min-width:
-        28px;
-
-    min-height:
-        28px;
-
-    font-size:
-        11px;
+    background: rgba(57,255,136,0.16);
+    color: @neon_green;
+    border: 1px solid rgba(57,255,136,0.55);
 }
 
 .btn-launch:hover {
-    background: #5ce99a;
+    background: @neon_green;
+    color: #031a0d;
+    box-shadow: 0 0 14px rgba(57,255,136,0.65);
 }
 
-
-/* =========================================================
-   BOUTON EDIT
-   ========================================================= */
-
 .btn-edit {
-
-    background:
-        #3d8bd9;
-
-    color:
-        white;
-
-    border-radius:
-        4px;
-
-    padding:
-        2px 6px;
-
-    min-width:
-        28px;
-
-    min-height:
-        28px;
-
-    font-size:
-        11px;
+    background: rgba(0,240,255,0.14);
+    color: @neon_cyan;
+    border: 1px solid rgba(0,240,255,0.55);
 }
 
 .btn-edit:hover {
-    background:
-        #50a0ef;
+    background: @neon_cyan;
+    color: #031418;
+    box-shadow: 0 0 14px rgba(0,240,255,0.65);
 }
 
-
-/* =========================================================
-   BOUTON EXPORT
-   ========================================================= */
-
 .btn-export {
-
-    background:
-        #7454a8;
-
-    color:
-        white;
-
-    border-radius:
-        4px;
-
-    padding:
-        2px 6px;
-
-    min-width:
-        28px;
-
-    min-height:
-        28px;
-
-    font-size:
-        11px;
+    background: rgba(157,92,255,0.16);
+    color: @neon_violet;
+    border: 1px solid rgba(157,92,255,0.55);
 }
 
 .btn-export:hover {
-    background:
-        #8968bf;
+    background: @neon_violet;
+    color: #0a0716;
+    box-shadow: 0 0 14px rgba(157,92,255,0.65);
 }
+
+.btn-install {
+    background: rgba(252,238,10,0.14);
+    color: @neon_yellow;
+    border: 1px solid rgba(252,238,10,0.55);
+}
+
+.btn-install:hover {
+    background: @neon_yellow;
+    color: #1a1700;
+    box-shadow: 0 0 14px rgba(252,238,10,0.65);
+}
+
+
+
 
 
 /* =========================================================
