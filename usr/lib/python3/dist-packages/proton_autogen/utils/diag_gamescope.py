@@ -96,12 +96,19 @@ def run_gamescope_check() -> bool:
             refresh=60,
             fullscreen=True,
             cursor=True,
+            internal_width=1280,
+            internal_height=720,
+            output_width=1920,
+            output_height=1080,
+            mode="custom",
         )
 
         valid = (
             env.get("USE_GAMESCOPE") == "1"
-            and env.get("GAMESCOPE_WIDTH") == "1920"
-            and env.get("GAMESCOPE_HEIGHT") == "1080"
+            and env.get("GAMESCOPE_INTERNAL_WIDTH") == "1280"
+            and env.get("GAMESCOPE_INTERNAL_HEIGHT") == "720"
+            and env.get("GAMESCOPE_OUTPUT_WIDTH") == "1920"
+            and env.get("GAMESCOPE_OUTPUT_HEIGHT") == "1080"
         )
 
         return valid, str(env)
@@ -157,14 +164,21 @@ def run_gamescope_check() -> bool:
             refresh=60,
             fullscreen=True,
             cursor=True,
+            internal_width=1280,
+            internal_height=720,
+            output_width=1920,
+            output_height=1080,
+            mode="custom",
         )
 
         command = gamescope.build_gamescope_command(env)
 
         valid = (
             command[:1] == ["gamescope"]
-            and "-w" in command
-            and "-h" in command
+            and command[command.index("-W") + 1] == "1920"
+            and command[command.index("-H") + 1] == "1080"
+            and command[command.index("-w") + 1] == "1280"
+            and command[command.index("-h") + 1] == "720"
             and "--fullscreen" in command
             and "--force-grab-cursor" in command
             and command[-1] == "--"
@@ -172,7 +186,29 @@ def run_gamescope_check() -> bool:
 
         return valid, " ".join(command)
 
-    check("Command generation", check_command)
+    check("Command generation (custom)", check_command)
+
+    def check_command_output_only():
+        env = gamescope.init_gamescope_env(
+            enabled=True,
+            width=1920,
+            height=1080,
+            mode="output",
+        )
+
+        command = gamescope.build_gamescope_command(env)
+
+        # Mode « output » : -W/-H uniquement, aucun -w/-h.
+        valid = (
+            "-W" in command
+            and "-H" in command
+            and "-w" not in command
+            and "-h" not in command
+        )
+
+        return valid, " ".join(command)
+
+    check("Command generation (output only)", check_command_output_only)
 
     # -------------------------------------------------
     # Results

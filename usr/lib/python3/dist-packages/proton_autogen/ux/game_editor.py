@@ -20,10 +20,11 @@ from proton_autogen.ux.adw_rows import USE_ADW
 # Valeur par défaut appliquée quand MangoHud est activé sans fps_limit défini
 DEFAULT_FPS_LIMIT = 60
 
-# Résolutions proposées pour Gamescope.
+# Résolutions fixes proposées pour Gamescope.
 # Les valeurs sont enregistrées dans la configuration par application.
-GAMESCOPE_RESOLUTIONS = [
-    ("Automatique (détection de l'écran)", "auto"),
+# L'entrée « Automatique » est ajoutée en tête par
+# _build_gamescope_resolutions() car son libellé est traduit (i18n).
+GAMESCOPE_FIXED_RESOLUTIONS = [
     ("PC — 800 × 600 (600p)", "800x600"),
     ("PC — 1280 × 720 (720p)", "1280x720"),
     ("PC — 1366 × 768", "1366x768"),
@@ -255,8 +256,9 @@ class GameEditor(Gtk.Window):
         # Résolutions Gamescope :
         #   - résolution interne : -w / -h
         #   - résolution de sortie : -W / -H
+        self.gamescope_resolutions = self._build_gamescope_resolutions()
         resolution_labels = [
-            label for label, _value in GAMESCOPE_RESOLUTIONS
+            label for label, _value in self.gamescope_resolutions
         ]
 
         self.gamescope_internal_resolution = Gtk.DropDown.new_from_strings(
@@ -276,19 +278,23 @@ class GameEditor(Gtk.Window):
         )
 
         self.gamescope_internal_resolution.set_tooltip_text(
-            "Résolution de rendu interne Gamescope (-w/-h)."
+            tr("gamescope_internal_resolution_tooltip")
+            or "Résolution de rendu interne Gamescope (-w/-h)."
         )
         self.gamescope_output_resolution.set_tooltip_text(
-            "Résolution de sortie Gamescope (-W/-H). « Automatique » "
-            "conserve la détection automatique de l'écran."
+            tr("gamescope_output_resolution_tooltip")
+            or "Résolution de sortie Gamescope (-W/-H). « Automatique » "
+               "conserve la détection automatique de l'écran."
         )
 
         self.gamescope_internal_row = self._row(
-            "Résolution interne (-w/-h)",
+            tr("gamescope_internal_resolution")
+            or "Résolution interne (-w/-h)",
             self.gamescope_internal_resolution,
         )
         self.gamescope_output_row = self._row(
-            "Résolution de sortie (-W/-H)",
+            tr("gamescope_output_resolution")
+            or "Résolution de sortie (-W/-H)",
             self.gamescope_output_resolution,
         )
 
@@ -296,14 +302,32 @@ class GameEditor(Gtk.Window):
             orientation=Gtk.Orientation.VERTICAL,
             spacing=6,
         )
+        self.gamescope_settings.set_margin_start(12)
+        self.gamescope_settings.set_margin_top(2)
+        self.gamescope_settings.set_margin_bottom(4)
         self.gamescope_settings.append(self.gamescope_internal_row)
         self.gamescope_settings.append(self.gamescope_output_row)
 
+        # Accordéon : les champs ne sont visibles que si Gamescope est activé.
+        self.gamescope_revealer = Gtk.Revealer()
+        self.gamescope_revealer.set_transition_type(
+            Gtk.RevealerTransitionType.SLIDE_DOWN
+        )
+        self.gamescope_revealer.set_transition_duration(200)
+        self.gamescope_revealer.set_child(self.gamescope_settings)
+
         self.gamescope.connect(
             "notify::active",
-            lambda *_args: self._update_gamescope_settings_sensitivity(),
+            lambda *_args: self._update_gamescope_settings_visibility(),
         )
-        self._update_gamescope_settings_sensitivity()
+        self.gamescope_revealer.connect(
+            "notify::child-revealed",
+            lambda *_args: self._on_gamescope_revealer_done(),
+        )
+        # État initial sans animation.
+        _gs_active = self.gamescope.get_active()
+        self.gamescope_revealer.set_visible(_gs_active)
+        self.gamescope_revealer.set_reveal_child(_gs_active)
 
         # INHIBIT SLEEP (verrou anti-veille) — n'a d'effet que si le
         # mode global (Réglages > Comportement) est réglé sur
@@ -375,22 +399,29 @@ class GameEditor(Gtk.Window):
         root.append(self._row("GPU Mode", self.gpu))
 
         if USE_ADW:
+            # Liste scindée en deux pour loger l'accordéon Gamescope
+            # directement sous son interrupteur.
             switches = adw_rows.new_switch_list()
             for row in (self.favorite, self.mangohud, self.gamemode,
-                        self.gamescope, self.inhibit_sleep, save_backup_row):
+                        self.gamescope):
                 adw_rows.list_add(switches, row)
             root.append(switches)
+
+            root.append(self.gamescope_revealer)
+
+            switches_after = adw_rows.new_switch_list()
+            for row in (self.inhibit_sleep, save_backup_row):
+                adw_rows.list_add(switches_after, row)
+            root.append(switches_after)
         else:
             root.append(self.favorite)
             root.append(self.mangohud)
             root.append(self.fps_limit_row)
             root.append(self.gamemode)
             root.append(self.gamescope)
+            root.append(self.gamescope_revealer)
             root.append(self.inhibit_sleep)
             root.append(save_backup_row)
-
-        # Les choix de résolution restent sous l'interrupteur Gamescope.
-        root.append(self.gamescope_settings)
 
         # -------------------------
         # CUSTOM ENVIRONMENT VARIABLES
@@ -458,10 +489,19 @@ class GameEditor(Gtk.Window):
     # -------------------------
     # GAMESCOPE RESOLUTION HELPERS
     # -------------------------
+    @staticmethod
+    def _build_gamescope_resolutions():
+        """Liste (libellé, valeur) : « Automatique » traduit + résolutions fixes."""
+        auto_label = (
+            tr("gamescope_resolution_auto")
+            or "Automatique (détection de l'écran)"
+        )
+        return [(auto_label, "auto")] + list(GAMESCOPE_FIXED_RESOLUTIONS)
+
     def _select_gamescope_resolution(self, dropdown, value):
         """Sélectionne la résolution enregistrée, ou Automatique si inconnue."""
         values = [
-            resolution for _label, resolution in GAMESCOPE_RESOLUTIONS
+            resolution for _label, resolution in self.gamescope_resolutions
         ]
 
         try:
@@ -475,14 +515,24 @@ class GameEditor(Gtk.Window):
         """Renvoie la valeur enregistrable de la résolution sélectionnée."""
         index = dropdown.get_selected()
 
-        if index >= len(GAMESCOPE_RESOLUTIONS):
+        if index >= len(self.gamescope_resolutions):
             return "auto"
 
-        return GAMESCOPE_RESOLUTIONS[index][1]
+        return self.gamescope_resolutions[index][1]
 
-    def _update_gamescope_settings_sensitivity(self):
-        """Désactive les listes de résolution si Gamescope n'est pas activé."""
-        self.gamescope_settings.set_sensitive(self.gamescope.get_active())
+    def _update_gamescope_settings_visibility(self):
+        """Déplie / replie les champs Gamescope selon l'interrupteur."""
+        if self.gamescope.get_active():
+            self.gamescope_revealer.set_visible(True)
+            self.gamescope_revealer.set_reveal_child(True)
+        else:
+            self.gamescope_revealer.set_reveal_child(False)
+
+    def _on_gamescope_revealer_done(self):
+        """Une fois replié, masque le Revealer pour supprimer l'espacement."""
+        if (not self.gamescope_revealer.get_reveal_child()
+                and not self.gamescope_revealer.get_child_revealed()):
+            self.gamescope_revealer.set_visible(False)
 
     # -------------------------
     # SHOW PROTONDB
