@@ -1,6 +1,6 @@
 # proton_autogen/utils/gamescope.py
 
-from typing import List
+from typing import List, Tuple
 import os
 import re
 import subprocess
@@ -16,6 +16,9 @@ from proton_autogen.utils.logger import StructuredLogger
 
 DEFAULT_GAMESCOPE_WIDTH = 1920
 DEFAULT_GAMESCOPE_HEIGHT = 1080
+
+DEFAULT_GAMESCOPE_INTERNAL_WIDTH = 1280
+DEFAULT_GAMESCOPE_INTERNAL_HEIGHT = 720
 
 logger = StructuredLogger("proton-autogen.gamescope")
 
@@ -48,7 +51,7 @@ DEFAULT_LOG_FILTERS = [
     "[Gamescope WSI] No application info given",
     # GStreamer
     "GStreamer-WARNING",
-    "i386-linux-gnu"
+    "i386-linux-gnu",
 
     # ProtonFixes inutile
     "ProtonFixes",
@@ -104,58 +107,30 @@ def detect_screen_resolution() -> tuple[int, int]:
 
     logger.debug("===== Detect Screen Resolution =====")
 
-    # -----------------------------------------------------
-    # First check: does xrandr exist?
-    #
-    # This uses the new filesystem-based analyser.
-    # No subprocess is used here.
-    # -----------------------------------------------------
-
     if not has_xrandr():
-        logger.warning(
-            "xrandr not found, using fallback resolution"
-        )
-
+        logger.warning("xrandr not found, using fallback resolution")
         logger.info(
             f"Using fallback resolution: "
             f"{DEFAULT_GAMESCOPE_WIDTH}x{DEFAULT_GAMESCOPE_HEIGHT}"
         )
-
         return (
             DEFAULT_GAMESCOPE_WIDTH,
             DEFAULT_GAMESCOPE_HEIGHT,
         )
 
-    # -----------------------------------------------------
-    # Build command
-    # -----------------------------------------------------
-
     if is_flatpak():
-        # xrandr exists on the host.
-        #
-        # We deliberately execute it through flatpak-spawn
-        # because the sandbox does not necessarily contain
-        # the host xrandr runtime environment.
         command = [
             "flatpak-spawn",
             "--host",
             "xrandr",
             "--current",
         ]
-
-        logger.debug(
-            "Running host xrandr through flatpak-spawn"
-        )
-
+        logger.debug("Running host xrandr through flatpak-spawn")
     else:
         command = [
             "xrandr",
             "--current",
         ]
-
-    # -----------------------------------------------------
-    # Execute xrandr
-    # -----------------------------------------------------
 
     try:
         result = subprocess.run(
@@ -168,22 +143,8 @@ def detect_screen_resolution() -> tuple[int, int]:
         logger.debug("xrandr output:")
         logger.debug(result.stdout)
 
-        # -------------------------------------------------
-        # Parse active mode
-        #
-        # Example:
-        #
-        #     1920x1200     59.95*+
-        #
-        # We specifically look for '*', which marks
-        # the active mode.
-        # -------------------------------------------------
-
         for line in result.stdout.splitlines():
-
-            logger.debug(
-                f"xrandr line: {line}"
-            )
+            logger.debug(f"xrandr line: {line}")
 
             match = re.search(
                 r"\s+(\d+)x(\d+)\s+.*\*",
@@ -204,29 +165,15 @@ def detect_screen_resolution() -> tuple[int, int]:
             return width, height
 
     except FileNotFoundError:
-        logger.warning(
-            "xrandr command not available, "
-            "using fallback resolution"
-        )
+        logger.warning("xrandr command not available, using fallback resolution")
 
     except subprocess.CalledProcessError as e:
-        logger.warning(
-            f"xrandr failed: {e}"
-        )
-
+        logger.warning(f"xrandr failed: {e}")
         if e.stderr:
-            logger.debug(
-                f"xrandr stderr: {e.stderr}"
-            )
+            logger.debug(f"xrandr stderr: {e.stderr}")
 
     except OSError as e:
-        logger.warning(
-            f"xrandr OS error: {e}"
-        )
-
-    # -----------------------------------------------------
-    # Fallback
-    # -----------------------------------------------------
+        logger.warning(f"xrandr OS error: {e}")
 
     logger.info(
         f"Using fallback resolution: "
@@ -248,75 +195,158 @@ GAMESCOPE_KEYS = (
     "USE_GAMESCOPE",
     "GAMESCOPE_WIDTH",
     "GAMESCOPE_HEIGHT",
+    "GAMESCOPE_NESTED_WIDTH",
+    "GAMESCOPE_NESTED_HEIGHT",
+    "GAMESCOPE_INTERNAL_WIDTH",
+    "GAMESCOPE_INTERNAL_HEIGHT",
+    "GAMESCOPE_OUTPUT_WIDTH",
+    "GAMESCOPE_OUTPUT_HEIGHT",
     "GAMESCOPE_REFRESH",
     "GAMESCOPE_FULLSCREEN",
     "GAMESCOPE_CURSOR",
-    "GAMESCOPE_NESTED_WIDTH",
-    "GAMESCOPE_NESTED_HEIGHT",
     "GAMESCOPE_BORDERLESS",
 )
 
 
 def clear_gamescope_env(env: dict) -> None:
     """Remove Gamescope-related environment variables."""
-
     for key in GAMESCOPE_KEYS:
         env.pop(key, None)
 
-
-# Quake 2 : 1280x960
-# jeux modernes : 1920x1080
-# Steam Deck : 1280x800
-# anciens jeux 4:3 : scaling automatique
 
 def gamescope_enabled(env: dict) -> bool:
     """
     Return True if Gamescope should be used.
     """
-
     return env.get("USE_GAMESCOPE", "0") == "1"
 
-#Sample : gamescope -w 1920 -h 1200 --fullscreen --force-grab-cursor -- proton-autogen QUAKE2.EXE
 
-# ---------------------------------------------------------
-# Environment initialization
-# ---------------------------------------------------------
+def _parse_resolution(value, fallback_w: int, fallback_h: int) -> Tuple[int, int]:
+    """
+    Parse a Gamescope resolution value.
+
+    Supported examples:
+      "1920x1080"
+      "1280x800"
+      "auto"
+      None
+    """
+    if value in (None, "", "auto"):
+        return fallback_w, fallback_h
+
+    if isinstance(value, (tuple, list)) and len(value) == 2:
+        try:
+            return int(value[0]), int(value[1])
+        except (TypeError, ValueError):
+            return fallback_w, fallback_h
+
+    if isinstance(value, str):
+        normalized = value.strip().lower()
+        if normalized in ("", "auto"):
+            return fallback_w, fallback_h
+
+        match = re.fullmatch(r"(\d+)x(\d+)", normalized)
+        if match:
+            try:
+                return int(match.group(1)), int(match.group(2))
+            except ValueError:
+                pass
+
+    try:
+        return int(value), fallback_h
+    except (TypeError, ValueError):
+        return fallback_w, fallback_h
+
+
+def _ensure_gamescope_legacy_aliases(env: dict) -> None:
+    """
+    Compatibilité avec les anciennes variables.
+
+    L’ancien nom GAMESCOPE_WIDTH/HEIGHT correspondait historiquement aux
+    dimensions internes du rendu, mais l'utilité actuelle est surtout
+    d’avoir des variables claires et séparées :
+      - GAMESCOPE_INTERNAL_WIDTH/HEIGHT => -w/-h
+      - GAMESCOPE_OUTPUT_WIDTH/HEIGHT => -W/-H
+    """
+    if "GAMESCOPE_INTERNAL_WIDTH" not in env and env.get("GAMESCOPE_WIDTH"):
+        env["GAMESCOPE_INTERNAL_WIDTH"] = env["GAMESCOPE_WIDTH"]
+
+    if "GAMESCOPE_INTERNAL_HEIGHT" not in env and env.get("GAMESCOPE_HEIGHT"):
+        env["GAMESCOPE_INTERNAL_HEIGHT"] = env["GAMESCOPE_HEIGHT"]
+
+    if "GAMESCOPE_OUTPUT_WIDTH" not in env and env.get("GAMESCOPE_NESTED_WIDTH"):
+        env["GAMESCOPE_OUTPUT_WIDTH"] = env["GAMESCOPE_NESTED_WIDTH"]
+
+    if "GAMESCOPE_OUTPUT_HEIGHT" not in env and env.get("GAMESCOPE_NESTED_HEIGHT"):
+        env["GAMESCOPE_OUTPUT_HEIGHT"] = env["GAMESCOPE_NESTED_HEIGHT"]
+
 
 def init_gamescope_env(
     enabled: bool = False,
-    width: int = DEFAULT_GAMESCOPE_WIDTH,
-    height: int = DEFAULT_GAMESCOPE_HEIGHT,
+    width: int | None = None,
+    height: int | None = None,
     refresh: int | None = None,
     fullscreen: bool = True,
     cursor: bool = True,
+    internal_width: int | str | None = None,
+    internal_height: int | str | None = None,
+    output_width: int | str | None = None,
+    output_height: int | str | None = None,
+    mode: str = "output",
 ) -> dict:
     """
     Initialize Gamescope parameters.
 
     This function does not execute any command.
+
+    Modes:
+      - "output": use -W/-H (default)
+      - "internal": use -w/-h
+      - "custom": use both
+      - "auto": same as output
     """
 
     env = {}
 
-    env["USE_GAMESCOPE"] = (
-        "1" if enabled else "0"
-    )
+    env["USE_GAMESCOPE"] = "1" if enabled else "0"
 
-    if enabled:
+    if not enabled:
+        return env
 
-        env["GAMESCOPE_WIDTH"] = str(width)
-        env["GAMESCOPE_HEIGHT"] = str(height)
+    if width is None:
+        width = DEFAULT_GAMESCOPE_WIDTH
+    if height is None:
+        height = DEFAULT_GAMESCOPE_HEIGHT
 
-        if refresh:
-            env["GAMESCOPE_REFRESH"] = str(refresh)
+    if internal_width is None:
+        internal_width = DEFAULT_GAMESCOPE_INTERNAL_WIDTH
+    if internal_height is None:
+        internal_height = DEFAULT_GAMESCOPE_INTERNAL_HEIGHT
 
-        env["GAMESCOPE_FULLSCREEN"] = (
-            "1" if fullscreen else "0"
-        )
+    if output_width is None:
+        output_width = width
+    if output_height is None:
+        output_height = height
 
-        env["GAMESCOPE_CURSOR"] = (
-            "1" if cursor else "0"
-        )
+    if mode in ("auto", "output"):
+        env["GAMESCOPE_OUTPUT_WIDTH"] = str(output_width)
+        env["GAMESCOPE_OUTPUT_HEIGHT"] = str(output_height)
+
+    if mode in ("internal", "custom"):
+        env["GAMESCOPE_INTERNAL_WIDTH"] = str(internal_width)
+        env["GAMESCOPE_INTERNAL_HEIGHT"] = str(internal_height)
+
+    if mode == "custom":
+        env["GAMESCOPE_OUTPUT_WIDTH"] = str(output_width)
+        env["GAMESCOPE_OUTPUT_HEIGHT"] = str(output_height)
+
+    if refresh:
+        env["GAMESCOPE_REFRESH"] = str(refresh)
+
+    env["GAMESCOPE_FULLSCREEN"] = "1" if fullscreen else "0"
+    env["GAMESCOPE_CURSOR"] = "1" if cursor else "0"
+
+    _ensure_gamescope_legacy_aliases(env)
 
     return env
 
@@ -330,6 +360,10 @@ def build_gamescope_command(env: dict) -> List[str]:
     Build the Gamescope command from environment variables.
 
     This function does not execute Gamescope.
+
+    Semantics:
+      - -W/-H : output resolution
+      - -w/-h : internal rendering resolution
     """
 
     if not gamescope_enabled(env):
@@ -337,38 +371,39 @@ def build_gamescope_command(env: dict) -> List[str]:
 
     cmd = ["gamescope"]
 
-    # Output resolution
-    if env.get("GAMESCOPE_WIDTH"):
-        cmd += [
-            "-w",
-            env["GAMESCOPE_WIDTH"],
-        ]
+    # Output resolution : -W/-H
+    if env.get("GAMESCOPE_OUTPUT_WIDTH"):
+        cmd += ["-W", env["GAMESCOPE_OUTPUT_WIDTH"]]
 
-    if env.get("GAMESCOPE_HEIGHT"):
-        cmd += [
-            "-h",
-            env["GAMESCOPE_HEIGHT"],
-        ]
+    if env.get("GAMESCOPE_OUTPUT_HEIGHT"):
+        cmd += ["-H", env["GAMESCOPE_OUTPUT_HEIGHT"]]
 
-    # Internal rendering resolution
-    if env.get("GAMESCOPE_NESTED_WIDTH"):
-        cmd += [
-            "-W",
-            env["GAMESCOPE_NESTED_WIDTH"],
-        ]
+    # Internal rendering resolution : -w/-h
+    if env.get("GAMESCOPE_INTERNAL_WIDTH"):
+        cmd += ["-w", env["GAMESCOPE_INTERNAL_WIDTH"]]
 
-    if env.get("GAMESCOPE_NESTED_HEIGHT"):
-        cmd += [
-            "-H",
-            env["GAMESCOPE_NESTED_HEIGHT"],
-        ]
+    if env.get("GAMESCOPE_INTERNAL_HEIGHT"):
+        cmd += ["-h", env["GAMESCOPE_INTERNAL_HEIGHT"]]
+
+    # Compatibilité avec les anciens noms.
+    # Ces anciens alias ne devraient plus être utilisés :
+    #  GAMESCOPE_WIDTH/HEIGHT = interne
+    #  GAMESCOPE_NESTED_WIDTH/HEIGHT = sortie
+    if env.get("GAMESCOPE_NESTED_WIDTH") and not env.get("GAMESCOPE_OUTPUT_WIDTH"):
+        cmd += ["-W", env["GAMESCOPE_NESTED_WIDTH"]]
+
+    if env.get("GAMESCOPE_NESTED_HEIGHT") and not env.get("GAMESCOPE_OUTPUT_HEIGHT"):
+        cmd += ["-H", env["GAMESCOPE_NESTED_HEIGHT"]]
+
+    if env.get("GAMESCOPE_WIDTH") and not env.get("GAMESCOPE_INTERNAL_WIDTH"):
+        cmd += ["-w", env["GAMESCOPE_WIDTH"]]
+
+    if env.get("GAMESCOPE_HEIGHT") and not env.get("GAMESCOPE_INTERNAL_HEIGHT"):
+        cmd += ["-h", env["GAMESCOPE_HEIGHT"]]
 
     # Refresh rate
     if env.get("GAMESCOPE_REFRESH"):
-        cmd += [
-            "-r",
-            env["GAMESCOPE_REFRESH"],
-        ]
+        cmd += ["-r", env["GAMESCOPE_REFRESH"]]
 
     # Fullscreen
     if env.get("GAMESCOPE_FULLSCREEN") == "1":
@@ -399,6 +434,11 @@ def apply_gamescope(
     refresh: int | None = None,
     fullscreen: bool = True,
     cursor: bool = True,
+    internal_width: int | str | None = None,
+    internal_height: int | str | None = None,
+    output_width: int | str | None = None,
+    output_height: int | str | None = None,
+    mode: str = "output",
 ) -> dict:
     """
     Apply Gamescope environment variables.
@@ -411,31 +451,31 @@ def apply_gamescope(
 
     clear_gamescope_env(env)
 
-    # -----------------------------------------------------
-    # Gamescope unavailable
-    #
-    # has_gamescope() performs filesystem detection only.
-    # -----------------------------------------------------
-
     if not enabled:
         return env
 
     if not has_gamescope():
-        logger.warning(
-            "Gamescope requested but not available"
-        )
+        logger.warning("Gamescope requested but not available")
         return env
-
-    # -----------------------------------------------------
-    # Automatic resolution
-    # -----------------------------------------------------
 
     if width is None or height is None:
         width, height = detect_screen_resolution()
 
-    # -----------------------------------------------------
-    # Apply configuration
-    # -----------------------------------------------------
+    if mode in ("auto", "output"):
+        if output_width is None:
+            output_width = width
+        if output_height is None:
+            output_height = height
+    else:
+        if output_width is None:
+            output_width = width
+        if output_height is None:
+            output_height = height
+
+    if internal_width is None:
+        internal_width = DEFAULT_GAMESCOPE_INTERNAL_WIDTH
+    if internal_height is None:
+        internal_height = DEFAULT_GAMESCOPE_INTERNAL_HEIGHT
 
     env.update(
         init_gamescope_env(
@@ -445,12 +485,18 @@ def apply_gamescope(
             refresh=refresh,
             fullscreen=fullscreen,
             cursor=cursor,
+            internal_width=internal_width,
+            internal_height=internal_height,
+            output_width=output_width,
+            output_height=output_height,
+            mode=mode,
         )
     )
 
     logger.debug(
         f"Gamescope configured: "
-        f"{width}x{height}"
+        f"output={output_width}x{output_height}, "
+        f"internal={internal_width}x{internal_height}, mode={mode}"
     )
 
     return env

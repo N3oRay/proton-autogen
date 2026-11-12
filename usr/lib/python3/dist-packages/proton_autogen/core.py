@@ -106,6 +106,103 @@ def filter_env(env: dict) -> dict:
     """
     return {k: v for k, v in env.items() if k in ALLOWED_ENV_VARS}
 
+
+def _parse_gamescope_resolution(value):
+    """
+    Convertit une résolution d'UX telle que "1280x800" en paire d'entiers.
+
+    "auto", une valeur vide ou une valeur invalide renvoie (None, None).
+    """
+    if value is None:
+        return None, None
+
+    if isinstance(value, str):
+        value = value.strip().lower()
+
+        if value in ("", "auto"):
+            return None, None
+
+        parts = value.split("x", maxsplit=1)
+
+        if len(parts) != 2:
+            logger.warning(
+                "Invalid Gamescope resolution: %r; using auto", value
+            )
+            return None, None
+
+        try:
+            width, height = (int(part) for part in parts)
+        except (TypeError, ValueError):
+            logger.warning(
+                "Invalid Gamescope resolution: %r; using auto", value
+            )
+            return None, None
+
+        if width <= 0 or height <= 0:
+            logger.warning(
+                "Invalid Gamescope resolution: %r; using auto", value
+            )
+            return None, None
+
+        return width, height
+
+    logger.warning(
+        "Unsupported Gamescope resolution value: %r; using auto", value
+    )
+    return None, None
+
+
+def _apply_gamescope_features(env: dict, enabled: bool, features=None) -> dict:
+    """
+    Configure Gamescope à partir des préférences enregistrées pour le jeu.
+
+    Clés attendues dans features :
+      - gamescope_internal_resolution: "auto" ou "LARGEURxHAUTEUR"
+      - gamescope_output_resolution:   "auto" ou "LARGEURxHAUTEUR"
+
+    La résolution de sortie reste automatique si l'utilisateur choisit
+    "Automatique". Une résolution interne automatique n'ajoute pas -w/-h.
+    """
+    features = features if isinstance(features, dict) else {}
+
+    internal_width, internal_height = _parse_gamescope_resolution(
+        features.get("gamescope_internal_resolution", "auto")
+    )
+
+    output_width, output_height = _parse_gamescope_resolution(
+        features.get("gamescope_output_resolution", "auto")
+    )
+
+    mode = (
+        "custom"
+        if any(value is not None for value in (
+            internal_width,
+            internal_height,
+            output_width,
+            output_height,
+        ))
+        else "output"
+    )
+
+    env = apply_gamescope(
+        env,
+        enabled=enabled,
+        internal_width=internal_width,
+        internal_height=internal_height,
+        output_width=output_width,
+        output_height=output_height,
+        mode=mode,
+    )
+
+    # En résolution interne automatique, ne pas transmettre -w/-h.
+    if internal_width is None or internal_height is None:
+        env.pop("GAMESCOPE_INTERNAL_WIDTH", None)
+        env.pop("GAMESCOPE_INTERNAL_HEIGHT", None)
+        env.pop("GAMESCOPE_WIDTH", None)
+        env.pop("GAMESCOPE_HEIGHT", None)
+
+    return env
+
 #------------------------------------------------------------------------------
 # new version for extract variables only ALLOWED_ENV_VARS in ENV_VARS
 def export_default_profiles():
@@ -560,7 +657,7 @@ After installation, try again.
 
 
 
-def base_env(enable_mangohud=False, enable_gamemode=False, enable_gamescope=False, exe_path="", exe_type="", prefix_path=None, proton_dir=None):
+def base_env(enable_mangohud=False, enable_gamemode=False, enable_gamescope=False, exe_path="", exe_type="", prefix_path=None, proton_dir=None, gamescope_features=None,):
     logger.info("Initializing environment", exe_type=exe_type)
 
     """
@@ -629,9 +726,10 @@ def base_env(enable_mangohud=False, enable_gamemode=False, enable_gamescope=Fals
     # -----------------------------
     # GameScope
     # -----------------------------
-    env = apply_gamescope(
+    env = _apply_gamescope_features(
         env,
         enabled=enable_gamescope,
+        features=gamescope_features,
     )
 
     # -----------------------------
@@ -681,10 +779,10 @@ def get_exe_arch(path):
 
 
 def run_game_proton(exe_path, exe_type, proton,
-                    system, features,
+                    system, features, gamescope_features=None,
                     enable_mangohud=False, enable_gamemode=False, enable_gamescope=False,
                     fps_limit=60, custom_env=None,
-                    prefix_mode="main", progress=None, game_id=None):
+                    prefix_mode="main", progress=None, game_id=None, ):
 
     if progress is None:
         progress = Progress()
@@ -725,7 +823,8 @@ def run_game_proton(exe_path, exe_type, proton,
             exe_path=exe_path,
             exe_type=exe_type,
             prefix_path=prefix_path,
-            proton_dir=proton_dir
+            proton_dir=proton_dir,
+            gamescope_features=gamescope_features,
             )
 
 

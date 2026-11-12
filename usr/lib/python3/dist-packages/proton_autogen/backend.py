@@ -141,6 +141,11 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None, 
         progress.update(25, tr("loading_game_configuration"))
 
         system = detect_system_info()  # ou équivalent existant dans core
+        # Conserver les préférences originales pour les transmettre à Gamescope.
+        # Les configurations existantes sans ces clés garderont le mode auto.
+        game_features = {}
+        if config:
+            game_features = config.get("features", {}) or {}
         logger.info(
             "System information:\n" +
             "\n".join(f"  {key}: {value}" for key, value in system.items())
@@ -161,7 +166,7 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None, 
 
         if config:
             saved_proton_name = config.get("proton")
-            features = config.get("features", {})
+            features = game_features
 
             cfg_mangohud = normalize_flag(features.get("mangohud"), False)
             cfg_gamemode = normalize_flag(features.get("gamemode"), False)
@@ -246,7 +251,7 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None, 
 
             result_code = -1
             progress.update(80, tr("starting_proton"))
-            result_code = run_game_proton(exe_path=exe_path, exe_type=exe_type, proton=proton, system=system, features=rfeatures, enable_mangohud=enable_mangohud,
+            result_code = run_game_proton(exe_path=exe_path, exe_type=exe_type, proton=proton, system=system, features=rfeatures, gamescope_features=game_features, enable_mangohud=enable_mangohud,
              enable_gamemode=enable_gamemode, enable_gamescope=enable_gamescope, fps_limit=cfg_fps_limit, custom_env=cfg_custom_env,
              prefix_mode=prefix_mode, progress=progress, game_id=game_id,)
             if DEBUG or VERBOSE:

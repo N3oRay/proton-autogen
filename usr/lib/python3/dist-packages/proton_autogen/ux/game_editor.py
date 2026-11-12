@@ -20,6 +20,23 @@ from proton_autogen.ux.adw_rows import USE_ADW
 # Valeur par défaut appliquée quand MangoHud est activé sans fps_limit défini
 DEFAULT_FPS_LIMIT = 60
 
+# Résolutions proposées pour Gamescope.
+# Les valeurs sont enregistrées dans la configuration par application.
+GAMESCOPE_RESOLUTIONS = [
+    ("Automatique (détection de l'écran)", "auto"),
+    ("PC — 800 × 600 (600p)", "800x600"),
+    ("PC — 1280 × 720 (720p)", "1280x720"),
+    ("PC — 1366 × 768", "1366x768"),
+    ("PC — 1600 × 900", "1600x900"),
+    ("PC — 1680 × 1050", "1680x1050"),
+    ("PC — 1680 × 1200", "1680x1200"),
+    ("PC — 1920 × 1080 (1080p)", "1920x1080"),
+    ("PC — 2560 × 1440 (1440p)", "2560x1440"),
+    ("PC — 3440 × 1440 (UWQHD)", "3440x1440"),
+    ("PC — 3840 × 2160 (4K)", "3840x2160"),
+    ("Steam Deck — 1280 × 800", "1280x800"),
+]
+
 # Clés déjà gérées ailleurs dans l'éditeur : on ne les propose pas dans le
 # champ "variables d'environnement personnalisées" pour éviter les doublons
 # / conflits avec la logique interne (prefix, mangohud, gpu...).
@@ -222,16 +239,71 @@ class GameEditor(Gtk.Window):
         else:
             self.fps_limit_row = self._row("FPS limit", self.fps_limit)
         self.fps_limit_row.set_sensitive(self.mangohud.get_active())
+
         # GAMEMODE
         self.gamemode = adw_rows.new_switch(
             tr("enable_gamemode"), features.get("gamemode", False)
         )
         set_tooltip(self.gamemode, "gamemode", self.lang) #new code
+
         # GAMESCOPE
         self.gamescope = adw_rows.new_switch(
             tr("enable_gamescope"), features.get("gamescope", False)
         )
         set_tooltip(self.gamescope, "gamescope", self.lang)
+
+        # Résolutions Gamescope :
+        #   - résolution interne : -w / -h
+        #   - résolution de sortie : -W / -H
+        resolution_labels = [
+            label for label, _value in GAMESCOPE_RESOLUTIONS
+        ]
+
+        self.gamescope_internal_resolution = Gtk.DropDown.new_from_strings(
+            resolution_labels
+        )
+        self.gamescope_output_resolution = Gtk.DropDown.new_from_strings(
+            resolution_labels
+        )
+
+        self._select_gamescope_resolution(
+            self.gamescope_internal_resolution,
+            features.get("gamescope_internal_resolution", "auto"),
+        )
+        self._select_gamescope_resolution(
+            self.gamescope_output_resolution,
+            features.get("gamescope_output_resolution", "auto"),
+        )
+
+        self.gamescope_internal_resolution.set_tooltip_text(
+            "Résolution de rendu interne Gamescope (-w/-h)."
+        )
+        self.gamescope_output_resolution.set_tooltip_text(
+            "Résolution de sortie Gamescope (-W/-H). « Automatique » "
+            "conserve la détection automatique de l'écran."
+        )
+
+        self.gamescope_internal_row = self._row(
+            "Résolution interne (-w/-h)",
+            self.gamescope_internal_resolution,
+        )
+        self.gamescope_output_row = self._row(
+            "Résolution de sortie (-W/-H)",
+            self.gamescope_output_resolution,
+        )
+
+        self.gamescope_settings = Gtk.Box(
+            orientation=Gtk.Orientation.VERTICAL,
+            spacing=6,
+        )
+        self.gamescope_settings.append(self.gamescope_internal_row)
+        self.gamescope_settings.append(self.gamescope_output_row)
+
+        self.gamescope.connect(
+            "notify::active",
+            lambda *_args: self._update_gamescope_settings_sensitivity(),
+        )
+        self._update_gamescope_settings_sensitivity()
 
         # INHIBIT SLEEP (verrou anti-veille) — n'a d'effet que si le
         # mode global (Réglages > Comportement) est réglé sur
@@ -317,6 +389,9 @@ class GameEditor(Gtk.Window):
             root.append(self.inhibit_sleep)
             root.append(save_backup_row)
 
+        # Les choix de résolution restent sous l'interrupteur Gamescope.
+        root.append(self.gamescope_settings)
+
         # -------------------------
         # CUSTOM ENVIRONMENT VARIABLES
         # -------------------------
@@ -381,6 +456,35 @@ class GameEditor(Gtk.Window):
         root.append(save_btn)
 
     # -------------------------
+    # GAMESCOPE RESOLUTION HELPERS
+    # -------------------------
+    def _select_gamescope_resolution(self, dropdown, value):
+        """Sélectionne la résolution enregistrée, ou Automatique si inconnue."""
+        values = [
+            resolution for _label, resolution in GAMESCOPE_RESOLUTIONS
+        ]
+
+        try:
+            index = values.index(value)
+        except ValueError:
+            index = 0
+
+        dropdown.set_selected(index)
+
+    def _get_gamescope_resolution(self, dropdown):
+        """Renvoie la valeur enregistrable de la résolution sélectionnée."""
+        index = dropdown.get_selected()
+
+        if index >= len(GAMESCOPE_RESOLUTIONS):
+            return "auto"
+
+        return GAMESCOPE_RESOLUTIONS[index][1]
+
+    def _update_gamescope_settings_sensitivity(self):
+        """Désactive les listes de résolution si Gamescope n'est pas activé."""
+        self.gamescope_settings.set_sensitive(self.gamescope.get_active())
+
+    # -------------------------
     # SHOW PROTONDB
     # -------------------------
     def on_show_protondb(self, btn):
@@ -396,7 +500,7 @@ class GameEditor(Gtk.Window):
         Gtk.UriLauncher(uri=f"https://www.protondb.com/app/{app_id}").launch(self, None, None)
 
     # -------------------------
-    # COVER (image de la vue Bibliothèque)
+    # COVER (vue Bibliothèque)
     # -------------------------
     def _build_cover_row(self):
         self.cover_preview = Gtk.Picture()
@@ -926,6 +1030,12 @@ class GameEditor(Gtk.Window):
             "fps_limit": int(self.fps_limit.get_value()),
             "gamemode": self.gamemode.get_active(),
             "gamescope": self.gamescope.get_active(),
+            "gamescope_internal_resolution": self._get_gamescope_resolution(
+                self.gamescope_internal_resolution
+            ),
+            "gamescope_output_resolution": self._get_gamescope_resolution(
+                self.gamescope_output_resolution
+            ),
             "inhibit_sleep": self.inhibit_sleep.get_active(),
             "save_backup_prompt": self.save_backup_prompt.get_active(),
             "gpu": gpu
