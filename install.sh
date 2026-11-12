@@ -46,6 +46,7 @@ install_deps() {
                 python-xlib \
                 gtk4 \
                 gdk-pixbuf2 \
+                glycin \
                 graphene
             ;;
         apt)

@@ -77,10 +77,13 @@ case "$PM" in
             python-gobject \
             python-pyyaml \
             python-rich \
+            python-requests \
+            python-psutil \
+            python-xlib \
             gtk4 \
-            pango \
-            cairo \
-            glib2
+            gdk-pixbuf2 \
+            glycin \
+            graphene
         ;;
     apt)
         sudo apt update

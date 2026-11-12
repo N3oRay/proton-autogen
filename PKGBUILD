@@ -10,14 +10,14 @@ license=('MIT')
 depends=(
     python
     python-gobject
-    python-yaml
+    python-pyyaml
     python-rich
     python-requests
     python-psutil
     python-xlib
     gtk4
-    libadwaita
     gdk-pixbuf2
+    glycin
     graphene
 )
 
@@ -41,7 +41,7 @@ makedepends=(
 
 source=("proton-autogen-${pkgver}.tar.gz::https://github.com/N3oRay/proton-autogen/archive/refs/tags/v${pkgver}.tar.gz")
 
-sha256sums=('e77728ba604ad667836760b49db7133e9b453c89af537cc0c90c055421011956')
+sha256sums=('66cbc5c2cf7cd9179919e59c9e383a39f2e56936824165b06c4f305d817f8e77')
 
 prepare() {
     cd "$srcdir/$pkgname-$pkgver"
