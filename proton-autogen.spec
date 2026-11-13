@@ -1,7 +1,7 @@
 %define __python /usr/bin/python3
 
 Name:           proton-autogen
-Version:        3.4.5
+Version:        3.4.6
 Release:        1%{?dist}
 Summary:        Automatic Proton/Wine launcher for Windows executables
 
@@ -121,6 +121,19 @@ PYTHONPATH="%{buildroot}%{python3_sitelib}:$PYTHONPATH" %{buildroot}%{_bindir}/%
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
+* Fri Nov 13 2026 N3oRay <n3oray77@gmail.com> - 3.4.6-1
+- Release Proton-Autogen 3.4.6.
+- Gamescope:
+-   * NVIDIA Image Scaling (NIS): Added support for NVIDIA Image Scaling upscaling.
+-   * Integer Scaling: Added integer-based image scaling.
+-   * Stretch Scaling: Added the ability to stretch the rendered image to fit the screen.
+-   * HDR Support: Added an option to enable High Dynamic Range (HDR).
+-   * Adaptive Sync (VRR): Added support for Variable Refresh Rate (VRR).
+-   * Custom Internal Resolution: Added the ability to set a rendering resolution independently from the display output resolution.
+-   * FPS Limiter: Added a configurable frame rate limit using the -r Gamescope option.
+-   * AMD FidelityFX Super Resolution (FSR): Added support for FSR upscaling.
+-   * Cursor Capture: Added an option to disable --force-grab-cursor.
+
 * Sun Nov 08 2026 N3oRay <n3oray77@gmail.com> - 3.4.5-1
 - Release Proton-Autogen 3.4.5.
 - Introduced a new Cute visual style and improved CSS styling.

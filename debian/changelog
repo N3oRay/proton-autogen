@@ -1,6 +1,16 @@
-proton-autogen (3.4.5) noble; urgency=medium
+proton-autogen (3.4.6) noble; urgency=medium
 
   * Thanks to all users and contributors for their continued support, feedback and bug reports.
+
+  * NVIDIA Image Scaling (NIS): Added support for NVIDIA Image Scaling upscaling.
+  * Integer Scaling: Added integer-based image scaling.
+  * Stretch Scaling: Added the ability to stretch the rendered image to fit the screen.
+  * HDR Support: Added an option to enable High Dynamic Range (HDR).
+  * Adaptive Sync (VRR): Added support for Variable Refresh Rate (VRR).
+  * Custom Internal Resolution: Added the ability to set a rendering resolution independently from the display output resolution.
+  * FPS Limiter: Added a configurable frame rate limit using the -r Gamescope option.
+  * AMD FidelityFX Super Resolution (FSR): Added support for FSR upscaling.
+  * Cursor Capture: Added an option to disable --force-grab-cursor.
   * Interface:
   *
   * Introduced a new Cute visual style.
@@ -44,4 +54,4 @@ proton-autogen (3.4.5) noble; urgency=medium
   * Strengthened package build workflows and release reliability.
   * General backend, UX, performance, configuration handling and code maintainability improvements.
 
- -- N3oray <n3oray77@gmail.com>  Sun, 08 Nov 2026 13:43:00 +0100
+ -- N3oray <n3oray77@gmail.com>  Fri, 13 Nov 2026 10:34:00 +0100
