@@ -53,6 +53,40 @@ def _env_query_matches(query: str, haystack: str) -> bool:
 # -----------------------------
 # GAME EDITOR WINDOW
 # -----------------------------
+# Onglets transparents : Adwaita peint par défaut le contenu, l'en-tête et
+# les zones de défilement d'un Gtk.Notebook en blanc. On les rend
+# transparents pour laisser apparaître le fond du thème actif.
+# Limité à la fenêtre de l'éditeur ; priorité APPLICATION - 1 : un thème peut
+# toujours surcharger ces règles (même convention que game_biblio).
+_TABS_CSS = b"""
+.editor-window notebook,
+.editor-window notebook > stack,
+.editor-window notebook > header,
+.editor-window notebook > header > tabs > tab,
+.editor-window notebook scrolledwindow,
+.editor-window notebook scrolledwindow > viewport {
+    background: transparent;
+    background-color: transparent;
+}
+"""
+_tabs_css_loaded = False
+
+
+def _load_tabs_css():
+    global _tabs_css_loaded
+    if _tabs_css_loaded:
+        return
+    display = Gdk.Display.get_default()
+    if display is None:
+        return
+    provider = Gtk.CssProvider()
+    provider.load_from_data(_TABS_CSS)
+    Gtk.StyleContext.add_provider_for_display(
+        display, provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION - 1
+    )
+    _tabs_css_loaded = True
+
+
 class GameEditor(Gtk.Window):
 
     def __init__(self, app, game, lang):
@@ -63,7 +97,7 @@ class GameEditor(Gtk.Window):
         self.on_saved = None
         self.on_protondb_requested = None   # 👈 nouveau
         self.on_memory_requested = None     # 👈 ouvre le gestionnaire de sauvegardes
-        self.set_size_request(520, 420)
+        self.set_size_request(520, 520)
         self.add_css_class("editor-window")
         self.profile_model = VALID_PROFILES
         self.prefix_model = list_prefixes_ux()
@@ -128,6 +162,7 @@ class GameEditor(Gtk.Window):
         page_advanced = self._new_tab_page()
         page_expert = self._new_tab_page()
 
+        _load_tabs_css()
         self.notebook = Gtk.Notebook()
         self.notebook.set_vexpand(True)
         for page, key, fallback in (
