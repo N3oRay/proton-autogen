@@ -97,7 +97,7 @@ class GameEditor(Gtk.Window):
         self.on_saved = None
         self.on_protondb_requested = None   # 👈 nouveau
         self.on_memory_requested = None     # 👈 ouvre le gestionnaire de sauvegardes
-        self.set_size_request(520, 520)
+        self.set_size_request(520, 600)
         self.add_css_class("editor-window")
         self.profile_model = VALID_PROFILES
         self.prefix_model = list_prefixes_ux()
