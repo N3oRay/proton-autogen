@@ -202,6 +202,7 @@ GAMESCOPE_KEYS = (
     "GAMESCOPE_OUTPUT_WIDTH",
     "GAMESCOPE_OUTPUT_HEIGHT",
     "GAMESCOPE_REFRESH",
+    "GAMESCOPE_FSR",
     "GAMESCOPE_FULLSCREEN",
     "GAMESCOPE_CURSOR",
     "GAMESCOPE_BORDERLESS",
@@ -293,6 +294,7 @@ def init_gamescope_env(
     output_width: int | str | None = None,
     output_height: int | str | None = None,
     mode: str = "output",
+    fsr: bool = False,
 ) -> dict:
     """
     Initialize Gamescope parameters.
@@ -304,6 +306,11 @@ def init_gamescope_env(
       - "internal": use -w/-h
       - "custom": use both
       - "auto": same as output
+
+    Options:
+      - refresh: limite de fréquence du jeu (-r), ignorée si vide ou 0
+      - fsr: upscaling AMD FSR (-F fsr)
+      - cursor: capture forcée du curseur (--force-grab-cursor)
     """
 
     env = {}
@@ -342,6 +349,9 @@ def init_gamescope_env(
 
     if refresh:
         env["GAMESCOPE_REFRESH"] = str(refresh)
+
+    if fsr:
+        env["GAMESCOPE_FSR"] = "1"
 
     env["GAMESCOPE_FULLSCREEN"] = "1" if fullscreen else "0"
     env["GAMESCOPE_CURSOR"] = "1" if cursor else "0"
@@ -405,6 +415,10 @@ def build_gamescope_command(env: dict) -> List[str]:
     if env.get("GAMESCOPE_REFRESH"):
         cmd += ["-r", env["GAMESCOPE_REFRESH"]]
 
+    # Upscaling AMD FSR
+    if env.get("GAMESCOPE_FSR") == "1":
+        cmd += ["-F", "fsr"]
+
     # Fullscreen
     if env.get("GAMESCOPE_FULLSCREEN") == "1":
         cmd.append("--fullscreen")
@@ -439,6 +453,7 @@ def apply_gamescope(
     output_width: int | str | None = None,
     output_height: int | str | None = None,
     mode: str = "output",
+    fsr: bool = False,
 ) -> dict:
     """
     Apply Gamescope environment variables.
@@ -490,13 +505,15 @@ def apply_gamescope(
             output_width=output_width,
             output_height=output_height,
             mode=mode,
+            fsr=fsr,
         )
     )
 
     logger.debug(
         f"Gamescope configured: "
         f"output={output_width}x{output_height}, "
-        f"internal={internal_width}x{internal_height}, mode={mode}"
+        f"internal={internal_width}x{internal_height}, mode={mode}, "
+        f"refresh={refresh or '-'}, fsr={fsr}, cursor={cursor}"
     )
 
     return env

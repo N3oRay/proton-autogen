@@ -483,3 +483,172 @@ def test_build_command_legacy_names():
 )
 def test_parse_resolution(value, expected):
     assert _parse_resolution(value, 111, 222) == expected
+
+
+# ---------------------------------
+# Options : upscaling FSR, limiteur de FPS, capture du curseur
+# ---------------------------------
+
+from proton_autogen.core import (  # noqa: E402
+    _apply_gamescope_features,
+    _as_bool,
+    _parse_gamescope_fps_limit,
+)
+
+
+@pytest.fixture
+def screen_2560(monkeypatch, gamescope_available):
+    monkeypatch.setattr(
+        f"{MODULE}.detect_screen_resolution", lambda: (2560, 1440)
+    )
+
+
+def _command_from_features(features):
+    env = _apply_gamescope_features({}, True, features)
+    return build_gamescope_command(env)
+
+
+def test_init_gamescope_env_fsr_flag():
+    assert "GAMESCOPE_FSR" not in init_gamescope_env(
+        enabled=True, width=1920, height=1080
+    )
+    assert init_gamescope_env(
+        enabled=True, width=1920, height=1080, fsr=True
+    )["GAMESCOPE_FSR"] == "1"
+
+
+def test_clear_gamescope_env_removes_fsr():
+    env = {"GAMESCOPE_FSR": "1", "OTHER_VARIABLE": "keep"}
+
+    clear_gamescope_env(env)
+
+    assert env == {"OTHER_VARIABLE": "keep"}
+
+
+def test_apply_gamescope_passes_fsr_and_refresh(gamescope_available):
+    result = apply_gamescope(
+        {}, enabled=True, width=1920, height=1080, refresh=75, fsr=True
+    )
+
+    assert result["GAMESCOPE_FSR"] == "1"
+    assert result["GAMESCOPE_REFRESH"] == "75"
+
+
+def test_build_command_fsr_and_refresh_order():
+    env = init_gamescope_env(
+        enabled=True,
+        refresh=60,
+        internal_width=1280,
+        internal_height=720,
+        output_width=1920,
+        output_height=1080,
+        mode="custom",
+        fsr=True,
+    )
+
+    assert build_gamescope_command(env) == [
+        "gamescope",
+        "-W", "1920", "-H", "1080",
+        "-w", "1280", "-h", "720",
+        "-r", "60",
+        "-F", "fsr",
+        "--fullscreen",
+        "--force-grab-cursor",
+        "--",
+    ]
+
+
+def test_build_command_without_fsr_has_no_filter():
+    env = init_gamescope_env(enabled=True, width=1920, height=1080)
+
+    assert "-F" not in build_gamescope_command(env)
+
+
+def test_features_defaults_keep_historical_behaviour(screen_2560):
+    """Config existante sans les nouvelles clés : comportement inchangé."""
+    command = _command_from_features({})
+
+    assert command == [
+        "gamescope",
+        "-W", "2560", "-H", "1440",
+        "--fullscreen",
+        "--force-grab-cursor",
+        "--",
+    ]
+
+
+def test_features_fsr_and_fps_limit(screen_2560):
+    command = _command_from_features(
+        {
+            "gamescope_internal_resolution": "1280x720",
+            "gamescope_fsr": True,
+            "gamescope_fps_limit": 60,
+        }
+    )
+
+    assert command == [
+        "gamescope",
+        "-W", "2560", "-H", "1440",
+        "-w", "1280", "-h", "720",
+        "-r", "60",
+        "-F", "fsr",
+        "--fullscreen",
+        "--force-grab-cursor",
+        "--",
+    ]
+
+
+def test_features_force_grab_cursor_disabled(screen_2560):
+    command = _command_from_features({"gamescope_force_grab_cursor": False})
+
+    assert "--force-grab-cursor" not in command
+    assert "--fullscreen" in command
+
+
+@pytest.mark.parametrize("value", [0, None, "", "abc", -5, "0"])
+def test_features_fps_limit_disabled_or_invalid(screen_2560, value):
+    assert "-r" not in _command_from_features({"gamescope_fps_limit": value})
+
+
+def test_features_fps_limit_string_and_clamp(screen_2560):
+    command = _command_from_features({"gamescope_fps_limit": "144"})
+    assert command[command.index("-r") + 1] == "144"
+
+    command = _command_from_features({"gamescope_fps_limit": 5000})
+    assert command[command.index("-r") + 1] == "1000"
+
+
+def test_features_disabled_gamescope_produces_nothing(screen_2560):
+    env = _apply_gamescope_features(
+        {}, False, {"gamescope_fsr": True, "gamescope_fps_limit": 60}
+    )
+
+    assert build_gamescope_command(env) == []
+
+
+@pytest.mark.parametrize(
+    "value, default, expected",
+    [
+        (True, False, True),
+        (False, True, False),
+        (1, False, True),
+        (0, True, False),
+        ("true", False, True),
+        ("OFF", True, False),
+        (" 1 ", False, True),
+        (None, True, True),
+        (None, False, False),
+        ("peut-être", True, True),
+    ],
+)
+def test_as_bool(value, default, expected):
+    assert _as_bool(value, default) is expected
+
+
+@pytest.mark.parametrize(
+    "value, expected",
+    [(60, 60), ("90", 90), (0, None), (-1, None), (None, None),
+     ("x", None), (1, 1), (1000, 1000), (1001, 1000)],
+)
+def test_parse_gamescope_fps_limit(value, expected):
+    assert _parse_gamescope_fps_limit(value) == expected

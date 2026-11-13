@@ -58,7 +58,7 @@ class GameEditor(Gtk.Window):
     def __init__(self, app, game, lang):
         super().__init__(application=app)
         self.set_title("Edit Game Profile")
-        self.set_default_size(520, 420)
+        self.set_default_size(520, 560)
         #self.set_resizable(True)
         self.on_saved = None
         self.on_protondb_requested = None   # 👈 nouveau
@@ -115,6 +115,33 @@ class GameEditor(Gtk.Window):
         root.append(title)
 
         # -------------------------
+        # ONGLETS
+        #   1. Préférences      : profil, Proton, prefix, AppID, jaquette,
+        #                         GPU, favori
+        #   2. Réglages avancés : MangoHud, GameMode, Gamescope, veille,
+        #                         sauvegardes
+        #   3. Réglages Expert  : variables d'environnement personnalisées
+        # Chaque page défile seule : un accordéon déplié ne rallonge plus
+        # la fenêtre. Le bouton d'enregistrement reste toujours visible.
+        # -------------------------
+        page_prefs = self._new_tab_page()
+        page_advanced = self._new_tab_page()
+        page_expert = self._new_tab_page()
+
+        self.notebook = Gtk.Notebook()
+        self.notebook.set_vexpand(True)
+        for page, key, fallback in (
+            (page_prefs, "editor_tab_preferences", "Préférences"),
+            (page_advanced, "editor_tab_advanced", "Réglages avancés"),
+            (page_expert, "editor_tab_expert", "Réglages Expert"),
+        ):
+            self.notebook.append_page(
+                self._wrap_tab_page(page),
+                Gtk.Label(label=tr(key) or fallback),
+            )
+        root.append(self.notebook)
+
+        # -------------------------
         # PROFILE SELECT
         # -------------------------
         self.profile = Gtk.DropDown.new_from_strings(self.profile_model)
@@ -125,7 +152,7 @@ class GameEditor(Gtk.Window):
         if current_profile in self.profile_model:
             self.profile.set_selected(self.profile_model.index(current_profile))
 
-        root.append(self._row("Profile", self.profile))
+        page_prefs.append(self._row("Profile", self.profile))
 
         # -------------------------
         # PROTON SELECT (simplifié)
@@ -142,7 +169,7 @@ class GameEditor(Gtk.Window):
         if current in self.protons:
             self.proton.set_selected(self.protons.index(current))
 
-        root.append(self._row("Proton", self.proton))
+        page_prefs.append(self._row("Proton", self.proton))
 
         # -------------------------
         # PREFIX MODE
@@ -155,7 +182,7 @@ class GameEditor(Gtk.Window):
 
         if current_prefix in self.prefix_model:
             self.prefix.set_selected(self.prefix_model.index(current_prefix))
-        root.append(self._row("Prefix", self.prefix))
+        page_prefs.append(self._row("Prefix", self.prefix))
 
         # -------------------------
         # STEAM APP ID + PROTONDB (même ligne)
@@ -182,7 +209,7 @@ class GameEditor(Gtk.Window):
         app_id_row.append(app_id_label)
         app_id_row.append(self.app_id_entry)
         app_id_row.append(self.protondb_btn)
-        root.append(app_id_row)
+        page_prefs.append(app_id_row)
 
         # État initial : bouton visible seulement si un AppID est déjà renseigné
         self._on_app_id_changed(self.app_id_entry)
@@ -190,8 +217,8 @@ class GameEditor(Gtk.Window):
         # -------------------------
         # COVER (vue Bibliothèque)
         # -------------------------
-        root.append(self._build_cover_row())
-        root.append(self.cover_hint)
+        page_prefs.append(self._build_cover_row())
+        page_prefs.append(self.cover_hint)
 
         # -------------------------
         # TOGGLES
@@ -298,6 +325,83 @@ class GameEditor(Gtk.Window):
             self.gamescope_output_resolution,
         )
 
+        # Upscaling FSR : -F fsr
+        self.gamescope_fsr = Gtk.Switch()
+        self.gamescope_fsr.set_valign(Gtk.Align.CENTER)
+        self.gamescope_fsr.set_halign(Gtk.Align.START)
+        self.gamescope_fsr.set_active(
+            bool(features.get("gamescope_fsr", False))
+        )
+        self.gamescope_fsr.set_tooltip_text(
+            tr("gamescope_fsr_tooltip")
+            or "Upscaling AMD FSR (-F fsr). Utile lorsque la résolution "
+               "interne est inférieure à la résolution de sortie."
+        )
+
+        # Limiteur de FPS : -r (0 = désactivé)
+        try:
+            _gs_fps = int(features.get("gamescope_fps_limit", 0))
+        except (TypeError, ValueError):
+            _gs_fps = 0
+        self.gamescope_fps_limit = Gtk.SpinButton()
+        self.gamescope_fps_limit.add_css_class("fps-spinbutton")
+        self.gamescope_fps_limit.set_adjustment(
+            Gtk.Adjustment(
+                value=max(0, min(_gs_fps, 1000)),
+                lower=0,
+                upper=1000,
+                step_increment=1,
+                page_increment=10,
+            )
+        )
+        self.gamescope_fps_limit.set_numeric(True)
+        self.gamescope_fps_limit.set_tooltip_text(
+            tr("gamescope_fps_limit_tooltip")
+            or "Limite le taux de rafraîchissement du jeu dans Gamescope "
+               "(-r). 0 = désactivé."
+        )
+
+        # Capture forcée du curseur : --force-grab-cursor
+        # Activée par défaut, comme avant l'ajout de cette option.
+        self.gamescope_force_grab_cursor = Gtk.Switch()
+        self.gamescope_force_grab_cursor.set_valign(Gtk.Align.CENTER)
+        self.gamescope_force_grab_cursor.set_halign(Gtk.Align.START)
+        self.gamescope_force_grab_cursor.set_active(
+            bool(features.get("gamescope_force_grab_cursor", True))
+        )
+        self.gamescope_force_grab_cursor.set_tooltip_text(
+            tr("gamescope_force_grab_cursor_tooltip")
+            or "Utilise toujours le mode souris relatif "
+               "(--force-grab-cursor)."
+        )
+
+        self.gamescope_fsr_row = self._row(
+            tr("gamescope_fsr") or "Activer l'upscaling FSR",
+            self.gamescope_fsr,
+        )
+        self.gamescope_fps_limit_row = self._row(
+            tr("gamescope_fps_limit")
+            or "Limiteur de taux de rafraîchissement",
+            self.gamescope_fps_limit,
+        )
+        self.gamescope_force_grab_cursor_row = self._row(
+            tr("gamescope_force_grab_cursor")
+            or "Forcer la capture du curseur",
+            self.gamescope_force_grab_cursor,
+        )
+
+        # Aligne les contrôles de l'accordéon en colonne, quelle que soit
+        # la longueur des libellés traduits.
+        _gs_label_group = Gtk.SizeGroup(mode=Gtk.SizeGroupMode.HORIZONTAL)
+        for _gs_row in (
+            self.gamescope_internal_row,
+            self.gamescope_output_row,
+            self.gamescope_fsr_row,
+            self.gamescope_fps_limit_row,
+            self.gamescope_force_grab_cursor_row,
+        ):
+            _gs_label_group.add_widget(_gs_row.get_first_child())
+
         self.gamescope_settings = Gtk.Box(
             orientation=Gtk.Orientation.VERTICAL,
             spacing=6,
@@ -307,6 +411,9 @@ class GameEditor(Gtk.Window):
         self.gamescope_settings.set_margin_bottom(4)
         self.gamescope_settings.append(self.gamescope_internal_row)
         self.gamescope_settings.append(self.gamescope_output_row)
+        self.gamescope_settings.append(self.gamescope_fsr_row)
+        self.gamescope_settings.append(self.gamescope_fps_limit_row)
+        self.gamescope_settings.append(self.gamescope_force_grab_cursor_row)
 
         # Accordéon : les champs ne sont visibles que si Gamescope est activé.
         self.gamescope_revealer = Gtk.Revealer()
@@ -396,32 +503,39 @@ class GameEditor(Gtk.Window):
 
         set_tooltip(self.gpu, "gpu", self.lang)
 
-        root.append(self._row("GPU Mode", self.gpu))
+        page_prefs.append(self._row("GPU Mode", self.gpu))
 
+        # Favori : onglet « Préférences » (sous le mode GPU)
+        if USE_ADW:
+            favorite_list = adw_rows.new_switch_list()
+            adw_rows.list_add(favorite_list, self.favorite)
+            page_prefs.append(favorite_list)
+        else:
+            page_prefs.append(self.favorite)
+
+        # Onglet « Réglages avancés »
         if USE_ADW:
             # Liste scindée en deux pour loger l'accordéon Gamescope
             # directement sous son interrupteur.
             switches = adw_rows.new_switch_list()
-            for row in (self.favorite, self.mangohud, self.gamemode,
-                        self.gamescope):
+            for row in (self.mangohud, self.gamemode, self.gamescope):
                 adw_rows.list_add(switches, row)
-            root.append(switches)
+            page_advanced.append(switches)
 
-            root.append(self.gamescope_revealer)
+            page_advanced.append(self.gamescope_revealer)
 
             switches_after = adw_rows.new_switch_list()
             for row in (self.inhibit_sleep, save_backup_row):
                 adw_rows.list_add(switches_after, row)
-            root.append(switches_after)
+            page_advanced.append(switches_after)
         else:
-            root.append(self.favorite)
-            root.append(self.mangohud)
-            root.append(self.fps_limit_row)
-            root.append(self.gamemode)
-            root.append(self.gamescope)
-            root.append(self.gamescope_revealer)
-            root.append(self.inhibit_sleep)
-            root.append(save_backup_row)
+            page_advanced.append(self.mangohud)
+            page_advanced.append(self.fps_limit_row)
+            page_advanced.append(self.gamemode)
+            page_advanced.append(self.gamescope)
+            page_advanced.append(self.gamescope_revealer)
+            page_advanced.append(self.inhibit_sleep)
+            page_advanced.append(save_backup_row)
 
         # -------------------------
         # CUSTOM ENVIRONMENT VARIABLES
@@ -433,7 +547,7 @@ class GameEditor(Gtk.Window):
         env_header = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
         env_header.append(env_label)
         env_header.append(self._build_env_search_button())
-        root.append(env_header)
+        page_expert.append(env_header)
 
         custom_env = self._existing_custom_env()
         env_text = "\n".join(f"{k}={v}" for k, v in custom_env.items())
@@ -467,15 +581,16 @@ class GameEditor(Gtk.Window):
         self._setup_env_hover_tooltip()
 
         env_scroll = Gtk.ScrolledWindow()
-        env_scroll.set_min_content_height(90)
+        env_scroll.set_min_content_height(160)
+        env_scroll.set_vexpand(True)
         env_scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
         env_scroll.set_child(self.env_view)
-        root.append(env_scroll)
+        page_expert.append(env_scroll)
 
         self.env_error_label = Gtk.Label(xalign=0)
         self.env_error_label.add_css_class("error-label")
         self.env_error_label.set_visible(False)
-        root.append(self.env_error_label)
+        page_expert.append(self.env_error_label)
 
         # -------------------------
         # SAVE BUTTON
@@ -485,6 +600,30 @@ class GameEditor(Gtk.Window):
         save_btn.connect("clicked", self.on_save)
 
         root.append(save_btn)
+
+    # -------------------------
+    # TABS HELPERS
+    # -------------------------
+    @staticmethod
+    def _new_tab_page():
+        """Colonne verticale qui contient les champs d'un onglet."""
+        return Gtk.Box(
+            orientation=Gtk.Orientation.VERTICAL,
+            spacing=12,
+            margin_top=12,
+            margin_bottom=12,
+            margin_start=12,
+            margin_end=12,
+        )
+
+    @staticmethod
+    def _wrap_tab_page(page):
+        """Enveloppe une page dans un défilement vertical (si trop haute)."""
+        scroller = Gtk.ScrolledWindow()
+        scroller.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+        scroller.set_vexpand(True)
+        scroller.set_child(page)
+        return scroller
 
     # -------------------------
     # GAMESCOPE RESOLUTION HELPERS
@@ -1053,6 +1192,10 @@ class GameEditor(Gtk.Window):
         if env_errors:
             self.env_error_label.set_text("⚠ " + " | ".join(env_errors))
             self.env_error_label.set_visible(True)
+            # L'erreur s'affiche dans l'onglet « Réglages Expert » :
+            # y basculer pour qu'elle soit visible.
+            self.notebook.set_current_page(2)
+            self.env_view.grab_focus()
             return
 
         self.env_error_label.set_visible(False)
@@ -1086,6 +1229,12 @@ class GameEditor(Gtk.Window):
             "gamescope_output_resolution": self._get_gamescope_resolution(
                 self.gamescope_output_resolution
             ),
+            "gamescope_fsr": self.gamescope_fsr.get_active(),
+            "gamescope_fps_limit": int(
+                self.gamescope_fps_limit.get_value()
+            ),
+            "gamescope_force_grab_cursor":
+                self.gamescope_force_grab_cursor.get_active(),
             "inhibit_sleep": self.inhibit_sleep.get_active(),
             "save_backup_prompt": self.save_backup_prompt.get_active(),
             "gpu": gpu

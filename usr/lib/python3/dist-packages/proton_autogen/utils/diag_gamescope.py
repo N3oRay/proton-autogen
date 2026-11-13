@@ -210,6 +210,30 @@ def run_gamescope_check() -> bool:
 
     check("Command generation (output only)", check_command_output_only)
 
+    def check_command_options():
+        env = gamescope.init_gamescope_env(
+            enabled=True,
+            width=1920,
+            height=1080,
+            refresh=60,
+            cursor=False,
+            fsr=True,
+        )
+
+        command = gamescope.build_gamescope_command(env)
+
+        # FSR (-F fsr) et limite de FPS (-r) présents ;
+        # capture forcée du curseur désactivée.
+        valid = (
+            command[command.index("-r") + 1] == "60"
+            and command[command.index("-F") + 1] == "fsr"
+            and "--force-grab-cursor" not in command
+        )
+
+        return valid, " ".join(command)
+
+    check("Command generation (FSR / FPS / cursor)", check_command_options)
+
     # -------------------------------------------------
     # Results
     # -------------------------------------------------

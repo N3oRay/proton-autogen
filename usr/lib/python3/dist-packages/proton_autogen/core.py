@@ -152,6 +152,38 @@ def _parse_gamescope_resolution(value):
     return None, None
 
 
+def _as_bool(value, default: bool) -> bool:
+    """Convertit une valeur de config en booléen (défaut si absente/invalide)."""
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, (int, float)):
+        return bool(value)
+    if isinstance(value, str):
+        normalized = value.strip().lower()
+        if normalized in ("1", "true", "yes", "on"):
+            return True
+        if normalized in ("0", "false", "no", "off"):
+            return False
+    return default
+
+
+def _parse_gamescope_fps_limit(value):
+    """
+    Limite de FPS Gamescope (-r) : entier de 1 à 1000.
+
+    Retourne None si la limite est désactivée (0, vide) ou invalide.
+    """
+    try:
+        fps = int(value)
+    except (TypeError, ValueError):
+        return None
+
+    if fps <= 0:
+        return None
+
+    return min(fps, 1000)
+
+
 def _apply_gamescope_features(env: dict, enabled: bool, features=None) -> dict:
     """
     Configure Gamescope à partir des préférences enregistrées pour le jeu.
@@ -159,6 +191,10 @@ def _apply_gamescope_features(env: dict, enabled: bool, features=None) -> dict:
     Clés attendues dans features :
       - gamescope_internal_resolution: "auto" ou "LARGEURxHAUTEUR"
       - gamescope_output_resolution:   "auto" ou "LARGEURxHAUTEUR"
+      - gamescope_fsr:                 True pour l'upscaling FSR (-F fsr)
+      - gamescope_fps_limit:           limite de FPS (-r), 0 = désactivée
+      - gamescope_force_grab_cursor:   capture forcée du curseur ; True par
+                                       défaut (comportement historique)
 
     La résolution de sortie reste automatique si l'utilisateur choisit
     "Automatique". Une résolution interne automatique n'ajoute pas -w/-h.
@@ -184,6 +220,10 @@ def _apply_gamescope_features(env: dict, enabled: bool, features=None) -> dict:
         else "output"
     )
 
+    fsr = _as_bool(features.get("gamescope_fsr"), False)
+    refresh = _parse_gamescope_fps_limit(features.get("gamescope_fps_limit"))
+    cursor = _as_bool(features.get("gamescope_force_grab_cursor"), True)
+
     env = apply_gamescope(
         env,
         enabled=enabled,
@@ -192,6 +232,9 @@ def _apply_gamescope_features(env: dict, enabled: bool, features=None) -> dict:
         output_width=output_width,
         output_height=output_height,
         mode=mode,
+        refresh=refresh,
+        cursor=cursor,
+        fsr=fsr,
     )
 
     # En résolution interne automatique, ne pas transmettre -w/-h.
