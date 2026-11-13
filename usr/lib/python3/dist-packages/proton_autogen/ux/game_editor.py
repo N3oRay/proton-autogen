@@ -373,6 +373,55 @@ class GameEditor(Gtk.Window):
                "interne est inférieure à la résolution de sortie."
         )
 
+        # NVIDIA NIS : -F nis (exclusif avec FSR, FSR prioritaire)
+        self.gamescope_nis = self._new_gamescope_switch(
+            bool(features.get("gamescope_nis", False))
+            and not self.gamescope_fsr.get_active(),
+            tr("gamescope_nis_tooltip")
+            or "Upscaling NVIDIA Image Scaling (-F nis). Incompatible "
+               "avec FSR.",
+        )
+
+        # Mise à l'échelle : -S integer / -S stretch (exclusifs,
+        # integer prioritaire)
+        self.gamescope_integer_scaling = self._new_gamescope_switch(
+            bool(features.get("gamescope_integer_scaling", False)),
+            tr("gamescope_integer_scaling_tooltip")
+            or "Mise à l'échelle par facteurs entiers (-S integer). "
+               "Incompatible avec l'étirement.",
+        )
+        self.gamescope_stretch = self._new_gamescope_switch(
+            bool(features.get("gamescope_stretch", False))
+            and not self.gamescope_integer_scaling.get_active(),
+            tr("gamescope_stretch_tooltip")
+            or "Étire l'image pour remplir l'écran (-S stretch). "
+               "Incompatible avec l'Integer Scaling.",
+        )
+
+        # Affichage : VRR, HDR, overlay MangoHud géré par Gamescope
+        self.gamescope_adaptive_sync = self._new_gamescope_switch(
+            bool(features.get("gamescope_adaptive_sync", False)),
+            tr("gamescope_adaptive_sync_tooltip")
+            or "Active le VRR (FreeSync/G-Sync) si disponible "
+               "(--adaptive-sync).",
+        )
+        self.gamescope_hdr = self._new_gamescope_switch(
+            bool(features.get("gamescope_hdr", False)),
+            tr("gamescope_hdr_tooltip")
+            or "Active la sortie HDR (--hdr-enabled).",
+        )
+        self.gamescope_mangoapp = self._new_gamescope_switch(
+            bool(features.get("gamescope_mangoapp", False)),
+            tr("gamescope_mangoapp_tooltip")
+            or "Affiche l'overlay MangoHud via Gamescope (--mangoapp).",
+        )
+
+        # Un seul filtre (-F) et un seul scaler (-S) à la fois.
+        self._make_exclusive(self.gamescope_fsr, self.gamescope_nis)
+        self._make_exclusive(
+            self.gamescope_integer_scaling, self.gamescope_stretch
+        )
+
         # Limiteur de FPS : -r (0 = désactivé)
         try:
             _gs_fps = int(features.get("gamescope_fps_limit", 0))
@@ -424,6 +473,32 @@ class GameEditor(Gtk.Window):
             or "Forcer la capture du curseur",
             self.gamescope_force_grab_cursor,
         )
+        self.gamescope_nis_row = self._row(
+            tr("gamescope_nis") or "Activer NVIDIA Image Scaling (NIS)",
+            self.gamescope_nis,
+        )
+        self.gamescope_integer_scaling_row = self._row(
+            tr("gamescope_integer_scaling") or "Activer l'Integer Scaling",
+            self.gamescope_integer_scaling,
+        )
+        self.gamescope_stretch_row = self._row(
+            tr("gamescope_stretch") or "Étirer l'image pour remplir l'écran",
+            self.gamescope_stretch,
+        )
+        self.gamescope_adaptive_sync_row = self._row(
+            tr("gamescope_adaptive_sync")
+            or "Activer le VRR (FreeSync/G-Sync)",
+            self.gamescope_adaptive_sync,
+        )
+        self.gamescope_hdr_row = self._row(
+            tr("gamescope_hdr") or "Activer la sortie HDR",
+            self.gamescope_hdr,
+        )
+        self.gamescope_mangoapp_row = self._row(
+            tr("gamescope_mangoapp")
+            or "Activer l'overlay MangoHud (mangoapp)",
+            self.gamescope_mangoapp,
+        )
 
         # Aligne les contrôles de l'accordéon en colonne, quelle que soit
         # la longueur des libellés traduits.
@@ -432,8 +507,14 @@ class GameEditor(Gtk.Window):
             self.gamescope_internal_row,
             self.gamescope_output_row,
             self.gamescope_fsr_row,
+            self.gamescope_nis_row,
+            self.gamescope_integer_scaling_row,
+            self.gamescope_stretch_row,
             self.gamescope_fps_limit_row,
             self.gamescope_force_grab_cursor_row,
+            self.gamescope_adaptive_sync_row,
+            self.gamescope_hdr_row,
+            self.gamescope_mangoapp_row,
         ):
             _gs_label_group.add_widget(_gs_row.get_first_child())
 
@@ -447,8 +528,14 @@ class GameEditor(Gtk.Window):
         self.gamescope_settings.append(self.gamescope_internal_row)
         self.gamescope_settings.append(self.gamescope_output_row)
         self.gamescope_settings.append(self.gamescope_fsr_row)
+        self.gamescope_settings.append(self.gamescope_nis_row)
+        self.gamescope_settings.append(self.gamescope_integer_scaling_row)
+        self.gamescope_settings.append(self.gamescope_stretch_row)
         self.gamescope_settings.append(self.gamescope_fps_limit_row)
         self.gamescope_settings.append(self.gamescope_force_grab_cursor_row)
+        self.gamescope_settings.append(self.gamescope_adaptive_sync_row)
+        self.gamescope_settings.append(self.gamescope_hdr_row)
+        self.gamescope_settings.append(self.gamescope_mangoapp_row)
 
         # Accordéon : les champs ne sont visibles que si Gamescope est activé.
         self.gamescope_revealer = Gtk.Revealer()
@@ -635,6 +722,29 @@ class GameEditor(Gtk.Window):
         save_btn.connect("clicked", self.on_save)
 
         root.append(save_btn)
+
+    # -------------------------
+    # GAMESCOPE SWITCH HELPERS
+    # -------------------------
+    @staticmethod
+    def _new_gamescope_switch(active, tooltip):
+        """Interrupteur compact destiné à l'accordéon Gamescope."""
+        switch = Gtk.Switch()
+        switch.set_valign(Gtk.Align.CENTER)
+        switch.set_halign(Gtk.Align.START)
+        switch.set_active(bool(active))
+        switch.set_tooltip_text(tooltip)
+        return switch
+
+    @staticmethod
+    def _make_exclusive(switch_a, switch_b):
+        """Activer l'un des deux interrupteurs désactive l'autre."""
+        def on_toggled(source, _pspec, other):
+            if source.get_active() and other.get_active():
+                other.set_active(False)
+
+        switch_a.connect("notify::active", on_toggled, switch_b)
+        switch_b.connect("notify::active", on_toggled, switch_a)
 
     # -------------------------
     # TABS HELPERS
@@ -1265,6 +1375,14 @@ class GameEditor(Gtk.Window):
                 self.gamescope_output_resolution
             ),
             "gamescope_fsr": self.gamescope_fsr.get_active(),
+            "gamescope_nis": self.gamescope_nis.get_active(),
+            "gamescope_integer_scaling":
+                self.gamescope_integer_scaling.get_active(),
+            "gamescope_stretch": self.gamescope_stretch.get_active(),
+            "gamescope_adaptive_sync":
+                self.gamescope_adaptive_sync.get_active(),
+            "gamescope_hdr": self.gamescope_hdr.get_active(),
+            "gamescope_mangoapp": self.gamescope_mangoapp.get_active(),
             "gamescope_fps_limit": int(
                 self.gamescope_fps_limit.get_value()
             ),

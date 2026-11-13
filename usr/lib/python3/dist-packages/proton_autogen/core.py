@@ -192,6 +192,14 @@ def _apply_gamescope_features(env: dict, enabled: bool, features=None) -> dict:
       - gamescope_internal_resolution: "auto" ou "LARGEURxHAUTEUR"
       - gamescope_output_resolution:   "auto" ou "LARGEURxHAUTEUR"
       - gamescope_fsr:                 True pour l'upscaling FSR (-F fsr)
+      - gamescope_nis:                 True pour NVIDIA Image Scaling
+                                       (-F nis) ; FSR est prioritaire
+      - gamescope_integer_scaling:     True pour -S integer
+      - gamescope_stretch:             True pour -S stretch (integer prioritaire)
+      - gamescope_hdr:                 True pour --hdr-enabled
+      - gamescope_adaptive_sync:       True pour --adaptive-sync (VRR)
+      - gamescope_mangoapp:            True pour --mangoapp ; la couche
+                                       MangoHud du jeu est alors retirée
       - gamescope_fps_limit:           limite de FPS (-r), 0 = désactivée
       - gamescope_force_grab_cursor:   capture forcée du curseur ; True par
                                        défaut (comportement historique)
@@ -223,6 +231,18 @@ def _apply_gamescope_features(env: dict, enabled: bool, features=None) -> dict:
     fsr = _as_bool(features.get("gamescope_fsr"), False)
     refresh = _parse_gamescope_fps_limit(features.get("gamescope_fps_limit"))
     cursor = _as_bool(features.get("gamescope_force_grab_cursor"), True)
+    nis = _as_bool(features.get("gamescope_nis"), False)
+    hdr = _as_bool(features.get("gamescope_hdr"), False)
+    adaptive_sync = _as_bool(features.get("gamescope_adaptive_sync"), False)
+    mangoapp = _as_bool(features.get("gamescope_mangoapp"), False)
+
+    # -S n'accepte qu'une valeur : integer l'emporte sur stretch.
+    if _as_bool(features.get("gamescope_integer_scaling"), False):
+        scaler = "integer"
+    elif _as_bool(features.get("gamescope_stretch"), False):
+        scaler = "stretch"
+    else:
+        scaler = None
 
     env = apply_gamescope(
         env,
@@ -235,7 +255,17 @@ def _apply_gamescope_features(env: dict, enabled: bool, features=None) -> dict:
         refresh=refresh,
         cursor=cursor,
         fsr=fsr,
+        nis=nis,
+        scaler=scaler,
+        hdr=hdr,
+        adaptive_sync=adaptive_sync,
+        mangoapp=mangoapp,
     )
+
+    # --mangoapp remplace la couche MangoHud du jeu : on la retire pour
+    # éviter un double overlay.
+    if env.get("GAMESCOPE_MANGOAPP") == "1":
+        env.pop("MANGOHUD", None)
 
     # En résolution interne automatique, ne pas transmettre -w/-h.
     if internal_width is None or internal_height is None:
@@ -920,6 +950,12 @@ def run_game_proton(exe_path, exe_type, proton,
         # =========================
         # COMMON OPTIONS
         # =========================
+        # --mangoapp remplace la couche MangoHud du jeu (pas de double
+        # overlay). GAMESCOPE_MANGOAPP est effacée juste après : on la mémorise.
+        mangoapp_active = (
+            gamescope_available and env.get("GAMESCOPE_MANGOAPP") == "1"
+        )
+
         if gamescope_available:
             # clean env var !
             clear_gamescope_env(env)
@@ -928,6 +964,10 @@ def run_game_proton(exe_path, exe_type, proton,
         # MANGOHUD OPTIONS
         # =========================
         env = configure_mangohud_env( env, exe_path, exe_type, mangohud_available, arch, fps_limit=fps_limit )
+
+        if mangoapp_active:
+            # configure_mangohud_env() réactive MANGOHUD : le retirer à nouveau.
+            env.pop("MANGOHUD", None)
 
         if gamemode_available:
             env["GAMEMODE"] = "1"

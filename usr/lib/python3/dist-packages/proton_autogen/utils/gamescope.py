@@ -203,10 +203,20 @@ GAMESCOPE_KEYS = (
     "GAMESCOPE_OUTPUT_HEIGHT",
     "GAMESCOPE_REFRESH",
     "GAMESCOPE_FSR",
+    "GAMESCOPE_NIS",
+    "GAMESCOPE_SCALER",
+    "GAMESCOPE_ADAPTIVE_SYNC",
+    "GAMESCOPE_HDR",
+    "GAMESCOPE_MANGOAPP",
     "GAMESCOPE_FULLSCREEN",
     "GAMESCOPE_CURSOR",
     "GAMESCOPE_BORDERLESS",
 )
+
+
+# Valeurs acceptées par -S (--scaler). « auto » est le comportement par
+# défaut de Gamescope : aucun drapeau n'est alors transmis.
+GAMESCOPE_SCALERS = ("auto", "integer", "fit", "fill", "stretch")
 
 
 def clear_gamescope_env(env: dict) -> None:
@@ -295,6 +305,11 @@ def init_gamescope_env(
     output_height: int | str | None = None,
     mode: str = "output",
     fsr: bool = False,
+    nis: bool = False,
+    scaler: str | None = None,
+    hdr: bool = False,
+    adaptive_sync: bool = False,
+    mangoapp: bool = False,
 ) -> dict:
     """
     Initialize Gamescope parameters.
@@ -310,6 +325,11 @@ def init_gamescope_env(
     Options:
       - refresh: limite de fréquence du jeu (-r), ignorée si vide ou 0
       - fsr: upscaling AMD FSR (-F fsr)
+      - nis: upscaling NVIDIA Image Scaling (-F nis), ignoré si fsr
+      - scaler: "integer", "stretch"... (-S), "auto"/None = défaut
+      - hdr: sortie HDR (--hdr-enabled)
+      - adaptive_sync: VRR FreeSync/G-Sync (--adaptive-sync)
+      - mangoapp: overlay MangoHud via Gamescope (--mangoapp)
       - cursor: capture forcée du curseur (--force-grab-cursor)
     """
 
@@ -352,6 +372,25 @@ def init_gamescope_env(
 
     if fsr:
         env["GAMESCOPE_FSR"] = "1"
+
+    if nis:
+        env["GAMESCOPE_NIS"] = "1"
+
+    scaler_value = str(scaler).strip().lower() if scaler else ""
+    if scaler_value in GAMESCOPE_SCALERS:
+        if scaler_value != "auto":
+            env["GAMESCOPE_SCALER"] = scaler_value
+    elif scaler_value:
+        logger.warning(f"Unknown Gamescope scaler ignored: {scaler_value}")
+
+    if adaptive_sync:
+        env["GAMESCOPE_ADAPTIVE_SYNC"] = "1"
+
+    if hdr:
+        env["GAMESCOPE_HDR"] = "1"
+
+    if mangoapp:
+        env["GAMESCOPE_MANGOAPP"] = "1"
 
     env["GAMESCOPE_FULLSCREEN"] = "1" if fullscreen else "0"
     env["GAMESCOPE_CURSOR"] = "1" if cursor else "0"
@@ -415,9 +454,16 @@ def build_gamescope_command(env: dict) -> List[str]:
     if env.get("GAMESCOPE_REFRESH"):
         cmd += ["-r", env["GAMESCOPE_REFRESH"]]
 
-    # Upscaling AMD FSR
+    # Mise à l'échelle : -S (integer, stretch...). « auto » = défaut.
+    scaler = (env.get("GAMESCOPE_SCALER") or "").strip().lower()
+    if scaler in GAMESCOPE_SCALERS and scaler != "auto":
+        cmd += ["-S", scaler]
+
+    # Filtre d'upscaling : -F fsr ou -F nis (un seul filtre, FSR prioritaire)
     if env.get("GAMESCOPE_FSR") == "1":
         cmd += ["-F", "fsr"]
+    elif env.get("GAMESCOPE_NIS") == "1":
+        cmd += ["-F", "nis"]
 
     # Fullscreen
     if env.get("GAMESCOPE_FULLSCREEN") == "1":
@@ -430,6 +476,18 @@ def build_gamescope_command(env: dict) -> List[str]:
     # Borderless
     if env.get("GAMESCOPE_BORDERLESS") == "1":
         cmd.append("--borderless")
+
+    # Synchronisation adaptative (VRR)
+    if env.get("GAMESCOPE_ADAPTIVE_SYNC") == "1":
+        cmd.append("--adaptive-sync")
+
+    # Sortie HDR
+    if env.get("GAMESCOPE_HDR") == "1":
+        cmd.append("--hdr-enabled")
+
+    # Overlay MangoHud géré par Gamescope
+    if env.get("GAMESCOPE_MANGOAPP") == "1":
+        cmd.append("--mangoapp")
 
     cmd.append("--")
 
@@ -454,6 +512,11 @@ def apply_gamescope(
     output_height: int | str | None = None,
     mode: str = "output",
     fsr: bool = False,
+    nis: bool = False,
+    scaler: str | None = None,
+    hdr: bool = False,
+    adaptive_sync: bool = False,
+    mangoapp: bool = False,
 ) -> dict:
     """
     Apply Gamescope environment variables.
@@ -506,6 +569,11 @@ def apply_gamescope(
             output_height=output_height,
             mode=mode,
             fsr=fsr,
+            nis=nis,
+            scaler=scaler,
+            hdr=hdr,
+            adaptive_sync=adaptive_sync,
+            mangoapp=mangoapp,
         )
     )
 
@@ -513,7 +581,9 @@ def apply_gamescope(
         f"Gamescope configured: "
         f"output={output_width}x{output_height}, "
         f"internal={internal_width}x{internal_height}, mode={mode}, "
-        f"refresh={refresh or '-'}, fsr={fsr}, cursor={cursor}"
+        f"refresh={refresh or '-'}, fsr={fsr}, nis={nis}, "
+        f"scaler={scaler or 'auto'}, hdr={hdr}, vrr={adaptive_sync}, "
+        f"mangoapp={mangoapp}, cursor={cursor}"
     )
 
     return env
