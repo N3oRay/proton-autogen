@@ -98,12 +98,7 @@ See the full example output here: [Example Output](docs/examples.md)
 ---
 ## 📦 Downloads
 
-Latest releases are available on GitHub:
-
-- Debian / Ubuntu: `.deb` package
-- Source installation: `install.sh`
-- Arch Linux / CachyOS: AUR
-
+[Latest releases notes and download the latest version.](https://github.com/N3oRay/proton-autogen/releases/tag/v3.4.6)
 
 ## 📦 Installation & Updates
 
