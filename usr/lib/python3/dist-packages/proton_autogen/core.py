@@ -200,6 +200,8 @@ def _apply_gamescope_features(env: dict, enabled: bool, features=None) -> dict:
       - gamescope_adaptive_sync:       True pour --adaptive-sync (VRR)
       - gamescope_mangoapp:            True pour --mangoapp ; la couche
                                        MangoHud du jeu est alors retirée
+      - gamescope_borderless:          True pour -b (fenêtre sans bordure) ;
+                                       remplace alors --fullscreen
       - gamescope_fps_limit:           limite de FPS (-r), 0 = désactivée
       - gamescope_force_grab_cursor:   capture forcée du curseur ; True par
                                        défaut (comportement historique)
@@ -235,6 +237,7 @@ def _apply_gamescope_features(env: dict, enabled: bool, features=None) -> dict:
     hdr = _as_bool(features.get("gamescope_hdr"), False)
     adaptive_sync = _as_bool(features.get("gamescope_adaptive_sync"), False)
     mangoapp = _as_bool(features.get("gamescope_mangoapp"), False)
+    borderless = _as_bool(features.get("gamescope_borderless"), False)
 
     # -S n'accepte qu'une valeur : integer l'emporte sur stretch.
     if _as_bool(features.get("gamescope_integer_scaling"), False):
@@ -260,6 +263,9 @@ def _apply_gamescope_features(env: dict, enabled: bool, features=None) -> dict:
         hdr=hdr,
         adaptive_sync=adaptive_sync,
         mangoapp=mangoapp,
+        # Le plein écran l'emporte sur -b : fenêtre sans bordure = sans -f.
+        fullscreen=not borderless,
+        borderless=borderless,
     )
 
     # --mangoapp remplace la couche MangoHud du jeu : on la retire pour

@@ -34,6 +34,8 @@
   "gamescope_adaptive_sync_tooltip": "เปิดใช้งานอัตรารีเฟรชแปรผัน (FreeSync/G-Sync) เมื่อรองรับ (--adaptive-sync)",
   "gamescope_mangoapp": "เปิดใช้งานโอเวอร์เลย์ MangoHud (mangoapp)",
   "gamescope_mangoapp_tooltip": "แสดงโอเวอร์เลย์ MangoHud ผ่าน Gamescope (--mangoapp) เลเยอร์ MangoHud ในเกมจะถูกปิดเพื่อไม่ให้โอเวอร์เลย์ซ้อนกัน",
+  "gamescope_borderless": "เปิดใช้งานหน้าต่างไร้ขอบ",
+  "gamescope_borderless_tooltip": "แสดงหน้าต่าง Gamescope แบบไร้ขอบ (-b) แทนโหมดเต็มหน้าจอ (-f)",
   "enable_inhibit_sleep": "ป้องกันระบบเข้าสู่โหมดสลีป",
   "enable_save_backup_prompt": "แนะนำให้สำรองข้อมูลเซฟหลังจากเล่น",
   "custom_env_label": "ตัวแปรสภาพแวดล้อมแบบกำหนดเอง (คีย์=ค่า, หนึ่งรายการต่อบรรทัด)",

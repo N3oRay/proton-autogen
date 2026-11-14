@@ -34,6 +34,8 @@
   "gamescope_adaptive_sync_tooltip": "Bật tốc độ làm tươi thay đổi (FreeSync/G-Sync) nếu có (--adaptive-sync).",
   "gamescope_mangoapp": "Bật lớp phủ MangoHud (mangoapp)",
   "gamescope_mangoapp_tooltip": "Hiển thị lớp phủ MangoHud thông qua Gamescope (--mangoapp). Lớp MangoHud trong trò chơi sẽ bị tắt để tránh lớp phủ bị trùng.",
+  "gamescope_borderless": "Bật cửa sổ không viền",
+  "gamescope_borderless_tooltip": "Hiển thị cửa sổ Gamescope không viền (-b) thay cho toàn màn hình (-f).",
   "enable_inhibit_sleep": "Ngăn hệ thống ngủ đông",
   "enable_save_backup_prompt": "Đề xuất sao lưu tệp lưu sau khi chơi",
   "custom_env_label": "Biến môi trường tùy chỉnh (KHÓA=GIÁ TRỊ, mỗi biến một dòng)",

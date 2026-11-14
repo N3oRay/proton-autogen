@@ -983,3 +983,110 @@ def test_common_example_configurations(screen_2560, example, features):
         allowed_extras |= {"-W", "-H"}
 
     assert set(actual) - set(expected) <= allowed_extras
+
+
+# ---------------------------------
+# Option : fenêtre sans bordure (-b / --borderless)
+# ---------------------------------
+
+def test_init_gamescope_env_borderless_flag():
+    assert "GAMESCOPE_BORDERLESS" not in init_gamescope_env(
+        enabled=True, width=1920, height=1080
+    )
+    assert init_gamescope_env(
+        enabled=True, width=1920, height=1080, borderless=True
+    )["GAMESCOPE_BORDERLESS"] == "1"
+
+
+def test_apply_gamescope_passes_borderless(gamescope_available):
+    result = apply_gamescope(
+        {},
+        enabled=True,
+        width=1920,
+        height=1080,
+        fullscreen=False,
+        borderless=True,
+    )
+
+    assert result["GAMESCOPE_BORDERLESS"] == "1"
+    assert result["GAMESCOPE_FULLSCREEN"] == "0"
+
+
+def test_clear_gamescope_env_removes_borderless():
+    env = {"GAMESCOPE_BORDERLESS": "1", "OTHER_VARIABLE": "keep"}
+
+    clear_gamescope_env(env)
+
+    assert env == {"OTHER_VARIABLE": "keep"}
+
+
+def test_build_command_borderless_without_fullscreen():
+    env = init_gamescope_env(
+        enabled=True,
+        width=1920,
+        height=1080,
+        fullscreen=False,
+        borderless=True,
+    )
+
+    assert build_gamescope_command(env) == [
+        "gamescope",
+        "-W", "1920", "-H", "1080",
+        "--force-grab-cursor",
+        "--borderless",
+        "--",
+    ]
+
+
+def test_features_borderless_replaces_fullscreen(screen_2560):
+    """Le plein écran l'emporte sur -b : sans bordure = sans --fullscreen."""
+    command = _command_from_features({"gamescope_borderless": True})
+
+    assert "--borderless" in command
+    assert "--fullscreen" not in command
+
+
+def test_features_borderless_off_keeps_fullscreen(screen_2560):
+    command = _command_from_features({"gamescope_borderless": False})
+
+    assert "--fullscreen" in command
+    assert "--borderless" not in command
+
+
+def test_features_borderless_combines_with_other_options(screen_2560):
+    command = _command_from_features(
+        {
+            "gamescope_borderless": True,
+            "gamescope_output_resolution": "1920x1080",
+            "gamescope_fps_limit": 60,
+            "gamescope_hdr": True,
+        }
+    )
+
+    assert command == [
+        "gamescope",
+        "-W", "1920", "-H", "1080",
+        "-r", "60",
+        "--force-grab-cursor",
+        "--borderless",
+        "--hdr-enabled",
+        "--",
+    ]
+
+
+def test_borderless_example_configuration(screen_2560):
+    example = "gamescope -b -W 1920 -H 1080 -- %command%"
+    expected = _example_flags(example)
+    actual = _flags(
+        _command_from_features(
+            {
+                "gamescope_borderless": True,
+                "gamescope_output_resolution": "1920x1080",
+            }
+        )[1:-1]
+    )
+
+    for flag, value in expected.items():
+        assert actual.get(flag) == value
+
+    assert set(actual) - set(expected) <= {"--force-grab-cursor"}

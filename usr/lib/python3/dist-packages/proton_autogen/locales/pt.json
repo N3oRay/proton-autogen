@@ -34,6 +34,8 @@
   "gamescope_adaptive_sync_tooltip": "Ativa a taxa de atualização variável (FreeSync/G-Sync), quando disponível (--adaptive-sync).",
   "gamescope_mangoapp": "Ativar overlay do MangoHud (mangoapp)",
   "gamescope_mangoapp_tooltip": "Exibe o overlay do MangoHud por meio do Gamescope (--mangoapp). A camada do MangoHud no jogo é desativada para evitar overlay duplicado.",
+  "gamescope_borderless": "Ativar janela sem bordas",
+  "gamescope_borderless_tooltip": "Exibe a janela do Gamescope sem bordas (-b) em vez de tela cheia (-f).",
   "enable_inhibit_sleep": "Impedir suspensão do sistema",
   "enable_save_backup_prompt": "Sugerir uma cópia de segurança após jogar",
   "custom_env_label": "Variáveis de ambiente personalizadas (CHAVE=VALOR, uma por linha)",

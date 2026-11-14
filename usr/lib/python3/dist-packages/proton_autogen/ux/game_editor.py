@@ -92,7 +92,7 @@ class GameEditor(Gtk.Window):
     def __init__(self, app, game, lang):
         super().__init__(application=app)
         self.set_title("Edit Game Profile")
-        self.set_default_size(520, 560)
+        self.set_default_size(530, 560)
         #self.set_resizable(True)
         self.on_saved = None
         self.on_protondb_requested = None   # 👈 nouveau
@@ -410,6 +410,12 @@ class GameEditor(Gtk.Window):
             tr("gamescope_hdr_tooltip")
             or "Active la sortie HDR (--hdr-enabled).",
         )
+        self.gamescope_borderless = self._new_gamescope_switch(
+            bool(features.get("gamescope_borderless", False)),
+            tr("gamescope_borderless_tooltip")
+            or "Affiche la fenêtre Gamescope sans bordure (-b) à la place "
+               "du plein écran (-f).",
+        )
         self.gamescope_mangoapp = self._new_gamescope_switch(
             bool(features.get("gamescope_mangoapp", False)),
             tr("gamescope_mangoapp_tooltip")
@@ -494,6 +500,10 @@ class GameEditor(Gtk.Window):
             tr("gamescope_hdr") or "Activer la sortie HDR",
             self.gamescope_hdr,
         )
+        self.gamescope_borderless_row = self._row(
+            tr("gamescope_borderless") or "Activer la fenêtre sans bordure",
+            self.gamescope_borderless,
+        )
         self.gamescope_mangoapp_row = self._row(
             tr("gamescope_mangoapp")
             or "Activer l'overlay MangoHud (mangoapp)",
@@ -512,6 +522,7 @@ class GameEditor(Gtk.Window):
             self.gamescope_stretch_row,
             self.gamescope_fps_limit_row,
             self.gamescope_force_grab_cursor_row,
+            self.gamescope_borderless_row,
             self.gamescope_adaptive_sync_row,
             self.gamescope_hdr_row,
             self.gamescope_mangoapp_row,
@@ -533,6 +544,7 @@ class GameEditor(Gtk.Window):
         self.gamescope_settings.append(self.gamescope_stretch_row)
         self.gamescope_settings.append(self.gamescope_fps_limit_row)
         self.gamescope_settings.append(self.gamescope_force_grab_cursor_row)
+        self.gamescope_settings.append(self.gamescope_borderless_row)
         self.gamescope_settings.append(self.gamescope_adaptive_sync_row)
         self.gamescope_settings.append(self.gamescope_hdr_row)
         self.gamescope_settings.append(self.gamescope_mangoapp_row)
@@ -1383,6 +1395,7 @@ class GameEditor(Gtk.Window):
                 self.gamescope_adaptive_sync.get_active(),
             "gamescope_hdr": self.gamescope_hdr.get_active(),
             "gamescope_mangoapp": self.gamescope_mangoapp.get_active(),
+            "gamescope_borderless": self.gamescope_borderless.get_active(),
             "gamescope_fps_limit": int(
                 self.gamescope_fps_limit.get_value()
             ),

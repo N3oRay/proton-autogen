@@ -34,6 +34,8 @@
   "gamescope_adaptive_sync_tooltip": "在可用时启用可变刷新率 (FreeSync/G-Sync) (--adaptive-sync)。",
   "gamescope_mangoapp": "启用 MangoHud 叠加层 (mangoapp)",
   "gamescope_mangoapp_tooltip": "通过 Gamescope 显示 MangoHud 叠加层 (--mangoapp)。游戏内的 MangoHud 层将被关闭，以避免重复叠加。",
+  "gamescope_borderless": "启用无边框窗口",
+  "gamescope_borderless_tooltip": "以无边框窗口 (-b) 而非全屏 (-f) 显示 Gamescope 窗口。",
   "enable_inhibit_sleep": "阻止系统休眠",
   "enable_save_backup_prompt": "游戏结束后提示备份存档",
   "custom_env_label": "自定义环境变量（键=值，每行一个）",

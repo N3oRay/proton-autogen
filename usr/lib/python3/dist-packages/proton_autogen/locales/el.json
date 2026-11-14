@@ -34,6 +34,8 @@
   "gamescope_adaptive_sync_tooltip": "Ενεργοποιεί τον μεταβλητό ρυθμό ανανέωσης (FreeSync/G-Sync) όταν είναι διαθέσιμος (--adaptive-sync).",
   "gamescope_mangoapp": "Ενεργοποίηση επικάλυψης MangoHud (mangoapp)",
   "gamescope_mangoapp_tooltip": "Εμφανίζει την επικάλυψη MangoHud μέσω του Gamescope (--mangoapp). Το επίπεδο MangoHud μέσα στο παιχνίδι απενεργοποιείται για να αποφευχθεί διπλή επικάλυψη.",
+  "gamescope_borderless": "Ενεργοποίηση παραθύρου χωρίς περίγραμμα",
+  "gamescope_borderless_tooltip": "Εμφανίζει το παράθυρο του Gamescope χωρίς περίγραμμα (-b) αντί για πλήρη οθόνη (-f).",
   "enable_inhibit_sleep": "Αποτροπή αναστολής λειτουργίας",
   "enable_save_backup_prompt": "Πρόταση δημιουργίας αντιγράφου ασφαλείας μετά το παιχνίδι",
   "custom_env_label": "Προσαρμοσμένες μεταβλητές περιβάλλοντος (ΚΛΕΙΔΙ=ΤΙΜΗ, μία ανά γραμμή)",

@@ -34,6 +34,8 @@
   "gamescope_adaptive_sync_tooltip": "Włącza zmienną częstotliwość odświeżania (FreeSync/G-Sync), jeśli jest dostępna (--adaptive-sync).",
   "gamescope_mangoapp": "Włącz nakładkę MangoHud (mangoapp)",
   "gamescope_mangoapp_tooltip": "Wyświetla nakładkę MangoHud przez Gamescope (--mangoapp). Warstwa MangoHud w grze jest wyłączana, aby uniknąć podwójnej nakładki.",
+  "gamescope_borderless": "Włącz okno bez ramki",
+  "gamescope_borderless_tooltip": "Wyświetla okno Gamescope bez ramki (-b) zamiast na pełnym ekranie (-f).",
   "enable_inhibit_sleep": "Zapobiegaj usypianiu systemu",
   "enable_save_backup_prompt": "Proponuj kopię zapasową zapisów po grze",
   "custom_env_label": "Niestandardowe zmienne środowiskowe (KLUCZ=WARTOŚĆ, jedna na linię)",

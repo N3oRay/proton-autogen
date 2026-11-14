@@ -34,6 +34,8 @@
   "gamescope_adaptive_sync_tooltip": "Engedélyezi a változó képfrissítési frekvenciát (FreeSync/G-Sync), ha elérhető (--adaptive-sync).",
   "gamescope_mangoapp": "MangoHud-overlay (mangoapp) engedélyezése",
   "gamescope_mangoapp_tooltip": "A MangoHud-overlayt a Gamescope-on keresztül jeleníti meg (--mangoapp). A játékon belüli MangoHud-réteg ki lesz kapcsolva a dupla overlay elkerülése érdekében.",
+  "gamescope_borderless": "Keret nélküli ablak engedélyezése",
+  "gamescope_borderless_tooltip": "A Gamescope ablakot keret nélkül (-b) jeleníti meg teljes képernyő (-f) helyett.",
   "enable_inhibit_sleep": "Alvó mód megakadályozása",
   "enable_save_backup_prompt": "Mentés felajánlása a játék végén",
   "custom_env_label": "Egyéni környezeti változók (KULCS=ÉRTÉK, soronként egy)",

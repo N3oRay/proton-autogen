@@ -34,6 +34,8 @@
   "gamescope_adaptive_sync_tooltip": "उपलब्ध होने पर परिवर्तनशील रिफ़्रेश दर (FreeSync/G-Sync) सक्षम करता है (--adaptive-sync)।",
   "gamescope_mangoapp": "MangoHud ओवरले (mangoapp) सक्षम करें",
   "gamescope_mangoapp_tooltip": "Gamescope के माध्यम से MangoHud ओवरले दिखाता है (--mangoapp)। दोहरा ओवरले न हो, इसलिए गेम के भीतर की MangoHud परत बंद कर दी जाती है।",
+  "gamescope_borderless": "बॉर्डरलेस विंडो सक्षम करें",
+  "gamescope_borderless_tooltip": "फ़ुलस्क्रीन (-f) के बजाय Gamescope विंडो को बिना बॉर्डर के दिखाता है (-b)।",
   "enable_inhibit_sleep": "सिस्टम को स्लीप होने से रोकें",
   "enable_save_backup_prompt": "खेलने के बाद सेव बैकअप का सुझाव दें",
   "custom_env_label": "कस्टम पर्यावरण चर (KEY=VALUE, प्रति पंक्ति एक)",

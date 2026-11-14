@@ -34,6 +34,8 @@
   "gamescope_adaptive_sync_tooltip": "Schakelt variabele verversingssnelheid (FreeSync/G-Sync) in indien beschikbaar (--adaptive-sync).",
   "gamescope_mangoapp": "MangoHud-overlay (mangoapp) inschakelen",
   "gamescope_mangoapp_tooltip": "Toont de MangoHud-overlay via Gamescope (--mangoapp). De MangoHud-laag in het spel wordt uitgeschakeld om een dubbele overlay te voorkomen.",
+  "gamescope_borderless": "Venster zonder rand inschakelen",
+  "gamescope_borderless_tooltip": "Toont het Gamescope-venster zonder rand (-b) in plaats van schermvullend (-f).",
   "enable_inhibit_sleep": "Slaapstand voorkomen",
   "enable_save_backup_prompt": "Voorstellen om opgeslagen spellen te back-uppen na het spelen",
   "custom_env_label": "Aangepaste omgevingsvariabelen (SLEUTEL=WAARDE, één per regel)",

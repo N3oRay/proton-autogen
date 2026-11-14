@@ -34,6 +34,8 @@
   "gamescope_adaptive_sync_tooltip": "Включва променлива честота на опресняване (FreeSync/G-Sync), когато е налична (--adaptive-sync).",
   "gamescope_mangoapp": "Включване на MangoHud overlay (mangoapp)",
   "gamescope_mangoapp_tooltip": "Показва MangoHud overlay през Gamescope (--mangoapp). Слоят MangoHud в играта се изключва, за да няма двоен overlay.",
+  "gamescope_borderless": "Включване на прозорец без рамка",
+  "gamescope_borderless_tooltip": "Показва прозореца на Gamescope без рамка (-b) вместо на цял екран (-f).",
   "enable_inhibit_sleep": "Предотвратяване на приспиването",
   "enable_save_backup_prompt": "Предлагай резервно копие след игра",
   "custom_env_label": "Персонализирани променливи на средата (KEY=VALUE, по една на ред)",

@@ -310,6 +310,7 @@ def init_gamescope_env(
     hdr: bool = False,
     adaptive_sync: bool = False,
     mangoapp: bool = False,
+    borderless: bool = False,
 ) -> dict:
     """
     Initialize Gamescope parameters.
@@ -330,6 +331,8 @@ def init_gamescope_env(
       - hdr: sortie HDR (--hdr-enabled)
       - adaptive_sync: VRR FreeSync/G-Sync (--adaptive-sync)
       - mangoapp: overlay MangoHud via Gamescope (--mangoapp)
+      - borderless: fenêtre sans bordure (-b) ; à combiner avec
+        fullscreen=False, car le plein écran l'emporte sur -b
       - cursor: capture forcée du curseur (--force-grab-cursor)
     """
 
@@ -391,6 +394,9 @@ def init_gamescope_env(
 
     if mangoapp:
         env["GAMESCOPE_MANGOAPP"] = "1"
+
+    if borderless:
+        env["GAMESCOPE_BORDERLESS"] = "1"
 
     env["GAMESCOPE_FULLSCREEN"] = "1" if fullscreen else "0"
     env["GAMESCOPE_CURSOR"] = "1" if cursor else "0"
@@ -517,6 +523,7 @@ def apply_gamescope(
     hdr: bool = False,
     adaptive_sync: bool = False,
     mangoapp: bool = False,
+    borderless: bool = False,
 ) -> dict:
     """
     Apply Gamescope environment variables.
@@ -574,6 +581,7 @@ def apply_gamescope(
             hdr=hdr,
             adaptive_sync=adaptive_sync,
             mangoapp=mangoapp,
+            borderless=borderless,
         )
     )
 
@@ -583,7 +591,8 @@ def apply_gamescope(
         f"internal={internal_width}x{internal_height}, mode={mode}, "
         f"refresh={refresh or '-'}, fsr={fsr}, nis={nis}, "
         f"scaler={scaler or 'auto'}, hdr={hdr}, vrr={adaptive_sync}, "
-        f"mangoapp={mangoapp}, cursor={cursor}"
+        f"mangoapp={mangoapp}, borderless={borderless}, "
+        f"fullscreen={fullscreen}, cursor={cursor}"
     )
 
     return env

@@ -34,6 +34,8 @@
   "gamescope_adaptive_sync_tooltip": "Вмикає змінну частоту оновлення (FreeSync/G-Sync), якщо вона доступна (--adaptive-sync).",
   "gamescope_mangoapp": "Увімкнути оверлей MangoHud (mangoapp)",
   "gamescope_mangoapp_tooltip": "Показує оверлей MangoHud через Gamescope (--mangoapp). Шар MangoHud усередині гри вимикається, щоб уникнути подвійного оверлея.",
+  "gamescope_borderless": "Увімкнути вікно без рамки",
+  "gamescope_borderless_tooltip": "Показує вікно Gamescope без рамки (-b) замість повноекранного режиму (-f).",
   "enable_inhibit_sleep": "Запобігати переходу в режим сну",
   "enable_save_backup_prompt": "Пропонувати резервне копіювання збережень після гри",
   "custom_env_label": "Користувацькі змінні середовища (КЛЮЧ=ЗНАЧЕННЯ, одна на рядок)",
