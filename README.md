@@ -11,16 +11,15 @@ Proton-autogen automatically creates and configures Proton environments for Wind
 
 **Proton-autogen is a lightweight Proton/Wine orchestration layer that allows Linux users to run Windows applications from `.exe` files without manually managing Steam shortcuts or Wine prefixes.**
 
+
+Run Windows executables through Proton with zero Steam configuration.
+---
 🎬 Quick Demo - run Windows EXE on Linux
 
 [▶️ Watch presentation on YouTube by Dualry G](https://www.youtube.com/watch?app=desktop&v=hgDTHGT3Xdw)
 
 Thanks to Dualry G for creating and sharing this great demo.
 
-
-Run Windows executables through Proton with zero Steam configuration.
----
-🎬 Quick Demo - run Windows EXE on Linux
 <p align="left">
   <img src="docs/screenshots/demo.gif" width="550" alt="Proton-Autogen Demo">
   <img src="docs/screenshots/V3.4.4-2.jpg" width="550" alt="Proton-Autogen Demo">
