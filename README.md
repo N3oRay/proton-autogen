@@ -268,15 +268,13 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 [Activity info](docs/activity.md)
 
-## ❤️ Support Proton-Autogen
+## ❤️ Sponsors & Partners
 
 [Proton-Autogen is free and open source. Your support helps me continue development, improve compatibility, and maintain the project.](docs/SPONSORING.md)
 
 ☕  [Support me on Ko-fi](https://ko-fi.com/n3oray)
 
 Thank you! ❤️
-
-## ❤️ Sponsors & Partners
 
 A big thank you to our partners for supporting the development of Proton-Autogen and the open-source ecosystem.
 
