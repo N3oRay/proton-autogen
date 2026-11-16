@@ -275,3 +275,20 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ☕  [Support me on Ko-fi](https://ko-fi.com/n3oray)
 
 Thank you! ❤️
+
+## ❤️ Sponsors & Partners
+
+A big thank you to our partners for supporting the development of Proton-Autogen and the open-source ecosystem.
+
+<p align="center">
+  <a href="https://ekimia.fr/?aff=1558" target="_blank">
+    <img src="https://ekimia.fr/favicon.ico" alt="Ekimia" width="48">
+    <br>
+    <strong>Ekimia</strong>
+  </a>
+  <br>
+  <a href="https://ekimia.fr/?aff=1558">Discover Ekimia</a>
+</p>
+
+Interested in supporting Proton-Autogen?
+Feel free to contact us for sponsorship or partnership opportunities.
