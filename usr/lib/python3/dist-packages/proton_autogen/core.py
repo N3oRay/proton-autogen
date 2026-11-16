@@ -18,6 +18,8 @@ from proton_autogen.utils.inhibit import wrap_command_with_inhibit
 from proton_autogen.utils.logger import StructuredLogger
 from proton_autogen.utils.steam_appid import detect_steam_appid
 from proton_autogen.utils.gamescope import build_gamescope_command, init_gamescope_env, clear_gamescope_env, apply_gamescope, LOG_FILTERS
+from proton_autogen.utils.gamescope import GAMESCOPE_HDR_GAME_ENV, resolve_scaler, resolve_upscaler
+from proton_autogen.utils.gamescope import as_bool as _as_bool  # nom conservé (tests, appels existants)
 from proton_autogen.progress import Progress
 from proton_autogen.pa_log import log_profile_env, log_profile_summary, log_mangohud_env, log_executable_info
 
@@ -152,21 +154,6 @@ def _parse_gamescope_resolution(value):
     return None, None
 
 
-def _as_bool(value, default: bool) -> bool:
-    """Convertit une valeur de config en booléen (défaut si absente/invalide)."""
-    if isinstance(value, bool):
-        return value
-    if isinstance(value, (int, float)):
-        return bool(value)
-    if isinstance(value, str):
-        normalized = value.strip().lower()
-        if normalized in ("1", "true", "yes", "on"):
-            return True
-        if normalized in ("0", "false", "no", "off"):
-            return False
-    return default
-
-
 def _parse_gamescope_fps_limit(value):
     """
     Limite de FPS Gamescope (-r) : entier de 1 à 1000.
@@ -192,11 +179,13 @@ def _apply_gamescope_features(env: dict, enabled: bool, features=None) -> dict:
       - gamescope_internal_resolution: "auto" ou "LARGEURxHAUTEUR"
       - gamescope_output_resolution:   "auto" ou "LARGEURxHAUTEUR"
       - gamescope_fsr:                 True pour l'upscaling FSR (-F fsr)
-      - gamescope_nis:                 True pour NVIDIA Image Scaling
-                                       (-F nis) ; FSR est prioritaire
-      - gamescope_integer_scaling:     True pour -S integer
-      - gamescope_stretch:             True pour -S stretch (integer prioritaire)
-      - gamescope_hdr:                 True pour --hdr-enabled
+      - gamescope_upscaler:            "none", "fsr" ou "nis" (-F)
+      - gamescope_scaler:              "auto", "integer" ou "stretch" (-S)
+        (anciennes clés toujours lues si les nouvelles sont absentes :
+         gamescope_fsr / gamescope_nis, FSR prioritaire ;
+         gamescope_integer_scaling / gamescope_stretch, integer prioritaire)
+      - gamescope_hdr:                 True pour --hdr-enabled ; pose aussi
+                                       les variables de GAMESCOPE_HDR_GAME_ENV
       - gamescope_adaptive_sync:       True pour --adaptive-sync (VRR)
       - gamescope_mangoapp:            True pour --mangoapp ; la couche
                                        MangoHud du jeu est alors retirée
@@ -230,22 +219,17 @@ def _apply_gamescope_features(env: dict, enabled: bool, features=None) -> dict:
         else "output"
     )
 
-    fsr = _as_bool(features.get("gamescope_fsr"), False)
+    upscaler = resolve_upscaler(features)
     refresh = _parse_gamescope_fps_limit(features.get("gamescope_fps_limit"))
     cursor = _as_bool(features.get("gamescope_force_grab_cursor"), True)
-    nis = _as_bool(features.get("gamescope_nis"), False)
     hdr = _as_bool(features.get("gamescope_hdr"), False)
     adaptive_sync = _as_bool(features.get("gamescope_adaptive_sync"), False)
     mangoapp = _as_bool(features.get("gamescope_mangoapp"), False)
     borderless = _as_bool(features.get("gamescope_borderless"), False)
 
-    # -S n'accepte qu'une valeur : integer l'emporte sur stretch.
-    if _as_bool(features.get("gamescope_integer_scaling"), False):
-        scaler = "integer"
-    elif _as_bool(features.get("gamescope_stretch"), False):
-        scaler = "stretch"
-    else:
-        scaler = None
+    # -F et -S n'acceptent qu'une valeur : menus, avec repli sur les
+    # anciens interrupteurs (voir resolve_upscaler / resolve_scaler).
+    scaler = resolve_scaler(features)
 
     env = apply_gamescope(
         env,
@@ -257,8 +241,8 @@ def _apply_gamescope_features(env: dict, enabled: bool, features=None) -> dict:
         mode=mode,
         refresh=refresh,
         cursor=cursor,
-        fsr=fsr,
-        nis=nis,
+        fsr=(upscaler == "fsr"),
+        nis=(upscaler == "nis"),
         scaler=scaler,
         hdr=hdr,
         adaptive_sync=adaptive_sync,
@@ -267,6 +251,12 @@ def _apply_gamescope_features(env: dict, enabled: bool, features=None) -> dict:
         fullscreen=not borderless,
         borderless=borderless,
     )
+
+    # Option HDR : poser les variables nécessaires au jeu (voir
+    # GAMESCOPE_HDR_GAME_ENV). Les variables personnalisées du jeu, appliquées
+    # plus tard, restent prioritaires.
+    if env.get("GAMESCOPE_HDR") == "1":
+        env.update(GAMESCOPE_HDR_GAME_ENV)
 
     # --mangoapp remplace la couche MangoHud du jeu : on la retire pour
     # éviter un double overlay.

@@ -219,6 +219,81 @@ GAMESCOPE_KEYS = (
 GAMESCOPE_SCALERS = ("auto", "integer", "fit", "fill", "stretch")
 
 
+# Menu « Upscaling » (-F) : « none » = aucun filtre.
+GAMESCOPE_UPSCALERS = ("none", "fsr", "nis")
+
+# Variables posées pour le jeu quand l'option HDR est active.
+#
+# Recette minimale, d'après le code de Gamescope :
+#   - ENABLE_GAMESCOPE_WSI=1 est déjà posée par Gamescope (mode imbriqué) ;
+#   - le backend Wayland de Gamescope pose lui-même DXVK_HDR selon l'écran
+#     (il écrase alors la valeur ci-dessous : 1 si l'écran expose le HDR,
+#     sinon 0) ; les autres backends (SDL, DRM) ne le font pas ;
+#   - PROTON_ENABLE_HDR n'est volontairement pas posée (obsolète sur
+#     Proton-CachyOS, où le HDR est automatique).
+# Les variables d'environnement personnalisées du jeu, appliquées ensuite,
+# restent prioritaires.
+GAMESCOPE_HDR_GAME_ENV = {"DXVK_HDR": "1"}
+
+
+def as_bool(value, default: bool) -> bool:
+    """Convertit une valeur de config en booléen (défaut si absente/invalide)."""
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, (int, float)):
+        return bool(value)
+    if isinstance(value, str):
+        normalized = value.strip().lower()
+        if normalized in ("1", "true", "yes", "on"):
+            return True
+        if normalized in ("0", "false", "no", "off"):
+            return False
+    return default
+
+
+def resolve_upscaler(features) -> str:
+    """
+    Upscaling du jeu : "none", "fsr" ou "nis".
+
+    Rétro-compatibilité : la clé « gamescope_upscaler » (menu) est prioritaire
+    si elle est valide ; sinon on retombe sur les anciens interrupteurs
+    « gamescope_fsr » / « gamescope_nis » (FSR l'emporte, comme avant).
+    """
+    features = features if isinstance(features, dict) else {}
+
+    value = features.get("gamescope_upscaler")
+    if isinstance(value, str) and value.strip().lower() in GAMESCOPE_UPSCALERS:
+        return value.strip().lower()
+
+    if as_bool(features.get("gamescope_fsr"), False):
+        return "fsr"
+    if as_bool(features.get("gamescope_nis"), False):
+        return "nis"
+    return "none"
+
+
+def resolve_scaler(features) -> str:
+    """
+    Mise à l'échelle (-S) : "auto" ou l'une des valeurs de GAMESCOPE_SCALERS.
+
+    Rétro-compatibilité : la clé « gamescope_scaler » (menu) est prioritaire
+    si elle est valide ; sinon on retombe sur les anciens interrupteurs
+    « gamescope_integer_scaling » / « gamescope_stretch » (integer l'emporte
+    sur stretch, comme avant).
+    """
+    features = features if isinstance(features, dict) else {}
+
+    value = features.get("gamescope_scaler")
+    if isinstance(value, str) and value.strip().lower() in GAMESCOPE_SCALERS:
+        return value.strip().lower()
+
+    if as_bool(features.get("gamescope_integer_scaling"), False):
+        return "integer"
+    if as_bool(features.get("gamescope_stretch"), False):
+        return "stretch"
+    return "auto"
+
+
 def clear_gamescope_env(env: dict) -> None:
     """Remove Gamescope-related environment variables."""
     for key in GAMESCOPE_KEYS:

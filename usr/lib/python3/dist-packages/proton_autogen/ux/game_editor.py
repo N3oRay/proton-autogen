@@ -13,6 +13,7 @@ from proton_autogen.ux.desc import set_tooltip
 from proton_autogen.editor import list_prefixes_ux
 from proton_autogen.profiles.init import VALID_PROFILES
 from proton_autogen.i18n import tr
+from proton_autogen.utils.gamescope import resolve_scaler, resolve_upscaler
 from proton_autogen.ux import cover_manager
 from proton_autogen.ux import adw_rows
 from proton_autogen.ux.adw_rows import USE_ADW
@@ -360,42 +361,58 @@ class GameEditor(Gtk.Window):
             self.gamescope_output_resolution,
         )
 
-        # Upscaling FSR : -F fsr
-        self.gamescope_fsr = Gtk.Switch()
-        self.gamescope_fsr.set_valign(Gtk.Align.CENTER)
-        self.gamescope_fsr.set_halign(Gtk.Align.START)
-        self.gamescope_fsr.set_active(
-            bool(features.get("gamescope_fsr", False))
+        # Upscaling : -F (aucun / FSR / NIS). Un seul filtre possible.
+        # Les anciennes clés (gamescope_fsr / gamescope_nis) restent lues
+        # par resolve_upscaler() si la nouvelle clé est absente.
+        self._gamescope_upscalers = [
+            (tr("gamescope_upscaling_off") or "Désactivé", "none"),
+            ("FSR", "fsr"),
+            ("NIS", "nis"),
+        ]
+        self.gamescope_upscaler = Gtk.DropDown.new_from_strings(
+            [label for label, _value in self._gamescope_upscalers]
         )
-        self.gamescope_fsr.set_tooltip_text(
-            tr("gamescope_fsr_tooltip")
-            or "Upscaling AMD FSR (-F fsr). Utile lorsque la résolution "
-               "interne est inférieure à la résolution de sortie."
+        self._select_choice(
+            self.gamescope_upscaler,
+            self._gamescope_upscalers,
+            resolve_upscaler(features),
+        )
+        self.gamescope_upscaler.set_tooltip_text(
+            tr("gamescope_upscaling_tooltip")
+            or "Filtre d'upscaling (-F) : FSR (AMD FidelityFX) ou NIS "
+               "(NVIDIA Image Scaling). Fonctionne avec tous les GPU. "
+               "Utile lorsque la résolution interne est inférieure à la "
+               "résolution de sortie."
         )
 
-        # NVIDIA NIS : -F nis (exclusif avec FSR, FSR prioritaire)
-        self.gamescope_nis = self._new_gamescope_switch(
-            bool(features.get("gamescope_nis", False))
-            and not self.gamescope_fsr.get_active(),
-            tr("gamescope_nis_tooltip")
-            or "Upscaling NVIDIA Image Scaling (-F nis). Incompatible "
-               "avec FSR.",
+        # Mise à l'échelle : -S (automatique / entière / étirée).
+        # Anciennes clés : gamescope_integer_scaling / gamescope_stretch.
+        self._gamescope_scalers = [
+            (tr("gamescope_scaler_auto") or "Automatique", "auto"),
+            (
+                tr("gamescope_scaler_integer")
+                or "Entière (Integer Scaling)",
+                "integer",
+            ),
+            (
+                tr("gamescope_scaler_stretch")
+                or "Étirée (remplir l'écran)",
+                "stretch",
+            ),
+        ]
+        self.gamescope_scaler = Gtk.DropDown.new_from_strings(
+            [label for label, _value in self._gamescope_scalers]
         )
-
-        # Mise à l'échelle : -S integer / -S stretch (exclusifs,
-        # integer prioritaire)
-        self.gamescope_integer_scaling = self._new_gamescope_switch(
-            bool(features.get("gamescope_integer_scaling", False)),
-            tr("gamescope_integer_scaling_tooltip")
-            or "Mise à l'échelle par facteurs entiers (-S integer). "
-               "Incompatible avec l'étirement.",
+        self._select_choice(
+            self.gamescope_scaler,
+            self._gamescope_scalers,
+            resolve_scaler(features),
         )
-        self.gamescope_stretch = self._new_gamescope_switch(
-            bool(features.get("gamescope_stretch", False))
-            and not self.gamescope_integer_scaling.get_active(),
-            tr("gamescope_stretch_tooltip")
-            or "Étire l'image pour remplir l'écran (-S stretch). "
-               "Incompatible avec l'Integer Scaling.",
+        self.gamescope_scaler.set_tooltip_text(
+            tr("gamescope_scaler_tooltip")
+            or "Mise à l'échelle (-S) : entière (pixels nets, facteurs "
+               "entiers uniquement) ou étirée (remplit l'écran sans "
+               "respecter le rapport d'aspect)."
         )
 
         # Affichage : VRR, HDR, overlay MangoHud géré par Gamescope
@@ -420,12 +437,6 @@ class GameEditor(Gtk.Window):
             bool(features.get("gamescope_mangoapp", False)),
             tr("gamescope_mangoapp_tooltip")
             or "Affiche l'overlay MangoHud via Gamescope (--mangoapp).",
-        )
-
-        # Un seul filtre (-F) et un seul scaler (-S) à la fois.
-        self._make_exclusive(self.gamescope_fsr, self.gamescope_nis)
-        self._make_exclusive(
-            self.gamescope_integer_scaling, self.gamescope_stretch
         )
 
         # Limiteur de FPS : -r (0 = désactivé)
@@ -465,9 +476,13 @@ class GameEditor(Gtk.Window):
                "(--force-grab-cursor)."
         )
 
-        self.gamescope_fsr_row = self._row(
-            tr("gamescope_fsr") or "Activer l'upscaling FSR",
-            self.gamescope_fsr,
+        self.gamescope_upscaler_row = self._row(
+            tr("gamescope_upscaling") or "Upscaling",
+            self.gamescope_upscaler,
+        )
+        self.gamescope_scaler_row = self._row(
+            tr("gamescope_scaler") or "Mise à l'échelle",
+            self.gamescope_scaler,
         )
         self.gamescope_fps_limit_row = self._row(
             tr("gamescope_fps_limit")
@@ -478,18 +493,6 @@ class GameEditor(Gtk.Window):
             tr("gamescope_force_grab_cursor")
             or "Forcer la capture du curseur",
             self.gamescope_force_grab_cursor,
-        )
-        self.gamescope_nis_row = self._row(
-            tr("gamescope_nis") or "Activer NVIDIA Image Scaling (NIS)",
-            self.gamescope_nis,
-        )
-        self.gamescope_integer_scaling_row = self._row(
-            tr("gamescope_integer_scaling") or "Activer l'Integer Scaling",
-            self.gamescope_integer_scaling,
-        )
-        self.gamescope_stretch_row = self._row(
-            tr("gamescope_stretch") or "Étirer l'image pour remplir l'écran",
-            self.gamescope_stretch,
         )
         self.gamescope_adaptive_sync_row = self._row(
             tr("gamescope_adaptive_sync")
@@ -516,10 +519,8 @@ class GameEditor(Gtk.Window):
         for _gs_row in (
             self.gamescope_internal_row,
             self.gamescope_output_row,
-            self.gamescope_fsr_row,
-            self.gamescope_nis_row,
-            self.gamescope_integer_scaling_row,
-            self.gamescope_stretch_row,
+            self.gamescope_upscaler_row,
+            self.gamescope_scaler_row,
             self.gamescope_fps_limit_row,
             self.gamescope_force_grab_cursor_row,
             self.gamescope_borderless_row,
@@ -538,10 +539,8 @@ class GameEditor(Gtk.Window):
         self.gamescope_settings.set_margin_bottom(4)
         self.gamescope_settings.append(self.gamescope_internal_row)
         self.gamescope_settings.append(self.gamescope_output_row)
-        self.gamescope_settings.append(self.gamescope_fsr_row)
-        self.gamescope_settings.append(self.gamescope_nis_row)
-        self.gamescope_settings.append(self.gamescope_integer_scaling_row)
-        self.gamescope_settings.append(self.gamescope_stretch_row)
+        self.gamescope_settings.append(self.gamescope_upscaler_row)
+        self.gamescope_settings.append(self.gamescope_scaler_row)
         self.gamescope_settings.append(self.gamescope_fps_limit_row)
         self.gamescope_settings.append(self.gamescope_force_grab_cursor_row)
         self.gamescope_settings.append(self.gamescope_borderless_row)
@@ -749,14 +748,26 @@ class GameEditor(Gtk.Window):
         return switch
 
     @staticmethod
-    def _make_exclusive(switch_a, switch_b):
-        """Activer l'un des deux interrupteurs désactive l'autre."""
-        def on_toggled(source, _pspec, other):
-            if source.get_active() and other.get_active():
-                other.set_active(False)
+    def _select_choice(dropdown, choices, value):
+        """Sélectionne `value` dans un menu de couples (libellé, valeur)."""
+        values = [choice_value for _label, choice_value in choices]
+        dropdown.set_selected(values.index(value) if value in values else 0)
 
-        switch_a.connect("notify::active", on_toggled, switch_b)
-        switch_b.connect("notify::active", on_toggled, switch_a)
+    @staticmethod
+    def _get_choice(dropdown, choices):
+        """Valeur du choix sélectionné (premier choix si aucun)."""
+        index = dropdown.get_selected()
+        return choices[index][1] if index < len(choices) else choices[0][1]
+
+    def _get_gamescope_upscaler(self):
+        return self._get_choice(
+            self.gamescope_upscaler, self._gamescope_upscalers
+        )
+
+    def _get_gamescope_scaler(self):
+        return self._get_choice(
+            self.gamescope_scaler, self._gamescope_scalers
+        )
 
     # -------------------------
     # TABS HELPERS
@@ -1386,11 +1397,16 @@ class GameEditor(Gtk.Window):
             "gamescope_output_resolution": self._get_gamescope_resolution(
                 self.gamescope_output_resolution
             ),
-            "gamescope_fsr": self.gamescope_fsr.get_active(),
-            "gamescope_nis": self.gamescope_nis.get_active(),
+            # Nouvelles clés (menus)...
+            "gamescope_upscaler": self._get_gamescope_upscaler(),
+            "gamescope_scaler": self._get_gamescope_scaler(),
+            # ... et anciennes clés recopiées : une version précédente de
+            # l'application, ou une autre machine, continue de les lire.
+            "gamescope_fsr": self._get_gamescope_upscaler() == "fsr",
+            "gamescope_nis": self._get_gamescope_upscaler() == "nis",
             "gamescope_integer_scaling":
-                self.gamescope_integer_scaling.get_active(),
-            "gamescope_stretch": self.gamescope_stretch.get_active(),
+                self._get_gamescope_scaler() == "integer",
+            "gamescope_stretch": self._get_gamescope_scaler() == "stretch",
             "gamescope_adaptive_sync":
                 self.gamescope_adaptive_sync.get_active(),
             "gamescope_hdr": self.gamescope_hdr.get_active(),

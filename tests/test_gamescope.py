@@ -1090,3 +1090,182 @@ def test_borderless_example_configuration(screen_2560):
         assert actual.get(flag) == value
 
     assert set(actual) - set(expected) <= {"--force-grab-cursor"}
+
+
+# ---------------------------------
+# Menus « Upscaling » / « Mise à l'échelle » et variables HDR
+# ---------------------------------
+
+from proton_autogen.utils.gamescope import (  # noqa: E402
+    GAMESCOPE_HDR_GAME_ENV,
+    resolve_scaler,
+    resolve_upscaler,
+)
+
+
+@pytest.mark.parametrize(
+    "features, expected",
+    [
+        ({}, "none"),
+        (None, "none"),
+        ("pas un dict", "none"),
+        # Anciennes clés (rétro-compatibilité)
+        ({"gamescope_fsr": True}, "fsr"),
+        ({"gamescope_nis": True}, "nis"),
+        ({"gamescope_fsr": True, "gamescope_nis": True}, "fsr"),
+        ({"gamescope_nis": "true"}, "nis"),
+        ({"gamescope_fsr": False, "gamescope_nis": False}, "none"),
+        # Nouvelle clé
+        ({"gamescope_upscaler": "fsr"}, "fsr"),
+        ({"gamescope_upscaler": "NIS"}, "nis"),
+        ({"gamescope_upscaler": " none "}, "none"),
+        # La nouvelle clé l'emporte, même sur d'anciennes clés actives
+        ({"gamescope_upscaler": "none", "gamescope_fsr": True}, "none"),
+        ({"gamescope_upscaler": "nis", "gamescope_fsr": True}, "nis"),
+        # Valeur invalide : repli sur les anciennes clés
+        ({"gamescope_upscaler": "bidon", "gamescope_fsr": True}, "fsr"),
+        ({"gamescope_upscaler": None, "gamescope_nis": True}, "nis"),
+        ({"gamescope_upscaler": 3}, "none"),
+    ],
+)
+def test_resolve_upscaler(features, expected):
+    assert resolve_upscaler(features) == expected
+
+
+@pytest.mark.parametrize(
+    "features, expected",
+    [
+        ({}, "auto"),
+        (None, "auto"),
+        # Anciennes clés (rétro-compatibilité)
+        ({"gamescope_integer_scaling": True}, "integer"),
+        ({"gamescope_stretch": True}, "stretch"),
+        (
+            {"gamescope_integer_scaling": True, "gamescope_stretch": True},
+            "integer",
+        ),
+        # Nouvelle clé
+        ({"gamescope_scaler": "stretch"}, "stretch"),
+        ({"gamescope_scaler": "INTEGER"}, "integer"),
+        ({"gamescope_scaler": "fit"}, "fit"),
+        # La nouvelle clé l'emporte, y compris « auto »
+        ({"gamescope_scaler": "auto", "gamescope_integer_scaling": True}, "auto"),
+        ({"gamescope_scaler": "stretch", "gamescope_integer_scaling": True}, "stretch"),
+        # Valeur invalide : repli sur les anciennes clés
+        ({"gamescope_scaler": "bidon", "gamescope_stretch": True}, "stretch"),
+        ({"gamescope_scaler": "none"}, "auto"),
+    ],
+)
+def test_resolve_scaler(features, expected):
+    assert resolve_scaler(features) == expected
+
+
+def test_features_new_upscaler_key(screen_2560):
+    fsr = _command_from_features({"gamescope_upscaler": "fsr"})
+    nis = _command_from_features({"gamescope_upscaler": "nis"})
+    off = _command_from_features({"gamescope_upscaler": "none"})
+
+    assert fsr[fsr.index("-F") + 1] == "fsr"
+    assert nis[nis.index("-F") + 1] == "nis"
+    assert "-F" not in off
+
+
+def test_features_new_scaler_key(screen_2560):
+    integer = _command_from_features({"gamescope_scaler": "integer"})
+    stretch = _command_from_features({"gamescope_scaler": "stretch"})
+    auto = _command_from_features({"gamescope_scaler": "auto"})
+
+    assert integer[integer.index("-S") + 1] == "integer"
+    assert stretch[stretch.index("-S") + 1] == "stretch"
+    assert "-S" not in auto
+
+
+def test_features_new_keys_override_legacy_keys(screen_2560):
+    """Menu à « Désactivé » / « Automatique » : les anciennes clés, restées
+    actives dans le fichier de config, ne doivent plus rien produire."""
+    command = _command_from_features(
+        {
+            "gamescope_upscaler": "none",
+            "gamescope_scaler": "auto",
+            "gamescope_fsr": True,
+            "gamescope_integer_scaling": True,
+        }
+    )
+
+    assert "-F" not in command
+    assert "-S" not in command
+
+
+def test_features_legacy_and_new_keys_give_same_command(screen_2560):
+    """Ce que l'éditeur enregistre (nouvelles clés + anciennes recopiées)
+    donne la même commande qu'une configuration d'avant les menus."""
+    legacy = _command_from_features(
+        {"gamescope_nis": True, "gamescope_stretch": True}
+    )
+    saved_by_editor = _command_from_features(
+        {
+            "gamescope_upscaler": "nis",
+            "gamescope_scaler": "stretch",
+            "gamescope_fsr": False,
+            "gamescope_nis": True,
+            "gamescope_integer_scaling": False,
+            "gamescope_stretch": True,
+        }
+    )
+
+    assert legacy == saved_by_editor
+
+
+# --- HDR : variables posées pour le jeu ---
+
+def test_hdr_game_env_is_minimal():
+    """DXVK_HDR seulement : ENABLE_GAMESCOPE_WSI est déjà posée par
+    Gamescope, et PROTON_ENABLE_HDR est obsolète sur Proton-CachyOS."""
+    assert GAMESCOPE_HDR_GAME_ENV == {"DXVK_HDR": "1"}
+
+
+def test_hdr_sets_game_variables(screen_2560):
+    env = _apply_gamescope_features({}, True, {"gamescope_hdr": True})
+
+    assert env["DXVK_HDR"] == "1"
+    assert "ENABLE_GAMESCOPE_WSI" not in env
+    assert "PROTON_ENABLE_HDR" not in env
+
+
+def test_hdr_off_sets_no_game_variable(screen_2560):
+    env = _apply_gamescope_features({}, True, {"gamescope_hdr": False})
+
+    assert "DXVK_HDR" not in env
+
+
+def test_hdr_variables_follow_the_switch_only_when_gamescope_is_on(screen_2560):
+    env = _apply_gamescope_features({}, False, {"gamescope_hdr": True})
+
+    assert "DXVK_HDR" not in env
+
+
+def test_hdr_variables_not_set_when_gamescope_is_missing(monkeypatch):
+    monkeypatch.setattr(f"{MODULE}.has_gamescope", lambda: False)
+
+    env = _apply_gamescope_features({}, True, {"gamescope_hdr": True})
+
+    assert "DXVK_HDR" not in env
+
+
+def test_hdr_keeps_other_variables(screen_2560):
+    env = _apply_gamescope_features(
+        {"OTHER_VARIABLE": "keep"}, True, {"gamescope_hdr": True}
+    )
+
+    assert env["OTHER_VARIABLE"] == "keep"
+    assert env["DXVK_HDR"] == "1"
+
+
+def test_hdr_explicit_choice_replaces_a_previous_dxvk_hdr(screen_2560):
+    """Choix explicite de l'utilisateur ; ses variables personnalisées,
+    appliquées après, restent prioritaires."""
+    env = _apply_gamescope_features(
+        {"DXVK_HDR": "0"}, True, {"gamescope_hdr": True}
+    )
+
+    assert env["DXVK_HDR"] == "1"
