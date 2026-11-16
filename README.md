@@ -282,12 +282,10 @@ A big thank you to our partners for supporting the development of Proton-Autogen
 
 <p align="center">
   <a href="https://ekimia.fr/?aff=1558" target="_blank">
-    <img src="https://ekimia.fr/favicon.ico" alt="Ekimia" width="48">
+    <img src="https://ekimia.fr/wp-content/uploads/2014/09/cropped-ekimia-32x32.jpg" alt="Ekimia" width="32">
     <br>
     <strong>Ekimia</strong>
   </a>
-  <br>
-  <a href="https://ekimia.fr/?aff=1558">Discover Ekimia</a>
 </p>
 
 Interested in supporting Proton-Autogen?
