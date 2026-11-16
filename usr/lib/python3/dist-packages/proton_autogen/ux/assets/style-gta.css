@@ -276,8 +276,7 @@ button.destructive-action:hover {
     color: #0b1020;
     border-radius: 6px;
     font-weight: bold;
-
-    padding: 2px 6px;
+    padding: 4px 14px;
     min-width: 28px;
     min-height: 28px;
     font-size: 11px;
@@ -349,9 +348,7 @@ button.destructive-action:hover {
 
     border: 1px solid rgba(255,255,255,0.07);
     border-radius: 14px;
-
-    padding: 10px 12px;
-
+    padding: 10px 18px 10px 2px;
     box-shadow:
         0 4px 12px rgba(0,0,0,0.30);
 }

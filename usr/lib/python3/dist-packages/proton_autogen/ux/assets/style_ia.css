@@ -208,15 +208,13 @@ button.suggested-action:hover {
 }
 
 .btn-launch {
-
     background: @accent;
     color: white;
     border: none;
     border-radius: 8px;
     min-width: 30px;
     min-height: 30px;
-    padding: 4px 8px;
-
+    padding: 4px 12px;
     font-weight: 600;
 }
 
@@ -308,7 +306,7 @@ button.suggested-action:hover {
 .game-container {
     background: linear-gradient(180deg, @surface, @bg-alt);
     border-radius: 12px;
-    padding: 10px 12px;
+    padding: 10px 18px 10px 2px;
     border: 1px solid rgba(255,255,255,0.04);
     box-shadow: 0 6px 14px rgba(0,0,0,0.45);
     transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease;

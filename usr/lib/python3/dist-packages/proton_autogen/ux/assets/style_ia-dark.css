@@ -318,9 +318,7 @@ button.destructive-action:hover {
         );
 
     border-radius:14px;
-
-    padding:10px 12px;
-
+    padding: 10px 18px 10px 2px;
     border:
         1px solid rgba(255,255,255,0.06);
 }

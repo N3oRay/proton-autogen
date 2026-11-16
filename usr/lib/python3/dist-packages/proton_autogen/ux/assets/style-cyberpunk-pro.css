@@ -363,6 +363,7 @@ button.destructive-action:hover {
 
 .btn-launch {
     background: rgba(95,211,160,0.12);
+    padding: 2px 14px;
     color: @pro_success;
     border: 1px solid rgba(95,211,160,0.40);
 }
@@ -489,9 +490,7 @@ button.alternative-action label {
     border: 1px solid rgba(106,109,200,0.18);
     border-left: 3px solid @pro_accent;
     border-radius: 10px;
-
-    padding: 10px 12px;
-
+    padding: 10px 18px 10px 2px;
     transition: background 180ms ease, border-color 180ms ease,
                 box-shadow 180ms ease;
 }

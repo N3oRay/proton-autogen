@@ -518,9 +518,7 @@ button.alternative-action label {
     border: 1px solid rgba(234,150,176,0.18);
     border-left: 4px solid @kw_accent;
     border-radius: 14px;
-
-    padding: 10px 14px;
-
+    padding: 10px 18px 10px 2px;
     transition: background 180ms ease, border-color 180ms ease,
                 box-shadow 180ms ease;
 }

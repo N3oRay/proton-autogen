@@ -378,7 +378,7 @@ button.destructive-action:hover {
 
     border-radius:22px;
     border:2px solid #f6dced;
-    padding:8px;
+    padding: 8px 18px 8px 2px;
     box-shadow:
         0 8px 24px rgba(255,170,210,0.18);
 }

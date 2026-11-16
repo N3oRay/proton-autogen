@@ -457,9 +457,7 @@ button.destructive-action label {
     border: 1px solid rgba(0,240,255,0.14);
     border-left: 3px solid @neon_cyan;
     border-radius: 8px;
-
-    padding: 10px 12px;
-
+    padding: 10px 18px 10px 2px;
     transition: background 180ms ease, border-color 180ms ease,
                 box-shadow 180ms ease;
 }
