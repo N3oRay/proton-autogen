@@ -1,6 +1,11 @@
-proton-autogen (3.4.6) noble; urgency=medium
+proton-autogen (3.4.7) noble; urgency=medium
 
   * Thanks to all users and contributors for their continued support, feedback and bug reports.
+  * Added — Nouvelles fonctionnalités.
+  * Improved — Améliorations et optimisations.
+  * Fixed — Corrections de bugs.
+  * Internal — Refactoring, architecture et maintenance.
+  * Packaging — Installateurs, Debian, AUR et Flatpak.
 
   * NVIDIA Image Scaling (NIS): Added support for NVIDIA Image Scaling upscaling.
   * Integer Scaling: Added integer-based image scaling.
