@@ -37,16 +37,30 @@ def _ux_imports(path):
     return found
 
 
+# La commande addux est un point d'entrée UX : seul cet import est autorisé.
+ALLOWED_UX_IMPORTS = {
+    "cli_addux.py": {"proton_autogen.ux.dashboard"},
+}
+
+
 def test_aucun_module_metier_n_importe_ux():
     violations = []
 
     for path in sorted(PACKAGE_DIR.rglob("*.py")):
         relative = path.relative_to(PACKAGE_DIR)
 
-        if relative.parts[0] in ("ux", "locales") or relative.name in COMPAT_SHIMS and len(relative.parts) == 1:
+        if (
+            relative.parts[0] in ("ux", "locales")
+            or relative.name in COMPAT_SHIMS and len(relative.parts) == 1
+        ):
             continue
 
-        violations += [f"{relative}:{line} importe {module}" for line, module in _ux_imports(path)]
+        allowed = ALLOWED_UX_IMPORTS.get(relative.as_posix(), set())
+        violations += [
+            f"{relative}:{line} importe {module}"
+            for line, module in _ux_imports(path)
+            if module not in allowed
+        ]
 
     assert violations == []
 
