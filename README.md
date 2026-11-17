@@ -10,6 +10,7 @@
 Proton-Autogen is a lightweight tool that lets you launch Windows applications and games on Linux using Proton (or Wine), **without creating Steam shortcuts or managing prefixes manually**.
 
 Once an application is launched, Proton-Autogen uses almost no system resources.
+
 ---
 🎬 Quick Demo - run Windows EXE on Linux
 
