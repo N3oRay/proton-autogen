@@ -110,6 +110,11 @@ package() {
         usr/share/nemo/actions/proton-autogen.nemo_action \
         "$pkgdir/usr/share/nemo/actions/proton-autogen.nemo_action"
 
+    # Nemo : action « Ajouter à Proton-Autogen » (proton-autogen addux)
+    install -Dm644 \
+        usr/share/nemo/actions/proton-autogen-addux.nemo_action \
+        "$pkgdir/usr/share/nemo/actions/proton-autogen-addux.nemo_action"
+
     # Nautilus (extension python-nautilus)
     install -Dm644 \
         usr/share/nautilus-python/extensions/proton_autogen_nautilus.py \

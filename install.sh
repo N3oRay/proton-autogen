@@ -154,6 +154,11 @@ install_file_manager_integrations() {
         sudo install -Dm644 \
             usr/share/nemo/actions/proton-autogen.nemo_action \
             /usr/share/nemo/actions/proton-autogen.nemo_action
+
+        # Action « Ajouter à Proton-Autogen » (proton-autogen addux)
+        sudo install -Dm644 \
+            usr/share/nemo/actions/proton-autogen-addux.nemo_action \
+            /usr/share/nemo/actions/proton-autogen-addux.nemo_action
     else
         echo "==> Nemo not detected. Skipping Nemo action."
     fi

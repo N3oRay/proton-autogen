@@ -19,7 +19,8 @@ echo "==> Removing user configuration..."
 #    "${HOME}/.config/proton-autogen"
 
 rm -f \
-    "${HOME}/.local/share/nemo/actions/proton-autogen.nemo_action"
+    "${HOME}/.local/share/nemo/actions/proton-autogen.nemo_action" \
+    "${HOME}/.local/share/nemo/actions/proton-autogen-addux.nemo_action"
 
 
 echo "==> Removing executable..."
@@ -61,7 +62,8 @@ sudo rm -f \
 echo "==> Removing Nemo action..."
 
 sudo rm -f \
-    /usr/share/nemo/actions/proton-autogen.nemo_action
+    /usr/share/nemo/actions/proton-autogen.nemo_action \
+    /usr/share/nemo/actions/proton-autogen-addux.nemo_action
 
 
 echo "==> Removing man page..."

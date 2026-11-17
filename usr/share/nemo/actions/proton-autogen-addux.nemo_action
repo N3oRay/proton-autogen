@@ -1,0 +1,10 @@
+[Nemo Action]
+Name=Add to Proton-Autogen
+Name[fr]=Ajouter à Proton-Autogen
+Comment=Register this program in Proton-Autogen and open the UX
+Comment[fr]=Enregistrer ce programme dans Proton-Autogen et ouvrir l'UX
+Exec=proton-autogen addux %F
+Icon-Name=proton-autogen
+Selection=s
+Extensions=exe;msi;bat;lnk;
+Quote=double

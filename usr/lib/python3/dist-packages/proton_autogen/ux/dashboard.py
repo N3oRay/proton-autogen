@@ -21,6 +21,7 @@ from proton_autogen.ux.dashboard_saves import DashboardSavesMixin
 from proton_autogen.ux.dashboard_import import DashboardImportMixin
 from proton_autogen.ux.dashboard_running import DashboardRunningMixin
 from proton_autogen.ux.dashboard_drop import DashboardDropMixin
+from proton_autogen.ux.dashboard_addux import DashboardAddUxMixin, register_addux_action
 
 from proton_autogen.ux.themes import (
     load_saved_theme, save_theme, AVAILABLE_THEMES, DEFAULT_THEME,
@@ -42,7 +43,7 @@ from proton_autogen.backend import list_programs_ux
 # -----------------------------
 # MAIN WINDOW
 # -----------------------------
-class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, DashboardActionsMixin, DashboardMangoHudMixin, DashboardCreateShortcutMixin, DashboardSettingsMixin, DashboardShortcutsMixin, DashboardSavesMixin, DashboardImportMixin, DashboardRunningMixin, DashboardDropMixin, Gtk.ApplicationWindow):
+class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, DashboardActionsMixin, DashboardMangoHudMixin, DashboardCreateShortcutMixin, DashboardSettingsMixin, DashboardShortcutsMixin, DashboardSavesMixin, DashboardImportMixin, DashboardRunningMixin, DashboardDropMixin, DashboardAddUxMixin, Gtk.ApplicationWindow):
     SHOW_ADD_BUTTON = True
     SHOW_IMPORT_BUTTON = True
     SHOW_REFRESH_BUTTON = True
@@ -373,6 +374,9 @@ class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, Das
         )
         self.status.add_css_class("label-bottom")
 
+        # `proton-autogen addux` : ouvre l'éditeur du jeu demandé (si besoin)
+        self._addux_after_load()
+
         # Check System Status :
         threading.Thread(
             target=self._check_system_status,
@@ -463,10 +467,20 @@ class ProtonAutogenApp(Gtk.Application):
     def do_activate(self):
         self._create_actions()
         win = Dashboard(self)
+
+        # Demande `proton-autogen addux` reçue au démarrage (voir start_dashboard)
+        pending = getattr(self, "pending_addux_path", None)
+        if pending:
+            self.pending_addux_path = None
+            win.addux_open(pending, refresh=False)
+
         win.present()
 
 
     def _create_actions(self):
+
+        # `proton-autogen addux` depuis une UX déjà ouverte (action app.addux)
+        register_addux_action(self)
 
         # Mangohud SENSORS
         mgh = Gio.SimpleAction.new("mangohud", None)
@@ -635,6 +649,24 @@ class ProtonAutogenApp(Gtk.Application):
         )
 
 
-def start_dashboard():
+def start_dashboard(open_path=None):
+    """Lance l'UX. open_path : programme dont l'éditeur doit s'ouvrir."""
     app = ProtonAutogenApp()
+
+    if open_path:
+        app.pending_addux_path = open_path
+
+        # UX déjà ouverte dans un autre processus : on lui délègue la demande
+        # (pas de seconde fenêtre) puis on quitte.
+        app.register(None)
+        if app.get_is_remote():
+            app.activate_action("addux", GLib.Variant("s", open_path))
+            try:
+                # Le processus va se terminer : on s'assure que le message
+                # D-Bus est bien parti.
+                app.get_dbus_connection().flush_sync(None)
+            except Exception:
+                pass
+            return
+
     app.run()

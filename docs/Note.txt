@@ -19,7 +19,8 @@ FEATURES
 ----------------------------------------
 
 - Run .exe files directly via Proton
-- File manager integration (right-click support in Nemo)
+- File manager integration (right-click support in Nemo, Nautilus, Dolphin)
+- "Add to Proton-Autogen": register a program and open the UX in one step
 - Automatic environment setup for Proton execution
 - Support for custom Proton builds (e.g. GE-Proton)
 - Clean and simple CLI usage
@@ -32,9 +33,14 @@ From terminal:
 
     proton-autogen /path/to/file.exe
 
+Add a program and open the UX in one step:
+
+    proton-autogen addux /path/to/file.exe
+
 Or via file manager:
 
     Right click on a .exe file → "Open with Proton-Autogen"
+    Right click on a .exe file → "Add to Proton-Autogen"
 
 ----------------------------------------
 REQUIREMENTS
@@ -88,6 +94,7 @@ After purge, you may also want to remove user config manually:
 If the Nemo action still exists (rare case):
 
     rm -f ~/.local/share/nemo/actions/proton-autogen.nemo_action
+    rm -f ~/.local/share/nemo/actions/proton-autogen-addux.nemo_action
     nemo -q
 
 ----------------------------------------
@@ -95,7 +102,10 @@ FILES INSTALLED
 ----------------------------------------
 
 - /usr/bin/proton-autogen
-- ~/.local/share/nemo/actions/proton-autogen.nemo_action
+- /usr/share/nemo/actions/proton-autogen.nemo_action
+- /usr/share/nemo/actions/proton-autogen-addux.nemo_action
+- /usr/share/nautilus-python/extensions/proton_autogen_nautilus.py
+- /usr/share/kio/servicemenus/proton-autogen.desktop
 
 ----------------------------------------
 KNOWN LIMITATIONS

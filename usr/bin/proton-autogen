@@ -209,6 +209,14 @@ def main():
             return
         add_game(sys.argv[2])
         return
+    #addux : add + lancement de l'UX (intégration clic droit des gestionnaires de fichiers)
+    if sys.argv[1] == "addux":
+        if len(sys.argv) < 3:
+            print("Usage: proton-autogen addux <file.exe>")
+            return
+        # Import différé : n'alourdit pas les autres commandes
+        from proton_autogen.cli_addux import run_addux
+        sys.exit(run_addux(sys.argv[2]))
     #edit_game_ui
     if sys.argv[1] == "edit":
         if len(sys.argv) < 3:

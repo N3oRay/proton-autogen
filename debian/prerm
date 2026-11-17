@@ -8,5 +8,6 @@ if [ -z "$USER_HOME" ]; then
 fi
 
 rm -f "$USER_HOME/.local/share/nemo/actions/proton-autogen.nemo_action" || true
+rm -f "$USER_HOME/.local/share/nemo/actions/proton-autogen-addux.nemo_action" || true
 
 exit 0

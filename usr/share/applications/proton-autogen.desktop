@@ -1,18 +1,44 @@
 [Desktop Entry]
-Version=1.0
-Type=Application
+Type=Service
+MimeType=application/x-ms-dos-executable;application/x-msdownload;application/vnd.microsoft.portable-executable;application/x-msi;
+Actions=RunWithProtonAutogen;AddToProtonAutogen;
+X-KDE-Priority=TopLevel
 
-Name=Proton-Autogen
-Name[fr]=Proton-Autogen
+[Desktop Action RunWithProtonAutogen]
+Name=Open with Proton-Autogen
+Name[fr]=Exécuter avec Proton-Autogen
+Name[de]=Mit Proton-Autogen öffnen
+Name[es]=Abrir con Proton-Autogen
+Name[it]=Apri con Proton-Autogen
+Name[pt]=Abrir com Proton-Autogen
+Name[pt_BR]=Abrir com Proton-Autogen
+Name[nl]=Openen met Proton-Autogen
+Name[pl]=Otwórz za pomocą Proton-Autogen
+Name[ru]=Открыть с помощью Proton-Autogen
+Name[uk]=Відкрити за допомогою Proton-Autogen
+Name[ja]=Proton-Autogenで開く
+Name[ko]=Proton-Autogen으로 열기
+Name[zh_CN]=使用 Proton-Autogen 打开
+Name[zh_TW]=使用 Proton-Autogen 開啟
 
-Comment=Manage and run Windows games with Proton and per-game optimization
-Comment[fr]=Gérer et exécuter des jeux Windows avec Proton et des optimisations par jeu
+Icon=proton-autogen
+Exec=proton-autogen %f
 
-Exec=proton-autogen --ux
-Icon=io.github.N3oRay.ProtonAutogen
-
-Terminal=false
-StartupNotify=true
-
-Categories=Game;Utility;
-Keywords=Proton;Wine;Windows;Gaming;Launcher;
+[Desktop Action AddToProtonAutogen]
+Name=Add to Proton-Autogen
+Name[fr]=Ajouter à Proton-Autogen
+Name[de]=Zu Proton-Autogen hinzufügen
+Name[es]=Añadir a Proton-Autogen
+Name[it]=Aggiungi a Proton-Autogen
+Name[pt]=Adicionar ao Proton-Autogen
+Name[pt_BR]=Adicionar ao Proton-Autogen
+Name[nl]=Toevoegen aan Proton-Autogen
+Name[pl]=Dodaj do Proton-Autogen
+Name[ru]=Добавить в Proton-Autogen
+Name[uk]=Додати до Proton-Autogen
+Name[ja]=Proton-Autogenに追加
+Name[ko]=Proton-Autogen에 추가
+Name[zh_CN]=添加到 Proton-Autogen
+Name[zh_TW]=新增至 Proton-Autogen
+Icon=proton-autogen
+Exec=proton-autogen addux %f

@@ -138,6 +138,33 @@ sudo install -m644 \
     /usr/share/icons/hicolor/256x256/apps/
 
 # -----------------------------
+# 7b. Update file manager integrations (right-click menus)
+# -----------------------------
+echo "==> Updating file manager integrations..."
+
+# Même détection que install.sh ; on ne touche qu'aux gestionnaires présents.
+if command -v dolphin >/dev/null 2>&1 || command -v kioexec >/dev/null 2>&1; then
+    sudo install -Dm644 \
+        usr/share/kio/servicemenus/proton-autogen.desktop \
+        /usr/share/kio/servicemenus/proton-autogen.desktop
+fi
+
+if command -v nautilus >/dev/null 2>&1; then
+    sudo install -Dm644 \
+        usr/share/nautilus-python/extensions/proton_autogen_nautilus.py \
+        /usr/share/nautilus-python/extensions/proton_autogen_nautilus.py
+fi
+
+if command -v nemo >/dev/null 2>&1; then
+    sudo install -Dm644 \
+        usr/share/nemo/actions/proton-autogen.nemo_action \
+        /usr/share/nemo/actions/proton-autogen.nemo_action
+    sudo install -Dm644 \
+        usr/share/nemo/actions/proton-autogen-addux.nemo_action \
+        /usr/share/nemo/actions/proton-autogen-addux.nemo_action
+fi
+
+# -----------------------------
 # 8. Update Python module
 # -----------------------------
 echo "==> Updating Python module..."
@@ -167,4 +194,6 @@ echo ""
 echo "Run:"
 echo "  proton-autogen --help"
 echo "  proton-autogen --ux"
+echo ""
+echo "File manager menus: restart it to see changes (nautilus -q / nemo -q)."
 echo ""
