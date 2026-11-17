@@ -7,12 +7,9 @@
 ![Debian/ARCH Package](https://github.com/N3oRay/proton-autogen/actions/workflows/package.yml/badge.svg)
 ![Downloads](https://img.shields.io/github/downloads/N3oRay/proton-autogen/total)
 
-Proton-autogen automatically creates and configures Proton environments for Windows games and applications, applying optimized settings for the best compatibility.
+Proton-Autogen is a lightweight tool that lets you launch Windows applications and games on Linux using Proton (or Wine), **without creating Steam shortcuts or managing prefixes manually**.
 
-**Proton-autogen is a lightweight Proton/Wine orchestration layer that allows Linux users to run Windows applications from `.exe` files without manually managing Steam shortcuts or Wine prefixes.**
-
-
-Run Windows executables through Proton with zero Steam configuration.
+Once an application is launched, Proton-Autogen uses almost no system resources.
 ---
 🎬 Quick Demo - run Windows EXE on Linux
 
@@ -209,7 +206,7 @@ Supported locations:
 - GameMode - MangoHud - GameScope
 - Proton-CachyOS / GE-Proton
 - ProtonUp-Qt
-  
+
 ```bash
 sudo apt install gamemode mangohud
 ```
@@ -268,23 +265,22 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 [Activity info](docs/activity.md)
 
-## ❤️ Sponsors & Partners
+## ❤️ Support the project
 
-[Proton-Autogen is free and open source. Your support helps me continue development, improve compatibility, and maintain the project.](docs/SPONSORING.md)
+Proton-Autogen is free and open source.
+It is developed independently.
 
-☕  [Support me on Ko-fi](https://ko-fi.com/n3oray)
+If you find it useful, please consider supporting its continued development:
 
-Thank you! ❤️
+- [Open Collective](https://opencollective.com/proton-autogen)
+- [Ko-fi](https://ko-fi.com/n3oray)
 
-A big thank you to our partners for supporting the development of Proton-Autogen and the open-source ecosystem.
+→ Full details and sponsorship tiers: [docs/SPONSORING.md](docs/SPONSORING.md)
+→ Current supporters: [SUPPORTERS.md](SUPPORTERS.md)
 
-<p align="center">
-  <a href="https://ekimia.fr/?aff=1558" target="_blank">
-    <img src="https://ekimia.fr/wp-content/uploads/2014/09/cropped-ekimia-32x32.jpg" alt="Ekimia" width="32">
-    <br>
-    <strong>Ekimia</strong>
-  </a>
-</p>
+### Partners
 
-Interested in supporting Proton-Autogen?
-Feel free to contact us for sponsorship or partnership opportunities.
+<a href="https://ekimia.fr/?aff=1558" target="_blank">
+  <img src="https://ekimia.fr/wp-content/uploads/2014/09/cropped-ekimia-32x32.jpg" alt="Ekimia" width="28">
+  <strong>Ekimia</strong>
+</a> — Linux computers and free software solutions
