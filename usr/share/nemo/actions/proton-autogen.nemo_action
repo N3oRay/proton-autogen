@@ -1,9 +1,30 @@
 [Nemo Action]
-
 Name=Open with Proton-Autogen
-Comment=Run Windows exe using Proton or Wine fallback
+Name[bg]=Отваряне с Proton-Autogen
+Name[de]=Mit Proton-Autogen öffnen
+Name[el]=Άνοιγμα με το Proton-Autogen
+Name[es]=Abrir con Proton-Autogen
+Name[fi]=Avaa Proton-Autogenilla
+Name[fr]=Exécuter avec Proton-Autogen
+Name[hi]=Proton-Autogen के साथ खोलें
+Name[hu]=Megnyitás a Proton-Autogennel
+Name[it]=Apri con Proton-Autogen
+Name[ja]=Proton-Autogenで開く
+Name[ko]=Proton-Autogen으로 열기
+Name[ku]=Bi Proton-Autogen veke
+Name[nl]=Openen met Proton-Autogen
+Name[pl]=Otwórz za pomocą Proton-Autogen
+Name[pt]=Abrir com Proton-Autogen
+Name[pt_BR]=Abrir com Proton-Autogen
+Name[ru]=Открыть с помощью Proton-Autogen
+Name[th]=เปิดด้วย Proton-Autogen
+Name[uk]=Відкрити за допомогою Proton-Autogen
+Name[vi]=Mở bằng Proton-Autogen
+Name[zh_CN]=使用 Proton-Autogen 打开
+Name[zh_TW]=使用 Proton-Autogen 開啟
+Comment=Run this Windows program with Proton (or Wine); it is added to the library on first launch
 Exec=proton-autogen %F
 Icon-Name=proton-autogen
-Extensions=exe;
-Selection=single
+Selection=s
+Extensions=exe;EXE;msi;MSI;bat;BAT;lnk;LNK;
 Quote=double

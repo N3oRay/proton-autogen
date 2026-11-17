@@ -33,7 +33,8 @@ def _fail(message: str) -> int:
 
 
 def run_addux(raw_path: str) -> int:
-    path = Path(raw_path).expanduser().resolve()
+    # abspath (et non resolve) : même clé de config que run() et add_game_ux()
+    path = Path(os.path.abspath(os.path.expanduser(raw_path)))
 
     if not path.is_file():
         return _fail(f"file not found: {path}")

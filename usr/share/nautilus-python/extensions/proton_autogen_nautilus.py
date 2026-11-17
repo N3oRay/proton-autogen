@@ -1,7 +1,9 @@
 """Extension Nautilus : entrées de clic droit pour proton-autogen.
 
- - « Ouvrir avec Proton-Autogen » : lance le programme (comportement existant)
- - « Ajouter à Proton-Autogen »   : `proton-autogen addux <fichier>` (add + UX)
+ - « Open with Proton-Autogen » : `proton-autogen <fichier>`
+   (lance le programme ; sa configuration est créée au premier lancement)
+ - « Add to Proton-Autogen »    : `proton-autogen addux <fichier>`
+   (ajoute le programme et ouvre l'interface sur son éditeur)
 
 Compatible nautilus-python 3.0 (Nautilus < 43) et 4.0 (GTK4, Nautilus >= 43).
 """
@@ -20,15 +22,55 @@ from gi.repository import GObject, Nautilus
 
 EXTS = (".exe", ".msi", ".bat", ".lnk")
 
+# Libellés du menu : (« Open with », « Add to »)
 _LABELS = {
     "en": ("Open with Proton-Autogen", "Add to Proton-Autogen"),
+    "bg": ("Отваряне с Proton-Autogen", "Добавяне към Proton-Autogen"),
+    "de": ("Mit Proton-Autogen öffnen", "Zu Proton-Autogen hinzufügen"),
+    "el": ("Άνοιγμα με το Proton-Autogen", "Προσθήκη στο Proton-Autogen"),
+    "es": ("Abrir con Proton-Autogen", "Añadir a Proton-Autogen"),
+    "fi": ("Avaa Proton-Autogenilla", "Lisää Proton-Autogeniin"),
     "fr": ("Exécuter avec Proton-Autogen", "Ajouter à Proton-Autogen"),
+    "hi": ("Proton-Autogen के साथ खोलें", "Proton-Autogen में जोड़ें"),
+    "hu": ("Megnyitás a Proton-Autogennel", "Hozzáadás a Proton-Autogenhez"),
+    "it": ("Apri con Proton-Autogen", "Aggiungi a Proton-Autogen"),
+    "ja": ("Proton-Autogenで開く", "Proton-Autogenに追加"),
+    "ko": ("Proton-Autogen으로 열기", "Proton-Autogen에 추가"),
+    "ku": ("Bi Proton-Autogen veke", "Li Proton-Autogen zêde bike"),
+    "nl": ("Openen met Proton-Autogen", "Toevoegen aan Proton-Autogen"),
+    "pl": ("Otwórz za pomocą Proton-Autogen", "Dodaj do Proton-Autogen"),
+    "pt": ("Abrir com Proton-Autogen", "Adicionar ao Proton-Autogen"),
+    "pt_BR": ("Abrir com Proton-Autogen", "Adicionar ao Proton-Autogen"),
+    "ru": ("Открыть с помощью Proton-Autogen", "Добавить в Proton-Autogen"),
+    "th": ("เปิดด้วย Proton-Autogen", "เพิ่มไปยัง Proton-Autogen"),
+    "uk": ("Відкрити за допомогою Proton-Autogen", "Додати до Proton-Autogen"),
+    "vi": ("Mở bằng Proton-Autogen", "Thêm vào Proton-Autogen"),
+    "zh_CN": ("使用 Proton-Autogen 打开", "添加到 Proton-Autogen"),
+    "zh_TW": ("使用 Proton-Autogen 開啟", "新增至 Proton-Autogen"),
 }
+
+# Variantes sans région vers la langue la plus probable.
+_ALIASES = {"zh": "zh_CN"}
+
+
+def _locale_candidates():
+    """Locales demandées, dans l'ordre de priorité de gettext."""
+    raw = os.environ.get("LANGUAGE", "").split(":")
+    raw += [os.environ.get(v, "") for v in ("LC_ALL", "LC_MESSAGES", "LANG")]
+    for value in raw:
+        code = value.split(".")[0].split("@")[0].strip()
+        if code and code not in ("C", "POSIX"):
+            yield code
+            if "_" in code:
+                yield code.split("_")[0]
 
 
 def _labels():
-    lang = (os.environ.get("LANGUAGE") or os.environ.get("LANG") or "en")[:2]
-    return _LABELS.get(lang, _LABELS["en"])
+    for code in _locale_candidates():
+        code = _ALIASES.get(code, code)
+        if code in _LABELS:
+            return _LABELS[code]
+    return _LABELS["en"]
 
 
 def _binary():
@@ -68,14 +110,14 @@ class ProtonAutogenExtension(GObject.GObject, Nautilus.MenuProvider):
         run_item = Nautilus.MenuItem(
             name="ProtonAutogen::Open",
             label=label_run,
-            tip="Run this program using Proton or Wine fallback",
+            tip="Run this Windows program (added to the library on first launch)",
         )
         run_item.connect("activate", self._on_run, path)
 
         add_item = Nautilus.MenuItem(
             name="ProtonAutogen::AddUx",
             label=label_add,
-            tip="Register this program in Proton-Autogen and open the UX",
+            tip="Add this program to Proton-Autogen and open it in the interface",
         )
         add_item.connect("activate", self._on_addux, path)
 

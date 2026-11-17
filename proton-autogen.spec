@@ -89,6 +89,9 @@ install -Dm644 usr/share/nautilus-python/extensions/proton_autogen_nautilus.py \
 install -Dm644 usr/share/nemo/actions/%{name}.nemo_action \
     "%{buildroot}%{_datadir}/nemo/actions/%{name}.nemo_action" || true
 
+install -Dm644 usr/share/nemo/actions/%{name}-addux.nemo_action \
+    "%{buildroot}%{_datadir}/nemo/actions/%{name}-addux.nemo_action" || true
+
 # Install Dolphin/KDE integration
 install -Dm644 usr/share/kio/servicemenus/%{name}.desktop \
     "%{buildroot}%{_datadir}/kio/servicemenus/%{name}.desktop" || true
@@ -116,6 +119,7 @@ PYTHONPATH="%{buildroot}%{python3_sitelib}:$PYTHONPATH" %{buildroot}%{_bindir}/%
 %{_datadir}/icons/hicolor/256x256/apps/%{name}.png
 %{_datadir}/icons/hicolor/256x256/apps/io.github.N3oRay.ProtonAutogen.png
 %{_datadir}/nemo/actions/%{name}.nemo_action
+%{_datadir}/nemo/actions/%{name}-addux.nemo_action
 %{_datadir}/kio/servicemenus/%{name}.desktop
 %{_datadir}/nautilus-python/extensions/proton_autogen_nautilus.py
 %{_mandir}/man1/%{name}.1.gz

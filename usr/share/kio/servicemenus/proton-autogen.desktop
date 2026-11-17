@@ -1,43 +1,58 @@
 [Desktop Entry]
 Type=Service
-MimeType=application/x-ms-dos-executable;application/x-msdownload;application/vnd.microsoft.portable-executable;application/x-msi;
+MimeType=application/x-ms-dos-executable;application/x-msdownload;application/vnd.microsoft.portable-executable;application/x-msi;application/x-bat;application/x-ms-shortcut;
 Actions=RunWithProtonAutogen;AddToProtonAutogen;
 X-KDE-Priority=TopLevel
 
 [Desktop Action RunWithProtonAutogen]
 Name=Open with Proton-Autogen
-Name[fr]=Exécuter avec Proton-Autogen
+Name[bg]=Отваряне с Proton-Autogen
 Name[de]=Mit Proton-Autogen öffnen
+Name[el]=Άνοιγμα με το Proton-Autogen
 Name[es]=Abrir con Proton-Autogen
+Name[fi]=Avaa Proton-Autogenilla
+Name[fr]=Exécuter avec Proton-Autogen
+Name[hi]=Proton-Autogen के साथ खोलें
+Name[hu]=Megnyitás a Proton-Autogennel
 Name[it]=Apri con Proton-Autogen
-Name[pt]=Abrir com Proton-Autogen
-Name[pt_BR]=Abrir com Proton-Autogen
-Name[nl]=Openen met Proton-Autogen
-Name[pl]=Otwórz za pomocą Proton-Autogen
-Name[ru]=Открыть с помощью Proton-Autogen
-Name[uk]=Відкрити за допомогою Proton-Autogen
 Name[ja]=Proton-Autogenで開く
 Name[ko]=Proton-Autogen으로 열기
+Name[ku]=Bi Proton-Autogen veke
+Name[nl]=Openen met Proton-Autogen
+Name[pl]=Otwórz za pomocą Proton-Autogen
+Name[pt]=Abrir com Proton-Autogen
+Name[pt_BR]=Abrir com Proton-Autogen
+Name[ru]=Открыть с помощью Proton-Autogen
+Name[th]=เปิดด้วย Proton-Autogen
+Name[uk]=Відкрити за допомогою Proton-Autogen
+Name[vi]=Mở bằng Proton-Autogen
 Name[zh_CN]=使用 Proton-Autogen 打开
 Name[zh_TW]=使用 Proton-Autogen 開啟
-
 Icon=proton-autogen
 Exec=proton-autogen %f
 
 [Desktop Action AddToProtonAutogen]
 Name=Add to Proton-Autogen
-Name[fr]=Ajouter à Proton-Autogen
+Name[bg]=Добавяне към Proton-Autogen
 Name[de]=Zu Proton-Autogen hinzufügen
+Name[el]=Προσθήκη στο Proton-Autogen
 Name[es]=Añadir a Proton-Autogen
+Name[fi]=Lisää Proton-Autogeniin
+Name[fr]=Ajouter à Proton-Autogen
+Name[hi]=Proton-Autogen में जोड़ें
+Name[hu]=Hozzáadás a Proton-Autogenhez
 Name[it]=Aggiungi a Proton-Autogen
-Name[pt]=Adicionar ao Proton-Autogen
-Name[pt_BR]=Adicionar ao Proton-Autogen
-Name[nl]=Toevoegen aan Proton-Autogen
-Name[pl]=Dodaj do Proton-Autogen
-Name[ru]=Добавить в Proton-Autogen
-Name[uk]=Додати до Proton-Autogen
 Name[ja]=Proton-Autogenに追加
 Name[ko]=Proton-Autogen에 추가
+Name[ku]=Li Proton-Autogen zêde bike
+Name[nl]=Toevoegen aan Proton-Autogen
+Name[pl]=Dodaj do Proton-Autogen
+Name[pt]=Adicionar ao Proton-Autogen
+Name[pt_BR]=Adicionar ao Proton-Autogen
+Name[ru]=Добавить в Proton-Autogen
+Name[th]=เพิ่มไปยัง Proton-Autogen
+Name[uk]=Додати до Proton-Autogen
+Name[vi]=Thêm vào Proton-Autogen
 Name[zh_CN]=添加到 Proton-Autogen
 Name[zh_TW]=新增至 Proton-Autogen
 Icon=proton-autogen

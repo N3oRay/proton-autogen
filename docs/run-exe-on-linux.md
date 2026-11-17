@@ -22,7 +22,7 @@ Many Windows `.exe` programs run on Linux without a virtual machine or a dual bo
    proton-autogen game.exe
    ```
 
-   or right-click the `.exe` in Nautilus, Nemo or Dolphin and choose **Open with Proton-Autogen**.
+   or right-click the `.exe` in Nautilus, Nemo or Dolphin and choose **Open with Proton-Autogen**. The first time, the program is also added to your library, so it shows up in the graphical interface.
 
 3. **Prefer a window?** Start the graphical interface:
 
@@ -84,7 +84,7 @@ Run
    ```
 
    with the profile's environment variables added, and `gamemoderun` and/or `gamescope` in front when you enable them.
-6. **Runs the program**, using the saved settings of the game when it has been registered with `add`.
+6. **Runs the program**, using the saved settings of the game. If the program has no settings file yet, one is created first (like `proton-autogen add game.exe`, without questions), with the prefix chosen for this launch. See [Features](features.md#automatic-registration-on-first-launch).
 
 ## Prefixes
 
@@ -108,8 +108,8 @@ prefix_dir = ~/Games/prefixes
 
 | Command | What it does |
 |---|---|
-| `proton-autogen game.exe` | Run a program with automatic Proton selection or its saved settings |
-| `proton-autogen run game.exe` | Run without using the saved profile |
+| `proton-autogen game.exe` | Run a program: added to the library on first launch, then its saved settings are used |
+| `proton-autogen run game.exe` | Same as `proton-autogen game.exe` |
 | `proton-autogen add game.exe` | Register a game and create its settings |
 | `proton-autogen edit game.exe` | Edit a registered game's settings |
 | `proton-autogen --ux` | Graphical interface (GTK4) |
@@ -169,7 +169,7 @@ Proton-Autogen does not need Steam shortcuts. It does need a Proton build, and t
 Yes, it is launched like any other `.exe`. Once the installation is done, launch the installed program the same way, and keep using the same prefix so it finds its files.
 
 **Where are my settings stored?**
-Under `~/.config/proton-autogen/`: registered games are in `games/`, the main configuration in `proton-autogen.conf`, and your profile overrides in `profiles.csv`.
+Under `~/.config/proton-autogen/`: registered games are in `games/` (a program is registered automatically the first time you run it), the main configuration in `proton-autogen.conf`, and your profile overrides in `profiles.csv`.
 
 **What if Proton and Wine are both missing?**
 Install one of them. The Wine fallback prints distribution-specific installation commands when `wine` is not found.

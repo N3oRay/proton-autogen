@@ -47,10 +47,22 @@ Proton-Autogen picks a Proton build, prepares the prefix and the environment var
 
 | Command | Purpose |
 |---|---|
-| `proton-autogen game.exe` | Run, using the saved settings of the game when it is registered |
-| `proton-autogen run game.exe` | Run without applying the saved profile |
-| `proton-autogen add game.exe` | Register a game and create its settings |
+| `proton-autogen game.exe` | Run. The first time, the program is added to the library; afterwards its saved settings are used |
+| `proton-autogen run game.exe` | Same as `proton-autogen game.exe` |
+| `proton-autogen add game.exe` | Register a game and create its settings (asks which prefix to use) |
+| `proton-autogen addux game.exe` | Register a game if needed, then open the graphical interface on its editor |
 | `proton-autogen edit game.exe` | Edit the settings of a registered game |
+
+### Automatic registration on first launch
+
+Running a program does what `add` does when it has no settings file yet, then launches it:
+
+- **Settings file and prefix exist**: they are used as they are (nothing is rewritten).
+- **No settings file**: it is created before the launch, without any question, so the program appears in the library right away.
+
+The prefix saved in the new file is the one that launch uses (`main` by default, or the one chosen with `--ps`, `--pa` or `--pc`), so registering a program does not change how it runs. You can pick another prefix later in the game editor.
+
+`.exe`, `.msi`, `.bat` and `.lnk` files are registered. A registration problem never prevents the launch.
 
 If no Proton build is available, Proton-Autogen falls back to Wine. If Wine is missing too, it prints installation commands for your distribution. Force a runtime with `--proton` or `--wine`.
 
@@ -211,11 +223,16 @@ Per-game custom variables are set in the editor (see above).
 
 ## 🖱️ Desktop integration
 
-Right-click a Windows executable and choose **Open with Proton-Autogen** in:
+Right-click a Windows program (`.exe`, `.msi`, `.bat`, `.lnk`) in:
 
 - **Nautilus** (GNOME), through the `python-nautilus` extension
 - **Nemo** (Cinnamon)
 - **Dolphin** (KDE Plasma)
+
+Two entries are added, translated into the languages of the interface:
+
+- **Open with Proton-Autogen** runs the program like `proton-autogen game.exe`: it is added to the library on first launch.
+- **Add to Proton-Autogen** adds the program and opens the graphical interface on its editor (`proton-autogen addux`). If the interface is already open, that window is reused.
 
 Proton-Autogen also ships a desktop entry and icon, and works under Flatpak, where host commands are run outside the sandbox.
 
@@ -233,7 +250,7 @@ Add `--debug` or `--verbose` to any launch for more output. Logs are written to 
 
 | Option | Purpose |
 |---|---|
-| `<file.exe>`, `run`, `add`, `edit` | Launch and manage programs |
+| `<file.exe>`, `run`, `add`, `addux`, `edit` | Launch and manage programs |
 | `--ux` | Graphical interface |
 | `--import` | Import existing Lutris, Bottles, Heroic and Wine installations |
 | `--list-programs` | List registered programs |

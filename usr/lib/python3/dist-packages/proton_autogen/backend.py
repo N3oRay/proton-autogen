@@ -14,6 +14,7 @@ from proton_autogen.progress import Progress
 from proton_autogen.utils.steam_appid import detect_steam_appid
 
 from proton_autogen.loader import save_game_config, load_game_config
+from proton_autogen.auto_register import ensure_game_config
 from proton_autogen import core as _core
 from proton_autogen.core import (
     DEBUG,
@@ -138,6 +139,12 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None, 
         mangohud_available = has_mangohud()
 
         config = load_game_config(exe_path)
+
+        # Premier lancement : sans fichier de config, `run` équivaut à `add`
+        # (voir auto_register.py). Une config existante est utilisée telle quelle.
+        if config is None:
+            config = ensure_game_config(exe_path, prefix_mode)
+
         progress.update(25, tr("loading_game_configuration"))
 
         system = detect_system_info()  # ou équivalent existant dans core
