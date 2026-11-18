@@ -23,7 +23,7 @@ Thanks to Dualry G for creating and sharing this great demo.
   <img src="docs/screenshots/V3.4.4-2.jpg" width="550" alt="Proton-Autogen Demo">
 </p>
 
-## ✨ Why Proton-Autogen?
+## ✨ Why Proton-Autogen ?
 
 **Run Windows applications on Linux with less setup and fewer manual steps.**
 
