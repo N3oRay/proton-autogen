@@ -23,9 +23,21 @@ PERGALA PREFIXAN
 STEAM_COMPAT_DATA_PATH
 
 --pc        Prefixa taybet
---pa        Prefixa xweber
+--pa        Prefixa xweber (yek ji bo her sepanê)
 --ps        Prefixa hevpar
 bi default  Prefixa sereke
+
+Bi default, Proton-Autogen prefixeke hevpar bi navê «main» bikar tîne.
+Ev moda pêşniyarkirî ye ji bo piraniya bikarhêneran ji ber ku ew hêsan û sivik e.
+
+Prefixa veqetandî ji bo her sepanê di van rewşan de tê pêşniyarkirin:
+
+- Sepanên ku runtime saz dikin (.NET, Visual C++ hwd.)
+- Lîstikên bi anti-cheat an pergalên parastinê yên hesas
+- Sepanên ku bi awayekî giran registryya Windows diguherînin
+- Dema ku bernameyek prefixa sereke xera dike an jî qirêj dike
+
+--pa bikar bînin da ku bi awayekî xweber prefixeke veqetandî ji bo sepanekê biafirînin.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 PROFÎL

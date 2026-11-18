@@ -23,9 +23,21 @@ PREFIX-JÄRJESTELMÄ
 STEAM_COMPAT_DATA_PATH
 
 --pc        Mukautettu prefix
---pa        Automaattinen prefix
+--pa        Automaattinen prefix (yksi sovellusta kohden)
 --ps        Jaettu prefix
 default      Pääprefix
+
+Oletuksena Proton-Autogen käyttää jaettua ”main”-prefixiä.
+Tämä on suositeltu tila useimmille käyttäjille, koska se on yksinkertainen ja kevyt.
+
+Sovelluskohtainen prefix on suositeltavaa seuraavissa tapauksissa:
+
+- Runtimeja asentavat sovellukset (.NET, Visual C++ jne.)
+- Pelit, joissa on anti-cheat tai herkkiä suojausjärjestelmiä
+- Sovellukset, jotka muokkaavat Windows-rekisteriä voimakkaasti
+- Kun ohjelma rikkoo tai saastuttaa pääprefixin
+
+Käytä --pa-valitsinta luodaksesi automaattisesti eristetyn prefixin sovellukselle.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 PROFIILIT

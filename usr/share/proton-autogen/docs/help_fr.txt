@@ -23,9 +23,21 @@ SYSTÈME DE PRÉFIXES
 STEAM_COMPAT_DATA_PATH
 
 --pc        Préfixe personnalisé
---pa        Préfixe automatique
+--pa        Préfixe automatique (un par application)
 --ps        Préfixe partagé
 par défaut  Préfixe principal
+
+Par défaut, Proton-Autogen utilise un préfixe partagé appelé « main ».
+C’est le mode recommandé pour la plupart des utilisateurs car il est simple et léger.
+
+Un préfixe dédié par application est recommandé dans les cas suivants :
+
+- Applications qui installent des runtimes (.NET, Visual C++, etc.)
+- Jeux avec anti-cheat ou systèmes de protection sensibles
+- Applications qui modifient beaucoup le registre Windows
+- Quand un programme casse ou pollue le préfixe principal
+
+Utilisez --pa pour créer automatiquement un préfixe isolé pour une application.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 PROFILS

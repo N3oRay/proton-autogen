@@ -23,9 +23,21 @@ PREFIX-RENDSZER
 STEAM_COMPAT_DATA_PATH
 
 --pc        Egyéni prefix
---pa        Automatikus prefix
+--pa        Automatikus prefix (alkalmazásonként egy)
 --ps        Megosztott prefix
 alapértelmezett  Fő prefix
+
+Alapértelmezés szerint a Proton-Autogen egy „main” nevű megosztott prefixet használ.
+Ez a legtöbb felhasználó számára ajánlott mód, mert egyszerű és erőforrás-kímélő.
+
+Alkalmazásonként külön prefix használata a következő esetekben ajánlott:
+
+- Runtime-okat telepítő alkalmazások (.NET, Visual C++ stb.)
+- Anti-cheat vagy érzékeny védelmi rendszerrel rendelkező játékok
+- A Windows rendszerleíró adatbázist jelentősen módosító alkalmazások
+- Ha egy program tönkreteszi vagy elszennyezi a fő prefixet
+
+Használja a --pa kapcsolót, hogy automatikusan létrehozzon egy elkülönített prefixet egy alkalmazáshoz.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 PROFILOK

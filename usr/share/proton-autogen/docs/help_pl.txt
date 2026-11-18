@@ -23,9 +23,21 @@ SYSTEM PREFIKSÓW
 STEAM_COMPAT_DATA_PATH
 
 --pc        Prefiks niestandardowy
---pa        Prefiks automatyczny
+--pa        Prefiks automatyczny (jeden na aplikację)
 --ps        Prefiks współdzielony
 domyślnie   Prefiks główny
+
+Domyślnie Proton-Autogen używa współdzielonego prefiksu o nazwie „main”.
+Jest to zalecany tryb dla większości użytkowników, ponieważ jest prosty i lekki.
+
+Dedykowany prefiks dla każdej aplikacji jest zalecany w następujących przypadkach:
+
+- Aplikacje instalujące środowiska uruchomieniowe (.NET, Visual C++ itp.)
+- Gry z systemami anty-cheat lub wrażliwymi zabezpieczeniami
+- Aplikacje, które mocno modyfikują rejestr Windows
+- Gdy program uszkadza lub zanieczyszcza główny prefiks
+
+Użyj --pa, aby automatycznie utworzyć izolowany prefiks dla aplikacji.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 PROFILE

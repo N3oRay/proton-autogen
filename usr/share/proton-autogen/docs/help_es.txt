@@ -23,9 +23,21 @@ SISTEMA DE PREFIJOS
 STEAM_COMPAT_DATA_PATH
 
 --pc        Prefijo personalizado
---pa        Prefijo automático
+--pa        Prefijo automático (uno por aplicación)
 --ps        Prefijo compartido
 por defecto Prefijo principal
+
+Por defecto, Proton-Autogen utiliza un prefijo compartido llamado "main".
+Este es el modo recomendado para la mayoría de los usuarios porque es simple y ligero.
+
+Se recomienda un prefijo dedicado por aplicación en los siguientes casos:
+
+- Aplicaciones que instalan runtimes (.NET, Visual C++, etc.)
+- Juegos con anti-cheat o sistemas de protección sensibles
+- Aplicaciones que modifican mucho el registro de Windows
+- Cuando un programa rompe o contamina el prefijo principal
+
+Utilice --pa para crear automáticamente un prefijo aislado para una aplicación.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 PERFILES

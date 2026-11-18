@@ -23,9 +23,21 @@ SISTEMA DE PREFIXOS
 STEAM_COMPAT_DATA_PATH
 
 --pc        Prefixo personalizado
---pa        Prefixo automático
+--pa        Prefixo automático (um por aplicação)
 --ps        Prefixo partilhado
 por padrão  Prefixo principal
+
+Por padrão, o Proton-Autogen utiliza um prefixo partilhado chamado "main".
+Este é o modo recomendado para a maioria dos utilizadores porque é simples e leve.
+
+Um prefixo dedicado por aplicação é recomendado nos seguintes casos:
+
+- Aplicações que instalam runtimes (.NET, Visual C++, etc.)
+- Jogos com anti-cheat ou sistemas de proteção sensíveis
+- Aplicações que modificam muito o registo do Windows
+- Quando um programa estraga ou contamina o prefixo principal
+
+Utilize --pa para criar automaticamente um prefixo isolado para uma aplicação.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 PERFIS

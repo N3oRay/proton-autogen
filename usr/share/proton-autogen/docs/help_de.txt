@@ -23,9 +23,21 @@ PRÄFIX-SYSTEM
 STEAM_COMPAT_DATA_PATH
 
 --pc        Benutzerdefiniertes Präfix
---pa        Automatisches Präfix
+--pa        Automatisches Präfix (eines pro Anwendung)
 --ps        Gemeinsames Präfix
 Standard    Hauptpräfix
+
+Standardmäßig verwendet Proton-Autogen ein gemeinsames „main“-Präfix.
+Dies ist der empfohlene Modus für die meisten Benutzer, da er einfach und ressourcenschonend ist.
+
+Ein separates Präfix pro Anwendung wird in folgenden Fällen empfohlen:
+
+- Anwendungen, die Runtimes installieren (.NET, Visual C++ usw.)
+- Spiele mit Anti-Cheat oder empfindlichen Schutzsystemen
+- Anwendungen, die die Windows-Registry stark verändern
+- Wenn ein Programm das Hauptpräfix beschädigt oder verunreinigt
+
+Verwenden Sie --pa, um automatisch ein isoliertes Präfix für eine Anwendung zu erstellen.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 PROFILE

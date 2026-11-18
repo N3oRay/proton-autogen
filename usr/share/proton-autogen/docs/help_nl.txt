@@ -23,9 +23,21 @@ PREFIX-SYSTEEM
 STEAM_COMPAT_DATA_PATH
 
 --pc        Aangepast prefix
---pa        Automatisch prefix
+--pa        Automatisch prefix (één per toepassing)
 --ps        Gedeeld prefix
 standaard   Hoofdprefix
+
+Standaard gebruikt Proton-Autogen een gedeeld "main"-prefix.
+Dit is de aanbevolen modus voor de meeste gebruikers omdat het eenvoudig en lichtgewicht is.
+
+Een toegewijd prefix per toepassing wordt aanbevolen in de volgende gevallen:
+
+- Toepassingen die runtimes installeren (.NET, Visual C++, enz.)
+- Games met anti-cheat of gevoelige beveiligingssystemen
+- Toepassingen die het Windows-register sterk wijzigen
+- Wanneer een programma het hoofdprefix beschadigt of vervuilt
+
+Gebruik --pa om automatisch een geïsoleerd prefix voor een toepassing te maken.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 PROFIELEN

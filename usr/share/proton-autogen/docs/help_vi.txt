@@ -23,9 +23,21 @@ HỆ THỐNG PREFIX
 STEAM_COMPAT_DATA_PATH
 
 --pc        Prefix tùy chỉnh
---pa        Prefix tự động
+--pa        Prefix tự động (một cho mỗi ứng dụng)
 --ps        Prefix dùng chung
 mặc định    Prefix chính
+
+Theo mặc định, Proton-Autogen sử dụng prefix dùng chung tên là "main".
+Đây là chế độ được khuyến nghị cho hầu hết người dùng vì nó đơn giản và nhẹ.
+
+Nên sử dụng prefix riêng cho từng ứng dụng trong các trường hợp sau:
+
+- Ứng dụng cài đặt runtime (.NET, Visual C++, v.v.)
+- Trò chơi có anti-cheat hoặc hệ thống bảo vệ nhạy cảm
+- Ứng dụng chỉnh sửa nhiều registry Windows
+- Khi một chương trình làm hỏng hoặc làm bẩn prefix chính
+
+Sử dụng --pa để tự động tạo prefix riêng biệt cho một ứng dụng.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 HỒ SƠ
