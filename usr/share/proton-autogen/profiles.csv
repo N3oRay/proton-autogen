@@ -84,7 +84,7 @@ MonsterHunterRise.exe,Monster Hunter Rise,dx11,RE Engine
 RDR2.exe,Red Dead Redemption 2,dx12,RAGE Engine
 Launcher.exe,Rockstar Games Launcher,launcher,Launcher
 HorizonZeroDawn.exe,Horizon Zero Dawn,dx12,Decima Engine
-DaysGone.exe,Days Gone,dx11,Unreal Engine 4
+DaysGone.exe,Days Gone,VisualStudio,Unreal Engine 4
 DeathStranding.exe,Death Stranding,dx12,Decima Engine
 SOTTR.exe,Shadow of the Tomb Raider,dx12,Foundation Engine
 ROTTR.exe,Rise of the Tomb Raider,dx12,Foundation Engine
@@ -386,7 +386,7 @@ FarmingSimulator2024Game.exe,Farming Simulator 2024,dx12,Giant Engine
 Satisfactory.exe,Satisfactory,dx12,Unreal Engine 5
 Palworld-Shipping.exe,Palworld,dx12,Unreal Engine 5
 ARKAscended.exe,ARK Survival Ascended,dx12,Unreal Engine 5
-ARKSurvivalEvolved.exe,ARK Survival Evolved,dx11,Unreal Engine 4
+ARKSurvivalEvolved.exe,ARK Survival Evolved,VisualStudio,Unreal Engine 4
 HeroesOfTheStorm.exe,Heroes of the Storm,dx11Bnet,Blizzard Engine
 SC2.exe,StarCraft II,dx11Bnet,Blizzard Engine
 StarCraft.exe,StarCraft Remastered,dx11Bnet,Blizzard Engine
@@ -802,7 +802,7 @@ Granblue Fantasy Relink.exe,Granblue Fantasy Relink,dx12,Custom Engine
 Tekken8-Win64-Shipping.exe,Tekken 8,dx12,Unreal Engine 5
 Helldivers2.exe,Helldivers 2,dx12,Autodesk Stingray
 GrayZoneWarfare.exe,Gray Zone Warfare,dx12,Unreal Engine 5
-AbioticFactor.exe,Abiotic Factor,dx11,Unreal Engine 5
+AbioticFactor.exe,Abiotic Factor,VisualStudio,Unreal Engine 5
 Enshrouded.exe,Enshrouded,dx12,Enfusion Engine
 PacificDrive.exe,Pacific Drive,dx12,Unreal Engine 5
 Manor Lords.exe,Manor Lords,dx12,Unreal Engine 5
@@ -875,7 +875,7 @@ GrayZoneWarfare-Win64-Shipping.exe,Gray Zone Warfare,dx12,Unreal Engine 5
 TheFirstDescendant.exe,The First Descendant,dx12,Unreal Engine 5
 OnceHuman.exe,Once Human,dx12,Starry Studio Engine
 ContentWarning.exe,Content Warning,dx11,Unity
-Abiotic Factor.exe,Abiotic Factor,dx11,Unreal Engine 5
+Abiotic Factor.exe,Abiotic Factor,VisualStudio,Unreal Engine 5
 CoreKeeper.exe,Core Keeper,dx11,Unity
 Palworld.exe,Palworld,dx12,Unreal Engine 5
 PaperTrail.exe,Paper Trail,dx11,Unity
@@ -887,7 +887,7 @@ SonicXShadowGenerations.exe,Sonic X Shadow Generations,dx11,Hedgehog Engine 2
 Metaphor.exe,METAPHOR ReFantazio,dx11,Custom Atlus Engine
 SilentHill2.exe,Silent Hill 2 Remake,dx12,Unreal Engine 5
 Until Dawn.exe,Until Dawn,dx12,Unreal Engine 5
-DragonQuestIIIHD2D.exe,Dragon Quest III HD-2D Remake,dx11,Unreal Engine 4
+DragonQuestIIIHD2D.exe,Dragon Quest III HD-2D Remake,VisualStudio,Unreal Engine 4
 IndianaJones.exe,Indiana Jones and the Great Circle,dx12,id Tech Engine
 Star Wars Outlaws.exe,Star Wars Outlaws,dx12,Snowdrop Engine
 AvatarFrontiers.exe,Avatar Frontiers of Pandora,dx12,Snowdrop Engine
@@ -902,7 +902,7 @@ LoreleiAndTheLaserEyes.exe,Lorelei and the Laser Eyes,desktop,Unity
 ThePluckySquire.exe,The Plucky Squire,dx11,Unity
 Neva.exe,Neva,dx11,Unity
 ThankGoodnessYoureHere.exe,Thank Goodness You're Here,desktop,Custom Engine
-Mouthwashing.exe,Mouthwashing,dx11,Unreal Engine 5
+Mouthwashing.exe,Mouthwashing,VisualStudio,Unreal Engine 5
 CrowCountry.exe,Crow Country,dx11,Custom Engine
 StillWakesTheDeep.exe,Still Wakes the Deep,dx12,Unreal Engine 5
 KunitsuGami.exe,Kunitsu-Gami Path of the Goddess,dx12,RE Engine
@@ -1017,7 +1017,7 @@ Crymelight.exe,Crymelight,dx12,PC 2026
 Halloween.exe,Halloween The Game,dx12,PC 2026
 TheWitchsBakery.exe,The Witch's Bakery,dx11,PC 2026
 Duskfade.exe,Duskfade,dx12,PC 2026
-HellLetLooseVietnam.exe,Hell Let Loose Vietnam,dx11,Unreal Engine
+HellLetLooseVietnam.exe,Hell Let Loose Vietnam,VisualStudio,Unreal Engine
 MaddenNFL27.exe,Madden NFL 27,dx12,Frostbite Engine
 StarsReach.exe,Stars Reach,dx12,PC 2026
 TwistedTower.exe,Twisted Tower,dx11,PC 2026
@@ -1339,7 +1339,7 @@ LabPlot.exe,LabPlot,desktop,Scientific data visualization (v2.12.1 - 2025)
 WiseForceDeleter.exe,Wise Force Deleter,desktop,File deletion utility (v1.5.7 - 2025)
 StardewValley.exe,Stardew Valley,dotnet_csharp,XNA/MonoGame
 FactoryGame-Win64-Shipping.exe,Satisfactory,dx12,Unreal Engine 5
-FSD-Win64-Shipping.exe,Deep Rock Galactic,dx11,Unreal Engine 4
+FSD-Win64-Shipping.exe,Deep Rock Galactic,VisualStudio,Unreal Engine 4
 b1-Win64-Shipping.exe,Black Myth Wukong,dx12,Unreal Engine 5
 r5apex.exe,Apex Legends,dx12,Source Engine (modified)
 PathOfExile_x64Steam.exe,Path of Exile,dx11,PoE Engine (alias exe)
@@ -1352,7 +1352,17 @@ V_Rising.exe,V Rising,dx12,Unity DOTS
 core.exe,Core Keeper,dotnet_csharp,Unity C#
 Repo.exe,R.E.P.O.,dotnet_csharp,Unity C#
 PGA.exe,Content Warning,dotnet_csharp,Unity C#
-PowerWashSimulator.exe,PowerWash Simulator,dx11,Unreal Engine 4
+PowerWashSimulator.exe,PowerWash Simulator,VisualStudio,Unreal Engine 4
 Anno1800.exe,Anno 1800,dx11,Anno Engine
 Frostpunk.exe,Frostpunk,dx11,Liquid Engine
 Manor Lords.exe,Manor Lords,dx12,Unreal Engine 5
+vc_redist.x64.exe,Visual C++ Redistributable x64,VisualStudio,VC++ 2015-2022 installer
+vc_redist.x86.exe,Visual C++ Redistributable x86,VisualStudio,VC++ 2015-2022 installer
+vcredist_x64.exe,Visual C++ Redistributable x64,VisualStudio,VC++ installer
+vcredist_x86.exe,Visual C++ Redistributable x86,VisualStudio,VC++ installer
+UE4PrereqSetup_x64.exe,Unreal Engine 4 Prerequisites,VisualStudio,Unreal Engine prerequisites installer
+UE4PrereqSetup_x86.exe,Unreal Engine 4 Prerequisites x86,VisualStudio,Unreal Engine prerequisites installer
+UEPrereqSetup_x64.exe,Unreal Engine 5 Prerequisites,VisualStudio,Unreal Engine prerequisites installer
+ConanSandbox.exe,Conan Exiles,VisualStudio,Unreal Engine 4
+SCUM.exe,SCUM,VisualStudio,Unreal Engine 4
+FactoryGameSteam.exe,Satisfactory,VisualStudio,Unreal Engine 5

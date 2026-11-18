@@ -26,6 +26,7 @@ VALID_PROFILES = [
     "dx12",
     "dotnet",
     "dotnet_csharp",
+    "VisualStudio",
     "gtav_compat",
     "gtav_x11",
     "gtav_safe",
@@ -237,10 +238,21 @@ def choose_profile():
 def detect_exe_type_legacy(exe_path: str) -> str:
     """
     Simple heuristic to classify executable type for proton-autogen.
-    Returns: launcher | dx11 | dx11Bnet | dx12 | oldgame | ut3 | ut99 | legacy | desktop | dotnet_csharp
+    Returns: launcher | dx11 | dx11Bnet | dx12 | oldgame | ut3 | ut99 | legacy | desktop | dotnet_csharp | VisualStudio
     """
 
     name = os.path.basename(exe_path).lower()
+
+    #------------------------------
+    # Installeurs de runtime Visual C++ (redistribuables Microsoft et
+    # prérequis Unreal Engine, qui embarquent vc_redist) -> VisualStudio
+    vcredist_keywords = [
+        "vc_redist", "vcredist", "ueprereqsetup", "ue4prereqsetup",
+    ]
+
+    if any(k in name for k in vcredist_keywords):
+        return "VisualStudio"
+
      #------------------------------
     dotnet_keyworks = [
         # Installation uniquement, cela ne permet pas de faire fonctionner robloxplayer : Bloqué par design, aucune configuration Proton n'y changera rien

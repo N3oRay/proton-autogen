@@ -37,6 +37,7 @@ from proton_autogen.profiles.launcher import env_launcher, env_install_clean
 from proton_autogen.profiles.type_profile import env_gtav_compat, env_gtav_x11, env_gtav_safe
 from proton_autogen.profiles.dotnet_csharp import env_dotnet_csharp
 from proton_autogen.profiles.dotnet import env_dotnet
+from proton_autogen.profiles.visualstudio import env_visualstudio
 
 from proton_autogen.detection.analyser import has_proton_call, has_wine, has_mangohud, has_gamemode, has_gamescope, has_xrandr
 from proton_autogen.detection.proton import DEFAULT_PROTON_PATHS
@@ -302,6 +303,7 @@ def export_default_profiles():
         "valve": env_goldsrc(),
         "desktop": env_desktop(),
         "dotnet": env_dotnet(),
+        "VisualStudio": env_visualstudio(),
     }
 
     for name, env in profiles.items():
@@ -761,6 +763,7 @@ def base_env(enable_mangohud=False, enable_gamemode=False, enable_gamescope=Fals
         "gtav_safe": env_gtav_safe,
         "dotnet_csharp": env_dotnet_csharp,
         "dotnet": env_dotnet,
+        "VisualStudio": env_visualstudio,
     }
 
     factory = env_factories.get(exe_type, env_dx11)
