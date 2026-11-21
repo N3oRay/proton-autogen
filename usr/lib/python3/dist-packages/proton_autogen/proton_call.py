@@ -17,6 +17,7 @@ from proton_autogen.core import (
     VERBOSE,
 )
 from proton_autogen.utils.gamescope import build_gamescope_command
+from proton_autogen.dxvk_debug import apply_dxvk_debug
 from proton_autogen.utils.detector import resolve_game_features, gpu_env
 from proton_autogen.util_path import proton_path, proton_name
 from proton_autogen.pa_log import handle_result, result_to_line
@@ -39,6 +40,8 @@ def launch_proton_call(
     start_time,
     extra_args=None,
     progress=None,
+    dxvk_debug=False,
+    game_name=None,
 ):
 
     # -------------------------
@@ -125,6 +128,22 @@ def launch_proton_call(
             )
 
     # -------------------------
+    # DEBUG DXVK (option par jeu)
+    # -------------------------
+    # Après MangoHud (qui force DXVK_HUD=0) et Gamescope : le HUD DXVK n'est
+    # posé que si aucun overlay MangoHud / mangoapp n'est actif.
+    if dxvk_debug:
+        mangoapp_active = bool(gamescope_cmd) and env.get("GAMESCOPE_MANGOAPP") == "1"
+        env = apply_dxvk_debug(
+            env,
+            proton_dir=proton_dir,
+            exe_path=exe_path,
+            game_name=game_name,
+            exe_type=features.get("exe_type") if features else "",
+            overlay_active=(env.get("MANGOHUD") == "1" or mangoapp_active),
+        )
+
+    # -------------------------
     # Command build
     # -------------------------
     extra_args = extra_args or []
@@ -161,6 +180,9 @@ def launch_proton_call(
             "PROTONPATH",
             "MANGOHUD",
             "LD_PRELOAD",
+            "DXVK_LOG_LEVEL",
+            "DXVK_LOG_PATH",
+            "DXVK_HUD",
         ):
             print(f"{k}={env.get(k)}")
 

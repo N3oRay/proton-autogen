@@ -179,6 +179,7 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None, 
             cfg_gamemode = normalize_flag(features.get("gamemode"), False)
             cfg_gamescope = normalize_flag(features.get("gamescope"), False)
             cfg_fps_limit = features.get("fps_limit", 60) or 60
+            cfg_dxvk_debug = normalize_flag(features.get("dxvk_debug"), False)
             cfg_custom_env = config.get("env", {}) or {}
             # Load features -----------------------------------------------
             rfeatures = resolve_game_features(
@@ -206,6 +207,7 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None, 
             cfg_gamemode = False
             cfg_gamescope = False
             cfg_fps_limit = 60
+            cfg_dxvk_debug = False
             cfg_custom_env = {}
             rfeatures = None
             proton = find_proton()
@@ -214,6 +216,7 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None, 
         enable_mangohud = cfg_mangohud if config else False
         enable_gamemode = cfg_gamemode if config else False
         enable_gamescope = cfg_gamescope if config else False
+        enable_dxvk_debug = cfg_dxvk_debug if config else False
 
         # CLI overrides (priorité utilisateur)
         if "--mangohud" in sys.argv:
@@ -224,6 +227,9 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None, 
 
         if "--gamescope" in sys.argv:
             enable_gamescope = True
+
+        if "--dxvk-debug" in sys.argv:
+            enable_dxvk_debug = True
 
 
         if proton:
@@ -243,7 +249,9 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None, 
                 enable_gamescope=enable_gamescope,
                 start_time=start_time,
                 extra_args=[],
-                progress=progress
+                progress=progress,
+                dxvk_debug=enable_dxvk_debug,
+                game_name=config.get("name") if config else None,
             )
 
         elif launch_mode == "proton" and proton:
@@ -260,7 +268,9 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None, 
             progress.update(80, tr("starting_proton"))
             result_code = run_game_proton(exe_path=exe_path, exe_type=exe_type, proton=proton, system=system, features=rfeatures, gamescope_features=game_features, enable_mangohud=enable_mangohud,
              enable_gamemode=enable_gamemode, enable_gamescope=enable_gamescope, fps_limit=cfg_fps_limit, custom_env=cfg_custom_env,
-             prefix_mode=prefix_mode, progress=progress, game_id=game_id,)
+             prefix_mode=prefix_mode, progress=progress, game_id=game_id,
+             dxvk_debug=enable_dxvk_debug,
+             game_name=config.get("name") if config else None,)
             if DEBUG or VERBOSE:
                 logger.debug("Result type: %s", type(result_code))
                 logger.debug("Result: %s", result_code)

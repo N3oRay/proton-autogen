@@ -600,6 +600,20 @@ class GameEditor(Gtk.Window):
                "façon détectable ou si vous ne voulez pas être sollicité."
         )
 
+        # DEBUG DXVK — logs (niveau info) + HUD, rangés par version de Proton
+        # et par jeu. Désactivé par défaut. Le HUD n'est posé que si MangoHud
+        # est inactif (voir dxvk_debug.py).
+        self.dxvk_debug = adw_rows.new_switch(
+            tr("enable_dxvk_debug") or "Debug DXVK (logs + HUD)",
+            features.get("dxvk_debug", False),
+        )
+        self.dxvk_debug.set_tooltip_text(
+            tr("dxvk_debug_tooltip")
+            or "Active les logs DXVK (niveau info) et le HUD DXVK. Les logs "
+               "sont rangés dans ~/.config/proton-autogen/logs/<Proton>/<jeu>/. "
+               "Le HUD n'est pas affiché si MangoHud est actif."
+        )
+
         # MEMORY (bouton) — ouvre immédiatement le gestionnaire de
         # sauvegardes pour ce jeu : backup manuel + historique des
         # sauvegardes précédentes. Volontairement à côté du toggle
@@ -658,7 +672,7 @@ class GameEditor(Gtk.Window):
             page_advanced.append(self.gamescope_revealer)
 
             switches_after = adw_rows.new_switch_list()
-            for row in (self.inhibit_sleep, save_backup_row):
+            for row in (self.inhibit_sleep, self.dxvk_debug, save_backup_row):
                 adw_rows.list_add(switches_after, row)
             page_advanced.append(switches_after)
         else:
@@ -668,6 +682,7 @@ class GameEditor(Gtk.Window):
             page_advanced.append(self.gamescope)
             page_advanced.append(self.gamescope_revealer)
             page_advanced.append(self.inhibit_sleep)
+            page_advanced.append(self.dxvk_debug)
             page_advanced.append(save_backup_row)
 
         # -------------------------
@@ -1419,6 +1434,7 @@ class GameEditor(Gtk.Window):
                 self.gamescope_force_grab_cursor.get_active(),
             "inhibit_sleep": self.inhibit_sleep.get_active(),
             "save_backup_prompt": self.save_backup_prompt.get_active(),
+            "dxvk_debug": self.dxvk_debug.get_active(),
             "gpu": gpu
         })
 

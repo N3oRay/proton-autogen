@@ -42,6 +42,7 @@ from proton_autogen.profiles.visualstudio import env_visualstudio
 from proton_autogen.detection.analyser import has_proton_call, has_wine, has_mangohud, has_gamemode, has_gamescope, has_xrandr
 from proton_autogen.detection.proton import DEFAULT_PROTON_PATHS
 from proton_autogen.detection.mangohud import configure_mangohud_env
+from proton_autogen.dxvk_debug import apply_dxvk_debug
 from proton_autogen.utils.detector import resolve_game_features, gpu_env
 
 from proton_autogen.util_path import proton_path, proton_name
@@ -854,7 +855,8 @@ def run_game_proton(exe_path, exe_type, proton,
                     system, features, gamescope_features=None,
                     enable_mangohud=False, enable_gamemode=False, enable_gamescope=False,
                     fps_limit=60, custom_env=None,
-                    prefix_mode="main", progress=None, game_id=None, ):
+                    prefix_mode="main", progress=None, game_id=None,
+                    dxvk_debug=False, game_name=None, ):
 
     if progress is None:
         progress = Progress()
@@ -967,6 +969,23 @@ def run_game_proton(exe_path, exe_type, proton,
         if mangoapp_active:
             # configure_mangohud_env() réactive MANGOHUD : le retirer à nouveau.
             env.pop("MANGOHUD", None)
+
+        # =========================
+        # DEBUG DXVK (option par jeu)
+        # =========================
+        # Après configure_mangohud_env() (qui force DXVK_HUD=0 avec MangoHud)
+        # et après les variables personnalisées : le HUD DXVK n'est posé que
+        # si aucun overlay MangoHud / mangoapp n'est actif.
+        if dxvk_debug:
+            env = apply_dxvk_debug(
+                env,
+                proton_dir=proton_dir,
+                exe_path=exe_path,
+                game_name=game_name,
+                exe_type=exe_type,
+                overlay_active=(mangohud_available or mangoapp_active),
+                custom_env=custom_env,
+            )
 
         if gamemode_available:
             env["GAMEMODE"] = "1"
