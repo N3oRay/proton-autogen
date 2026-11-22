@@ -40,6 +40,7 @@ def _ux_imports(path):
 # La commande addux est un point d'entrée UX : seul cet import est autorisé.
 ALLOWED_UX_IMPORTS = {
     "cli_addux.py": {"proton_autogen.ux.dashboard"},
+    "cli.py": {"proton_autogen.ux.dashboard"},
 }
 
 
