@@ -7,14 +7,13 @@ il en avait une copie figée à None.
 
 import json
 import os
-import runpy
 import shutil
 import subprocess
 import sys
 
 import pytest
 
-from proton_autogen import backend, core
+from proton_autogen import backend, cli, core
 
 pytestmark = pytest.mark.unit
 
@@ -36,13 +35,12 @@ def home_with_profile(tmp_path, monkeypatch):
     return tmp_path
 
 
-def _load_cli_namespace():
-    """Exécute le script CLI sans déclencher main() (run_name != "__main__")."""
-    return runpy.run_path(CLI, run_name="proton_autogen_cli")
-
-
 def _run_main(monkeypatch, argv):
-    namespace = _load_cli_namespace()
+    """Appelle proton_autogen.cli.main(argv) avec backend.run simulé.
+
+    Retourne (appels de run, code de sortie). Les handlers de cli.py importent
+    `run` depuis le backend au moment de l'appel : remplacer backend.run suffit.
+    """
     calls = []
 
     def fake_run(exe, launch_mode, prefix_mode, *a, **k):
@@ -52,13 +50,9 @@ def _run_main(monkeypatch, argv):
             "backend_exe_type": backend._apply_profile_exe_type("detected"),
         })
 
-    # run_path() renvoie une COPIE des globales : main() continue de lire les
-    # siennes (main.__globals__), c'est donc là qu'il faut remplacer `run`.
-    main = namespace["main"]
-    monkeypatch.setitem(main.__globals__, "run", fake_run)
-    monkeypatch.setattr(sys, "argv", ["proton-autogen", *argv])
-    main()
-    return calls
+    monkeypatch.setattr(backend, "run", fake_run)
+    code = cli.main(argv)
+    return calls, code
 
 
 # --- le backend lit le profil À L'APPEL ------------------------------------
@@ -97,10 +91,10 @@ def test_backend_n_expose_plus_de_copie_figee_du_profil():
 
 # --- la CLI affecte core ------------------------------------------------------
 
-@needs_cli
 def test_cli_affecte_le_profil_sur_core_puis_lance(home_with_profile, monkeypatch):
-    calls = _run_main(monkeypatch, ["game.exe", "--profile", "dx9dg"])
+    calls, code = _run_main(monkeypatch, ["game.exe", "--profile", "dx9dg"])
 
+    assert code == 0
     assert len(calls) == 1
     assert calls[0]["exe"] == "game.exe"
     assert calls[0]["profile"] == "dx9dg"
@@ -108,37 +102,38 @@ def test_cli_affecte_le_profil_sur_core_puis_lance(home_with_profile, monkeypatc
     assert calls[0]["backend_exe_type"] == "dx9dg"      # le backend le voit aussi
 
 
-@needs_cli
 def test_cli_sans_profil_ne_touche_pas_a_core(home_with_profile, monkeypatch):
-    calls = _run_main(monkeypatch, ["game.exe"])
+    calls, code = _run_main(monkeypatch, ["game.exe"])
 
+    assert code == 0
     assert calls[0]["profile"] is None
     assert calls[0]["data"] is None
     assert calls[0]["backend_exe_type"] == "detected"
 
 
-@needs_cli
 def test_cli_options_de_lancement_conservees_avec_profil(home_with_profile, monkeypatch):
-    calls = _run_main(monkeypatch, ["game.exe", "--profile", "dx9dg", "--call", "--ps"])
+    calls, code = _run_main(monkeypatch, ["game.exe", "--profile", "dx9dg", "--call", "--ps"])
 
+    assert code == 0
     assert calls[0]["launch_mode"] == "proton-call"
     assert calls[0]["prefix_mode"] == "shared"
 
 
-@needs_cli
 def test_cli_profil_introuvable_sort_proprement(home_with_profile, monkeypatch):
-    with pytest.raises(SystemExit) as exc:
-        _run_main(monkeypatch, ["game.exe", "--profile", "inexistant"])
+    # main() ne lève plus SystemExit : il renvoie le code de sortie.
+    calls, code = _run_main(monkeypatch, ["game.exe", "--profile", "inexistant"])
 
-    assert exc.value.code == 1
+    assert code == 1
+    assert calls == []                                   # aucun jeu lancé
 
 
-@needs_cli
-def test_cli_profil_sans_nom_sort_proprement(home_with_profile, monkeypatch):
-    with pytest.raises(SystemExit) as exc:
-        _run_main(monkeypatch, ["game.exe", "--profile"])
+def test_cli_profil_sans_nom_sort_proprement(home_with_profile, monkeypatch, capsys):
+    # Refusé par argparse (erreur d'usage) avant même de charger un profil.
+    calls, code = _run_main(monkeypatch, ["game.exe", "--profile"])
 
-    assert exc.value.code == 1
+    assert code == 2
+    assert calls == []
+    assert "--profile" in capsys.readouterr().err
 
 
 # --- le profil est réellement appliqué à l'environnement du jeu ---------------
