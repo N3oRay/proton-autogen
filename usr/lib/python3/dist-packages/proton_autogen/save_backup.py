@@ -11,8 +11,10 @@ from __future__ import annotations
 
 import json
 import os
+import shutil
+import time
 import zipfile
-from dataclasses import asdict
+from dataclasses import asdict, dataclass
 from datetime import datetime
 from pathlib import Path
 
@@ -149,3 +151,175 @@ def backup_archive_path(game_id: str, archive_name: str) -> Path:
     """Full path to a specific archive listed in list_backups()'s
     'archive' field. Used by the UI to open/reveal a single backup."""
     return backup_dir_for(game_id) / archive_name
+
+
+# ---------------------------------------------------------------------------
+# Restore
+# ---------------------------------------------------------------------------
+
+@dataclass
+class RestoreResult:
+    """Outcome of restore_backup()."""
+
+    files_restored: int
+    files_failed: int
+    # Archive of the saves as they were just BEFORE the restore (None if
+    # there was nothing to protect, or if the safety backup was disabled).
+    safety_backup: Path | None = None
+
+
+def _normalize_label(label: str) -> str:
+    return label.replace(os.sep, "/").replace("\\", "/")
+
+
+def _find_history_entry(game_id: str, archive_name: str) -> dict | None:
+    for entry in list_backups(game_id):
+        if entry.get("archive") == archive_name:
+            return entry
+    return None
+
+
+def _is_within(base: Path, target: Path) -> bool:
+    """Lexical containment check (no resolve(): Wine prefixes contain
+    symlinks, and resolving them would wrongly reject legitimate files).
+    Protects against zip-slip entries such as '../../.bashrc'."""
+    base_s = os.path.normpath(str(base))
+    target_s = os.path.normpath(str(target))
+    try:
+        return os.path.commonpath([base_s, target_s]) == base_s
+    except ValueError:
+        return False
+
+
+def restore_backup(
+    game_id: str,
+    archive_name: str,
+    make_safety_backup: bool = True,
+) -> RestoreResult | None:
+    """Restores a backup archive to the ORIGINAL locations recorded in
+    history.json when the backup was made (absolute paths), so it works
+    even if the save detection would find different folders today.
+
+    Behaviour:
+      - Files from the archive overwrite the current ones; files that
+        exist now but are not in the archive are left untouched (a
+        restore never deletes anything).
+      - Before overwriting, the current save data is itself backed up
+        (make_safety_backup=True) so a restore is always reversible. If
+        that safety backup fails, the restore is aborted.
+      - Archive entries that would land outside their save location
+        (zip-slip) are skipped.
+
+    Returns a RestoreResult, or None if the restore could not start
+    (unknown archive, missing file, safety backup failure).
+    """
+    archive_path = backup_archive_path(game_id, archive_name)
+    entry = _find_history_entry(game_id, archive_name)
+
+    if entry is None or not archive_path.is_file():
+        logger.error("Cannot restore %s/%s: archive or history entry missing", game_id, archive_name)
+        return None
+
+    # label -> (original path, kind)
+    targets: dict[str, tuple[Path, str]] = {}
+    for loc in entry.get("locations", []):
+        raw_path = loc.get("path")
+        if not raw_path:
+            continue
+        label = _normalize_label(loc.get("label") or Path(raw_path).name)
+        targets[label] = (Path(raw_path), loc.get("kind", ""))
+
+    if not targets:
+        logger.error("Cannot restore %s/%s: no locations recorded in history", game_id, archive_name)
+        return None
+
+    # Longest label first so "Documents/My Games/Foo" wins over a
+    # hypothetical shorter label that is a prefix of it.
+    labels = sorted(targets, key=len, reverse=True)
+
+    safety_archive: Path | None = None
+    if make_safety_backup:
+        current = [
+            SaveLocation(path=p, kind=kind, label=label)
+            for label, (p, kind) in targets.items()
+            if p.exists()
+        ]
+        if current:
+            safety_archive = create_backup(game_id, current)
+            if safety_archive is None:
+                logger.error("Safety backup failed for %s; restore aborted", game_id)
+                return None
+
+    restored = 0
+    failed = 0
+
+    try:
+        with zipfile.ZipFile(archive_path, "r") as zf:
+            for info in zf.infolist():
+                if info.is_dir():
+                    continue
+
+                name = info.filename
+                label = next(
+                    (l for l in labels if name == l or name.startswith(l + "/")),
+                    None,
+                )
+                if label is None:
+                    logger.warning("Restore: no matching location for archive entry %s", name)
+                    failed += 1
+                    continue
+
+                base, _kind = targets[label]
+                rel = name[len(label):].lstrip("/")
+
+                if rel:
+                    dest = base / rel
+                    if not _is_within(base, dest):
+                        logger.warning("Restore: skipping unsafe archive entry %s", name)
+                        failed += 1
+                        continue
+                else:
+                    # The location itself was a single file.
+                    dest = base
+
+                try:
+                    dest.parent.mkdir(parents=True, exist_ok=True)
+                    with zf.open(info) as src, open(dest, "wb") as out:
+                        shutil.copyfileobj(src, out)
+                    try:
+                        # Keep the original mtime: some games compare
+                        # save timestamps to order their slots.
+                        ts = time.mktime(info.date_time + (0, 0, -1))
+                        os.utime(dest, (ts, ts))
+                    except (OSError, ValueError, OverflowError):
+                        pass
+                    restored += 1
+                except OSError as exc:
+                    logger.warning("Restore: could not write %s: %s", dest, exc)
+                    failed += 1
+    except (OSError, zipfile.BadZipFile) as exc:
+        logger.error("Failed to read archive %s: %s", archive_path, exc)
+        return None
+
+    return RestoreResult(
+        files_restored=restored,
+        files_failed=failed,
+        safety_backup=safety_archive,
+    )
+
+
+def locations_from_history(game_id: str, archive_name: str) -> list[SaveLocation]:
+    """Rebuilds the SaveLocation objects recorded for a given backup
+    (used by the UI to refresh the save fingerprint after a restore)."""
+    entry = _find_history_entry(game_id, archive_name)
+    if entry is None:
+        return []
+    result = []
+    for loc in entry.get("locations", []):
+        if loc.get("path"):
+            result.append(SaveLocation(
+                path=Path(loc["path"]),
+                kind=loc.get("kind", ""),
+                label=loc.get("label", ""),
+            ))
+    return result

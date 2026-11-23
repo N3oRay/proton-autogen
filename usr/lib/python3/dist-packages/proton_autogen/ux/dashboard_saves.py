@@ -41,7 +41,13 @@ from proton_autogen.save_prompt import (
     GameTarget,
     SavePromptPayload,
 )
-from proton_autogen.save_backup import create_backup, list_backups, backup_archive_path
+from proton_autogen.save_backup import (
+    create_backup,
+    list_backups,
+    backup_archive_path,
+    restore_backup,
+    locations_from_history,
+)
 
 
 class DashboardSavesMixin:
@@ -203,7 +209,7 @@ class DashboardSavesMixin:
             title=title,
         )
         dialog.add_css_class("save-manager-dialog")
-        dialog.set_default_size(460, 680)
+        dialog.set_default_size(460, 780)
 
         outer = Gtk.Box(
             orientation=Gtk.Orientation.VERTICAL,
@@ -345,7 +351,23 @@ class DashboardSavesMixin:
             path_label.set_wrap(True)
             path_label.set_selectable(True)
 
-            action_box.append(open_btn)
+            restore_btn = Gtk.Button(label=tr("memory_restore") or "Restore")
+            restore_btn.add_css_class("destructive-action")
+            restore_btn.connect(
+                "clicked",
+                self._on_restore_backup_clicked,
+                key,
+                entry.get("archive", ""),
+                entry.get("created_at", ""),
+            )
+
+            # Both buttons side by side; the folder path stays underneath.
+            buttons_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
+            buttons_box.set_halign(Gtk.Align.END)
+            buttons_box.append(open_btn)
+            buttons_box.append(restore_btn)
+
+            action_box.append(buttons_box)
             action_box.append(path_label)
 
             row_box.append(text_box)
@@ -368,6 +390,121 @@ class DashboardSavesMixin:
 
         except Exception as exc:
             print(f"Could not open backup folder: {exc}")
+
+    # -------------------------
+    # Restore
+    # -------------------------
+    def _on_restore_backup_clicked(self, btn, key: str, archive_name: str, created_at: str):
+        """Asks for confirmation first: a restore overwrites the current
+        save files (a safety backup of them is made beforehand)."""
+        parent = btn.get_root()  # the save manager window
+        date_str = self._format_backup_date(created_at)
+
+        title = tr("memory_restore_confirm_title") or "Restore this backup?"
+        body = tr("memory_restore_confirm_body", date=date_str, archive=archive_name) or (
+            f"Your current saves will be replaced by the backup from {date_str}.\n"
+            f"A safety backup of the current saves is made first, so you can undo this.\n\n"
+            f"Make sure the game is closed before continuing."
+        )
+
+        confirm = Gtk.Window(
+            transient_for=parent if isinstance(parent, Gtk.Window) else self,
+            modal=True,
+            resizable=False,
+            title=title,
+        )
+        confirm.set_default_size(420, -1)
+
+        box = Gtk.Box(
+            orientation=Gtk.Orientation.VERTICAL,
+            spacing=10,
+            margin_top=16,
+            margin_bottom=16,
+            margin_start=16,
+            margin_end=16,
+        )
+
+        title_label = Gtk.Label()
+        title_label.set_markup(f"<b>{GLib.markup_escape_text(title)}</b>")
+        title_label.set_xalign(0)
+        box.append(title_label)
+
+        body_label = Gtk.Label(label=body)
+        body_label.set_xalign(0)
+        body_label.set_wrap(True)
+        box.append(body_label)
+
+        row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
+        row.set_halign(Gtk.Align.END)
+
+        cancel_btn = Gtk.Button(label=tr("cancel") or "Cancel")
+        cancel_btn.connect("clicked", lambda _b: confirm.close())
+
+        ok_btn = Gtk.Button(label=tr("memory_restore") or "Restore")
+        ok_btn.add_css_class("destructive-action")
+        ok_btn.connect(
+            "clicked", self._on_restore_confirmed, confirm, parent, key, archive_name
+        )
+
+        row.append(cancel_btn)
+        row.append(ok_btn)
+        box.append(row)
+
+        confirm.set_child(box)
+        confirm.present()
+
+    def _on_restore_confirmed(self, _btn, confirm, manager_dialog, key: str, archive_name: str):
+        confirm.close()
+
+        # File copying is I/O-bound: keep it off the GTK main loop.
+        def _do_restore():
+            result = restore_backup(key, archive_name)
+            GLib.idle_add(self._on_restore_finished, result, key, archive_name, manager_dialog)
+
+        threading.Thread(target=_do_restore, daemon=True).start()
+
+    def _on_restore_finished(self, result, key: str, archive_name: str, manager_dialog):
+        if result is not None and result.files_restored > 0:
+            # The restored state is now the reference: don't let the
+            # end-of-session prompt fire for data we just put back.
+            try:
+                locs = locations_from_history(key, archive_name)
+                if locs:
+                    save_prompt_center.acknowledge(key, compute_save_fingerprint(locs))
+            except Exception:
+                pass
+
+            message = tr(
+                "memory_restore_done_message",
+                count=result.files_restored,
+            ) or f"Files restored: {result.files_restored}"
+            if result.files_failed:
+                message += "\n" + (
+                    tr("memory_restore_partial", count=result.files_failed)
+                    or f"Files that could not be restored: {result.files_failed}"
+                )
+
+            notifications.notify(
+                "info",
+                tr("memory_restore_done_title") or "Restore complete",
+                message,
+                ui=True,
+            )
+
+            # The safety backup just created shows up in the history.
+            history_list = getattr(manager_dialog, "_history_list", None)
+            if history_list is not None:
+                self._populate_history_list(history_list, key)
+        else:
+            notifications.notify(
+                "error",
+                tr("memory_restore_failed_title") or "Restore failed",
+                tr("memory_restore_failed_message")
+                or "Could not restore this backup. Check logs for details.",
+                ui=True,
+            )
+
+        return False  # GLib.idle_add: run once, don't repeat
 
     def _on_manual_backup_clicked(self, btn, key: str, locations: list, dialog):
         btn.set_sensitive(False)
