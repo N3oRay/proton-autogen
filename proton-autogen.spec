@@ -1,7 +1,7 @@
 %define __python /usr/bin/python3
 
 Name:           proton-autogen
-Version:        3.4.7
+Version:        3.4.8
 Release:        1%{?dist}
 Summary:        Automatic Proton/Wine launcher for Windows executables
 
@@ -125,6 +125,14 @@ PYTHONPATH="%{buildroot}%{python3_sitelib}:$PYTHONPATH" %{buildroot}%{_bindir}/%
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
+* Tue Nov 24 2026 N3oRay <n3oray77@gmail.com> - 3.4.8-1
+- ❤️ Support ProtonPlus
+- Support: ProtonPlus and help us keep the project growing! Every contribution makes a difference.
+- Added: sponsorship and supporter information.
+- Added: backup save restoration with memory preservation.
+- Added: a debug DXVK option.
+- Added: Visual Studio support.
+
 * Tue Nov 17 2026 N3oRay <n3oray77@gmail.com> - 3.4.7-1
 - Release Proton-Autogen 3.4.7.
 - Added — Nouvelles fonctionnalités.

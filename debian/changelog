@@ -1,6 +1,20 @@
-proton-autogen (3.4.7) noble; urgency=medium
+proton-autogen (3.4.8) noble; urgency=medium
 
   * Thanks to all users and contributors for their continued support, feedback and bug reports.
+  * ❤️ Support ProtonPlus
+  * Support: ProtonPlus and help us keep the project growing! Every contribution makes a difference.
+
+  * Added: sponsorship and supporter information.
+  * Added: backup save restoration with memory preservation.
+  * Added: a debug DXVK option.
+  * Added: Visual Studio support.
+
+  * Reworked the CLI.
+  * Updated Korean translations.
+  * Improved path handling and tests.
+  * Updated documentation and README.
+  * Updated the logo with a high-quality SVG.
+
   * Added — Nouvelles fonctionnalités.
   * Improved — Améliorations et optimisations.
   * Fixed — Corrections de bugs.
@@ -59,4 +73,4 @@ proton-autogen (3.4.7) noble; urgency=medium
   * Strengthened package build workflows and release reliability.
   * General backend, UX, performance, configuration handling and code maintainability improvements.
 
- -- N3oray <n3oray77@gmail.com>  Fri, 13 Nov 2026 10:34:00 +0100
+ -- N3oray <n3oray77@gmail.com>  Tue, 24 Nov 2026 14:34:00 +0100
