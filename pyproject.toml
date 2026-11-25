@@ -48,4 +48,5 @@ proton_autogen = [
 "**/*.jpg",
 "**/*.png",
 "**/*.svg",
+"steam_assets/*",
 ]

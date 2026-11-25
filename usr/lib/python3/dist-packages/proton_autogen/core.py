@@ -856,7 +856,8 @@ def run_game_proton(exe_path, exe_type, proton,
                     enable_mangohud=False, enable_gamemode=False, enable_gamescope=False,
                     fps_limit=60, custom_env=None,
                     prefix_mode="main", progress=None, game_id=None,
-                    dxvk_debug=False, game_name=None, ):
+                    dxvk_debug=False, game_name=None,
+                    game_args=None, from_steam=False):
 
     if progress is None:
         progress = Progress()
@@ -910,7 +911,10 @@ def run_game_proton(exe_path, exe_type, proton,
         env["WINEPREFIX"] = prefix_path
         os.makedirs(prefix_path, exist_ok=True)
 
-        env["STEAM_COMPAT_CLIENT_INSTALL_PATH"] = os.path.expanduser("~/.steam/steam")
+        # Lancé par Steam : garder la racine Steam réelle (Flatpak, bibliothèque
+        # personnalisée...) plutôt que la valeur par défaut.
+        steam_client = os.environ.get("STEAM_COMPAT_CLIENT_INSTALL_PATH") if from_steam else None
+        env["STEAM_COMPAT_CLIENT_INSTALL_PATH"] = steam_client or os.path.expanduser("~/.steam/steam")
         env["STEAM_COMPAT_TOOL_PATHS"] = proton_dir
         # -------------------------
         # GPU layer (UX + system merge)
@@ -937,7 +941,8 @@ def run_game_proton(exe_path, exe_type, proton,
         cmd += [
             os.path.join(proton_path(proton), "proton"),
             "run",
-            exe_path
+            exe_path,
+            *(game_args or []),
         ]
 
         # Verrou anti-veille (empêche l'écran de s'éteindre / la mise en

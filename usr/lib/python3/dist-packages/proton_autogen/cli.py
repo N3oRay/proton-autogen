@@ -117,6 +117,21 @@ class _Parser(argparse.ArgumentParser):
         )
 
 
+def split_game_args(argv: Sequence[str]) -> tuple:
+    """``... -- FILE.exe ARGS...`` -> (``... -- FILE.exe``, ``ARGS...``).
+
+    Everything after the program following ``--`` belongs to the program, so it
+    never reaches the routing above (a game argument like ``--help`` must not
+    open the project help). ``-- FILE`` alone is unchanged.
+    """
+    argv = list(argv)
+    if "--" in argv:
+        i = argv.index("--")
+        if len(argv) > i + 2:
+            return argv[: i + 2], argv[i + 2:]
+    return argv, []
+
+
 def build_parser() -> _Parser:
     debug_opt = argparse.ArgumentParser(add_help=False)
     debug_opt.add_argument(
@@ -173,6 +188,9 @@ def build_parser() -> _Parser:
     prefix.add_argument("--pc", dest="prefix_mode", action="store_const",
                         const="custom", help="custom prefix")
     p.set_defaults(launch_mode="proton", prefix_mode="main")
+    p.add_argument("--steam", action="store_true",
+                   help="started by Steam (see 'install-steam'): reuse Steam's environment; "
+                        "arguments after '-- FILE.exe' are passed to the program")
 
     # -- bibliothèque ------------------------------------------------------- #
     p = add("add", _cmd_add, "register a program", profile=True)
@@ -190,6 +208,18 @@ def build_parser() -> _Parser:
             "import existing applications (Lutris, Bottles, Heroic, Wine)")
     p.add_argument("-y", "--yes", action="store_true",
                    help="do not ask for confirmation")
+
+    p = add("install-steam", _cmd_install_steam,
+            "install Proton-Autogen as a Steam compatibility tool")
+    p.add_argument("--dest", metavar="DIR",
+                   help="compatibilitytools.d directory "
+                        "(default: ~/.steam/root/compatibilitytools.d)")
+    p.add_argument("--launcher", metavar="PATH",
+                   help="path of the proton-autogen launcher (default: found in PATH)")
+    p.add_argument("-y", "--yes", action="store_true",
+                   help="do not ask before replacing an existing installation")
+    p.add_argument("--check", action="store_true",
+                   help="only verify permissions and integrity; change nothing")
 
     # -- interface, informations, diagnostics ------------------------------ #
     add("ux", _cmd_ux, "open the graphical dashboard")
@@ -225,7 +255,23 @@ def _require_file(path: str) -> str:
 
 def _cmd_run(args):
     from proton_autogen.backend import run
-    return run(args.file, args.launch_mode, args.prefix_mode)
+    # Les paramètres Steam ne sont transmis que lorsqu'ils servent : un
+    # lancement classique appelle run() exactement comme avant.
+    extra = {}
+    if getattr(args, "game_args", None):
+        extra["game_args"] = args.game_args
+    if getattr(args, "steam", False):
+        extra["from_steam"] = True
+    return run(args.file, args.launch_mode, args.prefix_mode, **extra)
+
+
+def _cmd_install_steam(args):
+    from proton_autogen.steam_compat import SteamInstallError, run_install_steam
+    try:
+        return run_install_steam(dest=args.dest, launcher=args.launcher,
+                                 assume_yes=args.yes, check=args.check)
+    except SteamInstallError as exc:
+        raise CliError(str(exc), exc.code) from exc
 
 
 def _cmd_add(args):
@@ -371,8 +417,12 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 file=sys.stderr,
             )
             return EXIT_USAGE
-        args = parser.parse_args(normalize_argv(raw, parser.command_names))
-        return _dispatch(args, raw)
+        head, game_args = split_game_args(raw)
+        args = parser.parse_args(normalize_argv(head, parser.command_names))
+        if game_args and args.command != "run":
+            raise CliError(f"unexpected arguments: {' '.join(game_args)}", EXIT_USAGE)
+        args.game_args = game_args
+        return _dispatch(args, head)
     except CliError as exc:
         print(f"{PROG}: {exc.message}", file=sys.stderr)
         return exc.code

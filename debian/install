@@ -10,6 +10,7 @@ usr/lib/python3/dist-packages/proton_autogen/profiles/* usr/lib/python3/dist-pac
 usr/lib/python3/dist-packages/proton_autogen/locales/* usr/lib/python3/dist-packages/proton_autogen/locales/
 usr/lib/python3/dist-packages/proton_autogen/detection/* usr/lib/python3/dist-packages/proton_autogen/detection/
 usr/lib/python3/dist-packages/proton_autogen/utils/* usr/lib/python3/dist-packages/proton_autogen/utils/
+usr/lib/python3/dist-packages/proton_autogen/steam_assets/* usr/lib/python3/dist-packages/proton_autogen/steam_assets/
 
 usr/lib/python3/dist-packages/proton_autogen/protondb/* usr/lib/python3/dist-packages/proton_autogen/protondb/
 usr/lib/python3/dist-packages/proton_autogen/ux/* usr/lib/python3/dist-packages/proton_autogen/ux/

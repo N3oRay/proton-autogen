@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 
 from proton_autogen.config import VERSION, load_proton_paths
+from proton_autogen.steam_compat import is_wrapper_dir
 from proton_autogen.core import has_wine, has_gamemode, has_gamescope, has_mangohud, has_proton_call
 from proton_autogen.utils.diagnostic import diagnostic_report, load_logs
 
@@ -98,6 +99,7 @@ def find_system_proton():
                 if (
                     os.path.isdir(full)
                     and is_proton_name(d)
+                    and not is_wrapper_dir(full)
                 ):
                     candidates.append(full)
 
@@ -158,7 +160,8 @@ def find_proton():
             for d in os.listdir(base):
                 full = os.path.join(base, d)
 
-                if os.path.isdir(full) and is_proton_dir(d):
+                if (os.path.isdir(full) and is_proton_dir(d)
+                        and not is_wrapper_dir(full)):
                     add(full)
 
         except (PermissionError, FileNotFoundError):
@@ -214,7 +217,7 @@ def find_all_protons():
                 if not os.path.isdir(full):
                     continue
 
-                if not is_proton(d):
+                if not is_proton(d) or is_wrapper_dir(full):
                     continue
 
                 key = normalize(d)

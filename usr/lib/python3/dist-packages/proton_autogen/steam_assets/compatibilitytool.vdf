@@ -1,0 +1,14 @@
+"compatibilitytools"
+{
+  "compat_tools"
+  {
+    "Proton-Autogen"
+    {
+      "install_path" "."
+      "display_name" "Proton-Autogen"
+
+      "from_oslist"  "windows"
+      "to_oslist"    "linux"
+    }
+  }
+}

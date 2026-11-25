@@ -9,6 +9,7 @@ from pathlib import Path
 from proton_autogen.exceptions import ExecutableNotFoundError, ProtonNotFoundError, GameConfigError, PrefixError
 from time import perf_counter
 from proton_autogen.config import VERSION, load_proton_paths
+from proton_autogen.steam_compat import is_wrapper_dir
 from proton_autogen.utils.logger import StructuredLogger
 from proton_autogen.progress import Progress
 from proton_autogen.utils.steam_appid import detect_steam_appid
@@ -118,7 +119,8 @@ def _apply_profile_exe_type(exe_type):
     return exe_type
 
 
-def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None, game_id=None):
+def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None, game_id=None,
+        game_args=None, from_steam=False):
     try:
         start_time = time.time() # Stats
         result_code = 0 # Stats
@@ -270,7 +272,8 @@ def run(exe_path: str, launch_mode="proton", prefix_mode="main", progress=None, 
              enable_gamemode=enable_gamemode, enable_gamescope=enable_gamescope, fps_limit=cfg_fps_limit, custom_env=cfg_custom_env,
              prefix_mode=prefix_mode, progress=progress, game_id=game_id,
              dxvk_debug=enable_dxvk_debug,
-             game_name=config.get("name") if config else None,)
+             game_name=config.get("name") if config else None,
+             game_args=game_args, from_steam=from_steam,)
             if DEBUG or VERBOSE:
                 logger.debug("Result type: %s", type(result_code))
                 logger.debug("Result: %s", result_code)
@@ -785,7 +788,7 @@ def find_proton_by_name(name: str):
             for d in os.listdir(base):
                 full = os.path.join(base, d)
 
-                if not os.path.isdir(full):
+                if not os.path.isdir(full) or is_wrapper_dir(full):
                     continue
 
                 norm = _normalize(d)
