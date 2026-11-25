@@ -162,7 +162,7 @@ def show_message(parent, title: str, message: str):
     """
 
     dialog = Gtk.AlertDialog()
-    dialog.set_title(title)
+    #dialog.set_title(title)
     dialog.set_message(message)
 
     dialog.show(parent, None)
@@ -177,7 +177,7 @@ def show_confirm(parent, title: str, message: str, callback):
     """
 
     dialog = Gtk.AlertDialog()
-    dialog.set_title(title)
+    #dialog.set_title(title)
     dialog.set_message(message)
 
     dialog.set_buttons(["Cancel", "OK"])
@@ -205,7 +205,7 @@ def show_error(parent, title: str, error: str):
     """
 
     dialog = Gtk.AlertDialog()
-    dialog.set_title(title)
+    #dialog.set_title(title)
     dialog.set_message(error)
 
     dialog.show(parent, None)
