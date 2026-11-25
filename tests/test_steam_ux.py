@@ -220,8 +220,32 @@ def test_dashboard_is_wired():
 
 def test_menu_has_the_entry():
     source = _source("ux/menu.py")
+    # Normalize whitespace to support multiline calls
+    source = " ".join(source.split())
+    # Steam configuration action
     assert 'tr("menu_steam_config"), "app.steam_config"' in source
-    assert 'actions.get("steam_config"' in source  # menu de repli
+    # Steam menu icon
+    assert '"applications-games-symbolic"' in source
+    # Fallback menu action
+    assert 'actions.get("steam_config"' in source
+
+def test_menu_items_have_themed_icons():
+    source = _source("ux/menu.py")
+
+    # Vérifie la présence du mécanisme d'icônes GTK
+    assert "Gio.ThemedIcon" in source
+    assert ".set_icon(" in source
+
+    # Vérifie l'organisation du menu
+    assert "append_section(" in source
+
+def test_steam_menu_action_is_preserved():
+    source = _source("ux/menu.py")
+    source = " ".join(source.split())
+
+    assert '"app.steam_config"' in source
+    assert 'tr("menu_steam_config")' in source
+    assert '"applications-games-symbolic"' in source
 
 
 def test_every_steam_key_used_in_the_ux_exists_in_all_locales():

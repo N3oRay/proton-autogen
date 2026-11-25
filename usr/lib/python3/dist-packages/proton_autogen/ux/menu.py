@@ -10,38 +10,32 @@ from proton_autogen.ux.dashboard_proton_update import make_menu_item
 
 
 
+def add_menu_item(menu, label, action, icon_name):
+    item = Gio.MenuItem.new(label, action)
+
+    if icon_name:
+        icon = Gio.ThemedIcon.new(icon_name)
+        item.set_icon(icon)
+
+    menu.append_item(item)
 
 # =========================================================
 # MAIN MENU MODEL (GTK4.14 / WAYLAND)
 # =========================================================
 
 def build_app_menu(app):
-    """
-    Native GTK4 menu with improved organization.
-    Compatible with GTK 4.14 / Wayland.
-    """
 
     menu = Gio.Menu()
-
-    # -----------------------------------------------------
-    # CONFIGURATION
-    # -----------------------------------------------------
-
     section = Gio.Menu()
 
-    def add_item(section, label, action, icon):
-        item = Gio.MenuItem.new(label, action)
-        item.set_icon(Gio.ThemedIcon.new(icon))
-        section.append_item(item)
-
-    add_item(
+    add_menu_item(
         section,
         tr("menu_settings"),
         "app.settings",
         "preferences-system-symbolic",
     )
 
-    add_item(
+    add_menu_item(
         section,
         tr("menu_shortcuts") or "Raccourcis clavier",
         "app.shortcuts",
@@ -50,63 +44,82 @@ def build_app_menu(app):
 
     menu.append_section(None, section)
 
-    # -----------------------------------------------------
-    # OUTILS
-    # -----------------------------------------------------
-
     section = Gio.Menu()
 
-    add_item(section, tr("menu_diagnostics"),
-             "app.diag", "utilities-system-monitor-symbolic")
+    add_menu_item(
+        section,
+        tr("menu_diagnostics"),
+        "app.diag",
+        "utilities-system-monitor-symbolic",
+    )
 
-    add_item(section, tr("menu_sensors"),
-             "app.sensors", "applications-system-symbolic")
+    add_menu_item(
+        section,
+        tr("menu_sensors"),
+        "app.sensors",
+        "applications-system-symbolic",
+    )
 
-    add_item(section, tr("menu_help_mangohud"),
-             "app.mangohud", "applications-graphics-symbolic")
+    add_menu_item(
+        section,
+        tr("menu_help_mangohud"),
+        "app.mangohud",
+        "applications-graphics-symbolic",
+    )
 
-    # Proton update (existing custom item)
+    # ProtonPlus
     section.append_item(
         make_menu_item(
             tr("menu_proton_update") or "Mise à jour Proton"
         )
     )
 
-    add_item(section, tr("menu_steam_config"),
-             "app.steam_config", "applications-games-symbolic")
+    add_menu_item(
+        section,
+        tr("menu_steam_config"),
+        "app.steam_config",
+        "applications-games-symbolic",
+    )
 
     menu.append_section(None, section)
 
-    # -----------------------------------------------------
-    # AIDE
-    # -----------------------------------------------------
-
     section = Gio.Menu()
 
-    add_item(section, tr("menu_help"),
-             "app.help", "help-browser-symbolic")
+    add_menu_item(
+        section,
+        tr("menu_help"),
+        "app.help",
+        "help-browser-symbolic",
+    )
 
-    add_item(section, tr("menu_requirements"),
-             "app.requis", "dialog-information-symbolic")
+    add_menu_item(
+        section,
+        tr("menu_requirements"),
+        "app.requis",
+        "dialog-information-symbolic",
+    )
 
     menu.append_section(None, section)
 
-    # -----------------------------------------------------
-    # INFORMATIONS
-    # -----------------------------------------------------
-
     section = Gio.Menu()
 
-    add_item(section, tr("menu_about_proton"),
-             "app.aboutproton", "application-x-executable-symbolic")
+    add_menu_item(
+        section,
+        tr("menu_about_proton"),
+        "app.aboutproton",
+        "application-x-executable-symbolic",
+    )
 
-    add_item(section, tr("menu_about"),
-             "app.about", "help-about-symbolic")
+    add_menu_item(
+        section,
+        tr("menu_about"),
+        "app.about",
+        "help-about-symbolic",
+    )
 
     menu.append_section(None, section)
 
     return menu
-
 
 # =========================================================
 # ATTACH MENU TO HEADER BUTTON
