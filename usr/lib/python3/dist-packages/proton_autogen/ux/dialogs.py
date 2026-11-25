@@ -12,6 +12,68 @@ from proton_autogen.ux.dashboard_status import clean_message, cap_lines
 # dashboard_status.py), sous peine de texte qui déborde du cadre.
 LAUNCH_DIALOG_MAX_LINES = 2
 
+
+# =========================================================
+# STANDARD GTK4 DIALOG
+# =========================================================
+
+def _create_dialog(parent, title: str, message: str, icon_name: str):
+    """
+    Create a reusable native GTK4 dialog window.
+    Compatible with GTK 4.14.
+    """
+
+    dialog = Gtk.Window(
+        title=title,
+        modal=True,
+        resizable=False,
+        default_width=420,
+    )
+
+    if parent is not None:
+        dialog.set_transient_for(parent)
+
+    dialog.add_css_class("app-dialog")
+
+    # Main container
+    main_box = Gtk.Box(
+        orientation=Gtk.Orientation.VERTICAL,
+        spacing=20,
+        margin_top=24,
+        margin_bottom=20,
+        margin_start=24,
+        margin_end=24,
+    )
+
+    # Message area
+    content_box = Gtk.Box(
+        orientation=Gtk.Orientation.HORIZONTAL,
+        spacing=16,
+        valign=Gtk.Align.CENTER,
+    )
+
+    # Symbolic GTK icon
+    icon = Gtk.Image.new_from_icon_name(icon_name)
+    icon.set_pixel_size(36)
+    icon.set_valign(Gtk.Align.START)
+
+    content_box.append(icon)
+
+    # Message
+    label = Gtk.Label(label=message)
+    label.set_wrap(True)
+    label.set_xalign(0)
+    label.set_yalign(0.5)
+    label.set_max_width_chars(55)
+    label.set_hexpand(True)
+
+    content_box.append(label)
+    main_box.append(content_box)
+
+    dialog.set_child(main_box)
+
+    return dialog, main_box
+
 # =========================================================
 # launch  - GAME
 # =========================================================
@@ -157,55 +219,118 @@ def open_game_file_dialog(parent, callback):
 # SIMPLE MESSAGE DIALOG
 # =========================================================
 def show_message(parent, title: str, message: str):
-    """
-    Simple info dialog (GTK4)
-    """
+    """Display a standard GTK4 information dialog."""
 
-    dialog = Gtk.AlertDialog()
-    #dialog.set_title(title)
-    dialog.set_message(message)
+    dialog, box = _create_dialog(
+        parent,
+        title,
+        message,
+        "dialog-information-symbolic",
+    )
 
-    dialog.show(parent, None)
+    button_box = Gtk.Box(
+        orientation=Gtk.Orientation.HORIZONTAL,
+        spacing=8,
+        halign=Gtk.Align.END,
+    )
+
+    close_button = Gtk.Button(label="Close")
+    close_button.add_css_class("suggested-action")
+    close_button.connect("clicked", lambda _b: dialog.close())
+
+    button_box.append(close_button)
+    box.append(button_box)
+
+    dialog.present()
 
 
 # =========================================================
 # CONFIRMATION DIALOG
 # =========================================================
 def show_confirm(parent, title: str, message: str, callback):
-    """
-    Yes/No dialog (useful for delete game, reset prefix, etc.)
-    """
+    """Display a standard GTK4 confirmation dialog."""
 
-    dialog = Gtk.AlertDialog()
-    #dialog.set_title(title)
-    dialog.set_message(message)
+    dialog, box = _create_dialog(
+        parent,
+        title,
+        message,
+        "dialog-question-symbolic",
+    )
 
-    dialog.set_buttons(["Cancel", "OK"])
-    dialog.set_default_button(1)
-    dialog.set_cancel_button(0)
+    button_box = Gtk.Box(
+        orientation=Gtk.Orientation.HORIZONTAL,
+        spacing=8,
+        halign=Gtk.Align.END,
+    )
 
-    def _on_response(dialog, result):
-        try:
-            response = dialog.choose_finish(result)
-            # 1 = OK, 0 = Cancel
-            callback(response == 1)
-        except Exception as e:
-            print("[dialogs] Confirm error:", e)
-            callback(False)
+    cancel_button = Gtk.Button(label="Cancel")
+    ok_button = Gtk.Button(label="OK")
 
-    dialog.choose(parent, None, _on_response)
+    ok_button.add_css_class("suggested-action")
+
+    # Ensure callback is executed only once
+    responded = False
+
+    def _respond(value):
+        nonlocal responded
+
+        if responded:
+            return
+
+        responded = True
+        callback(value)
+        dialog.close()
+
+    cancel_button.connect(
+        "clicked",
+        lambda _b: _respond(False),
+    )
+
+    ok_button.connect(
+        "clicked",
+        lambda _b: _respond(True),
+    )
+
+    # Closing the window is equivalent to Cancel
+    def _on_close(_dialog):
+        if not responded:
+            _respond(False)
+        return False
+
+    dialog.connect("close-request", _on_close)
+
+    button_box.append(cancel_button)
+    button_box.append(ok_button)
+
+    box.append(button_box)
+
+    dialog.present()
 
 
 # =========================================================
 # ERROR DIALOG (UX SAFE)
 # =========================================================
 def show_error(parent, title: str, error: str):
-    """
-    Error popup safe for UX
-    """
+    """Display a standard GTK4 error dialog."""
 
-    dialog = Gtk.AlertDialog()
-    #dialog.set_title(title)
-    dialog.set_message(error)
+    dialog, box = _create_dialog(
+        parent,
+        title,
+        error,
+        "dialog-error-symbolic",
+    )
 
-    dialog.show(parent, None)
+    button_box = Gtk.Box(
+        orientation=Gtk.Orientation.HORIZONTAL,
+        spacing=8,
+        halign=Gtk.Align.END,
+    )
+
+    close_button = Gtk.Button(label="Close")
+    close_button.add_css_class("suggested-action")
+    close_button.connect("clicked", lambda _b: dialog.close())
+
+    button_box.append(close_button)
+    box.append(button_box)
+
+    dialog.present()
