@@ -1389,3 +1389,39 @@ popover > arrow {
     background: @kde-surface;
 }
 /* ==== TABLEAU LAYER (fin) ==== */
+/* ==========================================
+   MAIN APPLICATION MENU - GTK4
+   ========================================== */
+
+popover.main-app-menu {
+    padding: 5px;
+}
+
+/* Menu items */
+popover.main-app-menu modelbutton {
+    min-height: 34px;
+    padding: 4px 9px;
+    border-radius: 7px;
+}
+
+/* Hover */
+popover.main-app-menu modelbutton:hover {
+    background-color: alpha(currentColor, 0.08);
+}
+
+/* Selected / focused */
+popover.main-app-menu modelbutton:focus-visible {
+    outline: 2px solid alpha(@accent_color, 0.7);
+    outline-offset: -2px;
+}
+
+/* Icons */
+popover.main-app-menu image {
+    -gtk-icon-size: 18px;
+}
+
+/* Separators */
+popover.main-app-menu separator {
+    margin: 5px 7px;
+    opacity: 0.55;
+}

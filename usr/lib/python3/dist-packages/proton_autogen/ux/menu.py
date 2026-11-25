@@ -10,33 +10,122 @@ from proton_autogen.ux.dashboard_proton_update import make_menu_item
 
 
 
+
 # =========================================================
-# MAIN MENU MODEL (GTK4 / WAYLAND SAFE)
+# MAIN MENU MODEL (GTK4.14 / WAYLAND)
 # =========================================================
+
 def build_app_menu(app):
     """
-    Creates Gio.Menu + actions binding
-    Compatible with GTK4 MenuButton
+    Native GTK4 menu with improved organization.
+    Compatible with GTK 4.14 / Wayland.
     """
 
     menu = Gio.Menu()
 
-    menu.append(tr("menu_settings"), "app.settings")
-    menu.append(tr("menu_shortcuts") or "Raccourcis clavier", "app.shortcuts")
-    menu.append(tr("menu_diagnostics"), "app.diag")
-    menu.append(tr("menu_sensors"), "app.sensors")
-    menu.append(tr("menu_help_mangohud"), "app.mangohud")
-    menu.append(tr("menu_help"), "app.help")
-    menu.append(tr("menu_requirements"), "app.requis")
-    # Ouvre ProtonPlus (si installé, avec son icône) ou propose de l'installer
-    menu.append_item(make_menu_item(tr("menu_proton_update") or "Mise à jour Proton"))
-    # Installation / désinstallation de l'outil de compatibilité Steam (app.steam_config)
-    menu.append(tr("menu_steam_config"), "app.steam_config")
-    menu.append(tr("menu_about_proton"), "app.aboutproton")
-    menu.append(tr("menu_about"), "app.about")
+    # -----------------------------------------------------
+    # CONFIGURATION
+    # -----------------------------------------------------
+
+    section = Gio.Menu()
+
+    def add_item(section, label, action, icon):
+        item = Gio.MenuItem.new(label, action)
+        item.set_icon(Gio.ThemedIcon.new(icon))
+        section.append_item(item)
+
+    add_item(
+        section,
+        tr("menu_settings"),
+        "app.settings",
+        "preferences-system-symbolic",
+    )
+
+    add_item(
+        section,
+        tr("menu_shortcuts") or "Raccourcis clavier",
+        "app.shortcuts",
+        "input-keyboard-symbolic",
+    )
+
+    menu.append_section(None, section)
+
+    # -----------------------------------------------------
+    # OUTILS
+    # -----------------------------------------------------
+
+    section = Gio.Menu()
+
+    add_item(section, tr("menu_diagnostics"),
+             "app.diag", "utilities-system-monitor-symbolic")
+
+    add_item(section, tr("menu_sensors"),
+             "app.sensors", "applications-system-symbolic")
+
+    add_item(section, tr("menu_help_mangohud"),
+             "app.mangohud", "applications-graphics-symbolic")
+
+    # Proton update (existing custom item)
+    section.append_item(
+        make_menu_item(
+            tr("menu_proton_update") or "Mise à jour Proton"
+        )
+    )
+
+    add_item(section, tr("menu_steam_config"),
+             "app.steam_config", "applications-games-symbolic")
+
+    menu.append_section(None, section)
+
+    # -----------------------------------------------------
+    # AIDE
+    # -----------------------------------------------------
+
+    section = Gio.Menu()
+
+    add_item(section, tr("menu_help"),
+             "app.help", "help-browser-symbolic")
+
+    add_item(section, tr("menu_requirements"),
+             "app.requis", "dialog-information-symbolic")
+
+    menu.append_section(None, section)
+
+    # -----------------------------------------------------
+    # INFORMATIONS
+    # -----------------------------------------------------
+
+    section = Gio.Menu()
+
+    add_item(section, tr("menu_about_proton"),
+             "app.aboutproton", "application-x-executable-symbolic")
+
+    add_item(section, tr("menu_about"),
+             "app.about", "help-about-symbolic")
+
+    menu.append_section(None, section)
 
     return menu
 
+
+# =========================================================
+# ATTACH MENU TO HEADER BUTTON
+# =========================================================
+
+def attach_menu(menu_button: Gtk.MenuButton, app):
+    """
+    Native GTK4 PopoverMenu.
+    """
+
+    menu_model = build_app_menu(app)
+
+    popover = Gtk.PopoverMenu.new_from_model(menu_model)
+
+    popover.add_css_class("main-app-menu")
+
+    menu_button.set_popover(popover)
+
+    menu_button.set_tooltip_text("Menu principal")
 
 # =========================================================
 # POPUP MENU (fallback / optional UX)
@@ -76,22 +165,3 @@ def create_popover_menu(parent, actions=None):
     pop.set_parent(parent)
 
     return pop
-
-
-# =========================================================
-# ATTACH MENU TO HEADER BUTTON
-# =========================================================
-def attach_menu(menu_button: Gtk.MenuButton, app):
-    """
-    Clean GTK4 menu binding (avoids GtkPopoverMenu warnings)
-    """
-
-    menu_model = build_app_menu(app)
-
-    popover = Gtk.PopoverMenu.new_from_model(menu_model)
-
-    menu_button.set_popover(popover)
-
-    # 🔥 important fix: avoids "broken active state"
-    menu_button.set_can_focus(False)
-    menu_button.set_focus_on_click(False)
