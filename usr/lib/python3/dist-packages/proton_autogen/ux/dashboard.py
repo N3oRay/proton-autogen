@@ -23,6 +23,7 @@ from proton_autogen.ux.dashboard_running import DashboardRunningMixin
 from proton_autogen.ux.dashboard_drop import DashboardDropMixin
 from proton_autogen.ux.dashboard_addux import DashboardAddUxMixin, register_addux_action
 from proton_autogen.ux.dashboard_proton_update import DashboardProtonUpdateMixin, register_proton_update_action
+from proton_autogen.ux.dashboard_steam import DashboardSteamMixin, register_steam_action
 
 from proton_autogen.ux.themes import (
     load_saved_theme, save_theme, AVAILABLE_THEMES, DEFAULT_THEME,
@@ -44,7 +45,7 @@ from proton_autogen.backend import list_programs_ux
 # -----------------------------
 # MAIN WINDOW
 # -----------------------------
-class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, DashboardActionsMixin, DashboardMangoHudMixin, DashboardCreateShortcutMixin, DashboardSettingsMixin, DashboardShortcutsMixin, DashboardSavesMixin, DashboardImportMixin, DashboardRunningMixin, DashboardDropMixin, DashboardAddUxMixin, DashboardProtonUpdateMixin, Gtk.ApplicationWindow):
+class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, DashboardActionsMixin, DashboardMangoHudMixin, DashboardCreateShortcutMixin, DashboardSettingsMixin, DashboardShortcutsMixin, DashboardSavesMixin, DashboardImportMixin, DashboardRunningMixin, DashboardDropMixin, DashboardAddUxMixin, DashboardProtonUpdateMixin, DashboardSteamMixin, Gtk.ApplicationWindow):
     SHOW_ADD_BUTTON = True
     SHOW_IMPORT_BUTTON = True
     SHOW_REFRESH_BUTTON = True
@@ -485,6 +486,9 @@ class ProtonAutogenApp(Gtk.Application):
 
         # Menu « Mise à jour Proton » : ouvre ProtonPlus ou propose de l'installer (app.proton_update)
         register_proton_update_action(self)
+
+        # Menu « Configuration Steam » : installer / désinstaller l'outil Steam (app.steam_config)
+        register_steam_action(self)
 
         # Mangohud SENSORS
         mgh = Gio.SimpleAction.new("mangohud", None)

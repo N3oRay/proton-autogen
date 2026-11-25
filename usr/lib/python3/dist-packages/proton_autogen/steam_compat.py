@@ -1,4 +1,8 @@
-"""Steam compatibility tool for Proton-Autogen (``proton-autogen install-steam``).
+"""Steam compatibility tool for Proton-Autogen.
+
+Commands: ``proton-autogen install-steam`` / ``uninstall-steam``; the same
+functions (``get_status``, ``install``, ``uninstall``) feed the UX menu
+"Steam configuration".
 
 Installs a thin wrapper into ``<Steam>/compatibilitytools.d/Proton-Autogen/`` so
 that Steam can launch a game through ``proton-autogen run``. The wrapper
@@ -23,6 +27,7 @@ import stat
 import sys
 import tempfile
 import time
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Callable, Optional
 
@@ -37,6 +42,9 @@ MANAGED = ASSET_FILES + MODULE_FILES + (LAUNCHER_FILE,)
 
 # Marker used by the Proton detection code to ignore this tool.
 WRAPPER_MARKER = MODULE_FILES[0]
+# Written when an uninstall leaves files behind (backups, user files): lets a later
+# ``uninstall-steam`` / ``--purge`` recognise the folder as ours.
+LEFTOVER_MARKER = ".proton-autogen-leftovers"
 
 EXIT_ERROR = 1
 EXIT_ABORTED = 4
@@ -61,7 +69,9 @@ def is_wrapper_dir(path) -> bool:
     Proton-Autogen scans ``compatibilitytools.d`` for folders named "*proton*";
     selecting its own wrapper would make it call itself forever.
     """
-    return os.path.isfile(os.path.join(os.fspath(path), WRAPPER_MARKER))
+    base = os.fspath(path)
+    return (os.path.isfile(os.path.join(base, WRAPPER_MARKER))
+            or os.path.isfile(os.path.join(base, LEFTOVER_MARKER)))
 
 
 def default_steam_root() -> Path:
@@ -227,6 +237,29 @@ def _prepare_tools_dir(tools_dir: Path, custom: bool) -> None:
     tools_dir.mkdir(parents=custom, mode=0o755)
 
 
+def _expected_files(assets: Path, launcher: Optional[str]) -> dict:
+    expected = {n: (assets / n).read_bytes() for n in ASSET_FILES + MODULE_FILES}
+    expected[LAUNCHER_FILE] = (str(_resolve_launcher(launcher)) + "\n").encode()
+    return expected
+
+
+def _differing(dest: Path, expected: dict) -> list:
+    """Existing managed files whose content differs from what we would write."""
+    return [name for name, data in expected.items()
+            if (dest / name).is_file() and _sha_file(dest / name) != _sha(data)]
+
+
+def install_conflicts(dest_root=None, assets_dir=None, launcher=None) -> list:
+    """Files an install would replace (empty list = nothing to confirm).
+
+    Lets a GUI ask for confirmation first, then call ``install(assume_yes=True)``."""
+    tools_dir = Path(dest_root).expanduser() if dest_root else default_tools_dir()
+    dest = tools_dir / TOOL_NAME
+    if not dest.is_dir():
+        return []
+    return _differing(dest, _expected_files(find_assets_dir(assets_dir), launcher))
+
+
 def install(dest_root=None, assume_yes=False, assets_dir=None, launcher=None,
             out: Callable[[str], None] = print) -> Path:
     """Install (or update) the wrapper. Never overwrites a differing existing
@@ -234,8 +267,7 @@ def install(dest_root=None, assume_yes=False, assets_dir=None, launcher=None,
     tools_dir = Path(dest_root).expanduser() if dest_root else default_tools_dir()
     assets = find_assets_dir(assets_dir)
 
-    expected = {n: (assets / n).read_bytes() for n in ASSET_FILES + MODULE_FILES}
-    expected[LAUNCHER_FILE] = (str(_resolve_launcher(launcher)) + "\n").encode()
+    expected = _expected_files(assets, launcher)
 
     _prepare_tools_dir(tools_dir, custom=dest_root is not None)
     dest = tools_dir / TOOL_NAME
@@ -244,10 +276,7 @@ def install(dest_root=None, assume_yes=False, assets_dir=None, launcher=None,
 
     differing = []
     if dest.is_dir():
-        for name, data in expected.items():
-            path = dest / name
-            if path.is_file() and _sha_file(path) != _sha(data):
-                differing.append(name)
+        differing = _differing(dest, expected)
 
         if not differing and all((dest / n).is_file() for n in expected):
             _apply_modes(dest)
@@ -280,6 +309,7 @@ def install(dest_root=None, assume_yes=False, assets_dir=None, launcher=None,
     _atomic_write(dest / MANIFEST_FILE,
                   json.dumps(manifest, indent=2, sort_keys=True).encode(), 0o644)
     _apply_modes(dest)
+    (dest / LEFTOVER_MARKER).unlink(missing_ok=True)
 
     problems = verify(dest)
     if problems:
@@ -307,4 +337,145 @@ def run_install_steam(dest=None, launcher=None, assume_yes=False, check=False,
         out("Steam installation is healthy.")
         return 0
     install(dest_root=dest, assume_yes=assume_yes, launcher=launcher, out=out)
+    return 0
+
+
+# --------------------------------------------------------------------------- #
+# Status (used by the UX)
+# --------------------------------------------------------------------------- #
+
+@dataclass
+class SteamStatus:
+    steam_found: bool          # Steam's compatibilitytools.d (or its parent) exists
+    tools_dir: Path
+    dest: Path                 # <tools_dir>/Proton-Autogen
+    installed: bool            # a Proton-Autogen installation is present
+    problems: list = field(default_factory=list)   # verify() output when installed
+
+    @property
+    def healthy(self) -> bool:
+        return self.installed and not self.problems
+
+
+def _is_our_install(dest: Path) -> bool:
+    """True only for a real directory that was installed by us."""
+    if dest.is_symlink() or not dest.is_dir():
+        return False
+    if (dest / WRAPPER_MARKER).is_file():
+        return True
+    manifest = _load_manifest(dest)
+    return bool(manifest) and manifest.get("tool") == TOOL_NAME
+
+
+def get_status(dest_root=None) -> SteamStatus:
+    tools_dir = Path(dest_root).expanduser() if dest_root else default_tools_dir()
+    dest = tools_dir / TOOL_NAME
+    installed = _is_our_install(dest)
+    return SteamStatus(
+        steam_found=tools_dir.exists() or tools_dir.parent.exists(),
+        tools_dir=tools_dir,
+        dest=dest,
+        installed=installed,
+        problems=verify(dest) if installed else [],
+    )
+
+
+# --------------------------------------------------------------------------- #
+# Uninstallation
+# --------------------------------------------------------------------------- #
+
+@dataclass
+class UninstallResult:
+    found: bool                                  # was anything installed?
+    removed: list = field(default_factory=list)  # files deleted
+    kept: list = field(default_factory=list)     # files left in the directory
+    dir_removed: bool = False
+
+
+def uninstall(dest_root=None, assume_yes=False, purge=False,
+              out: Callable[[str], None] = print) -> UninstallResult:
+    """Remove the wrapper from Steam's compatibilitytools.d.
+
+    * Only a directory recognised as ours is touched (never a symlink, never
+      another tool), and only the managed files are deleted.
+    * Managed files modified since the install are kept as ``<name>.bak-<date>``
+      and other files (backups, user files) are left in place, so the folder is
+      only removed when it ends up empty (a marker then lets a later call, or
+      ``purge=True``, recognise the leftovers). ``purge=True`` deletes everything.
+    * Always asks for confirmation unless ``assume_yes``.
+    """
+    tools_dir = Path(dest_root).expanduser() if dest_root else default_tools_dir()
+    dest = tools_dir / TOOL_NAME
+
+    if not dest.exists() and not dest.is_symlink():
+        out("Not installed: nothing to do.")
+        return UninstallResult(found=False)
+    if dest.is_symlink() or not dest.is_dir():
+        raise SteamInstallError(f"{dest} is not a regular directory: refusing to remove it.")
+    installed = _is_our_install(dest)
+    leftovers_only = not installed and (dest / LEFTOVER_MARKER).is_file()
+    if not installed and not leftovers_only:
+        raise SteamInstallError(
+            f"{dest} does not look like a Proton-Autogen installation: refusing to remove it.")
+
+    recorded = (_load_manifest(dest) or {}).get("files", {})
+    managed = [n for n in MANAGED + (MANIFEST_FILE,) if (dest / n).is_file()]
+    modified = [n for n in managed if n in recorded and _sha_file(dest / n) != recorded[n]]
+    others = sorted(p.name for p in dest.iterdir()
+                    if p.name not in managed and p.name != LEFTOVER_MARKER
+                    and not p.name.startswith(".tmp-"))
+
+    if leftovers_only and not purge:
+        out(f"Not installed: nothing to remove. Files kept in {dest}: "
+            f"{', '.join(others)}. Use --purge to delete them.")
+        return UninstallResult(found=False, kept=others)
+
+    message = f"Remove the Proton-Autogen Steam tool ({dest})?"
+    if purge:
+        message += "\nEverything in this folder will be deleted, including backups."
+    else:
+        if modified:
+            message += "\nModified files are kept as .bak: " + ", ".join(modified)
+        if others:
+            message += "\nOther files are kept: " + ", ".join(others)
+    message += "\nGames set to Proton-Autogen in Steam will go back to Steam's default tool."
+    _confirm(message, assume_yes)
+
+    if purge:
+        shutil.rmtree(dest)
+        out(f"Removed: {dest}")
+        out("Restart Steam to refresh its list of compatibility tools.")
+        return UninstallResult(True, removed=sorted(managed + others), dir_removed=True)
+
+    stamp = time.strftime("%Y%m%d-%H%M%S")
+    removed = []
+    for name in managed:
+        path = dest / name
+        if name in modified:
+            os.replace(path, dest / f"{name}.bak-{stamp}")
+        else:
+            path.unlink()
+            removed.append(name)
+    for leftover in dest.glob(".tmp-*"):
+        leftover.unlink()
+
+    kept = sorted(p.name for p in dest.iterdir() if p.name != LEFTOVER_MARKER)
+    dir_removed = not kept
+    if dir_removed:
+        (dest / LEFTOVER_MARKER).unlink(missing_ok=True)
+        dest.rmdir()
+        out(f"Removed: {dest}")
+    else:
+        (dest / LEFTOVER_MARKER).write_text(
+            "Proton-Autogen Steam tool uninstalled; remaining files were kept.\n")
+        out(f"Removed the tool; kept in {dest}: {', '.join(kept)} "
+            "(--purge deletes them)")
+    out("Restart Steam to refresh its list of compatibility tools.")
+    return UninstallResult(True, removed=removed, kept=kept, dir_removed=dir_removed)
+
+
+def run_uninstall_steam(dest=None, assume_yes=False, purge=False,
+                        out: Callable[[str], None] = print) -> int:
+    """Entry point used by the ``uninstall-steam`` CLI command."""
+    uninstall(dest_root=dest, assume_yes=assume_yes, purge=purge, out=out)
     return 0

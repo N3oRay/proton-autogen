@@ -221,6 +221,16 @@ def build_parser() -> _Parser:
     p.add_argument("--check", action="store_true",
                    help="only verify permissions and integrity; change nothing")
 
+    p = add("uninstall-steam", _cmd_uninstall_steam,
+            "remove Proton-Autogen from Steam's compatibility tools")
+    p.add_argument("--dest", metavar="DIR",
+                   help="compatibilitytools.d directory "
+                        "(default: ~/.steam/root/compatibilitytools.d)")
+    p.add_argument("-y", "--yes", action="store_true",
+                   help="do not ask for confirmation")
+    p.add_argument("--purge", action="store_true",
+                   help="delete the whole folder, including backups and other files")
+
     # -- interface, informations, diagnostics ------------------------------ #
     add("ux", _cmd_ux, "open the graphical dashboard")
     add("list-protons", _cmd_list_protons, "list detected Proton versions",
@@ -263,6 +273,15 @@ def _cmd_run(args):
     if getattr(args, "steam", False):
         extra["from_steam"] = True
     return run(args.file, args.launch_mode, args.prefix_mode, **extra)
+
+
+def _cmd_uninstall_steam(args):
+    from proton_autogen.steam_compat import SteamInstallError, run_uninstall_steam
+    try:
+        return run_uninstall_steam(dest=args.dest, assume_yes=args.yes,
+                                   purge=args.purge)
+    except SteamInstallError as exc:
+        raise CliError(str(exc), exc.code) from exc
 
 
 def _cmd_install_steam(args):

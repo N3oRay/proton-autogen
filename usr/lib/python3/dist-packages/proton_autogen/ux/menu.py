@@ -30,6 +30,8 @@ def build_app_menu(app):
     menu.append(tr("menu_requirements"), "app.requis")
     # Ouvre ProtonPlus (si installé, avec son icône) ou propose de l'installer
     menu.append_item(make_menu_item(tr("menu_proton_update") or "Mise à jour Proton"))
+    # Installation / désinstallation de l'outil de compatibilité Steam (app.steam_config)
+    menu.append(tr("menu_steam_config"), "app.steam_config")
     menu.append(tr("menu_about_proton"), "app.aboutproton")
     menu.append(tr("menu_about"), "app.about")
 
@@ -66,6 +68,7 @@ def create_popover_menu(parent, actions=None):
     box.append(make_btn(tr("menu_help_mangohud"), actions.get("mangohud", lambda: None)))
     box.append(make_btn(tr("menu_requirements"), actions.get("requis", lambda: None)))
     box.append(make_btn(tr("menu_proton_update") or "Mise à jour Proton", actions.get("proton_update", lambda: None)))
+    box.append(make_btn(tr("menu_steam_config"), actions.get("steam_config", lambda: None)))
     box.append(make_btn(tr("menu_about_proton"), actions.get("aboutproton", lambda: None)))
     box.append(make_btn(tr("menu_about"), actions.get("about", lambda: None)))
 

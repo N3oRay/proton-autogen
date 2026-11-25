@@ -6,10 +6,12 @@ debian/proton-autogen/
 debian/files
 pkg/
 src/
+**/back/*
 *.pkg.tar.zst
 *.pkg.tar.zst.sig
 deploy.sh
 __pycache__/
 *.pyc
+*.patch
 .flatpak-builder/
 .venv-flatpak/

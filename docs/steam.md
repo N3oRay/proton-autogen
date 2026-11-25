@@ -25,6 +25,32 @@ are left untouched.
 Exit codes: `0` ok, `1` error, `4` cancelled / confirmation impossible,
 `5` verification failed.
 
+## Uninstall
+
+```bash
+proton-autogen uninstall-steam            # asks for confirmation
+proton-autogen uninstall-steam --yes      # no question
+proton-autogen uninstall-steam --purge    # delete the whole folder (backups included)
+```
+
+Only a folder installed by Proton-Autogen is touched: a symlink, or a folder
+without the wrapper's marker, is refused. Only the files listed below are
+deleted. A file you modified since the install is kept as `<name>.bak-<date>`,
+and any other file stays in place, so the folder is removed only when it ends up
+empty. Nothing installed is not an error (exit code `0`). The Steam folder
+`compatibilitytools.d` itself is never removed.
+
+Games set to *Proton-Autogen* in Steam go back to Steam's default tool; restart
+Steam to refresh its list.
+
+## From the UX: "Steam configuration"
+
+The main menu has a **Steam configuration** entry. Its window shows whether
+Steam is found and whether Proton-Autogen is installed (and healthy), and offers
+**Install in Steam** (**Reinstall / repair** when already installed) and
+**Uninstall from Steam**. Replacing a modified installation and uninstalling
+always ask for confirmation. It uses exactly the same code as the two commands.
+
 ## Installed files
 
 | File | Role |

@@ -281,3 +281,214 @@ def test_wrapper_without_launcher(wrapper, monkeypatch):
     monkeypatch.setattr(wrapper.shutil, "which", lambda _n: None)
     monkeypatch.setattr(wrapper, "LAUNCHER_FILE", "/nonexistent/launcher.path")
     assert wrapper.main(["run", "/g/foo.exe"]) == wrapper.EXIT_LAUNCHER_MISSING
+
+
+# --- statut + conflits (utilisés par l'UX) ------------------------------------ #
+
+def test_get_status_follows_the_installation(tmp_path, launcher):
+    tools = tmp_path / "steam" / "compatibilitytools.d"
+    status = sc.get_status(tools)
+    assert not status.steam_found and not status.installed and not status.healthy
+
+    tools.mkdir(parents=True)
+    status = sc.get_status(tools)
+    assert status.steam_found and not status.installed
+
+    dest = do_install(tools, launcher)
+    status = sc.get_status(tools)
+    assert status.installed and status.healthy and status.dest == dest
+
+    (dest / "proton").chmod(0o644)
+    status = sc.get_status(tools)
+    assert status.installed and not status.healthy and status.problems
+
+
+def test_get_status_ignores_a_foreign_directory(tools_dir):
+    foreign = tools_dir / sc.TOOL_NAME
+    foreign.mkdir(parents=True)
+    (foreign / "something").write_text("x")
+    assert not sc.get_status(tools_dir).installed
+
+
+def test_install_conflicts(tools_dir, launcher):
+    assert sc.install_conflicts(tools_dir, launcher=str(launcher)) == []
+    dest = do_install(tools_dir, launcher)
+    assert sc.install_conflicts(tools_dir, launcher=str(launcher)) == []
+    (dest / "toolmanifest.vdf").write_text("custom\n")
+    assert sc.install_conflicts(tools_dir, launcher=str(launcher)) == ["toolmanifest.vdf"]
+
+
+# --- désinstallation ----------------------------------------------------------- #
+
+def do_uninstall(tools_dir, **kw):
+    return sc.uninstall(dest_root=tools_dir, out=lambda _msg: None, **kw)
+
+
+def test_uninstall_removes_the_tool_but_not_steam_folder(tools_dir, launcher):
+    dest = do_install(tools_dir, launcher)
+    result = do_uninstall(tools_dir, assume_yes=True)
+    assert result.found and result.dir_removed and result.kept == []
+    assert not dest.exists()
+    assert tools_dir.is_dir()
+    assert not sc.get_status(tools_dir).installed
+
+
+def test_uninstall_when_not_installed_is_a_no_op(tools_dir):
+    tools_dir.mkdir(parents=True)
+    messages = []
+    result = sc.uninstall(dest_root=tools_dir, assume_yes=True, out=messages.append)
+    assert not result.found
+    assert any("nothing to do" in m for m in messages)
+
+
+def test_uninstall_needs_confirmation_outside_a_terminal(tools_dir, launcher, monkeypatch):
+    dest = do_install(tools_dir, launcher)
+    monkeypatch.setattr("sys.stdin.isatty", lambda: False, raising=False)
+    with pytest.raises(sc.SteamInstallError) as exc:
+        do_uninstall(tools_dir)
+    assert exc.value.code == sc.EXIT_ABORTED
+    assert sc.verify(dest) == []  # rien supprimé
+
+
+def test_uninstall_refusal_at_prompt_changes_nothing(tools_dir, launcher, monkeypatch):
+    dest = do_install(tools_dir, launcher)
+    monkeypatch.setattr("sys.stdin.isatty", lambda: True, raising=False)
+    monkeypatch.setattr("builtins.input", lambda _prompt: "")
+    with pytest.raises(sc.SteamInstallError) as exc:
+        do_uninstall(tools_dir)
+    assert exc.value.code == sc.EXIT_ABORTED
+    assert sc.verify(dest) == []
+
+
+def test_uninstall_keeps_modified_files_as_backup(tools_dir, launcher):
+    dest = do_install(tools_dir, launcher)
+    (dest / "toolmanifest.vdf").write_text("custom\n")
+    result = do_uninstall(tools_dir, assume_yes=True)
+    assert not result.dir_removed
+    backups = list(dest.glob("toolmanifest.vdf.bak-*"))
+    assert len(backups) == 1 and backups[0].read_text() == "custom\n"
+    assert result.kept == sorted(
+        p.name for p in dest.iterdir() if p.name != sc.LEFTOVER_MARKER)
+    for name in sc.MANAGED + (sc.MANIFEST_FILE,):
+        assert not (dest / name).exists(), name
+
+
+def test_uninstall_keeps_unknown_files(tools_dir, launcher):
+    dest = do_install(tools_dir, launcher)
+    (dest / "user_settings.py").write_text("X = 1\n")
+    result = do_uninstall(tools_dir, assume_yes=True)
+    assert result.kept == ["user_settings.py"]
+    assert (dest / "user_settings.py").read_text() == "X = 1\n"
+    assert not (dest / "proton").exists()
+
+
+def test_uninstall_purge_removes_everything(tools_dir, launcher):
+    dest = do_install(tools_dir, launcher)
+    (dest / "user_settings.py").write_text("X = 1\n")
+    (dest / "proton.bak-20200101-000000").write_text("old")
+    result = do_uninstall(tools_dir, assume_yes=True, purge=True)
+    assert result.dir_removed and not dest.exists()
+
+
+def test_uninstall_refuses_a_foreign_directory(tools_dir):
+    foreign = tools_dir / sc.TOOL_NAME
+    foreign.mkdir(parents=True)
+    (foreign / "precious.txt").write_text("keep me")
+    with pytest.raises(sc.SteamInstallError):
+        do_uninstall(tools_dir, assume_yes=True, purge=True)
+    assert (foreign / "precious.txt").read_text() == "keep me"
+
+
+def test_uninstall_refuses_a_symlink(tools_dir, launcher, tmp_path):
+    target = tmp_path / "elsewhere"
+    target.mkdir()
+    (target / "precious.txt").write_text("keep me")
+    tools_dir.mkdir(parents=True)
+    (tools_dir / sc.TOOL_NAME).symlink_to(target, target_is_directory=True)
+    with pytest.raises(sc.SteamInstallError):
+        do_uninstall(tools_dir, assume_yes=True, purge=True)
+    assert (target / "precious.txt").read_text() == "keep me"
+
+
+def test_reinstall_after_uninstall_keeps_working(tools_dir, launcher):
+    dest = do_install(tools_dir, launcher)
+    (dest / "proton").write_text("changed\n")
+    do_uninstall(tools_dir, assume_yes=True)  # laisse proton.bak-*
+    assert do_install(tools_dir, launcher) == dest
+    assert sc.verify(dest) == []
+
+
+# --- CLI : install-steam / uninstall-steam de bout en bout --------------------- #
+
+def test_uninstall_steam_is_a_command():
+    assert "uninstall-steam" in build_parser().command_names
+
+
+def test_install_then_uninstall_through_the_cli(tools_dir, launcher):
+    assert main(["install-steam", "--dest", str(tools_dir),
+                 "--launcher", str(launcher), "--yes"]) == EXIT_OK
+    assert sc.get_status(tools_dir).healthy
+    assert main(["uninstall-steam", "--dest", str(tools_dir), "--yes"]) == EXIT_OK
+    assert not sc.get_status(tools_dir).installed
+    # idempotent : rien à désinstaller n'est pas une erreur
+    assert main(["uninstall-steam", "--dest", str(tools_dir), "--yes"]) == EXIT_OK
+
+
+def test_uninstall_steam_error_becomes_exit_code(tools_dir, capsys):
+    foreign = tools_dir / sc.TOOL_NAME
+    foreign.mkdir(parents=True)
+    assert main(["uninstall-steam", "--dest", str(tools_dir), "--yes"]) == sc.EXIT_ERROR
+    assert "refusing" in capsys.readouterr().err
+    assert foreign.is_dir()
+
+
+# --- restes après une désinstallation partielle -------------------------------- #
+
+def test_leftovers_can_be_purged_later(tools_dir, launcher):
+    dest = do_install(tools_dir, launcher)
+    (dest / "user_settings.py").write_text("X = 1\n")
+    do_uninstall(tools_dir, assume_yes=True)
+
+    assert not sc.get_status(tools_dir).installed       # plus « installé »
+    assert sc.is_wrapper_dir(dest)                       # mais reconnu comme à nous
+
+    again = do_uninstall(tools_dir, assume_yes=True)     # idempotent, sans erreur
+    assert not again.found and again.kept == ["user_settings.py"]
+    assert (dest / "user_settings.py").exists()
+
+    purged = do_uninstall(tools_dir, assume_yes=True, purge=True)
+    assert purged.dir_removed and not dest.exists()
+
+
+def test_install_over_leftovers_clears_the_marker(tools_dir, launcher):
+    dest = do_install(tools_dir, launcher)
+    (dest / "user_settings.py").write_text("X = 1\n")
+    do_uninstall(tools_dir, assume_yes=True)
+    assert (dest / sc.LEFTOVER_MARKER).exists()
+    do_install(tools_dir, launcher)
+    assert not (dest / sc.LEFTOVER_MARKER).exists()
+    assert sc.get_status(tools_dir).healthy
+    assert (dest / "user_settings.py").exists()
+
+
+def test_a_clean_uninstall_leaves_no_marker(tools_dir, launcher):
+    dest = do_install(tools_dir, launcher)
+    do_uninstall(tools_dir, assume_yes=True)
+    assert not dest.exists()
+
+
+def test_proton_detection_ignores_leftovers(tools_dir, launcher, monkeypatch):
+    from proton_autogen import backend, diag
+
+    dest = do_install(tools_dir, launcher)
+    (dest / "proton.bak-1").write_text("old")
+    do_uninstall(tools_dir, assume_yes=True)
+    real = tools_dir / "GE-Proton10-34"
+    real.mkdir()
+    (real / "proton").write_text("")
+    for module in (diag, backend):
+        monkeypatch.setattr(module, "load_proton_paths", lambda: [str(tools_dir)])
+    monkeypatch.setattr(diag, "find_system_proton", lambda: None)
+
+    assert [os.path.basename(p) for p in diag.find_all_protons()] == ["GE-Proton10-34"]
+    assert backend.find_proton_by_name("Proton-Autogen") is None
