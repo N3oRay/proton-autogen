@@ -1347,12 +1347,6 @@ popover.main-app-menu modelbutton:hover {
     background-color: alpha(currentColor, 0.08);
 }
 
-/* Selected / focused */
-popover.main-app-menu modelbutton:focus-visible {
-    outline: 2px solid alpha(@accent_color, 0.7);
-    outline-offset: -2px;
-}
-
 /* Icons */
 popover.main-app-menu image {
     -gtk-icon-size: 18px;
