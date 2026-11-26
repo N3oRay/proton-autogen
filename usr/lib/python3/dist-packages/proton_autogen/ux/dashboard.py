@@ -55,7 +55,6 @@ class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, Das
         self.set_title("Proton-Autogen")
         self.set_icon_name("proton-autogen")
 
-
         # Taille de fenêtre : reprend la dernière taille sauvegardée si
         # remember_window_size est activé (par défaut), sinon retombe
         # sur DEFAULT_WINDOW_WIDTH/HEIGHT. set_size_request() reste fixé

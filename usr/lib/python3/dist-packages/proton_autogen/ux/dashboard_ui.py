@@ -114,13 +114,38 @@ class DashboardUIMixin:
     # =========================
     def _build_stats(self, root):
         stats = self.build_global_stats(self.games)
+
+        stats_box = Gtk.Box(
+            orientation=Gtk.Orientation.HORIZONTAL,
+            spacing=6
+        )
+        stats_box.set_halign(Gtk.Align.CENTER)
+
+        self.cpu_icon = Gtk.Image.new_from_file(
+            os.path.join(
+                os.path.dirname(__file__),
+                "assets",
+                "svg",
+                "cpu.svg"
+            )
+        )
+        self.cpu_icon.set_pixel_size(14)
+        self.cpu_icon.add_css_class("cpu-icon")
+
         self.stats_label = Gtk.Label(
-            label=f"🎮 {stats['total_games']} games  •  "
-            f"⏱ {stats['hours']}h {stats['minutes']}m  •  "
-            f"⭐ {stats['favorites']}"
+            label=(
+                f"🎮 {stats['total_games']} games  •  "
+                f"⏱ {stats['hours']}h {stats['minutes']}m  •  "
+                f"⭐ {stats['favorites']}"
+            )
         )
         self.stats_label.add_css_class("home-label")
-        root.append(self.stats_label)
+
+
+        stats_box.append(self.stats_label)
+        stats_box.append(self.cpu_icon)
+
+        root.append(stats_box)
 
     # =========================
     # FAVORITES / RECENT GAMES COLLAPSE

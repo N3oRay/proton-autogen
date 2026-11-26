@@ -1327,3 +1327,10 @@ popover.main-app-menu separator {
     font-size: 0.75rem;
     font-weight: 600;
 }
+
+.cpu-icon {
+    opacity: 0.9;
+    background-color: alpha(@greeaccent, 0.15);
+    border-radius: 9999px;
+    padding: 4px 8px;
+}
