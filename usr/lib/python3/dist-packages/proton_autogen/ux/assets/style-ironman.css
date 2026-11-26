@@ -7,6 +7,8 @@
    vert succès, rouge suppression...) sont conservées à
    l'identique pour rester cohérentes avec le reste de l'appli.
    ========================================================= */
+@define-color greeaccent #39FF88;
+@define-color greerounded #1d2f28;
 @define-color pa_fg #fff3d6;
 @define-color hk_text #ffe9b0;
 @define-color hk_text2 #ffe9b0;
@@ -31,6 +33,7 @@
 @define-color im_arc_dark   #2fb8e0;
 @define-color im_text       #fff3d6;
 @define-color im_text_dim   rgba(255,243,214,0.72);
+
 
 /* Alias conservés (mêmes noms que style-dark.css, utilisés par
    checkbutton / scrollbar / dropdown / focus plus bas) : */
@@ -448,9 +451,8 @@ checkbutton.feature-toggle:checked label {
 
 
 .dim-label1 {
-
     color: @im_text_dim;
-
+    font-weight: 600;
     font-size:12px;
 }
 
@@ -1315,4 +1317,13 @@ popover.main-app-menu image {
 popover.main-app-menu separator {
     margin: 5px 7px;
     opacity: 0.55;
+}
+
+.rounded-label {
+    background-color: @greerounded;
+    color: @greeaccent;
+    border-radius: 9999px;
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
 }

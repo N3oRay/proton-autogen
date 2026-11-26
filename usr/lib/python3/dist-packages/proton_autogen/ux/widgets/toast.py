@@ -34,6 +34,7 @@ class ToastOverlay(Gtk.Box):
         text = f"{title} — {message}" if title else message
 
         label = Gtk.Label(label=text)
+        label.add_css_class("rounded-label")
         label.set_wrap(True)
         label.set_xalign(0)
         label.add_css_class("toast")

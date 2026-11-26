@@ -20,7 +20,12 @@
 
 /* =========================================================
    PALETTE
+@define-color greeaccent #40E0D0;
+@define-color greerounded #193A3A;
    ========================================================= */
+
+@define-color greeaccent #00E5FF;
+@define-color greerounded #163442;
 
 /* Fonds */
 @define-color fr_field    #ffffff;
@@ -567,6 +572,7 @@ checkbutton.feature-toggle:checked label {
 .dim-label1,
 label.dim-label1 {
     color: @fr_dim;
+    font-weight: 600;
     font-size: 12px;
 }
 
@@ -1542,4 +1548,13 @@ popover.main-app-menu image {
 popover.main-app-menu separator {
     margin: 5px 7px;
     opacity: 0.55;
+}
+
+.rounded-label {
+    background-color: @greerounded;
+    color: @greeaccent;
+    border-radius: 9999px;
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
 }

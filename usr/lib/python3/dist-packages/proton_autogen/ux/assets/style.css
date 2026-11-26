@@ -1,7 +1,12 @@
+@define-color textsimple #f2f2f7;
+@define-color greeaccent #39FF88;
+@define-color greerounded #1d2f28;
+
 @define-color hk_text #3b2b2b;
 @define-color hk_text2 #ffffff;
 @define-color hk_text3 #5d4a8a;
 @define-color hk_text4 #e6d4ff;
+
 
 @define-color kde-bg        #eff1f5;
 @define-color kde-surface   #fcfcfc;
@@ -446,8 +451,8 @@ checkbutton.feature-toggle:checked label {
 
 
 .dim-label1 {
-    color:
-        rgba(255,255,255,0.70);
+    color: @textsimple;
+    font-weight: 600;
     font-size:12px;
 }
 
@@ -1815,4 +1820,13 @@ popover.main-app-menu image {
 popover.main-app-menu separator {
     margin: 5px 7px;
     opacity: 0.55;
+}
+
+.rounded-label {
+    background-color: @greerounded;
+    color: @greeaccent;
+    border-radius: 9999px;
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
 }

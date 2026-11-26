@@ -78,13 +78,22 @@ class RecentGameCard(Gtk.Box):
                 ""
             )
         ) or "default"
-        info = Gtk.Label(
-            label=f"Proton: {proton}"
+
+
+        info_box = Gtk.Box(
+            orientation=Gtk.Orientation.HORIZONTAL,
+            spacing=5
         )
-        info.set_xalign(0)
-        info.add_css_class(
-            "dim-label1"
-        )
+
+        proton_title = Gtk.Label(label="Proton:")
+        proton_title.set_xalign(0)
+        proton_title.add_css_class("dim-label1")
+
+        proton_value = Gtk.Label(label=proton)
+        proton_value.add_css_class("rounded-label")
+
+        info_box.append(proton_title)
+        info_box.append(proton_value)
         # ------------------
         # HEADER (icon + title/badges stacked)
         # ------------------
@@ -143,7 +152,7 @@ class RecentGameCard(Gtk.Box):
         actions.append(launch)
 
         self.append(header)
-        self.append(info)
+        self.append(info_box)
         self.append(actions)
 
     def make_badge(self, badge):
