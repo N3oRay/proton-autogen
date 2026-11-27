@@ -24,6 +24,7 @@ from proton_autogen.ux.dashboard_drop import DashboardDropMixin
 from proton_autogen.ux.dashboard_addux import DashboardAddUxMixin, register_addux_action
 from proton_autogen.ux.dashboard_proton_update import DashboardProtonUpdateMixin, register_proton_update_action
 from proton_autogen.ux.dashboard_steam import DashboardSteamMixin, register_steam_action
+from proton_autogen.ux.dashboard_bottles import DashboardBottlesMixin
 
 from proton_autogen.ux.themes import (
     load_saved_theme, save_theme, AVAILABLE_THEMES, DEFAULT_THEME,
@@ -45,7 +46,7 @@ from proton_autogen.backend import list_programs_ux
 # -----------------------------
 # MAIN WINDOW
 # -----------------------------
-class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, DashboardActionsMixin, DashboardMangoHudMixin, DashboardCreateShortcutMixin, DashboardSettingsMixin, DashboardShortcutsMixin, DashboardSavesMixin, DashboardImportMixin, DashboardRunningMixin, DashboardDropMixin, DashboardAddUxMixin, DashboardProtonUpdateMixin, DashboardSteamMixin, Gtk.ApplicationWindow):
+class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, DashboardActionsMixin, DashboardMangoHudMixin, DashboardCreateShortcutMixin, DashboardSettingsMixin, DashboardShortcutsMixin, DashboardSavesMixin, DashboardImportMixin, DashboardRunningMixin, DashboardDropMixin, DashboardAddUxMixin, DashboardProtonUpdateMixin, DashboardSteamMixin, DashboardBottlesMixin, Gtk.ApplicationWindow):
     SHOW_ADD_BUTTON = True
     SHOW_IMPORT_BUTTON = True
     SHOW_REFRESH_BUTTON = True

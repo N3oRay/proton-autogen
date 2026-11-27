@@ -6,6 +6,10 @@ from gi.repository import Gtk, Gdk, Pango, GObject, Gio
 from proton_autogen.stats import get_game_badges
 from proton_autogen.i18n import tr, set_language
 from proton_autogen.ux.icon_manager import load_game_icon
+from proton_autogen.ux.widgets.game_more_menu import (
+    ACTION_EXPORT_BOTTLES, ACTION_EXPORT_LUTRIS, ACTION_OPEN_FOLDER, ACTION_REMOVE,
+    build_more_menu, make_more_button,
+)
 
 LUTRIS_EXPORT_ENABLED = True
 
@@ -22,13 +26,16 @@ class GameList(Gtk.Box):
 
     def __init__(self, on_launch=None, on_edit=None, on_delete=None,
                  on_export_lutris=None, on_refresh=None, on_install=None,
-                 on_protondb=None, lang="en"):
+                 on_protondb=None, lang="en", on_open_folder=None,
+                 on_export_bottles=None):
         super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=6)
 
         self.on_launch = on_launch
         self.on_edit = on_edit
         self.on_delete = on_delete
         self.on_export_lutris = on_export_lutris
+        self.on_open_folder = on_open_folder
+        self.on_export_bottles = on_export_bottles
         self.on_install = on_install   # <-- nouveau
         self.on_protondb = on_protondb   # <-- nouveau
         self.refresh_games = on_refresh
@@ -131,20 +138,14 @@ class GameList(Gtk.Box):
         left_box.append(icon_holder)
         left_box.append(info_box)
 
-        btn_delete = Gtk.Button()
-        btn_delete.set_icon_name("user-trash-symbolic")
-        btn_delete.add_css_class("btn-delete")
-        btn_delete.set_tooltip_text(tr("remove_from_library"))
-        btn_delete.set_valign(Gtk.Align.CENTER)
-
-        btn_export = None
-        if LUTRIS_EXPORT_ENABLED:
-            btn_export = Gtk.Button()
-            btn_export.set_icon_name("document-save-symbolic")
-            btn_export.add_css_class("btn-export")
-            btn_export.set_valign(Gtk.Align.CENTER)
-            btn_export.set_size_request(18, 18)
-            btn_export.set_tooltip_text(tr("export_lutris"))
+        # Menu ⋮ : Ouvrir le dossier, Exporter vers Lutris / Bottles, Retirer de la
+        # bibliothèque. Le popover est construit une seule fois (la ligne est
+        # recyclée) : il agit sur container.game, renseigné au bind.
+        more_popover = build_more_menu(
+            lambda name: self._more_action(container, name),
+            lutris_enabled=LUTRIS_EXPORT_ENABLED,
+        )
+        btn_more = make_more_button(more_popover, css_classes=("btn-export",))
 
         # bouton creation de raccourci bureau:
         btn_install = Gtk.Button()
@@ -167,14 +168,10 @@ class GameList(Gtk.Box):
         btn_edit.set_size_request(80, 18)
 
         container.append(left_box)
-        container.append(btn_delete)
-        if btn_export:
-            container.append(Gtk.Label(label=""))
-            container.append(btn_export)
-            container.append(Gtk.Label(label=""))
-        container.append(btn_install)      # <-- nouveau
+        container.append(btn_install)
         container.append(btn_edit)
         container.append(btn_launch)
+        container.append(btn_more)
 
         # Références gardées sur le container pour être réutilisées au bind()
         container.icon_holder = icon_holder
@@ -184,8 +181,8 @@ class GameList(Gtk.Box):
         container.subtitle1_label = subtitle1
         container.subtitle2_label = subtitle2
         container.subtitle3_label = subtitle3
-        container.btn_delete = btn_delete
-        container.btn_export = btn_export
+        container.btn_more = btn_more
+        container.game = None   # jeu de la ligne, renseigné au bind
         container.btn_launch = btn_launch
         container.btn_install = btn_install     # <-- nouveau
         container.btn_edit = btn_edit
@@ -229,13 +226,7 @@ class GameList(Gtk.Box):
             container.badges_box.append(self._create_badge(b, game))
 
         # CALLBACKS (connectés au bind, retirés à l'unbind pour éviter les doublons)
-        container.handler_ids["delete"] = container.btn_delete.connect(
-            "clicked", lambda _b: self._delete(item.data)
-        )
-        if container.btn_export:
-            container.handler_ids["export"] = container.btn_export.connect(
-                "clicked", lambda _b: self._export_lutris(item.data)
-            )
+        container.game = game
         container.handler_ids["launch"] = container.btn_launch.connect(
             "clicked", lambda _b: self._launch(item.data)
         )
@@ -256,8 +247,6 @@ class GameList(Gtk.Box):
             return
 
         for name, btn in (
-            ("delete", container.btn_delete),
-            ("export", container.btn_export),
             ("install", container.btn_install),   # <-- nouveau
             ("launch", container.btn_launch),
             ("edit", container.btn_edit),
@@ -265,6 +254,10 @@ class GameList(Gtk.Box):
             handler_id = container.handler_ids.pop(name, None)
             if handler_id is not None and btn is not None:
                 btn.disconnect(handler_id)
+
+        # Ligne recyclée : fermer un éventuel menu ⋮ resté ouvert et oublier le jeu.
+        container.btn_more.popdown()
+        container.game = None
 
     # -------------------------
     # BADGES  protondb
@@ -407,6 +400,26 @@ class GameList(Gtk.Box):
     def _export_lutris(self, game):
         if self.on_export_lutris:
             self.on_export_lutris(game)
+
+    def _open_folder(self, game):
+        if self.on_open_folder:
+            self.on_open_folder(game)
+
+    def _export_bottles(self, game):
+        if self.on_export_bottles:
+            self.on_export_bottles(game)
+
+    def _more_action(self, container, name):
+        """Action choisie dans le menu ⋮ d'une ligne."""
+        game = getattr(container, "game", None)
+        if not game:
+            return
+        {
+            ACTION_OPEN_FOLDER: self._open_folder,
+            ACTION_EXPORT_LUTRIS: self._export_lutris,
+            ACTION_EXPORT_BOTTLES: self._export_bottles,
+            ACTION_REMOVE: self._delete,
+        }[name](game)
 
     def _launch(self, game):
         if self.on_launch:

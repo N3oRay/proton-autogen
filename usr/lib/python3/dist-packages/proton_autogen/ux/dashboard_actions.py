@@ -22,6 +22,7 @@ from proton_autogen.ux.dialogs import open_game_file_dialog
 from proton_autogen.ux.launch_watcher import LaunchReadyWatcher
 from proton_autogen.editor import add_game_ux, rm_game_ux
 from proton_autogen.utils.logger import StructuredLogger
+from proton_autogen.utils.open_folder import OpenFolderError, open_game_folder
 
 logger = StructuredLogger("proton-autogen.ux.dashboard_actions")
 
@@ -79,6 +80,29 @@ class DashboardActionsMixin:
             logger.error(f"{tr('lutris_export_failed')}: {e}")
             self.toast.error(tr("lutris_export_failed"))
             return None
+
+    # -------------------------
+    # OUVRIR LE DOSSIER DU JEU
+    # -------------------------
+    def open_folder_handler(self, game):
+        """Ouvre le dossier de l'exécutable dans le gestionnaire de fichiers.
+
+        Lancé dans un thread : l'ouverture surveille brièvement la commande
+        (voir utils/open_folder.py) et ne doit pas figer l'interface."""
+        def worker():
+            try:
+                folder = open_game_folder(game)
+            except OpenFolderError as e:
+                GLib.idle_add(self._open_folder_failed, str(e))
+            else:
+                logger.info(f"{tr('open_folder')}: {folder}")
+
+        threading.Thread(target=worker, daemon=True).start()
+
+    def _open_folder_failed(self, error):
+        logger.error(f"{tr('open_folder_failed')}: {error}")
+        self.toast.error(f"{tr('open_folder_failed')}: {error}")
+        return False
 
     # -------------------------
     # PROTONDB REQUEST

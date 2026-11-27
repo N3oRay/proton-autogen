@@ -9,6 +9,10 @@ from gi.repository import Gtk, Gdk, Gio, GObject, GLib, Pango, Graphene
 
 from proton_autogen.stats import get_game_badges
 from proton_autogen.i18n import tr, set_language
+from proton_autogen.ux.widgets.game_more_menu import (
+    ACTION_EXPORT_BOTTLES, ACTION_EXPORT_LUTRIS, ACTION_OPEN_FOLDER, ACTION_REMOVE,
+    build_more_menu, make_more_button,
+)
 from proton_autogen.ux.icon_manager import load_game_icon
 
 
@@ -70,6 +74,8 @@ class GameGrid(Gtk.Box):
         on_protondb=None,
         lang="en",
         on_favorites_filter=None,
+        on_open_folder=None,
+        on_export_bottles=None,
     ):
         super().__init__(
             orientation=Gtk.Orientation.VERTICAL,
@@ -87,6 +93,8 @@ class GameGrid(Gtk.Box):
         self.on_edit = on_edit
         self.on_delete = on_delete
         self.on_export_lutris = on_export_lutris
+        self.on_open_folder = on_open_folder
+        self.on_export_bottles = on_export_bottles
         self.on_install = on_install
         self.on_protondb = on_protondb
         self.refresh_games = on_refresh
@@ -682,8 +690,9 @@ class GameGrid(Gtk.Box):
         Clic droit :
             Modifier
             Ajouter raccourci
-            Exporter Lutris
-            Supprimer de la liste
+            ProtonDB
+            ⋮  (Ouvrir le dossier, Exporter Lutris,
+                Exporter Bottles, Retirer de la bibliothèque)
         """
 
         popover = Gtk.Popover()
@@ -781,62 +790,23 @@ class GameGrid(Gtk.Box):
         menu_box.append(protondb_button)
 
         # ---------------------------------------------------------
-        # LUTRIS
+        # MENU ⋮ : Ouvrir le dossier, Exporter vers Lutris / Bottles,
+        # Retirer le jeu de la bibliothèque
         # ---------------------------------------------------------
 
-        if LUTRIS_EXPORT_ENABLED:
-            export_button = Gtk.Button(
-                label=tr("export_lutris")
-            )
-
-            export_button.set_halign(Gtk.Align.FILL)
-            export_button.add_css_class("game-grid-menu-button")
-
-            export_button.connect(
-                "clicked",
-                lambda _button: self._menu_action(
-                    popover,
-                    self._export_lutris,
-                    game,
-                ),
-            )
-
-            menu_box.append(export_button)
-
-        # ---------------------------------------------------------
-        # SEPARATOR
-        # ---------------------------------------------------------
-
-        separator = Gtk.Separator(
-            orientation=Gtk.Orientation.HORIZONTAL
+        more_popover = build_more_menu(
+            lambda name: self._more_action(popover, name, game),
+            lutris_enabled=LUTRIS_EXPORT_ENABLED,
         )
-
-        separator.set_margin_top(3)
-        separator.set_margin_bottom(3)
-
-        menu_box.append(separator)
-
-        # ---------------------------------------------------------
-        # DELETE
-        # ---------------------------------------------------------
-
-        delete_button = Gtk.Button(
-            label=tr("remove_from_library")
+        more_button = make_more_button(
+            more_popover,
+            css_classes=("game-grid-menu-button",),
+            label=tr("more_actions"),
         )
+        more_button.set_halign(Gtk.Align.FILL)
+        more_button.set_direction(Gtk.ArrowType.RIGHT)   # ▸ : le sous-menu s'ouvre sur le côté
 
-        delete_button.set_halign(Gtk.Align.FILL)
-        delete_button.add_css_class("game-grid-menu-delete")
-
-        delete_button.connect(
-            "clicked",
-            lambda _button: self._menu_action(
-                popover,
-                self._delete,
-                game,
-            ),
-        )
-
-        menu_box.append(delete_button)
+        menu_box.append(more_button)
 
         popover.set_child(menu_box)
 
@@ -946,6 +916,24 @@ class GameGrid(Gtk.Box):
     def _export_lutris(self, game):
         if self.on_export_lutris:
             self.on_export_lutris(game)
+
+    def _open_folder(self, game):
+        if self.on_open_folder:
+            self.on_open_folder(game)
+
+    def _export_bottles(self, game):
+        if self.on_export_bottles:
+            self.on_export_bottles(game)
+
+    def _more_action(self, context_popover, name, game):
+        """Action choisie dans le sous-menu ⋮ du menu contextuel."""
+        context_popover.popdown()
+        {
+            ACTION_OPEN_FOLDER: self._open_folder,
+            ACTION_EXPORT_LUTRIS: self._export_lutris,
+            ACTION_EXPORT_BOTTLES: self._export_bottles,
+            ACTION_REMOVE: self._delete,
+        }[name](game)
 
     def _launch(self, game):
         if self.on_launch:
