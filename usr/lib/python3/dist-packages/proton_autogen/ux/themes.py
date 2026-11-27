@@ -109,7 +109,7 @@ BACKGROUND_THEMES = {
             "cyberpunk2": "logo-cyber-HD.jpg",
             "cyberpunk3": "logo-ironpro-cyber.jpg",
             "ironwood": "logo-ironman2.jpg",
-            "system": "logo-system.jpg",
+            "system": None,
 
         }
 base = os.path.dirname(__file__)

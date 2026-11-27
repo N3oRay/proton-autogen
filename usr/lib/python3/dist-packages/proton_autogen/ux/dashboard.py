@@ -231,13 +231,20 @@ class Dashboard(DashboardMiniMixin, DashboardUIMixin, DashboardDialogsMixin, Das
 
         self.stats_label.add_css_class("home-label")
 
+
     def update_background(self, theme):
         base = os.path.dirname(__file__)
-        backgrounds = BACKGROUND_THEMES
-        filename = backgrounds.get(theme, "logo-pa.jpg")
+        filename = BACKGROUND_THEMES.get(theme, "logo-pa.jpg")
+
+        if not filename:
+            # Thème système : aucun fond personnalisé.
+            self.background.set_filename(None)
+            return
+
         self.background.set_filename(
             os.path.join(base, "assets", filename)
         )
+
 
 
     # ---------------------------------
