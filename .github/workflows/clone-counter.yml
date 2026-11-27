@@ -3,6 +3,7 @@ name: Clone Counter
 
 on:
   schedule:
+    # Every day at 02:17 UTC
     - cron: "17 2 * * *"
 
   workflow_dispatch:
@@ -10,13 +11,20 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: clone-counter
+  cancel-in-progress: false
+
 jobs:
   update-clones:
+    name: Update Lifetime Clone Statistics
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: true
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -25,10 +33,10 @@ jobs:
 
       - name: Update clone statistics
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.TRAFFIC_TOKEN }}
         run: python scripts/update_clone_stats.py
 
-      - name: Commit statistics
+      - name: Commit and push statistics
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -36,7 +44,9 @@ jobs:
           git add traffic/clones.json traffic/clones-badge.json
 
           if ! git diff --cached --quiet; then
-            git commit -m "chore: update clone statistics"
-            git push
+            git commit -m "chore: update lifetime clone statistics"
+            git push origin HEAD
+          else
+            echo "No statistics changes to commit."
           fi
 
