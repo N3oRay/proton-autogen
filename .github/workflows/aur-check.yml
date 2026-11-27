@@ -208,7 +208,8 @@ jobs:
           )
 
           for file in "${REQUIRED_FILES[@]}"; do
-            if ! pacman -Qlp "$PACKAGE" | grep -q "${file}$"; then
+            if ! pacman -Qlp "$PACKAGE" |
+              awk -v file="$file" '$NF == file { found=1 } END { exit !found }'; then
               echo "ERROR: Missing required file: $file"
               exit 1
             fi
