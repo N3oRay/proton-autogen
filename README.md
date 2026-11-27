@@ -5,7 +5,7 @@
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Test](https://github.com/N3oRay/proton-autogen/actions/workflows/tests.yml/badge.svg)
 ![Debian/ARCH Package](https://github.com/N3oRay/proton-autogen/actions/workflows/package.yml/badge.svg)
-![Downloads](https://img.shields.io/badge/dynamic/json?url=https://api.github.com/repos/N3oRay/proton-autogen/traffic/clones&query=count&label=clones&color=blue)
+
 ![Relases Downloads](https://img.shields.io/github/downloads/N3oRay/proton-autogen/total)
 ![Lifetime Clones](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/N3oRay/proton-autogen/main/traffic/clones-badge.json)
 
