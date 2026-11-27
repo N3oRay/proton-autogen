@@ -1,0 +1,64 @@
+{
+  "repository": "N3oRay/proton-autogen",
+  "created_at": "2026-11-27T21:05:25.371829+00:00",
+  "daily": {
+    "2026-11-13": {
+      "clones": 73,
+      "uniques": 26
+    },
+    "2026-11-14": {
+      "clones": 38,
+      "uniques": 18
+    },
+    "2026-11-15": {
+      "clones": 41,
+      "uniques": 19
+    },
+    "2026-11-16": {
+      "clones": 46,
+      "uniques": 20
+    },
+    "2026-11-17": {
+      "clones": 99,
+      "uniques": 32
+    },
+    "2026-11-18": {
+      "clones": 103,
+      "uniques": 44
+    },
+    "2026-11-19": {
+      "clones": 24,
+      "uniques": 16
+    },
+    "2026-11-20": {
+      "clones": 17,
+      "uniques": 12
+    },
+    "2026-11-21": {
+      "clones": 10,
+      "uniques": 8
+    },
+    "2026-11-22": {
+      "clones": 49,
+      "uniques": 26
+    },
+    "2026-11-23": {
+      "clones": 23,
+      "uniques": 9
+    },
+    "2026-11-24": {
+      "clones": 49,
+      "uniques": 18
+    },
+    "2026-11-25": {
+      "clones": 90,
+      "uniques": 35
+    },
+    "2026-11-26": {
+      "clones": 35,
+      "uniques": 19
+    }
+  },
+  "total_clones": 697,
+  "last_updated": "2026-11-27T21:05:25.555619+00:00"
+}
