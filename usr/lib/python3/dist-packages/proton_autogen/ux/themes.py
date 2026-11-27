@@ -31,7 +31,7 @@ def _migrate_legacy_config():
 _migrate_legacy_config()
 
 DEFAULT_THEME = "fluent"
-AVAILABLE_THEMES = ["fluent", "ia_green", "gta", "adwaita", "ia", "pro", "kawaii", "hellokit", "cute", "dark", "sky", "Breeze", "KDE", "ironman", "ironpro", "cyberpunk", "cyberpunk2", "cyberpunk3", "ironwood", "system"]
+AVAILABLE_THEMES = ["fluent", "ia_green", "gta", "adwaita", "ia", "pro", "kawaii", "hellokit", "cute", "dark", "sky", "Breeze", "KDE", "ironman", "ironpro", "cyberpunk", "cyberpunk2", "cyberpunk3", "ironwood", "system", "system-logo"]
 
 # Taille par défaut de la fenêtre principale au tout premier lancement
 # (avant toute sauvegarde), ou quand remember_window_size = false.
@@ -110,6 +110,7 @@ BACKGROUND_THEMES = {
             "cyberpunk3": "logo-ironpro-cyber.jpg",
             "ironwood": "logo-ironman2.jpg",
             "system": None,
+            "system-logo": "logo-system.jpg",
 
         }
 base = os.path.dirname(__file__)
@@ -135,6 +136,7 @@ STYLE_CSS = {
             "cyberpunk3": os.path.join(base, "assets", "style-cyberpunk.css"),
             "ironwood": os.path.join(base, "assets", "style-ironman.css"),
             "system": os.path.join(base, "assets", "style-system.css"),
+            "system-logo": os.path.join(base, "assets", "style-system.css"),
         }
 
 def load_saved_theme() -> str:
